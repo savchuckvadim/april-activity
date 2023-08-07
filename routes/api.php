@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OfferController;
@@ -48,7 +49,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::middleware('auth_hook')->group(function () {
-    Route::get('hooktest', [\App\Http\Controllers\BitrixController::class, 'hooktest'])->name('hooktest');
+    Route::post('hooktest', function (Request $request) {
+        return BitrixController::hooktest($request);
+    });
 });
 
 // routes/web.php или routes/api.php
