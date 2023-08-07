@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "667a70d5e38dfd3547e19f0851af30c1",
+    "content-hash": "8796de0ac6ab586fc4772f71baea0db6",
     "packages": [
+        {
+            "name": "anton-zaharov/bitrix24api",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anton-zaharov/bitrix24api.git",
+                "reference": "56f520c3b77c5a4c8d523200f419fbabceb33bb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anton-zaharov/bitrix24api/zipball/56f520c3b77c5a4c8d523200f419fbabceb33bb9",
+                "reference": "56f520c3b77c5a4c8d523200f419fbabceb33bb9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bitrix24api\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Anton Zakharov",
+                    "email": "anton.zakharov.m@yandex.ru"
+                }
+            ],
+            "description": "Eloquent wrapper for connection to Bitrix24 API with classes generators",
+            "support": {
+                "source": "https://github.com/anton-zaharov/bitrix24api/tree/v1.0.1",
+                "issues": "https://github.com/anton-zaharov/bitrix24api/issues"
+            },
+            "time": "2023-02-23T10:54:06+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",

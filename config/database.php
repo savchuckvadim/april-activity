@@ -91,6 +91,12 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'bitrix24' => [
+            'driver' => 'bitrix24',
+            'database' => '',
+            'prefix' => '',
+        ],
+
     ],
 
     /*

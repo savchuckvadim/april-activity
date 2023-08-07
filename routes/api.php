@@ -45,51 +45,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return UserController::addUser($request);
     });
 
-
-
-
-
-
-    ///////////////OFFERS
-    Route::post('/offer', function (Request $request) {
-        return OfferController::newOffer($request);
-    });
-
-    Route::get('/offers', function (Request $request) {
-        return OfferController::getOffers($request);
-    });
-    Route::get('offer/{offerId}', function ($offerId) {
-
-        return OfferController::getOffer($offerId);
-    });
-
-    Route::delete('/offers/{offerId}', function ($offerId) {
-        return OfferController::deleteOffer($offerId);
-    });
-
-    Route::post('/follow', function (Request $request) {
-
-
-        return  OfferMasterController::follow($request);
-    });
-    Route::delete('/follow/{offerId}', function ($offerId) {
-        return  OfferMasterController::unfollow($offerId);
-    });
-
-    Route::get('/link/{offerId}', function ($offerId) {
-
-
-        return  LinkController::create($offerId);
-    });
-
-
-
-    ///////////////FINANCE
-    Route::get('/finance/{date}', function ($date) {
-        return  UserController::getFinance($date);
-    });
 });
 
+Route::middleware('auth_hook')->group(function () {
+    Route::get('hooktest', [\App\Http\Controllers\BitrixController::class, 'hooktest'])->name('hooktest');
+});
+
+// routes/web.php или routes/api.php
+
+// Route::post('/settings', 'SettingsController@index');
+// Route::post('/upload', 'FileUploadController@upload');
+Route::post('upload', function (Request $request) {
+    return FileController::getFile($request);
+});
 
 //Users
 Route::get('/user/auth', function () {
@@ -108,97 +76,6 @@ Route::get('garavatar/{userId}', function ($userId) {
 
 
 
-
-
-
-
-
-//create client
-Route::post('/client', function (Request $request) {
-
-    $domain = $request->domain;
-    $key =  $request->key;
-
-    // Создаём директорию если она не существует
-    $dir = $domain;
-    if (!file_exists($dir)) {
-        mkdir($dir, 0777, true);
-
-        $gitRepo = 'https://github.com/savchuckvadim/placement.git';  // качаем с git
-        shell_exec("git clone $gitRepo $dir");
-
-
-
-        // Создаём файл с расширением php
-        $filename = $dir . "/settings.php";
-        $file = fopen($filename, "w");
-
-        // Добавляем в него php код в котором содержатся данные из POST запроса
-
-        $settings = 'define(\'C_REST_WEB_HOOK_URL\',\'https://' . $domain . '/rest/1/' . $key . '/\')'; //url on creat Webhook';
-        $phpcode = "<?php\n" . $settings . ";\n";
-
-
-
-        if (fwrite($file, $phpcode) === false) {
-            $responseData = ['resultCode' => 0, 'message' => "Error: Unable to write to file $filename"];
-        } else {
-            $responseData = ['resultCode' => 1, 'message' => "Data successfully written to $filename", 'link' => getenv('APP_URL') . '/' . $domain . '/placement.php'];
-        }
-        fclose($file);
-    } else {
-        $responseData = ['resultCode' => 0, 'message' => 'placement app ' . $domain . ' is already exist!'];
-    };
-
-    return response($responseData);
-});
-
-// Route::post('/file', function (Request $request) {})
-
-Route::post('/refresh', function (Request $request) {
-
-    $isProd = $request->isProd;
-    $dir = "./";
-
-    // Получаем список всех файлов и папок в данной директории
-    $folders = scandir($dir);
-    $resultFolders = [];
-    $results = [];
-    $count = 0;
-    $fldrsPaths = [];
-    foreach ($folders as $folder) {
-        // Полный путь к папке
-        $full_path = "./" . $folder;
-        $count++;
-        array_push($fldrsPaths, $full_path);
-        // Проверяем, является ли элемент папкой и не является ли он служебной папкой . или ..
-        if ($isProd == true && ($folder == 'client' || $folder == 'public')) {
-            // Выполняем git pull во всех папках, когда isProd == true
-            $output = shell_exec("git -C {$full_path} pull");
-            array_push($results, $output);
-            array_push($resultFolders, $folder);
-        } elseif ($isProd == false && $folder == 'test') {
-            // Выполняем git pull только в папке 'april-garant.bitrix24.ru', когда isProd == false
-            $output = shell_exec("git -C {$full_path} pull");
-            array_push($results, $output);
-            array_push($resultFolders, $folder);
-        }
-    }
-    $responseData = [
-        'resultCode' => 0,
-        'updatedFolders' => $resultFolders,
-        'outputs' => $results,
-        'isProd' => $isProd,
-        'allFolders' => $folders,
-        'count' =>  $count,
-        'fldrsPaths' => $fldrsPaths
-
-    ];
-
-
-
-    return response($responseData);
-});
 
 
 
@@ -252,13 +129,13 @@ Route::post('/refresh', function (Request $request) {
 
 //             // Отправка ссылки на файл обратно клиенту
 //             $response = [
-//                 'resultCode'=> 0, 
-//                 'message' => 'File edited successfully', 
+//                 'resultCode'=> 0,
+//                 'message' => 'File edited successfully',
 //                 'file' => Storage::url($newPath)
 //             ];
 
 //             return response($response);
-//         } 
+//         }
 //     }
 
 //     return response(['resultCode' => 1, 'message' => 'No file uploaded or wrong file type']);
@@ -287,7 +164,7 @@ Route::post('/file', function (Request $request) {
         // $responseData = ['resultCode' => 0, 'message' => 'hi friend', 'file' => url('uploads/' . $filename)];
         // $path = $request->file('file')->store('test');
 
-      
+
         // Storage::disk('public')->put($filename, 'test');
         $path = $file->storeAs('public', $filename);
 

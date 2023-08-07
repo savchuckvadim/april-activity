@@ -1,6 +1,3 @@
-Educational project - on skillfactory course.
-API Backend
-for start dev:
 1) copy from .env.example to .env
 2) create BD to localhost Apache and change env :
 
