@@ -1,0 +1,22 @@
+.april {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo__wrapper {
+    width: 100px;
+    height: 100px;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+   
+    box-sizing: border-box;
+
+}
