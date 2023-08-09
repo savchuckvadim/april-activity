@@ -54,10 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //     });
 // });
 Route::get('/test1', function (Bitrix $bitrix) {
-    $result = $bitrix->call('lists.get', [
-        'IBLOCK_TYPE_ID' => 'lists_socnet',
-        'SOCNET_GROUP_ID' => 15
-        ]);
+    $result = $bitrix->call('crm.deal.fields');
 
     var_dump($result);
 });
