@@ -54,7 +54,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //     });
 // });
 
-Route::post('hooktest', ['middleware' => 'auth_hook', 'uses' => 'BitrixController@hooktest', 'as' => 'hooktest']);
 
 // routes/web.php или routes/api.php
 
