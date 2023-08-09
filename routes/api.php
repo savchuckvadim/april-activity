@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Vipblogger\LaravelBitrix24\Bitrix;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', function (Request $request) {
 
@@ -53,6 +53,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //         return BitrixController::hooktest($request);
 //     });
 // });
+Route::get('/test1', function (Bitrix $bitrix) {
+    $result = $bitrix->call('lists.get', [
+        'IBLOCK_TYPE_ID' => 'lists_socnet',
+        'SOCNET_GROUP_ID' => 15
+        ]);
+
+    var_dump($result);
+});
 
 
 // routes/web.php или routes/api.php
