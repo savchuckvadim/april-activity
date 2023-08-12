@@ -53,13 +53,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //         return BitrixController::hooktest($request);
 //     });
 // });
-Route::get('/test1', function (Bitrix $bitrix) {
-    $result = $bitrix->call('crm.deal.fields');
 
-    var_dump($result);
+
+Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
+    Route::get('/test1', function (Bitrix $bitrix) {
+        $result = $bitrix->call('crm.deal.fields');
+    
+        // var_dump($result);
+        return response(['result' => $result]);
+    });
 });
-
-
 // routes/web.php или routes/api.php
 
 // Route::post('/settings', 'SettingsController@index');
