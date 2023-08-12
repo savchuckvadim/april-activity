@@ -57,10 +57,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     Route::get('/test1', function (Bitrix $bitrix) {
-        $result = $bitrix->call('crm.deal.fields');
-    
+        $fields = $bitrix->call('crm.deal.fields');
+    $profile =  $bitrix->call('profile');
         // var_dump($result);
-        return response(['result' => $result]);
+        return response(['fields' => $fields,  'profile' => $profile]);
     });
 });
 // routes/web.php или routes/api.php
