@@ -27,6 +27,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Vipblogger\LaravelBitrix24\Bitrix;
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', function (Request $request) {
 
@@ -45,7 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/add', function (Request $request) {
         return UserController::addUser($request);
     });
-
 });
 
 // Route::middleware('auth_hook')->group(function () {
@@ -58,9 +58,47 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     Route::get('/test1', function (Bitrix $bitrix) {
         $fields = $bitrix->call('crm.deal.fields');
-    $profile =  $bitrix->call('profile');
+        $profile =  $bitrix->call('profile');
         // var_dump($result);
         return response(['fields' => $fields,  'profile' => $profile]);
+    });
+
+
+    //TODO BITRIX HOOKS - CHANGE STAGES : ////////////////////////////////////
+    // Route - хук работающий при смене стадии сделки на всех порталах (!) отдает general или client kp
+    Route::get('/stage/kp', function (Bitrix $bitrix) {
+        $fields = $bitrix->call('crm.deal.fields');
+        $profile =  $bitrix->call('profile');
+        // var_dump($result);
+        return response(['fields' => $fields,  'profile' => $profile]);
+    });
+
+
+
+
+
+
+     //TODO GET DESCRIPTION IN APRIL KP (FROM RESULT COMPONENT)
+    Route::post('addGeneralDescriptionTemplate', function (Request $request) {
+        //TODO
+        //route должен класть(обновлять) шаблон в специальном месте в файловом хранилище
+
+    });
+
+    // TODO - в файловом хранилище должна быть у каждого клиента своя папка 
+
+
+
+    Route::post('addClientDescriptionTemplate', function (Request $request) {
+        // TODO добавляет (обновляет) файл в файловом хранилище в специальной клиентской папке
+        // Ставит галочку у Client - что у него кастомный (свой клиентский) шаблон
+        // и в следующий раз когда клиент с этим домен будет просить Description File - сервер поймет что надо отдавать клиентский шаблон   
+
+
+    });
+
+    Route::post('getDescription', function (Request $request) {
+        return FileController::getFile($request);
     });
 });
 // routes/web.php или routes/api.php

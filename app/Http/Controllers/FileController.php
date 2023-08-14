@@ -99,4 +99,26 @@ class FileController extends Controller
             ]
         );
     }
+
+    public static function getDescription(Request $request)
+    {
+        // todo: Request -> [
+        // 'complectName' => 'value'
+        // 'blocks' => [
+        // 'groupName' => 
+        // [['nameOfInfoblock' => 'value',
+        // 'description' => 'value'],
+        // ['nameOfInfoblock' => 'value',
+        // 'description' => 'value']],
+        // 'groupName2' => 
+        // [['nameOfInfoblock' => 'value',
+        // 'description' => 'value'],
+        // ['nameOfInfoblock' => 'value',
+        // 'description' => 'value']]
+        // ]
+        // ] 
+
+
+        //         |    paste in word and return word
+    }
 }
