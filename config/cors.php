@@ -30,7 +30,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['april-server.ru', 'april-garant.web.app'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
