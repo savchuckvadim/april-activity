@@ -18,16 +18,16 @@ class CreateDealsTable extends Migration
             $table->timestamps();
             $table->integer('dealId')->nullable();
             $table->integer('userId')->nullable();
-            $table->string('domain')->nullable();
-            $table->string('dealName')->nullable();
-            $table->string('app')->nullable();
-            $table->string('global')->nullable();
-            $table->string('currentComplect')->nullable();
-            $table->string('od')->nullable();
-            $table->string('result')->nullable();
-            $table->string('contract')->nullable();
-            $table->string('product')->nullable();
-            $table->string('rows')->nullable();
+            $table->text('domain')->nullable();
+            $table->text('dealName')->nullable();
+            $table->text('app')->nullable();
+            $table->text('global')->nullable();
+            $table->text('currentComplect')->nullable();
+            $table->text('od')->nullable();
+            $table->text('result')->nullable();
+            $table->text('contract')->nullable();
+            $table->text('product')->nullable();
+            $table->text('rows')->nullable();
 
         });
     }
