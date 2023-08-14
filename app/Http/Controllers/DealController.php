@@ -73,7 +73,7 @@ class DealController extends Controller
             $message = 'deal was not found';
          
         } else{
-            $resultDeal = $searchingDeal
+            $resultDeal = $searchingDeal;
         }
         return response([
             'resultCode' =>  $resultCode,
