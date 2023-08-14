@@ -59,13 +59,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
-/////DEALS
+    /////DEALS
 
 
-Route::post('/deal', function (Request $request) {
-  
-    return DealController::addDeal($request);
-});
+    Route::post('/deal', function (Request $request) {
+        return DealController::addDeal($request);
+    });
+
+    Route::post('/getDeal', function (Request $request) {
+        return DealController::getDeal($request);
+    });
 
 
 
@@ -98,7 +101,7 @@ Route::post('/deal', function (Request $request) {
 
 
 
-     //TODO GET DESCRIPTION IN APRIL KP (FROM RESULT COMPONENT)
+    //TODO GET DESCRIPTION IN APRIL KP (FROM RESULT COMPONENT)
     Route::post('addGeneralDescriptionTemplate', function (Request $request) {
         //TODO
         //route должен класть(обновлять) шаблон в специальном месте в файловом хранилище
