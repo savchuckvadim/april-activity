@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BitrixController;
+use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OfferController;
@@ -56,6 +57,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
+
+
+/////DEALS
+
+
+Route::post('/deal', function (Request $request) {
+  
+    return DealController::addDeal($request);
+});
+
+
+
+
+
+
+
+
+
+
     Route::get('/test1', function (Bitrix $bitrix) {
         $fields = $bitrix->call('crm.deal.fields');
         $profile =  $bitrix->call('profile');

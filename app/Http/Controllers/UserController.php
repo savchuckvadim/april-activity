@@ -30,6 +30,8 @@ class UserController extends Controller
             'finance' => $finance,
         ]);
     }
+
+    
     public static function getAuthUser()
     {
         $authUser = Auth::user();
