@@ -102,9 +102,9 @@ class FileController extends Controller
 
     public static function uploadDescriptionTemplate(Request $request)
     {
-        if($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $filename = 'Description'; 
+            $filename = 'Description';
             // time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('description/general', $filename, 'public');
 
@@ -113,31 +113,125 @@ class FileController extends Controller
         return response()->json(['message' => 'No file uploaded']);
     }
 
-    public static function getDescription(Request $request)
+    public static function getGeneralDescription(Request $request)
     {
-        // todo: Request -> [
-        // 'complectName' => 'value'
-        // 'blocks' => [
-        // 'groupName' => 
-        // [['nameOfInfoblock' => 'value',
-        // 'description' => 'value'],
-        // ['nameOfInfoblock' => 'value',
-        // 'description' => 'value']],
-        // 'groupName2' => 
-        // [['nameOfInfoblock' => 'value',
-        // 'description' => 'value'],
-        // ['nameOfInfoblock' => 'value',
-        // 'description' => 'value']]
-        // ]
-        // ] 
+       
+        $domain = $request->input('domain');
+        $userId = $request->input('userId');
+        $complect = [
+            'complectName' => 'ГАРАНТ-Юрист',
+            'supply' => 'Интенет-Версия на 2 одновременных доступа',
+            
+        ];
+        $infoblocks = [
+            [
+                'groupName' => 'Нормативно-Правовые акты',
+                'blocks' => [
+                    [
+                        'blockId' => 0,
+                        'name' => 'Законодательство России',
+                        'description' => 'НПА России'
+                    ],
+                    [
+                        'blockId' => 1,
+                        'name' => 'Отраслевое Законодательство',
+                        'description' => 'Банковское Жилищное и т.д'
+                    ],
+                ]
+            ],
+            [
+                'groupName' => 'Судебная практика',
+                'blocks' => [
+                    [
+                        'blockId' => 2,
+                        'name' => 'Арбитражная Практика',
+                        'description' => '10 округов'
+                    ],
+                    [
+                        'blockId' => 3,
+                        'name' => 'Апелляционная практика',
+                        'description' => 'вся !'
+                    ],
+
+                ]
+
+            ]
+        ];
 
 
-        //         |    paste in word and return word
+        // $fetchedfields = $request->input('aprilfields');
+        // $aprilFields = [];
+        // foreach ($fetchedfields as $field) {
+        //     $newField = [
+        //         'name' => $field['name'],
+        //         'bitrixId' => $field['bitrixId']
+        //     ];
+        //     array_push($aprilFields, $newField);
+        // };
+
+        // Проверяем наличие поля fields в запросе
+        // if (!$request->has('aprilfields')) {
+        //     return response()->json(['status' => 'error', 'message' => 'Поле fields отсутствует'], 200);
+        // }
+
+
+
+        // Проверяем, является ли $fields массивом
+        // if (!is_array($aprilFields)) {
+        //     return response()->json(['status' => 'error', 'message' => 'Поле fields должно быть массивом'], 200);
+        // }
+
+        // Путь к исходному и результирующему файлам
+        $resultFileName = $userId . '.docx';
+        // $filename = $file->getClientOriginalName();
+        // Storage::disk('public')->put($filename, 'test');
+
+        $templatePath = storage_path('app/public/description/general/Description.docx');
+        $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
+
+        // Проверяем, существует ли исходный файл
+        if (!file_exists($templatePath)) {
+            return response()->json(['status' => 'error', 'message' => 'Исходный файл не найден', 'templatePath' => $templatePath], 200);
+        }
+
+        try {
+            $template = new TemplateProcessor($templatePath);
+
+            $groups = $infoblocks;
+
+            $template->cloneRowAndSetValues('groupName', $groups);
+            
+            foreach($infoblocks as $infoblock){
+                $array =  $infoblock['blocks'];
+                $template->cloneRowAndSetValues('name', $array);
+                $template->cloneRowAndSetValues('description', $array);
+                
+            }
+            // $template->cloneRowAndSetValues('name', $complect->infoblocks);
+            // Сохраняем результат
+            $template->saveAs($resultPath);
+            $link = asset('storage/' . $resultFileName);
+        } catch (Exception $e) {
+            // Обрабатываем возможные исключения
+            return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
+        }
+
+        // Возвращаем успешный ответ
+        return response([
+            'resultCode' => 0,
+            'status' => 'success',
+            'message' => 'Обработка прошла успешно',
+            'templatePath' =>  $templatePath,
+            'file' =>  $link,
+            
+         
+
+        ]);
     }
 
     public static function upload(Request $request)
     {
-        if($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('uploads', $filename, 'public');
@@ -147,12 +241,12 @@ class FileController extends Controller
         return response()->json(['message' => 'No file uploaded']);
     }
 
-    
+
     // public function generateWord(Request $request)
     // {
     //     // Используйте $request для получения данных для вставки в документ Word.
     //     $data = $request->get('data');
-        
+
     //     $phpWord = new PhpWord();
 
     //     // Здесь создайте свой документ с использованием $data
@@ -160,7 +254,7 @@ class FileController extends Controller
 
     //     $filename = time() . '.docx';
     //     $path = storage_path('app/public/uploads/' . $filename);
-        
+
     //     $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
     //     $objWriter->save($path);
 

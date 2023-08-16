@@ -138,7 +138,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     });
 
     Route::post('getDescription', function (Request $request) {
-        return FileController::getFile($request);
+        return FileController::getGeneralDescription($request);
     });
 });
 // routes/web.php или routes/api.php
