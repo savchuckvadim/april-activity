@@ -186,7 +186,7 @@ class FileController extends Controller
         // $filename = $file->getClientOriginalName();
         // Storage::disk('public')->put($filename, 'test');
 
-        $templatePath = storage_path('app/public/description/general/Description.docx');
+        $templatePath = storage_path('app/public/description/general/Description');
         $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
 
         // Проверяем, существует ли исходный файл
