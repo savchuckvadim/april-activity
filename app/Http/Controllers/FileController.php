@@ -100,6 +100,19 @@ class FileController extends Controller
         );
     }
 
+    public static function uploadDescriptionTemplate(Request $request)
+    {
+        if($request->hasFile('file')){
+            $file = $request->file('file');
+            $filename = 'Description'; 
+            // time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('description/general', $filename, 'public');
+
+            return response()->json(['message' => 'File uploaded successfully']);
+        }
+        return response()->json(['message' => 'No file uploaded']);
+    }
+
     public static function getDescription(Request $request)
     {
         // todo: Request -> [

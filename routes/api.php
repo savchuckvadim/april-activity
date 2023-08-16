@@ -98,11 +98,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
     Route::post('upload/description/general', function (Request $request) {
-        return FileController::upload($request);
+        return FileController::uploadDescriptionTemplate($request);
     });
 
 
-    
+
 
     //TODO BITRIX HOOKS - CHANGE STAGES : ////////////////////////////////////
     // Route - хук работающий при смене стадии сделки на всех порталах (!) отдает general или client kp
