@@ -177,7 +177,7 @@ class FileController extends Controller
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
             $template->saveAs($resultPath.'/'.$resultFileName);
-            $link = asset('storage/description/' . $domain . '/' . $resultFileName);
+            $link = asset('storage/description/' . $domain . '/'. $resultFileName);
             
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
