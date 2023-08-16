@@ -159,11 +159,11 @@ class FileController extends Controller
 
 
         $templatePath = storage_path() . '/app/public/description/general/Description';
-        $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
+        $resultPath = storage_path('app/public/description/' . $domain);
 
         // Проверяем, существует ли исходный файл
-        if (!file_exists($templatePath)) {
-            return response()->json(['status' => 'error', 'message' => 'Исходный файл не найден', 'templatePath' => $templatePath], 200);
+        if (!file_exists($resultPath)) {
+           mkdir($resultPath, 0777, true); // Создаем директорию с правами 0777 рекурсивно
         }
 
         try {
@@ -178,6 +178,7 @@ class FileController extends Controller
             // Сохраняем результат
             $template->saveAs($resultPath);
             $link = asset('storage/' . $resultFileName);
+            
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
             return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
