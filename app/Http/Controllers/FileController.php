@@ -121,4 +121,36 @@ class FileController extends Controller
 
         //         |    paste in word and return word
     }
+
+    public static function upload(Request $request)
+    {
+        if($request->hasFile('file')){
+            $file = $request->file('file');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('uploads', $filename, 'public');
+
+            return response()->json(['message' => 'File uploaded successfully']);
+        }
+        return response()->json(['message' => 'No file uploaded']);
+    }
+
+    
+    // public function generateWord(Request $request)
+    // {
+    //     // Используйте $request для получения данных для вставки в документ Word.
+    //     $data = $request->get('data');
+        
+    //     $phpWord = new PhpWord();
+
+    //     // Здесь создайте свой документ с использованием $data
+    //     // ...
+
+    //     $filename = time() . '.docx';
+    //     $path = storage_path('app/public/uploads/' . $filename);
+        
+    //     $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+    //     $objWriter->save($path);
+
+    //     return response()->json(['message' => 'Word document generated', 'file' => $filename]);
+    // }
 }

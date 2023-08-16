@@ -47,6 +47,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/add', function (Request $request) {
         return UserController::addUser($request);
     });
+
+
+
+
+
+
+
+
+
+
+
+
+    Route::post('upload/description/general', function (Request $request) {
+        return FileController::upload($request);
+    });
+
+
+
+
+
+
 });
 
 // Route::middleware('auth_hook')->group(function () {
@@ -105,7 +126,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     Route::post('addGeneralDescriptionTemplate', function (Request $request) {
         //TODO
         //route должен класть(обновлять) шаблон в специальном месте в файловом хранилище
-
+        //вызывать из админки 
     });
 
     // TODO - в файловом хранилище должна быть у каждого клиента своя папка 
