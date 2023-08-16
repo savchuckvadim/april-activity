@@ -115,54 +115,55 @@ class FileController extends Controller
 
     public static function getGeneralDescription(Request $request)
     {
-       
+
         $domain = $request->input('domain');
         $userId = $request->input('userId');
         $complect = [
             'complectName' => 'ГАРАНТ-Юрист',
             'supply' => 'Интенет-Версия на 2 одновременных доступа',
-            
+
         ];
         $infoblocks = [
             [
-                'groupName' => 'Нормативно-Правовые акты',
-                'blocks' => [
-                    [
-                        'blockId' => 0,
-                        'name' => 'Законодательство России',
-                        'description' => 'НПА России'
-                    ],
-                    [
-                        'blockId' => 1,
-                        'name' => 'Отраслевое Законодательство',
-                        'description' => 'Банковское Жилищное и т.д'
-                    ],
-                ]
+                [
+                    'infoblockId' => 0,
+                    'name' => 'Законодательство России',
+                    'description' => 'НПА России'
+                ],
+                [
+                    'infoblockId' => 1,
+                    'name' => 'Отраслевое Законодательство',
+                    'description' => 'Банковское Жилищное и т.д'
+                ],
             ],
-            [
-                'groupName' => 'Судебная практика',
-                'blocks' => [
-                    [
-                        'blockId' => 2,
-                        'name' => 'Арбитражная Практика',
-                        'description' => '10 округов'
-                    ],
-                    [
-                        'blockId' => 3,
-                        'name' => 'Апелляционная практика',
-                        'description' => 'вся !'
-                    ],
 
-                ]
+            [
+                [
+                    'infoblockId' => 2,
+                    'name' => 'Арбитражная Практика',
+                    'description' => '10 округов'
+                ],
+                [
+                    'infoblockId' => 3,
+                    'name' => 'Апелляционная практика',
+                    'description' => 'вся !'
+                ],
 
             ]
+
+
+        ];
+        $groups = [
+            ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
+            ['groupName' => 2, 'groupName' => 'Судебная практика']
+
         ];
 
         // Путь к исходному и результирующему файлам
         $resultFileName = $userId . '.docx';
- 
 
-        $templatePath = storage_path().'/app/public/description/general/Description';
+
+        $templatePath = storage_path() . '/app/public/description/general/Description';
         $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
 
         // Проверяем, существует ли исходный файл
@@ -176,12 +177,11 @@ class FileController extends Controller
             $groups = $infoblocks;
 
             $template->cloneRowAndSetValues('groupName', $groups);
-            
-            foreach($infoblocks as $infoblock){
+
+            foreach ($infoblocks as $infoblock) {
                 $array =  $infoblock['blocks'];
                 $template->cloneRowAndSetValues('name', $array);
                 $template->cloneRowAndSetValues('description', $array);
-                
             }
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
@@ -199,8 +199,8 @@ class FileController extends Controller
             'message' => 'Обработка прошла успешно',
             'templatePath' =>  $templatePath,
             'file' =>  $link,
-            
-         
+
+
 
         ]);
     }
