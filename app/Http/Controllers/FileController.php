@@ -124,7 +124,7 @@ class FileController extends Controller
 
         ];
         $infoblocks = [
-            [
+            
                 [
                     'infoblockId' => 0,
                     'name' => 'Законодательство России',
@@ -135,9 +135,7 @@ class FileController extends Controller
                     'name' => 'Отраслевое Законодательство',
                     'description' => 'Банковское Жилищное и т.д'
                 ],
-            ],
-
-            [
+            
                 [
                     'infoblockId' => 2,
                     'name' => 'Арбитражная Практика',
@@ -148,9 +146,6 @@ class FileController extends Controller
                     'name' => 'Апелляционная практика',
                     'description' => 'вся !'
                 ],
-
-            ]
-
 
         ];
         $groups = [
