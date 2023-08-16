@@ -158,35 +158,11 @@ class FileController extends Controller
             ]
         ];
 
-
-        // $fetchedfields = $request->input('aprilfields');
-        // $aprilFields = [];
-        // foreach ($fetchedfields as $field) {
-        //     $newField = [
-        //         'name' => $field['name'],
-        //         'bitrixId' => $field['bitrixId']
-        //     ];
-        //     array_push($aprilFields, $newField);
-        // };
-
-        // Проверяем наличие поля fields в запросе
-        // if (!$request->has('aprilfields')) {
-        //     return response()->json(['status' => 'error', 'message' => 'Поле fields отсутствует'], 200);
-        // }
-
-
-
-        // Проверяем, является ли $fields массивом
-        // if (!is_array($aprilFields)) {
-        //     return response()->json(['status' => 'error', 'message' => 'Поле fields должно быть массивом'], 200);
-        // }
-
         // Путь к исходному и результирующему файлам
         $resultFileName = $userId . '.docx';
-        // $filename = $file->getClientOriginalName();
-        // Storage::disk('public')->put($filename, 'test');
+ 
 
-        $templatePath = 'app/public/description/general/Description';
+        $templatePath = 'storage/app/public/description/general/Description.docx';
         $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
 
         // Проверяем, существует ли исходный файл
