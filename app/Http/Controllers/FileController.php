@@ -176,13 +176,9 @@ class FileController extends Controller
 
             $groups = $infoblocks;
 
-            $template->cloneRowAndSetValues('groupName', $groups);
+            $template->cloneRowAndSetValues('groupId', $groups);
+            $template->cloneRowAndSetValues('infoblockId', $infoblocks);
 
-            foreach ($infoblocks as $infoblock) {
-                $array =  $infoblock['blocks'];
-                $template->cloneRowAndSetValues('name', $array);
-                $template->cloneRowAndSetValues('description', $array);
-            }
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
             $template->saveAs($resultPath);
