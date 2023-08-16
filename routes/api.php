@@ -48,26 +48,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return UserController::addUser($request);
     });
 
-
-
-
-
-
-
-
-
-
-
-
-    Route::post('upload/description/general', function (Request $request) {
-        return FileController::upload($request);
-    });
-
-
-
-
-
-
 });
 
 // Route::middleware('auth_hook')->group(function () {
@@ -107,6 +87,22 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return response(['fields' => $fields,  'profile' => $profile]);
     });
 
+
+
+
+
+
+
+
+    ////FILES
+
+
+    Route::post('upload/description/general', function (Request $request) {
+        return FileController::upload($request);
+    });
+
+
+    
 
     //TODO BITRIX HOOKS - CHANGE STAGES : ////////////////////////////////////
     // Route - хук работающий при смене стадии сделки на всех порталах (!) отдает general или client kp
