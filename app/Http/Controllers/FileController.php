@@ -162,7 +162,7 @@ class FileController extends Controller
         $resultFileName = $userId . '.docx';
  
 
-        $templatePath = 'storage/app/public/description/general/Description.docx';
+        $templatePath = storage_path().'/app/public/description/general/Description';
         $resultPath = storage_path('app/public/description/' . $domain . '/' . $resultFileName);
 
         // Проверяем, существует ли исходный файл
