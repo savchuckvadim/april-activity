@@ -176,7 +176,7 @@ class FileController extends Controller
 
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
-            $template->saveAs($resultPath);
+            $template->saveAs($resultPath.'/'.$resultFileName);
             $link = asset('storage/' . $resultFileName);
             
         } catch (Exception $e) {
