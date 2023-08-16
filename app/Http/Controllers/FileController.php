@@ -176,7 +176,7 @@ class FileController extends Controller
 
             $groups = $infoblocks;
 
-            $template->cloneRowAndSetValues('groupId', $groups);
+            // $template->cloneRowAndSetValues('groupId', $groups);
             $template->cloneRowAndSetValues('infoblockId', $infoblocks);
 
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
