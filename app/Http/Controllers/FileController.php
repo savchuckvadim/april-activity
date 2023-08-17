@@ -118,41 +118,16 @@ class FileController extends Controller
 
         $domain = $request->input('domain');
         $userId = $request->input('userId');
-        $complect = [
-            'complectName' => 'ГАРАНТ-Юрист',
-            'supply' => 'Интенет-Версия на 2 одновременных доступа',
+        $complect = $request->input('complect');
+ 
+        $infoblocks = $request->input('infoblocks');
+        
+        $groups = $request->input('groups');
+        // [
+        //     ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
+        //     ['groupName' => 2, 'groupName' => 'Судебная практика']
 
-        ];
-        $infoblocks = [
-            
-                [
-                    'infoblockId' => 0,
-                    'name' => 'Законодательство России',
-                    'description' => 'НПА России'
-                ],
-                [
-                    'infoblockId' => 1,
-                    'name' => 'Отраслевое Законодательство',
-                    'description' => 'Банковское Жилищное и т.д'
-                ],
-            
-                [
-                    'infoblockId' => 2,
-                    'name' => 'Арбитражная Практика',
-                    'description' => '10 округов'
-                ],
-                [
-                    'infoblockId' => 3,
-                    'name' => 'Апелляционная практика',
-                    'description' => 'вся !'
-                ],
-
-        ];
-        $groups = [
-            ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
-            ['groupName' => 2, 'groupName' => 'Судебная практика']
-
-        ];
+        // ];
 
         // Путь к исходному и результирующему файлам
         $resultFileName = $userId . '.docx';
