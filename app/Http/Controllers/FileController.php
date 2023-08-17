@@ -119,9 +119,11 @@ class FileController extends Controller
         $domain = $request->input('domain');
         $userId = $request->input('userId');
         $complect = $request->input('complect');
- 
+        $complectName = $complect['complectName'];
+        $supply = $complect['supply'];
+
         $infoblocks = $request->input('infoblocks');
-        
+
         $groups = $request->input('groups');
         // [
         //     ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
@@ -138,7 +140,7 @@ class FileController extends Controller
 
         // Проверяем, существует ли исходный файл
         if (!file_exists($resultPath)) {
-           mkdir($resultPath, 0777, true); // Создаем директорию с правами 0777 рекурсивно
+            mkdir($resultPath, 0777, true); // Создаем директорию с правами 0777 рекурсивно
         }
 
         try {
@@ -147,13 +149,13 @@ class FileController extends Controller
             $groups = $infoblocks;
 
             // $template->cloneRowAndSetValues('groupId', $groups);
+            $template->setValue('complectName', $infoblocks);
+            $template->setValue('supply', $supply);
             $template->cloneRowAndSetValues('infoblockId', $infoblocks);
-
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
-            $template->saveAs($resultPath.'/'.$resultFileName);
-            $link = asset('storage/description/' . $domain . '/'. $resultFileName);
-            
+            $template->saveAs($resultPath . '/' . $resultFileName);
+            $link = asset('storage/description/' . $domain . '/' . $resultFileName);
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
             return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
