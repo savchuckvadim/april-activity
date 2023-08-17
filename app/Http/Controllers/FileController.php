@@ -146,15 +146,13 @@ class FileController extends Controller
         try {
             $template = new TemplateProcessor($templatePath);
 
-            $groups = $infoblocks;
-
             // $template->cloneRowAndSetValues('groupId', $groups);
             $template->setValue('complectName', $infoblocks);
             $template->setValue('supply', $supply);
             $template->cloneRowAndSetValues('infoblockId', $infoblocks);
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
-            $template->saveAs($resultPath . '/' . $resultFileName);
+            $template->saveAs($resultPath . '/' .'Описание Комплекта Гарант_'. $resultFileName);
             $link = asset('storage/description/' . $domain . '/' . $resultFileName);
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
