@@ -147,7 +147,7 @@ class FileController extends Controller
             $template = new TemplateProcessor($templatePath);
 
             // $template->cloneRowAndSetValues('groupId', $groups);
-            $template->setValue('complectName', $infoblocks);
+            $template->setValue('complectName', $complectName);
             $template->setValue('supply', $supply);
             $template->cloneRowAndSetValues('infoblockId', $infoblocks);
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
