@@ -132,7 +132,7 @@ class FileController extends Controller
         // ];
 
         // Путь к исходному и результирующему файлам
-        $resultFileName = $userId . '.docx';
+        $resultFileName = 'Описание Комплекта Гарант_'. $userId . '.docx';
 
 
         $templatePath = storage_path() . '/app/public/description/general/Description';
@@ -152,7 +152,7 @@ class FileController extends Controller
             $template->cloneRowAndSetValues('infoblockId', $infoblocks);
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
-            $template->saveAs($resultPath . '/' .'Описание Комплекта Гарант_'. $resultFileName);
+            $template->saveAs($resultPath . '/' . $resultFileName);
             $link = asset('storage/description/' . $domain . '/' . $resultFileName);
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
