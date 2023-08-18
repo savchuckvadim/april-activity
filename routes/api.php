@@ -80,11 +80,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
 
-    Route::get('/test1', function (Bitrix $bitrix) {
-        $fields = $bitrix->call('crm.deal.fields');
+    Route::get('/profile', function (Bitrix $bitrix) {
+        
         $profile =  $bitrix->call('profile');
         // var_dump($result);
-        return response(['fields' => $fields,  'profile' => $profile]);
+        return response([ 'profile' => $profile]);
     });
 
 
