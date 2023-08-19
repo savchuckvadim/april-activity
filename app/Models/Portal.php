@@ -27,10 +27,8 @@ class Portal extends Model
 
 
         if (Portal::where('domain', $domain)->exists()) {
-            throw new \InvalidArgumentException("Portal with this domain already exists.");
+            return response([ 'message' => "Portal with this domain already exists."]);
         }
-
-
 
         $cryptclientId = Crypt::encryptString($clientId);
         $cryptsecret  = Crypt::encryptString($secret);
@@ -53,7 +51,7 @@ class Portal extends Model
         }
 
 
-        return $portal;
+        return response([ 'portal' => $portal]);
     }
 
 
