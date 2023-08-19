@@ -26,15 +26,7 @@ class Portal extends Model
         }
 
 
-        $cryptdomain = Crypt::encryptString($domain);
-
-
-        if (Portal::where('domain', $cryptdomain)->exists()) {
-            throw new \InvalidArgumentException("Portal with this domain already exists.");
-        }
-
-
-        if (Portal::where('domain', $cryptdomain)->exists()) {
+        if (Portal::where('domain', $domain)->exists()) {
             throw new \InvalidArgumentException("Portal with this domain already exists.");
         }
 
@@ -45,7 +37,7 @@ class Portal extends Model
         $crypthook =   Crypt::encryptString($hook);
 
         $portal = new Portal([
-            'domain' => $cryptdomain,
+            'domain' => $domain,
             'C_REST_CLIENT_ID' => $cryptclientId,
             'C_REST_CLIENT_SECRET' => $cryptsecret,
             'C_REST_WEB_HOOK_URL' => $crypthook,
@@ -69,8 +61,7 @@ class Portal extends Model
     public static function getPortal($domain)
     {
 
-        $cryptdomain = Crypt::encryptString($domain);
-        $portal = Portal::where('domain', $cryptdomain)->first();
+        $portal = Portal::where('domain', $domain)->first();
      
         if (!$portal) {
             return response([
