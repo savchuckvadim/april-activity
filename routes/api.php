@@ -77,7 +77,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
     //////PORTAL
 
-    Route::get('portal/domain', function ($domain) {
+    Route::get('portal/{domain}', function ($domain) {
         return Portal::getPortal($domain);
     });
 
