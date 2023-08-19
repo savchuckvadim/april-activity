@@ -69,7 +69,8 @@ class Portal extends Model
     public static function getPortal($domain)
     {
 
-        $portal = Portal::where('domain', $domain)->first();
+        $cryptdomain = Crypt::encryptString($domain);
+        $portal = Portal::where('domain', $cryptdomain)->first();
      
         if (!$portal) {
             return response([
