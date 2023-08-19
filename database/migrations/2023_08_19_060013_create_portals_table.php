@@ -17,9 +17,9 @@ class CreatePortalsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('domain')->nullable();
-            $table->string('C_REST_CLIENT_ID')->nullable();
-            $table->string('C_REST_CLIENT_SECRET')->nullable();
-            $table->string('C_REST_WEB_HOOK_URL')->nullable();
+            $table->text('C_REST_CLIENT_ID')->nullable();
+            $table->text('C_REST_CLIENT_SECRET')->nullable();
+            $table->text('C_REST_WEB_HOOK_URL')->nullable();
         });
     }
 
