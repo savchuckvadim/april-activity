@@ -72,7 +72,9 @@ class Portal extends Model
         $portal = Portal::find($portalId);
 
         if (!$portal) {
-            return null;
+            return response([
+                'message' => 'portal does not exist!'
+            ]);
         }
 
         return [

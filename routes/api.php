@@ -9,6 +9,7 @@ use App\Http\Controllers\OfferMasterController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
+use App\Models\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/add', function (Request $request) {
         return UserController::addUser($request);
     });
-
 });
 
 // Route::middleware('auth_hook')->group(function () {
@@ -75,16 +75,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
 
+    //////PORTAL
+
+    Route::get('/{portalId}', function ($portalId) {
+        return Portal::getPortal($portalId);
+    });
 
 
 
 
 
     Route::get('/profile', function (Bitrix $bitrix) {
-        
+
         $profile =  $bitrix->call('profile');
         // var_dump($result);
-        return response([ 'profile' => $profile]);
+        return response(['profile' => $profile]);
     });
 
 
