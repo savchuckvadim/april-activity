@@ -66,11 +66,11 @@ class Portal extends Model
 
 
 
-    public static function getPortal($portalId)
+    public static function getPortal($domain)
     {
 
-        $portal = Portal::find($portalId);
-
+        $portal = Portal::where('domain', $domain)->first();
+     
         if (!$portal) {
             return response([
                 'message' => 'portal does not exist!'
@@ -79,10 +79,10 @@ class Portal extends Model
 
         return response([
             'id' => $portal->id,
-            'domain' => Crypt::decryptString($portal->domain),
-            'C_REST_CLIENT_ID' => Crypt::decryptString($portal->C_REST_CLIENT_ID),
-            'C_REST_CLIENT_SECRET' => Crypt::decryptString($portal->C_REST_CLIENT_SECRET),
-            'C_REST_WEB_HOOK_URL' => Crypt::decryptString($portal->C_REST_WEB_HOOK_URL),
+            'domain' => $portal->getDomain(),
+            'C_REST_CLIENT_ID' => $portal->getClientId(),
+            'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+            'C_REST_WEB_HOOK_URL' => $portal->getHook(),
         ]);
 
     }

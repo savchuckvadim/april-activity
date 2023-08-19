@@ -30,7 +30,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://april-server.ru', 'https://april-garant.web.app', 'http://localhost:3000', '45.12.74.239:443', 'http://45.12.74.239:443'],
+    'allowed_origins' => ['https://april-server.ru', 'https://april-garant.web.app', 'http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 
