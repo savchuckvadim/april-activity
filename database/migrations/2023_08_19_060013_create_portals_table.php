@@ -16,7 +16,7 @@ class CreatePortalsTable extends Migration
         Schema::create('portals', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('domain')->nullable();
+            $table->text('domain')->nullable();
             $table->text('C_REST_CLIENT_ID')->nullable();
             $table->text('C_REST_CLIENT_SECRET')->nullable();
             $table->text('C_REST_WEB_HOOK_URL')->nullable();
