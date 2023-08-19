@@ -53,7 +53,7 @@ class Portal extends Model
 
         $portal->save();
 
-        $resultPortal = $portal->getPortal($portal->id);
+        $resultPortal = $portal->getPortal($domain);
 
 
         if (!$resultPortal) {
