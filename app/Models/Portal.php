@@ -61,7 +61,7 @@ class Portal extends Model
         }
 
 
-        return $resultPortal;
+        return $portal;
     }
 
 
