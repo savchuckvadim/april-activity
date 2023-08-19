@@ -69,7 +69,7 @@ class Portal extends Model
 
         return response([
             'id' => $portal->id,
-            'domain' => $portal->getDomain(),
+            'domain' => $domain,
             'C_REST_CLIENT_ID' => $portal->getClientId(),
             'C_REST_CLIENT_SECRET' => $portal->getSecret(),
             'C_REST_WEB_HOOK_URL' => $portal->getHook(),
@@ -77,10 +77,10 @@ class Portal extends Model
 
     }
 
-    public function getDomain()
-    {
-        return Crypt::decryptString($this->domain);
-    }
+    // public function getDomain()
+    // {
+    //     return Crypt::decryptString($this->domain);
+    // }
 
     public function getClientId()
     {
