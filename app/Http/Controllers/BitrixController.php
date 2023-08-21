@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use CRest;
+use Bitrix24api\CRest as Bitrix24apiCRest;
+// use CRest;
 use Illuminate\Http\Request;
 
 class BitrixController extends Controller
@@ -18,8 +19,8 @@ class BitrixController extends Controller
         // define('C_REST_WEB_HOOK_URL', 'https://' . $domain . '/rest/1/' . $hoook); //url on creat Webhook
         define('C_REST_CLIENT_ID', 'local.64e384619d5aa1.57865711'); //url on creat Webhook
         define('C_REST_CLIENT_SECRET', '62sEXPgn6xOhGHKBunzrcEmatBw9J3irdW9kXIoSfruHTnpLPx'); //url on creat Webhook
-        $check = CRest::checkServer();
-        $profile = CRest::call('profile');
+        $check = Bitrix24apiCRest::checkServer();
+        $profile = Bitrix24apiCRest::call('profile');
         return $profile ;
     }
 }
