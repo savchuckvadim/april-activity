@@ -17,6 +17,7 @@ class BitrixController extends Controller
     {
         define('C_REST_WEB_HOOK_URL', 'https://' . $domain . '/rest/1/' . $hoook); //url on creat Webhook
         CRest::checkServer();
-        return  CRest::call('profile');
+        $profile = CRest::call('profile');
+        return  $profile;
     }
 }
