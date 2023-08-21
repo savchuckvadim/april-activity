@@ -100,7 +100,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return response(['profile' => $profile]);
     });
 
-    
+
     // ROUTE TESTING BITRIX PROVIDERS
 
     Route::post('/april', function (Request $request) {
@@ -110,8 +110,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
         if ($portal) {
 
-            $hook = $portal['C_REST_WEB_HOOK_URL'];
-            $response = BitrixController::connect($domain, $hook);
+            // $hook = $portal['C_REST_WEB_HOOK_URL'];
+            $response = BitrixController::connect();
 
             return response(['data' => $response]);
         } else {
