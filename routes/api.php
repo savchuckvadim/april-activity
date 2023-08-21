@@ -102,7 +102,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
     // ROUTE TESTING BITRIX PROVIDERS
 
-    Route::get('/april', function (Request $request) {
+    Route::post('/april', function (Request $request) {
 
         $domain = $request->domain;
 
