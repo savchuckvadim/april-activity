@@ -111,7 +111,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         if ($portal) {
 
             // $hook = $portal['C_REST_WEB_HOOK_URL'];
-            $response = BitrixController::connect();
+            $response = BitrixController::connect($bitrix);
 
             return response(['data' => $response]);
         } else {
