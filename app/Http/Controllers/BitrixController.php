@@ -16,6 +16,7 @@ class BitrixController extends Controller
     public static function connect($domain, $hoook)
     {
         define('C_REST_WEB_HOOK_URL', 'https://' . $domain . '/rest/1/' . $hoook); //url on creat Webhook
-        return  CRest::checkServer();
+        CRest::checkServer();
+        return  CRest::call('profile');
     }
 }
