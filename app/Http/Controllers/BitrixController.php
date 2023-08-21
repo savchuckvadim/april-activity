@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use CRest;
+use App\Models\CRest;
 use Illuminate\Http\Request;
 
 class BitrixController extends Controller

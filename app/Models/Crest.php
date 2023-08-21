@@ -1,5 +1,10 @@
 <?php
-require_once (__DIR__.'/settings.php');
+
+namespace App\Models;
+// require_once (__DIR__.'/settings.php');
+
+
+
 
 /**
  *  @version 1.36
@@ -7,8 +12,17 @@ require_once (__DIR__.'/settings.php');
 
  */
 
-class CRest
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+
+
+class CRest extends Model
 {
+    use HasFactory;
+
+
+
 	const VERSION = '1.36';
 	const BATCH_COUNT    = 50;//count batch 1 query
 	const TYPE_TRANSPORT = 'json';// json or xml
