@@ -103,10 +103,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
     // ROUTE TESTING BITRIX PROVIDERS
 
-    Route::post('/april', function (Request $request) {
+    Route::post('/april', function (Bitrix $bitrix) {
 
-        $domain = $request->domain;
-        $portal = Portal::getPortal($domain);
+       
+        $portal = Portal::getPortal($bitrix);
 
         if ($portal) {
 
