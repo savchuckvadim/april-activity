@@ -149,7 +149,18 @@ class FileController extends Controller
             // $template->cloneRowAndSetValues('groupId', $groups);
             $template->setValue('complectName', $complectName);
             $template->setValue('supply', $supply);
-            $template->cloneRowAndSetValues('infoblockId', $infoblocks);
+        
+
+////С НОВОЙ СТРОКИ
+            foreach ($infoblocks as &$infoblock) {
+                if (isset($infoblock['description'])) {
+                    $infoblock['description'] = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['description']);
+                }
+            }
+            unset($infoblock);  // разъединяем ссылку на последний элемент
+//////////////////
+
+$template->cloneRowAndSetValues('infoblockId', $infoblocks);
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
             $template->saveAs($resultPath . '/' . $resultFileName);
