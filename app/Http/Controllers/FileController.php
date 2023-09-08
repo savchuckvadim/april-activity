@@ -132,7 +132,7 @@ class FileController extends Controller
         // ];
 
         // Путь к исходному и результирующему файлам
-        $resultFileName = 'Описание Комплекта Гарант_' . $userId . '.docx';
+        $resultFileName = 'Описание_Комплекта_Гарант_' . $userId . '.docx';
 
 
         $templatePath = storage_path() . '/app/public/description/general/Description';
