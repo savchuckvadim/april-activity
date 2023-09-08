@@ -132,7 +132,7 @@ class FileController extends Controller
         // ];
 
         // Путь к исходному и результирующему файлам
-        $resultFileName = 'Описание Комплекта Гарант_'. $userId . '.docx';
+        $resultFileName = 'Описание Комплекта Гарант_' . $userId . '.docx';
 
 
         $templatePath = storage_path() . '/app/public/description/general/Description';
@@ -149,22 +149,26 @@ class FileController extends Controller
             // $template->cloneRowAndSetValues('groupId', $groups);
             $template->setValue('complectName', $complectName);
             $template->setValue('supply', $supply);
-        
 
-////С НОВОЙ СТРОКИ
+
+            ////С НОВОЙ СТРОКИ
             foreach ($infoblocks as &$infoblock) {
                 if (isset($infoblock['description'])) {
                     $infoblock['description'] = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['description']);
                 }
             }
             unset($infoblock);  // разъединяем ссылку на последний элемент
-//////////////////
+            //////////////////
 
-$template->cloneRowAndSetValues('infoblockId', $infoblocks);
+            $template->cloneRowAndSetValues('infoblockId', $infoblocks);
             // $template->cloneRowAndSetValues('name', $complect->infoblocks);
             // Сохраняем результат
             $template->saveAs($resultPath . '/' . $resultFileName);
             $link = asset('storage/description/' . $domain . '/' . $resultFileName);
+            // Читаем файл и кодируем его содержимое в Base64
+            $fileContent = file_get_contents($resultPath . '/' . $resultFileName);
+            $base64File = base64_encode($fileContent);
+
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
             return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
@@ -177,8 +181,7 @@ $template->cloneRowAndSetValues('infoblockId', $infoblocks);
             'message' => 'Обработка прошла успешно',
             'templatePath' =>  $templatePath,
             'file' =>  $link,
-
-
+            'fileBase64' => $base64File,
 
         ]);
     }
