@@ -16,7 +16,7 @@ class CreateDealsTable extends Migration
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('portalId');
+            $table->foreignId('portalId')->nullable();
             $table->integer('dealId')->nullable();
             $table->integer('userId')->nullable();
             $table->string('domain')->nullable();
