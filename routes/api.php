@@ -84,10 +84,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
     Route::post('portal', function (Request $request) {
         $domain  = $request->input('domain');
+        $key = $request->input('key'); //placement key
         $clientId  = $request->input('clientId');
-        $secret = $request->input('secret');
+        $secret = $request->input('secret   ');
         $hook = $request->input('hook');
-        return Portal::setPortal($domain, $clientId, $secret, $hook);
+        return Portal::setPortal($domain, $key, $clientId, $secret, $hook);
     });
 
 

@@ -9,19 +9,37 @@ class DealController extends Controller
 {
     public static function addDeal($request)
     {
+
+        //todo get or create portal
         $deal = [
-            'dealId' => $request->dealId,
-            'userId' => $request->userId,
-            'domain' => $request->domain,
-            'dealName' => $request->dealName,
             'app' => $request->app,
-            'global' => $request->global,
-            'currentComplect' => $request->currentComplect,
-            'od' => $request->od,
-            'result' => $request->result,
+            // 'consalting' => $request->consalting,
             'contract' => $request->contract,
-            'product' => $request->product,
-            'rows' => $request->row
+            'currentComplect' => $request->currentComplect,
+
+            'dealId' => $request->dealId,
+            'dealName' => $request->dealName,
+            'domain' => $request->domain,
+
+
+            'global' => $request->global,
+            // 'legalTech' => $request->legalTech,
+            'od' => $request->od,
+            'portalId' => $request->portalId,
+            'result' => $request->result,
+            'rows' => $request->rows,
+
+            'userId' => $request->userId,
+
+
+
+
+
+
+           
+
+            // 'product' => $request->product,
+            
         ];
         $resultDeal = null;
         $resultCode = 1;
@@ -66,13 +84,12 @@ class DealController extends Controller
         $searchingDeal = Deal::where('dealId', $request->dealId)
             ->where('domain', $request->domain)
             ->first();
-        
+
 
         if (!$searchingDeal) {
             $resultCode = 1;
             $message = 'deal was not found';
-         
-        } else{
+        } else {
             $resultDeal = $searchingDeal;
         }
         return response([
