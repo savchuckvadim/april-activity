@@ -17,10 +17,10 @@ class CreatePortalsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->text('domain')->nullable();
-            $table->text('key')->nullable(); // key from placement
-            $table->text('C_REST_CLIENT_ID')->nullable(); //from hook
-            $table->text('C_REST_CLIENT_SECRET')->nullable(); //from hook
-            $table->text('C_REST_WEB_HOOK_URL')->nullable();   //url from hook
+            $table->text('key')->nullable(); // key from placement in firebase:  key
+            $table->text('C_REST_CLIENT_ID')->nullable(); //from hook in firebase:  clientId
+            $table->text('C_REST_CLIENT_SECRET')->nullable(); //from hook in firebase: clientSecret
+            $table->text('C_REST_WEB_HOOK_URL')->nullable();   //url from hook in firebase:  hook
         });
     }
 
