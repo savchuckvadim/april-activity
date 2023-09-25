@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deal;
+use App\Models\Portal;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
@@ -36,15 +37,19 @@ class DealController extends Controller
 
 
 
-           
+
 
             // 'product' => $request->product,
-            
+
         ];
         $resultDeal = null;
         $resultCode = 1;
         $message = 'something wrong with saving deal';
 
+
+
+
+        //search deal
         $searchingDeal = Deal::where('dealId', $request->dealId)
             ->where('domain', $request->domain)
             ->first();
@@ -54,9 +59,16 @@ class DealController extends Controller
             $searchingDeal->save();
             $resultDeal =  $searchingDeal;
         } else {
-            $newDeal = new Deal($deal);
-            $newDeal->save();
-            $resultDeal = $newDeal;
+
+            //search portal
+            $searchingPortal = Portal::where('domain', $request->domain)
+                ->first();
+
+            if ($searchingPortal) {
+                $newDeal = new Deal([...$deal, 'portalId' => $searchingPortal->id]);
+                $newDeal->save();
+                $resultDeal = $newDeal;
+            }
         }
 
 

@@ -12,16 +12,22 @@ class Deal extends Model
     protected $fillable = [
         'dealId',
         'userId',
-        'domain',
-        'dealName',
-        'app',
-        'global',
-        'currentComplect',
-        'od',
-        'result',
-        'contract',
-        'product',
-        'rows'
+        'portalId',
+        // 'dealName',
+        // 'app',
+        // 'global',
+        // 'currentComplect',
+        // 'od',
+        // 'result',
+        // 'contract',
+        // 'product',
+        // 'rows'
         
     ];
+
+
+    public function portal()
+    {
+        return $this->belongsTo(Portal::class);
+    }
 }
