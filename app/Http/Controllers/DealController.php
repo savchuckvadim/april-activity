@@ -32,13 +32,6 @@ class DealController extends Controller
 
             'userId' => $request->userId,
 
-
-
-
-
-
-
-
             // 'product' => $request->product,
 
         ];
@@ -46,8 +39,9 @@ class DealController extends Controller
         $resultCode = 1;
         $message = 'something wrong with saving deal';
 
-
-
+        //search portal
+        $searchingPortal = Portal::where('domain', $request->domain)
+            ->first();
 
         //search deal
         $searchingDeal = Deal::where('dealId', $request->dealId)
@@ -59,11 +53,6 @@ class DealController extends Controller
             $searchingDeal->save();
             $resultDeal =  $searchingDeal;
         } else {
-
-            //search portal
-            $searchingPortal = Portal::where('domain', $request->domain)
-                ->first();
-
             if ($searchingPortal) {
                 $newDeal = new Deal([...$deal, 'portalId' => $searchingPortal->id]);
                 $newDeal->save();
@@ -80,7 +69,8 @@ class DealController extends Controller
         return response([
             'resultCode' =>  $resultCode,
             'deal' => $resultDeal,
-            'message' => $message
+            'message' => $message,
+            'searchingDeal' => $searchingDeal
         ]);
     }
 

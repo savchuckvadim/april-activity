@@ -13,15 +13,15 @@ class Deal extends Model
         'dealId',
         'userId',
         'portalId',
-        // 'dealName',
-        // 'app',
-        // 'global',
-        // 'currentComplect',
-        // 'od',
-        // 'result',
-        // 'contract',
+        'dealName',
+        'app',
+        'global',
+        'currentComplect',
+        'od',
+        'result',
+        'contract',
         // 'product',
-        // 'rows'
+        'rows'
         
     ];
 
