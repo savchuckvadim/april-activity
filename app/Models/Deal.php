@@ -10,18 +10,25 @@ class Deal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dealId',
-        'userId',
-        'portalId',
-        'dealName',
         'app',
-        'global',
-        'currentComplect',
-        'od',
-        'result',
         'contract',
+        'currentComplect',
+        'dealId',
+        'dealName',
+        'domain',
+        'global',
+        'od',
+        'portalId',
+        'result',
+        'rows',
+        'userId',
+        
+       
+        
+        
+       
         // 'product',
-        'rows'
+      
         
     ];
 
