@@ -23,18 +23,15 @@ class Portal extends Model
     public static function setPortal($domain, $key, $clientId, $secret, $hook)
     {
         if (empty($domain) || empty($key) || empty($clientId) || empty($secret) || empty($hook)) {
-            return response(['resultCode' => 1, 'message' => "invalid data", 'data' => [
-                'domain' => $domain,
-                'key' => $key,
-                'C_REST_CLIENT_ID' => $clientId,
-                'C_REST_CLIENT_SECRET' => $secret,
-                'C_REST_WEB_HOOK_URL' => $hook,
-            ]]);
-        }
-
-
-        if (Portal::where('domain', $domain)->exists()) {
-            return response(['resultCode' => 1, 'message' => "Portal with this domain already exists."]);
+            return response(['resultCode' => 1, 'message' => "invalid data", 
+            // 'data' => [
+            //     'domain' => $domain,
+            //     'key' => $key,
+            //     'C_REST_CLIENT_ID' => $clientId,
+            //     'C_REST_CLIENT_SECRET' => $secret,
+            //     'C_REST_WEB_HOOK_URL' => $hook,
+            // ]
+        ]);
         }
 
         $cryptkey = Crypt::encryptString($key);
@@ -42,13 +39,22 @@ class Portal extends Model
         $cryptsecret  = Crypt::encryptString($secret);
         $crypthook =   Crypt::encryptString($hook);
 
-        $portal = new Portal([
-            'domain' => $domain,
-            'key' => $cryptkey,
-            'C_REST_CLIENT_ID' => $cryptclientId,
-            'C_REST_CLIENT_SECRET' => $cryptsecret,
-            'C_REST_WEB_HOOK_URL' => $crypthook,
-        ]);
+        if (Portal::where('domain', $domain)->exists()) {
+            $portal = Portal::where('domain', $domain)->first();
+        
+        } else {
+            $portal = new Portal([
+                'domain' => $domain,
+                'key' => $cryptkey,
+                'C_REST_CLIENT_ID' => $cryptclientId,
+                'C_REST_CLIENT_SECRET' => $cryptsecret,
+                'C_REST_WEB_HOOK_URL' => $crypthook,
+            ]);
+        }
+
+
+
+
 
         $portal->save();
 
@@ -58,12 +64,12 @@ class Portal extends Model
         if (!$resultPortal) {
             return response([
                 'resultCode' => 1,
-                'message' => 'invalid resultPortal not found Portal with the domain: '.$domain
+                'message' => 'invalid resultPortal not found Portal with the domain: ' . $domain
             ]);
         }
 
 
-        return response([ 'portal' => $portal]);
+        return response(['portal' => $portal]);
     }
 
 
@@ -72,7 +78,7 @@ class Portal extends Model
     {
 
         $portal = Portal::where('domain', $domain)->first();
-     
+
         if (!$portal) {
             return response([
                 'resultCode' => 1,
@@ -88,7 +94,6 @@ class Portal extends Model
             'C_REST_CLIENT_SECRET' => $portal->getSecret(),
             'C_REST_WEB_HOOK_URL' => $portal->getHook(),
         ]);
-
     }
 
     // public function getDomain()
