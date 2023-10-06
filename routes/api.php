@@ -83,7 +83,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         $domain  = $request->input('domain');
         return Portal::getPortal($domain);
     });
-
+    Route::get('portals', function () {
+        
+        return Portal::getPortals();
+    });
     Route::post('portal', function (Request $request) {
         $domain  = $request->input('domain');
         $key = $request->input('key'); //placement key

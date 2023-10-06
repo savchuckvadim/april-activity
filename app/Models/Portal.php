@@ -96,6 +96,24 @@ class Portal extends Model
         ]);
     }
 
+    public static function getPortals()
+    {
+
+        $portals = Portal::all();
+
+        if (!$portals) {
+            return response([
+                'resultCode' => 1,
+                'message' => 'portals does not exist!'
+            ]);
+        }
+
+        return response([
+            'resultCode' => 0,
+            'portals' => $portals
+        ]);
+    }
+
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
