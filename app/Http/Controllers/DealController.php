@@ -102,4 +102,30 @@ class DealController extends Controller
             'message' => $message
         ]);
     }
+
+    public static function getDeals($parameter, $value)
+    {
+
+        // $request -> dealId  domain
+
+        $resultDeal = null;
+        $resultCode = 0;
+        $message = '';
+
+        $searchingDeal = Deal::where($parameter, $value)
+            ->get();
+
+
+        if (!$searchingDeal) {
+            $resultCode = 1;
+            $message = 'deals was not found';
+        } else {
+            $resultDeal = $searchingDeal;
+        }
+        return response([
+            'resultCode' =>  $resultCode,
+            'deals' => $resultDeal,
+            'message' => $message
+        ]);
+    }
 }

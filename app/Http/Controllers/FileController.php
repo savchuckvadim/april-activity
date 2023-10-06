@@ -168,7 +168,6 @@ class FileController extends Controller
             // Читаем файл и кодируем его содержимое в Base64
             $fileContent = file_get_contents($resultPath . '/' . $resultFileName);
             $base64File = base64_encode($fileContent);
-
         } catch (Exception $e) {
             // Обрабатываем возможные исключения
             return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
@@ -197,6 +196,42 @@ class FileController extends Controller
         }
         return response()->json(['message' => 'No file uploaded']);
     }
+
+
+    public static function uploadPortalTemplate(Request $request)
+    {
+        // formData.append('file', file);
+        // formData.append('portal', props.portal);
+        // formData.append('type', props.type);
+        // formData.append('fileName', props.fileName);
+
+
+
+        if ($request->hasFile('file') && $request->has('portal') && $request->has('type') && $request->has('fileName')) {
+            $file = $request->file('file');
+            $filename = $request->input('fileName');
+            $filename =  $filename .'docx';
+            $portal = $request->input('portal');
+            $type = $request->input('type');
+            // time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('clienttemplates/' . $portal . '/' . $type, $filename, 'public');
+
+            return response()->json([
+                'message' => 'File uploaded successfully',
+                'filename' =>  $filename,
+                'portal' =>  $portal,
+                'file' =>  $file,
+                'type' =>  $type,
+
+            ]);
+        }
+        return response()->json(['message' => 'No file uploaded']);
+    }
+
+
+
+
+
 
 
     // public function generateWord(Request $request)

@@ -72,7 +72,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     });
 
 
-
+    Route::post('/getdeals', function (Request $request) {
+        return DealController::getDeals($request->parameter, $request->value);
+    });
 
 
     //////PORTAL
@@ -135,6 +137,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return FileController::uploadDescriptionTemplate($request);
     });
 
+    Route::post('portal/template', function (Request $request) {
+        return FileController::uploadPortalTemplate($request);
+    });
 
 
 
