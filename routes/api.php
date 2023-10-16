@@ -3,6 +3,7 @@
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OfferMasterController;
@@ -107,6 +108,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     });
 
 
+
+
+
+    ///INFOBLOCKS
+
+    Route::post('infogroups', function (Request $request) {
+        $infogroups  = $request->input('infogroups');
+
+        return InfoGroupController::setInfoGroups($infogroups);
+    });
+
+
+
     // ROUTE TESTING BITRIX PROVIDERS
 
     Route::post('/april', function (Bitrix $bitrix) {
@@ -142,6 +156,17 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
     Route::post('portal/template', function (Request $request) {
         return FileController::uploadPortalTemplate($request);
+    });
+
+
+
+
+    //FILES OFFERS
+    
+
+
+    Route::post('get/offer', function (Request $request) {
+        return FileController::getGeneralOffer($request);
     });
 
 
@@ -183,6 +208,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return FileController::getGeneralDescription($request);
     });
 });
+
+
+
+
+
+
 // routes/web.php или routes/api.php
 
 // Route::post('/settings', 'SettingsController@index');

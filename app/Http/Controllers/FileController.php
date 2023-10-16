@@ -6,6 +6,7 @@ use CRest;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class FileController extends Controller
@@ -78,6 +79,13 @@ class FileController extends Controller
 
         ]);
     }
+
+
+
+
+
+
+
 
     public static function getFile(Request $request)
     {
@@ -185,6 +193,113 @@ class FileController extends Controller
         ]);
     }
 
+
+
+
+    public static function getGeneralOffer(Request $request)
+    {
+
+        $domain = $request->input('domain');
+        $userId = $request->input('userId');
+        $complect = $request->input('complect');
+        $complectName = $complect['complectName'];
+        $supply = $complect['supply'];
+
+        $infoblocks = $request->input('infoblocks');
+
+        $groups = $request->input('groups');
+        // [
+        //     ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
+        //     ['groupName' => 2, 'groupName' => 'Судебная практика']
+
+        // ];
+
+        // Путь к исходному и результирующему файлам
+        $resultFileName = 'Коммерческое предложение_Гарант_' . $userId . '.docx';
+
+
+        // $templatePath = storage_path() . '/app/public/description/general/Description';
+        // $resultPath = storage_path('app/public/description/' . $domain);
+
+        // // Проверяем, существует ли исходный файл
+        // if (!file_exists($resultPath)) {
+        //     mkdir($resultPath, 0777, true); // Создаем директорию с правами 0777 рекурсивно
+        // }
+
+        try {
+            $phpWord = new PhpWord();
+            $section = $phpWord->addSection();
+
+
+
+            $sectionTitleStyle = array(
+                'bold' => true,
+            );
+            
+            $itemNameStyle = array();
+
+
+
+            
+
+
+
+            // $template = new TemplateProcessor($templatePath);
+            // $template->setValue('complectName', $complectName);
+            // $template->setValue('supply', $supply);
+
+
+            ////С НОВОЙ СТРОКИ
+            foreach ($infoblocks as &$infoblock) {
+                if (isset($infoblock['description'])) {
+                    $infoblock['description'] = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['description']);
+                }
+            }
+            unset($infoblock);  // разъединяем ссылку на последний элемент
+            //////////////////
+
+            // $template->cloneRowAndSetValues('infoblockId', $infoblocks);
+            // // Сохраняем результат
+            // $template->saveAs($resultPath . '/' . $resultFileName);
+            // $link = asset('storage/description/' . $domain . '/' . $resultFileName);
+
+
+            // // Читаем файл и кодируем его содержимое в Base64
+            // $fileContent = file_get_contents($resultPath . '/' . $resultFileName);
+            // $base64File = base64_encode($fileContent);
+
+
+
+        } catch (Exception $e) {
+            // Обрабатываем возможные исключения
+            return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
+        }
+
+        // Возвращаем успешный ответ
+        return response([
+            'resultCode' => 0,
+            'status' => 'success',
+            'infoblocks' => $infoblocks
+            // 'message' => 'Обработка прошла успешно',
+            // 'templatePath' =>  $templatePath,
+            // 'file' =>  $link,
+            // 'fileBase64' => $base64File,
+
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static function upload(Request $request)
     {
         if ($request->hasFile('file')) {
@@ -210,11 +325,10 @@ class FileController extends Controller
         if ($request->hasFile('file') && $request->has('portal') && $request->has('type') && $request->has('fileName')) {
             $file = $request->file('file');
             $filename = $request->input('fileName');
-            $filename =  $filename .'docx';
+            $filename =  $filename . 'docx';
             $portal = $request->input('portal');
             $type = $request->input('type');
-            // time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('clienttemplates/' . $portal . '/' . $type, $filename, 'public');
+            $file->storeAs('clients/' . $portal . '/templates/' . $type, $filename, 'public');
 
             return response()->json([
                 'message' => 'File uploaded successfully',
