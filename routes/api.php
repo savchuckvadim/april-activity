@@ -13,6 +13,7 @@ use App\Http\Controllers\OfferMasterController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\PriceRowCellController;
 use App\Http\Controllers\RqController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
@@ -133,11 +134,26 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     });
     
 
+
     Route::post('pricerowcells', function (Request $request) {
         $pricerowcells  = $request->input('pricerowcells');
 
 
         return PriceRowCellController::setCells($pricerowcells);
+    });
+
+    Route::post('pricerowcells', function (Request $request) {
+        $pricerowcells  = $request->input('pricerowcells');
+
+
+        return PriceRowCellController::setCells($pricerowcells);
+    });
+
+    Route::post('templates', function (Request $request) {
+        $templates  = $request->input('templates');
+
+
+        return TemplateController::setTemplates($templates);
     });
 
 

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Template extends Model
 {
     use HasFactory;
+
+    public function providers()
+    {
+        return $this->hasMany(TField::class);
+    }
+
 }
