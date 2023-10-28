@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClentsTable extends Migration
+class CreateTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,15 @@ class CreateClentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clents', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('name');
+            $table->string('code');
+            $table->string('type');
+            $table->string('link')->nullable();
+            $table->foreignId('portalId');
+        
         });
     }
 
@@ -26,6 +32,6 @@ class CreateClentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clents');
+        Schema::dropIfExists('templates');
     }
 }

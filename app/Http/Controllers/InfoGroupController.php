@@ -9,8 +9,10 @@ class InfoGroupController extends Controller
 {
     public static function setInfoGroups($infogroups)
     {
-
-
+        $resultGroups = null;
+        $resultCode = 1;
+        $message = 'something wrong with infogroups online';
+        $data = null;
         // $infoblocks = [
         //     ['code' => 'npa',
         //     'name' => 'НПА',
@@ -21,11 +23,15 @@ class InfoGroupController extends Controller
         //     ...
 
         // ];
-       
+
 
         foreach ($infogroups as $infogroup) {
 
-            $newInfogroup = new InfoGroup();
+            $newInfogroup = InfoGroup::where('code', $infogroup['code'])->first();
+            if (!$newInfogroup) {
+                $newInfogroup = new InfoGroup();
+            }
+
             $newInfogroup['number'] = $infogroup['number'];
             $newInfogroup['code'] = $infogroup['code'];
             $newInfogroup['name'] = $infogroup['name'];
@@ -39,10 +45,19 @@ class InfoGroupController extends Controller
             $newInfogroup->save();
         }
         $resultGroups = InfoGroup::all();
+
+        if($resultGroups){
+            $resultCode = 0;
+            $message = null;
+            $data =  $resultGroups;
+        }
+
+
         
         return response([
-            'resultCode' => 0,
-            'groups' => $resultGroups
+            'resultCode' => $resultCode,
+            'data' => $data,
+            'message' => $message
         ]);
     }
 }

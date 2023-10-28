@@ -15,19 +15,26 @@ class CreateInfoblocksTable extends Migration
     {
         Schema::create('infoblocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('infoGroupId');
             $table->timestamps();
-            $table->integer('inGroupId');
-            $table->string('code');
+            $table->integer('number');
             $table->string('name');
-            $table->string('title');
-            $table->longText('description');
-            $table->longText('descriptionForSale');
-            $table->text('shortDescription');
-            $table->string('weight');
-            $table->string('isIndependent'); //самостоятельный
-            $table->boolean('isFree');
+            $table->string('title')->nullable();
 
+            $table->longText('description')->nullable();
+            $table->longText('descriptionForSale')->nullable();
+            $table->text('shortDescription')->nullable();
+            $table->string('weight');
+
+            $table->string('code');
+            $table->integer('inGroupId');
+
+            $table->foreignId('groupId');
+
+
+            $table->boolean('isLa');   // относится к судебной практике
+            $table->boolean('isFree');
+            $table->boolean('isShowing');
+            $table->boolean('isSet'); // например пакет ЭР 
 
         });
     }

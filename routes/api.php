@@ -1,16 +1,23 @@
 <?php
 
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\InfoblockController;
 use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OfferMasterController;
+use App\Http\Controllers\PortalController;
+use App\Http\Controllers\PriceRowCellController;
+use App\Http\Controllers\RqController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
 use App\Models\Portal;
+use App\Models\PriceRowCell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -77,16 +84,16 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return DealController::getDeals($request->parameter, $request->value);
     });
 
-
+    //////////////////////////////CLIENTS
     //////PORTAL
 
     Route::post('getportal', function (Request $request) {
         $domain  = $request->input('domain');
-        return Portal::getPortal($domain);
+        return PortalController::getPortal($domain);
     });
     Route::get('portals', function () {
-        
-        return Portal::getPortals();
+
+        return PortalController::getPortals();
     });
     Route::post('portal', function (Request $request) {
         $domain  = $request->input('domain');
@@ -94,18 +101,52 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         $clientId  = $request->input('clientId');
         $secret = $request->input('clientSecret');
         $hook = $request->input('hook');
-        return Portal::setPortal($domain, $key, $clientId, $secret, $hook);
+        return PortalController::setPortal($domain, $key, $clientId, $secret, $hook);
+    });
+
+
+
+    Route::post('providers', function (Request $request) {
+        $providers  = $request->input('providers');
+
+        return AgentController::setProviders($providers);
+    });
+    Route::post('rqs', function (Request $request) {
+        $rqs  = $request->input('rqs');
+
+        return RqController::setRqs($rqs);
     });
 
 
 
 
-    Route::get('/profile', function (Bitrix $bitrix) {
 
-        $profile =  $bitrix->call('profile');
-        // var_dump($result);
-        return response(['profile' => $profile]);
+
+    //////////////////TEMPLATES FIELDS FITEMS
+
+    Route::post('tfields', function (Request $request) {
+        $tfields  = $request->input('tfields');
+        $fields  =  $tfields['fields'];
+        $items  = $tfields['items'];
+
+        return FieldController::setFields($fields, $items);
     });
+    
+
+    Route::post('pricerowcells', function (Request $request) {
+        $pricerowcells  = $request->input('pricerowcells');
+
+
+        return PriceRowCellController::setCells($pricerowcells);
+    });
+
+
+
+
+
+
+
+
 
 
 
@@ -119,13 +160,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return InfoGroupController::setInfoGroups($infogroups);
     });
 
+    Route::post('infoblocks', function (Request $request) {
+        $infoblocks  = $request->input('infoblocks');
+        return InfoblockController::setInfoBlocks($infoblocks);
+    });
+
+
 
 
     // ROUTE TESTING BITRIX PROVIDERS
 
     Route::post('/april', function (Bitrix $bitrix) {
 
-       
+
         $portal = Portal::getPortal($bitrix);
 
         if ($portal) {
@@ -162,7 +209,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
     //FILES OFFERS
-    
+
 
 
     Route::post('get/offer', function (Request $request) {
@@ -228,7 +275,6 @@ Route::get('/user/auth', function () {
 });
 
 
-
 Route::get('garavatar/{userId}', function ($userId) {
     $user = User::find($userId)->first();
     return $user->getAvatarUrl();
@@ -240,7 +286,14 @@ Route::get('garavatar/{userId}', function ($userId) {
 
 
 
+//////////////////BITRIX
 
+Route::get('/profile', function (Bitrix $bitrix) {
+
+    $profile =  $bitrix->call('profile');
+    // var_dump($result);
+    return response(['profile' => $profile]);
+});
 
 
 

@@ -30,9 +30,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // 'allowed_origins' => ['https://april-server.ru', 'https://april-garant.web.app', 'http://localhost:3000'],
+    'allowed_origins' => ['https://april-server.ru', 'https://april-garant.web.app'],
 
-    'allowed_origins' => ['*'],
+    // 'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
