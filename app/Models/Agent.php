@@ -9,6 +9,7 @@ class Agent extends Model
 {
     use HasFactory;
     protected $fillable = ['number', 'type', 'portalId', 'name', 'code'];
+   
     public function portal()
     {
         return $this->belongsTo(Portal::class, 'portalId');

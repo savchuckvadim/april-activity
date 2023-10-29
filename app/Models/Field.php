@@ -31,4 +31,9 @@ class Field extends Model
         return $this->hasMany(FItem::class, 'fieldId', 'id');
     }
 
+    public function templates()
+    {
+        return $this->belongsToMany(Template::class, 'template_field', 'field_id', 'template_id');
+    }
+
 }

@@ -142,22 +142,54 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return PriceRowCellController::setCells($pricerowcells);
     });
 
+    
     Route::post('pricerowcells', function (Request $request) {
         $pricerowcells  = $request->input('pricerowcells');
-
-
         return PriceRowCellController::setCells($pricerowcells);
     });
 
+
     Route::post('templates', function (Request $request) {
         $templates  = $request->input('templates');
-
-
         return TemplateController::setTemplates($templates);
     });
 
 
 
+    //get collections
+    Route::get('templates/{domain}', function ($domain) {
+        return TemplateController::getTemplates($domain);
+    });
+
+
+    Route::get('fields/{templateId}', function ($templateId) {
+        return FieldController::getFields($templateId);
+    });
+
+
+
+    //initial
+    Route::post('template/initial', function (Request $request) {
+        $domain  = $request->input('domain');
+        $type  = $request->input('type');
+        $name  = $request->input('name');
+        return TemplateController::initialTemplate($domain,  $type, $name);
+    });
+
+    Route::post('template/set', function (Request $request) {
+        $templateId  = $request->input('templateId');
+        $fieldIds  = $request->input('fieldIds');
+        return TemplateController::setTemplate($templateId ,$fieldIds);
+    });
+    Route::delete('template/{templateId}', function ($templateId) {
+        return TemplateController::deleteTemplate($templateId);
+    });
+
+    // Route::post('template/update', function (Request $request) {
+    //     $domain  = $request->input('domain');
+    //     $type  = $request->input('type');
+    //     return TemplateController::initialTemplate($type);
+    // });
 
 
 

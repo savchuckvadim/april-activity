@@ -28,7 +28,10 @@ class Portal extends Model
     }
 
 
-
+    public function templates()
+    {
+        return $this->hasMany(Template::class, 'portalId', 'id');
+    }
 
 
 

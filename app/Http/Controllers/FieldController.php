@@ -53,4 +53,25 @@ class FieldController extends Controller
             'fields' => $resultFields
         ]);
     }
+
+    public static function getFields($templateId)
+    {
+        $fields = [];
+
+        if ($templateId == 'all') {
+
+            $fields = Field::all();
+        } else  if($templateId == 'general') {
+
+            $fields = Field::where('isGeneral', true)->get();
+        } 
+
+        return response([
+            'resultCode' => 0,
+            'fields' => $fields,
+            '$templateId' => $templateId
+        ]);
+    }
+
+  
 }
