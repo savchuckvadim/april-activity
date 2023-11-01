@@ -15,13 +15,13 @@ class Template extends Model
         'type',
         'link',
         'portalId',
-        
+
     ];
 
-    public function providers()
-    {
-        return $this->hasMany(TField::class);
-    }
+    // public function providers()
+    // {
+    //     return $this->hasMany(TField::class);
+    // }
 
     public function fields()
     {
@@ -29,7 +29,7 @@ class Template extends Model
     }
 
     public function portal()
-{
-    return $this->belongsTo(Portal::class, 'portalId', 'id');
-}
+    {
+        return $this->belongsTo(Portal::class, 'portalId', 'id');
+    }
 }

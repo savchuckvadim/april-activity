@@ -15,6 +15,7 @@ class Agent extends Model
         return $this->belongsTo(Portal::class, 'portalId');
     }
 
+    
     public function rq()
     {
         return $this->hasOne(Rq::class);

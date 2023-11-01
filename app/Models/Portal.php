@@ -24,7 +24,7 @@ class Portal extends Model
     //relation
     public function providers()
     {
-        return $this->hasMany(Agent::class);
+        return $this->hasMany(Agent::class, 'portalId', 'id');
     }
 
 

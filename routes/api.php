@@ -132,7 +132,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
         return FieldController::setFields($fields, $items);
     });
-    
+
 
 
     Route::post('pricerowcells', function (Request $request) {
@@ -142,7 +142,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return PriceRowCellController::setCells($pricerowcells);
     });
 
-    
+
     Route::post('pricerowcells', function (Request $request) {
         $pricerowcells  = $request->input('pricerowcells');
         return PriceRowCellController::setCells($pricerowcells);
@@ -177,12 +177,40 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     });
 
     Route::post('template/set', function (Request $request) {
-        $templateId  = $request->input('templateId');
+        $domain  = $request->input('domain');
+        $type  = $request->input('type');
+        $name  = $request->input('name');
         $fieldIds  = $request->input('fieldIds');
-        return TemplateController::setTemplate($templateId ,$fieldIds);
+        $file = $request->file('file');
+
+
+        // return response([
+        //     '$domain' => $domain,
+        //     ' $fieldIds' =>  $fieldIds,
+        //     '$file' => $file
+        // ]);
+        return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
     });
+
+    Route::get('templates/{domain}', function ($domain) {
+        return TemplateController::getTemplates($domain);
+    });
+
     Route::delete('template/{templateId}', function ($templateId) {
         return TemplateController::deleteTemplate($templateId);
+    });
+
+    Route::get('initial/field', function () {
+        return FieldController::getDataForCreateField();
+    });
+
+
+    Route::post('field/set', function (Request $request) {
+        $templateId  = $request->input('templateId');
+        $field  = $request->input('field');
+
+
+        return FieldController::createField($templateId, $field);
     });
 
     // Route::post('template/update', function (Request $request) {

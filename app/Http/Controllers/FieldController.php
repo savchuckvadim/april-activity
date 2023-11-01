@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FieldCollection;
 use App\Http\Resources\FieldResource;
 use App\Models\Field;
 use App\Models\FItem;
@@ -50,7 +51,7 @@ class FieldController extends Controller
 
         return response([
             'resultCode' => 0,
-            'fields' => $resultFields
+            'tfields' => $resultFields
         ]);
     }
 
@@ -61,17 +62,121 @@ class FieldController extends Controller
         if ($templateId == 'all') {
 
             $fields = Field::all();
-        } else  if($templateId == 'general') {
+        } else  if ($templateId == 'general') {
 
             $fields = Field::where('isGeneral', true)->get();
-        } 
+            $generalFieldsCollection = new FieldCollection($fields);
+            $fields = $generalFieldsCollection;
+        }
 
         return response([
             'resultCode' => 0,
-            'fields' => $fields,
+            'isCollection' => true,
+            'tfields' => $fields,
             '$templateId' => $templateId
         ]);
     }
 
-  
+
+    public static function createField(
+        $templateId, $field
+    ) {
+        //СОЗДАТЬ  FIELD И ЕГО FITEMS
+        //СВЯЗАТЬ С FITEMS И TEMPLATE
+        // $name,
+        // $type,
+        // $isGeneral,
+        // $isRequired,
+        // $value,
+        // $description,
+        // $bitixId,
+        // $bitrixTemplateId,
+        // $isActive,
+        // $isPlural
+        return response([
+            'templateId' => $templateId,
+            'field' => $field
+        ]);
+    }
+
+    public static function getDataForCreateField()
+    {
+
+
+        $data = [
+        
+            [
+                'name' => 'name',
+                'type' => 'string',
+                'value' => null,
+                'items' => [],
+            
+            ],
+            [
+                'name' => 'type',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+         
+        
+            [
+                'name' => 'value',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+            [
+                'name' => 'description',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+           
+            [
+                'name' => 'bitrixId',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+            [
+                'name' => 'bitrixTemplateId',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+            [
+                'name' => 'isActive',
+                'type' => 'boolean',
+                'value' => null,
+                'items' => []
+            ],
+            [
+                'name' => 'isPlural',
+                'type' => 'string',
+                'value' => null,
+                'items' => []
+            ],
+            [
+                'name' => 'isGeneral',
+                'type' => 'boolean',
+                'value' => null,
+                'items' => []
+            ],
+         
+            [
+                'name' => 'isRequired',
+                'type' => 'boolean',
+                'value' => null,
+                'items' => []
+            ],
+           
+        ];
+
+
+        return response([
+            'resultCode' => 0,
+            'initialField' =>  $data
+        ]);
+    }
 }

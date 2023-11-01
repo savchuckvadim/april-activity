@@ -235,12 +235,12 @@ class FileController extends Controller
             $sectionTitleStyle = array(
                 'bold' => true,
             );
-            
+
             $itemNameStyle = array();
 
 
 
-            
+
 
 
 
@@ -344,7 +344,32 @@ class FileController extends Controller
 
 
 
+    public static function uploadTemplate($file, $domain, $type, $name)
+    {
+        // formData.append('file', file);
+        // formData.append('portal', props.portal);
+        // formData.append('type', props.type);
+        // formData.append('fileName', props.fileName);
 
+
+
+        if ($file && $domain && $type && $name) {
+
+            $filename =  $name . 'docx';
+            $file->storeAs('clients/' . $domain . '/templates/' . $type, $filename, 'public');
+
+            return [
+                'result' => 0,
+                'message' => 'File uploaded successfully',
+                'filename' =>  $filename,
+                'file' =>  $file,
+
+            ];
+        }
+        return [
+            'result' => 1,
+        ];
+    }
 
 
 

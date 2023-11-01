@@ -17,7 +17,6 @@ class FieldResource extends JsonResource
         return [
             'id' => $this->id,
             'number' => $this->number,
-            // Добавьте другие поля модели Field, которые вы хотите включить
             'items' => $this->items,
             'name'=> $this->name,
             'code'=> $this->code,

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class FieldCollection extends ResourceCollection
+class TemplateCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,10 +15,11 @@ class FieldCollection extends ResourceCollection
     public function toArray($request)
     {
         $this->except('updated_at');
+        $this->except('created_at');
 
         $data = $this->collection->each(function ($item) {
 
-            return new FieldResource($item);
+            return new TemplateResource($item);
         });
 
         return [
@@ -26,7 +27,5 @@ class FieldCollection extends ResourceCollection
             'data' => $data,
 
         ];
-
-        // return parent::toArray($request);
     }
 }

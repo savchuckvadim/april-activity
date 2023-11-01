@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FieldCollection;
+use App\Http\Resources\TemplateCollection;
 use App\Models\Field;
 use App\Models\Portal;
 use App\Models\Template;
@@ -74,12 +76,13 @@ class TemplateController extends Controller
             }
         }
 
-        $testtemplates = Template::all();
+        $alltemplates = Template::all();
+        $templatesCollection = new TemplateCollection($alltemplates);
 
         return response([
             'resultCode' => 0,
-            'templates' => $templates,
-            'testtemplates' => $testtemplates
+            'templates' => $templatesCollection,
+            'isCollection' => true,
         ]);
     }
 
@@ -93,51 +96,111 @@ class TemplateController extends Controller
         // если по итогу пользователь save то еще создаются связи с созданным template 
         // и c выбранными (или еще и созданными) филдс
         //
-        $portal = Portal::where('domain', $domain)->first();
-    
-        if ($portal) {
-            $template = new Template;
-            $template['portalId'] = $portal->id;
-            $template['type'] = $type;
-            $template['name'] = $name;
-            $uid = Uuid::uuid4()->toString();
-            $template['code'] = $domain . '' . '' . $type . '' . $uid;
-            $generalFields = Field::where('isGeneral', true)->get();
+        // $portal = Portal::where('domain', $domain)->first();
 
-            $template->save();
+        // if ($portal) {
+        // $template = new Template;
+        // $template['portalId'] = $portal->id;
+        // $template['type'] = $type;
+        // $template['name'] = $name;
+        // $uid = Uuid::uuid4()->toString();
+        // $template['code'] = $domain . '' . '' . $type . '' . $uid;
+        $generalFields = Field::where('isGeneral', true)->get();
+        $generalFieldsCollection = new FieldCollection($generalFields);
+        // $template->save();
 
-            $templates = Template::get();
+        // $templates = Template::get();
 
-            return response([
-                'resultCode' => 0,
-                'generalFields' => $generalFields,
-                'template' => $template,
-                'templates' => $templates,
-                'message' => ''
-            ]);
-        }else{
-            return response([
-                'resultCode' => 1,
-                'message' => 'portal was not found'
-            ]);
-        }
+        return response([
+            'resultCode' => 0,
+            'generalFields' => $generalFieldsCollection,
+            // 'template' => $template,
+            // 'templates' => $templates,
+            'message' => ''
+        ]);
+        // } else {
+        //     return response([
+        //         'resultCode' => 1,
+        //         'message' => 'portal was not found',
+        //         '$portal' => $portal,
+        //         '$domain' => $domain,
+        //         '$type' => $type,
+        //         '$name' => $name
+
+        //     ]);
+        // }
     }
 
 
-    public static function setTemplate($templateId, $fieldIds)
+    public static function setTemplate($domain, $fieldIds, $type, $name, $file)
     {
-        $template = Template::find($templateId);
-        $template = new Template;
-        $template->fields()->attach($fieldIds);
-        $fields = $template->fields();
 
+        $template = new Template;
+        $domain = json_decode($domain, true);
+        $type = json_decode($type, true);
+        $name = json_decode($name, true);
+
+
+        $portal = Portal::where('domain', $domain)->first();
+
+        $template['name'] = $name;
+        $template['type'] = $type;
+        $uid = Uuid::uuid4()->toString();
+        $template['code'] = $domain . '' . '' . $type . '' . $uid;
+
+
+        if ($portal) {
+            $template['portalId'] = $portal->id;
+        } else {
+            return response([
+                'resultCode' => 1,
+                'message' => 'something wrong with portal',
+                '$portal' => $portal,
+                '$domain' => $domain
+
+            ]);
+        }
+
+        $template->save();
+
+        $fieldIds = json_decode($fieldIds, true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
+            $template->fields()->attach($fieldIds);
+        } else {
+            return response([
+                'resultCode' => 1,
+                'message' => 'something wrong with fields ids'
+
+            ]);
+        }
+        $fields = $template->fields;
+        $domain = $template->portal->domain;
+        $type = $template->type;
+        $name = $template->name;
+
+        $uploadFile = FileController::uploadTemplate($file, $domain, $type, $name);
+        $template['link'] =  $uploadFile['file'];
+        $template->save();
         $templates = Template::get();
+
+
+
 
         return response([
             'resultCode' => 0,
             'fields' => $fields,
             'templates' => $templates,
             'template' => $template,
+            '$template->fields();' =>  $fields,
+            '$template->portal();' =>  $domain,
+            ' $type= $template->type;' =>  $type,
+            ' $name= $template->name;' =>  $name,
+            '$uploadFile' => $uploadFile,
+            '$portal' =>  $portal
+
+
+
 
         ]);
     }
