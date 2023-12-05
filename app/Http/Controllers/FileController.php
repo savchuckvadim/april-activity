@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Template;
 use CRest;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Ramsey\Uuid\Uuid;
 
 class FileController extends Controller
 {
@@ -290,16 +292,6 @@ class FileController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
     public static function upload(Request $request)
     {
         if ($request->hasFile('file')) {
@@ -355,14 +347,17 @@ class FileController extends Controller
 
         if ($file && $domain && $type && $name) {
 
-            $filename =  $name . 'docx';
+            $filename =  $name . '.docx';
             $file->storeAs('clients/' . $domain . '/templates/' . $type, $filename, 'public');
+            // $url = Storage::disk('public')->url('clients/' . $domain . '/templates/' . $type . '/' . $filename);
+            // $link = asset('storage/clients/' . $domain . '/templates' . $type);
+            $absolutePath = storage_path('app/public/clients/' . $domain . '/templates/' . $type . '/' . $filename);
 
             return [
                 'result' => 0,
                 'message' => 'File uploaded successfully',
                 'filename' =>  $filename,
-                'file' =>  $file,
+                'file' =>  $absolutePath,
 
             ];
         }
@@ -371,6 +366,129 @@ class FileController extends Controller
         ];
     }
 
+    public static function getDocument(
+        $templateData,
+        $domain,
+        $userId,
+        $price,
+        $infoblocks,
+        $provider,
+        $recipient
+
+
+    ) {
+
+        // $domain = $request->input('domain');
+        // $userId = $request->input('userId');
+        // $complect = $request->input('complect');
+        // $complectName = $complect['complectName'];
+        // $supply = $complect['supply'];
+        // $templateId = $request['templateId'];                                   
+        // $infoblocks = $request->input('infoblocks');
+
+        // $groups = $request->input('groups');
+        // [
+        //     ['groupName' => 1, 'groupName' => 'Нормативно-Правовые акты'],
+        //     ['groupName' => 2, 'groupName' => 'Судебная практика']
+
+        // ];
+
+        // Путь к исходному и результирующему файлам
+        $uid = Uuid::uuid4()->toString();
+        $resultFileName = $templateData['type'] . '_' . $uid . '.docx';
+
+
+        $templatePath = Template::getTemplatePath($templateData['id']);
+        // storage_path() . '/app/public/description/general/Description';
+        $resultPath = storage_path('app/public/clients/' . $domain . '/documents/' . $userId);
+
+        // Проверяем, существует ли исходный файл
+        if (!file_exists($resultPath)) {
+            mkdir($resultPath, 0777, true); // Создаем директорию с правами 0777 рекурсивно
+        }
+
+        try {
+            $template = new TemplateProcessor($templatePath);
+
+            // $template->cloneRowAndSetValues('groupId', $groups);
+            // $template->setValue('complectName', $complectName);
+            // $template->setValue('supply', $supply);
+
+
+            // ////С НОВОЙ СТРОКИ
+            // foreach ($infoblocks as $infoblock) {
+            //     if (isset($infoblock['description'])) {
+            //         $infoblock['description'] = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['description']);
+            //     }
+            // }
+            // unset($infoblock);  // разъединяем ссылку на последний элемент
+            // //////////////////
+
+            // $template->cloneRowAndSetValues('infoblockId', $infoblocks);
+            // $template->cloneRowAndSetValues('name', $complect->infoblocks);
+            // Сохраняем результат
+            // $template->saveAs($resultPath . '/' . $resultFileName);
+            // $link = asset('storage/description/' . $domain . '/' . $resultFileName);
+            // // Читаем файл и кодируем его содержимое в Base64
+            // $fileContent = file_get_contents($resultPath . '/' . $resultFileName);
+            // $base64File = base64_encode($fileContent);
+
+
+            /////////////////////CREATE WORD
+
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
+            $section = $phpWord->addSection();
+            $priceData = $price['cells']['general'][0]['cells'];
+            $cells = [];
+            $html = '<table style="border-collapse: collapse;">';
+            foreach ($priceData as $row) {
+                if ($row['isActive']) {
+                    $html .= '<tr>';
+                    // Добавьте ячейки для каждого активного элемента
+                    // Например: $html .= '<td>' . htmlspecialchars($row->name) . '</td>';
+                    $html .= '<td style="border: 1px solid black;">' . htmlspecialchars($row['value']) . '</td>';
+                    $html .= '</tr>';
+                }
+            }
+
+            $html .= '</table>';
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            $objWriter->save($resultPath . '/' . $resultFileName);
+
+
+            $link = asset('storage/clients/' . $domain . '/documents/' . $userId . '/' . $resultFileName);
+
+
+
+            // Читаем файл и кодируем его содержимое в Base64
+            $fileContent = file_get_contents($resultPath . '/' . $resultFileName);
+            $base64File = base64_encode($fileContent);
+        } catch (Exception $e) {
+            // Обрабатываем возможные исключения
+            return response()->json(['status' => 'error', 'message' => 'Ошибка обработки шаблона: ' . $e->getMessage()], 200);
+        }
+
+        // Возвращаем успешный ответ
+        return response([
+            'resultCode' => 0,
+            'status' => 'success',
+            'message' => 'Обработка прошла успешно',
+            'templatePath' =>  $templatePath,
+            '$resultPath' => $resultPath,
+            'template' => $templateData,
+            'price' => $price,
+            'infoblocks' => $infoblocks,
+            'provider' => $provider,
+            'recipient' => $recipient,
+            'priceData' => $priceData,
+            'link' => $link,
+            '$base64File' => $base64File,
+            '$html' =>  $html
+
+        ]);
+    }
 
 
     // public function generateWord(Request $request)

@@ -72,12 +72,13 @@ class TemplateController extends Controller
 
             $portal = Portal::where('domain', $domain)->first();
             if ($portal) {
-                $templates = $portal->templates();
+                $templates = $portal->templates()->get();
             }
+
         }
 
-        $alltemplates = Template::all();
-        $templatesCollection = new TemplateCollection($alltemplates);
+       
+        $templatesCollection = new TemplateCollection($templates);
 
         return response([
             'resultCode' => 0,
@@ -166,7 +167,14 @@ class TemplateController extends Controller
         $fieldIds = json_decode($fieldIds, true);
 
         if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
+            $length = count($fieldIds);
+            if(!$length){
+               
+                $fieldIds = Field::where('isGeneral', true)->pluck('id');
+
+            }
             $template->fields()->attach($fieldIds);
+            
         } else {
             return response([
                 'resultCode' => 1,
@@ -194,15 +202,13 @@ class TemplateController extends Controller
             'template' => $template,
             '$template->fields();' =>  $fields,
             '$template->portal();' =>  $domain,
-            ' $type= $template->type;' =>  $type,
-            ' $name= $template->name;' =>  $name,
+            '$type= $template->type;' =>  $type,
+            '$name= $template->name;' =>  $name,
             '$uploadFile' => $uploadFile,
             '$portal' =>  $portal
-
-
-
-
         ]);
+
+
     }
 
     public static function deleteTemplate($templateId)
@@ -229,5 +235,23 @@ class TemplateController extends Controller
                 'message' => 'Template not found',
             ]);
         }
+    }
+
+
+
+    //APRIL_KP
+    public static function getClientTemplate($code)
+    {
+        $templates = [];
+
+
+        $template = Template::where('code', $code)->first();
+        $templatesResource = new TemplateCollection($template);
+
+        return response([
+            'resultCode' => 0,
+            'templates' => $templatesResource,
+            'isCollection' => true,
+        ]);
     }
 }

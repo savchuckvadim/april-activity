@@ -27,4 +27,16 @@ class PriceRowCellController extends Controller
         ]);
 
     }
+    public static function getCells()
+    {
+        $result = PriceRowCell::all();
+
+      
+
+        return response([
+            'resultCode' => 0,
+            'pricerowcells' => $result
+        ]);
+
+    }
 }

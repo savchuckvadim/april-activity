@@ -17,6 +17,8 @@ use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
+use App\Models\Infoblock;
+use App\Models\InfoGroup;
 use App\Models\Portal;
 use App\Models\PriceRowCell;
 use Illuminate\Http\Request;
@@ -37,7 +39,11 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use morphos\Russian\Cases;
+use morphos\Russian\NounDeclension;
 use Vipblogger\LaravelBitrix24\Bitrix;
+
+use function morphos\Russian\inflectName;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', function (Request $request) {
@@ -135,17 +141,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
 
 
 
+    // Route::post('pricerowcells', function (Request $request) {
+    //     $pricerowcells  = $request->input('pricerowcells');
+    //     return PriceRowCellController::setCells($pricerowcells);
+    // });
+
+
     Route::post('pricerowcells', function (Request $request) {
         $pricerowcells  = $request->input('pricerowcells');
-
-
         return PriceRowCellController::setCells($pricerowcells);
     });
 
 
-    Route::post('pricerowcells', function (Request $request) {
-        $pricerowcells  = $request->input('pricerowcells');
-        return PriceRowCellController::setCells($pricerowcells);
+    Route::get('pricerowcells', function (Request $request) {
+
+        return PriceRowCellController::getCells();
     });
 
 
@@ -219,12 +229,105 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     //     return TemplateController::initialTemplate($type);
     // });
 
+    Route::post('nameCase', function (Request $request) {
+        $word  = $request->input('word');
+        $wordCase  = $request->input('wordCase');
+        $resultName = inflectName($word, $wordCase);
+
+        return response([
+            'resultCode' =>  0,
+            'nameCase' => $resultName
+        ]);
+    });
+
+    Route::post('wordCase', function (Request $request) {
+        $phrase  = $request->input('word');
+        $wordCase  = $request->input('wordCase');
+
+        $words = explode(' ', $phrase);
+        $resultWords = [];
+        // $resultposition = NounDeclension::getCase($wordFromFront, $wordCase);
+        // $declension = new NounDeclension();
+        foreach ($words as $word) {
+            $declinedWord  = NounDeclension::getCase($word, Cases::DATIVE); // Используйте DATIVE для дательного падежа
+
+
+
+            if (mb_substr($word, 0, 1) === mb_strtoupper(mb_substr($word, 0, 1))) {
+                // Применяем заглавную букву к склоненному слову
+                $declinedWord = mb_strtoupper(mb_substr($declinedWord, 0, 1)) . mb_substr($declinedWord, 1);
+            }
+            array_push($resultWords, $declinedWord);
+            $word = $declinedWord;
+        }
+
+        $declinedPhrase = implode(' ', $resultWords);
+        return response([
+            'resultCode' =>  0,
+            'wordCase' => $declinedPhrase,
+            '$words' => $words,
+            '$resultWords' => $resultWords
+        ]);
+    });
 
 
 
 
 
 
+
+    //RESULT DOCUMENTS
+
+    Route::post('get/document', function (Request $request) {
+        $data  = $request->input('data');
+        // $templateId  = $data('templateId');
+        $template  = $data['template'];
+  
+        $domain  =  $template['portal'];
+        $userId  = $data['userId'];
+        $price  = $data['price'];
+        $infoblocks  = $data['infoblocks'];
+
+        $provider  = $data['provider'];
+        $recipient  = $data['recipient'];
+
+        $result = FileController::getDocument(
+            $template, 
+            $domain, 
+            $userId, 
+            $price,
+            $infoblocks,
+            $provider,
+            $recipient
+        );
+        // $wordCase  = $request->input('wordCase');
+        // $resultName = inflectName($word, $wordCase);
+
+        return $result;
+
+    });
+
+
+
+
+
+
+
+
+
+    ///infoblocks for template 
+    Route::post('get/infoblocks/description', function (Request $request) {
+        $infoblocks  = $request->infoblocks;
+        return InfoblockController::getInfoblocksDescription($infoblocks);
+    });
+
+    //FOR CLIENT APPP
+
+    Route::post('kp/template/get', function (Request $request) {
+        $code  = $request->input('code');
+
+        return TemplateController::getClientTemplate($code);
+    });
 
 
 
@@ -239,6 +342,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
     Route::post('infoblocks', function (Request $request) {
         $infoblocks  = $request->input('infoblocks');
         return InfoblockController::setInfoBlocks($infoblocks);
+    });
+
+    Route::get('infogroups', function () {
+        $infogroups  = InfoGroup::all();
+        return response([
+            'resultCode' => 0,
+            'infogroups' =>  $infogroups
+        ]);
+    });
+    Route::get('infoblocks', function () {
+        $infoblocks  = Infoblock::all();
+        return response([
+            'resultCode' => 0,
+            'infoblocks' =>  $infoblocks
+        ]);
     });
 
 

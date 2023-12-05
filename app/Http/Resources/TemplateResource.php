@@ -17,7 +17,10 @@ class TemplateResource extends JsonResource
         $portal =  $this->portal;
         $domain = $portal->domain;
         $providers =  $portal->providers;
+        $providersCollection = new ProviderCollection($providers);
         $fields =  $this->fields;
+        $fieldsCollection = new FieldCollection($fields);
+       
         return [
             'id' => $this->id,
 
@@ -27,9 +30,9 @@ class TemplateResource extends JsonResource
             'link' => $this->link,
             // 'portalId' => $this->portalId,
             'portal' => $domain,
-            'providers' => $providers,
-            'fields' =>  $fields
-
+            'providers' => $providersCollection,
+            'fields' =>  $fieldsCollection,
+            
 
 
         ];

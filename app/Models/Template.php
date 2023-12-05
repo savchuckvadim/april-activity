@@ -23,6 +23,23 @@ class Template extends Model
     //     return $this->hasMany(TField::class);
     // }
 
+
+    public static function getTemplate($templateId)
+    {
+        return Template::find($templateId);
+    }
+
+    public static function getTemplatePath($templateId)
+    {
+        $templatePath = null;
+
+        $template = Template::find($templateId);
+        if ($template) {
+            $templatePath = $template->link;
+        }
+        return $templatePath;
+    }
+
     public function fields()
     {
         return $this->belongsToMany(Field::class, 'template_field', 'template_id', 'field_id');

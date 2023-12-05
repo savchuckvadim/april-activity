@@ -18,6 +18,6 @@ class Agent extends Model
     
     public function rq()
     {
-        return $this->hasOne(Rq::class);
+        return $this->hasOne(Rq::class, 'agentId');
     }
 }
