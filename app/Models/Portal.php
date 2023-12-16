@@ -13,6 +13,7 @@ class Portal extends Model
     use HasFactory;
 
     protected $fillable = [
+        'number',
         'domain',
         'key',
         'C_REST_CLIENT_ID',

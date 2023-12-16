@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Crypt;
 
 class PortalController extends Controller
 {
-    public static function setPortal($domain, $key, $clientId, $secret, $hook)
+    public static function setPortal($number, $domain, $key, $clientId, $secret, $hook)
     {
         if (empty($domain) || empty($key) || empty($clientId) || empty($secret) || empty($hook)) {
             return response([
                 'resultCode' => 1, 'message' => "invalid data",
                 'data' => [
+                    'number' => $number,
                     'domain' => $domain,
                     'key' => $key,
                     'C_REST_CLIENT_ID' => $clientId,
@@ -28,10 +29,11 @@ class PortalController extends Controller
         $cryptsecret  = Crypt::encryptString($secret);
         $crypthook =   Crypt::encryptString($hook);
 
-        if (Portal::where('domain', $domain)->exists()) {
-            $portal = Portal::where('domain', $domain)->first();
+        if (Portal::where('number', $number)->exists()) {
+            $portal = Portal::where('number', $number)->first();
         } else {
             $portal = new Portal([
+                'number' => $number,
                 'domain' => $domain,
                 'key' => $cryptkey,
                 'C_REST_CLIENT_ID' => $cryptclientId,
@@ -46,7 +48,7 @@ class PortalController extends Controller
 
         $portal->save();
 
-        $resultPortal = $portal->getPortal($domain);
+        $resultPortal = $portal = Portal::where('domain', $domain)->first();
 
 
         if (!$resultPortal) {

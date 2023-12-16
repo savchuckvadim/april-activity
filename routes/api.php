@@ -103,12 +103,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
         return PortalController::getPortals();
     });
     Route::post('portal', function (Request $request) {
+        $number  = $request->input('number');
         $domain  = $request->input('domain');
         $key = $request->input('key'); //placement key
-        $clientId  = $request->input('clientId');
-        $secret = $request->input('clientSecret');
-        $hook = $request->input('hook');
-        return PortalController::setPortal($domain, $key, $clientId, $secret, $hook);
+        $clientId  = $request->input('clientId'); //from bitrix server api app
+        $secret = $request->input('clientSecret'); //from bitrix server api app
+        $hook = $request->input('hook'); //placement url
+        return PortalController::setPortal($number, $domain, $key, $clientId, $secret, $hook);
     });
 
 

@@ -16,14 +16,15 @@ class TemplateController extends Controller
     public static function setTemplates($templates)
     {
         $result = [];
-
+        $portals = [];
+        $comePortals = [];
         foreach ($templates as $template) {
 
             //PORTAL RELATION
-            $portal = Portal::where('domain',  $template['portal'])->first();
+            $portal = Portal::where('number',  $template['portalNumber'])->first();
 
-
-
+            array_push($portals, $portal);
+            array_push($comePortals, $template['portal']);
             if ($portal) {
                 $template['portalId'] = $portal->id;
 
@@ -57,7 +58,12 @@ class TemplateController extends Controller
 
         return response([
             'resultCode' => 0,
-            'templates' => $result
+            'come$templates' => $templates,
+            '$comePortals' => $comePortals,
+            'templates' => $result,
+            'portals' =>  $portals,
+            '$searchingTemplateFields' =>$searchingTemplateFields,
+            '$generalFields' => $generalFields
         ]);
     }
 
@@ -74,10 +80,9 @@ class TemplateController extends Controller
             if ($portal) {
                 $templates = $portal->templates()->get();
             }
-
         }
 
-       
+
         $templatesCollection = new TemplateCollection($templates);
 
         return response([
@@ -168,13 +173,11 @@ class TemplateController extends Controller
 
         if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
             $length = count($fieldIds);
-            if(!$length){
-               
-                $fieldIds = Field::where('isGeneral', true)->pluck('id');
+            if (!$length) {
 
+                $fieldIds = Field::where('isGeneral', true)->pluck('id');
             }
             $template->fields()->attach($fieldIds);
-            
         } else {
             return response([
                 'resultCode' => 1,
@@ -207,8 +210,6 @@ class TemplateController extends Controller
             '$uploadFile' => $uploadFile,
             '$portal' =>  $portal
         ]);
-
-
     }
 
     public static function deleteTemplate($templateId)
