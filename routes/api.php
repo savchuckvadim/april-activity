@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use morphos\Russian\Cases;
 use morphos\Russian\NounDeclension;
@@ -76,7 +77,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     /////DEALS
-
+    Log::info('in_middle', ['in_middle' => true]);
 
     Route::post('/deal', function (Request $request) {
         return DealController::addDeal($request);
