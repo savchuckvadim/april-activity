@@ -16,7 +16,7 @@ return [
     */
 
     'paths' => [
-        'api/*', 
+        'api/*',
         'sanctum/csrf-cookie',
         'login',
         'logout',
@@ -34,7 +34,9 @@ return [
 
     // 'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '/\.bitrix24\.ru$/',
+    ],
 
     'allowed_headers' => ['*'],
 
