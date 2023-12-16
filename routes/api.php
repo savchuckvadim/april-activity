@@ -72,7 +72,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // });
 
 
-Route::middleware([\Fruitcake\Cors\HandleCors::class])->group(function () {
+Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(function () {
 
 
     /////DEALS
