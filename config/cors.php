@@ -34,9 +34,7 @@ return [
 
     // 'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => [
-        '/https:\/\/.*\.bitrix24\.ru$/',
-    ],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
