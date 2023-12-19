@@ -93,7 +93,7 @@ class PortalController extends Controller
         if (!$portal) {
             return response([
                 'resultCode' => 1,
-                
+                'portalId' => $portalId,
                 'message' => 'portal does not exist!'
             ]);
         }
