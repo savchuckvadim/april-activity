@@ -99,14 +99,12 @@ class PortalController extends Controller
         }
 
         return response(
-            ['portal' => [
-                'id' => $portal->id,
+
+            [
+                'resultCode' => 0,
                 'portal' => $portal,
-                'key' => $portal->getKey(),
-                'C_REST_CLIENT_ID' => $portal->getClientId(),
-                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
-            ]]
+              
+            ]
         );
     }
     public static function getPortals()
