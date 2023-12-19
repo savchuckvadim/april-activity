@@ -85,7 +85,27 @@ class PortalController extends Controller
             'C_REST_WEB_HOOK_URL' => $portal->getHook(),
         ]);
     }
+    public static function getPortalById($portalId)
+    {
 
+        $portal = Portal::find($portalId);
+
+        if (!$portal) {
+            return response([
+                'resultCode' => 1,
+                'message' => 'portal does not exist!'
+            ]);
+        }
+
+        return response([
+            'id' => $portal->id,
+            'portal' => $portal,
+            'key' => $portal->getKey(),
+            'C_REST_CLIENT_ID' => $portal->getClientId(),
+            'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+            'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+        ]);
+    }
     public static function getPortals()
     {
 

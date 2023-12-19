@@ -99,6 +99,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $domain  = $request->input('domain');
         return PortalController::getPortal($domain);
     });
+    Route::get('portal', function (Request $request) {
+        $domain  = $request->input('id');
+        return PortalController::getPortal($domain);
+    });
     Route::get('portals', function () {
 
         return PortalController::getPortals();
@@ -204,9 +208,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
     });
 
-    Route::get('templates/{domain}', function ($domain) {
-        return TemplateController::getTemplates($domain);
-    });
+    // Route::get('templates/{domain}', function ($domain) {
+    //     return TemplateController::getTemplates($domain);
+    // });
 
     Route::delete('template/{templateId}', function ($templateId) {
         return TemplateController::deleteTemplate($templateId);
