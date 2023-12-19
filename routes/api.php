@@ -101,7 +101,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
     Route::get('portal/{portalId}', function ($portalId) {
        
-        return PortalController::getPortal($portalId);
+        return PortalController::getPortalById($portalId);
     });
     Route::get('portals', function () {
 
