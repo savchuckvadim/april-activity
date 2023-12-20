@@ -77,12 +77,16 @@ class PortalController extends Controller
         }
 
         return response([
-            'id' => $portal->id,
-            'domain' => $domain,
-            'key' => $portal->getKey(),
-            'C_REST_CLIENT_ID' => $portal->getClientId(),
-            'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-            'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            'resultCode' => 0,
+            'portal' => [
+                'id' => $portal->id,
+                'domain' => $domain,
+                'key' => $portal->getKey(),
+                'C_REST_CLIENT_ID' => $portal->getClientId(),
+                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            ]
+
         ]);
     }
     public static function getPortalById($portalId)
@@ -103,7 +107,7 @@ class PortalController extends Controller
             [
                 'resultCode' => 0,
                 'portal' => $portal,
-              
+
             ]
         );
     }
