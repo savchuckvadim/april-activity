@@ -24,10 +24,10 @@ class PortalController extends Controller
             ]);
         }
 
-        $cryptkey = Crypt::encryptString($key);
-        $cryptclientId = Crypt::encryptString($clientId);
-        $cryptsecret  = Crypt::encryptString($secret);
-        $crypthook =   Crypt::encryptString($hook);
+        // $cryptkey = Crypt::encryptString($key);
+        // $cryptclientId = Crypt::encryptString($clientId);
+        // $cryptsecret  = Crypt::encryptString($secret);
+        // $crypthook =   Crypt::encryptString($hook);
 
         if (Portal::where('domain', $domain)->exists()) {
             $portal = Portal::where('domain', $domain)->first();
@@ -65,10 +65,10 @@ class PortalController extends Controller
             'portal' => [
                 'id' => $portal->id,
                 'domain' => $domain,
-                'key' => $portal->getKey(),
-                'C_REST_CLIENT_ID' => $portal->getClientId(),
-                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+                'key' => $portal->key,
+                'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
+                'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
+                'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
             ]
 
         ]);
