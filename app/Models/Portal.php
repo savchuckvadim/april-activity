@@ -57,4 +57,56 @@ class Portal extends Model
     {
         return Crypt::decryptString($this->C_REST_WEB_HOOK_URL);
     }
+
+    //for create
+
+    public static function getForm()
+    {
+
+        return [
+
+            'number' => [
+                'title' => 'Номер из firebase',
+                'name' => 'number',
+                'apiName' => 'number',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+            'domain' => [
+                'title' => 'Домен',
+                'name' => 'number',
+                'apiName' => 'number',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+            'key' => [
+                'title' => 'Ключ от хука',
+                'name' => 'key',
+                'apiName' => 'key',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+            'C_REST_CLIENT_ID' => [
+                'title' => 'Клиент id приложения в битрикс',
+                'name' => 'C_REST_CLIENT_ID',
+                'apiName' => 'clientId',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+            'C_REST_CLIENT_SECRET' => [
+                'title' => 'Secret приложения в битрикс',
+                'name' => 'C_REST_CLIENT_SECRET',
+                'apiName' => 'clientSecret',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+            'C_REST_WEB_HOOK_URL' => [
+                'title' => 'Юзер / ключ хука',
+                'name' => 'C_REST_WEB_HOOK_URL',
+                'apiName' => 'hook',
+                'type' =>  'string',
+                'validation' => 'required|max:255',
+            ],
+        ];
+    }
 }

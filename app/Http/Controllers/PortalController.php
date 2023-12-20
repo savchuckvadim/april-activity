@@ -162,6 +162,17 @@ class PortalController extends Controller
         ]);
     }
 
+    public static function getInitial(){
+
+        $initialPortal = Portal::getForm();
+        $data = [
+            'initialPortal' => $initialPortal
+        ];
+        return APIController::getResponse(0, 'success', $data);
+
+    }
+
+  
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
