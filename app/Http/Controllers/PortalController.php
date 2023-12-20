@@ -166,7 +166,7 @@ class PortalController extends Controller
 
         $initialPortal = Portal::getForm();
         $data = [
-            'initialPortal' => $initialPortal
+            'initial' => $initialPortal
         ];
         return APIController::getResponse(0, 'success', $data);
 
