@@ -59,7 +59,19 @@ class PortalController extends Controller
         }
 
 
-        return response(['portal' => $portal]);
+        return response([
+            'resultCode' => 0,
+            'message' => 'success',
+            'portal' => [
+                'id' => $portal->id,
+                'domain' => $domain,
+                'key' => $portal->getKey(),
+                'C_REST_CLIENT_ID' => $portal->getClientId(),
+                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            ]
+
+        ]);
     }
 
 
@@ -106,7 +118,15 @@ class PortalController extends Controller
 
             [
                 'resultCode' => 0,
-                'portal' => $portal,
+                'message' => 'success',
+                'portal' => [
+                    'id' => $portal->id,
+                    'domain' => $portal->domain,
+                    'key' => $portal->getKey(),
+                    'C_REST_CLIENT_ID' => $portal->getClientId(),
+                    'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                    'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+                ]
 
             ]
         );
@@ -128,7 +148,7 @@ class PortalController extends Controller
             'portals' => $portals
         ]);
     }
-   
+
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
