@@ -10,6 +10,14 @@ class PortalController extends Controller
 {
     public static function setPortal($number, $domain, $key, $clientId, $secret, $hook)
     {
+        $data = [
+            'number' => $number,
+            'domain' => $domain,
+            'key' => $key,
+            'C_REST_CLIENT_ID' => $clientId,
+            'C_REST_CLIENT_SECRET' => $secret,
+            'C_REST_WEB_HOOK_URL' => $hook,
+        ];
         if (empty($domain) || empty($key) || empty($clientId) || empty($secret) || empty($hook)) {
             return response([
                 'resultCode' => 1, 'message' => "invalid data",
@@ -22,41 +30,40 @@ class PortalController extends Controller
                     'C_REST_WEB_HOOK_URL' => $hook,
                 ]
             ]);
-        }
-
-        // $cryptkey = Crypt::encryptString($key);
-        // $cryptclientId = Crypt::encryptString($clientId);
-        // $cryptsecret  = Crypt::encryptString($secret);
-        // $crypthook =   Crypt::encryptString($hook);
-
-        if (Portal::where('domain', $domain)->exists()) {
-            $portal = Portal::where('domain', $domain)->first();
         } else {
-            // $portal = new Portal([
-            //     'number' => $number,
-            //     'domain' => $domain,
-            //     'key' => $cryptkey,
-            //     'C_REST_CLIENT_ID' => $cryptclientId,
-            //     'C_REST_CLIENT_SECRET' => $cryptsecret,
-            //     'C_REST_WEB_HOOK_URL' => $crypthook,
-            // ]);
         }
 
+        $data['key'] = Crypt::encryptString($key);
+        $data['C_REST_CLIENT_ID'] = Crypt::encryptString($clientId);
+        $data['C_REST_CLIENT_SECRET']  = Crypt::encryptString($secret);
+        $data['C_REST_WEB_HOOK_URL'] =   Crypt::encryptString($hook);
+
+        $portal = Portal::firstOrCreate(
+            ['domain' => $domain], // Условия для поиска
+            $data // Значения по умолчанию, если создается новая запись
+        );
+        $portal->save();
+        return response([
+            'resultCode' => 0,
+            'message' => 'success',
+            'portal' => [
+                'id' => $portal->id,
+                'number' => $portal->number,
+                'domain' => $domain,
+                'key' => $portal->getKey(),
+                'C_REST_CLIENT_ID' => $portal->getClientId(),
+                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            ]
+
+        ]);
 
 
 
 
-        // $portal->save();
 
-        $resultPortal = $portal = Portal::where('domain', $domain)->first();
+        $portal->save();
 
-
-        if (!$resultPortal) {
-            return response([
-                'resultCode' => 1,
-                'message' => 'invalid resultPortal not found Portal with the domain: ' . $domain
-            ]);
-        }
 
 
         return response([
@@ -64,6 +71,7 @@ class PortalController extends Controller
             'message' => 'success',
             'portal' => [
                 'id' => $portal->id,
+                'number' => $portal->number,
                 'domain' => $domain,
                 'key' => $portal->key,
                 'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
@@ -121,6 +129,7 @@ class PortalController extends Controller
                 'message' => 'success',
                 'portal' => [
                     'id' => $portal->id,
+                    'number' => $portal->number,
                     'domain' => $portal->domain,
                     'key' => $portal->key,
                     'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
