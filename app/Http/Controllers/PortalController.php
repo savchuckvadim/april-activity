@@ -29,24 +29,24 @@ class PortalController extends Controller
         $cryptsecret  = Crypt::encryptString($secret);
         $crypthook =   Crypt::encryptString($hook);
 
-        if (Portal::where('number', $number)->exists()) {
-            $portal = Portal::where('number', $number)->first();
+        if (Portal::where('domain', $domain)->exists()) {
+            $portal = Portal::where('domain', $domain)->first();
         } else {
-            $portal = new Portal([
-                'number' => $number,
-                'domain' => $domain,
-                'key' => $cryptkey,
-                'C_REST_CLIENT_ID' => $cryptclientId,
-                'C_REST_CLIENT_SECRET' => $cryptsecret,
-                'C_REST_WEB_HOOK_URL' => $crypthook,
-            ]);
+            // $portal = new Portal([
+            //     'number' => $number,
+            //     'domain' => $domain,
+            //     'key' => $cryptkey,
+            //     'C_REST_CLIENT_ID' => $cryptclientId,
+            //     'C_REST_CLIENT_SECRET' => $cryptsecret,
+            //     'C_REST_WEB_HOOK_URL' => $crypthook,
+            // ]);
         }
 
 
 
 
 
-        $portal->save();
+        // $portal->save();
 
         $resultPortal = $portal = Portal::where('domain', $domain)->first();
 
@@ -128,7 +128,7 @@ class PortalController extends Controller
             'portals' => $portals
         ]);
     }
-
+   
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
