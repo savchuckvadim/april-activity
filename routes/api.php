@@ -130,9 +130,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return RqController::setRqs($rqs);
     });
 
-    Route::get('initial/portal', function ($portalId) {
+    Route::get('initial/portal', function () {
        
-        return PortalController::getPortalById($portalId);
+        return PortalController::getInitial();
     });
 
 
