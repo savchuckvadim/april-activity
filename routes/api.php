@@ -384,6 +384,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'infogroups' =>  $infogroups
         ]);
     });
+    
     Route::get('infoblocks', function () {
         $infoblocks  = Infoblock::all();
         return response([
@@ -392,6 +393,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         ]);
     });
 
+    Route::get('infoblock/{infoblockId}', function ($infoblockId) {
+        return InfoblockController::getInfoblock($infoblockId);
+    });
 
 
 

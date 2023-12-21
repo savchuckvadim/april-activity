@@ -7,6 +7,36 @@ use Illuminate\Http\Request;
 
 class InfoblockController extends Controller
 {
+
+    public static function getInfoblock($infoblockId)
+    {
+        try {
+    
+            $infoblock = Infoblock::find($infoblockId);
+          
+
+            if (!$infoblock) {
+                return response([
+                    'resultCode' => 1,
+                    'infoblockId' => $infoblockId,
+                    'message' => 'infoblock not found'
+                ]);
+            }
+    
+            return APIController::getResponse(
+                0,
+                'success',
+                ['infoblock' => $infoblock]
+            );
+    
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
     public static function setInfoBlocks($infoblocks)
     {
         $result = [];
