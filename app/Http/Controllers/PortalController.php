@@ -156,16 +156,8 @@ class PortalController extends Controller
     public static function deletePortal($portalId)
     {
         try {
-            $portal = Portal::find($portalId);
+            $portal = Portal::destroy($portalId);
 
-            if (!$portal) {
-                return response([
-                    'resultCode' => 1,
-                    'portalId' => $portalId,
-                    'message' => 'portal not found'
-                ]);
-            }
-            $portal->delete();
             $portal = Portal::find($portalId);
             if (!$portal) {
                 APIController::getResponse(0, 'success', ['portalId' => $portalId]);
