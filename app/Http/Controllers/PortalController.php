@@ -81,9 +81,6 @@ class PortalController extends Controller
 
         ]);
     }
-
-
-
     public static function getPortal($domain)
     {
 

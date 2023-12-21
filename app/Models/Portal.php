@@ -74,6 +74,7 @@ class Portal extends Model
                         'apiName' => 'number',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ],
                     [
@@ -82,6 +83,7 @@ class Portal extends Model
                         'apiName' => 'number',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ],
                     [
@@ -90,6 +92,7 @@ class Portal extends Model
                         'apiName' => 'key',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ],
                     [
@@ -99,6 +102,7 @@ class Portal extends Model
                         'apiName' => 'clientId',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ],
                     [
@@ -108,6 +112,7 @@ class Portal extends Model
                         'apiName' => 'clientSecret',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ],
                     [
@@ -117,6 +122,7 @@ class Portal extends Model
                         'apiName' => 'hook',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
+                        'initialValue' => '',
                         'isCanAddField' => false,
                     ]
                 ]
