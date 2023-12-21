@@ -42,7 +42,7 @@ class PortalController extends Controller
                 ['domain' => $domain], // Условия для поиска
                 $data // Значения по умолчанию, если создается новая запись
             );
-     
+
 
             $portal->save();
 
@@ -153,7 +153,27 @@ class PortalController extends Controller
         ];
         return APIController::getResponse(0, 'success', $data);
     }
+    public static function deletePortal($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
 
+            if (!$portal) {
+                return response([
+                    'resultCode' => 1,
+                    'portalId' => $portalId,
+                    'message' => 'portal not found'
+                ]);
+            }
+            $portal->delete();
+            if (!$portal) {
+                APIController::getResponse(0, 'error - portal was deleted', ['portalId' => $portalId]);
+            }
+            return APIController::getResponse(1, 'error - portal was not deleted', $portal);
+        } catch (\Throwable $th) {
+            return APIController::getResponse(1, $th->getMessage(), $portal);
+        }
+    }
 
     // public function getDomain()
     // {
