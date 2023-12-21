@@ -31,41 +31,21 @@ class PortalController extends Controller
                         'C_REST_WEB_HOOK_URL' => $hook,
                     ]
                 ]);
-            } 
-    
+            }
+
             $data['key'] = Crypt::encryptString($key);
             $data['C_REST_CLIENT_ID'] = Crypt::encryptString($clientId);
             $data['C_REST_CLIENT_SECRET']  = Crypt::encryptString($secret);
             $data['C_REST_WEB_HOOK_URL'] =   Crypt::encryptString($hook);
-    
+
             $portal = Portal::firstOrCreate(
                 ['domain' => $domain], // Условия для поиска
                 $data // Значения по умолчанию, если создается новая запись
             );
-            // $portal->save();
-            // return response([
-            //     'resultCode' => 0,
-            //     'message' => 'success',
-            //     'portal' => [
-            //         'id' => $portal->id,
-            //         'number' => $portal->number,
-            //         'domain' => $domain,
-            //         // 'key' => $portal->getKey(),
-            //         // 'C_REST_CLIENT_ID' => $portal->getClientId(),
-            //         // 'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-            //         // 'C_REST_WEB_HOOK_URL' => $portal->getHook(),
-            //     ]
-    
-            // ]);
-    
-    
-    
-    
-    
+     
+
             $portal->save();
-    
-    
-    
+
             return response([
                 'resultCode' => 0,
                 'message' => 'success',
@@ -78,17 +58,11 @@ class PortalController extends Controller
                     'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
                     'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
                 ]
-    
+
             ]);
         } catch (\Throwable $th) {
-            return  response([
-                'resultCode' => 0,
-                'message' => 'error',
-                '$data' => $data
-    
-            ]);
+            return  APIController::getResponse(1, $th->getMessage(), $data);
         }
-        
     }
     public static function getPortal($domain)
     {
@@ -119,7 +93,7 @@ class PortalController extends Controller
     {
 
         $portal = Portal::find($portalId);
-      
+
         if (!$portal) {
             return response([
                 'resultCode' => 1,
@@ -168,17 +142,17 @@ class PortalController extends Controller
         ]);
     }
 
-    public static function getInitial(){
+    public static function getInitial()
+    {
 
         $initialPortal = Portal::getForm();
         $data = [
             'initial' => $initialPortal
         ];
         return APIController::getResponse(0, 'success', $data);
-
     }
 
-  
+
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
