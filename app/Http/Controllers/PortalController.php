@@ -166,6 +166,7 @@ class PortalController extends Controller
                 ]);
             }
             $portal->delete();
+            $portal = Portal::find($portalId);
             if (!$portal) {
                 APIController::getResponse(0, 'error - portal was deleted', ['portalId' => $portalId]);
             }
