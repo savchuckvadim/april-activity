@@ -9,6 +9,25 @@ use Illuminate\Http\Request;
 
 class RqController extends Controller
 {
+    public static function getRqs()
+    {
+        try {
+    
+            $rqs = Agent::all();
+            return APIController::getResponse(
+                0,
+                'success',
+                ['providers' => $rqs]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
+
     public static function setRqs($rqs)
     {
         $result = [];
@@ -20,12 +39,12 @@ class RqController extends Controller
             // if ($provider) {
 
 
-                $searchingAgent = Rq::updateOrCreate(
-                    ['number' => $rqData['number']], // Условие для поиска
-                    $rqData // Данные для обновления или создания
-                );
+            $searchingAgent = Rq::updateOrCreate(
+                ['number' => $rqData['number']], // Условие для поиска
+                $rqData // Данные для обновления или создания
+            );
 
-                $result[] = $searchingAgent;
+            $result[] = $searchingAgent;
             // }
         }
         return response([

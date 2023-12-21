@@ -60,8 +60,8 @@ class Template extends Model
                 'type' => 'template',
                 'isCanAddField' => true,
                 'isCanDeleteField' => true,
-                'fieldGroups' => [
-
+                'fieldGroups' =>
+                [
                     [
                         [
                             'title' => 'Название',
@@ -207,7 +207,7 @@ class Template extends Model
                             'initialValue' => false,
                             'isCanAddField' => false,
                         ],
-                    ]
+                    ],
                 ],
                 'isRequired' => true //хотя бы одно поле в шаблоне должно быть
             ],
@@ -224,9 +224,10 @@ class Template extends Model
                         'apiName' => 'domain',
                         'type' =>  'selectApi',
                         'getSelect' => 'portals',
+                        'dependOf' => null,
                         'validation' => 'required|max:255',
                         'initialValue' => '',
-                        'templatePlace' => 1,
+                     
                         'isCanAddField' => false,
 
                     ],
@@ -239,7 +240,7 @@ class Template extends Model
                         'validation' => 'required|max:255',
                         'initialValue' => '',
                         'dependOf' => ['domain'],
-                        'templatePlace' => 1,
+                    
                         'isCanAddField' => false,
 
                     ],

@@ -66,7 +66,10 @@ class Portal extends Model
         return [
             [
                 'groupName' => 'Создание портала',
+                'type' => 'portal',
                 'isCanAddField' => false,
+                'isCanDeleteField' => false, //нельзя удалить ни одно из инициальзационных fields
+                'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
                 'fields' => [
                     [
                         'title' => 'Номер из firebase',

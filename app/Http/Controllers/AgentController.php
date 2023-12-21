@@ -9,6 +9,28 @@ use Illuminate\Http\Request;
 class AgentController extends Controller
 {
 
+    public static function getProviders()
+    {
+        try {
+            $result = [];
+
+            $providers = Agent::all();
+
+
+            return APIController::getResponse(
+                0,
+                'success',
+                ['providers' => $providers]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                ['providers' => null]
+            );
+        }
+    }
+
     public static function setProviders($providers)
     {
         $result = [];

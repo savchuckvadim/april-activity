@@ -121,7 +121,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return PortalController::setPortal($number, $domain, $key, $clientId, $secret, $hook);
     });
 
-
+    Route::get('initial/portal', function () {
+       
+        return PortalController::getInitial();
+    });
 
     Route::post('providers', function (Request $request) {
         $providers  = $request->input('providers');
@@ -134,10 +137,18 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return RqController::setRqs($rqs);
     });
 
-    Route::get('initial/portal', function () {
-       
-        return PortalController::getInitial();
+
+    Route::get('providers', function () {
+
+        return AgentController::getProviders();
     });
+
+    Route::get('rqs', function () {
+
+        return RqController::getRqs();
+    });
+
+   
 
 
 
