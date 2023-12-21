@@ -213,6 +213,7 @@ class Template extends Model
             ],
             [
                 'groupName' => 'Портал и реквизиты',
+                'type' => 'template',
                 'isCanAddField' => false,
                 'isCanDeleteField' => false,
                 'relations' => [
