@@ -161,8 +161,10 @@ class PortalController extends Controller
             $portal = Portal::find($portalId);
             if (!$portal) {
                 APIController::getResponse(0, 'success', ['portalId' => $portalId]);
+            }else{
+                return APIController::getResponse(1, 'error - portal was not deleted', $portal);
             }
-            return APIController::getResponse(1, 'error - portal was not deleted', $portal);
+        
         } catch (\Throwable $th) {
             return APIController::getResponse(1, $th->getMessage(), $portal);
         }
