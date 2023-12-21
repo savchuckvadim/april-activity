@@ -30,7 +30,35 @@ class AgentController extends Controller
             );
         }
     }
+    public static function getProvider($providerId)
+    {
+        try {
+    
+            $provider = Agent::find($providerId);
+          
 
+            if (!$provider) {
+                return response([
+                    'resultCode' => 1,
+                    'providerId' => $providerId,
+                    'message' => 'provider not found'
+                ]);
+            }
+    
+            return APIController::getResponse(
+                0,
+                'success',
+                ['provider' => $provider]
+            );
+    
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
     public static function setProviders($providers)
     {
         $result = [];

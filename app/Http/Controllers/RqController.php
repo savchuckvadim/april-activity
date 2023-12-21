@@ -27,6 +27,35 @@ class RqController extends Controller
             );
         }
     }
+    public static function getRq($rqId)
+    {
+        try {
+    
+            $rq = Rq::find($rqId);
+          
+
+            if (!$rq) {
+                return response([
+                    'resultCode' => 1,
+                    'rqId' => $rqId,
+                    'message' => 'rq not found'
+                ]);
+            }
+    
+            return APIController::getResponse(
+                0,
+                'success',
+                ['rq' => $rq]
+            );
+    
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
 
     public static function setRqs($rqs)
     {
