@@ -150,7 +150,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     Route::get('provider/{providerId}', function ($providerId) {
 
-        return AgentController::getProviders($providerId);
+        return AgentController::getProvider($providerId);
     });
 
     Route::get('rq/{rqId}', function ($rqId) {
