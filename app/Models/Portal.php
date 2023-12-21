@@ -72,7 +72,7 @@ class Portal extends Model
                         'title' => 'Номер из firebase',
                         'name' => 'number',
                         'apiName' => 'number',
-                        'type' =>  'string',
+                        'type' =>  'number',
                         'validation' => 'required|max:255',
                         'initialValue' => '',
                         'isCanAddField' => false,
