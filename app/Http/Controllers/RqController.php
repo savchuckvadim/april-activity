@@ -13,7 +13,7 @@ class RqController extends Controller
     {
         try {
     
-            $rqs = Agent::all();
+            $rqs = Rq::all();
             return APIController::getResponse(
                 0,
                 'success',
