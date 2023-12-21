@@ -143,9 +143,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return AgentController::getProviders();
     });
 
-    Route::get('rqs/{rqId}', function ($rqId) {
+    Route::get('rqs', function () {
 
-        return RqController::getRqs($rqId);
+        return RqController::getRqs();
     });
 
     Route::get('provider/{providerId}', function ($providerId) {
@@ -153,9 +153,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return AgentController::getProviders($providerId);
     });
 
-    Route::get('rq', function () {
+    Route::get('rq/{rqId}', function ($rqId) {
 
-        return RqController::getRqs();
+        return RqController::getRq($rqId);
     });
    
 
