@@ -62,7 +62,7 @@ class TemplateController extends Controller
             '$comePortals' => $comePortals,
             'templates' => $result,
             'portals' =>  $portals,
-            '$searchingTemplateFields' =>$searchingTemplateFields,
+            '$searchingTemplateFields' => $searchingTemplateFields,
             '$generalFields' => $generalFields
         ]);
     }
@@ -92,7 +92,7 @@ class TemplateController extends Controller
         ]);
     }
 
-    public static function initialTemplate($domain,  $type, $name)
+    public static function initialTemplate($domain)
     {
 
         // создает новый template 
@@ -111,19 +111,13 @@ class TemplateController extends Controller
         // $template['name'] = $name;
         // $uid = Uuid::uuid4()->toString();
         // $template['code'] = $domain . '' . '' . $type . '' . $uid;
-        $generalFields = Field::where('isGeneral', true)->get();
-        $generalFieldsCollection = new FieldCollection($generalFields);
+        // $generalFields = Field::where('isGeneral', true)->get();
+        // $generalFieldsCollection = new FieldCollection($generalFields);
         // $template->save();
 
         // $templates = Template::get();
-
-        return response([
-            'resultCode' => 0,
-            'generalFields' => $generalFieldsCollection,
-            // 'template' => $template,
-            // 'templates' => $templates,
-            'message' => ''
-        ]);
+        $data = Template::getForm();
+        return APIController::getResponse(0, 'success', $data);
         // } else {
         //     return response([
         //         'resultCode' => 1,

@@ -193,11 +193,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     //initial
-    Route::post('template/initial', function (Request $request) {
-        $domain  = $request->input('domain');
-        $type  = $request->input('type');
-        $name  = $request->input('name');
-        return TemplateController::initialTemplate($domain,  $type, $name);
+    Route::get('initial/template', function (Request $request) {
+        $domain = $request->query('domain');
+
+        return TemplateController::initialTemplate($domain);
     });
 
     Route::post('template/set', function (Request $request) {
