@@ -49,6 +49,7 @@ class PortalController extends Controller
             return response([
                 'resultCode' => 0,
                 'message' => 'success',
+                '$number' => $number,
                 'portal' => [
                     'id' => $portal->id,
                     'number' => $portal->number,
