@@ -132,13 +132,13 @@ class PortalController extends Controller
                     'number' => $portal->number,
                     'domain' => $portal->domain,
                     'key' => $portal->key,
-                    'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
-                    'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
-                    'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
-                    // 'key' => $portal->getKey(),
-                    // 'C_REST_CLIENT_ID' => $portal->getClientId(),
-                    // 'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                    // 'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+                    // 'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
+                    // 'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
+                    // 'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
+                    'key' => $portal->getKey(),
+                    'C_REST_CLIENT_ID' => $portal->getClientId(),
+                    'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                    'C_REST_WEB_HOOK_URL' => $portal->getHook(),
                 ]
 
             ]
