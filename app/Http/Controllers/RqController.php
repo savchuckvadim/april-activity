@@ -17,7 +17,7 @@ class RqController extends Controller
             return APIController::getResponse(
                 0,
                 'success',
-                ['providers' => $rqs]
+                ['rqs' => $rqs]
             );
         } catch (\Throwable $th) {
             return APIController::getResponse(
