@@ -79,8 +79,8 @@ class Portal extends Model
                     ],
                     [
                         'title' => 'Домен',
-                        'name' => 'number',
-                        'apiName' => 'number',
+                        'name' => 'domain',
+                        'apiName' => 'domain',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
                         'initialValue' => '',
