@@ -116,7 +116,10 @@ class TemplateController extends Controller
         // $template->save();
 
         // $templates = Template::get();
-        $data = Template::getForm();
+        $initialData = Template::getForm();
+        $data = [
+            'initial' => $initialData
+        ];
         return APIController::getResponse(0, 'success', $data);
         // } else {
         //     return response([
