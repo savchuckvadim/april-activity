@@ -120,7 +120,7 @@ class Template extends Model
                         'title' => 'Домен',
                         'name' => 'domain',
                         'apiName' => 'domain',
-                        'type' =>  'selectApi',
+                        'type' =>  'string',
                         'getSelect' => 'portals',
                         'dependOf' => null,
                         'validation' => 'required|max:255',
@@ -129,19 +129,19 @@ class Template extends Model
                         'isCanAddField' => false,
 
                     ],
-                    [
-                        'title' => 'Реквизиты',
-                        'name' => 'domain',
-                        'apiName' => 'domain',
-                        'type' =>  'selectApi',
-                        'getSelect' => 'rqs',
-                        'validation' => 'required|max:255',
-                        'initialValue' => '',
-                        'dependOf' => ['domain'],
+                    // [
+                    //     'title' => 'Реквизиты',
+                    //     'name' => 'domain',
+                    //     'apiName' => 'domain',
+                    //     'type' =>  'selectApi',
+                    //     'getSelect' => 'rqs',
+                    //     'validation' => 'required|max:255',
+                    //     'initialValue' => '',
+                    //     'dependOf' => ['domain'],
 
-                        'isCanAddField' => false,
+                    //     'isCanAddField' => false,
 
-                    ],
+                    // ],
 
                 ]
             ],
