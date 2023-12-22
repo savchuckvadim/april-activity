@@ -180,7 +180,7 @@ class Field extends Model
                             'title' => 'Место в шаблоне',
                             'name' => 'isActive',
                             'apiName' => 'isActive',
-                            'type' =>  'boolean',
+                            'type' =>  'string',
                             'validation' => '',
                             'initialValue' => false,
                             'isCanAddField' => false,
