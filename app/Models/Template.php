@@ -93,19 +93,20 @@ class Template extends Model
                 'type' => 'template',
                 'isCanAddField' => true,
                 'isCanDeleteField' => true,
-                'fields' =>
+                'fields' => [
 
-                [
-                    'title' => 'Поле шаблона',
-                    'name' => 'field',
-                    'apiName' => 'field',
-                    'type' =>  'entity',   //имеет возможность создавать модели и связывать их с создаваемой сущностью
-                    'validation' => '',
-                    'initialValue' => Field::getForm(),
-                    'isCanAddField' => true,
-                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                    [
+                        'title' => 'Поле шаблона',
+                        'name' => 'field',
+                        'apiName' => 'field',
+                        'type' =>  'entity',   //имеет возможность создавать модели и связывать их с создаваемой сущностью
+                        'validation' => '',
+                        'initialValue' => Field::getForm(),
+                        'isCanAddField' => true,
+                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
-                ],
+                    ],
+                ]
 
             ],
             [
