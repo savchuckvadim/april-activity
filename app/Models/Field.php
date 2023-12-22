@@ -145,7 +145,7 @@ class Field extends Model
                             'apiName' => 'value',
                             'type' =>  'string',
                             'validation' => '',
-                            'initialValue' => false,
+                            'initialValue' => '',
                             'isCanAddField' => false,
 
                         ],
