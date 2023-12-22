@@ -60,32 +60,33 @@ class Template extends Model
                 'type' => 'template',
                 'isCanAddField' => true,
                 'isCanDeleteField' => true,
-                'fields' =>
+                'fields' => [
 
-                [
-                    'title' => 'Название шаблона',
-                    'name' => 'name',
-                    'apiName' => 'name',
-                    'type' =>  'string',   
-                    'validation' =>'required|max:255',
-                    'initialValue' => '',
-                    'isCanAddField' => false,
-                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-                    
-                ],
-                
-                [
-                    'title' => 'Тип шаблона',
-                    'name' => 'type',
-                    'apiName' => 'type',
-                    'type' =>  'string',   
-                    'validation' => 'required|max:255',
-                    'initialValue' => 'offer | invoice | contract',
-                    'isCanAddField' => false,
-                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-                    
-                ],
-              
+                    [
+                        'title' => 'Название шаблона',
+                        'name' => 'name',
+                        'apiName' => 'name',
+                        'type' =>  'string',
+                        'validation' => 'required|max:255',
+                        'initialValue' => '',
+                        'isCanAddField' => false,
+                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                    ],
+
+                    [
+                        'title' => 'Тип шаблона',
+                        'name' => 'type',
+                        'apiName' => 'type',
+                        'type' =>  'string',
+                        'validation' => 'required|max:255',
+                        'initialValue' => 'offer | invoice | contract',
+                        'isCanAddField' => false,
+                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                    ],
+                ]
+
             ],
             [
                 'groupName' => 'Поля Шаблона',
@@ -103,9 +104,9 @@ class Template extends Model
                     'initialValue' => Field::getForm(),
                     'isCanAddField' => true,
                     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-                    
+
                 ],
-              
+
             ],
             [
                 'groupName' => 'Портал и реквизиты',
@@ -123,7 +124,7 @@ class Template extends Model
                         'dependOf' => null,
                         'validation' => 'required|max:255',
                         'initialValue' => '',
-                     
+
                         'isCanAddField' => false,
 
                     ],
@@ -136,7 +137,7 @@ class Template extends Model
                         'validation' => 'required|max:255',
                         'initialValue' => '',
                         'dependOf' => ['domain'],
-                    
+
                         'isCanAddField' => false,
 
                     ],
