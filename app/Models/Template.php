@@ -107,6 +107,7 @@ class Template extends Model
                         'initialValue' => Field::getForm(),
                         'isCanAddField' => true,
                         'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                        'fields' => [],
 
                     ],
                 ]
