@@ -63,6 +63,7 @@ class Template extends Model
                 'fields' => [
 
                     [
+                        'id' => 0,
                         'title' => 'Название шаблона',
                         'name' => 'name',
                         'apiName' => 'name',
@@ -75,6 +76,7 @@ class Template extends Model
                     ],
 
                     [
+                        'id' => 1,
                         'title' => 'Тип шаблона',
                         'name' => 'type',
                         'apiName' => 'type',
@@ -96,6 +98,7 @@ class Template extends Model
                 'fields' => [
 
                     [
+                        'id' => 0,
                         'title' => 'Поле шаблона',
                         'name' => 'field',
                         'apiName' => 'field',
@@ -117,6 +120,7 @@ class Template extends Model
                 'fields' => [
 
                     [
+                        'id' => 0,
                         'title' => 'Домен',
                         'name' => 'domain',
                         'apiName' => 'domain',
