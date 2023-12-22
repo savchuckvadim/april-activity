@@ -194,6 +194,15 @@ class Field extends Model
                             'initialValue' => false,
                             'isCanAddField' => false,
                         ],
+                        [
+                            'title' => 'Картинка',
+                            'name' => 'img',
+                            'apiName' => 'img',
+                            'type' =>  'img',
+                            'validation' => '',
+                            'initialValue' => false,
+                            'isCanAddField' => false,
+                        ],
                     ]
                 ],
             ];
