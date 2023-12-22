@@ -177,7 +177,7 @@ class Field extends Model
                             'isCanAddField' => false,
                         ],
                         [
-                            'title' => 'Место в шаблоне',
+                            'title' => 'Поле активно ',
                             'name' => 'isActive',
                             'apiName' => 'isActive',
                             'type' =>  'string',
