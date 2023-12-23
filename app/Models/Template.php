@@ -92,7 +92,7 @@ class Template extends Model
             ],
             [
                 'groupName' => 'Поля Шаблона',
-                'type' => 'template',
+                'type' => 'entities',
                 'isCanAddField' => true,
                 'isCanDeleteField' => true,
                 'initialField' => 
