@@ -100,11 +100,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return PortalController::getPortal($domain);
     });
     Route::get('portal/{portalId}', function ($portalId) {
-       
+
         return PortalController::getPortalById($portalId);
     });
     Route::delete('portal/{portalId}', function ($portalId) {
-       
+
         return PortalController::deletePortal($portalId);
     });
     Route::get('portals', function () {
@@ -122,7 +122,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
 
     Route::get('initial/portal', function () {
-       
+
         return PortalController::getInitial();
     });
 
@@ -157,7 +157,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return RqController::getRq($rqId);
     });
-   
+
 
 
 
@@ -201,6 +201,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     //get collections
+    Route::get('templates', function () {
+        return TemplateController::getAllTemplates();
+    });
+
+
     Route::get('templates/{domain}', function ($domain) {
         return TemplateController::getTemplates($domain);
     });
@@ -315,7 +320,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $data  = $request->input('data');
         // $templateId  = $data('templateId');
         $template  = $data['template'];
-  
+
         $domain  =  $template['portal'];
         $userId  = $data['userId'];
         $price  = $data['price'];
@@ -325,9 +330,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $recipient  = $data['recipient'];
 
         $result = FileController::getDocument(
-            $template, 
-            $domain, 
-            $userId, 
+            $template,
+            $domain,
+            $userId,
             $price,
             $infoblocks,
             $provider,
@@ -337,7 +342,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // $resultName = inflectName($word, $wordCase);
 
         return $result;
-
     });
 
 
@@ -384,7 +388,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'infogroups' =>  $infogroups
         ]);
     });
-    
+
     Route::get('infoblocks', function () {
         $infoblocks  = Infoblock::all();
         return response([

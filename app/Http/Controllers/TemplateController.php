@@ -91,6 +91,22 @@ class TemplateController extends Controller
             'isCollection' => true,
         ]);
     }
+    public static function getAllTemplates()
+    {
+        try {
+            $templates = [];
+            $templates = Template::all();
+            $templatesCollection = new TemplateCollection($templates);
+            return APIController::getResponse(0, 'success', $templatesCollection);
+        } catch (\Throwable $th) {
+            $templates = [];
+            $templates = Template::all();
+            $templatesCollection = new TemplateCollection($templates);
+
+            return APIController::getResponse(1, $th->getMessage(), 0);
+        }
+    }
+
 
     public static function initialTemplate($domain)
     {
@@ -234,6 +250,7 @@ class TemplateController extends Controller
             ]);
         }
     }
+
 
 
 
