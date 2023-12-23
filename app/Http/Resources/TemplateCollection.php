@@ -24,7 +24,7 @@ class TemplateCollection extends ResourceCollection
 
         return [
             'totalCount' =>  $this->collection->count(),
-            'data' => $data,
+            'templates' => $data,
 
         ];
     }
