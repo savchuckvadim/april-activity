@@ -138,7 +138,7 @@ class Template extends Model
                             'isCanAddField' => false,
 
                         ],
-                        'relations' => [],
+                        
                         // [
                         //     'title' => 'Реквизиты',
                         //     'name' => 'domain',
@@ -153,7 +153,8 @@ class Template extends Model
 
                         // ],
 
-                    ]
+                        ],
+                        'relations' => [],
                 ]
             ]
         ];
