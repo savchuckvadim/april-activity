@@ -90,7 +90,8 @@ class Template extends Model
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
-                    ]
+                    ],
+                    'relations' => [],
 
                 ],
                 [
@@ -137,6 +138,7 @@ class Template extends Model
                             'isCanAddField' => false,
 
                         ],
+                        'relations' => [],
                         // [
                         //     'title' => 'Реквизиты',
                         //     'name' => 'domain',

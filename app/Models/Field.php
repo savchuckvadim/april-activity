@@ -206,7 +206,8 @@ class Field extends Model
                         'initialValue' => false,
                         'isCanAddField' => false,
                     ],
-                ]
+                ],
+                'relations' => [],
             ]]
         ];
     }
