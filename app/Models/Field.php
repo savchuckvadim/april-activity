@@ -45,9 +45,11 @@ class Field extends Model
         return [
             'apiName' => 'field',
             'title' => 'Поля Шаблона Документа',
+            'entityType' => 'entity',
             'groups' =>
             [[
                 'groupName' => 'Создание портала',
+                'entityType' => 'group',
                 // 'type' => 'portal',
                 'isCanAddField' => false,
                 'isCanDeleteField' => false, //нельзя удалить ни одно из инициальзационных fields
@@ -55,6 +57,7 @@ class Field extends Model
                 'fields' => [
                     [
                         'title' => 'Название',
+                        'entityType' => 'field',
                         'name' => 'name',
                         'apiName' => 'name',
                         'type' =>  'string',
@@ -69,6 +72,7 @@ class Field extends Model
                         'name' => 'type',
                         'apiName' => 'type',
                         'type' =>  'select',
+                        'entityType' => 'field',
                         'items' => [
                             [
                                 'id' => 0,
@@ -114,6 +118,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Является общим для всех шаблонов',
+                        'entityType' => 'field',
                         'name' => 'isGeneral',
                         'apiName' => 'isGeneral',
                         'type' =>  'boolean',
@@ -124,6 +129,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Имеет значение по умолчанию',
+                        'entityType' => 'field',
                         'name' => 'isDefault',
                         'apiName' => 'isDefault',
                         'type' =>  'boolean',
@@ -134,6 +140,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Обязательно для заполнения',
+                        'entityType' => 'field',
                         'name' => 'isRequired',
                         'apiName' => 'isRequired',
                         'type' =>  'boolean',
@@ -144,6 +151,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Инициализационное значение',
+                        'entityType' => 'field',
                         'name' => 'value',
                         'apiName' => 'value',
                         'type' =>  'string',
@@ -154,6 +162,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Описание',
+                        'entityType' => 'field',
                         'name' => 'description',
                         'apiName' => 'description',
                         'type' =>  'string',
@@ -163,6 +172,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Id в битриксе',
+                        'entityType' => 'field',
                         'name' => 'bitixId',
                         'apiName' => 'bitixId',
                         'type' =>  'string',
@@ -172,6 +182,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Место в шаблоне',
+                        'entityType' => 'field',
                         'name' => 'bitrixTemplateId',
                         'apiName' => 'bitrixTemplateId',
                         'type' =>  'string',
@@ -181,6 +192,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Поле активно ',
+                        'entityType' => 'field',
                         'name' => 'isActive',
                         'apiName' => 'isActive',
                         'type' =>  'boolean',
@@ -190,6 +202,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Множественное поле',
+                        'entityType' => 'field',
                         'name' => 'isPlural',
                         'apiName' => 'isPlural',
                         'type' =>  'boolean',
@@ -199,6 +212,7 @@ class Field extends Model
                     ],
                     [
                         'title' => 'Картинка',
+                        'entityType' => 'field',
                         'name' => 'img',
                         'apiName' => 'img',
                         'type' =>  'img',

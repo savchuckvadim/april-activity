@@ -57,17 +57,20 @@ class Template extends Model
         return [
             'apiName' => 'template',
             'title' => 'Шаблон Документа',
+            'entityType' => 'entity',
             'groups' => [
                 [
                     'groupName' => 'База',
-                    // 'type' => 'template',
+                    'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
+                    'entityType' => 'group',
                     'fields' => [
 
                         [
                             'id' => 0,
                             'title' => 'Название шаблона',
+                            'entityType' => 'field',
                             'name' => 'name',
                             'apiName' => 'name',
                             'type' =>  'string',
@@ -81,6 +84,7 @@ class Template extends Model
                         [
                             'id' => 1,
                             'title' => 'Тип шаблона',
+                            'entityType' => 'field',
                             'name' => 'type',
                             'apiName' => 'type',
                             'type' =>  'string',
@@ -96,6 +100,7 @@ class Template extends Model
                 ],
                 [
                     'groupName' => 'Поля Шаблона',
+                    'entityType' => 'group',
                     // 'type' => 'entities',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
@@ -119,6 +124,8 @@ class Template extends Model
                 ],
                 [
                     'groupName' => 'Портал и реквизиты',
+                    'entityType' => 'group',
+                    
                     // 'type' => 'template',
                     'isCanAddField' => false,
                     'isCanDeleteField' => false,
@@ -127,6 +134,7 @@ class Template extends Model
                         [
                             'id' => 0,
                             'title' => 'Домен',
+                            'entityType' => 'field',
                             'name' => 'domain',
                             'apiName' => 'domain',
                             'type' =>  'string',
