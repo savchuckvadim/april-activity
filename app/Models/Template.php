@@ -55,62 +55,50 @@ class Template extends Model
     {
 
         return [
-            [
-                'groupName' => 'База',
-                'type' => 'template',
-                'isCanAddField' => true,
-                'isCanDeleteField' => true,
-                'fields' => [
+            'apiName' => 'template',
+            'title' => 'Шаблон Документа',
+            'groups' => [
+                [
+                    'groupName' => 'База',
+                    // 'type' => 'template',
+                    'isCanAddField' => true,
+                    'isCanDeleteField' => true,
+                    'fields' => [
 
-                    [
-                        'id' => 0,
-                        'title' => 'Название шаблона',
-                        'name' => 'name',
-                        'apiName' => 'name',
-                        'type' =>  'string',
-                        'validation' => 'required|max:255',
-                        'initialValue' => '',
-                        'isCanAddField' => false,
-                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                        [
+                            'id' => 0,
+                            'title' => 'Название шаблона',
+                            'name' => 'name',
+                            'apiName' => 'name',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
-                    ],
+                        ],
 
-                    [
-                        'id' => 1,
-                        'title' => 'Тип шаблона',
-                        'name' => 'type',
-                        'apiName' => 'type',
-                        'type' =>  'string',
-                        'validation' => 'required|max:255',
-                        'initialValue' => 'offer | invoice | contract',
-                        'isCanAddField' => false,
-                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                        [
+                            'id' => 1,
+                            'title' => 'Тип шаблона',
+                            'name' => 'type',
+                            'apiName' => 'type',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => 'offer | invoice | contract',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
-                    ],
-                ]
+                        ],
+                    ]
 
-            ],
-            [
-                'groupName' => 'Поля Шаблона',
-                'type' => 'entities',
-                'isCanAddField' => true,
-                'isCanDeleteField' => true,
-                'initialField' => 
-                    [
-                        'id' => 0,
-                        'title' => 'Поле шаблона',
-                        'name' => 'field',
-                        'apiName' => 'field',
-                        'type' =>  'entity',   //имеет возможность создавать модели и связывать их с создаваемой сущностью
-                        'validation' => '',
-                        'initialValue' => Field::getForm(),
-                        'isCanAddField' => true,
-                        'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-                        'fields' => [],
-
-                    ],
-                'fields' => [
-
+                ],
+                [
+                    'groupName' => 'Поля Шаблона',
+                    // 'type' => 'entities',
+                    'isCanAddField' => true,
+                    'isCanDeleteField' => true,
+                    // 'initialField' =>
                     // [
                     //     'id' => 0,
                     //     'title' => 'Поле шаблона',
@@ -124,46 +112,48 @@ class Template extends Model
                     //     'fields' => [],
 
                     // ],
+                    'relations' => [Field::getForm()],
+                    'fields' => []
+
+                ],
+                [
+                    'groupName' => 'Портал и реквизиты',
+                    // 'type' => 'template',
+                    'isCanAddField' => false,
+                    'isCanDeleteField' => false,
+                    'fields' => [
+
+                        [
+                            'id' => 0,
+                            'title' => 'Домен',
+                            'name' => 'domain',
+                            'apiName' => 'domain',
+                            'type' =>  'string',
+                            'getSelect' => 'portals',
+                            'dependOf' => null,
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+
+                            'isCanAddField' => false,
+
+                        ],
+                        // [
+                        //     'title' => 'Реквизиты',
+                        //     'name' => 'domain',
+                        //     'apiName' => 'domain',
+                        //     'type' =>  'selectApi',
+                        //     'getSelect' => 'rqs',
+                        //     'validation' => 'required|max:255',
+                        //     'initialValue' => '',
+                        //     'dependOf' => ['domain'],
+
+                        //     'isCanAddField' => false,
+
+                        // ],
+
+                    ]
                 ]
-
-            ],
-            [
-                'groupName' => 'Портал и реквизиты',
-                'type' => 'template',
-                'isCanAddField' => false,
-                'isCanDeleteField' => false,
-                'fields' => [
-
-                    [
-                        'id' => 0,
-                        'title' => 'Домен',
-                        'name' => 'domain',
-                        'apiName' => 'domain',
-                        'type' =>  'string',
-                        'getSelect' => 'portals',
-                        'dependOf' => null,
-                        'validation' => 'required|max:255',
-                        'initialValue' => '',
-
-                        'isCanAddField' => false,
-
-                    ],
-                    // [
-                    //     'title' => 'Реквизиты',
-                    //     'name' => 'domain',
-                    //     'apiName' => 'domain',
-                    //     'type' =>  'selectApi',
-                    //     'getSelect' => 'rqs',
-                    //     'validation' => 'required|max:255',
-                    //     'initialValue' => '',
-                    //     'dependOf' => ['domain'],
-
-                    //     'isCanAddField' => false,
-
-                    // ],
-
-                ]
-            ],
+            ]
         ];
     }
 }
