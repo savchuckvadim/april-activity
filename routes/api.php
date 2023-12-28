@@ -249,8 +249,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         Log::info('in_middle', ['in_middle' => $request->all()]);
         $relationsData = $request->input('relations');
         return response([
-            '$domain' => $domain,
-            ' $relationsData' =>  $relationsData,
+            'result'=>[
+                '$domain' => $domain,
+                ' $relationsData' =>  $relationsData,
+            ]
+            
             
         ]);
         // return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
