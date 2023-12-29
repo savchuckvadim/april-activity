@@ -251,11 +251,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
         $fileUrl = null;
+        $test = null;
         foreach ($relationsArray as $key => $relation) {
+            // $key -> Создание портала - масси
             foreach ($relation as $index => $data) {
                 // Обработка каждого элемента в массиве relation
                 // $data - это массив с вашими данными, включая имя, тип и т.д.
-    
+                $test = "relations.$key.$index.img";
                 // Проверка наличия файла
                 if ($request->hasFile("relations.$key.$index.img")) {
                     $file = $request->file("relations.$key.$index.img");
@@ -273,11 +275,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         }
     
         // Возвращаем ответ, например, с подтверждением успешной обработки
-        return response()->json(['message' => 'Данные успешно обработаны']);
+        // return response()->json(['message' => 'Данные успешно обработаны']);
         return response([
             'result'=>[
                 '$domain' => $domain,
                 ' $$fileUrl' =>  $fileUrl,
+                '$test' => $test
             ]
             
             
