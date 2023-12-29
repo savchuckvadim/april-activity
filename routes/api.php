@@ -250,8 +250,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
         Log::info('relationsArray', ['relationsArray' => $relationsArray]);
-        $file1 = $request->file('relations.field[0].img');
-        $file = $request->file('relations.field[0].img[0]');
+        $file1 = $request->file('relations.field.0.img');
+        $file = $request->file('relations.field.0.img.0');
         Log::info('file', ['file' => $file]);
         if (json_last_error() !== JSON_ERROR_NONE) {
             // Ошибка декодирования JSON
