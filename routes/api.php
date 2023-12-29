@@ -247,11 +247,37 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // $file = $request->file('file');
 
         Log::info('in_middle', ['in_middle' => $request->all()]);
+        // $relationsData = $request->input('relations');
         $relationsData = $request->input('relations');
+        $relationsArray = json_decode($relationsData, true);
+        $fileUrl = null;
+        foreach ($relationsArray as $key => $relation) {
+            foreach ($relation as $index => $data) {
+                // Обработка каждого элемента в массиве relation
+                // $data - это массив с вашими данными, включая имя, тип и т.д.
+    
+                // Проверка наличия файла
+                if ($request->hasFile("relations.$key.$index.img")) {
+                    $file = $request->file("relations.$key.$index.img");
+                    // Сохранение файла и получение пути
+                    $filePath = $file->store('public/images');
+                    $fileUrl = Storage::url($filePath);
+                    
+                    // Теперь у вас есть URL файла, который можно сохранить вместе с другими данными
+                    // ... (логика сохранения данных)
+                }
+    
+                // Обработка примитивных свойств
+                // ... (логика сохранения данных)
+            }
+        }
+    
+        // Возвращаем ответ, например, с подтверждением успешной обработки
+        return response()->json(['message' => 'Данные успешно обработаны']);
         return response([
             'result'=>[
                 '$domain' => $domain,
-                ' $relationsData' =>  $relationsData,
+                ' $$fileUrl' =>  $fileUrl,
             ]
             
             
