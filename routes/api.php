@@ -250,7 +250,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
         Log::info('relationsArray', ['relationsArray' => $relationsArray]);
-        $file = $request->hasFile('relations.Создание портала[0].img.0');
+        $file = $request->file('relations.Создание портала[0].img.0');
         Log::info('file', ['file' => $file]);
         if (json_last_error() !== JSON_ERROR_NONE) {
             // Ошибка декодирования JSON
@@ -286,15 +286,15 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         // // Возвращаем ответ, например, с подтверждением успешной обработки
         // // return response()->json(['message' => 'Данные успешно обработаны']);
-        // return response([
-        //     'result'=>[
-        //         '$domain' => $domain,
-        //         ' $$fileUrl' =>  $fileUrl,
-        //         '$test' => $test
-        //     ]
+        return response([
+            'result'=>[
+                '$domain' => $domain,
+                ' $$file' =>  $file,
+                '$relationsData' => $relationsData
+            ]
 
 
-        // ]);
+        ]);
         // return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
     });
     // Route::get('templates/{domain}', function ($domain) {
