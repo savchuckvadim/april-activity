@@ -247,44 +247,54 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // $file = $request->file('file');
 
         Log::info('in_middle', ['in_middle' => $request->all()]);
-        // $relationsData = $request->input('relations');
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
-        $fileUrl = null;
-        $test = null;
-        foreach ($relationsArray as $key => $relation) {
-            // $key -> Создание портала - масси
-            foreach ($relation as $index => $data) {
-                // Обработка каждого элемента в массиве relation
-                // $data - это массив с вашими данными, включая имя, тип и т.д.
-                $test = "relations.$key.$index.img";
-                // Проверка наличия файла
-                if ($request->hasFile("relations.$key.$index.img")) {
-                    $file = $request->file("relations.$key.$index.img");
-                    // Сохранение файла и получение пути
-                    $filePath = $file->store('public/images');
-                    $fileUrl = Storage::url($filePath);
-                    
-                    // Теперь у вас есть URL файла, который можно сохранить вместе с другими данными
-                    // ... (логика сохранения данных)
-                }
-    
-                // Обработка примитивных свойств
-                // ... (логика сохранения данных)
-            }
+        Log::info('relationsArray', ['relationsArray' => $relationsArray]);
+
+        
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            // Ошибка декодирования JSON
+            Log::error('JSON decode error: ' . json_last_error_msg());
+            // Обработка ошибки...
         }
-    
-        // Возвращаем ответ, например, с подтверждением успешной обработки
-        // return response()->json(['message' => 'Данные успешно обработаны']);
-        return response([
-            'result'=>[
-                '$domain' => $domain,
-                ' $$fileUrl' =>  $fileUrl,
-                '$test' => $test
-            ]
-            
-            
-        ]);
+        // $relationsData = $request->input('relations');
+        // $relationsData = $request->input('relations');
+        // $relationsArray = json_decode($relationsData, true);
+        // $fileUrl = null;
+        // $test = null;
+        // foreach ($relationsArray as $key => $relation) {
+        //     // $key -> Создание портала - масси
+        //     foreach ($relation as $index => $data) {
+        //         // Обработка каждого элемента в массиве relation
+        //         // $data - это массив с вашими данными, включая имя, тип и т.д.
+        //         $test = "relations.$key.$index.img";
+        //         // Проверка наличия файла
+        //         if ($request->hasFile("relations.$key.$index.img")) {
+        //             $file = $request->file("relations.$key.$index.img");
+        //             // Сохранение файла и получение пути
+        //             $filePath = $file->store('public/images');
+        //             $fileUrl = Storage::url($filePath);
+
+        //             // Теперь у вас есть URL файла, который можно сохранить вместе с другими данными
+        //             // ... (логика сохранения данных)
+        //         }
+
+        //         // Обработка примитивных свойств
+        //         // ... (логика сохранения данных)
+        //     }
+        // }
+
+        // // Возвращаем ответ, например, с подтверждением успешной обработки
+        // // return response()->json(['message' => 'Данные успешно обработаны']);
+        // return response([
+        //     'result'=>[
+        //         '$domain' => $domain,
+        //         ' $$fileUrl' =>  $fileUrl,
+        //         '$test' => $test
+        //     ]
+
+
+        // ]);
         // return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
     });
     // Route::get('templates/{domain}', function ($domain) {
