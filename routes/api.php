@@ -256,26 +256,20 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relations = [];
 
         foreach ($request->all() as $key => $value) {
-            // Проверяем, начинается ли ключ с 'relations_'
             if (strpos($key, 'relations_') === 0) {
-                // Разбиваем ключ для получения компонентов
                 $parts = explode('_', $key);
-
-                // Удаляем первый элемент ('relations'), так как он нам уже известен
-                array_shift($parts);
-
-                // Далее обрабатываем оставшиеся части ключа в соответствии с вашей логикой
-                // Например, $parts может содержать ['field', '0', 'img', '0']
-                $fieldIndex = $parts[1]; // Получаем индекс поля
-                $property = end($parts); // Получаем последний элемент, например 'img'
-
+                array_shift($parts); // Удаляем 'relations'
+        
+                // Определяем индекс поля и свойство
+                $fieldIndex = $parts[1];
+                $property = $parts[2];
+        
                 if ($property === 'img' && is_a($value, 'Illuminate\Http\UploadedFile')) {
-                    // Это файл, обрабатываем его
+                    // Обработка файла
                     $filePath = $value->store('путь/для/сохранения');
-                    // Сохраняем путь или URL файла
-                    $relations['field'][$fieldIndex]['img'] = Storage::url($filePath);
+                    $relations['field'][$fieldIndex][$property] = Storage::url($filePath);
                 } else {
-                    // Для других типов данных
+                    // Обработка других данных
                     $relations['field'][$fieldIndex][$property] = $value;
                 }
             }
