@@ -10,7 +10,8 @@ use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
+
 
 class TemplateController extends Controller
 {
@@ -235,7 +236,7 @@ class TemplateController extends Controller
         $template = new Template();
         $template->name = $name;
         $template->type = $type;
-
+        $template->code = Str::uuid()->toString();
         // Находим портал по домену и связываем
         $portal = Portal::where('domain', $domain)->first();
         if ($portal) {
