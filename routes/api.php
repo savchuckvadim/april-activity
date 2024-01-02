@@ -241,8 +241,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
     Route::post('test/template', function (Request $request) {
         $domain  = $request->input('domain');
-        // $type  = $request->input('type');
-        // $name  = $request->input('name');
+        $type  = $request->input('type');
+        $name  = $request->input('name');
         // $fieldIds  = $request->input('fieldIds');
         // $file = $request->file('file');
 
@@ -251,34 +251,73 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relationsArray = json_decode($relationsData, true);
         Log::info('relationsArray', ['relationsArray' => $relationsArray]);
 
-        $file = $request->file('relations_field_0_img_0');
-        Log::info('file', ['file' => $file]);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            // Ошибка декодирования JSON
-            Log::error('JSON decode error: ' . json_last_error_msg());
-            // Обработка ошибки...
+
+        //RELATIONS
+        $relations = [];
+
+        foreach ($request->all() as $key => $value) {
+            // Проверяем, начинается ли ключ с 'relations_'
+            if (strpos($key, 'relations_') === 0) {
+                // Разбиваем ключ для получения компонентов
+                $parts = explode('_', $key);
+
+                // Удаляем первый элемент ('relations'), так как он нам уже известен
+                array_shift($parts);
+
+                // Далее обрабатываем оставшиеся части ключа в соответствии с вашей логикой
+                // Например, $parts может содержать ['field', '0', 'img', '0']
+                $fieldIndex = $parts[1]; // Получаем индекс поля
+                $property = end($parts); // Получаем последний элемент, например 'img'
+
+                if ($property === 'img' && is_a($value, 'Illuminate\Http\UploadedFile')) {
+                    // Это файл, обрабатываем его
+                    $filePath = $value->store('путь/для/сохранения');
+                    // Сохраняем путь или URL файла
+                    $relations['field'][$fieldIndex]['img'] = Storage::url($filePath);
+                } else {
+                    // Для других типов данных
+                    $relations['field'][$fieldIndex][$property] = $value;
+                }
+            }
         }
-        if ($request->hasFile('relations_field_0_img_0')) {
-            $file = $request->file('relations_field_0_img_0');
 
-            // Сохраняем файл в папке 'public' и получаем путь
-            $filePath = $file->store('public/template/images/test');
-            // Генерируем URL для доступа к файлу
-            $fileUrl = Storage::url($filePath);
-
-            // Теперь $fileUrl содержит URL к файлу, который можно сохранить в базе данных
-        }
-        return response([
-            'result' => [
-                '$domain' => $domain,
-                'fileUrl' => $fileUrl,
-                'file' =>  $file,
-                '$relationsData' => $relationsData
-            ]
+        // Пример обработки полученных данных
+        // foreach ($relations['field'] as $index => $data) {
+        //     // Здесь ваш код для обработки данных, связанных с каждым полем
+        // }
 
 
-        ]);
-        // return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
+        // $relations = $request->file('relations');
+
+        //FILE
+        // $file = $request->file('relations_field_0_img_0');
+        // Log::info('file', ['file' => $file]);
+        // if (json_last_error() !== JSON_ERROR_NONE) {
+        //     // Ошибка декодирования JSON
+        //     Log::error('JSON decode error: ' . json_last_error_msg());
+        //     // Обработка ошибки...
+        // }
+        // if ($request->hasFile('relations_field_0_img_0')) {
+        //     $file = $request->file('relations_field_0_img_0');
+
+        //     // Сохраняем файл в папке 'public' и получаем путь
+        //     $filePath = $file->store('public/template/images/test');
+        //     // Генерируем URL для доступа к файлу
+        //     $fileUrl = Storage::url($filePath);
+
+        //     // Теперь $fileUrl содержит URL к файлу, который можно сохранить в базе данных
+        // }
+        // return response([
+        //     'result' => [
+        //         '$domain' => $domain,
+        //         'fileUrl' => $fileUrl,
+        //         'file' =>  $file,
+        //         '$relationsData' => $relationsData
+        //     ]
+
+
+        // ]);
+        return TemplateController::setTemplate($domain, $type, $name, $relations);
     });
     // Route::get('templates/{domain}', function ($domain) {
     //     return TemplateController::getTemplates($domain);

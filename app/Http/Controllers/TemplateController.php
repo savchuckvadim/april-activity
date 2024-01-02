@@ -151,80 +151,160 @@ class TemplateController extends Controller
     }
 
 
-    public static function setTemplate($domain, $fieldIds, $type, $name, $file)
-    {
+    // public static function setTemplate($domain, $fieldIds, $type, $name, $file)
+    // {
 
-        $template = new Template;
+    //     $template = new Template;
+    //     $domain = json_decode($domain, true);
+    //     $type = json_decode($type, true);
+    //     $name = json_decode($name, true);
+
+
+    //     $portal = Portal::where('domain', $domain)->first();
+
+    //     $template['name'] = $name;
+    //     $template['type'] = $type;
+    //     $uid = Uuid::uuid4()->toString();
+    //     $template['code'] = $domain . '' . '' . $type . '' . $uid;
+
+
+    //     if ($portal) {
+    //         $template['portalId'] = $portal->id;
+    //     } else {
+    //         return response([
+    //             'resultCode' => 1,
+    //             'message' => 'something wrong with portal',
+    //             '$portal' => $portal,
+    //             '$domain' => $domain
+
+    //         ]);
+    //     }
+
+    //     $template->save();
+
+    //     $fieldIds = json_decode($fieldIds, true);
+
+    //     if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
+    //         $length = count($fieldIds);
+    //         if (!$length) {
+
+    //             $fieldIds = Field::where('isGeneral', true)->pluck('id');
+    //         }
+    //         $template->fields()->attach($fieldIds);
+    //     } else {
+    //         return response([
+    //             'resultCode' => 1,
+    //             'message' => 'something wrong with fields ids'
+
+    //         ]);
+    //     }
+    //     $fields = $template->fields;
+    //     $domain = $template->portal->domain;
+    //     $type = $template->type;
+    //     $name = $template->name;
+
+    //     $uploadFile = FileController::uploadTemplate($file, $domain, $type, $name);
+    //     $template['link'] =  $uploadFile['file'];
+    //     $template->save();
+    //     $templates = Template::get();
+
+
+
+
+    //     return response([
+    //         'resultCode' => 0,
+    //         'fields' => $fields,
+    //         'templates' => $templates,
+    //         'template' => $template,
+    //         '$template->fields();' =>  $fields,
+    //         '$template->portal();' =>  $domain,
+    //         '$type= $template->type;' =>  $type,
+    //         '$name= $template->name;' =>  $name,
+    //         '$uploadFile' => $uploadFile,
+    //         '$portal' =>  $portal
+    //     ]);
+    // }
+    public static function setTemplate($domain, $type, $name, $relations)
+    {
+        //name
+        //type inovoice | offer | contract | report
+        // relations -> field as Array field->formData
+        //domain
+
+        // $template = new Template;
         $domain = json_decode($domain, true);
         $type = json_decode($type, true);
         $name = json_decode($name, true);
 
 
-        $portal = Portal::where('domain', $domain)->first();
+        // $portal = Portal::where('domain', $domain)->first();
 
-        $template['name'] = $name;
-        $template['type'] = $type;
-        $uid = Uuid::uuid4()->toString();
-        $template['code'] = $domain . '' . '' . $type . '' . $uid;
+        // $template['name'] = $name;
+        // $template['type'] = $type;
+        // $uid = Uuid::uuid4()->toString();
+        // $template['code'] = $domain . '' . '' . $type . '' . $uid;
 
 
-        if ($portal) {
-            $template['portalId'] = $portal->id;
-        } else {
-            return response([
-                'resultCode' => 1,
-                'message' => 'something wrong with portal',
-                '$portal' => $portal,
-                '$domain' => $domain
+        // if ($portal) {
+        //     $template['portalId'] = $portal->id;
+        // } else {
+        //     return response([
+        //         'resultCode' => 1,
+        //         'message' => 'something wrong with portal',
+        //         '$portal' => $portal,
+        //         '$domain' => $domain
 
-            ]);
-        }
+        //     ]);
+        // }
 
-        $template->save();
+        // $template->save();
 
-        $fieldIds = json_decode($fieldIds, true);
+      
 
-        if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
-            $length = count($fieldIds);
-            if (!$length) {
+        // if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
+        //     $length = count($fieldIds);
+        //     if (!$length) {
 
-                $fieldIds = Field::where('isGeneral', true)->pluck('id');
-            }
-            $template->fields()->attach($fieldIds);
-        } else {
-            return response([
-                'resultCode' => 1,
-                'message' => 'something wrong with fields ids'
+        //         $fieldIds = Field::where('isGeneral', true)->pluck('id');
+        //     }
+        //     $template->fields()->attach($fieldIds);
+        // } else {
+        //     return response([
+        //         'resultCode' => 1,
+        //         'message' => 'something wrong with fields ids'
 
-            ]);
-        }
-        $fields = $template->fields;
-        $domain = $template->portal->domain;
-        $type = $template->type;
-        $name = $template->name;
+        //     ]);
+        // }
+        // $fields = $template->fields;
+        // $domain = $template->portal->domain;
+        // $type = $template->type;
+        // $name = $template->name;
 
-        $uploadFile = FileController::uploadTemplate($file, $domain, $type, $name);
-        $template['link'] =  $uploadFile['file'];
-        $template->save();
-        $templates = Template::get();
+        // $uploadFile = FileController::uploadTemplate($file, $domain, $type, $name);
+        // $template['link'] =  $uploadFile['file'];
+        // $template->save();
+        // $templates = Template::get();
 
 
 
 
         return response([
             'resultCode' => 0,
-            'fields' => $fields,
-            'templates' => $templates,
-            'template' => $template,
-            '$template->fields();' =>  $fields,
-            '$template->portal();' =>  $domain,
-            '$type= $template->type;' =>  $type,
-            '$name= $template->name;' =>  $name,
-            '$uploadFile' => $uploadFile,
-            '$portal' =>  $portal
+            'type' => $type,
+            'name' => $name,
+            'relations' => $relations,
+            'domain' => $domain,
+            // 'fields' => $fields,
+            // 'templates' => $templates,
+            // 'template' => $template,
+            // '$template->fields();' =>  $fields,
+            // '$template->portal();' =>  $domain,
+            // '$type= $template->type;' =>  $type,
+            // '$name= $template->name;' =>  $name,
+            // '$uploadFile' => $uploadFile,
+            // '$portal' =>  $portal
         ]);
     }
-
     public static function deleteTemplate($templateId)
     {
         // Найти шаблон по ID
