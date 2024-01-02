@@ -236,7 +236,7 @@ class TemplateController extends Controller
         $template = new Template();
         $template->name = $name;
         $template->type = $type;
-      
+
         $template->code = Str::uuid()->toString();
         // Находим портал по домену и связываем
         $portal = Portal::where('domain', $domain)->first();
@@ -416,6 +416,7 @@ class TemplateController extends Controller
             $field->value = Storage::url($filePath);
         }
         $field->number = 0;
+        $field->code = 'field.' . Str::uuid()->toString();
         $field->save();
 
         return $field;
