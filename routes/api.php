@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Models\User;
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -266,7 +267,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         
                 if ($property === 'img' && is_a($value, 'Illuminate\Http\UploadedFile')) {
                     // Обработка файла
-                    $filePath = $value->store('путь/для/сохранения');
+                    $filePath = $value->store('public/template/images/test');
                     $relations['field'][$fieldIndex][$property] = Storage::url($filePath);
                 } else {
                     // Обработка других данных
