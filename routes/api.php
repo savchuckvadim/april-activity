@@ -250,7 +250,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
         Log::info('relationsArray', ['relationsArray' => $relationsArray]);
-        $file1 = $request->file('relations_img_0');
+
         $file = $request->file('relations_field_0_img_0');
         Log::info('file', ['file' => $file]);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -258,11 +258,20 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             Log::error('JSON decode error: ' . json_last_error_msg());
             // Обработка ошибки...
         }
-      
+        if ($request->hasFile('relations_field_0_img_0')) {
+            $file = $request->file('relations_field_0_img_0');
+
+            // Сохраняем файл в папке 'public' и получаем путь
+            $filePath = $file->store('public/template/images/test');
+            // Генерируем URL для доступа к файлу
+            $fileUrl = Storage::url($filePath);
+
+            // Теперь $fileUrl содержит URL к файлу, который можно сохранить в базе данных
+        }
         return response([
-            'result'=>[
+            'result' => [
                 '$domain' => $domain,
-                '$file1' => $file1,
+                'fileUrl' => $fileUrl,
                 'file' =>  $file,
                 '$relationsData' => $relationsData
             ]
