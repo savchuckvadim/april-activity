@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FieldCollection;
 use App\Http\Resources\TemplateCollection;
+use App\Http\Resources\TemplateResource;
 use App\Models\Field;
 use App\Models\Portal;
 use App\Models\Template;
@@ -151,7 +152,24 @@ class TemplateController extends Controller
         //     ]);
         // }
     }
+    public static function getTemplate($templateId)
+    {
+        try {
+       
+            $template = Template::find($templateId);
+            $templateResource = new TemplateResource($template);
+            if($template){
+                return APIController::getResponse(0, 'success', $templateResource);
+            }else{
+                return APIController::getResponse(1, 'Template not found', $templateResource);
+            }
+            
+        } catch (\Throwable $th) {
+ 
 
+            return APIController::getResponse(1, $th->getMessage(), null);
+        }
+    }
 
     // public static function setTemplate($domain, $fieldIds, $type, $name, $file)
     // {
