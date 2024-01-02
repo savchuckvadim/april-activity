@@ -7,8 +7,9 @@ use App\Http\Resources\TemplateCollection;
 use App\Models\Field;
 use App\Models\Portal;
 use App\Models\Template;
-
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
 class TemplateController extends Controller
@@ -232,10 +233,21 @@ class TemplateController extends Controller
         //domain
 
         // $template = new Template;
-        $domain = json_decode($domain, true);
-        $type = json_decode($type, true);
-        $name = json_decode($name, true);
+        // $domain = json_decode($domain, true);
+        // $type = json_decode($type, true);
+        // $name = json_decode($name, true);
+        // foreach ($relations['field'] as $index => $data) {
+        //     if (isset($data['img']) && $data['img'] instanceof UploadedFile) {
+        //         // Сохраняем файл
+        //         $filePath = $data['img']->store('public/template/images/test/' . $domain . '/' . $type . '/' . $name);
+        //         $fileUrl = Storage::url($filePath);
 
+        //         // Обновляем значение img до URL
+        //         $data['img'] = $fileUrl;
+        //     }
+
+        //     // Здесь ваша логика для создания/обновления модели с данными $data
+        // }
 
         // $portal = Portal::where('domain', $domain)->first();
 
@@ -259,7 +271,7 @@ class TemplateController extends Controller
 
         // $template->save();
 
-      
+
 
         // if (json_last_error() === JSON_ERROR_NONE && is_array($fieldIds)) {
         //     $length = count($fieldIds);

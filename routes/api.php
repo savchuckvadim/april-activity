@@ -261,16 +261,14 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
                 $parts = explode('_', $key);
                 array_shift($parts); // Удаляем 'relations'
         
-                // Определяем индекс поля и свойство
                 $fieldIndex = $parts[1];
                 $property = $parts[2];
         
                 if ($property === 'img' && is_a($value, 'Illuminate\Http\UploadedFile')) {
-                    // Обработка файла
-                    $filePath = $value->store('public/template/images/test');
-                    $relations['field'][$fieldIndex][$property] = Storage::url($filePath);
+                    // Вместо сохранения файла, сохраняем объект UploadedFile
+                    $relations['field'][$fieldIndex][$property] = $value;
                 } else {
-                    // Обработка других данных
+                    // Для других данных просто сохраняем значение
                     $relations['field'][$fieldIndex][$property] = $value;
                 }
             }
