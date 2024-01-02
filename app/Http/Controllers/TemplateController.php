@@ -411,7 +411,7 @@ class TemplateController extends Controller
 
         // Если это поле с изображением, сохраняем файл и устанавливаем initialValue
         if (isset($fieldData['img']) && $fieldData['img'] instanceof UploadedFile) {
-            $filePath = $fieldData['img']->store('public/images');
+            $filePath = $fieldData['img']->store('public/template/images/test');
             $field->initialValue = Storage::url($filePath);
         }
 
