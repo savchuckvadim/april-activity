@@ -343,23 +343,39 @@ class TemplateController extends Controller
 
     public static function deleteTemplate($templateId)
     {
-        // Найти шаблон по ID
         $template = Template::find($templateId);
 
         if ($template) {
-            // Удалить все связи с полями
+            // Получаем все связанные поля
+            $fields = $template->fields()->get();
+
+            foreach ($fields as $field) {
+                // Если тип поля - img и в value хранится путь к файлу
+                if ($field->type === 'img' && !empty($field->value)) {
+                    // Удаляем файл
+                    $file = public_path($field->value);
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+
+                // Удаление поля
+                $field->delete();
+            }
+
+            // Удаляем все связи с полями
             $template->fields()->detach();
 
             // Удалить сам шаблон
             $template->delete();
-
-            $templates = Template::get();
             return response([
                 'resultCode' => 0,
-                'templates' => $templates,
+                // 'templates' => $templates,
                 'message' => 'Template and its relations have been deleted successfully',
             ]);
+            // Дополнительный код для ответа...
         } else {
+            // Код для случая, когда шаблон не найден...
             return response([
                 'resultCode' => 1,
                 'message' => 'Template not found',
