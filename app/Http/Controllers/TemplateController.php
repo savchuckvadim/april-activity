@@ -249,7 +249,8 @@ class TemplateController extends Controller
         //     // Здесь ваша логика для создания/обновления модели с данными $data
         // }
 
-        // $portal = Portal::where('domain', $domain)->first();
+        //PORTAL
+        $portal = Portal::where('domain', $domain)->first();
 
         // $template['name'] = $name;
         // $template['type'] = $type;
@@ -306,6 +307,7 @@ class TemplateController extends Controller
             'name' => $name,
             'relations' => $relations,
             'domain' => $domain,
+            'portal' => $portal,
             // 'fields' => $fields,
             // 'templates' => $templates,
             // 'template' => $template,

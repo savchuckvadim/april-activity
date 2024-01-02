@@ -134,20 +134,7 @@ class Template extends Model
 
                         ],
                         
-                        // [
-                        //     'title' => 'Реквизиты',
-                        //     'name' => 'domain',
-                        //     'apiName' => 'domain',
-                        //     'type' =>  'selectApi',
-                        //     'getSelect' => 'rqs',
-                        //     'validation' => 'required|max:255',
-                        //     'initialValue' => '',
-                        //     'dependOf' => ['domain'],
-
-                        //     'isCanAddField' => false,
-
-                        // ],
-
+                  
                         ],
                         'relations' => [],
                 ]
