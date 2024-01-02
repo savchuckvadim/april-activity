@@ -243,14 +243,14 @@ class TemplateController extends Controller
             $template->portal()->associate($portal);
         }
 
-        $template->save();
+        // $template->save();
 
         // Обработка связанных полей
-        $this->processFields($relations['field'], $template);
+        // $this->processFields($relations['field'], $template);
 
         // Дополнительная логика...
 
-        return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
+        return response()->json(['message' => 'relations', 'relations' => $relations]);
         // $template = new Template;
         // $domain = json_decode($domain, true);
         // $type = json_decode($type, true);
