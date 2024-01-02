@@ -225,13 +225,31 @@ class TemplateController extends Controller
     //         '$portal' =>  $portal
     //     ]);
     // }
-    public static function setTemplate($domain, $type, $name, $relations)
+    public function setTemplate($domain, $type, $name, $relations)
     {
         //name
         //type inovoice | offer | contract | report
         // relations -> field as Array field->formData
         //domain
+        // Создаем или находим шаблон
+        $template = new Template();
+        $template->name = $name;
+        $template->type = $type;
 
+        // Находим портал по домену и связываем
+        $portal = Portal::where('domain', $domain)->first();
+        if ($portal) {
+            $template->portal()->associate($portal);
+        }
+
+        $template->save();
+
+        // Обработка связанных полей
+        $this->processFields($relations['field'], $template);
+
+        // Дополнительная логика...
+
+        return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
         // $template = new Template;
         // $domain = json_decode($domain, true);
         // $type = json_decode($type, true);
@@ -250,7 +268,7 @@ class TemplateController extends Controller
         // }
 
         //PORTAL
-        $portal = Portal::where('domain', $domain)->first();
+        // $portal = Portal::where('domain', $domain)->first();
 
         // $template['name'] = $name;
         // $template['type'] = $type;
@@ -301,24 +319,26 @@ class TemplateController extends Controller
 
 
 
-        return response([
-            'resultCode' => 0,
-            'type' => $type,
-            'name' => $name,
-            'relations' => $relations,
-            'domain' => $domain,
-            'portal' => $portal,
-            // 'fields' => $fields,
-            // 'templates' => $templates,
-            // 'template' => $template,
-            // '$template->fields();' =>  $fields,
-            // '$template->portal();' =>  $domain,
-            // '$type= $template->type;' =>  $type,
-            // '$name= $template->name;' =>  $name,
-            // '$uploadFile' => $uploadFile,
-            // '$portal' =>  $portal
-        ]);
+        // return response([
+        //     'resultCode' => 0,
+        //     'type' => $type,
+        //     'name' => $name,
+        //     'relations' => $relations,
+        //     'domain' => $domain,
+        //     'portal' => $portal,
+        //     // 'fields' => $fields,
+        //     // 'templates' => $templates,
+        //     // 'template' => $template,
+        //     // '$template->fields();' =>  $fields,
+        //     // '$template->portal();' =>  $domain,
+        //     // '$type= $template->type;' =>  $type,
+        //     // '$name= $template->name;' =>  $name,
+        //     // '$uploadFile' => $uploadFile,
+        //     // '$portal' =>  $portal
+        // ]);
     }
+
+
     public static function deleteTemplate($templateId)
     {
         // Найти шаблон по ID
@@ -362,5 +382,40 @@ class TemplateController extends Controller
             'templates' => $templatesResource,
             'isCollection' => true,
         ]);
+    }
+
+
+    //UTILS
+    protected function processFields(array $fields, Template $template)
+    {
+        foreach ($fields as $fieldData) {
+            $field = $this->createOrUpdateField($fieldData);
+
+            // Связываем поле с шаблоном
+            $template->fields()->attach($field->id);
+        }
+    }
+
+    protected function createOrUpdateField(array $fieldData)
+    {
+        $field = new Field();
+
+        // Заполнение полей модели Field данными
+        // Замените это на соответствующий код заполнения
+        foreach ($fieldData as $key => $value) {
+            if ($key !== 'img') {
+                $field->$key = $value;
+            }
+        }
+
+        // Если это поле с изображением, сохраняем файл и устанавливаем initialValue
+        if (isset($fieldData['img']) && $fieldData['img'] instanceof UploadedFile) {
+            $filePath = $fieldData['img']->store('public/images');
+            $field->initialValue = Storage::url($filePath);
+        }
+
+        $field->save();
+
+        return $field;
     }
 }

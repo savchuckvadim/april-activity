@@ -13,7 +13,7 @@ class Template extends Model
         'name',
         'code',
         'type',
-        'link',
+        // 'link',
         'portalId',
 
     ];
