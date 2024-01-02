@@ -59,7 +59,7 @@ class FieldController extends Controller
     {
         $fields = [];
 
-        if ($templateId == 'all') {
+        if ($templateId == 'all' || $templateId == null) {
 
             $fields = Field::all();
         } else  if ($templateId == 'general') {
@@ -79,7 +79,8 @@ class FieldController extends Controller
 
 
     public static function createField(
-        $templateId, $field
+        $templateId,
+        $field
     ) {
         //СОЗДАТЬ  FIELD И ЕГО FITEMS
         //СВЯЗАТЬ С FITEMS И TEMPLATE
@@ -104,13 +105,13 @@ class FieldController extends Controller
 
 
         $data = [
-        
+
             [
                 'name' => 'name',
                 'type' => 'string',
                 'value' => null,
                 'items' => [],
-            
+
             ],
             [
                 'name' => 'type',
@@ -118,8 +119,8 @@ class FieldController extends Controller
                 'value' => null,
                 'items' => []
             ],
-         
-        
+
+
             [
                 'name' => 'value',
                 'type' => 'string',
@@ -132,7 +133,7 @@ class FieldController extends Controller
                 'value' => null,
                 'items' => []
             ],
-           
+
             [
                 'name' => 'bitrixId',
                 'type' => 'string',
@@ -163,14 +164,14 @@ class FieldController extends Controller
                 'value' => null,
                 'items' => []
             ],
-         
+
             [
                 'name' => 'isRequired',
                 'type' => 'boolean',
                 'value' => null,
                 'items' => []
             ],
-           
+
         ];
 
 
