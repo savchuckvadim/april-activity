@@ -233,24 +233,24 @@ class TemplateController extends Controller
         // relations -> field as Array field->formData
         //domain
         // Создаем или находим шаблон
-        $template = new Template();
-        $template->name = $name;
-        $template->type = $type;
-        $template->code = Str::uuid()->toString();
-        // Находим портал по домену и связываем
-        $portal = Portal::where('domain', $domain)->first();
-        if ($portal) {
-            $template->portal()->associate($portal);
-        }
+        // $template = new Template();
+        // $template->name = $name;
+        // $template->type = $type;
+        // $template->code = Str::uuid()->toString();
+        // // Находим портал по домену и связываем
+        // $portal = Portal::where('domain', $domain)->first();
+        // if ($portal) {
+        //     $template->portal()->associate($portal);
+        // }
 
-        $template->save();
+        // $template->save();
 
-        // Обработка связанных полей
-        $this->processFields($relations['field'], $template);
+        // // Обработка связанных полей
+        // $this->processFields($relations['field'], $template);
 
-        // Дополнительная логика...
+        // // Дополнительная логика...
 
-        return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
+        // return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
         // $template = new Template;
         // $domain = json_decode($domain, true);
         // $type = json_decode($type, true);
@@ -269,7 +269,7 @@ class TemplateController extends Controller
         // }
 
         //PORTAL
-        // $portal = Portal::where('domain', $domain)->first();
+        $portal = Portal::where('domain', $domain)->first();
 
         // $template['name'] = $name;
         // $template['type'] = $type;
@@ -320,23 +320,23 @@ class TemplateController extends Controller
 
 
 
-        // return response([
-        //     'resultCode' => 0,
-        //     'type' => $type,
-        //     'name' => $name,
-        //     'relations' => $relations,
-        //     'domain' => $domain,
-        //     'portal' => $portal,
-        //     // 'fields' => $fields,
-        //     // 'templates' => $templates,
-        //     // 'template' => $template,
-        //     // '$template->fields();' =>  $fields,
-        //     // '$template->portal();' =>  $domain,
-        //     // '$type= $template->type;' =>  $type,
-        //     // '$name= $template->name;' =>  $name,
-        //     // '$uploadFile' => $uploadFile,
-        //     // '$portal' =>  $portal
-        // ]);
+        return response([
+            'resultCode' => 0,
+            'type' => $type,
+            'name' => $name,
+            'relations' => $relations,
+            'domain' => $domain,
+            'portal' => $portal,
+            // 'fields' => $fields,
+            // 'templates' => $templates,
+            // 'template' => $template,
+            // '$template->fields();' =>  $fields,
+            // '$template->portal();' =>  $domain,
+            // '$type= $template->type;' =>  $type,
+            // '$name= $template->name;' =>  $name,
+            // '$uploadFile' => $uploadFile,
+            // '$portal' =>  $portal
+        ]);
     }
 
 
