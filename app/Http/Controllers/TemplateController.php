@@ -155,17 +155,16 @@ class TemplateController extends Controller
     public static function getTemplate($templateId)
     {
         try {
-       
+
             $template = Template::find($templateId);
             $templateResource = new TemplateResource($template);
-            if($template){
-                return APIController::getResponse(0, 'success', $templateResource);
-            }else{
+            if ($template) {
+                return APIController::getResponse(0, 'success', ['template' => $templateResource]);
+            } else {
                 return APIController::getResponse(1, 'Template not found', $templateResource);
             }
-            
         } catch (\Throwable $th) {
- 
+
 
             return APIController::getResponse(1, $th->getMessage(), null);
         }
