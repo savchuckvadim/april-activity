@@ -76,7 +76,22 @@ class FieldController extends Controller
             '$templateId' => $templateId
         ]);
     }
+    public static function getAllFields()
+    {
+        $fields = [];
 
+
+
+        $fields = Field::all();
+
+
+        return response([
+            'resultCode' => 0,
+            'isCollection' => true,
+            'fields' => $fields,
+           
+        ]);
+    }
 
     public static function createField(
         $templateId,
