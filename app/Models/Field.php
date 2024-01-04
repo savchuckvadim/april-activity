@@ -100,9 +100,9 @@ class Field extends Model
                             ],
                             [
                                 'id' => 4,
-                                'title' => 'data',
-                                'name'  => 'data',
-                                'value' => 'data',
+                                'title' => 'boolean',
+                                'name'  => 'boolean',
+                                'value' => 'boolean',
                             ],
                             [
                                 'id' => 5,

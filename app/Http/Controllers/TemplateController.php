@@ -257,18 +257,20 @@ class TemplateController extends Controller
         $template->code = Str::uuid()->toString();
         // Находим портал по домену и связываем
         $portal = Portal::where('domain', $domain)->first();
-        if ($portal) {
-            $template->portal()->associate($portal);
-        }
+        // if ($portal) {
+        //     $template->portal()->associate($portal);
+        // }
 
-        $template->save();
+        // $template->save();
 
         // Обработка связанных полей
-        $this->processFields($relations['field'], $template);
+        // $this->processFields($relations['field'], $template);
 
         // Дополнительная логика...
 
-        return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
+        // return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template]);
+        return response()->json(['message' => 'test', 'relations' => $relations]);
+
         // $template = new Template;
         // $domain = json_decode($domain, true);
         // $type = json_decode($type, true);
