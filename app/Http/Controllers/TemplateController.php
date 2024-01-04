@@ -424,6 +424,25 @@ class TemplateController extends Controller
     protected function processFields(array $fields, Template $template)
     {
         foreach ($fields as $fieldData) {
+           
+                if(!$fieldData['isGeneral']){
+                    $fieldData['isGeneral'] = false;
+                }
+
+                if(!$fieldData['isDefault']){
+                    $fieldData['isDefault'] = false;
+                }
+                if(!$fieldData['isRequired']){
+                    $fieldData['isRequired'] = false;
+                }
+                if(!$fieldData['isActive']){
+                    $fieldData['isActive'] = false;
+                }
+                if(!$fieldData['isPlural']){
+                    $fieldData['isPlural'] = false;
+                }
+
+           
             $field = $this->createOrUpdateField($fieldData);
 
             // Связываем поле с шаблоном
