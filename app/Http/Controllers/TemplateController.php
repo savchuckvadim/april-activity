@@ -441,7 +441,9 @@ class TemplateController extends Controller
                 if(!isset($fieldData['isPlural'])){
                     $fieldData['isPlural'] = false;
                 }
-
+                if(!isset($fieldData['type'])){
+                    $fieldData['type'] = 'string';
+                }
            
             $field = $this->createOrUpdateField($fieldData);
 
