@@ -12,7 +12,7 @@ class RqController extends Controller
     public static function getRqs()
     {
         try {
-    
+
             $rqs = Rq::all();
             return APIController::getResponse(
                 0,
@@ -30,9 +30,9 @@ class RqController extends Controller
     public static function getRq($rqId)
     {
         try {
-    
+
             $rq = Rq::find($rqId);
-          
+
 
             if (!$rq) {
                 return response([
@@ -41,13 +41,12 @@ class RqController extends Controller
                     'message' => 'rq not found'
                 ]);
             }
-    
+
             return APIController::getResponse(
                 0,
                 'success',
                 ['rq' => $rq]
             );
-    
         } catch (\Throwable $th) {
             return APIController::getResponse(
                 1,
@@ -80,5 +79,30 @@ class RqController extends Controller
             'resultCode' => 0,
             'rqs' => $result
         ]);
+    }
+
+    public static function deleteRq($rqId)
+    {
+        try {
+
+            $rq = Rq::find($rqId);
+
+
+
+            if ($rq) {
+                $rq->delete();
+            }
+            return APIController::getResponse(
+                0,
+                'success' . $rqId . ' was deleted',
+                null
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
     }
 }

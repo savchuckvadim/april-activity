@@ -159,7 +159,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return RqController::getRq($rqId);
     });
 
-
+    Route::delete('rq/{rqId}', function ($rqId) {
+        return RqController::deleteRq($rqId);
+    });
+    Route::delete('provider/{providerId}', function ($providerId) {
+        return AgentController::deleteProvider($providerId);
+    });
 
 
 

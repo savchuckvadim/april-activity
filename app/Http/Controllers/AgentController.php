@@ -33,9 +33,9 @@ class AgentController extends Controller
     public static function getProvider($providerId)
     {
         try {
-    
+
             $provider = Agent::find($providerId);
-          
+
 
             if (!$provider) {
                 return response([
@@ -44,13 +44,12 @@ class AgentController extends Controller
                     'message' => 'provider not found'
                 ]);
             }
-    
+
             return APIController::getResponse(
                 0,
                 'success',
                 ['provider' => $provider]
             );
-    
         } catch (\Throwable $th) {
             return APIController::getResponse(
                 1,
@@ -86,5 +85,36 @@ class AgentController extends Controller
             'resultCode' => 0,
             'providers' => $result
         ]);
+    }
+
+    public static function deleteProvider($providerId)
+    {
+        try {
+
+            $provider = Agent::find($providerId);
+
+
+            if (!$provider) {
+                return response([
+                    'resultCode' => 1,
+                    'providerId' => $providerId,
+                    'message' => 'provider not found'
+                ]);
+            }
+            if ($provider) {
+                $provider->delete();
+            }
+            return APIController::getResponse(
+                0,
+                'success' . $providerId . ' was deleted',
+                null
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
     }
 }
