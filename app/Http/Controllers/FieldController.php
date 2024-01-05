@@ -6,6 +6,7 @@ use App\Http\Resources\FieldCollection;
 use App\Http\Resources\FieldResource;
 use App\Models\Field;
 use App\Models\FItem;
+use App\Models\Template;
 use Illuminate\Http\Request;
 
 class FieldController extends Controller
@@ -67,13 +68,26 @@ class FieldController extends Controller
             $fields = Field::where('isGeneral', true)->get();
             $generalFieldsCollection = new FieldCollection($fields);
             $fields = $generalFieldsCollection;
+        } else {
+            $template = Template::find($templateId);
+            if ($template) {
+                $fields = $template->fields;
+                if ($fields) {
+                    $collectionFields = new FieldCollection($fields);
+                    return APIController::getResponse(
+                        0,
+                        'success',
+                        $collectionFields
+                    );
+                }
+            }
         }
 
         return response([
             'resultCode' => 0,
             'isCollection' => true,
             'tfields' => $fields,
-            '$templateId' => $templateId
+
         ]);
     }
     public static function getAllFields()
@@ -89,7 +103,7 @@ class FieldController extends Controller
             'resultCode' => 0,
             'isCollection' => true,
             'fields' => $fields,
-           
+
         ]);
     }
 
