@@ -250,28 +250,36 @@ class TemplateController extends Controller
         // relations -> field as Array field->formData
         //domain
         // Создаем или находим шаблон
-        $template = new Template();
-        $template->name = $name;
-        $template->type = $type;
+        try {
+            $template = new Template();
+            $template->name = $name;
+            $template->type = $type;
 
-        $template->code = Str::uuid()->toString();
-        // Находим портал по домену и связываем
-        $portal = Portal::where('domain', $domain)->first();
-        if ($portal) {
-            $template->portal()->associate($portal);
+            $template->code = Str::uuid()->toString();
+            // Находим портал по домену и связываем
+            $portal = Portal::where('domain', $domain)->first();
+            if ($portal) {
+                $template->portal()->associate($portal);
+            }
+
+            $template->save();
+
+            // Обработка связанных полей
+            if (isset($relations['field']) && is_array($relations['field']) && count($relations['field']) > 0) {
+                $this->processFields($relations['field'], $template);
+            }
+
+
+            // Дополнительная логика...
+            $responseData = [
+                'template' => $template, 'relations' => $relations
+            ];
+            return APIController::getResponse(1, 'Шаблон успешно создан', $responseData);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            return APIController::getResponse(1, 'something wrong with save template: '.$message, null);
         }
 
-        $template->save();
-
-        // Обработка связанных полей
-        if (isset($relations['field']) && is_array($relations['field']) && count($relations['field']) > 0) {
-            $this->processFields($relations['field'], $template);
-        }
-        
-
-        // Дополнительная логика...
-
-        return response()->json(['message' => 'Шаблон успешно создан', 'template' => $template, 'relations' => $relations]);
         // $template = new Template;
         // $domain = json_decode($domain, true);
         // $type = json_decode($type, true);
@@ -427,27 +435,27 @@ class TemplateController extends Controller
     protected function processFields(array $fields, Template $template)
     {
         foreach ($fields as $fieldData) {
-           
-                if(!isset($fieldData['isGeneral'])){
-                    $fieldData['isGeneral'] = false;
-                }
 
-                if(!isset($fieldData['isDefault'])){
-                    $fieldData['isDefault'] = false;
-                }
-                if(!isset($fieldData['isRequired'])){
-                    $fieldData['isRequired'] = false;
-                }
-                if(!isset($fieldData['isActive'])){
-                    $fieldData['isActive'] = false;
-                }
-                if(!isset($fieldData['isPlural'])){
-                    $fieldData['isPlural'] = false;
-                }
-                if(!isset($fieldData['type'])){
-                    $fieldData['type'] = 'string';
-                }
-           
+            if (!isset($fieldData['isGeneral'])) {
+                $fieldData['isGeneral'] = false;
+            }
+
+            if (!isset($fieldData['isDefault'])) {
+                $fieldData['isDefault'] = false;
+            }
+            if (!isset($fieldData['isRequired'])) {
+                $fieldData['isRequired'] = false;
+            }
+            if (!isset($fieldData['isActive'])) {
+                $fieldData['isActive'] = false;
+            }
+            if (!isset($fieldData['isPlural'])) {
+                $fieldData['isPlural'] = false;
+            }
+            if (!isset($fieldData['type'])) {
+                $fieldData['type'] = 'string';
+            }
+
             $field = $this->createOrUpdateField($fieldData);
 
             // Связываем поле с шаблоном
