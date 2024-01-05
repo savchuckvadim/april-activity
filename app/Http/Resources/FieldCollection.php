@@ -27,7 +27,7 @@ class FieldCollection extends ResourceCollection
 
         // ];
 
-        [
+        return [
             'totalCount' =>  $this->collection->count(),
             'fields' => $data,
 
