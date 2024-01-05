@@ -264,7 +264,10 @@ class TemplateController extends Controller
         $template->save();
 
         // Обработка связанных полей
-        $this->processFields($relations['field'], $template);
+        if (isset($relations['field']) && is_array($relations['field']) && count($relations['field']) > 0) {
+            $this->processFields($relations['field'], $template);
+        }
+        
 
         // Дополнительная логика...
 
