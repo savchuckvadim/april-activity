@@ -27,7 +27,11 @@ class FieldCollection extends ResourceCollection
 
         // ];
 
-        return $data;
+        [
+            'totalCount' =>  $this->collection->count(),
+            'fields' => $data,
+
+        ];
         // return parent::toArray($request);
     }
 }
