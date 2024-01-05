@@ -274,7 +274,7 @@ class TemplateController extends Controller
             $responseData = [
                 'template' => $template, 'relations' => $relations
             ];
-            return APIController::getResponse(1, 'Шаблон успешно создан', $responseData);
+            return APIController::getResponse(0, 'Шаблон успешно создан', $responseData);
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             return APIController::getResponse(1, 'something wrong with save template: '.$message, null);
