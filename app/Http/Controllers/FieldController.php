@@ -129,84 +129,13 @@ class FieldController extends Controller
         ]);
     }
 
-    public static function getDataForCreateField()
+    public static function getInitialField()
     {
 
-
+        $initialData = Field::getForm();
         $data = [
-
-            [
-                'name' => 'name',
-                'type' => 'string',
-                'value' => null,
-                'items' => [],
-
-            ],
-            [
-                'name' => 'type',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-
-
-            [
-                'name' => 'value',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-            [
-                'name' => 'description',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-
-            [
-                'name' => 'bitrixId',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-            [
-                'name' => 'bitrixTemplateId',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-            [
-                'name' => 'isActive',
-                'type' => 'boolean',
-                'value' => null,
-                'items' => []
-            ],
-            [
-                'name' => 'isPlural',
-                'type' => 'string',
-                'value' => null,
-                'items' => []
-            ],
-            [
-                'name' => 'isGeneral',
-                'type' => 'boolean',
-                'value' => null,
-                'items' => []
-            ],
-
-            [
-                'name' => 'isRequired',
-                'type' => 'boolean',
-                'value' => null,
-                'items' => []
-            ],
-
+            'initial' => $initialData
         ];
-
-
-        return response([
-            'resultCode' => 0,
-            'initialField' =>  $data
-        ]);
+        return APIController::getResponse(0, 'success', $data);
     }
 }

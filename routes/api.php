@@ -236,12 +236,28 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     //initial
+    //// specific
+    Route::get('initial/template/{templateId}/fields', function ($templateId) {
+        return FieldController::getInitialField($templateId);
+    });
+   
+
+    //// no specific
+
     Route::get('initial/template', function (Request $request) {
         $domain = $request->query('domain');
 
         return TemplateController::initialTemplate($domain);
     });
 
+    Route::get('initial/field', function () {
+        return FieldController::getInitialField();
+    });
+
+
+
+
+    //SET
     Route::post('template/set', function (Request $request) {
         $domain  = $request->input('domain');
         $type  = $request->input('type');
@@ -342,9 +358,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return TemplateController::deleteTemplate($templateId);
     });
 
-    Route::get('initial/field', function () {
-        return FieldController::getDataForCreateField();
-    });
+   
 
 
     Route::post('field/set', function (Request $request) {
