@@ -378,7 +378,7 @@ class TemplateController extends Controller
             $template->name = $templateData['name'] ?? $template->name;
             $template->type = $templateData['type'] ?? $template->type;
             $template->code = $templateData['code'] ?? $template->code;
-            $template->link = $template->link;
+            $template->link = $templateData['link'];
             $template->save();
 
 
