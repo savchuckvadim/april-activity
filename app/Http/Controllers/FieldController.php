@@ -77,7 +77,10 @@ class FieldController extends Controller
                 } else {
                     return APIController::getError(
                         'Field was not updating',
-                        ['template' => $template]
+                        [
+                            'template' => $template,
+                            'fieldData' => $fieldData
+                        ]
                     );
                 }
             } else {
