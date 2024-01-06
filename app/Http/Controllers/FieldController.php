@@ -57,12 +57,36 @@ class FieldController extends Controller
     }
 
 
-    public static function setField($templateId, $fieldData){
+    public static function setField($templateId, $fieldData)
+    {
+        $resultField = null;
 
-        return APIController::getSuccess([
-            'templateId' => $templateId,
-            'fieldData' => $fieldData,
-        ]);
+        try {
+            $template = Template::find($templateId);
+
+            if ($template) {
+
+                $templateController = new TemplateController;
+                $resultFields = $templateController->processFields([$fieldData], $template);
+                if ($resultFields) {
+                    $resultField = $resultFields[0];
+                    return APIController::getSuccess([
+                        'templateId' => $templateId,
+                        'field' => $resultField,
+                    ]);
+                }
+            } else {
+                return APIController::getError(
+                    'Template not found',
+                    ['template' => $template]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
     }
 
 

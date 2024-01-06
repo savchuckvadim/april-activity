@@ -277,7 +277,7 @@ class TemplateController extends Controller
             return APIController::getResponse(0, 'Шаблон успешно создан', $responseData);
         } catch (\Throwable $th) {
             $message = $th->getMessage();
-            return APIController::getResponse(1, 'something wrong with save template: '.$message, null);
+            return APIController::getResponse(1, 'something wrong with save template: ' . $message, null);
         }
 
         // $template = new Template;
@@ -434,6 +434,7 @@ class TemplateController extends Controller
     //UTILS
     protected function processFields(array $fields, Template $template)
     {
+        $result = [];
         foreach ($fields as $fieldData) {
 
             if (!isset($fieldData['isGeneral'])) {
@@ -460,7 +461,10 @@ class TemplateController extends Controller
 
             // Связываем поле с шаблоном
             $template->fields()->attach($field->id);
+            array_push($result, $field);
         }
+
+        return $result;
     }
 
     protected function createOrUpdateField(array $fieldData)
