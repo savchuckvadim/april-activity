@@ -260,17 +260,23 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //SET OR UPDATE
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
-        $combinedFieldData = [];
-        foreach ($request->all() as $key => $value) {
-            if (is_array($value)) {
-                // Если $value является массивом, объединяем его с $combinedFieldData
-                $combinedFieldData = array_merge($combinedFieldData, $value);
-            } else {
-                // Иначе, просто добавляем значение по ключу
-                $combinedFieldData[$key] = $value;
-            }
-        }
-        return FieldController::setField($templateId, $combinedFieldData);
+        $fieldData = [
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'isGeneral' => $request['isGeneral'],
+            'isDefault' => $request['isDefault'],
+            'isRequired' => $request['isRequired'],
+            'value' => $request['value'],
+            'description' => $request['description'],
+            'bitixId' => $request['bitixId'],
+            'bitrixTemplateId' => $request['bitrixTemplateId'],
+            'isActive' => $request['isActive'],
+            'isPlural' => $request['isPlural'],
+            'img' => $request['img'],
+            
+        ];
+
+        return FieldController::setField($templateId, $fieldData);
     });
 
 
