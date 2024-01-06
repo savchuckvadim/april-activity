@@ -297,8 +297,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
                 $fieldData['img'] = $file;
             }
         }
-        return APIController::getSuccess(['fieldData' => $fieldData]);
-        // return FieldController::setField($templateId, $fieldData);
+        // return APIController::getSuccess(['fieldData' => $fieldData]);
+        return FieldController::setField($templateId, $fieldData);
     });
 
 
