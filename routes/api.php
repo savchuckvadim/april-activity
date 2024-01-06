@@ -285,6 +285,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'img' => $request['img'],
 
         ];
+        if (is_a($request['img'], 'Illuminate\Http\UploadedFile')) {
+            // Вместо сохранения файла, сохраняем объект UploadedFile
+            $fieldData['img'] = $request['img'];
+        }
         return APIController::getSuccess(['fieldData' => $fieldData]);
         // return FieldController::setField($templateId, $fieldData);
     });
