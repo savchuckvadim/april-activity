@@ -434,37 +434,41 @@ class TemplateController extends Controller
     //UTILS
     public function processFields(array $fields, Template $template)
     {
-        $result = [];
-        foreach ($fields as $fieldData) {
+        try {
+            $result = [];
+            foreach ($fields as $fieldData) {
 
-            if (!isset($fieldData['isGeneral'])) {
-                $fieldData['isGeneral'] = false;
+                if (!isset($fieldData['isGeneral'])) {
+                    $fieldData['isGeneral'] = false;
+                }
+
+                if (!isset($fieldData['isDefault'])) {
+                    $fieldData['isDefault'] = false;
+                }
+                if (!isset($fieldData['isRequired'])) {
+                    $fieldData['isRequired'] = false;
+                }
+                if (!isset($fieldData['isActive'])) {
+                    $fieldData['isActive'] = false;
+                }
+                if (!isset($fieldData['isPlural'])) {
+                    $fieldData['isPlural'] = false;
+                }
+                if (!isset($fieldData['type'])) {
+                    $fieldData['type'] = 'string';
+                }
+
+                $field = $this->createOrUpdateField($fieldData);
+
+                // Связываем поле с шаблоном
+                $template->fields()->attach($field->id);
+                array_push($result, $field);
             }
 
-            if (!isset($fieldData['isDefault'])) {
-                $fieldData['isDefault'] = false;
-            }
-            if (!isset($fieldData['isRequired'])) {
-                $fieldData['isRequired'] = false;
-            }
-            if (!isset($fieldData['isActive'])) {
-                $fieldData['isActive'] = false;
-            }
-            if (!isset($fieldData['isPlural'])) {
-                $fieldData['isPlural'] = false;
-            }
-            if (!isset($fieldData['type'])) {
-                $fieldData['type'] = 'string';
-            }
-
-            $field = $this->createOrUpdateField($fieldData);
-
-            // Связываем поле с шаблоном
-            $template->fields()->attach($field->id);
-            array_push($result, $field);
+            return $result;
+        } catch (\Throwable $th) {
+            return null;
         }
-
-        return $result;
     }
 
     protected function createOrUpdateField(array $fieldData)

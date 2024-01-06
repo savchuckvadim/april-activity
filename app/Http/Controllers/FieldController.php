@@ -72,8 +72,13 @@ class FieldController extends Controller
                     $resultField = $resultFields[0];
                     return APIController::getSuccess([
                         'templateId' => $templateId,
-                        'field' => $fieldData,
+                        'field' => $resultField,
                     ]);
+                } else {
+                    return APIController::getError(
+                        'Field was not updating',
+                        ['template' => $template]
+                    );
                 }
             } else {
                 return APIController::getError(
