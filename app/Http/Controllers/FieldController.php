@@ -56,6 +56,19 @@ class FieldController extends Controller
         ]);
     }
 
+
+    public static function setField($templateId, $fieldData){
+
+        return APIController::getSuccess([
+            'templateId' => $templateId,
+            'templateId' => $fieldData,
+        ]);
+    }
+
+
+
+
+
     public static function getFields($templateId)
     {
         $fields = [];
