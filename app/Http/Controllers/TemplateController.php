@@ -371,19 +371,22 @@ class TemplateController extends Controller
     {
         //name
         //type inovoice | offer | contract | report
-        // relations -> field as Array field->formData
-        //domain
-        // Создаем или находим шаблон
+        //code
+        //link
+        
         try {
             $template = Template::find($templateId);
+            $template->name = $templateData['name'] ?? $template->name;
+            $template->type = $templateData['type'] ?? $template->type;
+            $template->code = $templateData['code'] ?? $template->code;
+            $template->link = $templateData['link'] ?? $template->link;
+            $template->save();
 
 
 
-
-            // Дополнительная логика...
             $responseData = [
                 'template' => $template,
-                'templateData' => $templateData,
+
             ];
             return APIController::getSuccess($responseData);
         } catch (\Throwable $th) {
