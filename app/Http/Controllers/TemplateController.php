@@ -432,7 +432,7 @@ class TemplateController extends Controller
 
 
     //UTILS
-    protected function processFields(array $fields, Template $template)
+    public function processFields(array $fields, Template $template)
     {
         $result = [];
         foreach ($fields as $fieldData) {
