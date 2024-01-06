@@ -367,7 +367,30 @@ class TemplateController extends Controller
         //     // '$portal' =>  $portal
         // ]);
     }
+    public function updateTemplate($template)
+    {
+        //name
+        //type inovoice | offer | contract | report
+        // relations -> field as Array field->formData
+        //domain
+        // Создаем или находим шаблон
+        try {
+            $templateId = $template->id;
+            $template = Template::find($templateId);
 
+
+
+
+            // Дополнительная логика...
+            $responseData = [
+                'template' => $template,
+            ];
+            return APIController::getSuccess($responseData);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            return APIController::getResponse(1, 'something wrong with save template: ' . $message, null);
+        }
+    }
 
     public static function deleteTemplate($templateId)
     {
