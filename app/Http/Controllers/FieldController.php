@@ -68,7 +68,7 @@ class FieldController extends Controller
 
                 $templateController = new TemplateController;
                 $resultFields = $templateController->processFields($fieldData, $template);
-                if ($resultFields) {
+                if ($resultFields && is_array($resultFields)) {
                     $resultField = $resultFields[0];
                     return APIController::getSuccess([
                         'templateId' => $templateId,
@@ -78,6 +78,7 @@ class FieldController extends Controller
                     return APIController::getError(
                         'Field was not updating',
                         [
+                            'resultFields' => $resultFields,
                             'template' => $template,
                             'fieldData' => $fieldData
                         ]

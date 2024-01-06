@@ -467,7 +467,7 @@ class TemplateController extends Controller
 
             return $result;
         } catch (\Throwable $th) {
-            return null;
+            return $th->getMessage();
         }
     }
 
