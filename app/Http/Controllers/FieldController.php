@@ -99,7 +99,28 @@ class FieldController extends Controller
     }
 
 
-
+    public static function getField($fieldId)
+    {
+        try {
+            $field = Field::find($fieldId);
+            if ($field) {
+                $fieldResource = new FieldResource($field);
+                return APIController::getSuccess(
+                    ['field' => $fieldResource]
+                );
+            } else {
+                return APIController::getError(
+                    'field was not found',
+                    ['field' => $field]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['fieldId' => $fieldId]
+            );
+        }
+    }
 
 
     public static function getFields($templateId)

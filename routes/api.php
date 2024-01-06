@@ -206,7 +206,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
-    //get collections
+    //GET COLLECTIONS
     //// specific
     Route::get('template/{templateId}/fields', function ($templateId) {
         return FieldController::getFields($templateId);
@@ -218,12 +218,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return TemplateController::getAllTemplates();
     });
 
-    Route::get('template/{templateId}', function ($templateId) {
-        return TemplateController::getTemplate($templateId);
-    });
+
     Route::get('templates/{domain}', function ($domain) {
         return TemplateController::getTemplates($domain);
     });
+
 
 
     Route::get('fields/{templateId}', function ($templateId) {
@@ -233,6 +232,17 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FieldController::getAllFields();
     });
 
+
+
+    //GET ITEM
+    //// no specific
+    Route::get('template/{templateId}', function ($templateId) {
+        return TemplateController::getTemplate($templateId);
+    });
+
+    Route::get('field/{fieldId}', function ($fieldId) {
+        return FieldController::getField($fieldId);
+    });
 
 
     //initial
@@ -273,7 +283,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'isActive' => $request['isActive'],
             'isPlural' => $request['isPlural'],
             'img' => $request['img'],
-            
+
         ];
 
         return FieldController::setField($templateId, $fieldData);
@@ -376,6 +386,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('templates/{domain}', function ($domain) {
     //     return TemplateController::getTemplates($domain);
     // });
+
+
+
+    //DELETE
 
     Route::delete('template/{templateId}', function ($templateId) {
         return TemplateController::deleteTemplate($templateId);
