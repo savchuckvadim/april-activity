@@ -367,7 +367,7 @@ class TemplateController extends Controller
         //     // '$portal' =>  $portal
         // ]);
     }
-    public function updateTemplate($template)
+    public function updateTemplate($templateId, $template)
     {
         //name
         //type inovoice | offer | contract | report
@@ -375,7 +375,6 @@ class TemplateController extends Controller
         //domain
         // Создаем или находим шаблон
         try {
-            $templateId = $template->id;
             $template = Template::find($templateId);
 
 
