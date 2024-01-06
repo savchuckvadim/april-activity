@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FieldController;
@@ -284,8 +285,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'img' => $request['img'],
 
         ];
-
-        return FieldController::setField($templateId, $fieldData);
+        return APIController::getSuccess(['fieldData' => $fieldData]);
+        // return FieldController::setField($templateId, $fieldData);
     });
 
 
