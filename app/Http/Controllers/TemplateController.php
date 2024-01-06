@@ -367,7 +367,7 @@ class TemplateController extends Controller
         //     // '$portal' =>  $portal
         // ]);
     }
-    public function updateTemplate($templateId, $template)
+    public function updateTemplate($templateId, $templateData)
     {
         //name
         //type inovoice | offer | contract | report
@@ -383,6 +383,7 @@ class TemplateController extends Controller
             // Дополнительная логика...
             $responseData = [
                 'template' => $template,
+                'templateData' => $templateData,
             ];
             return APIController::getSuccess($responseData);
         } catch (\Throwable $th) {
