@@ -373,7 +373,6 @@ class TemplateController extends Controller
         //type inovoice | offer | contract | report
         //code
         //link
-        
         try {
             $template = Template::find($templateId);
             $template->name = $templateData['name'] ?? $template->name;
