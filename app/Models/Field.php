@@ -236,9 +236,9 @@ class Field extends Model
             // Удаляем все связи с шаблонами
             $field->templates()->detach();
 
-            if ($field->img) {
+            if ($field['type'] == 'img') {
                 // Удаляем файл из хранилища
-                $filePath = str_replace('/storage', 'public', $field->img);
+                $filePath = str_replace('/storage', 'public', $field->value);
                 Storage::delete($filePath);
             }
         });
