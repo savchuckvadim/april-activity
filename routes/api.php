@@ -306,7 +306,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //     // ]);
     //     return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
     // });
-    Route::put('template/{templateId}', function (Request $request) {
+    Route::post('template/{templateId}', function (Request $request) {
         $requestData  = $request->all();
         $template = [
             'name' => $request['name'],
@@ -320,7 +320,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return $controller->updateTemplate($requestData);
     });
-    Route::post('test/template', function (Request $request) {
+    Route::post('template', function (Request $request) {
         $domain  = $request->input('domain');
         $type  = $request->input('type');
         $name  = $request->input('name');
