@@ -67,14 +67,14 @@ class FieldController extends Controller
             if ($template) {
 
                 $templateController = new TemplateController;
-                // $resultFields = $templateController->processFields([$fieldData], $template);
-                // if ($resultFields) {
-                    // $resultField = $resultFields[0];
+                $resultFields = $templateController->processFields($fieldData, $template);
+                if ($resultFields) {
+                    $resultField = $resultFields[0];
                     return APIController::getSuccess([
                         'templateId' => $templateId,
                         'field' => $fieldData,
                     ]);
-                // }
+                }
             } else {
                 return APIController::getError(
                     'Template not found',
