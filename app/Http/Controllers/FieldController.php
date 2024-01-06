@@ -67,7 +67,7 @@ class FieldController extends Controller
             if ($template) {
 
                 $templateController = new TemplateController;
-                $resultFields = $templateController->processFields($fieldData, $template);
+                $resultFields = $templateController->processFields([$fieldData], $template);
                 if ($resultFields && is_array($resultFields)) {
                     $resultField = $resultFields[0];
                     return APIController::getSuccess([
@@ -80,14 +80,14 @@ class FieldController extends Controller
                         [
                             'resultFields' => $resultFields,
                             'template' => $template,
-                            'fieldData' => $fieldData[0]['name']
+                            'fieldData' => $fieldData
                         ]
                     );
                 }
             } else {
                 return APIController::getError(
                     'Template not found',
-                    ['template' => $template]
+                    ['template' => $template, 'fieldData' => $fieldData]
                 );
             }
         } catch (\Throwable $th) {
