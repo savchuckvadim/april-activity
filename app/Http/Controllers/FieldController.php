@@ -61,7 +61,7 @@ class FieldController extends Controller
 
         return APIController::getSuccess([
             'templateId' => $templateId,
-            'templateId' => $fieldData,
+            'fieldData' => $fieldData,
         ]);
     }
 
