@@ -261,8 +261,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
         $combinedFieldData = [];
-        foreach ($request->all() as $item) {
-            foreach ($item as $key => $value) {
+        foreach ($request->all() as $key => $value) {
+            if (is_array($value)) {
+                // Если $value является массивом, объединяем его с $combinedFieldData
+                $combinedFieldData = array_merge($combinedFieldData, $value);
+            } else {
+                // Иначе, просто добавляем значение по ключу
                 $combinedFieldData[$key] = $value;
             }
         }
