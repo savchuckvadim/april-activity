@@ -80,7 +80,7 @@ class FieldController extends Controller
                         [
                             'resultFields' => $resultFields,
                             'template' => $template,
-                            'fieldData' => $fieldData
+                            'fieldData' => $fieldData[0]['name']
                         ]
                     );
                 }
