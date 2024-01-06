@@ -318,7 +318,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         $controller = new TemplateController;
 
-        return $controller->updateTemplate($templateId, $request);
+        return $controller->updateTemplate($templateId, $request->all());
     });
     Route::post('test/template', function (Request $request) {
         $domain  = $request->input('domain');
