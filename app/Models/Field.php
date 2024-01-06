@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Field extends Model
 {
@@ -224,5 +225,23 @@ class Field extends Model
                 'relations' => [],
             ]]
         ];
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($field) {
+            // Удаляем все связи с шаблонами
+            $field->templates()->detach();
+
+            if ($field->img) {
+                // Удаляем файл из хранилища
+                $filePath = str_replace('/storage', 'public', $field->img);
+                Storage::delete($filePath);
+            }
+        });
+       
     }
 }

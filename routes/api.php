@@ -245,7 +245,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
 
 
-    //initial
+    //INITIAL SET
     //// specific
     Route::get('initial/template/{templateId}/field', function ($templateId) {
         return FieldController::getInitialField($templateId);
@@ -266,8 +266,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
-
-    //SET OR UPDATE
+    //SET 
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
         $fieldData = [
@@ -291,35 +290,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     //// no specific
-    // Route::post('template/set', function (Request $request) {
-    //     $domain  = $request->input('domain');
-    //     $type  = $request->input('type');
-    //     $name  = $request->input('name');
-    //     $fieldIds  = $request->input('fieldIds');
-    //     $file = $request->file('file');
 
-
-    //     // return response([
-    //     //     '$domain' => $domain,
-    //     //     ' $fieldIds' =>  $fieldIds,
-    //     //     '$file' => $file
-    //     // ]);
-    //     return TemplateController::setTemplate($domain, $fieldIds, $type, $name, $file);
-    // });
-    Route::post('template/{templateId}', function ($templateId, Request $request) {
-
-        $template = [
-            'name' => $request['name'],
-            'type' => $request['type'],
-            'code' => $request['code'],
-            'link' => $request['link'],
-
-        ];
-
-        $controller = new TemplateController;
-
-        return $controller->updateTemplate($templateId, $template);
-    });
     Route::post('template', function (Request $request) {
         $domain  = $request->input('domain');
         $type  = $request->input('type');
@@ -397,10 +368,23 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return $controller->setTemplate($domain, $type, $name, $relations);
     });
-    // Route::get('templates/{domain}', function ($domain) {
-    //     return TemplateController::getTemplates($domain);
-    // });
 
+
+    //UPDATE
+    Route::post('template/{templateId}', function ($templateId, Request $request) {
+
+        $template = [
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'code' => $request['code'],
+            'link' => $request['link'],
+
+        ];
+
+        $controller = new TemplateController;
+
+        return $controller->updateTemplate($templateId, $template);
+    });
 
 
     //DELETE
@@ -408,17 +392,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::delete('template/{templateId}', function ($templateId) {
         return TemplateController::deleteTemplate($templateId);
     });
-
-
-
-
-    Route::post('field/set', function (Request $request) {
-        $templateId  = $request->input('templateId');
-        $field  = $request->input('field');
-
-
-        return FieldController::createField($templateId, $field);
+    Route::delete('field/{fieldId}', function ($fieldId) {
+        return FieldController::deleteField($fieldId);
     });
+
+
+
+    // Route::post('field/set', function (Request $request) {
+    //     $templateId  = $request->input('templateId');
+    //     $field  = $request->input('field');
+
+
+    //     return FieldController::createField($templateId, $field);
+    // });
 
     // Route::post('template/update', function (Request $request) {
     //     $domain  = $request->input('domain');

@@ -205,4 +205,21 @@ class FieldController extends Controller
         ];
         return APIController::getResponse(0, 'success', $data);
     }
+
+    public static function deleteField($fieldId)
+    {
+        $field = Field::find($fieldId);
+
+        if ($field) {
+            // Получаем все связанные поля
+            $field->delete();
+            return APIController::getSuccess($field);
+        } else {
+            // Код для случая, когда шаблон не найден...
+            return response([
+                'resultCode' => 1,
+                'message' => 'Template not found',
+            ]);
+        }
+    }
 }
