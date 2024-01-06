@@ -260,13 +260,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //SET OR UPDATE
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
-        //RELATIONS
-        $fieldData = [];
-
-        foreach ($request->all() as $key => $value) {
-            array_push($fieldData, [$key => $value]);
+        $combinedFieldData = [];
+        foreach ($request->all() as $item) {
+            foreach ($item as $key => $value) {
+                $combinedFieldData[$key] = $value;
+            }
         }
-        return FieldController::setField($templateId, $fieldData);
+        return FieldController::setField($templateId, $combinedFieldData);
     });
 
 
