@@ -4,6 +4,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FItemController;
@@ -538,15 +539,17 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $provider  = $data['provider'];
         $recipient  = $data['recipient'];
 
-        $result = FileController::getDocument(
-            $template,
-            $domain,
-            $userId,
-            $price,
-            $infoblocks,
-            $provider,
-            $recipient
-        );
+        // $result = FileController::getDocument(
+        //     $template,
+        //     $domain,
+        //     $userId,
+        //     $price,
+        //     $infoblocks,
+        //     $provider,
+        //     $recipient
+        // );
+        $documentController = new DocumentController;
+        $result = $documentController->getDocument($data);
         // $wordCase  = $request->input('wordCase');
         // $resultName = inflectName($word, $wordCase);
 

@@ -94,6 +94,7 @@ class TemplateController extends Controller
             'isCollection' => true,
         ]);
     }
+
     public static function getAllTemplates()
     {
         try {
@@ -109,7 +110,6 @@ class TemplateController extends Controller
             return APIController::getResponse(1, $th->getMessage(), 0);
         }
     }
-
 
     public static function initialTemplate($domain)
     {
@@ -456,80 +456,5 @@ class TemplateController extends Controller
     }
 
 
-    //UTILS
-    public function processFields(array $fields, Template $template)
-    {
-        try {
-            $result = [];
-            foreach ($fields as $fieldData) {
-                $fieldData['type'] = $fieldData['type'] == 'null' ? '' : $fieldData['type'] ;
-                $fieldData['code'] = $fieldData['code'] == 'null' ? '' : $fieldData['code'] ;
-                $fieldData['value'] = $fieldData['value'] == 'null' ? '' : $fieldData['value'] ;
-                $fieldData['description'] = $fieldData['description'] == 'null' ? '' : $fieldData['description'] ;
-                $fieldData['bitixId'] = $fieldData['bitixId'] == 'null' ? '' : $fieldData['bitixId'] ;
-                $fieldData['bitrixTemplateId'] = $fieldData['bitrixTemplateId'] == 'null' ? '' : $fieldData['bitrixTemplateId'] ;
-
-                $fieldData['isGeneral'] = $fieldData['isGeneral'] == 'true' ? 1 : 0;
-                $fieldData['isDefault'] = $fieldData['isDefault'] == 'true' ? 1 : 0;
-                $fieldData['isRequired'] = $fieldData['isRequired'] == 'true' ? 1 : 0;
-                $fieldData['isActive'] = $fieldData['isActive'] == 'true' ? 1 : 0;
-                $fieldData['isPlural'] = $fieldData['isPlural'] == 'true' ? 1 : 0;
-                $fieldData['isClient'] = $fieldData['isClient'] == 'true' ? 1 : 0;
-
-                // if (!isset($fieldData['isGeneral'])) {
-                //     $fieldData['isGeneral'] = false;
-                // }
-
-                // if (!isset($fieldData['isDefault'])) {
-                //     $fieldData['isDefault'] = false;
-                // }
-                // if (!isset($fieldData['isRequired'])) {
-                //     $fieldData['isRequired'] = false;
-                // }
-                // if (!isset($fieldData['isActive'])) {
-                //     $fieldData['isActive'] = false;
-                // }
-                // if (!isset($fieldData['isPlural'])) {
-                //     $fieldData['isPlural'] = false;
-                // }
-                if (!isset($fieldData['type'])) {
-                    $fieldData['type'] = 'string';
-                }
-
-                $field = $this->createOrUpdateField($fieldData);
-
-                // Связываем поле с шаблоном
-                $template->fields()->attach($field->id);
-                array_push($result, $field);
-            }
-
-            return $result;
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
-    }
-
-    protected function createOrUpdateField(array $fieldData)
-    {
-        $field = new Field();
-
-        // Заполнение полей модели Field данными
-        // Замените это на соответствующий код заполнения
-        foreach ($fieldData as $key => $value) {
-            if ($key !== 'img') {
-                $field->$key = $value;
-            }
-        }
-
-        // Если это поле с изображением, сохраняем файл и устанавливаем initialValue
-        if (isset($fieldData['img']) && $fieldData['img'] instanceof UploadedFile) {
-            $filePath = $fieldData['img']->store('public/template/images/test');
-            $field->value = Storage::url($filePath);
-        }
-        $field->number = 0;
-        $field->code = 'field.' . Str::uuid()->toString();
-        $field->save();
-
-        return $field;
-    }
+ 
 }
