@@ -14,7 +14,8 @@ class TemplateFieldCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-       
+        $this->except('updated_at');
+        $this->except('created_at');
         $data = $this->collection->each(function ($item) {
 
             return new FieldResource($item);

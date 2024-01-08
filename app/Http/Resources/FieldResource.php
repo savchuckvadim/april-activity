@@ -14,8 +14,8 @@ class FieldResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->except('updated_at');
-        $this->except('created_at');
+        // $this->except('updated_at');
+        // $this->except('created_at');
         return [
             'id' => $this->id,
             'number' => $this->number,
