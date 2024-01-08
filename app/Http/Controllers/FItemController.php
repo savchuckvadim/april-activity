@@ -124,6 +124,9 @@ class FItemController extends Controller
             }
             if (!isset($fieldData['fieldNumber'])) {
                 $fitemData['fieldNumber'] = $field->number;
+            } 
+            if (!isset($fieldData['fieldId'])) {
+                $fitemData['fieldId'] = $field->id;
             }
             if (!isset($fieldData['order'])) {
                 $fitemData['order'] = 0;
@@ -136,7 +139,7 @@ class FItemController extends Controller
             $fitem = FItem::updateOrCreate($fitemData);
 
             // Связываем поле с шаблоном
-            $field->fitems()->attach($fitem->id);
+            // $field->fitems()->attach($fitem->id);
             array_push($result, $field);
         }
 
