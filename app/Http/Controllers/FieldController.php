@@ -141,9 +141,7 @@ class FieldController extends Controller
                 $fields = $template->fields;
                 if ($fields) {
                     $collectionFields = new FieldCollection($fields);
-                    return APIController::getResponse(
-                        0,
-                        'success',
+                    return APIController::getSuccess(
                         $collectionFields
                     );
                 }
@@ -203,7 +201,7 @@ class FieldController extends Controller
         $data = [
             'initial' => $initialData
         ];
-        return APIController::getResponse(0, 'success', $data);
+        return APIController::getSuccess($data);
     }
 
     public static function deleteField($fieldId)

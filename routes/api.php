@@ -6,6 +6,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FItemController;
 use App\Http\Controllers\InfoblockController;
 use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\LinkController;
@@ -244,12 +245,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('field/{fieldId}', function ($fieldId) {
         return FieldController::getField($fieldId);
     });
+    Route::get('fitem/{fitemId}', function ($fitemId) {
+        return FieldController::getField($fitemId);
+    });
+
 
 
     //INITIAL SET
     //// specific
     Route::get('initial/template/{templateId}/field', function ($templateId) {
         return FieldController::getInitialField($templateId);
+    });
+    Route::get('initial/field/{fieldId}/fitem', function () {
+        return FItemController::getInitialFitem();
     });
 
 
@@ -264,7 +272,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/field', function () {
         return FieldController::getInitialField();
     });
-
+    Route::get('initial/fitem', function () {
+        return FItemController::getInitialFitem();
+    });
 
 
     //SET 
@@ -287,18 +297,31 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         ];
         if ($request->hasFile('img_0')) {
             $file = $request->file('img_0');
-        
+
             // Проверяем, является ли файл экземпляром UploadedFile и был ли он успешно загружен
             if ($file instanceof Illuminate\Http\UploadedFile && $file->isValid()) {
                 // Обрабатываем файл, например, сохраняем его
                 // $filePath = $file->store('path/to/store', 'disk_name');
-        
+
                 // Сохраняем путь к файлу в $fieldData
                 $fieldData['img'] = $file;
             }
         }
         // return APIController::getSuccess(['fieldData' => $fieldData]);
         return FieldController::setField($templateId, $fieldData);
+    });
+    Route::post('field/{fieldId}/fitem', function ($fieldId, Request $request) {
+        $fieldData = [
+            'number' => $request['number'],
+            'code' => $request['code'],
+            'fieldNumber' => $request['fieldNumber'],
+            'order' => $request['order'],
+            'value' => $request['value'],
+            'bitixId' => $request['bitixId'],
+      
+        ];
+    
+        return FItemController::setFitem($fieldId, $fieldData);
     });
 
 
