@@ -23,10 +23,8 @@ class TemplateResource extends JsonResource
         if ($this->fields) {
             $fields = $this->fields;
         }
-        $fieldsCollection = new FieldCollection($fields);
-        if($fieldsCollection){
-            $resultFields = $fieldsCollection['fields'];
-        }
+        $fieldsCollection = new TemplateFieldCollection($fields);
+     
        
 
         return [
@@ -39,7 +37,7 @@ class TemplateResource extends JsonResource
             // 'portalId' => $this->portalId,
             'portal' => $domain,
             'providers' => $providersCollection,
-            'fields' =>  $resultFields,
+            'fields' =>  $fieldsCollection,
 
 
 

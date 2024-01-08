@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class FieldCollection extends ResourceCollection
+class TemplateFieldCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -27,11 +27,7 @@ class FieldCollection extends ResourceCollection
 
         // ];
 
-        return [
-            'totalCount' =>  $this->collection->count(),
-            'fields' => $data,
-
-        ];
+        return $data;
         // return parent::toArray($request);
     }
 }
