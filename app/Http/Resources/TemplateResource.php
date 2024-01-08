@@ -19,11 +19,15 @@ class TemplateResource extends JsonResource
         $providers =  $portal->providers;
         $providersCollection = new ProviderCollection($providers);
         $fields = [];
+        $resultFields = [];
         if ($this->fields) {
             $fields = $this->fields;
         }
         $fieldsCollection = new FieldCollection($fields);
-        $resultFields = $fieldsCollection->fields;
+        if($fieldsCollection){
+            $resultFields = $fieldsCollection->fields;
+        }
+       
 
         return [
             'id' => $this->id,
