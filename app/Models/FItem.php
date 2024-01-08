@@ -16,7 +16,7 @@ class FItem extends Model
         'fieldId',
         'order',
         'value',
-        'bitixId',
+        'bitrixId',
 
     ];
 
