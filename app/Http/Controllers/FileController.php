@@ -530,6 +530,11 @@ class FileController extends Controller
                 $providerRqtable->addCell($cellWidth)->addText($row, $providerRqfontStyle, $leftAlignedStyle);
             }
 
+
+
+
+
+            
             //ТАБЛИЦА ЦЕН
 
 
