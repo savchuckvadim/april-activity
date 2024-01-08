@@ -140,7 +140,7 @@ class FItemController extends Controller
 
             // Связываем поле с шаблоном
             // $field->fitems()->attach($fitem->id);
-            array_push($result, $field);
+            array_push($result, $fitem);
         }
 
         return $result;
