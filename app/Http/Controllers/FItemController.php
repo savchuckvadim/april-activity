@@ -15,18 +15,18 @@ class FItemController extends Controller
             if ($fitem) {
 
                 return APIController::getSuccess(
-                    ['fitem' => $fitem]
+                    ['item' => $fitem]
                 );
             } else {
                 return APIController::getError(
                     'field was not found',
-                    ['fitem' => $fitem]
+                    ['item' => $fitem]
                 );
             }
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['fitem' => $fitem]
+                ['item' => $fitem]
             );
         }
     }
@@ -42,18 +42,18 @@ class FItemController extends Controller
             if ($fitems) {
                 // $collectionFields = new FieldCollection($fields);
                 return APIController::getSuccess(
-                    ['fitems' => $fitems]
+                    ['items' => $fitems]
                 );
             }
+        }else{
+            return APIController::getError(
+                'field was not found',
+                ['field' => $field]
+            );
         }
 
 
-        return response([
-            'resultCode' => 0,
-            'isCollection' => true,
-            'tfields' => $fields,
-
-        ]);
+       
     }
 
 
