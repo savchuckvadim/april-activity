@@ -245,7 +245,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('field/{fieldId}', function ($fieldId) {
         return FieldController::getField($fieldId);
     });
-    Route::get('fitem/{fitemId}', function ($fitemId) {
+    Route::get('item/{fitemId}', function ($fitemId) {
         return FieldController::getField($fitemId);
     });
 
@@ -256,7 +256,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/template/{templateId}/field', function ($templateId) {
         return FieldController::getInitialField($templateId);
     });
-    Route::get('initial/field/{fieldId}/fitem', function () {
+    Route::get('initial/field/{fieldId}/item', function () {
         return FItemController::getInitialFitem();
     });
 
@@ -272,7 +272,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/field', function () {
         return FieldController::getInitialField();
     });
-    Route::get('initial/fitem', function () {
+    Route::get('initial/item', function () {
         return FItemController::getInitialFitem();
     });
 
@@ -310,7 +310,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // return APIController::getSuccess(['fieldData' => $fieldData]);
         return FieldController::setField($templateId, $fieldData);
     });
-    Route::post('field/{fieldId}/fitem', function ($fieldId, Request $request) {
+    Route::post('field/{fieldId}/item', function ($fieldId, Request $request) {
         $fieldData = [
             'number' => $request['number'],
             'code' => $request['code'],
