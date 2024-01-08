@@ -112,37 +112,34 @@ class FItemController extends Controller
 
     public function processFitems(array $fitems, Field $field)
     {
-        try {
-            $result = [];
-            foreach ($fitems as $fitemData) {
 
-                if (!isset($fieldData['number'])) {
-                    $fitemData['number'] = 0;
-                }
-                if (!isset($fieldData['code'])) {
-                    $fitemData['code'] = 0;
-                }
-                if (!isset($fieldData['fieldNumber'])) {
-                    $fitemData['fieldNumber'] = $field->number;
-                }
-                if (!isset($fieldData['order'])) {
-                    $fitemData['order'] = 0;
-                }
-                if (!isset($fieldData['bitixId'])) {
-                    $fitemData['bitixId'] = '';
-                }
+        $result = [];
+        foreach ($fitems as $fitemData) {
 
-
-                $fitem = FItem::updateOrCreate($fitemData);
-
-                // Связываем поле с шаблоном
-                $field->fitems()->attach($fitem->id);
-                array_push($result, $field);
+            if (!isset($fieldData['number'])) {
+                $fitemData['number'] = 0;
+            }
+            if (!isset($fieldData['code'])) {
+                $fitemData['code'] = 0;
+            }
+            if (!isset($fieldData['fieldNumber'])) {
+                $fitemData['fieldNumber'] = $field->number;
+            }
+            if (!isset($fieldData['order'])) {
+                $fitemData['order'] = 0;
+            }
+            if (!isset($fieldData['bitixId'])) {
+                $fitemData['bitixId'] = '';
             }
 
-            return $result;
-        } catch (\Throwable $th) {
-            return $th->getMessage();
+
+            $fitem = FItem::updateOrCreate($fitemData);
+
+            // Связываем поле с шаблоном
+            $field->fitems()->attach($fitem->id);
+            array_push($result, $field);
         }
+
+        return $result;
     }
 }
