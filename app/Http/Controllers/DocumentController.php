@@ -15,6 +15,7 @@ class DocumentController extends Controller
             'description' => $data['infoblocks']['description']['current'],
             'style' => $data['infoblocks']['style']['current'],
         ];
+
         $complect = $data['complect'];
 
         $templateType = $data['template']['type'];
@@ -37,12 +38,15 @@ class DocumentController extends Controller
             'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
             'marginLeft' => Converter::inchToTwip(0.5),
             'marginRight' => Converter::inchToTwip(0.5),
-            'lang' => 'ru-RU'
+            'lang' => 'ru-RU',
+            'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
+            'text' => ['size' => 12, 'name' => 'Arial'],
+            'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true]
         );
-        $languageEnGbStyle = array('lang' => 'ru-RU');
+        // $languageEnGbStyle = array('lang' => 'ru-RU');
 
         $section = $phpWord->addSection($sectionStyle);
-        $section = $this->getInfoblocks($infoblocksOptions, $complect, $section);
+        $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
 
         // //СОХРАНЕНИЕ ДОКУМЕТА
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -58,18 +62,31 @@ class DocumentController extends Controller
         ]);
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section)
+    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle)
     {
+        $headingStyle = $sectionStyle['heading'];
+        $textStyle = $sectionStyle['text'];
+        $textStyleBold = $sectionStyle['textBold'];
+        $descriptionMode = $infoblocksOptions['description']['id'];
+        $styleMode = $infoblocksOptions['style'];
 
         foreach ($complect as $group) {
             $section->addTextBreak(1);
-            $section->addText($group['groupsName']);
+            $section->addText($group['groupsName'], $headingStyle);
             $section->addTextBreak(1);
             foreach ($group['value'] as $infoblock) {
                 $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
                 if ($currentInfoblock) {
-                    $section->addText($currentInfoblock['name']);
-                    $section->addText($currentInfoblock['description']);
+                    $section->addText($currentInfoblock['name'], $textStyleBold);
+                    if ($descriptionMode === 0) {
+                    } else   if ($descriptionMode === 1) {
+                        $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                    } else   if ($descriptionMode === 2) {
+                        $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                    } else   if ($descriptionMode === 3) {
+                        $section->addText($currentInfoblock['description'], $textStyle);
+                    }
+
                     $section->addTextBreak(1);
                 }
             }
