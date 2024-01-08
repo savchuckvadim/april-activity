@@ -13,7 +13,7 @@ class ChangeFieldColumnsToBoolean extends Migration
      */
     public function up()
     {
-        Schema::table('boolean', function (Blueprint $table) {
+        Schema::table('fields', function (Blueprint $table) {
             $table->boolean('isGeneral')->change();
             $table->boolean('isDefault')->change();
             $table->boolean('isRequired')->change();
@@ -29,7 +29,7 @@ class ChangeFieldColumnsToBoolean extends Migration
      */
     public function down()
     {
-        Schema::table('boolean', function (Blueprint $table) {
+        Schema::table('fields', function (Blueprint $table) {
             $table->string('isGeneral')->change();
             $table->string('isDefault')->change();
             $table->string('isRequired')->change();
