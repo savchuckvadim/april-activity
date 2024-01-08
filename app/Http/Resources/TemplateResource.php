@@ -23,7 +23,7 @@ class TemplateResource extends JsonResource
             $fields = $this->fields;
         }
         $fieldsCollection = new FieldCollection($fields);
-        $resultFields = $fieldsCollection['fields'];
+        $resultFields = $fieldsCollection->fields;
 
         return [
             'id' => $this->id,
