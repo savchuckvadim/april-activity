@@ -462,6 +462,13 @@ class TemplateController extends Controller
         try {
             $result = [];
             foreach ($fields as $fieldData) {
+                $fieldData['type'] = $fieldData['type'] == 'null' ? '' : $fieldData['type'] ;
+                $fieldData['code'] = $fieldData['code'] == 'null' ? '' : $fieldData['code'] ;
+                $fieldData['value'] = $fieldData['value'] == 'null' ? '' : $fieldData['value'] ;
+                $fieldData['description'] = $fieldData['description'] == 'null' ? '' : $fieldData['description'] ;
+                $fieldData['bitixId'] = $fieldData['bitixId'] == 'null' ? '' : $fieldData['bitixId'] ;
+                $fieldData['bitrixTemplateId'] = $fieldData['bitrixTemplateId'] == 'null' ? '' : $fieldData['bitrixTemplateId'] ;
+
                 $fieldData['isGeneral'] = $fieldData['isGeneral'] == 'true' ? 1 : 0;
                 $fieldData['isDefault'] = $fieldData['isDefault'] == 'true' ? 1 : 0;
                 $fieldData['isRequired'] = $fieldData['isRequired'] == 'true' ? 1 : 0;
