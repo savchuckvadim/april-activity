@@ -65,15 +65,15 @@ class DocumentController extends Controller
             // $section->addTextBreak(1);
             // $section->addText($group['groupsName']);
             // $section->addTextBreak(1);
-            array_push($res, $group);
-            // foreach ($group['value'] as $infoblock) {
-            //     $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-
+            // array_push($res, $group);
+            foreach ($group['value'] as $infoblock) {
+                $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+                array_push($res, $currentInfoblock);
                 // $section->addText($currentInfoblock['name']);
                 // $section->addTextBreak(1);
                 // $section->addText($currentInfoblock['shortDescription']);
                 // $section->addTextBreak(1);
-            // }
+            }
         }
 
 
