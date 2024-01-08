@@ -103,10 +103,10 @@ class FItem extends Model
 
                     ],
                     [
-                        'title' => 'bitixId',
+                        'title' => 'bitrixId',
                         'entityType' => 'fitem',
-                        'name' => 'bitixId',
-                        'apiName' => 'bitixId',
+                        'name' => 'bitrixId',
+                        'apiName' => 'bitrixId',
                         'type' =>  'string',
                         'validation' => 'required|max:255',
                         'initialValue' => '',

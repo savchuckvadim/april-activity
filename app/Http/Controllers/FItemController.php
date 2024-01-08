@@ -104,7 +104,7 @@ class FItemController extends Controller
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                null
+                ['fitemData' => $fitemData]
             );
         }
     }
@@ -128,8 +128,8 @@ class FItemController extends Controller
             if (!isset($fieldData['order'])) {
                 $fitemData['order'] = 0;
             }
-            if (!isset($fieldData['bitixId'])) {
-                $fitemData['bitixId'] = '';
+            if (!isset($fieldData['bitrixId'])) {
+                $fitemData['bitrixId'] = '';
             }
 
 
