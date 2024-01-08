@@ -462,6 +462,12 @@ class TemplateController extends Controller
         try {
             $result = [];
             foreach ($fields as $fieldData) {
+                $fieldData['isGeneral'] = $fieldData['isGeneral'] == 'true' ? 1 : 0;
+                $fieldData['isDefault'] = $fieldData['isDefault'] == 'true' ? 1 : 0;
+                $fieldData['isRequired'] = $fieldData['isRequired'] == 'true' ? 1 : 0;
+                $fieldData['isActive'] = $fieldData['isActive'] == 'true' ? 1 : 0;
+                $fieldData['isPlural'] = $fieldData['isPlural'] == 'true' ? 1 : 0;
+                $fieldData['isClient'] = $fieldData['isClient'] == 'true' ? 1 : 0;
 
                 // if (!isset($fieldData['isGeneral'])) {
                 //     $fieldData['isGeneral'] = false;

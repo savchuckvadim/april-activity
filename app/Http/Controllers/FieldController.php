@@ -224,7 +224,7 @@ class FieldController extends Controller
                     'isRequired' => $request['isRequired'],
                     'isActive' => $request['isActive'],
                     'isPlural' => $request['isPlural'],
-                    'isClient' => $request->input('isClient') == 'true' ? 1 : 0,
+                    'isClient' => $request['isClient'],
                 ]);
                 $responseData = [
                     'field' => $field,
