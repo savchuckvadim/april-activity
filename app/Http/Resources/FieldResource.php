@@ -32,6 +32,7 @@ class FieldResource extends JsonResource
             'bitrixTemplateId'=> $this->bitrixTemplateId,
             'isActive'=> $this->isActive,
             'isPlural'=> $this->isPlural,
+            'isClient'=> $this->isClient,
 
 
         ];

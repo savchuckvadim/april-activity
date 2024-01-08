@@ -296,6 +296,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'bitrixTemplateId' => $request['bitrixTemplateId'],
             'isActive' => $request['isActive'],
             'isPlural' => $request['isPlural'],
+            'isClient' => $request['isClient'],
             'img' => $request['img'],
 
         ];

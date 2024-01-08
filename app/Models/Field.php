@@ -212,6 +212,16 @@ class Field extends Model
                         'isCanAddField' => false,
                     ],
                     [
+                        'title' => 'Изменяемое клиентом ?',
+                        'entityType' => 'field',
+                        'name' => 'isClient',
+                        'apiName' => 'isClient',
+                        'type' =>  'boolean',
+                        'validation' => '',
+                        'initialValue' => false,
+                        'isCanAddField' => false,
+                    ],
+                    [
                         'title' => 'Картинка',
                         'entityType' => 'field',
                         'name' => 'img',
