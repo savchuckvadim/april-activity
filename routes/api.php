@@ -213,7 +213,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('template/{templateId}/fields', function ($templateId) {
         return FieldController::getFields($templateId);
     });
-
+    Route::get('field/{fieldId}/items', function ($fieldId) {
+        return FItemController::getFitems($fieldId);
+    });
 
     //// no specific
     Route::get('templates', function () {
@@ -233,7 +235,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('fields', function () {
         return FieldController::getAllFields();
     });
-
+    Route::get('items/{fieldId}', function ($fieldId) {
+        return FItemController::getFitems($fieldId);
+    });
 
 
     //GET ITEM
