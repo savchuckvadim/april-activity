@@ -250,7 +250,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FieldController::getField($fieldId);
     });
     Route::get('item/{fitemId}', function ($fitemId) {
-        return FieldController::getField($fitemId);
+        return FItemController::getFitem($fitemId);
     });
 
 
