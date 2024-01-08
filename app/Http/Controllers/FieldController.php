@@ -219,12 +219,12 @@ class FieldController extends Controller
                     'description' => $request['description'],
                     'bitixId' => $request['bitixId'],
                     'bitrixTemplateId' => $request['bitrixTemplateId'],
-                    'isGeneral' => $request['isGeneral'],
-                    'isDefault' => $request['isDefault'],
-                    'isRequired' => $request['isRequired'],
-                    'isActive' => $request['isActive'],
-                    'isPlural' => $request['isPlural'],
-                    'isClient' => $request['isClient'],
+                    'isGeneral' => $request->input('isGeneral') == 'true' ? 1 : 0,
+                    'isDefault' => $request->input('isDefault') == 'true' ? 1 : 0,
+                    'isRequired' => $request->input('isRequired') == 'true' ? 1 : 0,
+                    'isActive' => $request->input('isActive') == 'true' ? 1 : 0,
+                    'isPlural' => $request->input('isPlural') == 'true' ? 1 : 0,
+                     'isClient' => $request->input('isClient') == 'true' ? 1 : 0,
                 ]);
                 $responseData = [
                     'field' => $field,
