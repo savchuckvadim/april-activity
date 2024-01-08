@@ -321,7 +321,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'fieldNumber' => $request['fieldNumber'],
             'order' => $request['order'],
             'value' => $request['value'],
-            'bitixId' => $request['bitixId'],
+            'bitrixId' => $request['bitrixId'],
       
         ];
     
