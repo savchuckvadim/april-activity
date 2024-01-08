@@ -463,22 +463,22 @@ class TemplateController extends Controller
             $result = [];
             foreach ($fields as $fieldData) {
 
-                if (!isset($fieldData['isGeneral'])) {
-                    $fieldData['isGeneral'] = false;
-                }
+                // if (!isset($fieldData['isGeneral'])) {
+                //     $fieldData['isGeneral'] = false;
+                // }
 
-                if (!isset($fieldData['isDefault'])) {
-                    $fieldData['isDefault'] = false;
-                }
-                if (!isset($fieldData['isRequired'])) {
-                    $fieldData['isRequired'] = false;
-                }
-                if (!isset($fieldData['isActive'])) {
-                    $fieldData['isActive'] = false;
-                }
-                if (!isset($fieldData['isPlural'])) {
-                    $fieldData['isPlural'] = false;
-                }
+                // if (!isset($fieldData['isDefault'])) {
+                //     $fieldData['isDefault'] = false;
+                // }
+                // if (!isset($fieldData['isRequired'])) {
+                //     $fieldData['isRequired'] = false;
+                // }
+                // if (!isset($fieldData['isActive'])) {
+                //     $fieldData['isActive'] = false;
+                // }
+                // if (!isset($fieldData['isPlural'])) {
+                //     $fieldData['isPlural'] = false;
+                // }
                 if (!isset($fieldData['type'])) {
                     $fieldData['type'] = 'string';
                 }
