@@ -10,7 +10,7 @@ class DocumentController extends Controller
     {
         return APIController::getSuccess([
             'data' => $data,
-            'data' => $this->getInfoblocks()
+            'infoblocks' => $this->getInfoblocks()
         ]);
     }
 
