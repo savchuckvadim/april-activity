@@ -42,41 +42,41 @@ class DocumentController extends Controller
         $languageEnGbStyle = array('lang' => 'ru-RU');
 
         $section = $phpWord->addSection($sectionStyle);
-        $testInfoblocks = $this->getInfoblocks($infoblocksOptions, $complect, $section);
+        $section = $this->getInfoblocks($infoblocksOptions, $complect, $section);
 
         // //СОХРАНЕНИЕ ДОКУМЕТА
-        // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        // $objWriter->save($resultPath . '/' . $resultFileName);
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($resultPath . '/' . $resultFileName);
 
         // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-        // $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
+        $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
         return APIController::getSuccess([
             'data' => $data,
-            // 'link' => $link,
-            'testInfoblocks' => $testInfoblocks
+            'link' => $link,
+            // 'testInfoblocks' => $testInfoblocks
         ]);
     }
 
     protected function getInfoblocks($infoblocksOptions, $complect, $section)
     {
-        $res = [];
+
         foreach ($complect as $group) {
-            // $section->addTextBreak(1);
-            // $section->addText($group['groupsName']);
-            // $section->addTextBreak(1);
-            // array_push($res, $group);
+            $section->addTextBreak(1);
+            $section->addText($group['groupsName']);
+            $section->addTextBreak(1);
             foreach ($group['value'] as $infoblock) {
                 $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                array_push($res, $currentInfoblock);
-                // $section->addText($currentInfoblock['name']);
-                // $section->addTextBreak(1);
-                // $section->addText($currentInfoblock['shortDescription']);
-                // $section->addTextBreak(1);
+                if ($currentInfoblock) {
+                    $section->addText($currentInfoblock['name']);
+                    $section->addTextBreak(1);
+                    $section->addText($currentInfoblock['shortDescription']);
+                    $section->addTextBreak(1);
+                }
             }
         }
 
 
-        return $res;
+        return $section;
     }
 }
