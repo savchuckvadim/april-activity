@@ -11,6 +11,7 @@
         "php": "^7.3|^8.0",
         "anton-zaharov/bitrix24api": "^1.0",
         "creativeorange/gravatar": "~1.0",
+        "doctrine/dbal": "^3.7",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/fortify": "^1.13",
