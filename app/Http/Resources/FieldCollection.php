@@ -12,11 +12,11 @@ class FieldCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request = null)
     {
         $this->except('updated_at');
         $this->except('created_at');
-        $data = $this->collection->each(function ($item) {
+        $data = $this->collection->map(function ($item) {
 
             return new FieldResource($item);
         });
