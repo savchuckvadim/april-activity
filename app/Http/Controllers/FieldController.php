@@ -219,12 +219,12 @@ class FieldController extends Controller
                     'description' => $request['description'],
                     'bitixId' => $request['bitixId'],
                     'bitrixTemplateId' => $request['bitrixTemplateId'],
-                    'isGeneral' => $request->input('isGeneral') == 'true' ? 1 : 0,
-                    'isDefault' => $request->input('isDefault') == 'true' ? 1 : 0,
-                    'isRequired' => $request->input('isRequired') == 'true' ? 1 : 0,
-                    'isActive' => $request->input('isActive') == 'true' ? 1 : 0,
-                    'isPlural' => $request->input('isPlural') == 'true' ? 1 : 0,
-                     'isClient' => $request->input('isClient') == 'true' ? 1 : 0,
+                    'isGeneral' => ($request->input('isGeneral') == 'true' || $request->input('isGeneral') == '1' || $request->input('isGeneral') == 1) ? 1 : 0,
+                    'isDefault' => ($request->input('isDefault') == 'true' || $request->input('isDefault') == '1' || $request->input('isDefault') == 1) ? 1 : 0,
+                    'isRequired' => ($request->input('isRequired') == 'true' || $request->input('isRequired') == '1' || $request->input('isRequired') == 1) ? 1 : 0,
+                    'isActive' => ($request->input('isActive') == 'true' || $request->input('isActive') == '1' || $request->input('isActive') == 1) ? 1 : 0,
+                    'isPlural' => ($request->input('isPlural') == 'true' || $request->input('isPlural') == '1' || $request->input('isPlural') == 1) ? 1 : 0,
+                    'isClient' => ($request->input('isClient') == 'true' || $request->input('isClient') == '1' || $request->input('isClient') == 1) ? 1 : 0,
                 ]);
                 $responseData = [
                     'field' => $field,
