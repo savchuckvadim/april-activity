@@ -25,7 +25,7 @@ class TemplateResource extends JsonResource
         }
         $fieldsCollection = new FieldCollection($fields);
         if($fieldsCollection){
-            $resultFields = $fieldsCollection->fields;
+            $resultFields = $fieldsCollection['fields'];
         }
        
 
