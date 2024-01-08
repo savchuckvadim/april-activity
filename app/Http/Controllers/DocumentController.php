@@ -17,12 +17,13 @@ class DocumentController extends Controller
         ];
         $complect = $data['complect'];
 
+        $templateType = $data['template']['type'];
 
 
         //result document
         $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
         $uid = Uuid::uuid4()->toString();
-        $resultFileName = $data['type'] . '_' . $uid . '.docx';
+        $resultFileName = $templateType . '_' . $uid . '.docx';
 
 
 
