@@ -76,7 +76,7 @@ class FieldController extends Controller
                     ]);
                 } else {
                     return APIController::getError(
-                        'Field was not updating',
+                        'Field was not creating',
                         [
                             'resultFields' => $resultFields,
                             'template' => $template,
@@ -224,7 +224,7 @@ class FieldController extends Controller
                     'isRequired' => $request['isRequired'],
                     'isActive' => $request['isActive'],
                     'isPlural' => $request['isPlural'],
-                    'isClient' => $request['isClient'],
+                    'isClient' => $request->input('isClient') == 'true' ? 1 : 0,
                 ]);
                 $responseData = [
                     'field' => $field,
