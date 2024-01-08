@@ -69,28 +69,78 @@ class DocumentController extends Controller
         $textStyleBold = $sectionStyle['textBold'];
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
+        if ($styleMode['code'] == 'list') {
+            foreach ($complect as $group) {
+                $section->addTextBreak(1);
+                $section->addText($group['groupsName'], $headingStyle);
+                $section->addTextBreak(1);
+                foreach ($group['value'] as $infoblock) {
+                    $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+                    if ($currentInfoblock) {
+                        $section->addText($currentInfoblock['name'], $textStyleBold);
+                        if ($descriptionMode === 0) {
+                        } else   if ($descriptionMode === 1) {
+                            $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                        } else   if ($descriptionMode === 2) {
+                            $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                        } else   if ($descriptionMode === 3) {
+                            $section->addText($currentInfoblock['description'], $textStyle);
+                        }
 
-        foreach ($complect as $group) {
-            $section->addTextBreak(1);
-            $section->addText($group['groupsName'], $headingStyle);
-            $section->addTextBreak(1);
-            foreach ($group['value'] as $infoblock) {
-                $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                if ($currentInfoblock) {
-                    $section->addText($currentInfoblock['name'], $textStyleBold);
-                    if ($descriptionMode === 0) {
-                    } else   if ($descriptionMode === 1) {
-                        $section->addText($currentInfoblock['shortDescription'], $textStyle);
-                    } else   if ($descriptionMode === 2) {
-                        $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                    } else   if ($descriptionMode === 3) {
-                        $section->addText($currentInfoblock['description'], $textStyle);
+                        $section->addTextBreak(1);
                     }
+                }
+            }
+        } else if ($styleMode['code'] == 'table') {
+            $fancyTableStyleName = 'Информационное наполнение';
+            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+            $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+            $fancyTableCellStyle = ['valign' => 'center'];
+            // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+            $fancyTableFontStyle = ['bold' => true,];
 
-                    $section->addTextBreak(1);
+
+            $table = $section->addTable($fancyTableStyleName);
+            $table->addRow(90);
+            $sectionStyle = $section->getStyle();
+            $fullWidth = $sectionStyle->getPageSizeW();
+            $marginRight = $sectionStyle->getMarginRight();
+            $marginLeft = $sectionStyle->getMarginLeft();
+            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+
+            foreach ($complect as $group) {
+                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+
+                foreach ($group['value'] as $infoblock) {
+                    $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+                    if ($currentInfoblock) {
+                        $table->addRow(90);
+                        $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                        $section->addText($currentInfoblock['name'], $textStyleBold);
+                        if ($descriptionMode === 0) {
+                        } else   if ($descriptionMode === 1) {
+                            $table->addRow(90);
+                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                            $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                         
+                        } else   if ($descriptionMode === 2) {
+                            $table->addRow(90);
+                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                            $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                         
+                        } else   if ($descriptionMode === 3) {
+                            $table->addRow(90);
+                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                            $section->addText($currentInfoblock['description'], $textStyle);
+                           
+                        }
+
+                        $section->addTextBreak(1);
+                    }
                 }
             }
         }
+
 
 
         return $section;
