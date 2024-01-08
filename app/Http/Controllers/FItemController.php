@@ -72,7 +72,7 @@ class FItemController extends Controller
 
     public static function setFitem($fieldId, $fitemData)
     {
-        $resultField = null;
+
 
         try {
             $field = Field::find($fieldId);
@@ -81,15 +81,23 @@ class FItemController extends Controller
             }
             if ($field) {
 
-                // $newFitem = new FItem($fitemData);
-
-                return APIController::getSuccess([
-                    'fieldId' => $fieldId,
-                    'fitemData' => $fitemData,
-                ]);
+                $fitemController = new FItemController;
+                $fitems =  $fitemController->processFitems([$fitemData], $field);
+                $newFitem = $fitems[0];
+                if ($newFitem) {
+                    return APIController::getSuccess([
+                        'fieldId' => $fieldId,
+                        'item' => $newFitem,
+                    ]);
+                } else {
+                    return APIController::getError(
+                        'fitem was not created',
+                        ['fitemData' => $fitemData]
+                    );
+                }
             } else {
                 return APIController::getError(
-                    'Template not found',
+                    'Field not found',
                     ['field' => $field, 'fitemData' => $fitemData]
                 );
             }
@@ -125,7 +133,7 @@ class FItemController extends Controller
                 }
 
 
-                $fitem = FItem::updateOrCreate($fitemData); 
+                $fitem = FItem::updateOrCreate($fitemData);
 
                 // Связываем поле с шаблоном
                 $field->fitems()->attach($fitem->id);
@@ -137,5 +145,4 @@ class FItemController extends Controller
             return $th->getMessage();
         }
     }
-  
 }
