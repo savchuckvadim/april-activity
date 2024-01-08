@@ -426,7 +426,30 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return $controller->updateTemplate($templateId, $template);
     });
+    Route::post('field/{fieldId}', function ($fieldId, Request $request) {
 
+        // $field = [
+        //     'number' => $request['number'],
+        //     'name' => $request['name'],
+        //     'type' => $request['type'],
+        //     'code' => $request['code'],
+        //     'value' => $request['value'],
+        //     'description' => $request['description'],
+        //     'bitixId' => $request['bitixId'],
+        //     'bitrixTemplateId' => $request['bitrixTemplateId'],
+        //     'isGeneral' => $request['isGeneral'],
+        //     'isDefault' => $request['isDefault'],
+        //     'isRequired' => $request['isRequired'],
+        //     'isActive' => $request['isActive'],
+        //     'isPlural' => $request['isPlural'],
+        //     'isClient' => $request['isClient'],
+
+        // ];
+
+        $controller = new FieldController;
+
+        return $controller->updateField($fieldId, $request);
+    });
 
     //DELETE
 

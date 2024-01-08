@@ -204,6 +204,48 @@ class FieldController extends Controller
         return APIController::getSuccess($data);
     }
 
+    public function updateField($fieldId, Request $request)
+    {
+
+        try {
+            $field = Field::find($fieldId);
+            if ($field) {
+                $field->update([
+                    'number' => $request['number'],
+                    'name' => $request['name'],
+                    'type' => $request['type'],
+                    'code' => $request['code'],
+                    'value' => $request['value'],
+                    'description' => $request['description'],
+                    'bitixId' => $request['bitixId'],
+                    'bitrixTemplateId' => $request['bitrixTemplateId'],
+                    'isGeneral' => $request['isGeneral'],
+                    'isDefault' => $request['isDefault'],
+                    'isRequired' => $request['isRequired'],
+                    'isActive' => $request['isActive'],
+                    'isPlural' => $request['isPlural'],
+                    'isClient' => $request['isClient'],
+                ]);
+                $responseData = [
+                    'field' => $field,
+
+                ];
+                return APIController::getSuccess($responseData);
+            } else {
+                $responseData = [
+                    'fieldId' => $fieldId,
+                    'data' => $request,
+
+                ];
+                return APIController::getError('something wrong with save field', $responseData);
+            }
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            return APIController::getError('something wrong with save field: ' . $message, null);
+        }
+    }
+
+
     public static function deleteField($fieldId)
     {
         $field = Field::find($fieldId);
