@@ -69,8 +69,7 @@ class DocumentController extends Controller
                 $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
                 if ($currentInfoblock) {
                     $section->addText($currentInfoblock['name']);
-                    $section->addTextBreak(1);
-                    $section->addText($currentInfoblock['shortDescription']);
+                    $section->addText($currentInfoblock['description']);
                     $section->addTextBreak(1);
                 }
             }
