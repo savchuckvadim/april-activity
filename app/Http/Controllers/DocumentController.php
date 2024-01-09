@@ -48,7 +48,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
+            // $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
