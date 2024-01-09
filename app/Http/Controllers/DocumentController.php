@@ -15,7 +15,7 @@ class DocumentController extends Controller
         try {
             $infoblocksOptions = [
                 'description' => $data['infoblocks']['description']['current'],
-                'style' => $data['infoblocks']['style']['current'],
+                'style' => $data['infoblocks']['style']['current']['code'],
             ];
 
             $complect = $data['complect'];
