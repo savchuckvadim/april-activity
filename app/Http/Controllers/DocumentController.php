@@ -143,13 +143,24 @@ class DocumentController extends Controller
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
             foreach ($complect as $group) {
-                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
 
-                foreach ($group['value'] as $infoblock) {
+                foreach ($group['value'] as $index => $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
+                            if ($index % 2 == 0) { // Для четных индексов начинаем новую строку
+                                $table->addRow(90);
+                                $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $leftCell->addText($currentInfoblock['name'], $headingStyle);
+                                $leftCell->addText($currentInfoblock['shortDescription'], $textStyle);
+                            } else { // Для нечетных индексов добавляем ячейку в ту же строку
+                                $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $rightCell->addText($currentInfoblock['name'], $headingStyle);
+                                $rightCell->addText($currentInfoblock['shortDescription'], $textStyle);
+                            }
+
                             $table->addRow(90);
                             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                             // $cell->addText($group['groupsName'], $headingStyle);
