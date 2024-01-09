@@ -48,7 +48,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            // $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
+            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -81,7 +81,7 @@ class DocumentController extends Controller
         $textStyleBold = $sectionStyle['textBold'];
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
-        if ($styleMode['code'] == 'list') {
+        if ($styleMode == 'list') {
             foreach ($complect as $group) {
                 $section->addTextBreak(1);
                 $section->addText($group['groupsName'], $headingStyle);
@@ -103,7 +103,7 @@ class DocumentController extends Controller
                     }
                 }
             }
-        } else if ($styleMode['code'] == 'table') {
+        } else if ($styleMode == 'table') {
             $fancyTableStyleName = 'Информационное наполнение';
             $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
             $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
