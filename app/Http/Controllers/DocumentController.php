@@ -87,19 +87,26 @@ class DocumentController extends Controller
                 $section->addText($group['groupsName'], $headingStyle);
                 $section->addTextBreak(1);
                 foreach ($group['value'] as $infoblock) {
-                    $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                    if ($currentInfoblock) {
-                        $section->addText($currentInfoblock['name'], $textStyleBold);
-                        if ($descriptionMode === 0) {
-                        } else   if ($descriptionMode === 1) {
-                            $section->addText($currentInfoblock['shortDescription'], $textStyle);
-                        } else   if ($descriptionMode === 2) {
-                            $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                        } else   if ($descriptionMode === 3) {
-                            $section->addText($currentInfoblock['description'], $textStyle);
-                        }
 
-                        $section->addTextBreak(1);
+                    if (array_key_exists('code', $infoblock)) {
+                        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+
+
+
+
+                        if ($currentInfoblock) {
+                            $section->addText($currentInfoblock['name'], $textStyleBold);
+                            if ($descriptionMode === 0) {
+                            } else   if ($descriptionMode === 1) {
+                                $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                            } else   if ($descriptionMode === 2) {
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                            } else   if ($descriptionMode === 3) {
+                                $section->addText($currentInfoblock['description'], $textStyle);
+                            }
+
+                            $section->addTextBreak(1);
+                        }
                     }
                 }
             }
@@ -124,27 +131,30 @@ class DocumentController extends Controller
                 $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
 
                 foreach ($group['value'] as $infoblock) {
-                    $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                    if ($currentInfoblock) {
-                        $table->addRow(90);
-                        $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                        $section->addText($currentInfoblock['name'], $textStyleBold);
-                        if ($descriptionMode === 0) {
-                        } else   if ($descriptionMode === 1) {
-                            $table->addRow(90);
-                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                            $section->addText($currentInfoblock['shortDescription'], $textStyle);
-                        } else   if ($descriptionMode === 2) {
-                            $table->addRow(90);
-                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                            $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                        } else   if ($descriptionMode === 3) {
-                            $table->addRow(90);
-                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                            $section->addText($currentInfoblock['description'], $textStyle);
-                        }
+                    if (array_key_exists('code', $infoblock)) {
+                        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
-                        $section->addTextBreak(1);
+                        if ($currentInfoblock) {
+                            $table->addRow(90);
+                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                            $section->addText($currentInfoblock['name'], $textStyleBold);
+                            if ($descriptionMode === 0) {
+                            } else   if ($descriptionMode === 1) {
+                                $table->addRow(90);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                                $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                            } else   if ($descriptionMode === 2) {
+                                $table->addRow(90);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                            } else   if ($descriptionMode === 3) {
+                                $table->addRow(90);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                                $section->addText($currentInfoblock['description'], $textStyle);
+                            }
+
+                            $section->addTextBreak(1);
+                        }
                     }
                 }
             }
