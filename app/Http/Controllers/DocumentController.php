@@ -141,67 +141,39 @@ class DocumentController extends Controller
             $marginRight = $sectionStyle->getMarginRight();
             $marginLeft = $sectionStyle->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
-
+            $count = 0;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                $count = 0;
-                foreach ($group['value'] as $index => $infoblock) {
+
+                foreach ($group['value'] as $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-
-
-
+                            $table->addRow(90);
+                            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                            // $cell->addText($group['groupsName'], $headingStyle);
+                            $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
-                                $row = $table->addRow(90);
-                                $cell = $row->addCell($contentWidth, $fancyTableCellStyle);
-
-                                $cell->addText($currentInfoblock['name'], $textStyleBold);
                             } else   if ($descriptionMode === 1) {
-
-                                if ($count % 2 == 0) { // Для четных индексов начинаем новую строку
-                                    $table->addRow(90);
-                                    $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $leftCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $leftCell->addText($currentInfoblock['shortDescription'], $textStyle);
-                                } else { // Для нечетных индексов добавляем ячейку в ту же строку
-                                    $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $rightCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $rightCell->addText($currentInfoblock['shortDescription'], $textStyle);
-                                }
-
-
-                                // $table->addRow(90);
-                                // $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                                // $cell->addText($currentInfoblock['name'], $headingStyle);
-                                // $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                $table->addRow(90);
+                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['shortDescription'], $textStyle);
                             } else   if ($descriptionMode === 2) {
-                                if ($count % 2 == 0) { // Для четных индексов начинаем новую строку
-                                    $table->addRow(90);
-                                    $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $leftCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $leftCell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                } else { // Для нечетных индексов добавляем ячейку в ту же строку
-                                    $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $rightCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $rightCell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                }
+                                $table->addRow(90);
+                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
-                                if ($count % 2 == 0) { // Для четных индексов начинаем новую строку
-                                    $table->addRow(90);
-                                    $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $leftCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $leftCell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                } else { // Для нечетных индексов добавляем ячейку в ту же строку
-                                    $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $rightCell->addText($currentInfoblock['name'], $headingStyle);
-                                    $rightCell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                }
+                                $table->addRow(90);
+                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             }
 
                             $section->addTextBreak(1);
-                            $count++;
+                            $count = $count  + 1;
                         }
                     }
                 }
