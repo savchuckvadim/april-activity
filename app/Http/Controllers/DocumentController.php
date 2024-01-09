@@ -56,8 +56,10 @@ class DocumentController extends Controller
                 'lang' => 'ru-RU',
                 'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
                 'text' => ['size' => 12, 'name' => 'Arial'],
+                'textSmall' => ['size' => 10, 'name' => 'Arial'],
+                'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
                 'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-                'lineHeight' => 1, 
+                'lineHeight' => 1,
             );
 
             // Создаем стиль абзаца
@@ -99,34 +101,36 @@ class DocumentController extends Controller
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
         $textStyleBold = $sectionStyle['textBold'];
+        $textStyleSmall = $sectionStyle['textSmall'];
+        $textStyleSmallBold = $sectionStyle['textSmallBold'];
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
 
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
-            
+
                 // $section->addText($group['groupsName'], $headingStyle);
-                $section->addTextBreak(1);
+                // $section->addTextBreak(1);
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-                          
-                            if ($descriptionMode === 0) {
-                                $section->addText($currentInfoblock['name'], $textStyle);
-                            } else   if ($descriptionMode === 1) {
-                                  $section->addText($currentInfoblock['name'], $textStyleBold);
-                                $section->addText($currentInfoblock['shortDescription'], $textStyle);
-                            } else   if ($descriptionMode === 2) {
-                                  $section->addText($currentInfoblock['name'], $textStyleBold);
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            } else   if ($descriptionMode === 3) {
-                            }
 
-                            
+                            if ($descriptionMode === 0) {
+                                $section->addText($currentInfoblock['name'], $textStyleSmall);
+                            } else   if ($descriptionMode === 1) {
+                                $section->addText($currentInfoblock['name'], $textStyleSmallBold);
+                                $section->addText($currentInfoblock['shortDescription'], $textStyleSmall);
+                            } else   if ($descriptionMode === 2) {
+                                $section->addText($currentInfoblock['name'], $textStyleSmallBold);
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall);
+                            } else   if ($descriptionMode === 3) {
+                                $section->addText($currentInfoblock['name'], $textStyle);
+
+                            }
                         }
                     }
                 }
