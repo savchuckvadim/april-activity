@@ -128,7 +128,7 @@ class DocumentController extends Controller
                                 $section->addText($currentInfoblock['name'], $textStyleSmallBold);
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['name'], $textStyle);
+                                $section->addText($currentInfoblock['name'], $textStyleSmall);
 
                             }
                         }
