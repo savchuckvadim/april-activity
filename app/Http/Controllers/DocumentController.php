@@ -144,22 +144,13 @@ class DocumentController extends Controller
 
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-
+                $count = 0;
                 foreach ($group['value'] as $index => $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-                            if ($index % 2 == 0) { // Для четных индексов начинаем новую строку
-                                $table->addRow(90);
-                                $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                $leftCell->addText($currentInfoblock['name'], $headingStyle);
-                                $leftCell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            } else { // Для нечетных индексов добавляем ячейку в ту же строку
-                                $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                $rightCell->addText($currentInfoblock['name'], $headingStyle);
-                                $rightCell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            }
+                        
 
                             $table->addRow(90);
                             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
@@ -167,10 +158,23 @@ class DocumentController extends Controller
                             $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                             } else   if ($descriptionMode === 1) {
-                                $table->addRow(90);
-                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                                $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+
+                                if ($count % 2 == 0) { // Для четных индексов начинаем новую строку
+                                    $table->addRow(90);
+                                    $leftCell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                    $leftCell->addText($currentInfoblock['name'], $headingStyle);
+                                    $leftCell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                } else { // Для нечетных индексов добавляем ячейку в ту же строку
+                                    $rightCell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                    $rightCell->addText($currentInfoblock['name'], $headingStyle);
+                                    $rightCell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                }
+
+
+                                // $table->addRow(90);
+                                // $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                // $cell->addText($currentInfoblock['name'], $headingStyle);
+                                // $cell->addText($currentInfoblock['shortDescription'], $textStyle);
                             } else   if ($descriptionMode === 2) {
                                 $table->addRow(90);
                                 $table->addCell($contentWidth, $fancyTableCellStyle);
@@ -184,6 +188,7 @@ class DocumentController extends Controller
                             }
 
                             $section->addTextBreak(1);
+                            $count++;
                         }
                     }
                 }
