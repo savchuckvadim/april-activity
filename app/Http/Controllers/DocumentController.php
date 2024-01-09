@@ -25,6 +25,19 @@ class DocumentController extends Controller
 
             //result document
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+
+
+            if (!file_exists($resultPath)) {
+                mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+            }
+            
+            // Проверить доступность каталога для записи
+            if (!is_writable($resultPath)) {
+                throw new \Exception("Невозможно записать в каталог: $resultPath");
+            }
+
+
+
             $uid = Uuid::uuid4()->toString();
             $resultFileName = $templateType . '_' . $uid . '.docx';
 
