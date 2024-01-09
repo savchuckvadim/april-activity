@@ -57,7 +57,7 @@ class DocumentController extends Controller
                 'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
                 'text' => ['size' => 12, 'name' => 'Arial'],
                 'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-                'lineHeight' => 1.5, 
+                'lineHeight' => 1, 
             );
 
             // Создаем стиль абзаца
@@ -105,8 +105,8 @@ class DocumentController extends Controller
 
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
-                $section->addTextBreak(1);
-                $section->addText($group['groupsName'], $headingStyle);
+            
+                // $section->addText($group['groupsName'], $headingStyle);
                 $section->addTextBreak(1);
                 foreach ($group['value'] as $infoblock) {
 
@@ -114,16 +114,19 @@ class DocumentController extends Controller
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-                            $section->addText($currentInfoblock['name'], $textStyleBold);
+                          
                             if ($descriptionMode === 0) {
+                                $section->addText($currentInfoblock['name'], $textStyle);
                             } else   if ($descriptionMode === 1) {
+                                  $section->addText($currentInfoblock['name'], $textStyleBold);
                                 $section->addText($currentInfoblock['shortDescription'], $textStyle);
                             } else   if ($descriptionMode === 2) {
+                                  $section->addText($currentInfoblock['name'], $textStyleBold);
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
                             }
 
-                            $section->addTextBreak(1);
+                            
                         }
                     }
                 }
