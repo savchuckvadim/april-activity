@@ -67,6 +67,7 @@ class DocumentController extends Controller
                 $th->getMessage(),
                 [
                     'data' => $data,
+                    'styleMode' => $infoblocksOptions['style']
 
                 ]
             );
