@@ -151,23 +151,25 @@ class DocumentController extends Controller
 
                         if ($currentInfoblock) {
                             $table->addRow(90);
-                            $table->addCell($contentWidth, $fancyTableCellStyle)
-                                ->addText($group['groupsName'], $headingStyle)
-                                ->addText($currentInfoblock['name'], $textStyleBold);
+                            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                            // $cell->addText($group['groupsName'], $headingStyle);
+                            $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                             } else   if ($descriptionMode === 1) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)
-                                    ->addText($group['groupsName'], $headingStyle)
-                                    ->addText($currentInfoblock['shortDescription'], $textStyle);
+                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['shortDescription'], $textStyle);
                             } else   if ($descriptionMode === 2) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)
-                                    ->addText($group['groupsName'], $headingStyle)
-                                    ->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle)->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             }
 
                             $section->addTextBreak(1);
