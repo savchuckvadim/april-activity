@@ -56,7 +56,14 @@ class DocumentController extends Controller
                 'lang' => 'ru-RU',
                 'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
                 'text' => ['size' => 12, 'name' => 'Arial'],
-                'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true]
+                'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
+                'lineHeight' => 1.5, 
+            );
+
+            // Создаем стиль абзаца
+            $paragraphStyle = array(
+                'lineHeight' => 1.5, // межстрочный интервал в 1.5 раза больше размера шрифта
+                // Другие параметры стиля абзаца, если они нужны
             );
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
@@ -106,9 +113,6 @@ class DocumentController extends Controller
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
-
-
-
                         if ($currentInfoblock) {
                             $section->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
@@ -117,7 +121,6 @@ class DocumentController extends Controller
                             } else   if ($descriptionMode === 2) {
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
-                                
                             }
 
                             $section->addTextBreak(1);
