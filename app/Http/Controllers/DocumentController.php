@@ -30,7 +30,7 @@ class DocumentController extends Controller
             if (!file_exists($resultPath)) {
                 mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
             }
-            
+
             // Проверить доступность каталога для записи
             if (!is_writable($resultPath)) {
                 throw new \Exception("Невозможно записать в каталог: $resultPath");
@@ -94,6 +94,8 @@ class DocumentController extends Controller
         $textStyleBold = $sectionStyle['textBold'];
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
+
+
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
                 $section->addTextBreak(1);
@@ -115,7 +117,7 @@ class DocumentController extends Controller
                             } else   if ($descriptionMode === 2) {
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['description'], $textStyle);
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             }
 
                             $section->addTextBreak(1);
@@ -149,21 +151,23 @@ class DocumentController extends Controller
 
                         if ($currentInfoblock) {
                             $table->addRow(90);
-                            $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                            $section->addText($currentInfoblock['name'], $textStyleBold);
+                            $table->addCell($contentWidth, $fancyTableCellStyle)
+                                ->addText($group['groupsName'], $headingStyle)
+                                ->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                             } else   if ($descriptionMode === 1) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                                $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)
+                                    ->addText($group['groupsName'], $headingStyle)
+                                    ->addText($currentInfoblock['shortDescription'], $textStyle);
                             } else   if ($descriptionMode === 2) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)
+                                    ->addText($group['groupsName'], $headingStyle)
+                                    ->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
                                 $table->addRow(90);
-                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                                $section->addText($currentInfoblock['description'], $textStyle);
+                                $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle)->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             }
 
                             $section->addTextBreak(1);
@@ -171,6 +175,7 @@ class DocumentController extends Controller
                     }
                 }
             }
+        } else if ($styleMode == 'tableWithGroup') {
         }
 
 
