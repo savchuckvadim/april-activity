@@ -10,56 +10,67 @@ use Illuminate\Http\Request;
 class DocumentController extends Controller
 {
     public function getDocument($data)
+
     {
-        $infoblocksOptions = [
-            'description' => $data['infoblocks']['description']['current'],
-            'style' => $data['infoblocks']['style']['current'],
-        ];
+        try {
+            $infoblocksOptions = [
+                'description' => $data['infoblocks']['description']['current'],
+                'style' => $data['infoblocks']['style']['current'],
+            ];
 
-        $complect = $data['complect'];
+            $complect = $data['complect'];
 
-        $templateType = $data['template']['type'];
-
-
-        //result document
-        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-        $uid = Uuid::uuid4()->toString();
-        $resultFileName = $templateType . '_' . $uid . '.docx';
+            $templateType = $data['template']['type'];
 
 
+            //result document
+            $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+            $uid = Uuid::uuid4()->toString();
+            $resultFileName = $templateType . '_' . $uid . '.docx';
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
 
 
-        //стиль страницы 
-        $sectionStyle = array(
-            'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-            'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-            'marginLeft' => Converter::inchToTwip(0.5),
-            'marginRight' => Converter::inchToTwip(0.5),
-            'lang' => 'ru-RU',
-            'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
-            'text' => ['size' => 12, 'name' => 'Arial'],
-            'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true]
-        );
-        // $languageEnGbStyle = array('lang' => 'ru-RU');
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
 
-        $section = $phpWord->addSection($sectionStyle);
-        $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
 
-        // //СОХРАНЕНИЕ ДОКУМЕТА
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save($resultPath . '/' . $resultFileName);
+            //стиль страницы 
+            $sectionStyle = array(
+                'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+                'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+                'marginLeft' => Converter::inchToTwip(0.5),
+                'marginRight' => Converter::inchToTwip(0.5),
+                'lang' => 'ru-RU',
+                'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
+                'text' => ['size' => 12, 'name' => 'Arial'],
+                'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true]
+            );
+            // $languageEnGbStyle = array('lang' => 'ru-RU');
 
-        // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-        $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
+            $section = $phpWord->addSection($sectionStyle);
+            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
 
-        return APIController::getSuccess([
-            'data' => $data,
-            'link' => $link,
-            // 'testInfoblocks' => $testInfoblocks
-        ]);
+            // //СОХРАНЕНИЕ ДОКУМЕТА
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            $objWriter->save($resultPath . '/' . $resultFileName);
+
+            // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
+
+            return APIController::getSuccess([
+                'data' => $data,
+                'link' => $link,
+                // 'testInfoblocks' => $testInfoblocks
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'data' => $data,
+
+                ]
+            );
+        }
     }
 
     protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle)
@@ -122,17 +133,14 @@ class DocumentController extends Controller
                             $table->addRow(90);
                             $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
                             $section->addText($currentInfoblock['shortDescription'], $textStyle);
-                         
                         } else   if ($descriptionMode === 2) {
                             $table->addRow(90);
                             $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
                             $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                         
                         } else   if ($descriptionMode === 3) {
                             $table->addRow(90);
                             $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
                             $section->addText($currentInfoblock['description'], $textStyle);
-                           
                         }
 
                         $section->addTextBreak(1);
