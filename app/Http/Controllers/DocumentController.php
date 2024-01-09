@@ -117,7 +117,33 @@ class DocumentController extends Controller
                             } else   if ($descriptionMode === 2) {
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                foreach ($complect as $group) {
+                                    $section->addTextBreak(1);
+                                    $section->addText($group['groupsName'], $headingStyle);
+                                    $section->addTextBreak(1);
+                                    foreach ($group['value'] as $infoblock) {
+
+                                        if (array_key_exists('code', $infoblock)) {
+                                            $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+
+
+
+
+                                            if ($currentInfoblock) {
+                                                $section->addText($currentInfoblock['name'], $textStyleBold);
+                                                if ($descriptionMode === 0) {
+                                                } else   if ($descriptionMode === 1) {
+                                                    $section->addText($currentInfoblock['shortDescription'], $textStyle);
+                                                } else   if ($descriptionMode === 2) {
+                                                    $section->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                                } else   if ($descriptionMode === 3) {
+                                                }
+
+                                                $section->addTextBreak(1);
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             $section->addTextBreak(1);
@@ -182,7 +208,52 @@ class DocumentController extends Controller
         }
 
 
+        if ($descriptionMode === 3) {
+            $section = $this->getDescriptionPage(
+                $complect,
+                $section,
+                $headingStyle,
+                $textStyle,
+                $textStyleBold
+            );
+        }
 
+
+
+        return $section;
+    }
+
+    protected function getDescriptionPage(
+        $complect,
+        $section,
+        $headingStyle,
+        $textStyle,
+        $textStyleBold
+    ) {
+        $section->addPageBreak();
+        foreach ($complect as $group) {
+            // $section->addTextBreak(1);
+            $section->addText($group['groupsName'], $headingStyle);
+            $section->addTextBreak(1);
+            foreach ($group['value'] as $infoblock) {
+
+                if (array_key_exists('code', $infoblock)) {
+                    $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+
+
+
+
+                    if ($currentInfoblock) {
+                        $section->addText($currentInfoblock['name'], $textStyleBold);
+
+                        $section->addText($currentInfoblock['description'], $textStyle);
+
+
+                        $section->addTextBreak(1);
+                    }
+                }
+            }
+        }
         return $section;
     }
 }
