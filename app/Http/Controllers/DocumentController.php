@@ -311,7 +311,7 @@ class DocumentController extends Controller
         );
         $paragraphTitleStyle = array(
             'spaceAfter' => 1,    // Интервал после абзаца
-            'spaceBefore' => 1,   // Интервал перед абзацем
+            'spaceBefore' => 0,   // Интервал перед абзацем
             'lineHeight' => 1.5,  // Высота строки
             // Другие параметры стиля абзаца...
         );
