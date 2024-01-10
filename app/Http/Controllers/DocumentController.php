@@ -148,11 +148,12 @@ class DocumentController extends Controller
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.5;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.5;
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
             // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 38, 'borderColor' => '000000', 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'borderColor' => '000000', 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             // $fancyTableFontStyle = ['bold' => true,];
@@ -169,12 +170,12 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow(($fullWidth - $marginLeft - $marginRight - 100), $fancyTableFirstRowStyle);
+            $table->addRow();
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
 
             $innerTable = $cell->addTable(['borderSize' => 0]);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($contentWidth - 200, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
+            $innerTableCell = $innerTable->addCell($innerContentWidth, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
 
 
 
@@ -202,7 +203,7 @@ class DocumentController extends Controller
                                     $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                                     $innerTable = $cell->addTable(['borderSize' => 0]);
                                     $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 200, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
+                                    $innerTableCell = $innerTable->addCell($innerContentWidth, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
                                     $isTwoColExist = true;
                                 }
 
