@@ -650,7 +650,7 @@ class DocumentController extends Controller
                         Log::info('LOG_ACTIVE', ['active' => $priceCell]);
 
 
-                        if ($index < 1) {
+                        if ($index  === 0 || $index === '0') {
                             $outerWidth =  $cellWidth +  100;
                             $innerWidth = $cellWidth + 90;
                             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
