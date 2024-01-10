@@ -638,14 +638,14 @@ class DocumentController extends Controller
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
                         if ($index < 1) {
-                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                        } else if ($index > 0 && $index < (count($activePriceCellsGeneral) - 1)) {
-                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
-                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                        } else {
-                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                        } else if ($index == (count($activePriceCellsGeneral) - 1)) {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphLast);
+                        } else {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                         }
                     }
                     $table->addRow();
