@@ -562,19 +562,6 @@ class DocumentController extends Controller
                     $cellWidth = $contentWidth / $numCells;
 
 
-                    $textTableGroupTitle = [
-                        'size' => 10,
-                        'name' => 'Arial',
-                        'bold' => true,
-
-                    ];
-                    $textTableGroupTitleParagraph = [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'valign' => 'center',
-                    ];
                     $innerCellStyle = [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
@@ -588,8 +575,7 @@ class DocumentController extends Controller
                     $innerTabletyle = [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 40,
-
+                        'cellMargin' => 10,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                         // 'cellSpacing' => 10
 
@@ -598,12 +584,12 @@ class DocumentController extends Controller
                     $fancyTableStyle = [
                         'borderSize' => 10,
                         'borderColor' => '000000',
-                        'cellMargin' => 40,
+                        'cellMargin' => 10,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 10
                     ];
                     // 
-                    $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
+                    $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
 
 
                     $fancyTableCellStyle = [
@@ -628,7 +614,7 @@ class DocumentController extends Controller
                         $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
                             ->addText($priceCell['name'], $fancyTableFontStyle);
                     }
-                    $table->addRow();
+                    // $table->addRow();
                     // foreach ($price['cells']['general'] as $prc) {
                     //     foreach ($prc['cells'] as $cll) {
 
