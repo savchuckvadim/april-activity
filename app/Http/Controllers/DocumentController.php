@@ -517,7 +517,7 @@ class DocumentController extends Controller
             $section->addText('Цена за комплект', $languageEnGbStyle);
 
 
-            $fancyTableStyleName = 'Цена за комплект';
+            $fancyTableStyleName = 'DocumentPrice';
 
 
 
