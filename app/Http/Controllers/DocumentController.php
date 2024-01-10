@@ -630,20 +630,24 @@ class DocumentController extends Controller
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
 
-                    foreach ($activePriceCellsGeneral as $priceCell) {
+                    foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
 
 
                         $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
-
-                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                            ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        if ($index < 1) {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        } else {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        }
                     }
                     $table->addRow();
-                    foreach ($price['cells']['general'] as  $prc) {
-                        foreach ($prc['cells'] as $index =>  $cll) {
+                    foreach ($price['cells']['general'] as $prc) {
+                        foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
 
@@ -651,13 +655,8 @@ class DocumentController extends Controller
                                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                                 $innerTable = $cell->addTable($innerTabletyle);
                                 $innerTable->addRow();
-                                if ($index < 1) {
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                                } else {
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                                }
+                                $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                                    ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
                             }
                         }
                     }
