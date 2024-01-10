@@ -150,6 +150,7 @@ class DocumentController extends Controller
 
 
             $table = $section->addTable();
+            $section->addTableStyle('MyFancyTableStyle', $fancyTableStyle, $fancyTableFirstRowStyle);
             $table->addRow(90);
             // $sectionStyle = $section->getStyle();
             // $fullWidth = $sectionStyle->getPageSizeW();
@@ -175,7 +176,7 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
                                     // $table->addRow(90);
-                                    $cell =  $table->addCell();
+                                    $cell =  $table->addCell('MyFancyTableStyle');
                                     $cell->addText($currentInfoblock['name']);
                                 }
                             } else   if ($descriptionMode === 1) {
