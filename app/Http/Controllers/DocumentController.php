@@ -542,220 +542,220 @@ class DocumentController extends Controller
             usort($price['cells']['alternative'], function ($a, $b) {
                 return $a->order - $b->order;
             });
-            if ($isTable) {
+            // if ($isTable) {
 
-                // Расчет ширины каждой ячейки в зависимости от количества столбцов
-                if ($priceDataGeneral) {
-                    $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
-                        return $prc['isActive'];
-                    });
-                }
-                if ($priceDataAlternative) {
-                    $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
-                        return $prc['isActive'];
-                    });
-                }
+            //     // Расчет ширины каждой ячейки в зависимости от количества столбцов
+            //     if ($priceDataGeneral) {
+            //         $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
+            //             return $prc['isActive'];
+            //         });
+            //     }
+            //     if ($priceDataAlternative) {
+            //         $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
+            //             return $prc['isActive'];
+            //         });
+            //     }
 
 
-                if ($activePriceCellsGeneral) {
-                    $numCells = count($activePriceCellsGeneral); // Количество столбцов
-                    // $cellWidth = $contentWidth / $numCells;
+            //     if ($activePriceCellsGeneral) {
+            //         $numCells = count($activePriceCellsGeneral); // Количество столбцов
+            //         // $cellWidth = $contentWidth / $numCells;
 
-                    $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-                    $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
-                    $fancyTableCellStyle = ['valign' => 'center'];
-                    // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    $fancyTableFontStyle = ['bold' => true,];
-                    // $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
-                    $table = $section->addTable();
-                    $table->addRow(90);
+            //         $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+            //         $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+            //         $fancyTableCellStyle = ['valign' => 'center'];
+            //         // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+            //         $fancyTableFontStyle = ['bold' => true,];
+            //         // $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+            //         $table = $section->addTable();
+            //         $table->addRow(90);
 
-                    // foreach ($activePriceCellsGeneral as $priceCell) {
-                    //     $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
-                    // }
-                    // $table->addRow();
-                    // foreach ($price['cells']['general'] as $prc) {
-                    //     foreach ($prc['cells'] as $cll) {
+            //         // foreach ($activePriceCellsGeneral as $priceCell) {
+            //         //     $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+            //         // }
+            //         // $table->addRow();
+            //         // foreach ($price['cells']['general'] as $prc) {
+            //         //     foreach ($prc['cells'] as $cll) {
 
-                    //         if ($cll['isActive']) {
+            //         //         if ($cll['isActive']) {
                                 
-                    //             $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //             $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
-                    //         }
-                    //     }
-                    // }
-                    // $table->addRow();
-                    // if ($priceDataAlternative) {
-                    //     foreach ($price['cells']['alternative'] as $prc) {
-                    //         foreach ($prc['cells'] as $cll) {
-                    //             if ($cll['isActive']) {
-                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
-                    //             }
-                    //         }
-                    //     }
-                    // }
-                }
-            } else {
+            //         //             $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+            //         //             $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+            //         //         }
+            //         //     }
+            //         // }
+            //         // $table->addRow();
+            //         // if ($priceDataAlternative) {
+            //         //     foreach ($price['cells']['alternative'] as $prc) {
+            //         //         foreach ($prc['cells'] as $cll) {
+            //         //             if ($cll['isActive']) {
+            //         //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+            //         //                 $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+            //         //             }
+            //         //         }
+            //         //     }
+            //         // }
+            //     }
+            // } else {
 
-                //NOTABLE PRICE
-                $section->addTextBreak(1);
+            //     //NOTABLE PRICE
+            //     $section->addTextBreak(1);
 
-                // Сортировка массива
+            //     // Сортировка массива
 
-                $measure = null;
-                foreach ($price['cells']['general'] as $prc) {
-                    $text = '';
-                    foreach ($prc['cells'] as $cll) {
-                        if ($cll['code'] === 'measure') {
-                            $measure = $cll['value'];
-                            break; // Прерываем цикл, как только найдем нужный элемент
-                        }
-                    }
-                }
-
-
-
-                $texts = [];
-                $values = [];
-                $quantity = null;
-                $clls = [];
-                $allPrices = [];
-                $allPrices[] = $price['cells']['general'];
-                $allPrices[] = $price['cells']['alternative'];
-                // Создание стилей
-                $boldStyle = array('bold' => true);
-                $colorStyle = array('bold' => true, 'color' => 'FF0000'); // Красный цвет
-                $section->addFontStyle('BoldText', array('bold' => true));
-                $section->addFontStyle('ColorBoldText', array('bold' => true, 'color' => 'FF0000'));
-                if ($measure) {
-                    foreach ($allPrices as $target) {
-
-                        foreach ($target as $prc) {
-                            $text = '';
-
-                            $textRunBold = $section->addTextRun('ColorBoldText');
-                            $isQantityNamed = false;
-                            $isQantityPrepaymentNamed = false;
-
-                            $isSumNamed = false;
-                            $isSumPrepaymentNamed = false;
-                            $isSumContractNamed = false;
-                            $string = '';
-                            foreach ($prc['cells'] as $cll) {
-                                $value = '';
-                                $applyStyle = null;
-                                // $textRun = $section->addTextRun($languageEnGbStyle);
-                                $isNamed = false;
-
-                                if ($cll['isActive'] && !empty(trim($cll['value']))) {
-
-                                    if (
-                                        $cll['name'] === 'При заключении договора от' ||
-                                        $cll['name'] === 'При внесении предоплаты от'
-
-
-                                    ) {
-
-                                        $isNamed = $cll;
-                                        $clls[] = $cll;
-                                        $value = $cll['name'] . ' ';
-
-                                        $texts[] = $value;
-                                    } else if (
-
-                                        $cll['name'] === 'Сумма за весь период обслуживания' ||
-                                        $cll['name'] === 'Сумма предоплаты' ||
-                                        $cll['name'] === 'Сумма'
-
-
-                                    ) {
-                                        $length = strlen($string);
-                                        if ($length > 75) {
-                                            $textRunBold->addTextBreak();
-                                        }
-
-                                        $isNamed = $cll;
-                                        $clls[] = $cll;
-                                        $value = $cll['name'];
-                                        $texts[] = $value;
-                                    } else if (
-
-                                        $cll['name'] === 'Цена в месяц' ||
-                                        $cll['name'] === 'Цена'
-
-                                    ) {
-                                        $isNamed = $cll;
-                                        $clls[] = $cll;
-                                        $value = $cll['name'];
-
-                                        $texts[] = $value;
-                                    } else if ($cll['code'] === 'quantity') {
-                                        $value = FileController::getFullMeasureValue($measure, $cll['value']) . '';
-                                        $texts[] = $value;
-                                        $quantity =  $cll['value'];
-                                    } else if ($cll['code']  === "discountprecent") {
-                                        $value =  round((100 -  $cll['value'] * 100), 2) . '';
-                                        $texts[] = $value;
-                                    } else if ($cll['code']  === "measure") {
-                                        // $value = $cll['value'] . '';
-                                        $texts[] = $value;
-                                    } else {
-
-                                        $value = $cll['value'] . '';
-                                        $texts[] = $value;
-                                    }
-
-                                    if ($isNamed) {
-                                        $text = $text . '  ' . $value;
-                                        if ((
-                                            $cll['name'] === 'Сумма за весь период обслуживания' ||
-                                            $cll['name'] === 'Сумма предоплаты' ||
-                                            $cll['name'] === 'Сумма'
-                                        ) && $length > 75) {
-                                            $textRunBold->addText($value, $boldStyle);
-                                            $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
-                                        } else {
-                                            $textRunBold->addText('  ' . $value, $boldStyle);
-                                            $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
-                                        }
-
-                                        $string = $string . '  ' . $value;
-                                        $string = $string . '  ' . $isNamed['value'];
-                                    } else {
-                                        if (empty(trim($text))) {
-                                            $text = $value;
-                                            $string = $string . $value;
-                                            $textRunBold->addText($value,  $boldStyle);
-                                        } else {
-                                            $text = $text . '  ' . $value;
-                                            $string = $string . '  ' . $value;
-                                            $textRunBold->addText('  ' . $value, $boldStyle);
-                                        }
-                                    }
+            //     $measure = null;
+            //     foreach ($price['cells']['general'] as $prc) {
+            //         $text = '';
+            //         foreach ($prc['cells'] as $cll) {
+            //             if ($cll['code'] === 'measure') {
+            //                 $measure = $cll['value'];
+            //                 break; // Прерываем цикл, как только найдем нужный элемент
+            //             }
+            //         }
+            //     }
 
 
 
+            //     $texts = [];
+            //     $values = [];
+            //     $quantity = null;
+            //     $clls = [];
+            //     $allPrices = [];
+            //     $allPrices[] = $price['cells']['general'];
+            //     $allPrices[] = $price['cells']['alternative'];
+            //     // Создание стилей
+            //     $boldStyle = array('bold' => true);
+            //     $colorStyle = array('bold' => true, 'color' => 'FF0000'); // Красный цвет
+            //     $section->addFontStyle('BoldText', array('bold' => true));
+            //     $section->addFontStyle('ColorBoldText', array('bold' => true, 'color' => 'FF0000'));
+            //     if ($measure) {
+            //         foreach ($allPrices as $target) {
+
+            //             foreach ($target as $prc) {
+            //                 $text = '';
+
+            //                 $textRunBold = $section->addTextRun('ColorBoldText');
+            //                 $isQantityNamed = false;
+            //                 $isQantityPrepaymentNamed = false;
+
+            //                 $isSumNamed = false;
+            //                 $isSumPrepaymentNamed = false;
+            //                 $isSumContractNamed = false;
+            //                 $string = '';
+            //                 foreach ($prc['cells'] as $cll) {
+            //                     $value = '';
+            //                     $applyStyle = null;
+            //                     // $textRun = $section->addTextRun($languageEnGbStyle);
+            //                     $isNamed = false;
+
+            //                     if ($cll['isActive'] && !empty(trim($cll['value']))) {
+
+            //                         if (
+            //                             $cll['name'] === 'При заключении договора от' ||
+            //                             $cll['name'] === 'При внесении предоплаты от'
 
 
-                                    // Добавляем текст с соответствующим стилем
-                                    // $text = $cll['name'] . ' ' . $cll['value'] . ' ';
+            //                         ) {
 
-                                }
-                                // // Добавляем перенос строки после обработки всех ячеек в строке
+            //                             $isNamed = $cll;
+            //                             $clls[] = $cll;
+            //                             $value = $cll['name'] . ' ';
 
-                            }
-                            // $textRunBold->addText($text);
-                            // $section->addText($text);
-                            // if ($applyStyle) {
-                            //     $section->addText($text, $applyStyle);
-                            // } else {
-                            //     $section->addText($text, $languageEnGbStyle);
-                            // }
-                        }
-                    }
-                }
-            }
+            //                             $texts[] = $value;
+            //                         } else if (
+
+            //                             $cll['name'] === 'Сумма за весь период обслуживания' ||
+            //                             $cll['name'] === 'Сумма предоплаты' ||
+            //                             $cll['name'] === 'Сумма'
+
+
+            //                         ) {
+            //                             $length = strlen($string);
+            //                             if ($length > 75) {
+            //                                 $textRunBold->addTextBreak();
+            //                             }
+
+            //                             $isNamed = $cll;
+            //                             $clls[] = $cll;
+            //                             $value = $cll['name'];
+            //                             $texts[] = $value;
+            //                         } else if (
+
+            //                             $cll['name'] === 'Цена в месяц' ||
+            //                             $cll['name'] === 'Цена'
+
+            //                         ) {
+            //                             $isNamed = $cll;
+            //                             $clls[] = $cll;
+            //                             $value = $cll['name'];
+
+            //                             $texts[] = $value;
+            //                         } else if ($cll['code'] === 'quantity') {
+            //                             $value = FileController::getFullMeasureValue($measure, $cll['value']) . '';
+            //                             $texts[] = $value;
+            //                             $quantity =  $cll['value'];
+            //                         } else if ($cll['code']  === "discountprecent") {
+            //                             $value =  round((100 -  $cll['value'] * 100), 2) . '';
+            //                             $texts[] = $value;
+            //                         } else if ($cll['code']  === "measure") {
+            //                             // $value = $cll['value'] . '';
+            //                             $texts[] = $value;
+            //                         } else {
+
+            //                             $value = $cll['value'] . '';
+            //                             $texts[] = $value;
+            //                         }
+
+            //                         if ($isNamed) {
+            //                             $text = $text . '  ' . $value;
+            //                             if ((
+            //                                 $cll['name'] === 'Сумма за весь период обслуживания' ||
+            //                                 $cll['name'] === 'Сумма предоплаты' ||
+            //                                 $cll['name'] === 'Сумма'
+            //                             ) && $length > 75) {
+            //                                 $textRunBold->addText($value, $boldStyle);
+            //                                 $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
+            //                             } else {
+            //                                 $textRunBold->addText('  ' . $value, $boldStyle);
+            //                                 $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
+            //                             }
+
+            //                             $string = $string . '  ' . $value;
+            //                             $string = $string . '  ' . $isNamed['value'];
+            //                         } else {
+            //                             if (empty(trim($text))) {
+            //                                 $text = $value;
+            //                                 $string = $string . $value;
+            //                                 $textRunBold->addText($value,  $boldStyle);
+            //                             } else {
+            //                                 $text = $text . '  ' . $value;
+            //                                 $string = $string . '  ' . $value;
+            //                                 $textRunBold->addText('  ' . $value, $boldStyle);
+            //                             }
+            //                         }
+
+
+
+
+
+            //                         // Добавляем текст с соответствующим стилем
+            //                         // $text = $cll['name'] . ' ' . $cll['value'] . ' ';
+
+            //                     }
+            //                     // // Добавляем перенос строки после обработки всех ячеек в строке
+
+            //                 }
+            //                 // $textRunBold->addText($text);
+            //                 // $section->addText($text);
+            //                 // if ($applyStyle) {
+            //                 //     $section->addText($text, $applyStyle);
+            //                 // } else {
+            //                 //     $section->addText($text, $languageEnGbStyle);
+            //                 // }
+            //             }
+            //         }
+            //     }
+            // }
             return $section;
         } catch (\Throwable $th) {
             return [
