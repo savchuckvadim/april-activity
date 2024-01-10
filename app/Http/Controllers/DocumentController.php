@@ -603,51 +603,50 @@ class DocumentController extends Controller
                     ];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
                     $fancyTableFontStyle = ['bold' => true];
-                    $textTableGroupTitleParagraph = [
+                    $textTableGroupTitleParagraphFirst =  [
                         'spaceAfter' => 0,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'alignment' => 'left',
                         'valign' => 'center',
                     ];
 
+                    $textTableGroupTitleParagraph =  [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => 'center',
+                        'valign' => 'center',
+                    ];
 
+                    $textTableGroupTitleParagraphLast =  [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => 'right',
+                        'valign' => 'center',
+                    ];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
 
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
-                        if ($index < 1) {
-                            $textTableGroupTitleParagraph =  [
-                                'spaceAfter' => 0,    // Интервал после абзаца
-                                'spaceBefore' => 0,   // Интервал перед абзацем
-                                'lineHeight' => 1.15,  // Высота строки
-                                'alignment' => 'left',
-                                'valign' => 'center',
-                            ];
-                        } else if ($index > 0 && $index < (count($activePriceCellsGeneral) - 1)) {
-                            $textTableGroupTitleParagraph =  [
-                                'spaceAfter' => 0,    // Интервал после абзаца
-                                'spaceBefore' => 0,   // Интервал перед абзацем
-                                'lineHeight' => 1.15,  // Высота строки
-                                'alignment' => 'center',
-                                'valign' => 'center',
-                            ];
-                        } else {
-                            $textTableGroupTitleParagraph =  [
-                                'spaceAfter' => 0,    // Интервал после абзаца
-                                'spaceBefore' => 0,   // Интервал перед абзацем
-                                'lineHeight' => 1.15,  // Высота строки
-                                'alignment' => 'right',
-                                'valign' => 'center',
-                            ];
-                        }
+
+
 
                         $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
-                        $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
-                            ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        if ($index < 1) {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        } else if ($index > 0 && $index < (count($activePriceCellsGeneral) - 1)) {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        } else {
+                            $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphLast);
+                        }
                     }
                     $table->addRow();
                     foreach ($price['cells']['general'] as $prc) {
