@@ -164,10 +164,11 @@ class DocumentController extends Controller
             $table->addRow();
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
+            $isTwoColExist = false;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
                
-                $isTwoColExist = false;
+                
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
