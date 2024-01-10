@@ -482,7 +482,8 @@ class DocumentController extends Controller
             //     'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
 
             // );
-
+            Log::info('getPriceSection', ['start' => $price]);
+            
 
             //ТАБЛИЦА ЦЕН
             $priceDataGeneral = null;
@@ -502,11 +503,13 @@ class DocumentController extends Controller
                 // Массив $price['cells']['total'] существует и не пуст
                 $priceDataTotal = $price['cells']['total'][0]['cells'];
             }
-
+            Log::info('price', ['price' => $price]);
+            
 
 
             $cells = [];
             $isTable = $price['isTable'];
+            Log::info('isTable', ['isTable' => $isTable]);
             // $header = ['size' => 16, 'bold' => true];
 
             // $headerRqStyle = ['valign' => 'left'];
