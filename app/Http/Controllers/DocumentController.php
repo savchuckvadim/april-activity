@@ -318,7 +318,7 @@ class DocumentController extends Controller
 
         $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
         $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
-        
+
         switch ($descriptionMode) {
             case 0:
                 $cell->addText($infoblock['name'], $textStyleSmall, $paragraphStyle);
@@ -326,11 +326,13 @@ class DocumentController extends Controller
             case 1:
                 $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
+                $cell->addTextBreak(1);
                 break;
             case 2:
             case 3:
                 $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                $cell->addTextBreak(1);
                 break;
         }
     }
