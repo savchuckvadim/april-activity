@@ -151,7 +151,7 @@ class DocumentController extends Controller
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
             $innerCellStyle = [
-                'borderSize' => 0,
+                'borderSize' => 0, 
                 'borderColor' => 'FFFFFF',
                 'cellMargin' => 40,
                 'valign' => 'center',
@@ -161,14 +161,13 @@ class DocumentController extends Controller
             ];
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = [
-                'borderSize' => 10,
-                'borderColor' => '000000',
-                'cellMargin' => 40,
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                'cellSpacing' => 10
-            ];
+                'borderSize' => 10, 
+                'borderColor' => '000000', 
+                'cellMargin' => 40, 
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 
+                'cellSpacing' => 10];
             // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0 , 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             // $fancyTableFontStyle = ['bold' => true,];
@@ -185,7 +184,12 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
+            $table->addRow();
+            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
 
+            $innerTable = $cell->addTable($innerCellStyle);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
 
 
 
@@ -197,12 +201,7 @@ class DocumentController extends Controller
 
 
                 foreach ($group['value'] as $infoblock) {
-                    $table->addRow();
-                    $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-
-                    $innerTable = $cell->addTable($innerCellStyle);
-                    $innerTable->addRow();
-                    $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+                    
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
