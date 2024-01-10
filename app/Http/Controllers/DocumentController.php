@@ -651,7 +651,7 @@ class DocumentController extends Controller
                                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                                 $innerTable = $cell->addTable($innerTabletyle);
                                 $innerTable->addRow();
-                                if ($cll['code'] < 'name') {
+                                if ($cll['code'] == 'name') {
                                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                 } else {
