@@ -562,14 +562,14 @@ class DocumentController extends Controller
                     // $cellWidth = $contentWidth / $numCells;
 
                     $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-                    $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+                    $fancyTableFirstRowStyle = ['cellMargin' => 25]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
                     $fancyTableCellStyle = ['valign' => 'center'];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
                     $fancyTableFontStyle = ['bold' => true,];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-
+                    $table->addCell(100, $fancyTableCellStyle)->addText('name', $fancyTableFontStyle);
                     // foreach ($activePriceCellsGeneral as $priceCell) {
                     //     $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
                     // }
