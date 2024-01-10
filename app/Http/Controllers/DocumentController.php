@@ -220,7 +220,7 @@ class DocumentController extends Controller
 
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
-                                $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
@@ -231,7 +231,7 @@ class DocumentController extends Controller
                                     $isTwoColExist = true;
                                 }
 
-                                $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -249,7 +249,7 @@ class DocumentController extends Controller
                 'size' => 10,
                 'name' => 'Arial',
                 'bold' => true,
-           
+
             ];
             $textTableGroupTitleParagraph = [
                 'spaceAfter' => 0,    // Интервал после абзаца
@@ -335,7 +335,7 @@ class DocumentController extends Controller
                             $isTwoColExist = true;
 
 
-                            $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                            $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
 
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -413,7 +413,7 @@ class DocumentController extends Controller
         return  $result;
     }
 
-    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode)
+    protected function addInfoblockToCell($tableType, $cell, $infoblock, $descriptionMode)
     {
         // Создаем стиль абзаца
         $paragraphStyle = array(
@@ -439,13 +439,18 @@ class DocumentController extends Controller
             case 1:
                 $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
-                $cell->addTextBreak(1);
+                if ($tableType == 'table') {
+                    $cell->addTextBreak(1);
+                }
+
                 break;
             case 2:
             case 3:
                 $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
-                $cell->addTextBreak(1);
+                if ($tableType == 'table') {
+                    $cell->addTextBreak(1);
+                }
                 break;
         }
     }
