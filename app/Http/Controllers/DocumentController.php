@@ -146,7 +146,7 @@ class DocumentController extends Controller
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 3;
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 190];
+            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 190];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
             $fancyTableFirstRowStyle = ['cellMargin' => 190,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
             // $fancyTableCellStyle = ['valign' => 'center'];
@@ -156,7 +156,7 @@ class DocumentController extends Controller
             $fancyTableCellStyle = [
                 'valign' => 'center',
                 'borderSize' => 6,
-                'borderColor' => '000000',  // Цвет границы (чёрный)
+                // 'borderColor' => '000000',  // Цвет границы (чёрный)
                 'cellMarginTop' => 100,
                 'cellMarginRight' => 100,
                 'cellMarginBottom' => 100,
