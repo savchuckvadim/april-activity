@@ -151,32 +151,33 @@ class DocumentController extends Controller
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
             $innerCellStyle = [
-                'borderSize' => 0, 
+                'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
                 'cellMargin' => 40,
                 'valign' => 'top',
-                
+
                 // 'cellSpacing' => 10
 
             ];
             $innerTabletyle = [
-                'borderSize' => 0, 
+                'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
                 'cellMargin' => 40,
-              
+
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                 // 'cellSpacing' => 10
 
             ];
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = [
-                'borderSize' => 10, 
-                'borderColor' => '000000', 
-                'cellMargin' => 40, 
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 
-                'cellSpacing' => 10];
+                'borderSize' => 10,
+                'borderColor' => '000000',
+                'cellMargin' => 40,
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                'cellSpacing' => 10
+            ];
             // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0 , 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             // $fancyTableFontStyle = ['bold' => true,];
@@ -210,7 +211,7 @@ class DocumentController extends Controller
 
 
                 foreach ($group['value'] as $infoblock) {
-                    
+
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
@@ -239,6 +240,95 @@ class DocumentController extends Controller
                 }
             }
         } else if ($styleMode == 'tableWithGroup') {
+
+            $fullWidth = $section->getStyle()->getPageSizeW();
+            $marginRight = $section->getStyle()->getMarginRight();
+            $marginLeft = $section->getStyle()->getMarginLeft();
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
+            $innerCellStyle = [
+                'borderSize' => 0,
+                'borderColor' => 'FFFFFF',
+                'cellMargin' => 40,
+                'valign' => 'top',
+
+                // 'cellSpacing' => 10
+
+            ];
+            $innerTabletyle = [
+                'borderSize' => 0,
+                'borderColor' => 'FFFFFF',
+                'cellMargin' => 40,
+
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                // 'cellSpacing' => 10
+
+            ];
+            $fancyTableStyleName = 'TableStyle';
+            $fancyTableStyle = [
+                'borderSize' => 10,
+                'borderColor' => '000000',
+                'cellMargin' => 40,
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                'cellSpacing' => 10
+            ];
+            // 
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
+            // $fancyTableCellStyle = ['valign' => 'center'];
+            // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+            // $fancyTableFontStyle = ['bold' => true,];
+
+            $fancyTableCellStyle = [
+                'valign' => 'top',
+                'borderSize' => 6,
+                // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                'cellMarginTop' => 100,
+                'cellMarginRight' => 100,
+                'cellMarginBottom' => 100,
+                'cellMarginLeft' => 100,
+            ];
+
+            $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+            $table = $section->addTable($fancyTableStyleName);
+            
+
+
+
+
+            $count = 0;
+            $isTwoColExist = false;
+            foreach ($complect as $group) {
+                // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+                $table->addRow();
+                $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+    
+                $innerTable = $cell->addTable($innerTabletyle);
+                $innerTable->addRow();
+                $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+
+                foreach ($group['value'] as $infoblock) {
+
+                    if (array_key_exists('code', $infoblock)) {
+                        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+
+                        if ($currentInfoblock) {
+                            $table->addRow();
+                            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                            
+                            $innerTable = $cell->addTable($innerTabletyle);
+                            $innerTable->addRow();
+                            $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+                            $isTwoColExist = true;
+
+
+                            $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+
+                            // $section->addTextBreak(1);
+                            $count = $count  + 1;
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -311,8 +401,8 @@ class DocumentController extends Controller
 
     protected function addInfoblockToCell($cell, $infoblock, $descriptionMode)
     {
-         // Создаем стиль абзаца
-         $paragraphStyle = array(
+        // Создаем стиль абзаца
+        $paragraphStyle = array(
             'spaceAfter' => 0,    // Интервал после абзаца
             'spaceBefore' => 0,   // Интервал перед абзацем
             'lineHeight' => 1.15,  // Высота строки
