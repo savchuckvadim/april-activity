@@ -13,7 +13,7 @@ class DocumentController extends Controller
     public function getDocument($data)
 
     {
-        try {
+        // try {
             $infoblocksOptions = [
                 'description' => $data['infoblocks']['description']['current'],
                 'style' => $data['infoblocks']['style']['current']['code'],
@@ -87,20 +87,21 @@ class DocumentController extends Controller
                 'link' => $link,
                 // 'testInfoblocks' => $testInfoblocks
             ]);
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                'something wrong ' . $th->getMessage(),
-                [
-                    'data' => $data,
-                    'styleMode' => $infoblocksOptions['style']
+        // } catch (\Throwable $th) {
+        //     return APIController::getError(
+        //         'something wrong ' . $th->getMessage(),
+        //         [
+        //             'data' => $data,
+        //             'styleMode' => $infoblocksOptions['style']
 
-                ]
-            );
-        }
+        //         ]
+        //     );
+        // }
     }
 
     protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle)
     {
+        
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
         $textStyleBold = $sectionStyle['textBold'];
@@ -178,38 +179,38 @@ class DocumentController extends Controller
                                     $cell->addText($currentInfoblock['name'], $headingStyle);
                                 }
                             } else   if ($descriptionMode === 1) {
-                                if ($currentInfoblock['name']) {
+                                // if ($currentInfoblock['name']) {
 
-                                    $table->addRow(90);
-                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+                                //     $table->addRow(90);
+                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
 
-                                    if ($currentInfoblock['shortDescription']) {
-                                        $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                                    }
-                                }
+                                //     if ($currentInfoblock['shortDescription']) {
+                                //         $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                //     }
+                                // }
                             } else   if ($descriptionMode === 2) {
-                                if ($currentInfoblock['name']) {
+                                // if ($currentInfoblock['name']) {
 
-                                    $table->addRow(90);
-                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+                                //     $table->addRow(90);
+                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
 
-                                    if ($currentInfoblock['descriptionForSale']) {
-                                        $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                    }
-                                }
+                                //     if ($currentInfoblock['descriptionForSale']) {
+                                //         $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                //     }
+                                // }
                             } else   if ($descriptionMode === 3) {
-                                if ($currentInfoblock['name']) {
+                                // if ($currentInfoblock['name']) {
 
-                                    $table->addRow(90);
-                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+                                //     $table->addRow(90);
+                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
 
-                                    if ($currentInfoblock['descriptionForSale']) {
-                                        $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                    }
-                                }
+                                //     if ($currentInfoblock['descriptionForSale']) {
+                                //         $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                //     }
+                                // }
                             }
                             $section->addTextBreak(1);
                             $count = $count  + 1;
