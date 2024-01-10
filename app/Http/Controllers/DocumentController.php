@@ -169,7 +169,7 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow();
+            $table->addRow($fancyTableFirstRowStyle);
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
