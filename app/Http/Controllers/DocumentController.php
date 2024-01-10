@@ -543,7 +543,7 @@ class DocumentController extends Controller
                 return $a->order - $b->order;
             });
             if ($isTable) {
-
+                Log::info('isTable', ['isTable' => $isTable]);
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
                 if ($priceDataGeneral) {
                     $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
@@ -555,8 +555,8 @@ class DocumentController extends Controller
                         return $prc['isActive'];
                     });
                 }
-
-
+                Log::info('priceDataGeneral', ['priceDataGeneral' => $priceDataGeneral]);
+                Log::info('LOG_ACTIVE_ALL', ['activePriceCellsGeneral' => $activePriceCellsGeneral]);
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
