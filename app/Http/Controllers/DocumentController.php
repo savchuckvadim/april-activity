@@ -105,7 +105,7 @@ class DocumentController extends Controller
         $totalCount = $this->getInfoblocksCount($complect);
         $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
         $textStyle = ['size' => 12, 'name' => 'Arial'];
-        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true];
+        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
         $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
         $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
 
@@ -245,7 +245,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) ;
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
+           
             $innerCellStyle = [
                 'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
@@ -304,7 +304,7 @@ class DocumentController extends Controller
     
                 $innerTable = $cell->addTable($innerTabletyle);
                 $innerTable->addRow();
-                $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+                $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle); 
                 $innerTableCell->addText($group['groupsName'], $textStyleSmallBold, $textStyleBold);
 
                 foreach ($group['value'] as $infoblock) {
@@ -318,7 +318,7 @@ class DocumentController extends Controller
                             
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+                            $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
                             $isTwoColExist = true;
 
 
