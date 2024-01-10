@@ -72,7 +72,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -154,47 +154,47 @@ class DocumentController extends Controller
             // $marginLeft = $sectionStyle->getMarginLeft();
             // $contentWidth = $fullWidth - $marginLeft - $marginRight;
             $count = 0;
-            foreach ($complect as $group) {
-                // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
+            // foreach ($complect as $group) {
+            //     // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
 
-                foreach ($group['value'] as $infoblock) {
-                    if (array_key_exists('code', $infoblock)) {
-                        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+            //     foreach ($group['value'] as $infoblock) {
+            //         if (array_key_exists('code', $infoblock)) {
+            //             $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
                         
-                        if ($currentInfoblock) {
-                            // $table->addRow(90);
-                            // $cell = $table->addRow(90)->addCell();
-                            // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                            // $cell->addText($group['groupsName'], $headingStyle);
-                            // $cell->addText($currentInfoblock['name'], $textStyleBold);
-                            if ($descriptionMode === 0) {
-                                // $table->addRow(90);
-                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                            } else   if ($descriptionMode === 1) {
-                                // $table->addRow(90);
-                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                                $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            }
-                            // else   if ($descriptionMode === 2) {
-                            //     $table->addRow(90);
-                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
-                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            // } else   if ($descriptionMode === 3) {
-                            //     $table->addRow(90);
-                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
-                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            // }
+            //             if ($currentInfoblock) {
+            //                 // $table->addRow(90);
+            //                 // $cell = $table->addRow(90)->addCell();
+            //                 // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+            //                 // $cell->addText($group['groupsName'], $headingStyle);
+            //                 // $cell->addText($currentInfoblock['name'], $textStyleBold);
+            //                 if ($descriptionMode === 0) {
+            //                     // $table->addRow(90);
+            //                     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+            //                     $cell->addText($currentInfoblock['name'], $headingStyle);
+            //                 } else   if ($descriptionMode === 1) {
+            //                     // $table->addRow(90);
+            //                     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+            //                     $cell->addText($currentInfoblock['name'], $headingStyle);
+            //                     $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+            //                 }
+            //                 // else   if ($descriptionMode === 2) {
+            //                 //     $table->addRow(90);
+            //                 //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+            //                 //     $cell->addText($currentInfoblock['name'], $headingStyle);
+            //                 //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+            //                 // } else   if ($descriptionMode === 3) {
+            //                 //     $table->addRow(90);
+            //                 //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+            //                 //     $cell->addText($currentInfoblock['name'], $headingStyle);
+            //                 //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+            //                 // }
 
-                            $section->addTextBreak(1);
-                            $count = $count  + 1;
-                        }
-                    }
-                }
-            }
+            //                 $section->addTextBreak(1);
+            //                 $count = $count  + 1;
+            //             }
+            //         }
+            //     }
+            // }
         } else if ($styleMode == 'tableWithGroup') {
         }
 
