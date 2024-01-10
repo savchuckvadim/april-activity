@@ -160,7 +160,7 @@ class DocumentController extends Controller
                 foreach ($group['value'] as $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-
+                        return APIController::getSuccess(['$currentInfoblock' => $currentInfoblock]);
                         if ($currentInfoblock) {
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
@@ -171,15 +171,12 @@ class DocumentController extends Controller
                                 // $table->addRow(90);
                                 $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
-
-
-
                             } else   if ($descriptionMode === 1) {
                                 // $table->addRow(90);
                                 $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
                                 $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            } 
+                            }
                             // else   if ($descriptionMode === 2) {
                             //     $table->addRow(90);
                             //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
