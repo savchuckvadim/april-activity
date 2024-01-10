@@ -468,22 +468,22 @@ class DocumentController extends Controller
     {
         try {
 
-               //стиль страницы 
-               $sectionStyle = array(
-                'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-                'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-                'marginLeft' => Converter::inchToTwip(0.5),
-                'marginRight' => Converter::inchToTwip(0.5),
-                'lang' => 'ru-RU',
-                'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
-                'text' => ['size' => 12, 'name' => 'Arial'],
-                'textSmall' => ['size' => 10, 'name' => 'Arial'],
-                'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
-                'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
+            //стиль страницы 
+            //    $sectionStyle = array(
+            //     'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+            //     'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+            //     'marginLeft' => Converter::inchToTwip(0.5),
+            //     'marginRight' => Converter::inchToTwip(0.5),
+            //     'lang' => 'ru-RU',
+            //     'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
+            //     'text' => ['size' => 12, 'name' => 'Arial'],
+            //     'textSmall' => ['size' => 10, 'name' => 'Arial'],
+            //     'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
+            //     'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
 
-            );
+            // );
 
-            
+
             //ТАБЛИЦА ЦЕН
             $priceDataGeneral = null;
             $priceDataAlternative = null;
@@ -519,7 +519,7 @@ class DocumentController extends Controller
 
             $fancyTableStyleName = 'Цена за комплект';
 
-         
+
 
             // Создаем стиль абзаца
             $paragraphStyle = array(
@@ -528,9 +528,9 @@ class DocumentController extends Controller
                 'lineHeight' => 1.15,  // Высота строки
                 // Другие параметры стиля абзаца...
             );
-            $fullWidth = $sectionStyle['pageSizeW'];
-            $marginRight = $sectionStyle['marginRight'];
-            $marginLeft = $sectionStyle['marginLeft'];
+            $fullWidth = $section->getStyle()->getPageSizeW();
+            $marginRight = $section->getStyle()->getMarginRight();
+            $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
 
@@ -556,7 +556,7 @@ class DocumentController extends Controller
                     });
                 }
 
-
+                Log::info('LOG', ['$activePriceCellsGeneral' => $activePriceCellsGeneral]);
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
