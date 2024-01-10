@@ -133,11 +133,15 @@ class DocumentController extends Controller
                             } else   if ($descriptionMode === 1) {
                                 $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
                                 $section->addText($currentInfoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
+                                $section->addTextBreak(1);
                             } else   if ($descriptionMode === 2) {
                                 $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                                $section->addTextBreak(1);
                             } else   if ($descriptionMode === 3) {
                                 $section->addText($currentInfoblock['name'], $textStyleSmall, $paragraphStyle);
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                                $section->addTextBreak(1);
                             }
                         }
                     }
