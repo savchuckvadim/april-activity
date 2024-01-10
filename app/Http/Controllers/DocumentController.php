@@ -650,7 +650,7 @@ class DocumentController extends Controller
                         Log::info('LOG_ACTIVE', ['active' => $priceCell]);
 
 
-                        if ($index > 0) {
+                        if ($index < 1) {
                             $outerWidth =  $cellWidth +  100;
                             $innerWidth = $cellWidth + 90;
                             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
@@ -668,35 +668,35 @@ class DocumentController extends Controller
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                         }
                     }
-                    $table->addRow();
-                    foreach ($price['cells']['general'] as  $prc) {
-                        foreach ($prc['cells'] as $cll) {
+                    // $table->addRow();
+                    // foreach ($price['cells']['general'] as  $prc) {
+                    //     foreach ($prc['cells'] as $cll) {
 
-                            if ($cll['isActive']) {
+                    //         if ($cll['isActive']) {
 
 
-                                if ($cll['code'] == 'name') {
-                                    $outerWidth =  $cellWidth +  100;
-                                    $innerWidth = $cellWidth + 90;
-                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerTabletyle);
-                                    $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                                } else {
-                                    $outerWidth =  $cellWidth - 20;
-                                    $innerWidth = $cellWidth - 30;
-                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerTabletyle);
-                                    $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                                }
-                            }
-                        }
-                    }
+                    //             if ($cll['code'] == 'name') {
+                    //                 $outerWidth =  $cellWidth +  100;
+                    //                 $innerWidth = $cellWidth + 90;
+                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                 $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                    //                 $innerTable = $cell->addTable($innerTabletyle);
+                    //                 $innerTable->addRow();
+                    //                 $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                    //             } else {
+                    //                 $outerWidth =  $cellWidth - 20;
+                    //                 $innerWidth = $cellWidth - 30;
+                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                 $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                    //                 $innerTable = $cell->addTable($innerTabletyle);
+                    //                 $innerTable->addRow();
+                    //                 $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                    //             }
+                    //         }
+                    //     }
+                    // }
 
                     // if ($priceDataAlternative) {
 
