@@ -108,7 +108,7 @@ class DocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
-
+        throw new \Exception("Невозможно записать в каталог: $styleMode");
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
 
@@ -144,7 +144,7 @@ class DocumentController extends Controller
             $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
-            throw new \Exception("Невозможно записать в каталог: $styleMode");
+          
 
             $table = $section->addTable();
             $table->addRow(90);
