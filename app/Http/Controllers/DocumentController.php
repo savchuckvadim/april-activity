@@ -561,9 +561,34 @@ class DocumentController extends Controller
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     // $cellWidth = $contentWidth / $numCells;
 
-                    $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+                   
                     $fancyTableFirstRowStyle = ['cellMargin' => 25]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
-                    $fancyTableCellStyle = ['valign' => 'center'];
+                    // $fancyTableCellStyle = [
+                    //     'valign' => 'center'
+                    
+                    // ];
+                    $fancyTableStyle = [
+                        'borderSize' => 10,
+                        'borderColor' => '000000',
+                        'cellMargin' => 25,
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellSpacing' => 10
+                    ];
+                    // 
+                    $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
+                    // $fancyTableCellStyle = ['valign' => 'center'];
+                    // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+                    // $fancyTableFontStyle = ['bold' => true,];
+        
+                    $fancyTableCellStyle = [
+                        'valign' => 'center',
+                        'borderSize' => 6,
+                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                        'cellMarginTop' => 10,
+                        'cellMarginRight' => 10,
+                        'cellMarginBottom' => 10,
+                        'cellMarginLeft' => 10,
+                    ];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
                     $fancyTableFontStyle = ['bold' => true,];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
