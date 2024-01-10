@@ -629,7 +629,7 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-
+                    Log::info('LOG_ACTIVE_ALL', ['activePriceCellsGeneral' => $activePriceCellsGeneral]);
                     foreach ($activePriceCellsGeneral as $priceCell) {
 
                         Log::info('LOG_ACTIVE', ['active' => $priceCell]);
