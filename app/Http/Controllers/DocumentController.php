@@ -539,12 +539,12 @@ class DocumentController extends Controller
 
             //TABLE
 
-            usort($price['cells']['general'], function ($a, $b) {
-                return $a->order - $b->order;
-            });
-            usort($price['cells']['alternative'], function ($a, $b) {
-                return $a->order - $b->order;
-            });
+            // usort($price['cells']['general'], function ($a, $b) {
+            //     return $a->order - $b->order;
+            // });
+            // usort($price['cells']['alternative'], function ($a, $b) {
+            //     return $a->order - $b->order;
+            // });
             Log::info('price', ['price' => $price]);
             Log::info('isTable', ['isTable' => $isTable]);
             if ($isTable) {
