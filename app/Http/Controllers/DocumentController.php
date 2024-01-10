@@ -249,8 +249,8 @@ class DocumentController extends Controller
             $innerCellStyle = [
                 'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
-                'cellMargin' => 40,
-                'valign' => 'top',
+                'cellMargin' => 10,
+                'valign' => 'centr',
 
                 // 'cellSpacing' => 10
 
@@ -279,13 +279,13 @@ class DocumentController extends Controller
             // $fancyTableFontStyle = ['bold' => true,];
 
             $fancyTableCellStyle = [
-                'valign' => 'top',
+                'valign' => 'centr',
                 'borderSize' => 6,
                 // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                'cellMarginTop' => 100,
-                'cellMarginRight' => 100,
-                'cellMarginBottom' => 100,
-                'cellMarginLeft' => 100,
+                'cellMarginTop' => 10,
+                'cellMarginRight' => 10,
+                'cellMarginBottom' => 10,
+                'cellMarginLeft' => 10,
             ];
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
@@ -306,7 +306,7 @@ class DocumentController extends Controller
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
                 $innerTableCell->addText($group['groupsName'], $textStyleSmallBold, $textStyleBold);
-                
+
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
