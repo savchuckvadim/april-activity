@@ -516,7 +516,7 @@ class DocumentController extends Controller
             $section->addTextBreak(1);
             $section->addText('Цена за комплект', $languageEnGbStyle);
 
-
+            Log::info('price', ['price' => $price]);
             $fancyTableStyleName = 'DocumentPrice';
 
 
