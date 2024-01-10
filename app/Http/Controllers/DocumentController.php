@@ -108,7 +108,7 @@ class DocumentController extends Controller
         $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true];
         $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
         $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
-        
+
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
@@ -161,11 +161,13 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-
+            $table->addRow();
+            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-
+               
+                $isTwoColExist = false;
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
@@ -174,16 +176,19 @@ class DocumentController extends Controller
                         if ($currentInfoblock) {
 
 
-                            if ($count % 2 == 0) {
-                                $table->addRow();
-                                $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                            if ($count < ($totalCount['infoblocks'] / 2)) {
+                                
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
-                                $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                if(!$isTwoColExist ){
+                                    $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                    $isTwoColExist = true;
+                                }
+                                
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
-                            $section->addTextBreak(1);
+                            // $section->addTextBreak(1);
                             $count = $count  + 1;
                         }
                     }
