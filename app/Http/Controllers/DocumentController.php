@@ -149,7 +149,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.4;
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 40, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 10];
             // 
