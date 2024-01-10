@@ -528,10 +528,10 @@ class DocumentController extends Controller
                 'lineHeight' => 1.15,  // Высота строки
                 // Другие параметры стиля абзаца...
             );
-            $fullWidth = $section->getStyle()->getPageSizeW();
-            $marginRight = $section->getStyle()->getMarginRight();
-            $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            // $fullWidth = $section->getStyle()->getPageSizeW();
+            // $marginRight = $section->getStyle()->getMarginRight();
+            // $marginLeft = $section->getStyle()->getMarginLeft();
+            // $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
 
             //TABLE
@@ -559,7 +559,7 @@ class DocumentController extends Controller
 
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
-                    $cellWidth = $contentWidth / $numCells;
+                    // $cellWidth = $contentWidth / $numCells;
 
                     $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
                     $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
@@ -756,11 +756,7 @@ class DocumentController extends Controller
                     }
                 }
             }
-            return [
-                'resultCode' => 0,
-                'result' => $section,
-                'message' => ''
-            ];
+            return $section;
         } catch (\Throwable $th) {
             return [
                 'resultCode' => 1,
