@@ -245,7 +245,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) ;
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 1.1;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $innerCellStyle = [
                 'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
