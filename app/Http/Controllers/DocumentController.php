@@ -661,9 +661,9 @@ class DocumentController extends Controller
                             }
                         }
                     }
-
+                    $table->addRow();
                     if ($priceDataAlternative) {
-                        $table->addRow();
+                     
                         foreach ($price['cells']['alternative'] as $prc) {
                             foreach ($prc['cells'] as $cll) {
                                 if ($cll['isActive']) {
