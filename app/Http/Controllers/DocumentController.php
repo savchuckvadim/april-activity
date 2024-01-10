@@ -150,12 +150,12 @@ class DocumentController extends Controller
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
             // 
             $fancyTableFirstRowStyle = ['cellMargin' => 190, 'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF']; //,
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-            $fancyTableFontStyle = ['bold' => true,];
+            // $fancyTableFontStyle = ['bold' => true,];
 
             $fancyTableCellStyle = [
                 'valign' => 'center',
