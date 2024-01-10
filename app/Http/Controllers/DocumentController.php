@@ -626,9 +626,21 @@ class DocumentController extends Controller
                                 'valign' => 'center',
                             ];
                         }else if ($index > 0 && $index < (count($activePriceCellsGeneral) - 1)){
-
+                            $textTableGroupTitleParagraph=  [
+                                'spaceAfter' => 0,    // Интервал после абзаца
+                                'spaceBefore' => 0,   // Интервал перед абзацем
+                                'lineHeight' => 1.15,  // Высота строки
+                                'alignment' => 'center',
+                                'valign' => 'center',
+                            ];
                         }else{
-
+                            $textTableGroupTitleParagraph=  [
+                                'spaceAfter' => 0,    // Интервал после абзаца
+                                'spaceBefore' => 0,   // Интервал перед абзацем
+                                'lineHeight' => 1.15,  // Высота строки
+                                'alignment' => 'right',
+                                'valign' => 'center',
+                            ];
                         }
 
                         $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
