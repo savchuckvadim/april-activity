@@ -141,8 +141,8 @@ class DocumentController extends Controller
                 }
             }
         } else if ($styleMode == 'table') {
-       
-    
+
+
 
 
             $fullWidth = $section->getStyle()->getPageSizeW();
@@ -152,7 +152,7 @@ class DocumentController extends Controller
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
             // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 38, 'borderColor' => '000000', 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, ]; //,
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 38, 'borderColor' => '000000', 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             // $fancyTableFontStyle = ['bold' => true,];
@@ -171,6 +171,14 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(($fullWidth - $marginLeft - $marginRight - 100), $fancyTableFirstRowStyle);
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+
+            $innerTable = $cell->addTable(['borderSize' => 0]);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($contentWidth - 200, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
+
+
+
+
             $count = 0;
             $isTwoColExist = false;
             foreach ($complect as $group) {
@@ -187,15 +195,18 @@ class DocumentController extends Controller
 
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
-                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
                                     $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                    $innerTable = $cell->addTable(['borderSize' => 0]);
+                                    $innerTable->addRow();
+                                    $innerTableCell = $innerTable->addCell($contentWidth - 200, ['borderSize' => 0]); // Уменьшаем ширину, чтобы создать отступ
                                     $isTwoColExist = true;
                                 }
 
-                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
