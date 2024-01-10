@@ -102,6 +102,7 @@ class DocumentController extends Controller
     protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle)
     {
 
+        $totalCount = $this->getInfoblocksCount($complect);
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
         $textStyleBold = $sectionStyle['textBold'];
@@ -156,12 +157,7 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-            // $table->addRow(90);
-            // $sectionStyle = $section->getStyle();
-            // $fullWidth = $sectionStyle->getPageSizeW();
-            // $marginRight = $sectionStyle->getMarginRight();
-            // $marginLeft = $sectionStyle->getMarginLeft();
-            // $contentWidth = $fullWidth - $marginLeft - $marginRight;
+
             $count = 0;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
@@ -173,50 +169,15 @@ class DocumentController extends Controller
 
                         if ($currentInfoblock) {
 
-                            // $table->addRow(90);
-                            // $cell = $table->addRow(90)->addCell();
-                            // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                            // $cell->addText($group['groupsName'], $headingStyle);
-                            // $cell->addText($currentInfoblock['name'], $textStyleBold);
-                            if ($descriptionMode === 0) {
-                                if ($currentInfoblock['name']) {
-                                    $table->addRow(90);
-                                    $table->addCell($contentWidth, $fancyTableStyleName)
-                                        ->addText($currentInfoblock['name']);
-                                }
-                            } else   if ($descriptionMode === 1) {
-                                // if ($currentInfoblock['name']) {
 
-                                //     $table->addRow(90);
-                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
-
-                                //     if ($currentInfoblock['shortDescription']) {
-                                //         $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                                //     }
-                                // }
-                            } else   if ($descriptionMode === 2) {
-                                // if ($currentInfoblock['name']) {
-
-                                //     $table->addRow(90);
-                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
-
-                                //     if ($currentInfoblock['descriptionForSale']) {
-                                //         $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                //     }
-                                // }
-                            } else   if ($descriptionMode === 3) {
-                                // if ($currentInfoblock['name']) {
-
-                                //     $table->addRow(90);
-                                //     $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                //     $cell->addText($currentInfoblock['name'], $headingStyle);
-
-                                //     if ($currentInfoblock['descriptionForSale']) {
-                                //         $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                                //     }
-                                // }
+                            if ($count % 2 == 0) {
+                                $table->addRow();
+                                $cell = $table->addCell($contentWidth, $fancyTableStyleName);
+                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $sectionStyle, $paragraphStyle);
+                            } else {
+                                // Если count нечетный, добавляем вторую ячейку в текущую строку
+                                $cell = $table->addCell($contentWidth, $fancyTableStyleName);
+                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $sectionStyle, $paragraphStyle);
                             }
                             $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -275,5 +236,46 @@ class DocumentController extends Controller
             }
         }
         return $section;
+    }
+
+    protected function getInfoblocksCount($complect)
+    {
+        $result = [
+            'groups' => 0,
+            'infoblocks' => 0
+        ];
+
+
+        foreach ($complect as $group) {
+            $result['groups'] += 1;
+
+            foreach ($group['value'] as $infoblock) {
+                $result['infoblocks'] += 1;
+            }
+        }
+        return  $result;
+    }
+
+    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode, $sectionStyle, $paragraphStyle)
+    {
+        $headingStyle = $sectionStyle['heading'];
+        $textStyle = $sectionStyle['text'];
+        $textStyleBold = $sectionStyle['textBold'];
+        $textStyleSmall = $sectionStyle['textSmall'];
+        $textStyleSmallBold = $sectionStyle['textSmallBold'];
+        switch ($descriptionMode) {
+            case 0:
+                $cell->addText($infoblock['name'], $textStyleSmall, $paragraphStyle);
+                break;
+            case 1:
+                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                $cell->addText($infoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
+                break;
+            case 2:
+            case 3:
+                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                $cell->addText($infoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                break;
+        }
     }
 }
