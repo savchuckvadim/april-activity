@@ -300,24 +300,36 @@ class DocumentController extends Controller
         return  $result;
     }
 
-    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode, $paragraphStyle)
+    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode)
     {
-        $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
-        $textStyle = ['size' => 12, 'name' => 'Arial'];
-        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true];
+         // Создаем стиль абзаца
+         $paragraphStyle = array(
+            'spaceAfter' => 0,    // Интервал после абзаца
+            'spaceBefore' => 0,   // Интервал перед абзацем
+            'lineHeight' => 1.15,  // Высота строки
+            // Другие параметры стиля абзаца...
+        );
+        $paragraphTitleStyle = array(
+            'spaceAfter' => 1,    // Интервал после абзаца
+            'spaceBefore' => 1,   // Интервал перед абзацем
+            'lineHeight' => 1.5,  // Высота строки
+            // Другие параметры стиля абзаца...
+        );
+
         $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
         $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
+        
         switch ($descriptionMode) {
             case 0:
                 $cell->addText($infoblock['name'], $textStyleSmall, $paragraphStyle);
                 break;
             case 1:
-                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
                 break;
             case 2:
             case 3:
-                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                $cell->addText($infoblock['name'], $textStyleSmallBold, $paragraphTitleStyle);
                 $cell->addText($infoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
                 break;
         }
