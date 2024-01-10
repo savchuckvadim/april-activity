@@ -638,7 +638,7 @@ class DocumentController extends Controller
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
 
-                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                        $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
                             ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                     }
                     $table->addRow();
@@ -648,14 +648,14 @@ class DocumentController extends Controller
                             if ($cll['isActive']) {
 
                                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                                $cell = $table->addCell($cellWidth - 30, $fancyTableCellStyle);
                                 $innerTable = $cell->addTable($innerTabletyle);
                                 $innerTable->addRow();
                                 if ($cll['code'] == 'name') {
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                 } else {
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
                                 }
                             }
