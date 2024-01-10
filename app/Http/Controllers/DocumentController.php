@@ -260,6 +260,7 @@ class DocumentController extends Controller
                 'borderColor' => 'FFFFFF',
                 'cellMargin' => 10,
                 'valign' => 'center',
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
                 // 'cellSpacing' => 10
 
