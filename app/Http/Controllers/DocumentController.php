@@ -246,13 +246,14 @@ class DocumentController extends Controller
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $textTableGroupTitle = [
-                'size' => 12,
+                'size' => 10,
                 'name' => 'Arial',
                 'bold' => true,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                 'spaceAfter' => 0,    // Интервал после абзаца
                 'spaceBefore' => 0,   // Интервал перед абзацем
                 'lineHeight' => 1.15,  // Высота строки
+                'valign' => 'center',
             ];
             $innerCellStyle = [
                 'borderSize' => 0,
