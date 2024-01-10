@@ -59,20 +59,20 @@ class DocumentController extends Controller
                 'textSmall' => ['size' => 10, 'name' => 'Arial'],
                 'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
                 'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-                'spaceAfter' => 0,    // Интервал после абзаца
-                'spaceBefore' => 0,   // Интервал перед абзацем
-                'lineHeight' => 1.0,  // Высота строки
+                
             );
 
             // Создаем стиль абзаца
             $paragraphStyle = array(
-                'lineHeight' => 1.5, // межстрочный интервал в 1.5 раза больше размера шрифта
-                // Другие параметры стиля абзаца, если они нужны
+                'spaceAfter' => 0,    // Интервал после абзаца
+                'spaceBefore' => 0,   // Интервал перед абзацем
+                'lineHeight' => 1.0,  // Высота строки
+                // Другие параметры стиля абзаца...
             );
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle);
+            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle );
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -98,7 +98,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle)
+    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle )
     {
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
@@ -122,15 +122,15 @@ class DocumentController extends Controller
                         if ($currentInfoblock) {
 
                             if ($descriptionMode === 0) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmall);
+                                $section->addText($currentInfoblock['name'], $textStyleSmall, $paragraphStyle);
                             } else   if ($descriptionMode === 1) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmallBold);
-                                $section->addText($currentInfoblock['shortDescription'], $textStyleSmall);
+                                $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                                $section->addText($currentInfoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
                             } else   if ($descriptionMode === 2) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmallBold);
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall);
+                                $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
+                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmall);
+                                $section->addText($currentInfoblock['name'], $textStyleSmall, $paragraphStyle);
                             }
                         }
                     }
