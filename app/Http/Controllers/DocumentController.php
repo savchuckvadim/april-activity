@@ -244,8 +244,16 @@ class DocumentController extends Controller
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) ;
-           
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
+            $textTableGroupTitle = [
+                'size' => 12,
+                'name' => 'Arial',
+                'bold' => true,
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                'spaceAfter' => 0,    // Интервал после абзаца
+                'spaceBefore' => 0,   // Интервал перед абзацем
+                'lineHeight' => 1.15,  // Высота строки
+            ];
             $innerCellStyle = [
                 'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
@@ -290,7 +298,7 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-            
+
 
 
 
@@ -301,11 +309,11 @@ class DocumentController extends Controller
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
                 $table->addRow();
                 $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-    
+
                 $innerTable = $cell->addTable($innerTabletyle);
                 $innerTable->addRow();
-                $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle); 
-                $innerTableCell->addText($group['groupsName'], $textStyleSmallBold, $textStyleBold);
+                $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle);
+                $innerTableCell->addText($group['groupsName'], $textTableGroupTitle);
 
                 foreach ($group['value'] as $infoblock) {
 
@@ -315,7 +323,7 @@ class DocumentController extends Controller
                         if ($currentInfoblock) {
                             $table->addRow();
                             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                            
+
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
                             $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
