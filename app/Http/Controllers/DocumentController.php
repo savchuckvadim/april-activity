@@ -154,6 +154,7 @@ class DocumentController extends Controller
             $fancyTableFontStyle = ['bold' => true,];
 
             $fancyTableCellStyle = [
+                'cellMargin' => 50,
                 'valign' => 'center',
                 'borderSize' => 6,
                 'borderColor' => '000000',  // Цвет границы (чёрный)
