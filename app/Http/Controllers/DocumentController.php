@@ -160,7 +160,7 @@ class DocumentController extends Controller
                 foreach ($group['value'] as $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                        return APIController::getSuccess(['$currentInfoblock' => $currentInfoblock]);
+                        throw new \Exception("Невозможно записать в каталог: $currentInfoblock");
                         if ($currentInfoblock) {
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
