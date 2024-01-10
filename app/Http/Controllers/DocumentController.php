@@ -157,7 +157,7 @@ class DocumentController extends Controller
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight ) / 2;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight) / 2;
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) / 2.1;
             $innerCellStyle = [
                 'borderSize' => 0,
@@ -644,24 +644,25 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-
+                    $outerFirstWidth =  $cellWidth + 100;
+                    $innerFirstWidth = $outerFirstWidth - 30;
+                    $outerWidth =  $cellWidth;
+                    $innerWidth = $cellWidth - 30;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
                         Log::info('index', ['index' => $index]);
 
 
                         if ($index == 0 || $index === '0') {
-                            // $outerWidth =  $cellWidth;
-                            $innerWidth = $cellWidth - 30;
-                            $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+
+                            $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                         } else {
-                            // $outerWidth =  $cellWidth - 20;
-                            $innerWidth = $cellWidth - 30;
-                            $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+
+                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
                             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
