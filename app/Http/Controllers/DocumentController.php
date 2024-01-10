@@ -630,7 +630,7 @@ class DocumentController extends Controller
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
 
-                    foreach ($activePriceCellsGeneral as $index => $priceCell) {
+                    foreach ($activePriceCellsGeneral as $priceCell) {
 
 
 
@@ -642,7 +642,7 @@ class DocumentController extends Controller
                             ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                     }
                     $table->addRow();
-                    foreach ($price['cells']['general'] as $prc) {
+                    foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
@@ -651,7 +651,7 @@ class DocumentController extends Controller
                                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                                 $innerTable = $cell->addTable($innerTabletyle);
                                 $innerTable->addRow();
-                                if ($index < 1) {
+                                if ($cll['code'] < 'name') {
                                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                 } else {
