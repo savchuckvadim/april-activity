@@ -244,8 +244,8 @@ class DocumentController extends Controller
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) ;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 1.1;
             $innerCellStyle = [
                 'borderSize' => 0,
                 'borderColor' => 'FFFFFF',
@@ -305,7 +305,8 @@ class DocumentController extends Controller
                 $innerTable = $cell->addTable($innerTabletyle);
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
-
+                $innerTableCell->addText($group['groupsName'], $textStyleSmallBold, $textStyleBold);
+                
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
