@@ -556,7 +556,7 @@ class DocumentController extends Controller
                     });
                 }
 
-               
+
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
@@ -565,13 +565,13 @@ class DocumentController extends Controller
                     $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
                     $fancyTableCellStyle = ['valign' => 'center'];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    $fancyTableFontStyle = [ 'bold' => true,];
+                    $fancyTableFontStyle = ['bold' => true,];
                     // $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable();
                     $table->addRow(90);
 
                     foreach ($activePriceCellsGeneral as $priceCell) {
-                        $table->addCell($cellWidth, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+                        $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
                     }
                     $table->addRow();
                     foreach ($price['cells']['general'] as $prc) {
@@ -580,16 +580,18 @@ class DocumentController extends Controller
                             if ($cll['isActive']) {
                                 Log::info('LOG', ['$cll' => $cll]);
                                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                                $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
                             }
                         }
                     }
                     $table->addRow();
-                    foreach ($price['cells']['alternative'] as $prc) {
-                        foreach ($prc['cells'] as $cll) {
-                            if ($cll['isActive']) {
-                                $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                    if ($priceDataAlternative) {
+                        foreach ($price['cells']['alternative'] as $prc) {
+                            foreach ($prc['cells'] as $cll) {
+                                if ($cll['isActive']) {
+                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                                    $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                                }
                             }
                         }
                     }
