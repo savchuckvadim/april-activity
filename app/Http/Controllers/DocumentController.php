@@ -141,14 +141,18 @@ class DocumentController extends Controller
                 }
             }
         } else if ($styleMode == 'table') {
+       
+    
+
+
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 3;
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 190];
-            // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            $fancyTableFirstRowStyle = ['cellMargin' => 190,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+            // 
+            $fancyTableFirstRowStyle = ['cellMargin' => 190, 'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF']; //,
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
@@ -166,7 +170,7 @@ class DocumentController extends Controller
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell(1500, $fancyTableCellStyle);
+            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
             foreach ($complect as $group) {
@@ -187,7 +191,7 @@ class DocumentController extends Controller
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
-                                    $cell = $table->addCell(1500, $fancyTableCellStyle);
+                                    $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                                     $isTwoColExist = true;
                                 }
 
