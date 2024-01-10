@@ -88,7 +88,7 @@ class DocumentController extends Controller
             ]);
         } catch (\Throwable $th) {
             return APIController::getError(
-                $th->getMessage(),
+                'something wrong ' . $th->getMessage(),
                 [
                     'data' => $data,
                     'styleMode' => $infoblocksOptions['style']
@@ -144,7 +144,7 @@ class DocumentController extends Controller
             $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
-
+            throw new \Exception("Невозможно записать в каталог: $styleMode");
 
             $table = $section->addTable();
             $table->addRow(90);
@@ -160,7 +160,7 @@ class DocumentController extends Controller
                 foreach ($group['value'] as $infoblock) {
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                        throw new \Exception("Невозможно записать в каталог: $currentInfoblock");
+                        
                         if ($currentInfoblock) {
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
