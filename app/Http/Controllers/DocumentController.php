@@ -249,10 +249,11 @@ class DocumentController extends Controller
                 'size' => 10,
                 'name' => 'Arial',
                 'bold' => true,
+           
+            ];
+            $textTableGroupTitleParagraph = [
+
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                // 'spaceAfter' => 0,    // Интервал после абзаца
-                // 'spaceBefore' => 0,   // Интервал перед абзацем
-                // 'lineHeight' => 1.15,  // Высота строки
                 'valign' => 'center',
             ];
             $innerCellStyle = [
@@ -315,7 +316,7 @@ class DocumentController extends Controller
                 $innerTable = $cell->addTable($innerTabletyle);
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle);
-                $innerTableCell->addText($group['groupsName'], $textTableGroupTitle);
+                $innerTableCell->addText($group['groupsName'], $textTableGroupTitle, $textTableGroupTitleParagraph);
 
                 foreach ($group['value'] as $infoblock) {
 
