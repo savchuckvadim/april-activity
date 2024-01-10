@@ -175,7 +175,7 @@ class DocumentController extends Controller
                             // $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
-                                    // $table->addRow(90);
+                                    $table->addRow(90);
                                     $cell =  $table->addCell('MyFancyTableStyle');
                                     $cell->addText($currentInfoblock['name']);
                                 }
