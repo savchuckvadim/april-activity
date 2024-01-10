@@ -569,10 +569,10 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-                    $table->addCell(100, $fancyTableCellStyle)->addText('name', $fancyTableFontStyle);
-                    // foreach ($activePriceCellsGeneral as $priceCell) {
-                    //     $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
-                    // }
+                   
+                    foreach ($activePriceCellsGeneral as $priceCell) {
+                        $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+                    }
                     // $table->addRow();
                     // foreach ($price['cells']['general'] as $prc) {
                     //     foreach ($prc['cells'] as $cll) {
