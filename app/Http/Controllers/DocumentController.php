@@ -637,22 +637,22 @@ class DocumentController extends Controller
                             }
                         }
                     }
-                    $table->addRow();
-                    if ($priceDataAlternative) {
-                        foreach ($price['cells']['alternative'] as $prc) {
-                            foreach ($prc['cells'] as $cll) {
-                                if ($cll['isActive']) {
-                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerTabletyle);
-                                    $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
-                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                                }
-                            }
-                        }
-                    }
+                    // $table->addRow();
+                    // if ($priceDataAlternative) {
+                    //     foreach ($price['cells']['alternative'] as $prc) {
+                    //         foreach ($prc['cells'] as $cll) {
+                    //             if ($cll['isActive']) {
+                                 
+                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                    //                 $innerTable = $cell->addTable($innerTabletyle);
+                    //                 $innerTable->addRow();
+                    //                 $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
+                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             } else {
 
