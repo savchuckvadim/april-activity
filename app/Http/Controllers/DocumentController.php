@@ -166,7 +166,7 @@ class DocumentController extends Controller
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell(500, $fancyTableCellStyle);
+            $cell = $table->addCell(1500, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
             foreach ($complect as $group) {
@@ -187,7 +187,7 @@ class DocumentController extends Controller
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
-                                    $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+                                    $cell = $table->addCell(1500, $fancyTableCellStyle);
                                     $isTwoColExist = true;
                                 }
 
