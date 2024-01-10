@@ -528,10 +528,10 @@ class DocumentController extends Controller
                 'lineHeight' => 1.15,  // Высота строки
                 // Другие параметры стиля абзаца...
             );
-            // $fullWidth = $section->getStyle()->getPageSizeW();
-            // $marginRight = $section->getStyle()->getMarginRight();
-            // $marginLeft = $section->getStyle()->getMarginLeft();
-            // $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            $fullWidth = $section->getStyle()->getPageSizeW();
+            $marginRight = $section->getStyle()->getMarginRight();
+            $marginLeft = $section->getStyle()->getMarginLeft();
+            $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
 
             //TABLE
@@ -559,7 +559,7 @@ class DocumentController extends Controller
 
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
-                    // $cellWidth = $contentWidth / $numCells;
+                    $cellWidth = $contentWidth / $numCells;
 
                    
                     $fancyTableFirstRowStyle = ['cellMargin' => 25]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
@@ -576,14 +576,11 @@ class DocumentController extends Controller
                     ];
                     // 
                     $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
-                    // $fancyTableCellStyle = ['valign' => 'center'];
-                    // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    // $fancyTableFontStyle = ['bold' => true,];
+
         
                     $fancyTableCellStyle = [
                         'valign' => 'center',
                         'borderSize' => 6,
-                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
                         'cellMarginTop' => 10,
                         'cellMarginRight' => 10,
                         'cellMarginBottom' => 10,
@@ -596,26 +593,26 @@ class DocumentController extends Controller
                     $table->addRow();
                    
                     foreach ($activePriceCellsGeneral as $priceCell) {
-                        $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+                        $table->addCell($cellWidth, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
                     }
-                    // $table->addRow();
-                    // foreach ($price['cells']['general'] as $prc) {
-                    //     foreach ($prc['cells'] as $cll) {
+                    $table->addRow();
+                    foreach ($price['cells']['general'] as $prc) {
+                        foreach ($prc['cells'] as $cll) {
 
-                    //         if ($cll['isActive']) {
+                            if ($cll['isActive']) {
                                 
-                    //             $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //             $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
-                    //         }
-                    //     }
-                    // }
+                                $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                                $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                            }
+                        }
+                    }
                     // $table->addRow();
                     // if ($priceDataAlternative) {
                     //     foreach ($price['cells']['alternative'] as $prc) {
                     //         foreach ($prc['cells'] as $cll) {
                     //             if ($cll['isActive']) {
                     //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $table->addCell(100, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                    //                 $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
                     //             }
                     //         }
                     //     }
