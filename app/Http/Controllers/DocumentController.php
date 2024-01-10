@@ -661,28 +661,28 @@ class DocumentController extends Controller
                             }
                         }
                     }
-                    $table->addRow();
-                    if ($priceDataAlternative) {
+                    // $table->addRow();
+                    // if ($priceDataAlternative) {
                      
-                        foreach ($price['cells']['alternative'] as $prc) {
-                            foreach ($prc['cells'] as $cll) {
-                                if ($cll['isActive']) {
+                    //     foreach ($price['cells']['alternative'] as $prc) {
+                    //         foreach ($prc['cells'] as $cll) {
+                    //             if ($cll['isActive']) {
 
-                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerTabletyle);
-                                    $innerTable->addRow();
-                                    if ($cll['code'] == 'name') {
-                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                                    } else {
-                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                    //                 $innerTable = $cell->addTable($innerTabletyle);
+                    //                 $innerTable->addRow();
+                    //                 if ($cll['code'] == 'name') {
+                    //                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                    //                 } else {
+                    //                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             } else {
 
