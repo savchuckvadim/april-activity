@@ -148,11 +148,11 @@ class DocumentController extends Controller
 
             $table = $section->addTable();
             $table->addRow(90);
-            $sectionStyle = $section->getStyle();
-            $fullWidth = $sectionStyle->getPageSizeW();
-            $marginRight = $sectionStyle->getMarginRight();
-            $marginLeft = $sectionStyle->getMarginLeft();
-            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            // $sectionStyle = $section->getStyle();
+            // $fullWidth = $sectionStyle->getPageSizeW();
+            // $marginRight = $sectionStyle->getMarginRight();
+            // $marginLeft = $sectionStyle->getMarginLeft();
+            // $contentWidth = $fullWidth - $marginLeft - $marginRight;
             $count = 0;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
@@ -169,11 +169,14 @@ class DocumentController extends Controller
                             // $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                                 // $table->addRow(90);
-                                $cell =  $table->addRow(90)->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
+
+
+
                             } else   if ($descriptionMode === 1) {
-                                $table->addRow(90);
-                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                // $table->addRow(90);
+                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
                                 $cell->addText($currentInfoblock['shortDescription'], $textStyle);
                             } 
