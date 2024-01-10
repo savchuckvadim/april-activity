@@ -632,7 +632,7 @@ class DocumentController extends Controller
 
                     foreach ($activePriceCellsGeneral as $priceCell) {
 
-
+                        Log::info('LOG_ACTIVE', ['active' => $priceCell]);
 
                         $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                         $innerTable = $cell->addTable($innerTabletyle);
@@ -663,7 +663,7 @@ class DocumentController extends Controller
                     // }
                     // $table->addRow();
                     // if ($priceDataAlternative) {
-                     
+
                     //     foreach ($price['cells']['alternative'] as $prc) {
                     //         foreach ($prc['cells'] as $cll) {
                     //             if ($cll['isActive']) {
