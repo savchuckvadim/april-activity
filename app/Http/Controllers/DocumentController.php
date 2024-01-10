@@ -73,7 +73,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -99,15 +99,16 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle)
+    protected function getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle)
     {
 
         $totalCount = $this->getInfoblocksCount($complect);
-        $headingStyle = $sectionStyle['heading'];
-        $textStyle = $sectionStyle['text'];
-        $textStyleBold = $sectionStyle['textBold'];
-        $textStyleSmall = $sectionStyle['textSmall'];
-        $textStyleSmallBold = $sectionStyle['textSmallBold'];
+        $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
+        $textStyle = ['size' => 12, 'name' => 'Arial'];
+        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true];
+        $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
+        $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
+        
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
@@ -140,10 +141,9 @@ class DocumentController extends Controller
                 }
             }
         } else if ($styleMode == 'table') {
-            $sectionStyle = $section->getStyle();
-            $fullWidth = $sectionStyle->getPageSizeW();
-            $marginRight = $sectionStyle->getMarginRight();
-            $marginLeft = $sectionStyle->getMarginLeft();
+            $fullWidth = $section->getStyle()->getPageSizeW();
+            $marginRight = $section->getStyle()->getMarginRight();
+            $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 90];
@@ -173,11 +173,11 @@ class DocumentController extends Controller
                             if ($count % 2 == 0) {
                                 $table->addRow();
                                 $cell = $table->addCell($contentWidth, $fancyTableStyleName);
-                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $sectionStyle, $paragraphStyle);
+                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 $cell = $table->addCell($contentWidth, $fancyTableStyleName);
-                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $sectionStyle, $paragraphStyle);
+                                $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
                             $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -256,13 +256,13 @@ class DocumentController extends Controller
         return  $result;
     }
 
-    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode, $sectionStyle, $paragraphStyle)
+    protected function addInfoblockToCell($cell, $infoblock, $descriptionMode, $paragraphStyle)
     {
-        $headingStyle = $sectionStyle['heading'];
-        $textStyle = $sectionStyle['text'];
-        $textStyleBold = $sectionStyle['textBold'];
-        $textStyleSmall = $sectionStyle['textSmall'];
-        $textStyleSmallBold = $sectionStyle['textSmallBold'];
+        $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
+        $textStyle = ['size' => 12, 'name' => 'Arial'];
+        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true];
+        $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
+        $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
         switch ($descriptionMode) {
             case 0:
                 $cell->addText($infoblock['name'], $textStyleSmall, $paragraphStyle);
