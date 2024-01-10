@@ -250,9 +250,9 @@ class DocumentController extends Controller
                 'name' => 'Arial',
                 'bold' => true,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                'spaceAfter' => 0,    // Интервал после абзаца
-                'spaceBefore' => 0,   // Интервал перед абзацем
-                'lineHeight' => 1.15,  // Высота строки
+                // 'spaceAfter' => 0,    // Интервал после абзаца
+                // 'spaceBefore' => 0,   // Интервал перед абзацем
+                // 'lineHeight' => 1.15,  // Высота строки
                 'valign' => 'center',
             ];
             $innerCellStyle = [
