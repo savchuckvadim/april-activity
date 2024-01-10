@@ -160,12 +160,13 @@ class DocumentController extends Controller
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
               
                 foreach ($group['value'] as $infoblock) {
-                    Log::info('LOG', ['value' => $infoblock]);
+                    Log::info('LOG', ['value' => $infoblock['name']]);
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
                         
                         if ($currentInfoblock) {
-                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock]);
+                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock['name']]);
+                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock['shortDescription']]);
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
                             // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
