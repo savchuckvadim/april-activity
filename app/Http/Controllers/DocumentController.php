@@ -252,7 +252,9 @@ class DocumentController extends Controller
            
             ];
             $textTableGroupTitleParagraph = [
-
+                'spaceAfter' => 0,    // Интервал после абзаца
+                'spaceBefore' => 0,   // Интервал перед абзацем
+                'lineHeight' => 1.15,  // Высота строки
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                 'valign' => 'center',
             ];
