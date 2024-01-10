@@ -556,7 +556,7 @@ class DocumentController extends Controller
                     });
                 }
 
-                Log::info('LOG', ['$activePriceCellsGeneral' => $activePriceCellsGeneral]);
+               
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
@@ -565,9 +565,9 @@ class DocumentController extends Controller
                     $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
                     $fancyTableCellStyle = ['valign' => 'center'];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    $fancyTableFontStyle = [...$languageEnGbStyle, 'bold' => true,];
-                    $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
-                    $table = $section->addTable($fancyTableStyleName);
+                    $fancyTableFontStyle = [ 'bold' => true,];
+                    // $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+                    $table = $section->addTable();
                     $table->addRow(90);
 
                     foreach ($activePriceCellsGeneral as $priceCell) {
@@ -578,7 +578,7 @@ class DocumentController extends Controller
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
-
+                                Log::info('LOG', ['$cll' => $cll]);
                                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
                                 $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
                             }
