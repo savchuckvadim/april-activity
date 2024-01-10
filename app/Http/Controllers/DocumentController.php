@@ -542,8 +542,10 @@ class DocumentController extends Controller
             usort($price['cells']['alternative'], function ($a, $b) {
                 return $a->order - $b->order;
             });
+            Log::info('price', ['price' => $price]);
+            Log::info('isTable', ['isTable' => $isTable]);
             if ($isTable) {
-                Log::info('isTable', ['isTable' => $isTable]);
+                
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
                 if ($priceDataGeneral) {
                     $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
