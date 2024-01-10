@@ -66,7 +66,7 @@ class DocumentController extends Controller
             $paragraphStyle = array(
                 'spaceAfter' => 0,    // Интервал после абзаца
                 'spaceBefore' => 0,   // Интервал перед абзацем
-                'lineHeight' => 1.0,  // Высота строки
+                'lineHeight' => 1.15,  // Высота строки
                 // Другие параметры стиля абзаца...
             );
             // $languageEnGbStyle = array('lang' => 'ru-RU');
@@ -145,7 +145,7 @@ class DocumentController extends Controller
             $fancyTableFontStyle = ['bold' => true,];
 
 
-            $table = $section->addTable($fancyTableStyleName);
+            $table = $section->addTable();
             $table->addRow(90);
             $sectionStyle = $section->getStyle();
             $fullWidth = $sectionStyle->getPageSizeW();
