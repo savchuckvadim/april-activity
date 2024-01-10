@@ -647,7 +647,7 @@ class DocumentController extends Controller
 
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
-                        Log::info('LOG_ACTIVE', ['active' => $priceCell]);
+                        Log::info('index', ['index' => $index]);
 
 
                         if ($index  === 0 || $index === '0') {
