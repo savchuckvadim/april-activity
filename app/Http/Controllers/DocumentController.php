@@ -482,8 +482,8 @@ class DocumentController extends Controller
             //     'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
 
             // );
-            Log::info('getPriceSection', ['start' => $price]);
-            
+
+
 
             //ТАБЛИЦА ЦЕН
             $priceDataGeneral = null;
@@ -503,13 +503,13 @@ class DocumentController extends Controller
                 // Массив $price['cells']['total'] существует и не пуст
                 $priceDataTotal = $price['cells']['total'][0]['cells'];
             }
-            Log::info('price', ['price' => $price]);
-            
+
+
 
 
             $cells = [];
             $isTable = $price['isTable'];
-            Log::info('isTable', ['isTable' => $isTable]);
+
             // $header = ['size' => 16, 'bold' => true];
 
             // $headerRqStyle = ['valign' => 'left'];
@@ -519,7 +519,7 @@ class DocumentController extends Controller
             $section->addTextBreak(1);
             $section->addText('Цена за комплект', $languageEnGbStyle);
 
-            Log::info('price', ['price' => $price]);
+
             $fancyTableStyleName = 'DocumentPrice';
 
 
@@ -538,17 +538,28 @@ class DocumentController extends Controller
 
 
             //TABLE
-
+            $allPrices = [$price['cells']['general'], $price['cells']['alternative'], $price['cells']['total']];
             // usort($price['cells']['general'], function ($a, $b) {
             //     return $a->order - $b->order;
             // });
             // usort($price['cells']['alternative'], function ($a, $b) {
             //     return $a->order - $b->order;
             // });
-            Log::info('price', ['price' => $price]);
-            Log::info('isTable', ['isTable' => $isTable]);
+
+            //SORT CELLS
+            foreach ($allPrices as $target) {
+                if ($target) {
+                    foreach ($target as $product) {
+                        if ($product && $product['cells']) {
+                            usort($product['cells'], function ($a, $b) {
+                                return $a->order - $b->order;
+                            });
+                        }
+                    }
+                }
+            }
             if ($isTable) {
-                
+
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
                 if ($priceDataGeneral) {
                     $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
