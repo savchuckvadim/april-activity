@@ -59,7 +59,9 @@ class DocumentController extends Controller
                 'textSmall' => ['size' => 10, 'name' => 'Arial'],
                 'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
                 'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-                'lineHeight' => 1,
+                'spaceAfter' => 0,    // Интервал после абзаца
+                'spaceBefore' => 0,   // Интервал перед абзацем
+                'lineHeight' => 1.0,  // Высота строки
             );
 
             // Создаем стиль абзаца
@@ -129,7 +131,6 @@ class DocumentController extends Controller
                                 $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall);
                             } else   if ($descriptionMode === 3) {
                                 $section->addText($currentInfoblock['name'], $textStyleSmall);
-
                             }
                         }
                     }
