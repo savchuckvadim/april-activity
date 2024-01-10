@@ -149,11 +149,15 @@ class DocumentController extends Controller
             $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 90];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
             $fancyTableFirstRowStyle = ['cellMargin' => 90,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
-            $fancyTableCellStyle = ['valign' => 'center'];
+            // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
 
-
+            $fancyTableCellStyle = [
+                'valign' => 'center',
+                'borderSize' => 6,
+                'borderColor' => '000000',  // Цвет границы (чёрный)
+            ];
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
@@ -172,11 +176,11 @@ class DocumentController extends Controller
 
                             if ($count % 2 == 0) {
                                 $table->addRow();
-                                $cell = $table->addCell($contentWidth, $fancyTableStyleName);
+                                $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
-                                $cell = $table->addCell($contentWidth, $fancyTableStyleName);
+                                $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
                             $section->addTextBreak(1);
