@@ -571,8 +571,7 @@ class DocumentController extends Controller
                         return $prc['isActive'];
                     });
                 }
-                Log::info('priceDataGeneral', ['priceDataGeneral' => $priceDataGeneral]);
-                Log::info('LOG_ACTIVE_ALL', ['activePriceCellsGeneral' => $activePriceCellsGeneral]);
+
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
@@ -645,7 +644,7 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-                    Log::info('LOG_ACTIVE_ALL', ['activePriceCellsGeneral' => $activePriceCellsGeneral]);
+
                     foreach ($activePriceCellsGeneral as $priceCell) {
 
                         Log::info('LOG_ACTIVE', ['active' => $priceCell]);
@@ -657,48 +656,48 @@ class DocumentController extends Controller
                         $innerTableCell = $innerTable->addCell($cellWidth - 10, $innerCellStyle)
                             ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                     }
-                    // $table->addRow();
-                    // foreach ($price['cells']['general'] as  $prc) {
-                    //     foreach ($prc['cells'] as $cll) {
+                    $table->addRow();
+                    foreach ($price['cells']['general'] as  $prc) {
+                        foreach ($prc['cells'] as $cll) {
 
-                    //         if ($cll['isActive']) {
+                            if ($cll['isActive']) {
 
-                    //             $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //             $cell = $table->addCell($cellWidth - 30, $fancyTableCellStyle);
-                    //             $innerTable = $cell->addTable($innerTabletyle);
-                    //             $innerTable->addRow();
-                    //             if ($cll['code'] == 'name') {
-                    //                 $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
-                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                    //             } else {
-                    //                 $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
-                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                    //             }
-                    //         }
-                    //     }
-                    // }
-                    // $table->addRow();
-                    // if ($priceDataAlternative) {
+                                $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                                $cell = $table->addCell($cellWidth - 30, $fancyTableCellStyle);
+                                $innerTable = $cell->addTable($innerTabletyle);
+                                $innerTable->addRow();
+                                if ($cll['code'] == 'name') {
+                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
+                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                                } else {
+                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
+                                        ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                                }
+                            }
+                        }
+                    }
+                    $table->addRow();
+                    if ($priceDataAlternative) {
 
-                    //     foreach ($price['cells']['alternative'] as $prc) {
-                    //         foreach ($prc['cells'] as $cll) {
-                    //             if ($cll['isActive']) {
+                        foreach ($price['cells']['alternative'] as $prc) {
+                            foreach ($prc['cells'] as $cll) {
+                                if ($cll['isActive']) {
 
-                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
-                    //                 $innerTable = $cell->addTable($innerTabletyle);
-                    //                 $innerTable->addRow();
-                    //                 if ($cll['code'] == 'name') {
-                    //                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                    //                 } else {
-                    //                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                                    $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                                    $innerTable = $cell->addTable($innerTabletyle);
+                                    $innerTable->addRow();
+                                    if ($cll['code'] == 'name') {
+                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                                    } else {
+                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
 
