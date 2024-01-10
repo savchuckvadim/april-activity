@@ -140,10 +140,10 @@ class DocumentController extends Controller
             }
         } else if ($styleMode == 'table') {
 
-            $fancyTableStyleName = 'Информационное наполнение';
-            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25];
+            $fancyTableStyleName = 'TableStyle';
+            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 90];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+            $fancyTableFirstRowStyle = ['cellMargin' => 90,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
             $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
@@ -177,7 +177,7 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
                                     $table->addRow(90);
-                                    $cell =  $table->addCell($fancyTableStyleName)
+                                    $table->addCell($fancyTableStyleName)
                                         ->addText($currentInfoblock['name']);
                                 }
                             } else   if ($descriptionMode === 1) {
