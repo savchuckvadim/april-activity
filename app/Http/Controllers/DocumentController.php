@@ -165,6 +165,7 @@ class DocumentController extends Controller
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
                         
                         if ($currentInfoblock) {
+                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock]);
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
                             // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
@@ -172,13 +173,14 @@ class DocumentController extends Controller
                             // $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
                                 // $table->addRow(90);
-                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
+                                // $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                // $cell->addText($currentInfoblock['name'], $headingStyle);
+                                
                             } else   if ($descriptionMode === 1) {
                                 // $table->addRow(90);
-                                $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                                $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                // $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                // $cell->addText($currentInfoblock['name'], $headingStyle);
+                                // $cell->addText($currentInfoblock['shortDescription'], $textStyle);
                             }
                             // else   if ($descriptionMode === 2) {
                             //     $table->addRow(90);
