@@ -568,7 +568,7 @@ class DocumentController extends Controller
                     $fancyTableFontStyle = ['bold' => true,];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
-                    $table->addRow(90);
+                    $table->addRow();
 
                     // foreach ($activePriceCellsGeneral as $priceCell) {
                     //     $table->addCell(100, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
