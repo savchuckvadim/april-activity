@@ -568,7 +568,6 @@ class DocumentController extends Controller
                         'cellMargin' => 10,
                         'valign' => 'center',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-
                         // 'cellSpacing' => 10
 
                     ];
@@ -602,7 +601,16 @@ class DocumentController extends Controller
                         'cellMarginLeft' => 10,
                     ];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    $fancyTableFontStyle = ['bold' => true,];
+                    $fancyTableFontStyle = ['bold' => true];
+                    $textTableGroupTitleParagraph = [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'valign' => 'center',
+                    ];
+
+
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
@@ -612,7 +620,7 @@ class DocumentController extends Controller
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
                         $innerTableCell = $innerTable->addCell($contentWidth - 20, $innerCellStyle)
-                            ->addText($priceCell['name'], $fancyTableFontStyle);
+                            ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                     }
                     // $table->addRow();
                     // foreach ($price['cells']['general'] as $prc) {
