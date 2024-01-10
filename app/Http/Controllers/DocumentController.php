@@ -155,6 +155,15 @@ class DocumentController extends Controller
                 'borderColor' => 'FFFFFF',
                 'cellMargin' => 40,
                 'valign' => 'top',
+                
+                // 'cellSpacing' => 10
+
+            ];
+            $innerTabletyle = [
+                'borderSize' => 0, 
+                'borderColor' => 'FFFFFF',
+                'cellMargin' => 40,
+              
                 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                 // 'cellSpacing' => 10
 
@@ -187,7 +196,7 @@ class DocumentController extends Controller
             $table->addRow();
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
 
-            $innerTable = $cell->addTable($innerCellStyle);
+            $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
 
@@ -215,7 +224,7 @@ class DocumentController extends Controller
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
                                     $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerCellStyle);
+                                    $innerTable = $cell->addTable($innerTabletyle);
                                     $innerTable->addRow();
                                     $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
                                     $isTwoColExist = true;
