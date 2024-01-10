@@ -144,7 +144,7 @@ class DocumentController extends Controller
             $fullWidth = $section->getStyle()->getPageSizeW();
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 1) / 2;
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 190];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
@@ -162,13 +162,13 @@ class DocumentController extends Controller
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell(10, $fancyTableCellStyle);
+            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-               
-                
+
+
                 foreach ($group['value'] as $infoblock) {
 
                     if (array_key_exists('code', $infoblock)) {
@@ -178,15 +178,15 @@ class DocumentController extends Controller
 
 
                             if ($count < ($totalCount['infoblocks'] / 2)) {
-                                
+
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
-                                if(!$isTwoColExist ){
+                                if (!$isTwoColExist) {
                                     $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                                     $isTwoColExist = true;
                                 }
-                                
+
                                 $this->addInfoblockToCell($cell, $currentInfoblock, $descriptionMode, $paragraphStyle);
                             }
                             // $section->addTextBreak(1);
