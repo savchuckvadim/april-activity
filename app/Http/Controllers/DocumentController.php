@@ -152,7 +152,7 @@ class DocumentController extends Controller
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50];
             // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 190, 'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF']; //,
+            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 38, 'borderColor' => '000000', 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, ]; //,
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             // $fancyTableFontStyle = ['bold' => true,];
@@ -169,7 +169,7 @@ class DocumentController extends Controller
 
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($fancyTableStyleName, $fancyTableFirstRowStyle);
+            $table->addRow(($fullWidth - $marginLeft - $marginRight - 100), $fancyTableFirstRowStyle);
             $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
