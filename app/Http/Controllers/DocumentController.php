@@ -547,17 +547,17 @@ class DocumentController extends Controller
             // });
 
             //SORT CELLS
-            foreach ($allPrices as $target) {
-                if ($target) {
-                    foreach ($target as $product) {
-                        if ($product && $product['cells']) {
-                            usort($product['cells'], function ($a, $b) {
-                                return $a->order - $b->order;
-                            });
-                        }
-                    }
-                }
-            }
+            // foreach ($allPrices as $target) {
+            //     if ($target) {
+            //         foreach ($target as $product) {
+            //             if ($product && $product['cells']) {
+            //                 usort($product['cells'], function ($a, $b) {
+            //                     return $a->order - $b->order;
+            //                 });
+            //             }
+            //         }
+            //     }
+            // }
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
