@@ -146,9 +146,9 @@ class DocumentController extends Controller
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 90];
+            $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'FFFFF', 'cellMargin' => 190];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            $fancyTableFirstRowStyle = ['cellMargin' => 90,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+            $fancyTableFirstRowStyle = ['cellMargin' => 190,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
             // $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
@@ -162,7 +162,7 @@ class DocumentController extends Controller
             $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+            $cell = $table->addCell(10, $fancyTableCellStyle);
             $count = 0;
             $isTwoColExist = false;
             foreach ($complect as $group) {
