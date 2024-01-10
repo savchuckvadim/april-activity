@@ -467,9 +467,17 @@ class DocumentController extends Controller
     {
         //ТАБЛИЦА ЦЕН
 
-        $priceDataGeneral = $price['cells']['general'][0]['cells'];
-        $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
-        $priceDataTotal = $price['cells']['total'][0]['cells'];
+        if ($price['cells']['general'][0]) {
+            $priceDataGeneral = $price['cells']['general'][0]['cells'];
+        }
+        if ($priceDataAlternative = $price['cells']['alternative'][0]) {
+            $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
+        }
+        if ($priceDataTotal = $price['cells']['total'][0]) {
+            $priceDataTotal = $price['cells']['total'][0]['cells'];
+        }
+
+
         $cells = [];
         $isTable = $price['isTable'];
         // $header = ['size' => 16, 'bold' => true];
@@ -502,45 +510,52 @@ class DocumentController extends Controller
         if ($isTable) {
 
             // Расчет ширины каждой ячейки в зависимости от количества столбцов
-            $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
-                return $prc['isActive'];
-            });
-            $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
-                return $prc['isActive'];
-            });
-
-            $numCells = count($activePriceCellsGeneral); // Количество столбцов
-            $cellWidth = $contentWidth / $numCells;
-
-            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-            $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
-            $fancyTableCellStyle = ['valign' => 'center'];
-            // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-            $fancyTableFontStyle = [...$languageEnGbStyle, 'bold' => true,];
-            $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
-            $table = $section->addTable($fancyTableStyleName);
-            $table->addRow(90);
-
-            foreach ($activePriceCellsGeneral as $priceCell) {
-                $table->addCell($cellWidth, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+            if ($priceDataGeneral) {
+                $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
+                    return $prc['isActive'];
+                });
             }
-            $table->addRow();
-            foreach ($price['cells']['general'] as $prc) {
-                foreach ($prc['cells'] as $cll) {
+            if ($priceDataAlternative) {
+                $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
+                    return $prc['isActive'];
+                });
+            }
 
-                    if ($cll['isActive']) {
 
-                        $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                        $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+            if ($activePriceCellsGeneral) {
+                $numCells = count($activePriceCellsGeneral); // Количество столбцов
+                $cellWidth = $contentWidth / $numCells;
+
+                $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+                $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
+                $fancyTableCellStyle = ['valign' => 'center'];
+                // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
+                $fancyTableFontStyle = [...$languageEnGbStyle, 'bold' => true,];
+                $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+                $table = $section->addTable($fancyTableStyleName);
+                $table->addRow(90);
+
+                foreach ($activePriceCellsGeneral as $priceCell) {
+                    $table->addCell($cellWidth, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+                }
+                $table->addRow();
+                foreach ($price['cells']['general'] as $prc) {
+                    foreach ($prc['cells'] as $cll) {
+
+                        if ($cll['isActive']) {
+
+                            $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                            $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                        }
                     }
                 }
-            }
-            $table->addRow();
-            foreach ($price['cells']['alternative'] as $prc) {
-                foreach ($prc['cells'] as $cll) {
-                    if ($cll['isActive']) {
-                        $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                        $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                $table->addRow();
+                foreach ($price['cells']['alternative'] as $prc) {
+                    foreach ($prc['cells'] as $cll) {
+                        if ($cll['isActive']) {
+                            $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                            $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                        }
                     }
                 }
             }
