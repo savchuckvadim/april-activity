@@ -149,7 +149,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2;
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.4;
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight - 100) / 2.1;
             $innerCellStyle = [
                 'borderSize' => 0, 
                 'borderColor' => 'FFFFFF',
@@ -160,7 +160,12 @@ class DocumentController extends Controller
 
             ];
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = ['borderSize' => 10, 'borderColor' => '000000', 'cellMargin' => 40, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 10];
+            $fancyTableStyle = [
+                'borderSize' => 10, 
+                'borderColor' => '000000', 
+                'cellMargin' => 40, 
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 
+                'cellSpacing' => 10];
             // 
             $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0 , 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
             // $fancyTableCellStyle = ['valign' => 'center'];
