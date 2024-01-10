@@ -145,7 +145,7 @@ class DocumentController extends Controller
             $fancyTableFontStyle = ['bold' => true,];
 
 
-            $table = $section->addTable();
+            $table = $section->addTable($fancyTableStyle, );
             $table->addRow(90);
             $sectionStyle = $section->getStyle();
             $fullWidth = $sectionStyle->getPageSizeW();
