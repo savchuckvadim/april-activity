@@ -112,6 +112,9 @@ class DocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
+        $section->addText('Информационное наполнение', $textStyleBold);
+        $section->addTextBreak(1);
+
 
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
