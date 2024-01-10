@@ -162,14 +162,14 @@ class DocumentController extends Controller
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-                            $table->addRow(90);
-                            $cell = $table->addRow(90)->addCell();
+                            // $table->addRow(90);
+                            // $cell = $table->addRow(90)->addCell();
                             // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                             // $cell->addText($group['groupsName'], $headingStyle);
-                            $cell->addText($currentInfoblock['name'], $textStyleBold);
+                            // $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
-                                $table->addRow(90);
-                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                // $table->addRow(90);
+                                $cell =  $table->addRow(90)->addCell($contentWidth, $fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
                             } else   if ($descriptionMode === 1) {
                                 $table->addRow(90);
