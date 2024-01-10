@@ -651,17 +651,17 @@ class DocumentController extends Controller
 
 
                         if ($index  === 0 || $index === '0') {
-                            $outerWidth =  $cellWidth +  100;
-                            $innerWidth = $cellWidth + 90;
-                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                            // $outerWidth =  $cellWidth;
+                            $innerWidth = $cellWidth - 30;
+                            $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($cellWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                         } else {
-                            $outerWidth =  $cellWidth - 20;
+                            // $outerWidth =  $cellWidth - 20;
                             $innerWidth = $cellWidth - 30;
-                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                            $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
                             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
