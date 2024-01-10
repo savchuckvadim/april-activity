@@ -650,17 +650,21 @@ class DocumentController extends Controller
                         Log::info('LOG_ACTIVE', ['active' => $priceCell]);
 
 
-                        if ($index == 'name') {
-                            $cell = $table->addCell($cellWidth + 100, $fancyTableCellStyle);
+                        if ($index > 0) {
+                            $outerWidth =  $cellWidth +  100;
+                            $innerWidth = $cellWidth + 90;
+                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($cellWidth + 90, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                         } else {
-                            $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                            $outerWidth =  $cellWidth - 20;
+                            $innerWidth = $cellWidth - 30;
+                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($cellWidth - 10, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                         }
                     }
@@ -672,18 +676,22 @@ class DocumentController extends Controller
 
 
                                 if ($cll['code'] == 'name') {
+                                    $outerWidth =  $cellWidth +  100;
+                                    $innerWidth = $cellWidth + 90;
                                     $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($cellWidth + 100, $fancyTableCellStyle);
+                                    $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                                     $innerTable = $cell->addTable($innerTabletyle);
                                     $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($cellWidth + 90, $innerCellStyle)
+                                    $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                 } else {
+                                    $outerWidth =  $cellWidth - 20;
+                                    $innerWidth = $cellWidth - 30;
                                     $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                    $cell = $table->addCell($cellWidth - 30, $fancyTableCellStyle);
+                                    $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                                     $innerTable = $cell->addTable($innerTabletyle);
                                     $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
+                                    $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
                                 }
                             }
