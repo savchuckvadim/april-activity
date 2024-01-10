@@ -650,13 +650,13 @@ class DocumentController extends Controller
                         Log::info('index', ['index' => $index]);
 
 
-                        if ($index  === 0 || $index === '0') {
+                        if ($index == 0 || $index === '0') {
                             // $outerWidth =  $cellWidth;
                             $innerWidth = $cellWidth - 30;
                             $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($cellWidth, $innerCellStyle)
+                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                         } else {
                             // $outerWidth =  $cellWidth - 20;
