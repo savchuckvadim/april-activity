@@ -149,8 +149,9 @@ class DocumentController extends Controller
             $fancyTableFontStyle = ['bold' => true,];
 
 
-            $table = $section->addTable();
-            $section->addTableStyle('MyFancyTableStyle', $fancyTableStyle, $fancyTableFirstRowStyle);
+           
+            $section->addTableStyle($fancyTableStyleName , $fancyTableStyle, $fancyTableFirstRowStyle);
+            $table = $section->addTable($fancyTableStyleName);
             // $table->addRow(90);
             // $sectionStyle = $section->getStyle();
             // $fullWidth = $sectionStyle->getPageSizeW();
@@ -176,7 +177,7 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
                                     $table->addRow(90);
-                                    $cell =  $table->addCell('MyFancyTableStyle')
+                                    $cell =  $table->addCell($fancyTableStyleName)
                                         ->addText($currentInfoblock['name']);
                                 }
                             } else   if ($descriptionMode === 1) {
