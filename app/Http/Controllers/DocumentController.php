@@ -561,26 +561,55 @@ class DocumentController extends Controller
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
 
-                   
-                    $fancyTableFirstRowStyle = ['cellMargin' => 25]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
-                    // $fancyTableCellStyle = [
-                    //     'valign' => 'center'
-                    
-                    // ];
+
+                    $textTableGroupTitle = [
+                        'size' => 10,
+                        'name' => 'Arial',
+                        'bold' => true,
+
+                    ];
+                    $textTableGroupTitleParagraph = [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'valign' => 'center',
+                    ];
+                    $innerCellStyle = [
+                        'borderSize' => 0,
+                        'borderColor' => 'FFFFFF',
+                        'cellMargin' => 10,
+                        'valign' => 'center',
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+
+                        // 'cellSpacing' => 10
+
+                    ];
+                    $innerTabletyle = [
+                        'borderSize' => 0,
+                        'borderColor' => 'FFFFFF',
+                        'cellMargin' => 40,
+
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                        // 'cellSpacing' => 10
+
+                    ];
+                    $fancyTableStyleName = 'TableStyle';
                     $fancyTableStyle = [
                         'borderSize' => 10,
                         'borderColor' => '000000',
-                        'cellMargin' => 25,
+                        'cellMargin' => 40,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 10
                     ];
                     // 
                     $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
 
-        
+
                     $fancyTableCellStyle = [
                         'valign' => 'center',
                         'borderSize' => 6,
+                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
                         'cellMarginTop' => 10,
                         'cellMarginRight' => 10,
                         'cellMarginBottom' => 10,
@@ -591,32 +620,36 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-                   
+
                     foreach ($activePriceCellsGeneral as $priceCell) {
-                        $table->addCell($cellWidth, $fancyTableCellStyle)->addText($priceCell['name'], $fancyTableFontStyle);
+                        $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                        $innerTable = $cell->addTable($innerTabletyle);
+                        $innerTable->addRow();
+                        $innerTableCell = $innerTable->addCell($contentWidth, $innerCellStyle)
+                            ->addText($priceCell['name'], $fancyTableFontStyle);
                     }
                     $table->addRow();
                     foreach ($price['cells']['general'] as $prc) {
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
-                                
+
                                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
                                 $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
                             }
                         }
                     }
-                    // $table->addRow();
-                    // if ($priceDataAlternative) {
-                    //     foreach ($price['cells']['alternative'] as $prc) {
-                    //         foreach ($prc['cells'] as $cll) {
-                    //             if ($cll['isActive']) {
-                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                    $table->addRow();
+                    if ($priceDataAlternative) {
+                        foreach ($price['cells']['alternative'] as $prc) {
+                            foreach ($prc['cells'] as $cll) {
+                                if ($cll['isActive']) {
+                                    $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                                    $table->addCell($cellWidth, $fancyTableCellStyle)->addText($value, $fancyTableFontStyle);
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
 
