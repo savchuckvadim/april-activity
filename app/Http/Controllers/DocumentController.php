@@ -698,33 +698,33 @@ class DocumentController extends Controller
                         }
                     }
 
-                    if ($priceDataAlternative) {
+                    // if ($priceDataAlternative) {
 
-                        foreach ($price['cells']['alternative'] as $prc) {
-                            $table->addRow();
-                            foreach ($prc['cells'] as $cll) {
-                                if ($cll['isActive']) {
+                    //     foreach ($price['cells']['alternative'] as $prc) {
+                    //         $table->addRow();
+                    //         foreach ($prc['cells'] as $cll) {
+                    //             if ($cll['isActive']) {
 
 
-                                    if ($cll['code'] == 'name') {
-                                        $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                        $cell = $table->addCell($cellWidth + 100, $fancyTableCellStyle);
-                                        $innerTable = $cell->addTable($innerTabletyle);
-                                        $innerTable->addRow();
-                                        $innerTableCell = $innerTable->addCell($contentWidth + 90, $innerCellStyle)
-                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                                    } else {
-                                        $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                                        $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
-                                        $innerTable = $cell->addTable($innerTabletyle);
-                                        $innerTable->addRow();
-                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
-                                            ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //                 if ($cll['code'] == 'name') {
+                    //                     $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                     $cell = $table->addCell($cellWidth + 100, $fancyTableCellStyle);
+                    //                     $innerTable = $cell->addTable($innerTabletyle);
+                    //                     $innerTable->addRow();
+                    //                     $innerTableCell = $innerTable->addCell($contentWidth + 90, $innerCellStyle)
+                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                    //                 } else {
+                    //                     $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
+                    //                     $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
+                    //                     $innerTable = $cell->addTable($innerTabletyle);
+                    //                     $innerTable->addRow();
+                    //                     $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                    //                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             } else {
 
