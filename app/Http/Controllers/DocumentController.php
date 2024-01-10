@@ -139,7 +139,11 @@ class DocumentController extends Controller
                 }
             }
         } else if ($styleMode == 'table') {
-
+            $sectionStyle = $section->getStyle();
+            $fullWidth = $sectionStyle->getPageSizeW();
+            $marginRight = $sectionStyle->getMarginRight();
+            $marginLeft = $sectionStyle->getMarginLeft();
+            $contentWidth = $fullWidth - $marginLeft - $marginRight;
             $fancyTableStyleName = 'TableStyle';
             $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 90];
             // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
@@ -149,8 +153,8 @@ class DocumentController extends Controller
             $fancyTableFontStyle = ['bold' => true,];
 
 
-           
-            $section->addTableStyle($fancyTableStyleName , $fancyTableStyle, $fancyTableFirstRowStyle);
+
+            $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
             $table = $section->addTable($fancyTableStyleName);
             // $table->addRow(90);
             // $sectionStyle = $section->getStyle();
@@ -177,7 +181,7 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
                                     $table->addRow(90);
-                                    $table->addCell($fancyTableStyleName)
+                                    $table->addCell($contentWidth, $fancyTableStyleName)
                                         ->addText($currentInfoblock['name']);
                                 }
                             } else   if ($descriptionMode === 1) {
