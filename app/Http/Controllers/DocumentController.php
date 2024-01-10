@@ -201,7 +201,7 @@ class DocumentController extends Controller
 
 
                 foreach ($group['value'] as $infoblock) {
-
+                    $table->addRow();
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
