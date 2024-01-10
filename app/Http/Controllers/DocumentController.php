@@ -467,15 +467,21 @@ class DocumentController extends Controller
     {
         //ТАБЛИЦА ЦЕН
 
-        if ($price['cells']['general'][0]) {
+        if (isset($price['cells']['general']) && is_array($price['cells']['general']) && count($price['cells']['general']) > 0) {
+            // Массив $price['cells']['general'] существует и не пуст
             $priceDataGeneral = $price['cells']['general'][0]['cells'];
         }
-        if ($priceDataAlternative = $price['cells']['alternative'][0]) {
+        
+        if (isset($price['cells']['alternative']) && is_array($price['cells']['alternative']) && count($price['cells']['alternative']) > 0) {
+            // Массив $price['cells']['alternative'] существует и не пуст
             $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
         }
-        if ($priceDataTotal = $price['cells']['total'][0]) {
+        
+        if (isset($price['cells']['total']) && is_array($price['cells']['total']) && count($price['cells']['total']) > 0) {
+            // Массив $price['cells']['total'] существует и не пуст
             $priceDataTotal = $price['cells']['total'][0]['cells'];
         }
+        
 
 
         $cells = [];
