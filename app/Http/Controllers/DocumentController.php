@@ -652,9 +652,14 @@ class DocumentController extends Controller
                         $cell = $table->addCell($cellWidth, $fancyTableCellStyle);
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
-
-                        $innerTableCell = $innerTable->addCell($cellWidth - 10, $innerCellStyle)
+                        if ($priceCell['code'] == 'name') {
+                            $innerTableCell = $innerTable->addCell($cellWidth + 30, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        }else{
+                            $innerTableCell = $innerTable->addCell($cellWidth - 10, $innerCellStyle)
                             ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        }
+                   
                     }
                     $table->addRow();
                     foreach ($price['cells']['general'] as  $prc) {
@@ -667,7 +672,7 @@ class DocumentController extends Controller
                                 $innerTable = $cell->addTable($innerTabletyle);
                                 $innerTable->addRow();
                                 if ($cll['code'] == 'name') {
-                                    $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
+                                    $innerTableCell = $innerTable->addCell($cellWidth + 30, $innerCellStyle)
                                         ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                 } else {
                                     $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
@@ -689,7 +694,7 @@ class DocumentController extends Controller
                                     $innerTable = $cell->addTable($innerTabletyle);
                                     $innerTable->addRow();
                                     if ($cll['code'] == 'name') {
-                                        $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
+                                        $innerTableCell = $innerTable->addCell($contentWidth + 30, $innerCellStyle)
                                             ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
                                     } else {
                                         $innerTableCell = $innerTable->addCell($contentWidth - 30, $innerCellStyle)
