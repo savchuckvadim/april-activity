@@ -109,7 +109,7 @@ class DocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
-       
+
         if ($styleMode == 'list') {
             foreach ($complect as $group) {
 
@@ -146,7 +146,7 @@ class DocumentController extends Controller
             $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
-          
+
 
             $table = $section->addTable();
             $table->addRow(90);
@@ -158,43 +158,59 @@ class DocumentController extends Controller
             $count = 0;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-              
+
                 foreach ($group['value'] as $infoblock) {
-                    Log::info('LOG', ['value' => $infoblock['name']]);
+
                     if (array_key_exists('code', $infoblock)) {
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
-                        
+
                         if ($currentInfoblock) {
-                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock['name']]);
-                            Log::info('LOG', ['currentInfoblock' => $currentInfoblock['shortDescription']]);
+
                             // $table->addRow(90);
                             // $cell = $table->addRow(90)->addCell();
                             // $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
                             // $cell->addText($group['groupsName'], $headingStyle);
                             // $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
-                                // $table->addRow(90);
-                                // $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                // $cell->addText($currentInfoblock['name'], $headingStyle);
-                                
+                                if ($currentInfoblock['name']) {
+                                    $table->addRow(90);
+                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+                                }
                             } else   if ($descriptionMode === 1) {
-                                // $table->addRow(90);
-                                // $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
-                                // $cell->addText($currentInfoblock['name'], $headingStyle);
-                                // $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            }
-                            // else   if ($descriptionMode === 2) {
-                            //     $table->addRow(90);
-                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
-                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            // } else   if ($descriptionMode === 3) {
-                            //     $table->addRow(90);
-                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
-                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            // }
+                                if ($currentInfoblock['name']) {
 
+                                    $table->addRow(90);
+                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+
+                                    if ($currentInfoblock['shortDescription']) {
+                                        $cell->addText($currentInfoblock['shortDescription'], $textStyle);
+                                    }
+                                }
+                            } else   if ($descriptionMode === 2) {
+                                if ($currentInfoblock['name']) {
+
+                                    $table->addRow(90);
+                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+
+                                    if ($currentInfoblock['descriptionForSale']) {
+                                        $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                    }
+                                }
+                            } else   if ($descriptionMode === 3) {
+                                if ($currentInfoblock['name']) {
+
+                                    $table->addRow(90);
+                                    $cell =  $table->addRow(90)->addCell($fancyTableCellStyle);
+                                    $cell->addText($currentInfoblock['name'], $headingStyle);
+
+                                    if ($currentInfoblock['descriptionForSale']) {
+                                        $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                                    }
+                                }
+                            }
                             $section->addTextBreak(1);
                             $count = $count  + 1;
                         }
