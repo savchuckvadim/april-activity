@@ -638,7 +638,7 @@ class DocumentController extends Controller
                         $innerTable = $cell->addTable($innerTabletyle);
                         $innerTable->addRow();
 
-                        $innerTableCell = $innerTable->addCell($cellWidth - 30, $innerCellStyle)
+                        $innerTableCell = $innerTable->addCell($cellWidth - 10, $innerCellStyle)
                             ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                     }
                     // $table->addRow();
