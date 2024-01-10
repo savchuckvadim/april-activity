@@ -59,7 +59,7 @@ class DocumentController extends Controller
                 'textSmall' => ['size' => 10, 'name' => 'Arial'],
                 'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
                 'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-                
+
             );
 
             // Создаем стиль абзаца
@@ -72,7 +72,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle );
+            $section = $this->getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -98,7 +98,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle )
+    protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle)
     {
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
@@ -138,14 +138,15 @@ class DocumentController extends Controller
             }
         } else if ($styleMode == 'table') {
             $fancyTableStyleName = 'Информационное наполнение';
-            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+            $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25];
+            // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
             $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF',
             $fancyTableCellStyle = ['valign' => 'center'];
             // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
             $fancyTableFontStyle = ['bold' => true,];
 
 
-            $table = $section->addTable($fancyTableStyle, );
+            $table = $section->addTable($fancyTableStyle);
             $table->addRow(90);
             $sectionStyle = $section->getStyle();
             $fullWidth = $sectionStyle->getPageSizeW();
@@ -166,22 +167,26 @@ class DocumentController extends Controller
                             // $cell->addText($group['groupsName'], $headingStyle);
                             $cell->addText($currentInfoblock['name'], $textStyleBold);
                             if ($descriptionMode === 0) {
+                                $table->addRow(90);
+                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                                $cell->addText($currentInfoblock['name'], $headingStyle);
                             } else   if ($descriptionMode === 1) {
                                 $table->addRow(90);
                                 $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
                                 $cell->addText($currentInfoblock['name'], $headingStyle);
                                 $cell->addText($currentInfoblock['shortDescription'], $textStyle);
-                            } else   if ($descriptionMode === 2) {
-                                $table->addRow(90);
-                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            } else   if ($descriptionMode === 3) {
-                                $table->addRow(90);
-                                $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
-                                $cell->addText($currentInfoblock['name'], $headingStyle);
-                                $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
-                            }
+                            } 
+                            // else   if ($descriptionMode === 2) {
+                            //     $table->addRow(90);
+                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
+                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                            // } else   if ($descriptionMode === 3) {
+                            //     $table->addRow(90);
+                            //     $cell =  $table->addCell($contentWidth, $fancyTableCellStyle);
+                            //     $cell->addText($currentInfoblock['name'], $headingStyle);
+                            //     $cell->addText($currentInfoblock['descriptionForSale'], $textStyle);
+                            // }
 
                             $section->addTextBreak(1);
                             $count = $count  + 1;
