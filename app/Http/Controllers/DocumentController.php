@@ -101,7 +101,7 @@ class DocumentController extends Controller
 
     protected function getInfoblocks($infoblocksOptions, $complect, $section, $sectionStyle, $paragraphStyle)
     {
-        
+
         $headingStyle = $sectionStyle['heading'];
         $textStyle = $sectionStyle['text'];
         $textStyleBold = $sectionStyle['textBold'];
@@ -176,8 +176,8 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 if ($currentInfoblock['name']) {
                                     $table->addRow(90);
-                                    $cell =  $table->addCell();
-                                    $cell->addText($currentInfoblock['name']);
+                                    $cell =  $table->addCell('MyFancyTableStyle')
+                                        ->addText($currentInfoblock['name']);
                                 }
                             } else   if ($descriptionMode === 1) {
                                 // if ($currentInfoblock['name']) {
