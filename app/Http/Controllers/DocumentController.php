@@ -568,7 +568,9 @@ class DocumentController extends Controller
                     });
                     foreach ($activePriceCellsGeneral as $prccll) {
                         if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
-                            ($prccll['code'] == 'prepayment' && $prccll['isActive'])
+                            ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
+                            ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
+                            ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
                         ) {
                             $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
                             break; // Прекратить выполнение цикла, так как условие уже выполнено
