@@ -1069,10 +1069,10 @@ class DocumentController extends Controller
 
 
             $totalWidth =  $totalWidth + $outerWidth;
-            $cell = $table->addCell(null, $fancyTableCellStyle);
+            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell(null, $innerCellStyle)
+            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
         }
         return $table;
