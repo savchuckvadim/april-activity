@@ -920,7 +920,7 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'supply',
         // SUPPLY_FOR_OFFER = 'supplyForOffer',
-        //вычислить длину ячейки 100
+        // вычислить длину ячейки 100
         // NAME = 'Наименование',
         // QUANTITY = 'Количество',
         // SUM = 'Сумма',
@@ -1064,6 +1064,8 @@ class DocumentController extends Controller
                     # code...
 
             }
+
+            
             $totalWidth =  $totalWidth + $outerWidth;
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
