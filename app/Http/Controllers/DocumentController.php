@@ -952,7 +952,7 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 2000;
+        $longWidth = 7000;
         if ($isHaveLongPrepayment) {
             $longWidth = 3600;
         }
