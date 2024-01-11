@@ -535,7 +535,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
-        
+
 
             //TABLE
             $allPrices = [$price['cells']['general'], $price['cells']['alternative'], $price['cells']['total']];
@@ -575,10 +575,10 @@ class DocumentController extends Controller
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
-                    $outerFirstWidth =  $cellWidth + 100;
+                    $outerFirstWidth =  $cellWidth + 300;
                     $innerFirstWidth = $outerFirstWidth - 30;
-                    $outerWidth =  $cellWidth - 200;
-                    $innerWidth = $cellWidth - 230;
+                    $outerWidth =  $cellWidth - (300 / $numCells);
+                    $innerWidth = $outerWidth - 30;
 
                     $innerCellStyle = [
                         'borderSize' => 0,
@@ -653,21 +653,21 @@ class DocumentController extends Controller
                         Log::info('index', ['index' => $index]);
 
 
-                        // if ($index == 0 || $index === '0') {
+                        if ($index == 0 || $index === '0') {
 
-                        //     $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
-                        //     $innerTable = $cell->addTable($innerTabletyle);
-                        //     $innerTable->addRow();
-                        //     $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
-                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                        // } else {
+                            $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
+                            $innerTable = $cell->addTable($innerTabletyle);
+                            $innerTable->addRow();
+                            $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        } else {
 
                             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
                             $innerTable = $cell->addTable($innerTabletyle);
                             $innerTable->addRow();
                             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
                                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                        // }
+                        }
                     }
                     // $table->addRow();
                     // foreach ($price['cells']['general'] as  $prc) {
@@ -896,4 +896,37 @@ class DocumentController extends Controller
             ];
         }
     }
+
+    // protected function getPriceCellWidth($cellCode, $contentWidth, $pageWidth, $cellsCount)
+    // {
+    //     // NAME = 'name',     
+    //     // PREPAYMENT = 'prepayment',
+    //     // QUANTITY = 'quantity',
+    //     // DEFAULT_QUANTITY = 'defaultquantity',
+    //     // CONTRACT_QUANTITY = 'contractquantity',
+    //     // DISCOUNT_PRECENT = 'discountprecent',
+    //     // DISCOUNT_AMOUNT = 'discountamount',
+    //     // DEFAULT = 'default',
+    //     // CURRENT = 'current',
+    //     // DEFAULT_MONTH = 'defaultmonth',
+    //     // CURRENT_MONTH = 'currentmonth',
+    //     // PREPAYMENT_SUM = 'prepaymentsum',
+    //     // QUANTITY_SUM = 'quantitysum',
+    //     // CONTRACT_SUM = 'contractsum',
+    //     // MEASURE = 'measure',
+    //     // MEASURE_CODE = 'measureCode',
+    //     // CONTRACT = 'contract',
+    //     // SUPPLY = 'supply',
+    //     // SUPPLY_FOR_OFFER = 'supplyForOffer',
+    //     //вычислить длину ячейки 100
+    //     switch ($variable) {
+    //         case $cellCode:
+    //             # code...
+    //             break;
+
+    //         default:
+    //             # code...
+    //             break;
+    //     }
+    // }
 }
