@@ -623,7 +623,8 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
 
-                    $table->addRow();
+                    $row = $table->addRow();
+                    $row->setHeight(300);
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
@@ -632,7 +633,8 @@ class DocumentController extends Controller
                         $this->getPriceCell(true, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                    $table->addRow();
+                    $row = $table->addRow();
+                    $row->setHeight(300);
                     foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
@@ -645,7 +647,8 @@ class DocumentController extends Controller
                     if ($priceDataAlternative) {
 
                         foreach ($price['cells']['alternative'] as $prc) {
-                            $table->addRow();
+                            $row = $table->addRow();
+                            $row->setHeight(300);
                             foreach ($prc['cells'] as $cll) {
 
                                 if ($cll['isActive']) {
@@ -934,30 +937,30 @@ class DocumentController extends Controller
                         'lineHeight' => 1.15,  // Высота строки
                         'alignment' => 'left',
                         'valign' => 'center',
-                        'height' => 500,
+
                     ];
                     $outerWidth =  $cellWidth + 2700;
                     $innerWidth = $outerWidth - 30;
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    if($priceCell['name'] == 'Количество'){
+                    if ($priceCell['name'] == 'Количество') {
                         $outerWidth =  $cellWidth - 500;
                         $innerWidth = $outerWidth - 30;
-                    }else{
+                    } else {
                         $outerWidth =  $cellWidth + 500;
                         $innerWidth = $outerWidth - 30;
                     }
 
-                  
 
-                // case 'defaultquantity': //Количество изначальное
-                //     # code...
 
-                // case 'contractquantity': //При заключении договора от
-                //     $outerWidth =  $cellWidth + 500;
-                //     $innerWidth = $outerWidth - 30;
-                //     break;
+                    // case 'defaultquantity': //Количество изначальное
+                    //     # code...
+
+                    // case 'contractquantity': //При заключении договора от
+                    //     $outerWidth =  $cellWidth + 500;
+                    //     $innerWidth = $outerWidth - 30;
+                    //     break;
 
                 case 'prepayment':  // При внесении предоплаты от
                     // $outerWidth =  $cellWidth + 500;
@@ -986,13 +989,13 @@ class DocumentController extends Controller
                 case 'defaultmonth': //Цена по прайсу в месяц
                     # code...
 
-                // case 'quantitysum': //Сумма Количество
-                //     $outerWidth =  $cellWidth + 1000;
-                //     $innerWidth = $outerWidth - 30;
+                    // case 'quantitysum': //Сумма Количество
+                    //     $outerWidth =  $cellWidth + 1000;
+                    //     $innerWidth = $outerWidth - 30;
 
-                // case 'contractsum': //Сумма за весь период обслуживания 
-                //     $outerWidth =  $cellWidth + 400;
-                //     $innerWidth = $outerWidth - 30;
+                    // case 'contractsum': //Сумма за весь период обслуживания 
+                    //     $outerWidth =  $cellWidth + 400;
+                    //     $innerWidth = $outerWidth - 30;
 
                 case 'prepaymentsum':  // При внесении предоплаты от
                     $outerWidth =  $cellWidth + 1000;
