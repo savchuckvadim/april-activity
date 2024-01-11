@@ -48,15 +48,15 @@ class DocumentController extends Controller
                 ],
                 'h1' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 13
+                    'bold' => true, 'size' => 16
                 ],
                 'h2' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 12
+                    'bold' => true, 'size' => 14
                 ],
                 'h3' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 11
+                    'bold' => true, 'size' => 12
                 ],
                 'text' => [
                     'small' => [
@@ -73,6 +73,11 @@ class DocumentController extends Controller
                         'size' => 11
                     ],
 
+                ],
+                'table' => [
+                    'h1' => ['size' => 11, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'],
+                    'h2' => ['size' => 10, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'],
+                    'text' => ['size' => 10, 'name' => 'Arial', 'lang' => 'ru-RU']
                 ]
             ],
             'paragraphs' => [
@@ -102,14 +107,28 @@ class DocumentController extends Controller
 
 
             ],
-            'table' => [
+            'tables' => [
                 'inner' => [
                     'cell' => [
+                        // 'infoblock' => [
+                        //     'borderSize' => 0,
+                        //     'borderColor' => 'FFFFFF',
+                        //     'cellMargin' => 40,
+                        //     'valign' => 'center',
+                        //     // 'cellSpacing' => 10
+                        // ],
+                        // 'price' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 40,
+                        'cellMargin' => 230,
                         'valign' => 'center',
-                        // 'cellSpacing' => 10
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellMarginTop' => 50,
+                        'cellMarginRight' => 50,
+                        'cellMarginBottom' => 50,
+                        'cellMarginLeft' => 50,
+                        // ]
+
                     ],
                     'table' => [
                         'borderSize' => 0,
@@ -120,14 +139,51 @@ class DocumentController extends Controller
 
                     ],
 
-
                 ],
+
                 'general' => [
-                    'borderSize' => 10,
-                    'borderColor' => '000000',
-                    'cellMargin' => 40,
-                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                    'cellSpacing' => 10
+                    'table' => [
+                        'borderSize' => 10,
+                        'borderColor' => '000000',
+                        'cellMargin' => 40,
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellSpacing' => 10
+                    ],
+                    'row' => [
+                        'cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                    ],
+                    'cell' => [
+                        'valign' => 'center',
+                        'borderSize' => 6,
+                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                        'cellMarginTop' => 10,
+                        'cellMarginRight' => 10,
+                        'cellMarginBottom' => 10,
+                        'cellMarginLeft' => 10,
+                    ],
+                    'paragraph' => [
+                        'left' => [
+                            'spaceAfter' => 0,    // Интервал после абзаца
+                            'spaceBefore' => 0,   // Интервал перед абзацем
+                            'lineHeight' => 1.15,  // Высота строки
+                            'alignment' => 'left',
+                            'valign' => 'center',
+                        ],
+                        'center' => [
+                            'spaceAfter' => 0,    // Интервал после абзаца
+                            'spaceBefore' => 0,   // Интервал перед абзацем
+                            'lineHeight' => 1.15,  // Высота строки
+                            'alignment' => 'center',
+                            'valign' => 'center',
+                        ],
+                        'right' => [
+                            'spaceAfter' => 0,    // Интервал после абзаца
+                            'spaceBefore' => 0,   // Интервал перед абзацем
+                            'lineHeight' => 1.15,  // Высота строки
+                            'alignment' => 'right',
+                            'valign' => 'center',
+                        ]
+                    ]
                 ]
             ]
 
@@ -169,43 +225,16 @@ class DocumentController extends Controller
 
 
 
-            $phpWord = new \PhpOffice\PhpWord\PhpWord();
-            $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
-
-
-            //стиль страницы 
+            $document = new \PhpOffice\PhpWord\PhpWord();
 
 
 
-            $sectionStyle = array(
-                'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-                'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-                'marginLeft' => Converter::inchToTwip(0.5),
-                'marginRight' => Converter::inchToTwip(0.5),
-                'lang' => 'ru-RU',
-                'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
-                'text' => ['size' => 12, 'name' => 'Arial'],
-                'textSmall' => ['size' => 10, 'name' => 'Arial'],
-                'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
-                'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-
-            );
-
-            // Создаем стиль абзаца
-            $paragraphStyle = array(
-                'spaceAfter' => 0,    // Интервал после абзаца
-                'spaceBefore' => 0,   // Интервал перед абзацем
-                'lineHeight' => 1.15,  // Высота строки
-                // Другие параметры стиля абзаца...
-            );
-            // $languageEnGbStyle = array('lang' => 'ru-RU');
-
-            $section = $phpWord->addSection($sectionStyle);
+            $section = $document->addSection($this->documentStyle['page']);
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle['paragraph']['general']);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
-            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
             $objWriter->save($resultPath . '/' . $resultFileName);
 
             // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
@@ -595,21 +624,6 @@ class DocumentController extends Controller
     {
         try {
             $section->addPageBreak();
-            //стиль страницы 
-            //    $sectionStyle = array(
-            //     'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-            //     'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-            //     'marginLeft' => Converter::inchToTwip(0.5),
-            //     'marginRight' => Converter::inchToTwip(0.5),
-            //     'lang' => 'ru-RU',
-            //     'heading' => ['bold' => true, 'size' => 16, 'name' => 'Arial'],
-            //     'text' => ['size' => 12, 'name' => 'Arial'],
-            //     'textSmall' => ['size' => 10, 'name' => 'Arial'],
-            //     'textSmallBold' => ['size' => 10, 'name' => 'Arial', 'bold' => true],
-            //     'textBold' => ['size' => 12, 'name' => 'Arial', 'bold' => true],
-
-            // );
-
 
 
             //ТАБЛИЦА ЦЕН
@@ -638,28 +652,13 @@ class DocumentController extends Controller
             $cells = [];
             $isTable = $price['isTable'];
 
-            // $header = ['size' => 16, 'bold' => true];
-
-            // $headerRqStyle = ['valign' => 'left'];
-            // $header->addText($combinedRq, $headerRqStyle);
-            // $header->addImage('path_to_logo.jpg', $logoStyle);
-            $languageEnGbStyle = array('lang' => 'ru-RU');
             $section->addTextBreak(1);
             $section->addText('Цена за комплект', $styles['fonts']['h1']);
-
 
             $fancyTableStyleName = 'DocumentPrice';
 
 
-
-            // Создаем стиль абзаца
-            $paragraphStyle = array(
-                'spaceAfter' => 0,    // Интервал после абзаца
-                'spaceBefore' => 0,   // Интервал перед абзацем
-                'lineHeight' => 1.15,  // Высота строки
-                // Другие параметры стиля абзаца...
-            );
-            $fullWidth = $section->getStyle()->getPageSizeW();
+            $fullWidth = $styles['page']['pageSizeW'];
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
@@ -737,17 +736,21 @@ class DocumentController extends Controller
 
                     // ];
                     $fancyTableStyleName = 'TableStyle';
-                    $fancyTableStyle = [
-                        'borderSize' => 10,
-                        'borderColor' => '000000',
-                        'cellMargin' => 10,
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 10
-                    ];
+                    // $fancyTableStyle = [
+                    //     'borderSize' => 10,
+                    //     'borderColor' => '000000',
+                    //     'cellMargin' => 10,
+                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    //     'cellSpacing' => 10
+                    // ];
                     // 
-                    $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
+                    // $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
 
-                    $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+                    $section->addTableStyle(
+                        $fancyTableStyleName,
+                        $styles['tables']['general']['table'],
+                        $styles['tables']['general']['row']
+                    );
                     $table = $section->addTable($fancyTableStyleName);
 
                     $table->addRow();
@@ -757,7 +760,7 @@ class DocumentController extends Controller
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell(true, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
                     $table->addRow();
@@ -766,7 +769,7 @@ class DocumentController extends Controller
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
-                                $this->getPriceCell(false, $table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
                             }
                         }
                     }
@@ -779,7 +782,7 @@ class DocumentController extends Controller
                             foreach ($prc['cells'] as $cll) {
 
                                 if ($cll['isActive']) {
-                                    $this->getPriceCell(false, $table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                    $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
                                 }
                             }
                         }
@@ -955,7 +958,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($isHeader, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
+    protected function getPriceCell($isHeader, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
     {
         $code = $priceCell['code'];
         // NAME = 'name',     
@@ -1009,66 +1012,61 @@ class DocumentController extends Controller
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
         // $innerWidth = $outerWidth - 30;
-        $fancyTableCellStyle = [
-            'valign' => 'center',
-            'borderSize' => 6,
-            // 'borderColor' => '000000',  // Цвет границы (чёрный)
-            'cellMarginTop' => 10,
-            'cellMarginRight' => 10,
-            'cellMarginBottom' => 10,
-            'cellMarginLeft' => 10,
-        ];
+        // $fancyTableCellStyle = [
+        //     'valign' => 'center',
+        //     'borderSize' => 6,
+        //     // 'borderColor' => '000000',  // Цвет границы (чёрный)
+        //     'cellMarginTop' => 10,
+        //     'cellMarginRight' => 10,
+        //     'cellMarginBottom' => 10,
+        //     'cellMarginLeft' => 10,
+        // ];
 
-        $innerTabletyle = [
-            'borderSize' => 0,
-            'borderColor' => 'FFFFFF',
-            'cellMargin' => 10,
-            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            // 'cellSpacing' => 10
+        // $innerTabletyle = [
+        //     'borderSize' => 0,
+        //     'borderColor' => 'FFFFFF',
+        //     'cellMargin' => 10,
+        //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+        //     // 'cellSpacing' => 10
 
-        ];
-        $innerCellStyle = [
-            'borderSize' => 0,
-            'borderColor' => 'FFFFFF',
-            'cellMargin' => 230,
-            'valign' => 'center',
-            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-            'cellMarginTop' => 50,
-            'cellMarginRight' => 50,
-            'cellMarginBottom' => 50,
-            'cellMarginLeft' => 50,
+        // ];
+        // $innerCellStyle = [
+        //     'borderSize' => 0,
+        //     'borderColor' => 'FFFFFF',
+        //     'cellMargin' => 230,
+        //     'valign' => 'center',
+        //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+        //     'cellMarginTop' => 50,
+        //     'cellMarginRight' => 50,
+        //     'cellMarginBottom' => 50,
+        //     'cellMarginLeft' => 50,
 
-        ];
-
-
+        // ];
 
 
-        $textTableGroupTitleParagraph =  [
-            'spaceAfter' => 0,    // Интервал после абзаца
-            'spaceBefore' => 0,   // Интервал перед абзацем
-            'lineHeight' => 1.15,  // Высота строки
-            'alignment' => 'center',
-            'valign' => 'center',
-        ];
-        $tableHeaderFont = ['size' => 10, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'];
-        $tableBodyFont = ['size' => 10, 'name' => 'Arial', 'lang' => 'ru-RU'];
+        $tableStyle = $styles['tables'];
+        $paragraphs = $tableStyle['general']['paragraph'];
+        $fonts = $styles['fonts']['table'];
+        $textTableGroupTitleParagraph = $paragraphs['center'];
+        //  [
+        //     'spaceAfter' => 0,    // Интервал после абзаца
+        //     'spaceBefore' => 0,   // Интервал перед абзацем
+        //     'lineHeight' => 1.15,  // Высота строки
+        //     'alignment' => 'center',
+        //     'valign' => 'center',
+        // ];
+        $tableHeaderFont = $fonts['h1'];
+        $tableBodyFont = $fonts['text'];
 
         if ($code) {
 
 
             switch ($code) {
                 case 'name':  //Наименование
-                    $textTableGroupTitleParagraph =  [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => 'left',
-                        'valign' => 'center',
-
-                    ];
+                    $textTableGroupTitleParagraph =  $paragraphs['left'];
                     $outerWidth =  $cellWidth + 2700;
                     $innerWidth = $outerWidth - 30;
-                    $tableBodyFont =  $tableHeaderFont;
+                    $tableBodyFont =  $fonts['h1'];
                     break;
                 case 'quantity': //Количество
                     if ($priceCell['name'] == 'Количество') {
@@ -1156,10 +1154,10 @@ class DocumentController extends Controller
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
-            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-            $innerTable = $cell->addTable($innerTabletyle);
+            $cell = $table->addCell($outerWidth, $tableStyle['general']['cell']);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+            $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
                 ->addText($cellValue, $font, $textTableGroupTitleParagraph);
         }
         return $table;
