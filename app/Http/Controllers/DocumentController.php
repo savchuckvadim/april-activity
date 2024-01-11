@@ -940,8 +940,8 @@ class DocumentController extends Controller
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    // $outerWidth =  $cellWidth - 200;
-                    // $innerWidth = $outerWidth - 30;
+                    $outerWidth =  $cellWidth - 300;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'defaultquantity': //Количество изначальное
                     # code...
@@ -979,7 +979,7 @@ class DocumentController extends Controller
                     # code...
 
                 case 'quantitysum': //Сумма Количество
-                    $outerWidth =  $cellWidth + 900;
+                    $outerWidth =  $cellWidth + 1000;
                     $innerWidth = $outerWidth - 30;
 
                 case 'contractsum': //Сумма за весь период обслуживания 
