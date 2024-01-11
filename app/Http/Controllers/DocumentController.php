@@ -868,11 +868,11 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 2400;
-        if ($isHaveLongPrepayment) {
-            $longWidth = 3300;
-        }
-        $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
+        $longWidth = 2700;
+        // if ($isHaveLongPrepayment) {
+        //     $longWidth = 3300;
+        // }
+        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - 1);
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
@@ -933,7 +933,7 @@ class DocumentController extends Controller
                         'alignment' => 'left',
                         'valign' => 'center',
                     ];
-                    $outerWidth =  $cellWidth + 2400;
+                    $outerWidth =  $cellWidth + 2700;
                     $innerWidth = $outerWidth - 30;
                     $tableBodyFont =  $tableHeaderFont;
                     break;
