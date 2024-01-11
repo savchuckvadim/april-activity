@@ -575,9 +575,9 @@ class DocumentController extends Controller
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
-                    $outerFirstWidth =  $cellWidth + 300;
+                    $outerFirstWidth =  $cellWidth + 1000;
                     $innerFirstWidth = $outerFirstWidth - 30;
-                    $outerWidth =  $cellWidth - (300 / $numCells);
+                    $outerWidth =  $cellWidth - (1000 / $numCells);
                     $innerWidth = $outerWidth - 30;
 
                     $innerCellStyle = [
