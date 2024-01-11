@@ -577,8 +577,8 @@ class DocumentController extends Controller
                     $cellWidth = $contentWidth / $numCells;
                     $outerFirstWidth =  $cellWidth + 100;
                     $innerFirstWidth = $outerFirstWidth - 30;
-                    $outerWidth =  $cellWidth;
-                    $innerWidth = $cellWidth - 30;
+                    $outerWidth =  $cellWidth - 200;
+                    $innerWidth = $cellWidth - 230;
 
                     $innerCellStyle = [
                         'borderSize' => 0,
