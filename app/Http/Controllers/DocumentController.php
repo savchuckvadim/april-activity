@@ -15,6 +15,11 @@ class DocumentController extends Controller
 
     public function __construct()
     {
+        $generalFont = [
+            'name' => 'Arial',
+            'color' => 'FFFF00',
+            'lang' => 'ru-RU',
+        ];
         $this->documentStyle = [
             'page' => [
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
@@ -38,32 +43,32 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => $this->documentStyle['colors']['general'],
+                    'color' => 'FFFF00',
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
-                    ...$this->documentStyle['fonts']['general'],
+                    ...$generalFont,
                     'bold' => true, 'size' => 13
                 ],
                 'h2' => [
-                    ...$this->documentStyle['fonts']['general'],
+                    ...$generalFont,
                     'bold' => true, 'size' => 12
                 ],
                 'h3' => [
-                    ...$this->documentStyle['fonts']['general'],
+                    ...$generalFont,
                     'bold' => true, 'size' => 11
                 ],
                 'text' => [
                     'small' => [
-                        ...$this->documentStyle['fonts']['general'],
+                        ...$generalFont,
                         'size' => 9
                     ],
                     'normal' => [
-                        ...$this->documentStyle['fonts']['general'],
+                        ...$generalFont,
                         'size' => 10
                     ],
                     'bold' => [
-                        ...$this->documentStyle['fonts']['general'],
+                        ...$generalFont,
                         'bold' => true,
                         'size' => 11
                     ],
