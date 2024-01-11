@@ -983,74 +983,69 @@ class DocumentController extends Controller
             switch ($code) {
                 case 'name':  //Наименование
                     $outerWidth =  $cellWidth + 1000;
-                    $innerWidth = $outerWidth - 30;
-
-                    break;
+                    $innerWidth = $outerWidth - 30;   
 
                 case 'quantity': //Количество
                     # code...
-                    break;
+                    
                 case 'defaultquantity': //Количество изначальное
                     # code...
-                    break;
+                    
                 case 'contractquantity': //При заключении договора от
                     # code...
-                    break;
+                  
                 case 'prepayment':  // При внесении предоплаты от
                     # code...
-                    break;
+                 
 
                 case 'discountprecent': //Скидка, %
                     # code...
-                    break;
+                    
                 case 'discountamount': //Скидка в рублях
                     # code...
-                    break;
+                    
 
                 case 'current': //Цена
                     # code...
-                    break;
+                    
                 case 'currentmonth': //Цена в месяц
                     # code...
-                    break;
+                   
                 case 'default': //Цена по прайсу
                     # code...
 
-                    break;
+                   
                 case 'defaultmonth': //Цена по прайсу в месяц
                     # code...
-                    break;
+                   
 
 
                 case 'quantitysum': //Сумма Количество
                     # code...
-                    break;
+                   
                 case 'contractsum': //Сумма за весь период обслуживания 
                     # code...
-                    break;
+                    
                 case 'prepaymentsum':  // При внесении предоплаты от
                     # code...
-                    break;
+                    
 
 
                 case 'measure': //Единица
                     # code...
-                    break;
+                    
                 case 'measureCode': //Кодовое обозначение единицы
                     # code...
-                    break;
+                   
                 case 'contract':
                     # code...
-                    break;
+                   
                 case 'supply':
                     # code...
-                    break;
+                   
                 case 'supplyOffer':
                     # code...
-                    break;
-                default:
-                    # code...
-                    break;
+                    
             }
             $totalWidth =  $totalWidth + $outerWidth;
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
