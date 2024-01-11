@@ -623,8 +623,8 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
 
-                    $row = $table->addRow();
-                    $row->setHeight(300);
+                    $table->addRow();
+                    // $row->setHeight(300);
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
@@ -633,8 +633,8 @@ class DocumentController extends Controller
                         $this->getPriceCell(true, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                    $row = $table->addRow();
-                    $row->setHeight(300);
+                    $table->addRow();
+                    // $row->setHeight(300);
                     foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
@@ -647,8 +647,8 @@ class DocumentController extends Controller
                     if ($priceDataAlternative) {
 
                         foreach ($price['cells']['alternative'] as $prc) {
-                            $row = $table->addRow();
-                            $row->setHeight(300);
+                            $table->addRow();
+                            // $row->setHeight(300);
                             foreach ($prc['cells'] as $cll) {
 
                                 if ($cll['isActive']) {
