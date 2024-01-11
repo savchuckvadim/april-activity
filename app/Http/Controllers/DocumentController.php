@@ -1038,8 +1038,6 @@ class DocumentController extends Controller
                 case 'defaultmonth': //Цена по прайсу в месяц
                     # code...
 
-
-
                 case 'quantitysum': //Сумма Количество
                     # code...
 
@@ -1048,8 +1046,6 @@ class DocumentController extends Controller
 
                 case 'prepaymentsum':  // При внесении предоплаты от
                     # code...
-
-
 
                 case 'measure': //Единица
                     # code...
@@ -1070,10 +1066,10 @@ class DocumentController extends Controller
 
 
             $totalWidth =  $totalWidth + $outerWidth;
-            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+            $cell = $table->addCell(null, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+            $innerTableCell = $innerTable->addCell(null, $innerCellStyle)
                 ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
         }
         return $table;
