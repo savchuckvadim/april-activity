@@ -954,9 +954,9 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 3500;
+        $longWidth = 2000;
         if ($isHaveLongPrepayment) {
-            $longWidth = 7500;
+            $longWidth = 3600;
         }
         $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
@@ -1018,7 +1018,7 @@ class DocumentController extends Controller
                     //     'alignment' => 'left',
                     //     'valign' => 'center',
                     // ];
-                    $outerWidth =  $cellWidth + 3500;
+                    $outerWidth =  $cellWidth + 2000;
                     $innerWidth = $outerWidth - 30;
 
                 case 'quantity': //Количество
@@ -1028,11 +1028,11 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 800;
                     $innerWidth = $outerWidth - 30;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 800;
                     $innerWidth = $outerWidth - 30;
 
 
@@ -1060,11 +1060,11 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractsum': //Сумма за весь период обслуживания 
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 800;
                     $innerWidth = $outerWidth - 30;
 
                 case 'prepaymentsum':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 800;
                     $innerWidth = $outerWidth - 30;
 
                 case 'measure': //Единица
