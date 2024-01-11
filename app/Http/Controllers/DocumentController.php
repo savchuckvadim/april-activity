@@ -954,9 +954,9 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 2000;
-        if ($isHaveLongPrepayment) {
-            $longWidth = 3600;
+        $longWidth = 5000;
+        if (true) {
+            $longWidth = 8600;
         }
         $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
