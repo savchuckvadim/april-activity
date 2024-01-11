@@ -956,7 +956,7 @@ class DocumentController extends Controller
 
 
                 case 'discountprecent': //Скидка, %
-                    $outerWidth =  $cellWidth - 200;
+                    $outerWidth =  $cellWidth - 500;
                     $innerWidth = $outerWidth - 30;
 
                 case 'discountamount': //Скидка в рублях
@@ -988,7 +988,8 @@ class DocumentController extends Controller
                     $innerWidth = $outerWidth - 30;
 
                 case 'measure': //Единица
-                    # code...
+                    $outerWidth =  $cellWidth - 500;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'measureCode': //Кодовое обозначение единицы
                     # code...
