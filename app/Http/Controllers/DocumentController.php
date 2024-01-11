@@ -161,7 +161,7 @@ class DocumentController extends Controller
                         'cellMarginBottom' => 10,
                         'cellMarginLeft' => 10,
                     ],
-                    'paragraph' => [
+                    'paragraphs' => [
                         'left' => [
                             'spaceAfter' => 0,    // Интервал после абзаца
                             'spaceBefore' => 0,   // Интервал перед абзацем
@@ -231,7 +231,7 @@ class DocumentController extends Controller
 
             $section = $document->addSection($this->documentStyle['page']);
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle['paragraph']['general']);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle['paragraphs']['general']);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
@@ -1045,7 +1045,7 @@ class DocumentController extends Controller
 
 
         $tableStyle = $styles['tables'];
-        $paragraphs = $tableStyle['general']['paragraph'];
+        $paragraphs = $tableStyle['general']['paragraphs'];
         $fonts = $styles['fonts']['table'];
         $textTableGroupTitleParagraph = $paragraphs['center'];
         //  [
