@@ -70,7 +70,7 @@ class DocumentController extends Controller
                     'bold' => [
                         ...$generalFont,
                         'bold' => true,
-                        'size' => 11
+                        'size' => 10
                     ],
 
                 ],
@@ -95,6 +95,12 @@ class DocumentController extends Controller
                     'spaceAfter' => 0,    // Интервал после абзаца
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.15,  // Высота строки
+                ],
+                'head' => [
+                    'valign' => 'center',
+                    'spaceAfter' => 1,    // Интервал после абзаца
+                    'spaceBefore' => 0,   // Интервал перед абзацем
+                    'lineHeight' => 1.5,  // Высота строки
                 ],
                 'align' => [
                     'left' => [
@@ -240,7 +246,7 @@ class DocumentController extends Controller
 
             $section = $document->addSection($this->documentStyle['page']);
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle['paragraphs']['general']);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
@@ -266,20 +272,26 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle)
+    protected function getInfoblocks($infoblocksOptions, $complect, $section, $styles)
     {
 
         $totalCount = $this->getInfoblocksCount($complect);
-        $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
-        $textStyle = ['size' => 12, 'name' => 'Arial'];
-        $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-        $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
-        $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
+        $fonts = $styles['fonts'];
+        $paragraphs = $styles['paragraphs'];
+        $tableStyle = $styles['tables'];
+        $tableParagraphs = $tableStyle['general']['paragraphs'];
+        $tableFonts = $styles['fonts']['table'];
+
+        // $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
+        // $textStyle = ['size' => 12, 'name' => 'Arial'];
+        // $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
+        // $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
+        // $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
 
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
         $section->addPageBreak();
-        $section->addText('Информационное наполнение', $textStyleBold);
+        $section->addText('Информационное наполнение', $fonts['h1']);
         $section->addTextBreak(1);
 
 
@@ -296,18 +308,18 @@ class DocumentController extends Controller
                         if ($currentInfoblock) {
 
                             if ($descriptionMode === 0) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmall, $paragraphStyle);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['normal'], $paragraphs['align']['general']);
                             } else   if ($descriptionMode === 1) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
-                                $section->addText($currentInfoblock['shortDescription'], $textStyleSmall, $paragraphStyle);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
+                                $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['align']['general']);
                                 $section->addTextBreak(1);
                             } else   if ($descriptionMode === 2) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmallBold, $paragraphStyle);
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
+                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['align']['general']);
                                 $section->addTextBreak(1);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['name'], $textStyleSmall, $paragraphStyle);
-                                $section->addText($currentInfoblock['descriptionForSale'], $textStyleSmall, $paragraphStyle);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
+                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['align']['general']);
                                 $section->addTextBreak(1);
                             }
                         }
@@ -319,61 +331,40 @@ class DocumentController extends Controller
 
 
 
-            $fullWidth = $section->getStyle()->getPageSizeW();
-            $marginRight = $section->getStyle()->getMarginRight();
-            $marginLeft = $section->getStyle()->getMarginLeft();
+            $fullWidth = $styles['page']['pageSizeW'];
+            $marginRight = $styles['page']['marginLeft'];
+            $marginLeft = $styles['page']['marginRight'];
             $contentWidth = ($fullWidth - $marginLeft - $marginRight) / 2;
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
-            $innerCellStyle = [
-                'borderSize' => 0,
-                'borderColor' => 'FFFFFF',
-                'cellMargin' => 40,
-                'valign' => 'top',
+            // $innerCellStyle = [
+            //     'borderSize' => 0,
+            //     'borderColor' => 'FFFFFF',
+            //     'cellMargin' => 40,
+            //     'valign' => 'top',
 
-                // 'cellSpacing' => 10
+            //     // 'cellSpacing' => 10
 
-            ];
-            $innerTabletyle = [
-                'borderSize' => 0,
-                'borderColor' => 'FFFFFF',
-                'cellMargin' => 40,
+            // ];
+            // $innerTabletyle = [
+            //     'borderSize' => 0,
+            //     'borderColor' => 'FFFFFF',
+            //     'cellMargin' => 40,
 
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-                // 'cellSpacing' => 10
+            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+            //     // 'cellSpacing' => 10
 
-            ];
+            // ];
             $fancyTableStyleName = 'TableStyle';
-            $fancyTableStyle = [
-                'borderSize' => 10,
-                'borderColor' => '000000',
-                'cellMargin' => 40,
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                'cellSpacing' => 10
-            ];
-            // 
-            $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
-            // $fancyTableCellStyle = ['valign' => 'center'];
-            // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-            // $fancyTableFontStyle = ['bold' => true,];
 
-            $fancyTableCellStyle = [
-                'valign' => 'top',
-                'borderSize' => 6,
-                // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                'cellMarginTop' => 100,
-                'cellMarginRight' => 100,
-                'cellMarginBottom' => 100,
-                'cellMarginLeft' => 100,
-            ];
 
-            $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+            $section->addTableStyle($fancyTableStyleName, $tableStyle['general']['table'], $tableStyle['general']['row']);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
+            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
-            $innerTable = $cell->addTable($innerTabletyle);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+            $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
 
 
 
@@ -394,18 +385,18 @@ class DocumentController extends Controller
 
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
-                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['general']);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
-                                    $cell = $table->addCell($contentWidth, $fancyTableCellStyle);
-                                    $innerTable = $cell->addTable($innerTabletyle);
+                                    $cell = $table->addCell($contentWidth,  $tableStyle['general']['table']);
+                                    $innerTable = $cell->addTable($tableStyle['inner']['table']);
                                     $innerTable->addRow();
-                                    $innerTableCell = $innerTable->addCell($innerContentWidth, $innerCellStyle); // Уменьшаем ширину, чтобы создать отступ
+                                    $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
                                     $isTwoColExist = true;
                                 }
 
-                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['general']);
                             }
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -509,7 +500,7 @@ class DocumentController extends Controller
                             $isTwoColExist = true;
 
 
-                            $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $paragraphStyle);
+                            $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode,  $tableParagraphs['general']);
 
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -524,9 +515,9 @@ class DocumentController extends Controller
             $section = $this->getDescriptionPage(
                 $complect,
                 $section,
-                $headingStyle,
-                $textStyle,
-                $textStyleBold
+                $fonts['h2'],
+                $fonts['text']['normal'],
+                $fonts['text']['bold']
             );
         }
 
