@@ -870,7 +870,7 @@ class DocumentController extends Controller
         // SUPPLY_FOR_OFFER = 'Версия',
         $longWidth = 2400;
         if ($isHaveLongPrepayment) {
-            $longWidth = 3800;
+            $longWidth = 3300;
         }
         $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
@@ -933,31 +933,31 @@ class DocumentController extends Controller
                         'alignment' => 'left',
                         'valign' => 'center',
                     ];
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 2400;
                     $innerWidth = $outerWidth - 30;
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    $outerWidth =  $cellWidth - 200;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth - 200;
+                    // $innerWidth = $outerWidth - 30;
 
                 case 'defaultquantity': //Количество изначальное
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 500;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth + 500;
+                    // $innerWidth = $outerWidth - 30;
                     break;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 500;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth + 500;
+                    // $innerWidth = $outerWidth - 30;
                     break;
 
 
                 case 'discountprecent': //Скидка, %
-                    $outerWidth =  $cellWidth - 500;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth - 500;
+                    // $innerWidth = $outerWidth - 30;
 
                 case 'discountamount': //Скидка в рублях
                     # code...
@@ -977,7 +977,8 @@ class DocumentController extends Controller
                     # code...
 
                 case 'quantitysum': //Сумма Количество
-                    # code...
+                    $outerWidth =  $cellWidth + 900;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'contractsum': //Сумма за весь период обслуживания 
                     $outerWidth =  $cellWidth + 900;
@@ -988,7 +989,7 @@ class DocumentController extends Controller
                     $innerWidth = $outerWidth - 30;
 
                 case 'measure': //Единица
-                    $outerWidth =  $cellWidth - 500;
+                    $outerWidth =  $cellWidth - 300;
                     $innerWidth = $outerWidth - 30;
 
                 case 'measureCode': //Кодовое обозначение единицы
