@@ -869,10 +869,12 @@ class DocumentController extends Controller
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
         $longWidth = 2700;
-        // if ($isHaveLongPrepayment) {
-        //     $longWidth = 3300;
-        // }
-        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - 1);
+        $without = 1;
+        if ($isHaveLongPrepayment) {
+            $longWidth = 3300;
+            $without = 3;
+        }
+        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
@@ -945,8 +947,8 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    // $outerWidth =  $cellWidth + 500;
-                    // $innerWidth = $outerWidth - 30;
+                    $outerWidth =  $cellWidth + 500;
+                    $innerWidth = $outerWidth - 30;
                     break;
 
                 case 'prepayment':  // При внесении предоплаты от
@@ -981,7 +983,7 @@ class DocumentController extends Controller
                     $innerWidth = $outerWidth - 30;
 
                 case 'contractsum': //Сумма за весь период обслуживания 
-                    $outerWidth =  $cellWidth + 900;
+                    $outerWidth =  $cellWidth + 400;
                     $innerWidth = $outerWidth - 30;
 
                 case 'prepaymentsum':  // При внесении предоплаты от
