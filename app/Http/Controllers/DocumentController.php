@@ -647,7 +647,7 @@ class DocumentController extends Controller
                         foreach ($price['cells']['alternative'] as $prc) {
                             $table->addRow();
                             foreach ($prc['cells'] as $cll) {
-                                
+
                                 if ($cll['isActive']) {
                                     $this->getPriceCell(false, $table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
                                 }
@@ -868,9 +868,9 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 2000;
+        $longWidth = 2400;
         if ($isHaveLongPrepayment) {
-            $longWidth = 3600;
+            $longWidth = 4000;
         }
         $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
@@ -938,7 +938,8 @@ class DocumentController extends Controller
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    # code...
+                    $outerWidth =  $cellWidth - 200;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'defaultquantity': //Количество изначальное
                     # code...
@@ -955,7 +956,8 @@ class DocumentController extends Controller
 
 
                 case 'discountprecent': //Скидка, %
-                    # code...
+                    $outerWidth =  $cellWidth - 200;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'discountamount': //Скидка в рублях
                     # code...
