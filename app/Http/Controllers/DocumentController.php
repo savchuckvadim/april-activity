@@ -489,6 +489,7 @@ class DocumentController extends Controller
             $priceDataGeneral = null;
             $priceDataAlternative = null;
             $priceDataTotal = null;
+            $isHaveLongPrepayment = false;
             if (isset($price['cells']['general']) && is_array($price['cells']['general']) && count($price['cells']['general']) > 0) {
                 // Массив $price['cells']['general'] существует и не пуст
                 $priceDataGeneral = $price['cells']['general'][0]['cells'];
@@ -565,6 +566,15 @@ class DocumentController extends Controller
                     $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
                         return $prc['isActive'];
                     });
+                    foreach ($activePriceCellsGeneral as $prccll) {
+                        if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
+                            ($prccll['code'] == 'prepayment' && $prccll['isActive'])
+                        ) {
+                            $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
+                            break; // Прекратить выполнение цикла, так как условие уже выполнено
+                        }
+                    }
+                    $isHaveLongPrepayment = !empty($isHaveLongPrepayment);
                 }
                 if ($priceDataAlternative) {
                     $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
@@ -653,7 +663,7 @@ class DocumentController extends Controller
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $count, $numCells);
+                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                         // if ($index == 0 || $index === '0') {
 
@@ -899,7 +909,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $currentCellCount, $allCellsCount)
+    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
     {
         $code = $priceCell['code'];
         // NAME = 'name',     
@@ -942,8 +952,11 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-
-        $cellWidth = $contentWidth / $allCellsCount;
+        $longWidth = 2000;
+        if($isHaveLongPrepayment){
+            $longWidth = 4000;
+        }
+        $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
@@ -1003,7 +1016,7 @@ class DocumentController extends Controller
                     //     'alignment' => 'left',
                     //     'valign' => 'center',
                     // ];
-                    $outerWidth =  $cellWidth + 1000;
+                    $outerWidth =  $cellWidth + 2000;
                     $innerWidth = $outerWidth - 30;
 
                 case 'quantity': //Количество
@@ -1013,11 +1026,11 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 500;
+                    $outerWidth =  $cellWidth + 1000;
                     $innerWidth = $outerWidth - 30;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 500;
+                    $outerWidth =  $cellWidth + 1000;
                     $innerWidth = $outerWidth - 30;
 
 
