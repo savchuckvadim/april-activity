@@ -535,7 +535,7 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
-
+        
 
             //TABLE
             $allPrices = [$price['cells']['general'], $price['cells']['alternative'], $price['cells']['total']];
@@ -575,7 +575,10 @@ class DocumentController extends Controller
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
-
+                    $outerFirstWidth =  $cellWidth + 100;
+                    $innerFirstWidth = $outerFirstWidth - 30;
+                    $outerWidth =  $cellWidth;
+                    $innerWidth = $cellWidth - 30;
 
                     $innerCellStyle = [
                         'borderSize' => 0,
@@ -644,10 +647,7 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-                    $outerFirstWidth =  $cellWidth + 100;
-                    $innerFirstWidth = $outerFirstWidth - 30;
-                    $outerWidth =  $cellWidth;
-                    $innerWidth = $cellWidth - 30;
+
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
                         Log::info('index', ['index' => $index]);
