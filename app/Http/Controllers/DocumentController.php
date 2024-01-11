@@ -623,13 +623,13 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
 
-                    $totalWidth = 0;
+                    
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        $this->getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
                     $table->addRow();
@@ -637,9 +637,7 @@ class DocumentController extends Controller
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
-
-
-                                $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                $this->getPriceCell($table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
                             }
                         }
                     }
@@ -842,7 +840,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
+    protected function getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
     {
         $code = $priceCell['code'];
         // NAME = 'name',     
