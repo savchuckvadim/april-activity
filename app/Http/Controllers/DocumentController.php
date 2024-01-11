@@ -576,7 +576,6 @@ class DocumentController extends Controller
                             break; // Прекратить выполнение цикла, так как условие уже выполнено
                         }
                     }
-                   
                 }
                 if ($priceDataAlternative) {
                     $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
@@ -1018,9 +1017,9 @@ class DocumentController extends Controller
                     //     'alignment' => 'left',
                     //     'valign' => 'center',
                     // ];
-                    $outerWidth =  $cellWidth + 5000;
+                    $outerWidth =  $cellWidth + 15000;
                     $innerWidth = $outerWidth - 30;
-
+                    break;
                 case 'quantity': //Количество
                     # code...
 
@@ -1029,11 +1028,13 @@ class DocumentController extends Controller
 
                 case 'contractquantity': //При заключении договора от
                     $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;
+                    $innerWidth = $outerWidth - 30; 
+                    break;
 
                 case 'prepayment':  // При внесении предоплаты от
                     $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;
+                    $innerWidth = $outerWidth - 30;     
+                    break;
 
 
                 case 'discountprecent': //Скидка, %
