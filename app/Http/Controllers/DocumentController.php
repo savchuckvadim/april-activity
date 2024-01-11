@@ -975,84 +975,101 @@ class DocumentController extends Controller
 
         ];
 
-       
+
+        $fancyTableFontStyle = ['bold' => true];
+     
+
+        $textTableGroupTitleParagraph =  [
+            'spaceAfter' => 0,    // Интервал после абзаца
+            'spaceBefore' => 0,   // Интервал перед абзацем
+            'lineHeight' => 1.15,  // Высота строки
+            'alignment' => 'center',
+            'valign' => 'center',
+        ];
 
         if ($code) {
 
 
             switch ($code) {
                 case 'name':  //Наименование
+                    $textTableGroupTitleParagraph =  [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => 'left',
+                        'valign' => 'center',
+                    ];
                     $outerWidth =  $cellWidth + 1000;
-                    $innerWidth = $outerWidth - 30;   
+                    $innerWidth = $outerWidth - 30;
 
                 case 'quantity': //Количество
                     # code...
-                    
+
                 case 'defaultquantity': //Количество изначальное
                     # code...
-                    
+
                 case 'contractquantity': //При заключении договора от
                     # code...
-                  
+
                 case 'prepayment':  // При внесении предоплаты от
                     # code...
-                 
+
 
                 case 'discountprecent': //Скидка, %
                     # code...
-                    
+
                 case 'discountamount': //Скидка в рублях
                     # code...
-                    
+
 
                 case 'current': //Цена
                     # code...
-                    
+
                 case 'currentmonth': //Цена в месяц
                     # code...
-                   
+
                 case 'default': //Цена по прайсу
                     # code...
 
-                   
+
                 case 'defaultmonth': //Цена по прайсу в месяц
                     # code...
-                   
+
 
 
                 case 'quantitysum': //Сумма Количество
                     # code...
-                   
+
                 case 'contractsum': //Сумма за весь период обслуживания 
                     # code...
-                    
+
                 case 'prepaymentsum':  // При внесении предоплаты от
                     # code...
-                    
+
 
 
                 case 'measure': //Единица
                     # code...
-                    
+
                 case 'measureCode': //Кодовое обозначение единицы
                     # code...
-                   
+
                 case 'contract':
                     # code...
-                   
+
                 case 'supply':
                     # code...
-                   
+
                 case 'supplyOffer':
                     # code...
-                    
+
             }
             $totalWidth =  $totalWidth + $outerWidth;
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                ->addText($cell['name'], $cell, $cell);
+                ->addText($cell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
         }
         return $table;
     }
