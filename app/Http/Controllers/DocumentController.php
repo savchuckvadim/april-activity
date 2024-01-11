@@ -50,6 +50,23 @@ class DocumentController extends Controller
 
 
             //стиль страницы 
+
+            $documentStyle = [
+                'page' => [
+                    'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+                    'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+                    'marginLeft' => Converter::inchToTwip(0.5),
+                    'marginRight' => Converter::inchToTwip(0.5),
+                ],
+                'fonts' => [
+                    'general' => ['name' => 'Arial'],
+                    'h1' => ['bold' => true, 'size' => 16],
+                    'h2' => [],
+                    'h3' => ['bold' => true, 'size' => 11]
+                ],
+                'paragraphs' => []
+            ];
+
             $sectionStyle = array(
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
                 'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
