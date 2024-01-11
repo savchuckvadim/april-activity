@@ -11,6 +11,125 @@ use Mockery\Undefined;
 
 class DocumentController extends Controller
 {
+    protected $documentStyle;
+
+    public function __construct()
+    {
+        $this->documentStyle = [
+            'page' => [
+                'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+                'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+                'marginLeft' => Converter::inchToTwip(0.5),
+                'marginRight' => Converter::inchToTwip(0.5),
+            ],
+
+            'colors' => [
+
+                'general' => 'FFFF00',
+                'second' => 'FFFF00',
+                'white' => 'FFFF00',
+                'shadow' => 'FFFF00',
+                'atention' => 'FFFF00',
+                'shadowText' => 'FFFF00'
+
+
+            ],
+
+            'fonts' => [
+                'general' => [
+                    'name' => 'Arial',
+                    'color' => $this['colors']['general'],
+                    'lang' => 'ru-RU',
+                ],
+                'h1' => [
+                    ...$this['fonts']['general'],
+                    'bold' => true, 'size' => 13
+                ],
+                'h2' => [
+                    ...$this['fonts']['general'],
+                    'bold' => true, 'size' => 12
+                ],
+                'h3' => [
+                    ...$this['fonts']['general'],
+                    'bold' => true, 'size' => 11
+                ],
+                'text' => [
+                    'small' => [
+                        ...$this['fonts']['general'],
+                        'size' => 9
+                    ],
+                    'normal' => [
+                        ...$this['fonts']['general'],
+                        'size' => 10
+                    ],
+                    'bold' => [
+                        ...$this['fonts']['general'],
+                        'bold' => true,
+                        'size' => 11
+                    ],
+
+                ]
+            ],
+            'paragraphs' => [
+                'general' => [
+                    'valign' => 'center',
+                    'spaceAfter' => 0,    // Интервал после абзаца
+                    'spaceBefore' => 0,   // Интервал перед абзацем
+                    'lineHeight' => 1.15,  // Высота строки
+                ],
+                'align' => [
+                    'left' => [
+                        'alignment' => 'left',
+
+                    ],
+                    'right' => [
+                        'alignment' => 'right',
+
+                    ],
+                    'center' => [
+                        'alignment' => 'center',
+
+                    ]
+
+
+
+                ],
+
+
+            ],
+            'table' => [
+                'inner' => [
+                    'cell' => [
+                        'borderSize' => 0,
+                        'borderColor' => 'FFFFFF',
+                        'cellMargin' => 40,
+                        'valign' => 'center',
+                        // 'cellSpacing' => 10
+                    ],
+                    'table' => [
+                        'borderSize' => 0,
+                        'borderColor' => 'FFFFFF',
+                        'cellMargin' => 40,
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+
+
+                    ],
+
+
+                ],
+                'general' => [
+                    'borderSize' => 10,
+                    'borderColor' => '000000',
+                    'cellMargin' => 40,
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    'cellSpacing' => 10
+                ]
+            ]
+
+        ];
+    }
+
+
     public function getDocument($data)
 
     {
@@ -51,118 +170,7 @@ class DocumentController extends Controller
 
             //стиль страницы 
 
-            $documentStyle = [
-                'page' => [
-                    'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-                    'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-                    'marginLeft' => Converter::inchToTwip(0.5),
-                    'marginRight' => Converter::inchToTwip(0.5),
-                ],
 
-                'colors' => [
-
-                    'general' => 'FFFF00',
-                    'second' => 'FFFF00',
-                    'white' => 'FFFF00',
-                    'shadow' => 'FFFF00',
-                    'atention' => 'FFFF00',
-                    'shadowText' => 'FFFF00'
-
-
-                ],
-
-                'fonts' => [
-                    'general' => [
-                        'name' => 'Arial',
-                        'color' => $this['colors']['general'],
-                        'lang' => 'ru-RU',
-                    ],
-                    'h1' => [
-                        ...$this['fonts']['general'],
-                        'bold' => true, 'size' => 13
-                    ],
-                    'h2' => [
-                        ...$this['fonts']['general'],
-                        'bold' => true, 'size' => 12
-                    ],
-                    'h3' => [
-                        ...$this['fonts']['general'],
-                        'bold' => true, 'size' => 11
-                    ],
-                    'text' => [
-                        'small' => [
-                            ...$this['fonts']['general'],
-                            'size' => 9
-                        ],
-                        'normal' => [
-                            ...$this['fonts']['general'],
-                            'size' => 10
-                        ],
-                        'bold' => [
-                            ...$this['fonts']['general'],
-                            'bold' => true,
-                            'size' => 11
-                        ],
-
-                    ]
-                ],
-                'paragraphs' => [
-                    'general' => [
-                        'valign' => 'center',
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                    ],
-                    'align' => [
-                        'left' => [
-                            'alignment' => 'left',
-
-                        ],
-                        'right' => [
-                            'alignment' => 'right',
-
-                        ],
-                        'center' => [
-                            'alignment' => 'center',
-
-                        ]
-
-
-
-                    ],
-
-
-                ],
-                'table' => [
-                    'inner' => [
-                        'cell' => [
-                            'borderSize' => 0,
-                            'borderColor' => 'FFFFFF',
-                            'cellMargin' => 40,
-                            'valign' => 'center',
-                            // 'cellSpacing' => 10
-                        ],
-                        'table' => [
-                            'borderSize' => 0,
-                            'borderColor' => 'FFFFFF',
-                            'cellMargin' => 40,
-                            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-
-
-                        ],
-
-
-                    ],
-                    'general' => [
-                        'borderSize' => 10,
-                        'borderColor' => '000000',
-                        'cellMargin' => 40,
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 10
-                    ]
-                ]
-
-            ];
 
             $sectionStyle = array(
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
@@ -188,7 +196,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $this->getPriceSection($section, $documentStyle,  $data['price']);
+            $this->getPriceSection($section, $this->documentStyle,  $data['price']);
             $this->getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
