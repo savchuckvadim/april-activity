@@ -648,12 +648,13 @@ class DocumentController extends Controller
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
                     $totalWidth = 0;
+                    $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
-
+                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $count, $numCells);
+                        $count += 1;
                         // if ($index == 0 || $index === '0') {
 
                         //     $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
@@ -898,7 +899,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $cellsCount)
+    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $currentCellCount, $allCellsCount)
     {
         $code = $priceCell['code'];
         // NAME = 'name',     
@@ -942,7 +943,7 @@ class DocumentController extends Controller
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
 
-        $cellWidth = $contentWidth / $cellsCount;
+        $cellWidth = ($contentWidth - $totalWidth) / ($allCellsCount - $currentCellCount);
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
@@ -992,13 +993,13 @@ class DocumentController extends Controller
 
             switch ($code) {
                 case 'name':  //Наименование
-                    $textTableGroupTitleParagraph =  [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => 'left',
-                        'valign' => 'center',
-                    ];
+                    // $textTableGroupTitleParagraph =  [
+                    //     'spaceAfter' => 0,    // Интервал после абзаца
+                    //     'spaceBefore' => 0,   // Интервал перед абзацем
+                    //     'lineHeight' => 1.15,  // Высота строки
+                    //     'alignment' => 'left',
+                    //     'valign' => 'center',
+                    // ];
                     $outerWidth =  $cellWidth + 1000;
                     $innerWidth = $outerWidth - 30;
 
@@ -1009,10 +1010,12 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    # code...
+                    $outerWidth =  $cellWidth + 700;
+                    $innerWidth = $outerWidth - 30;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    # code...
+                    $outerWidth =  $cellWidth + 700;
+                    $innerWidth = $outerWidth - 30;
 
 
                 case 'discountprecent': //Скидка, %
@@ -1065,7 +1068,7 @@ class DocumentController extends Controller
 
             }
 
-            
+
             $totalWidth =  $totalWidth + $outerWidth;
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
