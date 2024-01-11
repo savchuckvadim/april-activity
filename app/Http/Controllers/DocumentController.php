@@ -632,7 +632,7 @@ class DocumentController extends Controller
             // $header->addImage('path_to_logo.jpg', $logoStyle);
             $languageEnGbStyle = array('lang' => 'ru-RU');
             $section->addTextBreak(1);
-            $section->addText('Цена за комплект', $languageEnGbStyle);
+            $section->addText('Цена за комплект', $styles['fonts']['h1']);
 
 
             $fancyTableStyleName = 'DocumentPrice';
