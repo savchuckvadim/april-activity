@@ -1018,7 +1018,7 @@ class DocumentController extends Controller
                     //     'alignment' => 'left',
                     //     'valign' => 'center',
                     // ];
-                    $outerWidth =  $cellWidth + 2000;
+                    $outerWidth =  $cellWidth + 5000;
                     $innerWidth = $outerWidth - 30;
 
                 case 'quantity': //Количество
