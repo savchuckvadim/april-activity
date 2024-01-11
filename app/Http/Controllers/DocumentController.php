@@ -623,7 +623,7 @@ class DocumentController extends Controller
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
 
-                    
+                    $table->addRow();
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
@@ -632,7 +632,7 @@ class DocumentController extends Controller
                         $this->getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                  
+                    $table->addRow();
                     foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
@@ -1017,7 +1017,7 @@ class DocumentController extends Controller
 
 
             // $totalWidth =  $totalWidth + $outerWidth;
-            $table->addRow();
+            
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
