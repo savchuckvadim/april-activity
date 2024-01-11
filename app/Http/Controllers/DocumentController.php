@@ -1085,7 +1085,7 @@ class DocumentController extends Controller
             }
 
 
-            $totalWidth =  $totalWidth + $outerWidth;
+            // $totalWidth =  $totalWidth + $outerWidth;
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
