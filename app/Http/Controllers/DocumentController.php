@@ -940,7 +940,7 @@ class DocumentController extends Controller
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    $outerWidth =  $cellWidth - 300;
+                    $outerWidth =  $cellWidth - 500;
                     $innerWidth = $outerWidth - 30;
 
                 case 'defaultquantity': //Количество изначальное
