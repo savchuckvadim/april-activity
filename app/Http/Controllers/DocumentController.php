@@ -629,7 +629,7 @@ class DocumentController extends Controller
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        $this->getPriceCell(true, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
                     $table->addRow();
@@ -637,7 +637,7 @@ class DocumentController extends Controller
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
-                                $this->getPriceCell($table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                $this->getPriceCell(false, $table, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
                             }
                         }
                     }
@@ -840,7 +840,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
+    protected function getPriceCell($isHeader, $table, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
     {
         $code = $priceCell['code'];
         // NAME = 'name',     
@@ -924,7 +924,6 @@ class DocumentController extends Controller
         ];
 
 
-        $fancyTableFontStyle = ['bold' => true, 'lang' => 'ru-RU',];
 
 
         $textTableGroupTitleParagraph =  [
@@ -934,21 +933,24 @@ class DocumentController extends Controller
             'alignment' => 'center',
             'valign' => 'center',
         ];
+        $tableHeaderFont = ['size' => 10, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'];
+        $tableBodyFont = ['size' => 10, 'name' => 'Arial', 'lang' => 'ru-RU'];
 
         if ($code) {
 
 
             switch ($code) {
                 case 'name':  //Наименование
-                    // $textTableGroupTitleParagraph =  [
-                    //     'spaceAfter' => 0,    // Интервал после абзаца
-                    //     'spaceBefore' => 0,   // Интервал перед абзацем
-                    //     'lineHeight' => 1.15,  // Высота строки
-                    //     'alignment' => 'left',
-                    //     'valign' => 'center',
-                    // ];
+                    $textTableGroupTitleParagraph =  [
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                        'alignment' => 'left',
+                        'valign' => 'center',
+                    ];
                     $outerWidth =  $cellWidth + 2000;
                     $innerWidth = $outerWidth - 30;
+                    $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
                     # code...
@@ -1015,14 +1017,21 @@ class DocumentController extends Controller
 
             }
 
+            $cellValue = $priceCell['value'];
+            $font  = $tableBodyFont;
+            if ($isHeader) {
+                $cellValue = $priceCell['name'];
+                $font  = $tableHeaderFont;
+            }
 
-            // $totalWidth =  $totalWidth + $outerWidth;
-            
-            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+      
+                // $totalWidth =  $totalWidth + $outerWidth;
+
+                $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                ->addText($cellValue, $font, $textTableGroupTitleParagraph);
         }
         return $table;
     }
