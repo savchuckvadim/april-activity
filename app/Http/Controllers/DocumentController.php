@@ -934,6 +934,7 @@ class DocumentController extends Controller
                         'lineHeight' => 1.15,  // Высота строки
                         'alignment' => 'left',
                         'valign' => 'center',
+                        'height' => 500,
                     ];
                     $outerWidth =  $cellWidth + 2700;
                     $innerWidth = $outerWidth - 30;
