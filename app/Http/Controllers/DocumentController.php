@@ -620,44 +620,9 @@ class DocumentController extends Controller
                     // 
                     $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
 
-
-                    // $fancyTableCellStyle = [
-                    //     'valign' => 'center',
-                    //     'borderSize' => 6,
-                    //     // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                    //     'cellMarginTop' => 10,
-                    //     'cellMarginRight' => 10,
-                    //     'cellMarginBottom' => 10,
-                    //     'cellMarginLeft' => 10,
-                    // ];
-                    // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    // $fancyTableFontStyle = ['bold' => true];
-                    // $textTableGroupTitleParagraphFirst =  [
-                    //     'spaceAfter' => 0,    // Интервал после абзаца
-                    //     'spaceBefore' => 0,   // Интервал перед абзацем
-                    //     'lineHeight' => 1.15,  // Высота строки
-                    //     'alignment' => 'left',
-                    //     'valign' => 'center',
-                    // ];
-
-                    // $textTableGroupTitleParagraph =  [
-                    //     'spaceAfter' => 0,    // Интервал после абзаца
-                    //     'spaceBefore' => 0,   // Интервал перед абзацем
-                    //     'lineHeight' => 1.15,  // Высота строки
-                    //     'alignment' => 'center',
-                    //     'valign' => 'center',
-                    // ];
-
-                    // $textTableGroupTitleParagraphLast =  [
-                    //     'spaceAfter' => 0,    // Интервал после абзаца
-                    //     'spaceBefore' => 0,   // Интервал перед абзацем
-                    //     'lineHeight' => 1.15,  // Высота строки
-                    //     'alignment' => 'right',
-                    //     'valign' => 'center',
-                    // ];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
-                    $table->addRow();
+
                     $totalWidth = 0;
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
@@ -666,51 +631,18 @@ class DocumentController extends Controller
 
                         $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
-                        // if ($index == 0 || $index === '0') {
-
-                        //     $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
-                        //     $innerTable = $cell->addTable($innerTabletyle);
-                        //     $innerTable->addRow();
-                        //     $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
-                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                        // } else {
-
-                        //     $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                        //     $innerTable = $cell->addTable($innerTabletyle);
-                        //     $innerTable->addRow();
-                        //     $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                        // }
                     }
-                    // $table->addRow();
-                    // foreach ($price['cells']['general'] as  $prc) {
-                    //     foreach ($prc['cells'] as $cll) {
+                    $table->addRow();
+                    foreach ($price['cells']['general'] as  $prc) {
+                        foreach ($prc['cells'] as $cll) {
 
-                    //         if ($cll['isActive']) {
+                            if ($cll['isActive']) {
 
 
-                    //             if ($cll['code'] == 'name') {
-                    //                 $outerWidth =  $cellWidth +  100;
-                    //                 $innerWidth = $cellWidth + 90;
-                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                    //                 $innerTable = $cell->addTable($innerTabletyle);
-                    //                 $innerTable->addRow();
-                    //                 $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                    //             } else {
-                    //                 $outerWidth =  $cellWidth - 20;
-                    //                 $innerWidth = $cellWidth - 30;
-                    //                 $value = $cll['code']  === "discountprecent" ? round((100 -  $cll['value'] * 100), 2) : $cll['value'];
-                    //                 $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                    //                 $innerTable = $cell->addTable($innerTabletyle);
-                    //                 $innerTable->addRow();
-                    //                 $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                    //                     ->addText($value, $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                                $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                            }
+                        }
+                    }
 
                     // if ($priceDataAlternative) {
 
@@ -1028,12 +960,12 @@ class DocumentController extends Controller
 
                 case 'contractquantity': //При заключении договора от
                     $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30; 
+                    $innerWidth = $outerWidth - 30;
                     break;
 
                 case 'prepayment':  // При внесении предоплаты от
                     $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;     
+                    $innerWidth = $outerWidth - 30;
                     break;
 
 
@@ -1087,6 +1019,7 @@ class DocumentController extends Controller
 
 
             // $totalWidth =  $totalWidth + $outerWidth;
+            $table->addRow();
             $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
