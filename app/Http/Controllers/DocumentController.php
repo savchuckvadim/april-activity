@@ -954,9 +954,9 @@ class DocumentController extends Controller
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
         $longWidth = 5000;
-        if (true) {
-            $longWidth = 8600;
-        }
+        // if (true) {
+        //     $longWidth = 8600;
+        // }
         $cellWidth = ($contentWidth - $longWidth) / $allCellsCount;
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
@@ -1017,7 +1017,7 @@ class DocumentController extends Controller
                     //     'alignment' => 'left',
                     //     'valign' => 'center',
                     // ];
-                    $outerWidth =  $cellWidth + 15000;
+                    $outerWidth =  $cellWidth + 5000;
                     $innerWidth = $outerWidth - 30;
                     break;
                 case 'quantity': //Количество
@@ -1027,13 +1027,13 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30; 
+                    // $outerWidth =  $cellWidth + 800;
+                    // $innerWidth = $outerWidth - 30; 
                     break;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;     
+                    // $outerWidth =  $cellWidth + 800;
+                    // $innerWidth = $outerWidth - 30;     
                     break;
 
 
@@ -1061,12 +1061,12 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractsum': //Сумма за весь период обслуживания 
-                    $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth + 800;
+                    // $innerWidth = $outerWidth - 30;
 
                 case 'prepaymentsum':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 800;
-                    $innerWidth = $outerWidth - 30;
+                    // $outerWidth =  $cellWidth + 800;
+                    // $innerWidth = $outerWidth - 30;
 
                 case 'measure': //Единица
                     # code...
