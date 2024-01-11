@@ -652,7 +652,7 @@ class DocumentController extends Controller
 
                         Log::info('index', ['index' => $index]);
 
-                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
+                        $table = $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
 
                         // if ($index == 0 || $index === '0') {
 
