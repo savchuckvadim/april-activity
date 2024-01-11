@@ -980,7 +980,7 @@ class DocumentController extends Controller
         ];
 
 
-        $fancyTableFontStyle = ['bold' => true];
+        $fancyTableFontStyle = ['bold' => true, 'lang' => 'ru-RU',];
 
 
         $textTableGroupTitleParagraph =  [
