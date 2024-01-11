@@ -943,7 +943,7 @@ class DocumentController extends Controller
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
 
-        $cellWidth = ($contentWidth - $totalWidth) / ($allCellsCount - $currentCellCount);
+        $cellWidth = $contentWidth / $allCellsCount;
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
         // $outerWidth =  $cellWidth - (1000 / $cellsCount);
