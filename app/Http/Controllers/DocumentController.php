@@ -1013,11 +1013,11 @@ class DocumentController extends Controller
                     # code...
 
                 case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 700;
+                    $outerWidth =  $cellWidth + 500;
                     $innerWidth = $outerWidth - 30;
 
                 case 'prepayment':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 700;
+                    $outerWidth =  $cellWidth + 500;
                     $innerWidth = $outerWidth - 30;
 
 
