@@ -38,32 +38,32 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => $this['colors']['general'],
+                    'color' => $this->documentStyle['colors']['general'],
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
-                    ...$this['fonts']['general'],
+                    ...$this->documentStyle['fonts']['general'],
                     'bold' => true, 'size' => 13
                 ],
                 'h2' => [
-                    ...$this['fonts']['general'],
+                    ...$this->documentStyle['fonts']['general'],
                     'bold' => true, 'size' => 12
                 ],
                 'h3' => [
-                    ...$this['fonts']['general'],
+                    ...$this->documentStyle['fonts']['general'],
                     'bold' => true, 'size' => 11
                 ],
                 'text' => [
                     'small' => [
-                        ...$this['fonts']['general'],
+                        ...$this->documentStyle['fonts']['general'],
                         'size' => 9
                     ],
                     'normal' => [
-                        ...$this['fonts']['general'],
+                        ...$this->documentStyle['fonts']['general'],
                         'size' => 10
                     ],
                     'bold' => [
-                        ...$this['fonts']['general'],
+                        ...$this->documentStyle['fonts']['general'],
                         'bold' => true,
                         'size' => 11
                     ],
