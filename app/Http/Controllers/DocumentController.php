@@ -655,18 +655,18 @@ class DocumentController extends Controller
 
                         // if ($index == 0 || $index === '0') {
 
-                            $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
-                            $innerTable = $cell->addTable($innerTabletyle);
-                            $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
-                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                        // } else {
-
-                        //     $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                        //     $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
                         //     $innerTable = $cell->addTable($innerTabletyle);
                         //     $innerTable->addRow();
-                        //     $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        //     $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
+                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        // } else {
+
+                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                            $innerTable = $cell->addTable($innerTabletyle);
+                            $innerTable->addRow();
+                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
                         // }
                     }
                     // $table->addRow();
