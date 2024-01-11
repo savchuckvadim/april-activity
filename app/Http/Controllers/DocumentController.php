@@ -574,7 +574,7 @@ class DocumentController extends Controller
                             break; // Прекратить выполнение цикла, так как условие уже выполнено
                         }
                     }
-                    $isHaveLongPrepayment = !empty($isHaveLongPrepayment);
+                   
                 }
                 if ($priceDataAlternative) {
                     $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
