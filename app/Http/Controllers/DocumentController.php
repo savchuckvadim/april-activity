@@ -969,10 +969,13 @@ class DocumentController extends Controller
         $innerCellStyle = [
             'borderSize' => 0,
             'borderColor' => 'FFFFFF',
-            'cellMargin' => 30,
+            'cellMargin' => 230,
             'valign' => 'center',
             'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-            // 'cellSpacing' => 10
+            'cellMarginTop' => 50,
+            'cellMarginRight' => 50,
+            'cellMarginBottom' => 50,
+            'cellMarginLeft' => 50,
 
         ];
 
