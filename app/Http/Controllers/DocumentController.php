@@ -632,7 +632,7 @@ class DocumentController extends Controller
                         $this->getPriceCell($table, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                    $table->addRow();
+                  
                     foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
