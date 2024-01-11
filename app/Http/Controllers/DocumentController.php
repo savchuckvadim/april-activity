@@ -576,28 +576,28 @@ class DocumentController extends Controller
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
                     $cellWidth = $contentWidth / $numCells;
                     $outerFirstWidth =  $cellWidth + 1000;
-                    $innerFirstWidth = $outerFirstWidth - 30;
-                    $outerWidth =  $cellWidth - (1000 / $numCells);
-                    $innerWidth = $outerWidth - 30;
+                    // $innerFirstWidth = $outerFirstWidth - 30;
+                    // $outerWidth =  $cellWidth - (1000 / $numCells);
+                    // $innerWidth = $outerWidth - 30;
 
-                    $innerCellStyle = [
-                        'borderSize' => 0,
-                        'borderColor' => 'FFFFFF',
-                        'cellMargin' => 10,
-                        'valign' => 'center',
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        // 'cellSpacing' => 10
+                    // $innerCellStyle = [
+                    //     'borderSize' => 0,
+                    //     'borderColor' => 'FFFFFF',
+                    //     'cellMargin' => 10,
+                    //     'valign' => 'center',
+                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    //     // 'cellSpacing' => 10
 
-                    ];
+                    // ];
 
-                    $innerTabletyle = [
-                        'borderSize' => 0,
-                        'borderColor' => 'FFFFFF',
-                        'cellMargin' => 10,
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-                        // 'cellSpacing' => 10
+                    // $innerTabletyle = [
+                    //     'borderSize' => 0,
+                    //     'borderColor' => 'FFFFFF',
+                    //     'cellMargin' => 10,
+                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                    //     // 'cellSpacing' => 10
 
-                    ];
+                    // ];
                     $fancyTableStyleName = 'TableStyle';
                     $fancyTableStyle = [
                         'borderSize' => 10,
@@ -610,64 +610,65 @@ class DocumentController extends Controller
                     $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
 
 
-                    $fancyTableCellStyle = [
-                        'valign' => 'center',
-                        'borderSize' => 6,
-                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 10,
-                        'cellMarginRight' => 10,
-                        'cellMarginBottom' => 10,
-                        'cellMarginLeft' => 10,
-                    ];
+                    // $fancyTableCellStyle = [
+                    //     'valign' => 'center',
+                    //     'borderSize' => 6,
+                    //     // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                    //     'cellMarginTop' => 10,
+                    //     'cellMarginRight' => 10,
+                    //     'cellMarginBottom' => 10,
+                    //     'cellMarginLeft' => 10,
+                    // ];
                     // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-                    $fancyTableFontStyle = ['bold' => true];
-                    $textTableGroupTitleParagraphFirst =  [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => 'left',
-                        'valign' => 'center',
-                    ];
+                    // $fancyTableFontStyle = ['bold' => true];
+                    // $textTableGroupTitleParagraphFirst =  [
+                    //     'spaceAfter' => 0,    // Интервал после абзаца
+                    //     'spaceBefore' => 0,   // Интервал перед абзацем
+                    //     'lineHeight' => 1.15,  // Высота строки
+                    //     'alignment' => 'left',
+                    //     'valign' => 'center',
+                    // ];
 
-                    $textTableGroupTitleParagraph =  [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => 'center',
-                        'valign' => 'center',
-                    ];
+                    // $textTableGroupTitleParagraph =  [
+                    //     'spaceAfter' => 0,    // Интервал после абзаца
+                    //     'spaceBefore' => 0,   // Интервал перед абзацем
+                    //     'lineHeight' => 1.15,  // Высота строки
+                    //     'alignment' => 'center',
+                    //     'valign' => 'center',
+                    // ];
 
-                    $textTableGroupTitleParagraphLast =  [
-                        'spaceAfter' => 0,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.15,  // Высота строки
-                        'alignment' => 'right',
-                        'valign' => 'center',
-                    ];
+                    // $textTableGroupTitleParagraphLast =  [
+                    //     'spaceAfter' => 0,    // Интервал после абзаца
+                    //     'spaceBefore' => 0,   // Интервал перед абзацем
+                    //     'lineHeight' => 1.15,  // Высота строки
+                    //     'alignment' => 'right',
+                    //     'valign' => 'center',
+                    // ];
                     $section->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
                     $table = $section->addTable($fancyTableStyleName);
                     $table->addRow();
-
+                    $totalWidth = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
                         Log::info('index', ['index' => $index]);
 
+                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
 
-                        if ($index == 0 || $index === '0') {
+                        // if ($index == 0 || $index === '0') {
 
-                            $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
-                            $innerTable = $cell->addTable($innerTabletyle);
-                            $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
-                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
-                        } else {
+                        //     $cell = $table->addCell($outerFirstWidth, $fancyTableCellStyle);
+                        //     $innerTable = $cell->addTable($innerTabletyle);
+                        //     $innerTable->addRow();
+                        //     $innerTableCell = $innerTable->addCell($innerFirstWidth, $innerCellStyle)
+                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraphFirst);
+                        // } else {
 
-                            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
-                            $innerTable = $cell->addTable($innerTabletyle);
-                            $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
-                        }
+                        //     $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+                        //     $innerTable = $cell->addTable($innerTabletyle);
+                        //     $innerTable->addRow();
+                        //     $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                        //         ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                        // }
                     }
                     // $table->addRow();
                     // foreach ($price['cells']['general'] as  $prc) {
@@ -897,36 +898,167 @@ class DocumentController extends Controller
         }
     }
 
-    // protected function getPriceCellWidth($cellCode, $contentWidth, $pageWidth, $cellsCount)
-    // {
-    //     // NAME = 'name',     
-    //     // PREPAYMENT = 'prepayment',
-    //     // QUANTITY = 'quantity',
-    //     // DEFAULT_QUANTITY = 'defaultquantity',
-    //     // CONTRACT_QUANTITY = 'contractquantity',
-    //     // DISCOUNT_PRECENT = 'discountprecent',
-    //     // DISCOUNT_AMOUNT = 'discountamount',
-    //     // DEFAULT = 'default',
-    //     // CURRENT = 'current',
-    //     // DEFAULT_MONTH = 'defaultmonth',
-    //     // CURRENT_MONTH = 'currentmonth',
-    //     // PREPAYMENT_SUM = 'prepaymentsum',
-    //     // QUANTITY_SUM = 'quantitysum',
-    //     // CONTRACT_SUM = 'contractsum',
-    //     // MEASURE = 'measure',
-    //     // MEASURE_CODE = 'measureCode',
-    //     // CONTRACT = 'contract',
-    //     // SUPPLY = 'supply',
-    //     // SUPPLY_FOR_OFFER = 'supplyForOffer',
-    //     //вычислить длину ячейки 100
-    //     switch ($variable) {
-    //         case $cellCode:
-    //             # code...
-    //             break;
+    protected function getPriceCell($table, $totalWidth, $cell, $contentWidth, $cellsCount)
+    {
+        $code = $cell['code'];
+        // NAME = 'name',     
+        // PREPAYMENT = 'prepayment',
+        // QUANTITY = 'quantity',
+        // DEFAULT_QUANTITY = 'defaultquantity',
+        // CONTRACT_QUANTITY = 'contractquantity',
+        // DISCOUNT_PRECENT = 'discountprecent',
+        // DISCOUNT_AMOUNT = 'discountamount',
+        // DEFAULT = 'default',
+        // CURRENT = 'current',
+        // DEFAULT_MONTH = 'defaultmonth',
+        // CURRENT_MONTH = 'currentmonth',
+        // PREPAYMENT_SUM = 'prepaymentsum',
+        // QUANTITY_SUM = 'quantitysum',
+        // CONTRACT_SUM = 'contractsum',
+        // MEASURE = 'measure',
+        // MEASURE_CODE = 'measureCode',
+        // CONTRACT = 'contract',
+        // SUPPLY = 'supply',
+        // SUPPLY_FOR_OFFER = 'supplyForOffer',
+        //вычислить длину ячейки 100
+        // NAME = 'Наименование',
+        // QUANTITY = 'Количество',
+        // SUM = 'Сумма',
+        // DEFAULT_QUANTITY = 'Количество изначальное',
+        // DISCOUNT_PRECENT = 'Скидка, %',
+        // DISCOUNT_AMOUNT = 'Скидка в рублях',
+        // DEFAULT = 'Цена по прайсу',
+        // CURRENT = 'Цена',
+        // DEFAULT_MONTH = 'Цена по прайсу в месяц',
+        // CURRENT_MONTH = 'Цена в месяц',
+        // QUANTITY_SUM = 'Сумма Количество',
+        // CONTRACT_QUANTITY = 'При заключении договора от',
+        // PREPAYMENT_QUANTITY = 'При внесении предоплаты от',
+        // CONTRACT_SUM = 'Сумма за весь период обслуживания',
+        // PREPAYMENT_SUM = 'Сумма предоплаты',
+        // MEASURE = 'Единица',
+        // MEASURE_CODE = 'Кодовое обозначение единицы',
+        // CONTRACT = 'contract',
+        // SUPPLY = 'Количество доступов',
+        // SUPPLY_FOR_OFFER = 'Версия',
 
-    //         default:
-    //             # code...
-    //             break;
-    //     }
-    // }
+        $cellWidth = $contentWidth / $cellsCount;
+        $outerWidth =  $cellWidth;
+        $innerWidth = $outerWidth - 30;
+        // $outerWidth =  $cellWidth - (1000 / $cellsCount);
+        // $innerWidth = $outerWidth - 30;
+        $fancyTableCellStyle = [
+            'valign' => 'center',
+            'borderSize' => 6,
+            // 'borderColor' => '000000',  // Цвет границы (чёрный)
+            'cellMarginTop' => 10,
+            'cellMarginRight' => 10,
+            'cellMarginBottom' => 10,
+            'cellMarginLeft' => 10,
+        ];
+
+        $innerTabletyle = [
+            'borderSize' => 0,
+            'borderColor' => 'FFFFFF',
+            'cellMargin' => 10,
+            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+            // 'cellSpacing' => 10
+
+        ];
+        $innerCellStyle = [
+            'borderSize' => 0,
+            'borderColor' => 'FFFFFF',
+            'cellMargin' => 30,
+            'valign' => 'center',
+            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+            // 'cellSpacing' => 10
+
+        ];
+
+       
+
+        if ($code) {
+
+
+            switch ($code) {
+                case 'name':  //Наименование
+                    $outerWidth =  $cellWidth + 1000;
+                    $innerWidth = $outerWidth - 30;
+
+                    break;
+
+                case 'quantity': //Количество
+                    # code...
+                    break;
+                case 'defaultquantity': //Количество изначальное
+                    # code...
+                    break;
+                case 'contractquantity': //При заключении договора от
+                    # code...
+                    break;
+                case 'prepayment':  // При внесении предоплаты от
+                    # code...
+                    break;
+
+                case 'discountprecent': //Скидка, %
+                    # code...
+                    break;
+                case 'discountamount': //Скидка в рублях
+                    # code...
+                    break;
+
+                case 'current': //Цена
+                    # code...
+                    break;
+                case 'currentmonth': //Цена в месяц
+                    # code...
+                    break;
+                case 'default': //Цена по прайсу
+                    # code...
+
+                    break;
+                case 'defaultmonth': //Цена по прайсу в месяц
+                    # code...
+                    break;
+
+
+                case 'quantitysum': //Сумма Количество
+                    # code...
+                    break;
+                case 'contractsum': //Сумма за весь период обслуживания 
+                    # code...
+                    break;
+                case 'prepaymentsum':  // При внесении предоплаты от
+                    # code...
+                    break;
+
+
+                case 'measure': //Единица
+                    # code...
+                    break;
+                case 'measureCode': //Кодовое обозначение единицы
+                    # code...
+                    break;
+                case 'contract':
+                    # code...
+                    break;
+                case 'supply':
+                    # code...
+                    break;
+                case 'supplyOffer':
+                    # code...
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+            $totalWidth =  $totalWidth + $outerWidth;
+            $cell = $table->addCell($outerWidth, $fancyTableCellStyle);
+            $innerTable = $cell->addTable($innerTabletyle);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
+                ->addText($cell['name'], $cell, $cell);
+        }
+        return $table;
+    }
 }
