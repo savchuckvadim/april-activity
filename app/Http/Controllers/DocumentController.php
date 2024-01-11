@@ -113,7 +113,7 @@ class DocumentController extends Controller
 
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
-
+        $section->addPageBreak();
         $section->addText('Информационное наполнение', $textStyleBold);
         $section->addTextBreak(1);
 
@@ -467,7 +467,7 @@ class DocumentController extends Controller
     protected function getPriceSection($section, $price)
     {
         try {
-
+            $section->addPageBreak();
             //стиль страницы 
             //    $sectionStyle = array(
             //     'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
