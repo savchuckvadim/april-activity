@@ -58,13 +58,110 @@ class DocumentController extends Controller
                     'marginLeft' => Converter::inchToTwip(0.5),
                     'marginRight' => Converter::inchToTwip(0.5),
                 ],
-                'fonts' => [
-                    'general' => ['name' => 'Arial'],
-                    'h1' => ['bold' => true, 'size' => 16],
-                    'h2' => [],
-                    'h3' => ['bold' => true, 'size' => 11]
+
+                'colors' => [
+
+                    'general' => 'FFFF00',
+                    'second' => 'FFFF00',
+                    'white' => 'FFFF00',
+                    'shadow' => 'FFFF00',
+                    'atention' => 'FFFF00',
+                    'shadowText' => 'FFFF00'
+
+
                 ],
-                'paragraphs' => []
+
+                'fonts' => [
+                    'general' => [
+                        'name' => 'Arial',
+                        'color' => $this['colors']['general'],
+                        'lang' => 'ru-RU',
+                    ],
+                    'h1' => [
+                        ...$this['fonts']['general'],
+                        'bold' => true, 'size' => 13
+                    ],
+                    'h2' => [
+                        ...$this['fonts']['general'],
+                        'bold' => true, 'size' => 12
+                    ],
+                    'h3' => [
+                        ...$this['fonts']['general'],
+                        'bold' => true, 'size' => 11
+                    ],
+                    'text' => [
+                        'small' => [
+                            ...$this['fonts']['general'],
+                            'size' => 9
+                        ],
+                        'normal' => [
+                            ...$this['fonts']['general'],
+                            'size' => 10
+                        ],
+                        'bold' => [
+                            ...$this['fonts']['general'],
+                            'bold' => true,
+                            'size' => 11
+                        ],
+
+                    ]
+                ],
+                'paragraphs' => [
+                    'general' => [
+                        'valign' => 'center',
+                        'spaceAfter' => 0,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.15,  // Высота строки
+                    ],
+                    'align' => [
+                        'left' => [
+                            'alignment' => 'left',
+
+                        ],
+                        'right' => [
+                            'alignment' => 'right',
+
+                        ],
+                        'center' => [
+                            'alignment' => 'center',
+
+                        ]
+
+
+
+                    ],
+
+
+                ],
+                'table' => [
+                    'inner' => [
+                        'cell' => [
+                            'borderSize' => 0,
+                            'borderColor' => 'FFFFFF',
+                            'cellMargin' => 40,
+                            'valign' => 'center',
+                            // 'cellSpacing' => 10
+                        ],
+                        'table' => [
+                            'borderSize' => 0,
+                            'borderColor' => 'FFFFFF',
+                            'cellMargin' => 40,
+                            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+
+
+                        ],
+
+
+                    ],
+                    'general' => [
+                        'borderSize' => 10,
+                        'borderColor' => '000000',
+                        'cellMargin' => 40,
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellSpacing' => 10
+                    ]
+                ]
+
             ];
 
             $sectionStyle = array(
@@ -91,7 +188,7 @@ class DocumentController extends Controller
             // $languageEnGbStyle = array('lang' => 'ru-RU');
 
             $section = $phpWord->addSection($sectionStyle);
-            $this->getPriceSection($section, $data['price']);
+            $this->getPriceSection($section, $documentStyle,  $data['price']);
             $this->getInfoblocks($infoblocksOptions, $complect, $section, $paragraphStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
@@ -481,7 +578,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceSection($section, $price)
+    protected function getPriceSection($section, $styles, $price)
     {
         try {
             $section->addPageBreak();
