@@ -652,7 +652,7 @@ class DocumentController extends Controller
 
                         Log::info('index', ['index' => $index]);
 
-                        $table = $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
+                        $this->getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $numCells);
 
                         // if ($index == 0 || $index === '0') {
 
@@ -898,9 +898,9 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($table, $totalWidth, $cell, $contentWidth, $cellsCount)
+    protected function getPriceCell($table, $totalWidth, $priceCell, $contentWidth, $cellsCount)
     {
-        $code = $cell['code'];
+        $code = $priceCell['code'];
         // NAME = 'name',     
         // PREPAYMENT = 'prepayment',
         // QUANTITY = 'quantity',
@@ -977,7 +977,7 @@ class DocumentController extends Controller
 
 
         $fancyTableFontStyle = ['bold' => true];
-     
+
 
         $textTableGroupTitleParagraph =  [
             'spaceAfter' => 0,    // Интервал после абзаца
@@ -1069,7 +1069,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable($innerTabletyle);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerWidth, $innerCellStyle)
-                ->addText($cell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
+                ->addText($priceCell['name'], $fancyTableFontStyle, $textTableGroupTitleParagraph);
         }
         return $table;
     }
