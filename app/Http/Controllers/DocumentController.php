@@ -940,16 +940,23 @@ class DocumentController extends Controller
                     $tableBodyFont =  $tableHeaderFont;
                     break;
                 case 'quantity': //Количество
-                    $outerWidth =  $cellWidth - 500;
-                    $innerWidth = $outerWidth - 30;
+                    if($priceCell['name'] == 'Количество'){
+                        $outerWidth =  $cellWidth - 500;
+                        $innerWidth = $outerWidth - 30;
+                    }else{
+                        $outerWidth =  $cellWidth + 500;
+                        $innerWidth = $outerWidth - 30;
+                    }
 
-                case 'defaultquantity': //Количество изначальное
-                    # code...
+                  
 
-                case 'contractquantity': //При заключении договора от
-                    $outerWidth =  $cellWidth + 500;
-                    $innerWidth = $outerWidth - 30;
-                    break;
+                // case 'defaultquantity': //Количество изначальное
+                //     # code...
+
+                // case 'contractquantity': //При заключении договора от
+                //     $outerWidth =  $cellWidth + 500;
+                //     $innerWidth = $outerWidth - 30;
+                //     break;
 
                 case 'prepayment':  // При внесении предоплаты от
                     // $outerWidth =  $cellWidth + 500;
@@ -978,20 +985,20 @@ class DocumentController extends Controller
                 case 'defaultmonth': //Цена по прайсу в месяц
                     # code...
 
-                case 'quantitysum': //Сумма Количество
+                // case 'quantitysum': //Сумма Количество
+                //     $outerWidth =  $cellWidth + 1000;
+                //     $innerWidth = $outerWidth - 30;
+
+                // case 'contractsum': //Сумма за весь период обслуживания 
+                //     $outerWidth =  $cellWidth + 400;
+                //     $innerWidth = $outerWidth - 30;
+
+                case 'prepaymentsum':  // При внесении предоплаты от
                     $outerWidth =  $cellWidth + 1000;
                     $innerWidth = $outerWidth - 30;
 
-                case 'contractsum': //Сумма за весь период обслуживания 
-                    $outerWidth =  $cellWidth + 400;
-                    $innerWidth = $outerWidth - 30;
-
-                case 'prepaymentsum':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 900;
-                    $innerWidth = $outerWidth - 30;
-
                 case 'measure': //Единица
-                    $outerWidth =  $cellWidth - 300;
+                    $outerWidth =  $cellWidth - 500;
                     $innerWidth = $outerWidth - 30;
 
                 case 'measureCode': //Кодовое обозначение единицы
