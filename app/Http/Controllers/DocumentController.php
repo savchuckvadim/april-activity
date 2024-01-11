@@ -75,9 +75,18 @@ class DocumentController extends Controller
 
                 ],
                 'table' => [
-                    'h1' => ['size' => 11, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'],
-                    'h2' => ['size' => 10, 'name' => 'Arial', 'bold' => true, 'lang' => 'ru-RU'],
-                    'text' => ['size' => 10, 'name' => 'Arial', 'lang' => 'ru-RU']
+                    'h1' => [
+                        ...$generalFont,
+                        'size' => 11,  'bold' => true, 'lang' => 'ru-RU'
+                    ],
+                    'h2' => [
+                        ...$generalFont,
+                        'size' => 10,  'bold' => true, 'lang' => 'ru-RU'
+                    ],
+                    'text' => [
+                        ...$generalFont,
+                        'size' => 10, 'lang' => 'ru-RU'
+                    ]
                 ]
             ],
             'paragraphs' => [
@@ -711,40 +720,9 @@ class DocumentController extends Controller
 
                 if ($activePriceCellsGeneral) {
                     $numCells = count($activePriceCellsGeneral); // Количество столбцов
-                    $cellWidth = $contentWidth / $numCells;
-                    $outerFirstWidth =  $cellWidth + 1000;
-                    // $innerFirstWidth = $outerFirstWidth - 30;
-                    // $outerWidth =  $cellWidth - (1000 / $numCells);
-                    // $innerWidth = $outerWidth - 30;
 
-                    // $innerCellStyle = [
-                    //     'borderSize' => 0,
-                    //     'borderColor' => 'FFFFFF',
-                    //     'cellMargin' => 10,
-                    //     'valign' => 'center',
-                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                    //     // 'cellSpacing' => 10
 
-                    // ];
-
-                    // $innerTabletyle = [
-                    //     'borderSize' => 0,
-                    //     'borderColor' => 'FFFFFF',
-                    //     'cellMargin' => 10,
-                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-                    //     // 'cellSpacing' => 10
-
-                    // ];
                     $fancyTableStyleName = 'TableStyle';
-                    // $fancyTableStyle = [
-                    //     'borderSize' => 10,
-                    //     'borderColor' => '000000',
-                    //     'cellMargin' => 10,
-                    //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                    //     'cellSpacing' => 10
-                    // ];
-                    // 
-                    // $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]; //,'borderColor' => '000000'
 
                     $section->addTableStyle(
                         $fancyTableStyleName,
@@ -754,7 +732,7 @@ class DocumentController extends Controller
                     $table = $section->addTable($fancyTableStyleName);
 
                     $table->addRow();
-                    // $row->setHeight(300);
+
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
@@ -764,7 +742,7 @@ class DocumentController extends Controller
                         $count += 1;
                     }
                     $table->addRow();
-                    // $row->setHeight(300);
+
                     foreach ($price['cells']['general'] as  $prc) {
                         foreach ($prc['cells'] as $cll) {
 
@@ -778,7 +756,7 @@ class DocumentController extends Controller
 
                         foreach ($price['cells']['alternative'] as $prc) {
                             $table->addRow();
-                            // $row->setHeight(300);
+
                             foreach ($prc['cells'] as $cll) {
 
                                 if ($cll['isActive']) {
@@ -961,6 +939,95 @@ class DocumentController extends Controller
     protected function getPriceCell($isHeader, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
     {
         $code = $priceCell['code'];
+
+        $longWidth = 2700;
+        $without = 1;
+        if ($isHaveLongPrepayment) {
+            $longWidth = 3300;
+            $without = 3;
+        }
+        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
+        $outerWidth =  $cellWidth;
+        $innerWidth = $outerWidth - 30;
+
+
+
+        $tableStyle = $styles['tables'];
+        $paragraphs = $tableStyle['general']['paragraphs'];
+        $fonts = $styles['fonts']['table'];
+        $textTableGroupTitleParagraph = $paragraphs['center'];
+
+        $tableHeaderFont = $fonts['h2'];
+        $tableBodyFont = $fonts['text'];
+
+        if ($code) {
+
+
+            switch ($code) {
+                case 'name':  //Наименование
+                    $textTableGroupTitleParagraph =  $paragraphs['left'];
+                    $outerWidth =  $cellWidth + 2700;
+                    $innerWidth = $outerWidth - 30;
+                    $tableBodyFont =  $fonts['h2'];
+                    break;
+                case 'quantity': //Количество
+                    if ($priceCell['name'] == 'Количество') {
+                        $outerWidth =  $cellWidth - 500;
+                        $innerWidth = $outerWidth - 30;
+                    } else {
+                        $outerWidth =  $cellWidth + 500;
+                        $innerWidth = $outerWidth - 30;
+                    }
+
+                case 'prepayment':  // При внесении предоплаты от
+                    // $outerWidth =  $cellWidth + 500;
+                    // $innerWidth = $outerWidth - 30;
+                    break;
+
+
+                case 'discountprecent': //Скидка, %
+                    // $outerWidth =  $cellWidth - 500;
+                    // $innerWidth = $outerWidth - 30;
+
+
+                    $outerWidth =  $cellWidth + 1000;
+                    $innerWidth = $outerWidth - 30;
+
+                case 'measure': //Единица
+                    $outerWidth =  $cellWidth - 500;
+                    $innerWidth = $outerWidth - 30;
+
+                case 'measureCode': //Кодовое обозначение единицы
+                case 'contract':
+                case 'supply':
+                case 'supplyOffer':
+
+                case 'discountamount': //Скидка в рублях
+                case 'current': //Цена
+                case 'currentmonth': //Цена в месяц
+                case 'default': //Цена по прайсу
+                case 'defaultmonth': //Цена по прайсу в месяц
+                case 'prepaymentsum':  // При внесении предоплаты от
+            }
+
+            $cellValue = $priceCell['value'];
+            $font  = $tableBodyFont;
+            if ($isHeader) {
+                $cellValue = $priceCell['name'];
+                $font  = $tableHeaderFont;
+            }
+
+
+            // $totalWidth =  $totalWidth + $outerWidth;
+
+            $cell = $table->addCell($outerWidth, $tableStyle['general']['cell']);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
+                ->addText($cellValue, $font, $textTableGroupTitleParagraph);
+        }
+        return $table;
+
         // NAME = 'name',     
         // PREPAYMENT = 'prepayment',
         // QUANTITY = 'quantity',
@@ -1001,165 +1068,5 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
-        $longWidth = 2700;
-        $without = 1;
-        if ($isHaveLongPrepayment) {
-            $longWidth = 3300;
-            $without = 3;
-        }
-        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
-        $outerWidth =  $cellWidth;
-        $innerWidth = $outerWidth - 30;
-        // $outerWidth =  $cellWidth - (1000 / $cellsCount);
-        // $innerWidth = $outerWidth - 30;
-        // $fancyTableCellStyle = [
-        //     'valign' => 'center',
-        //     'borderSize' => 6,
-        //     // 'borderColor' => '000000',  // Цвет границы (чёрный)
-        //     'cellMarginTop' => 10,
-        //     'cellMarginRight' => 10,
-        //     'cellMarginBottom' => 10,
-        //     'cellMarginLeft' => 10,
-        // ];
-
-        // $innerTabletyle = [
-        //     'borderSize' => 0,
-        //     'borderColor' => 'FFFFFF',
-        //     'cellMargin' => 10,
-        //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-        //     // 'cellSpacing' => 10
-
-        // ];
-        // $innerCellStyle = [
-        //     'borderSize' => 0,
-        //     'borderColor' => 'FFFFFF',
-        //     'cellMargin' => 230,
-        //     'valign' => 'center',
-        //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-        //     'cellMarginTop' => 50,
-        //     'cellMarginRight' => 50,
-        //     'cellMarginBottom' => 50,
-        //     'cellMarginLeft' => 50,
-
-        // ];
-
-
-        $tableStyle = $styles['tables'];
-        $paragraphs = $tableStyle['general']['paragraphs'];
-        $fonts = $styles['fonts']['table'];
-        $textTableGroupTitleParagraph = $paragraphs['center'];
-        //  [
-        //     'spaceAfter' => 0,    // Интервал после абзаца
-        //     'spaceBefore' => 0,   // Интервал перед абзацем
-        //     'lineHeight' => 1.15,  // Высота строки
-        //     'alignment' => 'center',
-        //     'valign' => 'center',
-        // ];
-        $tableHeaderFont = $fonts['h1'];
-        $tableBodyFont = $fonts['text'];
-
-        if ($code) {
-
-
-            switch ($code) {
-                case 'name':  //Наименование
-                    $textTableGroupTitleParagraph =  $paragraphs['left'];
-                    $outerWidth =  $cellWidth + 2700;
-                    $innerWidth = $outerWidth - 30;
-                    $tableBodyFont =  $fonts['h1'];
-                    break;
-                case 'quantity': //Количество
-                    if ($priceCell['name'] == 'Количество') {
-                        $outerWidth =  $cellWidth - 500;
-                        $innerWidth = $outerWidth - 30;
-                    } else {
-                        $outerWidth =  $cellWidth + 500;
-                        $innerWidth = $outerWidth - 30;
-                    }
-
-
-
-                    // case 'defaultquantity': //Количество изначальное
-                    //     # code...
-
-                    // case 'contractquantity': //При заключении договора от
-                    //     $outerWidth =  $cellWidth + 500;
-                    //     $innerWidth = $outerWidth - 30;
-                    //     break;
-
-                case 'prepayment':  // При внесении предоплаты от
-                    // $outerWidth =  $cellWidth + 500;
-                    // $innerWidth = $outerWidth - 30;
-                    break;
-
-
-                case 'discountprecent': //Скидка, %
-                    // $outerWidth =  $cellWidth - 500;
-                    // $innerWidth = $outerWidth - 30;
-
-                case 'discountamount': //Скидка в рублях
-                    # code...
-
-
-                case 'current': //Цена
-                    # code...
-
-                case 'currentmonth': //Цена в месяц
-                    # code...
-
-                case 'default': //Цена по прайсу
-                    # code...
-
-
-                case 'defaultmonth': //Цена по прайсу в месяц
-                    # code...
-
-                    // case 'quantitysum': //Сумма Количество
-                    //     $outerWidth =  $cellWidth + 1000;
-                    //     $innerWidth = $outerWidth - 30;
-
-                    // case 'contractsum': //Сумма за весь период обслуживания 
-                    //     $outerWidth =  $cellWidth + 400;
-                    //     $innerWidth = $outerWidth - 30;
-
-                case 'prepaymentsum':  // При внесении предоплаты от
-                    $outerWidth =  $cellWidth + 1000;
-                    $innerWidth = $outerWidth - 30;
-
-                case 'measure': //Единица
-                    $outerWidth =  $cellWidth - 500;
-                    $innerWidth = $outerWidth - 30;
-
-                case 'measureCode': //Кодовое обозначение единицы
-                    # code...
-
-                case 'contract':
-                    # code...
-
-                case 'supply':
-                    # code...
-
-                case 'supplyOffer':
-                    # code...
-
-            }
-
-            $cellValue = $priceCell['value'];
-            $font  = $tableBodyFont;
-            if ($isHeader) {
-                $cellValue = $priceCell['name'];
-                $font  = $tableHeaderFont;
-            }
-
-
-            // $totalWidth =  $totalWidth + $outerWidth;
-
-            $cell = $table->addCell($outerWidth, $tableStyle['general']['cell']);
-            $innerTable = $cell->addTable($tableStyle['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
-                ->addText($cellValue, $font, $textTableGroupTitleParagraph);
-        }
-        return $table;
     }
 }
