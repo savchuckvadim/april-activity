@@ -334,7 +334,7 @@ class DocumentController extends Controller
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['bold'];
             $titleStyle = $fonts['text']['bold'];
-      
+
             $fancyTableStyleName = 'TableStyle';
 
 
@@ -416,7 +416,7 @@ class DocumentController extends Controller
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
-           
+
             $fancyTableStyleName = 'TableStyle';
 
             $section->addTableStyle($fancyTableStyleName, $tableStyle['general']['table'], $tableStyle['general']['row']);
@@ -434,7 +434,7 @@ class DocumentController extends Controller
                 $innerTable = $cell->addTable($tableStyle['inner']['table']);
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
-                $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphs['head'], $paragraphTitleStyle);
+                $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
 
                 foreach ($group['value'] as $infoblock) {
 
