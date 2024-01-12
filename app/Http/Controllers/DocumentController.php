@@ -620,43 +620,44 @@ class DocumentController extends Controller
 
             //TABLE
             $allPrices = $price['cells'];
-
+            log::info('allPrices-0', ['$allPrices' => $allPrices]);
+            
             //SORT CELLS
             foreach ($allPrices as $target) {
-                log::info('target', ['$target' => $target]);
-                if (is_array($target) && !empty($target)) {
-                    foreach ($target as $product) {
-                        log::info('product', ['$product' => $target]);
-                        if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
-                            $product->cells = array_filter($product->cells, function ($prc) {
-                                return $prc['isActive'];
-                            });
+             
+                if ($target) {
+                    if (is_array($target) && !empty($target)) {
+                        foreach ($target as $product) {
+                           
+                            if ($product) {
+                                log::info('product', ['product' => $product]);
+                                if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
 
-                            usort($product->cells, function ($a, $b) {
-                                return $a->order - $b->order;
-                            });
+                                    array_filter($product['cells'], function ($prc) {
+                                        return $prc['isActive'];
+                                    });
+
+                                    usort($product['cells'], function ($a, $b) {
+                                        return $a->order - $b->order;
+                                    });
+                                }
+                            }
                         }
-                        log::info('iter cells', ['$product' => $product->cells]);
                     }
-                    // unset($product); // Очищаем ссылку на $product после завершения внутреннего цикла
                 }
             }
-            // unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
-
-            log::info('cells sort ', ['$cells' => $allPrices['general'][0]['cells']]);
-
             foreach ($allPrices['general'][0]['cells'] as $prccll) {
                 if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
                     ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
                 ) {
-
+                  
                     $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
                     break; // Прекратить выполнение цикла, так как условие уже выполнено
                 }
             }
-
+          
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
@@ -709,10 +710,12 @@ class DocumentController extends Controller
                                     if ($product) {
                                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                             $table->addRow();
-                                            foreach ($product->cells as $cell) {
+                                            foreach($product->cells as $cell){
 
                                                 $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+
                                             }
+                                           
                                         }
                                     }
                                 }
