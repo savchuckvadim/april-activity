@@ -620,7 +620,7 @@ class DocumentController extends Controller
 
             //TABLE
             $allPrices = $price['cells'];
-
+            log::info('allPrices-0', ['$allPrices' => $allPrices]);
             //SORT CELLS
             foreach ($allPrices as $target) {
                 if ($target) {
