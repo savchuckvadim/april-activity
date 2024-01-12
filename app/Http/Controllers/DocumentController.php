@@ -338,7 +338,7 @@ class DocumentController extends Controller
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
-            $textStyle = $fonts['text']['normal'];
+            $textStyle = $fonts['text']['bold'];
             $titleStyle = $fonts['text']['bold'];
             // $innerCellStyle = [
             //     'borderSize' => 0,
@@ -385,7 +385,7 @@ class DocumentController extends Controller
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-               
+
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
                                 $this->addInfoblockToCell(
@@ -399,8 +399,7 @@ class DocumentController extends Controller
                                     $textStyle,
                                     $titleStyle
                                 );
-                            } 
-                            else {
+                            } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
                                     $cell = $table->addCell($contentWidth,  $tableStyle['general']['table']);
@@ -422,7 +421,7 @@ class DocumentController extends Controller
                                     $titleStyle
                                 );
                             }
-                            
+
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
                         }
@@ -642,7 +641,7 @@ class DocumentController extends Controller
         $titleStyle
     ) {
 
-
+        //todo align depends from table style
         switch ($descriptionMode) {
             case 0:
                 $cell->addText($infoblock['name'], $textStyle, $paragraphStyle);
