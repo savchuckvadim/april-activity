@@ -1066,13 +1066,16 @@ class DocumentController extends Controller
 
                         if ($product) {
 
-                           
-                            if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+
+                            if (
+                                // is_object($product) && isset($product->cells) 
+                                is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
+                            ) {
                                 log::info('product', ['product' => $product]);
-                                $filtredCells = array_filter($product->cells, function ($prc) {
+                                $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true;
                                 });
-                               $count = count($filtredCells);
+                                $count = count($filtredCells);
                                 usort($filtredCells, function ($a, $b) {
                                     return $a->order - $b->order;
                                 });
