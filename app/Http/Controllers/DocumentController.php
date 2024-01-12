@@ -641,7 +641,7 @@ class DocumentController extends Controller
                                         return $a->order - $b->order;
                                     });
 
-                                    log::info('count', ['count' => count($product->cells)]);
+                                    log::info('count', ['count' => $product->cells]);
                                 }
                             }
                         }
