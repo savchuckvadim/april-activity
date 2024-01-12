@@ -584,26 +584,26 @@ class DocumentController extends Controller
             $priceDataGeneral = null;
             $priceDataAlternative = null;
             $priceDataTotal = null;
-            $isHaveLongPrepayment = false;
-            if (isset($price['cells']['general']) && is_array($price['cells']['general']) && count($price['cells']['general']) > 0) {
-                // Массив $price['cells']['general'] существует и не пуст
-                $priceDataGeneral = $price['cells']['general'][0]['cells'];
-            }
+            $isHaveLongPrepayment = $this->getIsHaveLongPrepayment($price['cells']);
+            // if (isset($price['cells']['general']) && is_array($price['cells']['general']) && count($price['cells']['general']) > 0) {
+            //     // Массив $price['cells']['general'] существует и не пуст
+            //     $priceDataGeneral = $price['cells']['general'][0]['cells'];
+            // }
 
-            if (isset($price['cells']['alternative']) && is_array($price['cells']['alternative']) && count($price['cells']['alternative']) > 0) {
-                // Массив $price['cells']['alternative'] существует и не пуст
-                $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
-            }
+            // if (isset($price['cells']['alternative']) && is_array($price['cells']['alternative']) && count($price['cells']['alternative']) > 0) {
+            //     // Массив $price['cells']['alternative'] существует и не пуст
+            //     $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
+            // }
 
-            if (isset($price['cells']['total']) && is_array($price['cells']['total']) && count($price['cells']['total']) > 0) {
-                // Массив $price['cells']['total'] существует и не пуст
-                $priceDataTotal = $price['cells']['total'][0]['cells'];
-            }
-
-
+            // if (isset($price['cells']['total']) && is_array($price['cells']['total']) && count($price['cells']['total']) > 0) {
+            //     // Массив $price['cells']['total'] существует и не пуст
+            //     $priceDataTotal = $price['cells']['total'][0]['cells'];
+            // }
 
 
-            $cells = [];
+
+
+            // $cells = [];
             $isTable = $price['isTable'];
 
             $section->addTextBreak(1);
@@ -624,42 +624,18 @@ class DocumentController extends Controller
             log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
             $allPrices =  $sortActivePrices;
             //SORT CELLS
-            // foreach ($allPrices as $target) {
 
-            //     if ($target) {
-            //         if (is_array($target) && !empty($target)) {
-            //             foreach ($target as $product) {
+            // foreach ($allPrices['general'][0]['cells'] as $prccll) {
+            //     if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
+            //         ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
+            //         ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
+            //         ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
+            //     ) {
 
-            //                 if ($product) {
-            //                     log::info('product', ['product' => $product]);
-            //                     if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
-            //                         log::info('product', ['product' => $product]);
-            //                         $product->cells = array_filter($product->cells, function ($prc) {
-            //                             return $prc['isActive'];
-            //                         });
-
-            //                         usort($product->cells, function ($a, $b) {
-            //                             return $a->order - $b->order;
-            //                         });
-
-            //                         log::info('count', ['count' => $product['cells']]);
-            //                     }
-            //                 }
-            //             }
-            //         }
+            //         $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
+            //         break; // Прекратить выполнение цикла, так как условие уже выполнено
             //     }
             // }
-            foreach ($allPrices['general'][0]['cells'] as $prccll) {
-                if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
-                    ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
-                    ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
-                    ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
-                ) {
-
-                    $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
-                    break; // Прекратить выполнение цикла, так как условие уже выполнено
-                }
-            }
 
             if ($isTable) {
 
@@ -709,11 +685,11 @@ class DocumentController extends Controller
                         if ($target) {
                             if (is_array($target) && !empty($target)) {
                                 foreach ($target as $product) {
-                                    log::info('product', ['$product' => $product]);
+
                                     if ($product) {
-                                        if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+                                        if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
                                             $table->addRow();
-                                            foreach ($product->cells as $cell) {
+                                            foreach ($product['cells'] as $cell) {
 
                                                 $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
                                             }
@@ -1068,21 +1044,18 @@ class DocumentController extends Controller
 
 
                             if (
-                                // is_object($product) && isset($product->cells) 
+
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
                                 log::info('getSort : product', ['product' => $product]);
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true;
                                 });
-                                
-                                // $count = count($filtredCells);
+
                                 usort($filtredCells, function ($a, $b) {
-                                    return $a['order']- $b['order'];
+                                    return $a['order'] - $b['order'];
                                 });
                                 $result[$key][$index]['cells']  = $filtredCells;
-                                log::info('getSort :  filtredCells', ['filtredCells' => $filtredCells]);
-                                // log::info('count', ['count' => $count]);
                             }
                         }
                     }
@@ -1091,5 +1064,22 @@ class DocumentController extends Controller
         }
 
         return $result;
+    }
+    protected function getIsHaveLongPrepayment($allPrices)
+    {
+        $isHaveLongPrepayment = false;
+        foreach ($allPrices['general'][0]['cells'] as $prccll) {
+            if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
+                ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
+                ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
+                ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
+            ) {
+
+                $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
+                break; // Прекратить выполнение цикла, так как условие уже выполнено
+            }
+        }
+
+        // return $isHaveLongPrepayment;
     }
 }
