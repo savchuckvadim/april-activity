@@ -619,8 +619,8 @@ class DocumentController extends Controller
 
 
             //TABLE
-            $allPrices = $price['cells'];
-            $sortActivePrices = $this->getSortActivePrices($allPrices);
+            $comePrices = $price['cells'];
+            $sortActivePrices = $this->getSortActivePrices($comePrices);
             log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
             $allPrices =  $sortActivePrices;
             //SORT CELLS
