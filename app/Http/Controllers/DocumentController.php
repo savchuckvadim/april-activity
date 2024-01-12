@@ -17,7 +17,7 @@ class DocumentController extends Controller
     {
         $generalFont = [
             'name' => 'Arial',
-            'color' => 'FFFF00',
+            'color' => '0000FF',
             'lang' => 'ru-RU',
         ];
         $this->documentStyle = [
