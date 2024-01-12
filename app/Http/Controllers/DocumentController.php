@@ -642,6 +642,7 @@ class DocumentController extends Controller
                     }
                 }
             }
+            Log::info('$allPrices',  ['$allPrices' => $allPrices]);
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
