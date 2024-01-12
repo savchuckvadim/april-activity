@@ -623,10 +623,11 @@ class DocumentController extends Controller
             log::info('allPrices-0', ['$allPrices' => $allPrices]);
             //SORT CELLS
             foreach ($allPrices as $target) {
+                log::info('target-0', ['$target' => $target]);
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
-
+                            log::info('product-0', ['$product' => $product]);
                             if ($product) {
                                 log::info('product-0', ['$allPricesgeneral' => $allPrices['general'][0]]['cells']);
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
