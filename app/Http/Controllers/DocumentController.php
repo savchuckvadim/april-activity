@@ -623,41 +623,36 @@ class DocumentController extends Controller
             log::info('allPrices-0', ['$allPrices' => $allPrices]);
             log::info('general', ['$allPrices' => $allPrices['general'][0]['cells']]);
             //SORT CELLS
-            foreach ($allPrices as $target) {
-             
-                if ($target) {
-                    if (is_array($target) && !empty($target)) {
-                        foreach ($target as $product) {
-                           
-                            if ($product) {
-                                
-                                if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+            foreach ($allPrices as &$target) {
+                if (is_array($target) && !empty($target)) {
+                    foreach ($target as &$product) {
+                        if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+                            $product->cells = array_filter($product->cells, function ($prc) {
+                                return $prc['isActive'];
+                            });
 
-                                    array_filter($product['cells'], function ($prc) {
-                                        return $prc['isActive'];
-                                    });
-
-                                    usort($product['cells'], function ($a, $b) {
-                                        return $a->order - $b->order;
-                                    });
-                                }
-                            }
+                            usort($product->cells, function ($a, $b) {
+                                return $a->order - $b->order;
+                            });
                         }
                     }
+                    unset($product); // Очищаем ссылку на $product после завершения внутреннего цикла
                 }
             }
+            unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
+
             foreach ($allPrices['general'][0]['cells'] as $prccll) {
                 if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
                     ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
                 ) {
-                  
+
                     $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
                     break; // Прекратить выполнение цикла, так как условие уже выполнено
                 }
             }
-          
+
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
@@ -710,12 +705,10 @@ class DocumentController extends Controller
                                     if ($product) {
                                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                             $table->addRow();
-                                            foreach($product->cells as $cell){
+                                            foreach ($product->cells as $cell) {
 
                                                 $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
-
                                             }
-                                           
                                         }
                                     }
                                 }
