@@ -385,9 +385,7 @@ class DocumentController extends Controller
                         $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
                         if ($currentInfoblock) {
-                            $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
-                            $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-
+               
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
                                 $this->addInfoblockToCell(
@@ -401,7 +399,8 @@ class DocumentController extends Controller
                                     $textStyle,
                                     $titleStyle
                                 );
-                            } else {
+                            } 
+                            else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
                                     $cell = $table->addCell($contentWidth,  $tableStyle['general']['table']);
@@ -423,6 +422,7 @@ class DocumentController extends Controller
                                     $titleStyle
                                 );
                             }
+                            
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
                         }
