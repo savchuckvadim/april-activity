@@ -1066,7 +1066,7 @@ class DocumentController extends Controller
 
                         if ($product) {
 
-                            log::info('product', ['product' => $product]);
+                           
                             if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                 log::info('product', ['product' => $product]);
                                 $filtredCells = array_filter($product->cells, function ($prc) {
