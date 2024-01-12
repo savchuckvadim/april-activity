@@ -634,7 +634,7 @@ class DocumentController extends Controller
                         foreach ($target as $product) {
                             Log::info('$product',  ['$product' => $product]);
                             if ($product) {
-                                if ($product['cells']) {
+                                if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                     Log::info('cells',  ['cells' => $product['cells']]);
                                     usort($product['cells'], function ($a, $b) {
                                         return $a->order - $b->order;
