@@ -620,8 +620,7 @@ class DocumentController extends Controller
 
             //TABLE
             $allPrices = $price['cells'];
-            log::info('allPrices-0', ['$allPrices' => $allPrices]);
-            log::info('general', ['$allPrices' => $allPrices['general'][0]['cells']]);
+
             //SORT CELLS
             foreach ($allPrices as &$target) {
                 if (is_array($target) && !empty($target)) {
@@ -640,6 +639,8 @@ class DocumentController extends Controller
                 }
             }
             unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
+            log::info('product', ['$product' => $product]);
+            log::info('cells sort ', ['$cells' => $allPrices['general'][0]['cells']]);
 
             foreach ($allPrices['general'][0]['cells'] as $prccll) {
                 if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
