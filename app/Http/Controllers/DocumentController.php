@@ -653,6 +653,7 @@ class DocumentController extends Controller
                     break; // Прекратить выполнение цикла, так как условие уже выполнено
                 }
             }
+            log::info('general-0', ['$allPricesgeneral' => $allPrices['general'][0]]);
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
@@ -701,11 +702,12 @@ class DocumentController extends Controller
                         if ($target) {
                             if (is_array($target) && !empty($target)) {
                                 foreach ($target as $product) {
-        
+                                    log::info('product', ['$product' => $product]);
                                     if ($product) {
                                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                             $table->addRow();
                                             foreach($product->cells as $cell){
+
                                                 $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
 
                                             }
