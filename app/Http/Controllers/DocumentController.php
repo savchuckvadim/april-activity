@@ -1072,12 +1072,13 @@ class DocumentController extends Controller
                                 $filtredCells = array_filter($product->cells, function ($prc) {
                                     return $prc['isActive'] == true;
                                 });
-                               
+                               $count = count($filtredCells);
                                 usort($filtredCells, function ($a, $b) {
                                     return $a->order - $b->order;
                                 });
                                 $result[$key][$index]['cells']  = $filtredCells;
-                                log::info('count', ['count' => $product['cells']]);
+                                log::info('filtredCells', ['filtredCells' => $filtredCells]);
+                                log::info('count', ['count' => $count]);
                             }
                         }
                     }
