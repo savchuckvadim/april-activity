@@ -620,22 +620,20 @@ class DocumentController extends Controller
 
             //TABLE
             $allPrices = $price['cells'];
-            // usort($price['cells']['general'], function ($a, $b) {
-            //     return $a->order - $b->order;
-            // });
-            // usort($price['cells']['alternative'], function ($a, $b) {
-            //     return $a->order - $b->order;
-            // });
-            Log::info('initial all',  ['llPrices' => $allPrices]);
+
             //SORT CELLS
             foreach ($allPrices as $target) {
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
-                           
+
                             if ($product) {
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
-                              
+
+                                    array_filter($product['cells'], function ($prc) {
+                                        return $prc['isActive'];
+                                    });
+
                                     usort($product['cells'], function ($a, $b) {
                                         return $a->order - $b->order;
                                     });
@@ -645,38 +643,38 @@ class DocumentController extends Controller
                     }
                 }
             }
-         
+            foreach ($allPrices['general'][0] as $prccll) {
+                if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
+                    ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
+                    ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
+                    ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
+                ) {
+                    $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
+                    break; // Прекратить выполнение цикла, так как условие уже выполнено
+                }
+            }
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
-                if ($allPrices['general']) {
-                    $activePriceCellsGeneral = array_filter($allPrices['general'], function ($prc) {
-                        return $prc['isActive'];
-                    });
-                    foreach ($allPrices['general'] as $prccll) {
-                        if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
-                            ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
-                            ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
-                            ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
-                        ) {
-                            $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
-                            break; // Прекратить выполнение цикла, так как условие уже выполнено
-                        }
-                    }
-                }
-                if ($allPrices['alternative']) {
-                    $activePriceCellsAlternative = array_filter($allPrices['alternative'], function ($prc) {
-                        return $prc['isActive'];
-                    });
-                }
-                if ($allPrices['total']) {
-                    // $activePriceCellsAlternative = array_filter($allPrices['total'], function ($prc) {
-                    //     return $prc['isActive'];
-                    // });
-                }
+                // if ($allPrices['general']) {
+                //     // $activePriceCellsGeneral = array_filter($allPrices['general'], function ($prc) {
+                //     //     return $prc['isActive'];
+                //     // });
 
-                if ($activePriceCellsGeneral) {
-                    $numCells = count($activePriceCellsGeneral); // Количество столбцов
+                // }
+                // if ($allPrices['alternative']) {
+                //     $activePriceCellsAlternative = array_filter($allPrices['alternative'], function ($prc) {
+                //         return $prc['isActive'];
+                //     });
+                // }
+                // if ($allPrices['total']) {
+                //     // $activePriceCellsAlternative = array_filter($allPrices['total'], function ($prc) {
+                //     //     return $prc['isActive'];
+                //     // });
+                // }
+
+                if ($allPrices['general'][0]) {
+                    $numCells = count($allPrices['general'][0]); // Количество столбцов
 
 
                     $fancyTableStyleName = 'TableStyle';
@@ -691,35 +689,53 @@ class DocumentController extends Controller
                     $table->addRow();
 
                     $count = 0;
-                    foreach ($activePriceCellsGeneral as $index => $priceCell) {
-
-                  
+                    //TABLE HEADER
+                    foreach ($allPrices['general'][0] as $priceCell) {
 
                         $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
 
+                    //TABLE BODY
+                    foreach ($allPrices as $target) {
+                        if ($target) {
+                            if (is_array($target) && !empty($target)) {
+                                foreach ($target as $product) {
+        
+                                    if ($product) {
+                                        if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+                                            $table->addRow();
+                                            foreach($product->cells as $cell){
+                                                $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
 
-                    foreach ($activePriceCellsGeneral as  $prc) {
-                        $table->addRow();
-                        foreach ($prc['cells'] as $cll) {                         
-                                $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                        }
-                    }
-
-                    if ($priceDataAlternative) {
-
-                        foreach ($priceDataAlternative as $prc) {
-                            $table->addRow();
-
-                            foreach ($prc['cells'] as $cll) {
-
-                                // if ($cll['isActive']) {
-                                    $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                                // }
+                                            }
+                                           
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                    // foreach ($activePriceCellsGeneral as  $prc) {
+                    //     $table->addRow();
+                    //     foreach ($prc['cells'] as $cll) {
+                    //         $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
+                    //     }
+                    // }
+
+                    // if ($priceDataAlternative) {
+
+                    //     foreach ($priceDataAlternative as $prc) {
+                    //         $table->addRow();
+
+                    //         foreach ($prc['cells'] as $cll) {
+
+                    //             // if ($cll['isActive']) {
+                    //             $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
+                    //             // }
+                    //         }
+                    //     }
+                    // }
                 }
             } else {
 
