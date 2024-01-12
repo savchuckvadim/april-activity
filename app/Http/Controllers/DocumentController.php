@@ -631,10 +631,13 @@ class DocumentController extends Controller
             foreach ($allPrices as $target) {
                 if ($target) {
                     foreach ($target as $product) {
-                        if ($product && $product['cells']) {
-                            usort($product['cells'], function ($a, $b) {
-                                return $a->order - $b->order;
-                            });
+
+                        if ($product) {
+                            if ($product['cells']) {
+                                usort($product['cells'], function ($a, $b) {
+                                    return $a->order - $b->order;
+                                });
+                            }
                         }
                     }
                 }
@@ -686,7 +689,7 @@ class DocumentController extends Controller
                         $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                    
+
 
                     foreach ($price['cells']['general'] as  $prc) {
                         $table->addRow();
