@@ -282,12 +282,6 @@ class DocumentController extends Controller
         $tableParagraphs = $tableStyle['general']['paragraphs'];
         $tableFonts = $styles['fonts']['table'];
 
-        // $headingStyle = ['bold' => true, 'size' => 16, 'name' => 'Arial'];
-        // $textStyle = ['size' => 12, 'name' => 'Arial'];
-        // $textStyleBold = ['size' => 12, 'name' => 'Arial', 'bold' => true, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-        // $textStyleSmall = ['size' => 10, 'name' => 'Arial'];
-        // $textStyleSmallBold = ['size' => 10, 'name' => 'Arial', 'bold' => true];
-
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
         $section->addPageBreak();
@@ -340,24 +334,7 @@ class DocumentController extends Controller
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['bold'];
             $titleStyle = $fonts['text']['bold'];
-            // $innerCellStyle = [
-            //     'borderSize' => 0,
-            //     'borderColor' => 'FFFFFF',
-            //     'cellMargin' => 40,
-            //     'valign' => 'top',
-
-            //     // 'cellSpacing' => 10
-
-            // ];
-            // $innerTabletyle = [
-            //     'borderSize' => 0,
-            //     'borderColor' => 'FFFFFF',
-            //     'cellMargin' => 40,
-
-            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            //     // 'cellSpacing' => 10
-
-            // ];
+      
             $fancyTableStyleName = 'TableStyle';
 
 
@@ -439,80 +416,12 @@ class DocumentController extends Controller
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
-            // $textTableGroupTitle = [
-            //     'size' => 10,
-            //     'name' => 'Arial',
-            //     'bold' => true,
-
-            // ];
-            // $textTableGroupTitleParagraph = [
-            //     'spaceAfter' => 0,    // Интервал после абзаца
-            //     'spaceBefore' => 0,   // Интервал перед абзацем
-            //     'lineHeight' => 1.15,  // Высота строки
-            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-            //     'valign' => 'center',
-            // ];
-            // $innerCellStyle = [
-            //     'borderSize' => 0,
-            //     'borderColor' => 'FFFFFF',
-            //     'cellMargin' => 10,
-            //     'valign' => 'center',
-            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-
-            //     // 'cellSpacing' => 10
-
-            // ];
-            // $innerTabletyle = [
-            //     'borderSize' => 0,
-            //     'borderColor' => 'FFFFFF',
-            //     'cellMargin' => 40,
-
-            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-            //     // 'cellSpacing' => 10
-
-            // ];
-            // $fancyTableStyleName = 'TableStyle';
-            // $fancyTableStyle = [
-            //     'borderSize' => 10,
-            //     'borderColor' => '000000',
-            //     'cellMargin' => 40,
-            //     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-            //     'cellSpacing' => 10
-            // ];
-            // // 
-            // $fancyTableFirstRowStyle = ['cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,]; //,'borderColor' => '000000'
-            // // $fancyTableCellStyle = ['valign' => 'center'];
-            // // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
-            // // $fancyTableFontStyle = ['bold' => true,];
-
-            // $fancyTableCellStyle = [
-            //     'valign' => 'center',
-            //     'borderSize' => 6,
-            //     // 'borderColor' => '000000',  // Цвет границы (чёрный)
-            //     'cellMarginTop' => 10,
-            //     'cellMarginRight' => 10,
-            //     'cellMarginBottom' => 10,
-            //     'cellMarginLeft' => 10,
-            // ];
+           
             $fancyTableStyleName = 'TableStyle';
-
-
-            // $section->addTableStyle($fancyTableStyleName, $tableStyle['general']['table'], $tableStyle['general']['row']);
-            // $table = $section->addTable($fancyTableStyleName);
-            // $table->addRow();
-            // $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
-
-            // $innerTable = $cell->addTable($tableStyle['inner']['table']);
-            // $innerTable->addRow();
-            // $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
-
 
             $section->addTableStyle($fancyTableStyleName, $tableStyle['general']['table'], $tableStyle['general']['row']);
             $table = $section->addTable($fancyTableStyleName);
 
-
-            // $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
-            // $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
 
 
             $count = 0;
@@ -647,7 +556,7 @@ class DocumentController extends Controller
                 $cell->addText($infoblock['name'], $textStyle, $paragraphStyle);
                 break;
             case 1:
-                $cell->addText($infoblock['name'], $titleStyle, $paragraphTitleStyle);
+                $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
                 $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
                 if ($tableType == 'table') {
                     $cell->addTextBreak(1);
@@ -656,7 +565,7 @@ class DocumentController extends Controller
                 break;
             case 2:
             case 3:
-                $cell->addText($infoblock['name'], $titleStyle, $paragraphTitleStyle);
+                $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
                 $cell->addText($infoblock['descriptionForSale'], $textStyle, $paragraphStyle);
                 if ($tableType == 'table') {
                     $cell->addTextBreak(1);
