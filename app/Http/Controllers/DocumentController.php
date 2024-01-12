@@ -1075,14 +1075,14 @@ class DocumentController extends Controller
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true;
                                 });
-                                log::info('getSort :  filtredCells', ['filtredCells' => $filtredCells]);
-                                $count = count($filtredCells);
+                                
+                                // $count = count($filtredCells);
                                 usort($filtredCells, function ($a, $b) {
                                     return $a->order - $b->order;
                                 });
                                 $result[$key][$index]['cells']  = $filtredCells;
-                                log::info('filtredCells', ['filtredCells' => $filtredCells]);
-                                log::info('count', ['count' => $count]);
+                                log::info('getSort :  filtredCells', ['filtredCells' => $filtredCells]);
+                                // log::info('count', ['count' => $count]);
                             }
                         }
                     }
