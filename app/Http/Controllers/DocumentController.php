@@ -623,6 +623,7 @@ class DocumentController extends Controller
 
             //SORT CELLS
             foreach ($allPrices as &$target) {
+                log::info('target', ['$target' => $target]);
                 if (is_array($target) && !empty($target)) {
                     foreach ($target as &$product) {
                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
