@@ -633,11 +633,11 @@ class DocumentController extends Controller
                                 log::info('product', ['product' => $product]);
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                     log::info('product', ['product' => $product]);
-                                    $product->cells = array_filter($product['cells'], function ($prc) {
+                                    $product->cells = array_filter($product->cells, function ($prc) {
                                         return $prc['isActive'];
                                     });
 
-                                    usort($product['cells'], function ($a, $b) {
+                                    usort($product->cells, function ($a, $b) {
                                         return $a->order - $b->order;
                                     });
 
