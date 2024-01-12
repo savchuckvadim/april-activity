@@ -434,7 +434,7 @@ class DocumentController extends Controller
                 $innerTable = $cell->addTable($tableStyle['inner']['table']);
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
-                $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphs['head'], $paragraphTitleStyle);
 
                 foreach ($group['value'] as $infoblock) {
 
