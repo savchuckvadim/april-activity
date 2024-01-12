@@ -622,10 +622,11 @@ class DocumentController extends Controller
             $allPrices = $price['cells'];
 
             //SORT CELLS
-            foreach ($allPrices as &$target) {
+            foreach ($allPrices as $target) {
                 log::info('target', ['$target' => $target]);
                 if (is_array($target) && !empty($target)) {
-                    foreach ($target as &$product) {
+                    foreach ($target as $product) {
+                        log::info('product', ['$product' => $target]);
                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                             $product->cells = array_filter($product->cells, function ($prc) {
                                 return $prc['isActive'];
@@ -637,10 +638,10 @@ class DocumentController extends Controller
                         }
                         log::info('iter cells', ['$product' => $product->cells]);
                     }
-                    unset($product); // Очищаем ссылку на $product после завершения внутреннего цикла
+                    // unset($product); // Очищаем ссылку на $product после завершения внутреннего цикла
                 }
             }
-            unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
+            // unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
 
             log::info('cells sort ', ['$cells' => $allPrices['general'][0]['cells']]);
 
