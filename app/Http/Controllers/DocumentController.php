@@ -620,46 +620,47 @@ class DocumentController extends Controller
 
             //TABLE
             $allPrices = $price['cells'];
-            log::info('allPrices-0', ['$allPrices' => $allPrices]);
-            
+            $sortActivePrices = $this->getSortActivePrices($allPrices);
+            log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
+            $allPrices =  $sortActivePrices;
             //SORT CELLS
-            foreach ($allPrices as $target) {
-             
-                if ($target) {
-                    if (is_array($target) && !empty($target)) {
-                        foreach ($target as $product) {
-                           
-                            if ($product) {
-                                log::info('product', ['product' => $product]);
-                                if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
-                                    log::info('product', ['product' => $product]);
-                                    $product->cells = array_filter($product->cells, function ($prc) {
-                                        return $prc['isActive'];
-                                    });
+            // foreach ($allPrices as $target) {
 
-                                    usort($product->cells, function ($a, $b) {
-                                        return $a->order - $b->order;
-                                    });
+            //     if ($target) {
+            //         if (is_array($target) && !empty($target)) {
+            //             foreach ($target as $product) {
 
-                                    log::info('count', ['count' => $product->cells]);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            //                 if ($product) {
+            //                     log::info('product', ['product' => $product]);
+            //                     if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+            //                         log::info('product', ['product' => $product]);
+            //                         $product->cells = array_filter($product->cells, function ($prc) {
+            //                             return $prc['isActive'];
+            //                         });
+
+            //                         usort($product->cells, function ($a, $b) {
+            //                             return $a->order - $b->order;
+            //                         });
+
+            //                         log::info('count', ['count' => $product['cells']]);
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
             foreach ($allPrices['general'][0]['cells'] as $prccll) {
                 if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
                     ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
                 ) {
-                  
+
                     $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
                     break; // Прекратить выполнение цикла, так как условие уже выполнено
                 }
             }
-          
+
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
@@ -712,12 +713,10 @@ class DocumentController extends Controller
                                     if ($product) {
                                         if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
                                             $table->addRow();
-                                            foreach($product->cells as $cell){
+                                            foreach ($product->cells as $cell) {
 
                                                 $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
-
                                             }
-                                           
                                         }
                                     }
                                 }
@@ -1047,5 +1046,45 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
+    }
+
+    protected function getSortActivePrices($allPrices)
+    {
+
+        $result = [
+            'general' => [],
+            'alternative' => [],
+            'total' => []
+        ];
+        foreach ($allPrices as $key => $target) {
+
+            if ($target) {
+
+                if (is_array($target) && !empty($target)) {
+                    $result[$key] = $target;
+                    foreach ($target as $index => $product) {
+
+                        if ($product) {
+
+                            log::info('product', ['product' => $product]);
+                            if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
+                                log::info('product', ['product' => $product]);
+                                $result[$key][$index]['cells']  = array_filter($product->cells, function ($prc) {
+                                    return $prc['isActive'] == true;
+                                });
+
+                                usort($result[$key][$index]['cells'], function ($a, $b) {
+                                    return $a->order - $b->order;
+                                });
+
+                                log::info('count', ['count' => $product['cells']]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 }
