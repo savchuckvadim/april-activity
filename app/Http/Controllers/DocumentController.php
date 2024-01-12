@@ -630,14 +630,16 @@ class DocumentController extends Controller
             //SORT CELLS
             foreach ($allPrices as $target) {
                 if ($target) {
-                    foreach ($target as $product) {
-                        Log::info('$product',  ['$product' => $product]);
-                        if ($product) {
-                            if ($product['cells']) {
-                                Log::info('cells',  ['cells' => $product['cells']]);
-                                usort($product['cells'], function ($a, $b) {
-                                    return $a->order - $b->order;
-                                });
+                    if (is_array($target) && !empty($target)) {
+                        foreach ($target as $product) {
+                            Log::info('$product',  ['$product' => $product]);
+                            if ($product) {
+                                if ($product['cells']) {
+                                    Log::info('cells',  ['cells' => $product['cells']]);
+                                    usort($product['cells'], function ($a, $b) {
+                                        return $a->order - $b->order;
+                                    });
+                                }
                             }
                         }
                     }
