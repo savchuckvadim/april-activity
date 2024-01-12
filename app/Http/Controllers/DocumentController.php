@@ -246,7 +246,7 @@ class DocumentController extends Controller
 
             $section = $document->addSection($this->documentStyle['page']);
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            // $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
+            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
@@ -385,7 +385,7 @@ class DocumentController extends Controller
 
                             if ($count < ($totalCount['infoblocks'] / 2)) {
 
-                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['general']);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['center']);
                             } else {
                                 // Если count нечетный, добавляем вторую ячейку в текущую строку
                                 if (!$isTwoColExist) {
@@ -396,7 +396,7 @@ class DocumentController extends Controller
                                     $isTwoColExist = true;
                                 }
 
-                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['general']);
+                                $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode, $tableParagraphs['center']);
                             }
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
@@ -500,7 +500,7 @@ class DocumentController extends Controller
                             $isTwoColExist = true;
 
 
-                            $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode,  $tableParagraphs['general']);
+                            $this->addInfoblockToCell($styleMode, $innerTableCell, $currentInfoblock, $descriptionMode,  $tableParagraphs['center']);
 
                             // $section->addTextBreak(1);
                             $count = $count  + 1;
