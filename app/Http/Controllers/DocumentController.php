@@ -246,7 +246,7 @@ class DocumentController extends Controller
 
             $section = $document->addSection($this->documentStyle['page']);
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
+            // $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
