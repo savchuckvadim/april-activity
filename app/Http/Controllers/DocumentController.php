@@ -626,12 +626,12 @@ class DocumentController extends Controller
             // usort($price['cells']['alternative'], function ($a, $b) {
             //     return $a->order - $b->order;
             // });
-
+            Log::info('initial all',  ['llPrices' => $allPrices]);
             //SORT CELLS
             foreach ($allPrices as $target) {
                 if ($target) {
                     foreach ($target as $product) {
-
+                        Log::info('$product',  ['$product' => $product]);
                         if ($product) {
                             if ($product['cells']) {
                                 Log::info('cells',  ['cells' => $product['cells']]);
