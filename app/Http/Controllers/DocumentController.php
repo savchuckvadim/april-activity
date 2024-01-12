@@ -619,7 +619,7 @@ class DocumentController extends Controller
 
 
             //TABLE
-            $allPrices = [$price['cells']['general'], $price['cells']['alternative'], $price['cells']['total']];
+            $allPrices = $price['cells'];
             // usort($price['cells']['general'], function ($a, $b) {
             //     return $a->order - $b->order;
             // });
@@ -632,10 +632,10 @@ class DocumentController extends Controller
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
-                            Log::info('$product',  ['$product' => $product]);
+                           
                             if ($product) {
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
-                                    Log::info('cells',  ['cells' => $product['cells']]);
+                              
                                     usort($product['cells'], function ($a, $b) {
                                         return $a->order - $b->order;
                                     });
@@ -645,15 +645,15 @@ class DocumentController extends Controller
                     }
                 }
             }
-            Log::info('$allPrices',  ['$allPrices' => $allPrices]);
+         
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
-                if ($priceDataGeneral) {
-                    $activePriceCellsGeneral = array_filter($priceDataGeneral, function ($prc) {
+                if ($allPrices['general']) {
+                    $activePriceCellsGeneral = array_filter($allPrices['general'], function ($prc) {
                         return $prc['isActive'];
                     });
-                    foreach ($activePriceCellsGeneral as $prccll) {
+                    foreach ($allPrices['general'] as $prccll) {
                         if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
                             ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
                             ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
@@ -664,10 +664,15 @@ class DocumentController extends Controller
                         }
                     }
                 }
-                if ($priceDataAlternative) {
-                    $activePriceCellsAlternative = array_filter($priceDataAlternative, function ($prc) {
+                if ($allPrices['alternative']) {
+                    $activePriceCellsAlternative = array_filter($allPrices['alternative'], function ($prc) {
                         return $prc['isActive'];
                     });
+                }
+                if ($allPrices['total']) {
+                    // $activePriceCellsAlternative = array_filter($allPrices['total'], function ($prc) {
+                    //     return $prc['isActive'];
+                    // });
                 }
 
                 if ($activePriceCellsGeneral) {
@@ -688,33 +693,30 @@ class DocumentController extends Controller
                     $count = 0;
                     foreach ($activePriceCellsGeneral as $index => $priceCell) {
 
-                        Log::info('index', ['index' => $index]);
+                  
 
                         $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
 
 
-                    foreach ($price['cells']['general'] as  $prc) {
+                    foreach ($activePriceCellsGeneral as  $prc) {
                         $table->addRow();
-                        foreach ($prc['cells'] as $cll) {
-
-                            if ($cll['isActive']) {
+                        foreach ($prc['cells'] as $cll) {                         
                                 $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                            }
                         }
                     }
 
                     if ($priceDataAlternative) {
 
-                        foreach ($price['cells']['alternative'] as $prc) {
+                        foreach ($priceDataAlternative as $prc) {
                             $table->addRow();
 
                             foreach ($prc['cells'] as $cll) {
 
-                                if ($cll['isActive']) {
+                                // if ($cll['isActive']) {
                                     $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                                }
+                                // }
                             }
                         }
                     }
