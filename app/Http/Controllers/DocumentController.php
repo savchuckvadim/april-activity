@@ -30,12 +30,12 @@ class DocumentController extends Controller
 
             'colors' => [
 
-                'general' => 'FFFF00',
-                'second' => 'FFFF00',
-                'white' => 'FFFF00',
-                'shadow' => 'FFFF00',
-                'atention' => 'FFFF00',
-                'shadowText' => 'FFFF00'
+                'general' => '0000FF',
+                'second' => '0000FF',
+                'white' => '0000FF',
+                'shadow' => '0000FF',
+                'atention' => '0000FF',
+                'shadowText' => '0000FF'
 
 
             ],
@@ -43,7 +43,7 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => 'FFFF00',
+                    'color' => '0000FF',
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
