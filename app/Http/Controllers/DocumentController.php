@@ -686,9 +686,10 @@ class DocumentController extends Controller
                         $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
-                    $table->addRow();
+                    
 
                     foreach ($price['cells']['general'] as  $prc) {
+                        $table->addRow();
                         foreach ($prc['cells'] as $cll) {
 
                             if ($cll['isActive']) {
