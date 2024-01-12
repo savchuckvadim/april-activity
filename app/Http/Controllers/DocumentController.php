@@ -621,15 +621,16 @@ class DocumentController extends Controller
             //TABLE
             $allPrices = $price['cells'];
             log::info('allPrices-0', ['$allPrices' => $allPrices]);
+            log::info('general', ['$allPrices' => $allPrices['general'][0]['cells']]);
             //SORT CELLS
             foreach ($allPrices as $target) {
-                log::info('target-0', ['$target' => $target]);
+             
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
-                            log::info('product-0', ['$product' => $product]);
+                           
                             if ($product) {
-                                log::info('product-1', ['$product' => $product]);
+                                
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
 
                                     array_filter($product['cells'], function ($prc) {
@@ -651,12 +652,12 @@ class DocumentController extends Controller
                     ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
                     ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
                 ) {
-                    log::info('isHaveLongPrepayment-0', ['$isHaveLongPrepayment' => true]);
+                  
                     $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
-                    // break; // Прекратить выполнение цикла, так как условие уже выполнено
+                    break; // Прекратить выполнение цикла, так как условие уже выполнено
                 }
             }
-            log::info('general-0', ['$allPricesgeneral' => $allPrices['general'][0]]);
+          
             if ($isTable) {
 
                 // Расчет ширины каждой ячейки в зависимости от количества столбцов
@@ -678,7 +679,7 @@ class DocumentController extends Controller
                 // }
 
                 if ($allPrices['general'][0]) {
-                    $numCells = count($allPrices['general'][0]); // Количество столбцов
+                    $numCells = count($allPrices['general'][0]['cells']); // Количество столбцов
 
 
                     $fancyTableStyleName = 'TableStyle';
