@@ -629,7 +629,7 @@ class DocumentController extends Controller
                         foreach ($target as $product) {
                             log::info('product-0', ['$product' => $product]);
                             if ($product) {
-                                log::info('product-0', ['$allPricesgeneral' => $allPrices['general'][0]]['cells']);
+                                log::info('product-1', ['$product' => $product]);
                                 if (is_object($product) && isset($product->cells) && is_array($product->cells) && !empty($product->cells)) {
 
                                     array_filter($product['cells'], function ($prc) {
