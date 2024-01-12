@@ -634,6 +634,7 @@ class DocumentController extends Controller
 
                         if ($product) {
                             if ($product['cells']) {
+                                Log::info('cells',  ['cells' => $product['cells']]);
                                 usort($product['cells'], function ($a, $b) {
                                     return $a->order - $b->order;
                                 });
