@@ -1078,7 +1078,7 @@ class DocumentController extends Controller
                                 
                                 // $count = count($filtredCells);
                                 usort($filtredCells, function ($a, $b) {
-                                    return $a['order']- $b->order['order'];
+                                    return $a['order']- $b['order'];
                                 });
                                 $result[$key][$index]['cells']  = $filtredCells;
                                 log::info('getSort :  filtredCells', ['filtredCells' => $filtredCells]);
