@@ -308,18 +308,18 @@ class DocumentController extends Controller
                         if ($currentInfoblock) {
 
                             if ($descriptionMode === 0) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['normal'], $paragraphs['align']['general']);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                             } else   if ($descriptionMode === 1) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
-                                $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['align']['general']);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                                $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                                 $section->addTextBreak(1);
                             } else   if ($descriptionMode === 2) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
-                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['align']['general']);
+                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                                 $section->addTextBreak(1);
                             } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['align']['head']);
-                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['align']['general']);
+                                $section->addText($currentInfoblock['name'],$fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                                 $section->addTextBreak(1);
                             }
                         }
