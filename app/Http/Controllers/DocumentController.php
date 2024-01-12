@@ -634,12 +634,13 @@ class DocumentController extends Controller
                                 return $a->order - $b->order;
                             });
                         }
+                        log::info('iter cells', ['$product' => $product->cells]);
                     }
                     unset($product); // Очищаем ссылку на $product после завершения внутреннего цикла
                 }
             }
             unset($target); // Очищаем ссылку на $target после завершения внешнего цикла
-            log::info('product', ['$product' => $product]);
+
             log::info('cells sort ', ['$cells' => $allPrices['general'][0]['cells']]);
 
             foreach ($allPrices['general'][0]['cells'] as $prccll) {
