@@ -8,6 +8,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mockery\Undefined;
+use morphos\Russian\MoneySpeller;
 
 class DocumentController extends Controller
 {
@@ -201,7 +202,7 @@ class DocumentController extends Controller
                     ]
                 ],
                 'total' => [
-              
+
                     'cell' => [
                         'valign' => 'center',
                         // 'borderBottomSize' => 6,
@@ -211,7 +212,7 @@ class DocumentController extends Controller
                         'cellMarginBottom' => 10,
                         'cellMarginLeft' => 10,
                     ],
-                   
+
                 ],
             ]
 
@@ -673,6 +674,10 @@ class DocumentController extends Controller
                     }
                     if ($withTotal) {
                         $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        $section->addTextBreak(3);
+                        $totalSum = $allPrices['general'][0]['cells'];
+                        $textTotalSum = $this->getTotalSum($allPrices, true);
+                        $section->addText($textTotalSum, $styles['fonts']['text']['normal']);
                     }
                 }
             } else {
@@ -1098,6 +1103,24 @@ class DocumentController extends Controller
             if (empty($alternative) && count($general) > 1) {
                 $result = true;
             }
+        }
+
+        return $result;
+    }
+    protected function getTotalSum(
+        $allPrices,
+        $isString,
+    ) {
+        $result = 0;
+        $result = false;
+        $totalCells =  $allPrices['total'][0]['cells'];
+        foreach ($totalCells as $cell) {
+            if ($cell['code'] === 'prepaymentsum') {
+                $result = $cell['value'];
+            }
+        }
+        if ($isString) {
+            $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
         }
 
         return $result;
