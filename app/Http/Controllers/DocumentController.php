@@ -853,10 +853,10 @@ class DocumentController extends Controller
         $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
-        $totalFirstWidth = $contentWidth - $cellWidth;
-        $totalFirstInnerWidth = $contentWidth - $cellWidth - 30;
+
 
         $tableStyle = $styles['tables'];
+        $outerCellStyle = $tableStyle['general']['cell'];
         $paragraphs = $tableStyle['general']['paragraphs'];
         $fonts = $styles['fonts']['table'];
         $textTableGroupTitleParagraph = $paragraphs['center'];
@@ -923,17 +923,16 @@ class DocumentController extends Controller
             }
 
             if ($isTotal) {
+                $outerCellStyle = $tableStyle['inner']['cell'];
                 if ($code == 'name') {
                     $cellValue = 'Итого';
                     $font  =  $tableHeaderFont;
-                    $outerWidth =  $totalFirstWidth;
-                    $innerWidth = $totalFirstInnerWidth - 30;
+          
                 
                 } else if ($code == 'prepaymentsum') {
                     $cellValue = $priceCell['value'];
                     $font  = $tableHeaderFont;
-                    $outerWidth =  $contentWidth / $allCellsCount;
-                    $innerWidth = $outerWidth - 30;
+         
                 } else {
                     // $cellValue = '';
                     return $table;
@@ -942,7 +941,7 @@ class DocumentController extends Controller
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
-            $cell = $table->addCell($outerWidth, $tableStyle['general']['cell']);
+            $cell = $table->addCell($outerWidth, $outerCellStyle);
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
