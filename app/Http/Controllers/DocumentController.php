@@ -581,31 +581,13 @@ class DocumentController extends Controller
 
 
             //ТАБЛИЦА ЦЕН
-            $priceDataGeneral = null;
-            $priceDataAlternative = null;
-            $priceDataTotal = null;
             $isHaveLongPrepayment = $this->getIsHaveLongPrepayment($price['cells']);
-            // if (isset($price['cells']['general']) && is_array($price['cells']['general']) && count($price['cells']['general']) > 0) {
-            //     // Массив $price['cells']['general'] существует и не пуст
-            //     $priceDataGeneral = $price['cells']['general'][0]['cells'];
-            // }
-
-            // if (isset($price['cells']['alternative']) && is_array($price['cells']['alternative']) && count($price['cells']['alternative']) > 0) {
-            //     // Массив $price['cells']['alternative'] существует и не пуст
-            //     $priceDataAlternative = $price['cells']['alternative'][0]['cells'];
-            // }
-
-            // if (isset($price['cells']['total']) && is_array($price['cells']['total']) && count($price['cells']['total']) > 0) {
-            //     // Массив $price['cells']['total'] существует и не пуст
-            //     $priceDataTotal = $price['cells']['total'][0]['cells'];
-            // }
-
-
 
 
             // $cells = [];
             $isTable = $price['isTable'];
 
+            
             $section->addTextBreak(1);
             $section->addText('Цена за комплект', $styles['fonts']['h1']);
 
@@ -618,44 +600,21 @@ class DocumentController extends Controller
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
 
-            //TABLE
+
             $comePrices = $price['cells'];
+
+            //SORT CELLS
             $sortActivePrices = $this->getSortActivePrices($comePrices);
             log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
             $allPrices =  $sortActivePrices;
-            //SORT CELLS
 
-            // foreach ($allPrices['general'][0]['cells'] as $prccll) {
-            //     if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
-            //         ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
-            //         ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
-            //         ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
-            //     ) {
 
-            //         $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
-            //         break; // Прекратить выполнение цикла, так как условие уже выполнено
-            //     }
-            // }
+            //IS WITH TOTAL 
+            $withTotal = $this->getWithTotal($allPrices);
 
+            //TABLE
             if ($isTable) {
 
-                // Расчет ширины каждой ячейки в зависимости от количества столбцов
-                // if ($allPrices['general']) {
-                //     // $activePriceCellsGeneral = array_filter($allPrices['general'], function ($prc) {
-                //     //     return $prc['isActive'];
-                //     // });
-
-                // }
-                // if ($allPrices['alternative']) {
-                //     $activePriceCellsAlternative = array_filter($allPrices['alternative'], function ($prc) {
-                //         return $prc['isActive'];
-                //     });
-                // }
-                // if ($allPrices['total']) {
-                //     // $activePriceCellsAlternative = array_filter($allPrices['total'], function ($prc) {
-                //     //     return $prc['isActive'];
-                //     // });
-                // }
 
                 if ($allPrices['general'][0]) {
                     $numCells = count($allPrices['general'][0]['cells']); // Количество столбцов
@@ -676,12 +635,12 @@ class DocumentController extends Controller
                     //TABLE HEADER
                     foreach ($allPrices['general'][0]['cells'] as $priceCell) {
 
-                        $this->getPriceCell(true, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        $this->getPriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $count += 1;
                     }
 
                     //TABLE BODY
-                    foreach ($allPrices as $target) {
+                    foreach ([$allPrices['general'], $allPrices['alternative']] as $target) {
                         if ($target) {
                             if (is_array($target) && !empty($target)) {
                                 foreach ($target as $product) {
@@ -691,7 +650,7 @@ class DocumentController extends Controller
                                             $table->addRow();
                                             foreach ($product['cells'] as $cell) {
 
-                                                $this->getPriceCell(false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                                $this->getPriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
                                             }
                                         }
                                     }
@@ -699,26 +658,10 @@ class DocumentController extends Controller
                             }
                         }
                     }
-                    // foreach ($activePriceCellsGeneral as  $prc) {
-                    //     $table->addRow();
-                    //     foreach ($prc['cells'] as $cll) {
-                    //         $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                    //     }
-                    // }
-
-                    // if ($priceDataAlternative) {
-
-                    //     foreach ($priceDataAlternative as $prc) {
-                    //         $table->addRow();
-
-                    //         foreach ($prc['cells'] as $cll) {
-
-                    //             // if ($cll['isActive']) {
-                    //             $this->getPriceCell(false, $table, $styles, $cll, $contentWidth, $isHaveLongPrepayment, $numCells);
-                    //             // }
-                    //         }
-                    //     }
-                    // }
+                    if($withTotal){
+                        $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+                    }
+        
                 }
             } else {
 
@@ -890,8 +833,16 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceCell($isHeader, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $allCellsCount)
-    {
+    protected function getPriceCell(
+        $isHeader,
+        $isTotal,
+        $table,
+        $styles,
+        $priceCell,
+        $contentWidth,
+        $isHaveLongPrepayment,
+        $allCellsCount,
+    ) {
         $code = $priceCell['code'];
 
         $longWidth = 2700;
@@ -971,6 +922,17 @@ class DocumentController extends Controller
                 $font  = $tableHeaderFont;
             }
 
+            if ($isTotal) {
+                if ($code == 'name') {
+                    $cellValue = $priceCell['name'];
+                    $font  = 'Итого';
+                } else if ($code == 'prepayment') {
+                    $cellValue = $priceCell['value'];
+                    $font  = $tableHeaderFont;
+                } else {
+                    $cellValue = '';
+                }
+            }
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
@@ -1081,5 +1043,49 @@ class DocumentController extends Controller
         }
 
         // return $isHaveLongPrepayment;
+    }
+
+    protected function getTotalPriceRow(
+        $allPrices,
+        $table,
+        $styles,
+        $contentWidth,
+        $isHaveLongPrepayment,
+        $numCells
+    ) {
+        $total = $allPrices['total'];
+
+        if ($total) {
+            if (is_array($total) && !empty($total)) {
+
+                $product = $total[0];
+                if ($product) {
+                    if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
+                        $table->addRow();
+                        foreach ($product['cells'] as $cell) {
+
+                            $this->getPriceCell(false, true, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        }
+                    }
+                }
+            }
+        }
+        return $table;
+    }
+    protected function getWithTotal(
+        $allPrices,
+
+    ) {
+
+        $result = false;
+        $alternative =  $allPrices['alternative'];
+        $general =  $allPrices['general'];
+        if (is_array($alternative) && is_array($general)) {
+            if (empty($alternative) && count($general) > 1) {
+                $result = true;
+            }
+        }
+        
+        return $result;
     }
 }
