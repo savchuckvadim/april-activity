@@ -1121,8 +1121,10 @@ class DocumentController extends Controller
         }
         if ($isString) {
             $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
-            $result = ucfirst($result); // mb_convert_case($result, MB_CASE_TITLE, "UTF-8");
-            $result = $result .' без НДС';
+            $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
+            $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+            $text = $firstChar . $restOfText . ' без НДС';
+            $result = $text;
         }
 
         return $result;
