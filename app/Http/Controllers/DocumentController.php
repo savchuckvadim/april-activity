@@ -1121,7 +1121,8 @@ class DocumentController extends Controller
         }
         if ($isString) {
             $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
-            $result = ucfirst($result) .' без НДС';
+            $result = mb_convert_case($result, MB_CASE_TITLE, "UTF-8");
+            $result = $result .' без НДС';
         }
 
         return $result;
