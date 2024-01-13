@@ -1121,7 +1121,7 @@ class DocumentController extends Controller
         }
         if ($isString) {
             $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
-            $result = ucfirst($result);
+            $result = ucfirst($result) .' без НДС';
         }
 
         return $result;
