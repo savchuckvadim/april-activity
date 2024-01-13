@@ -853,8 +853,8 @@ class DocumentController extends Controller
         $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
-
-
+        $totalFirstWidth = $contentWidth - $cellWidth;
+        $totalFirstInnerWidth = $contentWidth - $cellWidth - 30;
 
         $tableStyle = $styles['tables'];
         $paragraphs = $tableStyle['general']['paragraphs'];
@@ -863,6 +863,7 @@ class DocumentController extends Controller
 
         $tableHeaderFont = $fonts['h2'];
         $tableBodyFont = $fonts['text'];
+
 
         if ($code) {
 
@@ -925,11 +926,17 @@ class DocumentController extends Controller
                 if ($code == 'name') {
                     $cellValue = 'Итого';
                     $font  =  $tableHeaderFont;
+                    $outerWidth =  $totalFirstWidth;
+                    $innerWidth = $totalFirstInnerWidth - 30;
+                
                 } else if ($code == 'prepaymentsum') {
                     $cellValue = $priceCell['value'];
                     $font  = $tableHeaderFont;
+                    $outerWidth =  $contentWidth / $allCellsCount;
+                    $innerWidth = $outerWidth - 30;
                 } else {
-                    $cellValue = '';
+                    // $cellValue = '';
+                    return $table;
                 }
             }
 
