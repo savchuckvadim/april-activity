@@ -934,8 +934,8 @@ class DocumentController extends Controller
                     $font  = $tableHeaderFont;
          
                 } else {
-                    // $cellValue = '';
-                    return $table;
+                    $cellValue = '';
+                    
                 }
             }
 
