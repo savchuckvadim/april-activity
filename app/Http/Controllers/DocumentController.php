@@ -204,9 +204,9 @@ class DocumentController extends Controller
               
                     'cell' => [
                         'valign' => 'center',
-                        'borderBottomSize' => 6,
+                        // 'borderBottomSize' => 6,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 300,
+                        'cellMarginTop' => 10,
                         'cellMarginRight' => 10,
                         'cellMarginBottom' => 10,
                         'cellMarginLeft' => 10,
