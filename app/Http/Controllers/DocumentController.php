@@ -587,7 +587,7 @@ class DocumentController extends Controller
             // $cells = [];
             $isTable = $price['isTable'];
 
-            
+
             $section->addTextBreak(1);
             $section->addText('Цена за комплект', $styles['fonts']['h1']);
 
@@ -658,10 +658,9 @@ class DocumentController extends Controller
                             }
                         }
                     }
-                    if($withTotal){
+                    if ($withTotal) {
                         $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
                     }
-        
                 }
             } else {
 
@@ -924,9 +923,9 @@ class DocumentController extends Controller
 
             if ($isTotal) {
                 if ($code == 'name') {
-                    $cellValue = $priceCell['name'];
-                    $font  = 'Итого';
-                } else if ($code == 'prepayment') {
+                    $cellValue = 'Итого';
+                    $font  =  $tableHeaderFont;
+                } else if ($code == 'prepaymentsum') {
                     $cellValue = $priceCell['value'];
                     $font  = $tableHeaderFont;
                 } else {
@@ -1085,7 +1084,7 @@ class DocumentController extends Controller
                 $result = true;
             }
         }
-        
+
         return $result;
     }
 }
