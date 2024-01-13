@@ -199,7 +199,20 @@ class DocumentController extends Controller
                             'valign' => 'center',
                         ]
                     ]
-                ]
+                ],
+                'total' => [
+              
+                    'cell' => [
+                        'valign' => 'center',
+                        'borderBottomSize' => 6,
+                        // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                        'cellMarginTop' => 300,
+                        'cellMarginRight' => 10,
+                        'cellMarginBottom' => 10,
+                        'cellMarginLeft' => 10,
+                    ],
+                   
+                ],
             ]
 
         ];
@@ -923,19 +936,15 @@ class DocumentController extends Controller
             }
 
             if ($isTotal) {
-                $outerCellStyle = $tableStyle['inner']['cell'];
+                $outerCellStyle = $tableStyle['total']['cell'];
                 if ($code == 'name') {
                     $cellValue = 'Итого';
                     $font  =  $tableHeaderFont;
-          
-                
                 } else if ($code == 'prepaymentsum') {
                     $cellValue = $priceCell['value'];
                     $font  = $tableHeaderFont;
-         
                 } else {
                     $cellValue = '';
-                    
                 }
             }
 
