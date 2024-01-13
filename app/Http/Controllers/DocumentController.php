@@ -677,7 +677,7 @@ class DocumentController extends Controller
                         $section->addTextBreak(3);
                         $totalSum = $allPrices['general'][0]['cells'];
                         $textTotalSum = $this->getTotalSum($allPrices, true);
-                        $section->addText($textTotalSum, $styles['fonts']['text']['normal']);
+                        $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
                     }
                 }
             } else {
@@ -1121,6 +1121,7 @@ class DocumentController extends Controller
         }
         if ($isString) {
             $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
+            $result = ucfirst($result);
         }
 
         return $result;
