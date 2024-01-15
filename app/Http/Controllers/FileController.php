@@ -192,12 +192,12 @@ class FileController extends Controller
                                     ];
                                     $parent = Rq::find($parentId);
                                     $fileModel = new File();
-                                    $fileModel['name'] = $fieldData['name'];
+                                    $fileModel->name = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
-                                    $fileModel['code'] = $uid;
-                                    $fileModel['parent_type'] = $entityType;
-                                    $fileModel['availability'] = $fieldData['availability'];
-                                    $fileModel['parent'] = $fieldData['parent'];
+                                    $fileModel->code = $uid;
+                                    $fileModel->parent_type = $entityType;
+                                    $fileModel->availability = $fieldData['availability'];
+                                    $fileModel->parent = $fieldData['parent'];
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $fieldData['code'];
                                     $uploadData = [
