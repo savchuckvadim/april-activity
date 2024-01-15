@@ -19,6 +19,38 @@ class RqResource extends JsonResource
             'id' => $this->id,
             'number' => $this->number,
             'name' => $this->name,
+            'type' => $this->type,
+            'fullname' => $this->fullname,
+            'shortname' => $this->shortname,
+            'director' => $this->director,
+            'position' => $this->position,
+            'accountant' => $this->accountant,
+            'based' => $this->based,
+            'inn' => $this->inn,
+            'kpp' => $this->kpp,
+            'ogrn' => $this->ogrn,
+            'ogrnip' => $this->ogrnip,
+            'personName' => $this->personName,
+            'document' => $this->document,
+            'docSer' => $this->docSer,
+            'docNum' => $this->docNum,
+            'docDate' => $this->docDate,
+            'docIssuedBy' => $this->docIssuedBy,
+            'docDepCode' => $this->docDepCode,
+            'registredAdress' => $this->registredAdress,
+            'primaryAdresss' => $this->primaryAdresss,
+            'email' => $this->email,
+            'garantEmail' => $this->garantEmail,
+            'phone' => $this->phone,
+            'assigned' => $this->assigned,
+            'assignedPhone' => $this->assignedPhone,
+            'other' => $this->other,
+            'bank' => $this->bank,
+            'bik' => $this->bik,
+            'rs' => $this->rs,
+            'ks' => $this->ks,
+            'bankAdress' => $this->bankAdress,
+            'bankOther' =>  $this->bankOther,
             // Добавьте все другие атрибуты, которые вам нужны
             'logos' => $this->logos->map(function ($logo) {
                 return [
@@ -47,7 +79,7 @@ class RqResource extends JsonResource
                     // Добавьте другие поля из $fillable в модели 'File', которые вам нужны
                 ];
             }),
-          
+
             'agent' => $this->agents,
             // Включите другие связанные данные по необходимости
         ];
