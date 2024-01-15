@@ -91,7 +91,7 @@ class BaseController extends Controller
                 case 'stamp':
                 case 'qr':
                 case 'file':
-                    return FileController::getFile($modelId);
+                    return FileController::getFile($model,$modelId);
                    
                 case 'template':
 

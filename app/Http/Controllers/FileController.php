@@ -108,7 +108,7 @@ class FileController extends Controller
         return APIController::getSuccess($data);
     }
 
-    public static function getFile($fileId)
+    public static function getFile($fileType, $fileId)
     {
         try {
 
@@ -124,7 +124,7 @@ class FileController extends Controller
             }
 
             return APIController::getSuccess(
-                ['file' => $file]
+                [$fileType=> $file]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
