@@ -306,7 +306,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/signature', function () {
         return FileController::getInitial();
     });
-
+    Route::get('initial/file', function () {
+        return FileController::getInitial();
+    });
     //SET 
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
