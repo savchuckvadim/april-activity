@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Models\User;
-use GuzzleHttp\Psr7\UploadedFile;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -314,6 +314,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('initial/file', function () {
     //     return FileController::getInitial();
     // });
+
+
+
+
     //SET 
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
@@ -374,6 +378,18 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return FItemController::setFitem($fieldId, $fieldData);
     });
+
+    Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
+
+        return BaseController::setOrUpdate($parentType, $parentId, $entityType, $request);
+    });
+
+    Route::post('{entityType}/', function ($entityType, Request $request) {
+        return BaseController::setOrUpdate($entityType, null, null, $request);
+    });
+
+
+
 
     //// no specific
 

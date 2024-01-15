@@ -7,6 +7,7 @@ use App\Models\Template;
 use CRest;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -95,7 +96,8 @@ class FileController extends Controller
 
 
 
-    public static function getInitial(){
+    public static function getInitial()
+    {
 
         $initialData = File::getForm();
         $data = [
@@ -141,8 +143,38 @@ class FileController extends Controller
         return response()->json(['message' => 'No file uploaded']);
     }
 
-    public static function setFile(Request $request){
+    public static function setFile($entityType, $parentType, $parentId, Request $request)
+    {
+        //entityType logo | stamp | последняя или единственная часть урл
+        // $parentType - может быть null тогда можно взять из formdata
+        // parentId - id родительского элемента
 
+
+        $fieldData = [
+            'name' => $request['name'],
+            'type' => $request['type'], //Тип файла (table | video | word | img)
+            'parent' => $request['parent'], //Родительская модель (rq)
+            'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
+            'availability' => $request['availability'], //Доступность public |  local
+            '$entityType' => $entityType,
+            '$parentType' => $parentType,
+            '$parentId' => $parentId,
+            'file' => $request['file'],
+
+        ];
+        if ($request->hasFile('file_0')) {
+            $file = $request->file('file_0');
+
+            // Проверяем, является ли файл экземпляром UploadedFile и был ли он успешно загружен
+            if ($file instanceof UploadedFile && $file->isValid()) {
+                // Обрабатываем файл, например, сохраняем его
+                // $filePath = $file->store('path/to/store', 'disk_name');
+
+                // Сохраняем путь к файлу в $fieldData
+                // $fieldData['file'] = $file;
+            }
+        }
+        return APIController::getSuccess($fieldData);
     }
 
     protected function uploadFile(
@@ -227,26 +259,27 @@ class FileController extends Controller
         ];
     }
 
-    public function updateFile(Request $request, $fileId) {
+    public function updateFile(Request $request, $fileId)
+    {
         // $newFile = $request->file('file'); // Новый файл из запроса
         // $fileRecord = FileModel::find($fileId); // Находим старый файл в БД по ID
-    
+
         // if ($fileRecord && $newFile) {
         //     // Удаляем старый файл
         //     Storage::delete($fileRecord->path);
-    
+
         //     // Сохраняем новый файл
         //     $relativePath = 'your/path/here'; // Определите путь для сохранения нового файла
         //     $newFilename = $newFile->getClientOriginalName();
         //     $newFile->storeAs($relativePath, $newFilename, 'public'); // Или 'local', в зависимости от диска
-    
+
         //     // Обновляем запись в БД
         //     $fileRecord->path = $relativePath . '/' . $newFilename;
         //     $fileRecord->save();
-    
+
         //     return response()->json(['message' => 'File updated successfully']);
         // }
-    
+
         // return response()->json(['message' => 'File not found or no new file provided'], 404);
     }
 

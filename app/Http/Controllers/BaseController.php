@@ -20,7 +20,7 @@ class BaseController extends Controller
                     return FileController::getInitial();
                     break;
                 case 'template':
-               
+
                     return TemplateController::initialTemplate();
                     break;
                 case 'field':
@@ -33,6 +33,45 @@ class BaseController extends Controller
                         ['entityType' => $entityType]
                     );
                     break;
+            }
+        } catch (\Throwable $th) {
+            Log::error('Ошибка: ' . $entityType . '' . $th->getMessage());
+            return APIController::getError(
+                $th->getMessage(),
+                ['entityType' => $entityType]
+            );
+        }
+    }
+    public static function setOrUpdate($entityType, $parentType, $parentId, Request $request)
+    {
+
+        try {
+
+            if ($parentType) {
+            } else {
+                switch ($entityType) {
+                    case 'logo':
+                    case 'signature':
+                    case 'stamp':
+                    case 'qr':
+                    case 'file':
+                        return FileController::setFile($entityType, $parentType, $parentId, $request);
+                        break;
+                    case 'template':
+
+                        return TemplateController::initialTemplate();
+                        break;
+                    case 'field':
+                        return FieldController::getInitialField();
+                        break;
+                    case 'item':
+                    default:
+                        return APIController::getError(
+                            'not fount entity type',
+                            ['entityType' => $entityType]
+                        );
+                        break;
+                }
             }
         } catch (\Throwable $th) {
             Log::error('Ошибка: ' . $entityType . '' . $th->getMessage());
