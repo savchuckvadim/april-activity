@@ -141,6 +141,17 @@ class File extends Model
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
+                        [
+                            'id' => 5,
+                            'title' => 'Файл',
+                            'entityType' => 'file',
+                            'name' => 'file',
+                            'apiName' => 'file',
+                            'type' =>  'file',
+                            'validation' => '',
+                            'initialValue' => false,
+                            'isCanAddField' => false,
+                        ],
                         'relations' => [],
 
                     ]

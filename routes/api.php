@@ -281,7 +281,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/{parentType}/{parentId}/file', function () {
         return FileController::getInitial();
     });
-
+  
     //// no specific
 
     Route::get('initial/template', function (Request $request) {
@@ -297,6 +297,15 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getInitialFitem();
     });
 
+    Route::get('initial/logo', function () {
+        return FileController::getInitial();
+    });
+    Route::get('initial/stamp', function () {
+        return FileController::getInitial();
+    });
+    Route::get('initial/signature', function () {
+        return FileController::getInitial();
+    });
 
     //SET 
     //// specific

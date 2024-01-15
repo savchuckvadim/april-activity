@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\Template;
 use CRest;
 use Exception;
@@ -95,7 +96,12 @@ class FileController extends Controller
 
 
     public static function getInitial(){
-        
+
+        $initialData = File::getForm();
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
     }
 
 
