@@ -195,11 +195,16 @@ class FileController extends Controller
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
                                     $fileModel->type = $fieldData['type'];
+                                    $fileModel->parent = $fieldData['parent'];
+                                    $fileModel->parent_type = $fieldData['parent_type'];
+                                    $fileModel->availability = $fieldData['availability'];
+
+
                                     $uid = Uuid::uuid4()->toString();
                                     $code = $uid;
                                     $fileModel->code = $code;
-                                    $fileModel->parent_type = $entityType;
-                                    $fileModel->availability = $fieldData['availability'];
+
+                                   
                                     // $fileModel->parent = $fieldData['parent'];
 
                                     $generalDirectoryPath = 'clients/' . $domain;
