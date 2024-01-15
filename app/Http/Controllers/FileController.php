@@ -202,29 +202,22 @@ class FileController extends Controller
                                     $fileModel->parent_type = $entityType;
                                     $fileModel->availability = $fieldData['availability'];
                                     $fileModel->parent = $fieldData['parent'];
+
+                                    $generalDirectoryPath = 'clients/'. $domain;
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code;
 
                                     $uploadData = [
 
-                                        'parent' => $parentResource,
+                                        // 'parent' => $parentResource,
                                         'file' => $file,
-                                        'fileModel' => $fileModel,
+                                        // 'fileModel' => $fileModel,
                                         'fileName' => $fileName,
-                                        'fieldData' => $fieldData['availability'],
-                                        'domain' => $domain,
-                                        'clients' => 'clients',
+                                        'availability' => $fieldData['availability'],
+                                        'direct' => $generalDirectoryPath,
                                         'filePath' => $filePath,
                                     ];
-                                    // $filePath = $this->uploadFile(
-                                    //     $file,
-                                    //     $fileName,
-                                    //     $fieldData['availability'], //public | other non public directory
-                                    //     '$domain',
-                                    //     'clients',        // clients | documents | rqs
-                                    //     $filePath,
-                                    // );
-                                    // $fileId = $file->id;
+                   
                                 }
                                 return APIController::getSuccess($uploadData);
                             }
@@ -247,7 +240,6 @@ class FileController extends Controller
         $file,
         $filename,
         $availability, //public | other non public directory
-        $domain,
         $direct,        // clients | documents | rqs
         $filePath,
 
@@ -262,7 +254,7 @@ class FileController extends Controller
             // Пример: $file->storeAs('clients/', $filename, 'public');
 
 
-            $relativePath = $direct . '/' . $domain . '/' . $filePath;
+            $relativePath = $direct . '/' . $filePath;
             $file->storeAs($relativePath, $filename, 'public');
             $fullPath = 'storage/' . $relativePath . '/' . $filename;
 
@@ -275,7 +267,7 @@ class FileController extends Controller
             // Диск local используется для хранения файлов внутри storage/app, которые не должны быть доступны напрямую через веб.
             // Когда вы используете диск local, вам не нужно указывать app/ в пути, так как это уже предполагается по умолчанию.
             // Пример: $file->storeAs($resultPath, $filename, 'local');, где $resultPath - это путь внутри storage/app.
-            $relativePath = $direct . '/' . $domain .  '/' . $filePath  . '/' . $filename;
+            $relativePath = $direct  .  '/' . $filePath  . '/' . $filename;
             $file->stoteAs($relativePath, $filename, 'local');
 
             return [
