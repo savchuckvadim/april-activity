@@ -202,6 +202,7 @@ class FileController extends Controller
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $fieldData['code'];
                                     $uploadData = [
 
+                                        'parent' => $parent,
                                         'file' => $file,
                                         'fileName' => $fileName,
                                         'fieldData' => $fieldData['availability'],
