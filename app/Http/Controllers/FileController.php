@@ -94,7 +94,9 @@ class FileController extends Controller
 
 
 
-
+    public static function getInitial(){
+        
+    }
 
 
 
@@ -132,6 +134,116 @@ class FileController extends Controller
         }
         return response()->json(['message' => 'No file uploaded']);
     }
+
+    public static function setFile(Request $request){
+
+    }
+
+    protected function uploadFile(
+        $file,
+        $filename,
+        $availability, //public | other non public directory
+        $domain,
+        $direct,        // clients | documents | rqs
+        $filePath,
+
+    ) {
+
+        if ($availability === 'public') {
+            //save PUBLIC
+            // /storage/app/public/clients
+            //         При использовании диска public, вы указываете относительный 
+            // путь от storage/app/public. Например, 
+            // если вы хотите сохранить файл в storage/app/public/clients, то в методе storeAs вы укажете только 'clients/'.
+            // Пример: $file->storeAs('clients/', $filename, 'public');
+
+
+            $relativePath = $direct . '/' . $domain . '/' . $filePath;
+            $file->storeAs($relativePath, $filename, 'public');
+            $fullPath = 'storage/' . $relativePath . '/' . $filename;
+
+            return [
+                'resultCode' => 0,
+                'filePath' => $fullPath,
+            ];
+        } else {
+            //save LOCAL
+            // Диск local используется для хранения файлов внутри storage/app, которые не должны быть доступны напрямую через веб.
+            // Когда вы используете диск local, вам не нужно указывать app/ в пути, так как это уже предполагается по умолчанию.
+            // Пример: $file->storeAs($resultPath, $filename, 'local');, где $resultPath - это путь внутри storage/app.
+            $relativePath = $direct . '/' . $domain .  '/' . $filePath  . '/' . $filename;
+            $file->stoteAs($relativePath, $filename, 'local');
+
+            return [
+                'resultCode' => 0,
+                'filePath' => $relativePath,
+
+            ];
+        }
+
+        return [
+            'resultCode' => 1,
+            'filePath' => null,
+        ];
+    }
+    protected function getFilePath(
+        $filename,
+        $availability, //public | other non public directory
+        $direct,        // clients | documents | rqs
+        $domain,
+        $filePath,
+
+    ) {
+        $relativePath = $direct . '/' . $domain . '/' . $filePath . '/' . $filename;
+
+        if ($availability === 'public') {
+            // Для публичных файлов
+            $url = asset('storage/' . ltrim($relativePath, '/')); // Удаление начального слеша, если он есть
+            return [
+                'resultCode' => 0,
+                'filePath' => $relativePath,
+                'url' => $url
+            ];
+        } else {
+            // Для локальных файлов
+            $absolutePath = storage_path('app/' . ltrim($relativePath, '/')); // Удаление начального слеша, если он есть
+            return [
+                'resultCode' => 0,
+                'filePath' => $relativePath,
+                'absolutePath' => $absolutePath
+            ];
+        }
+
+        return [
+            'resultCode' => 1,
+            'filePath' => null,
+            'url' => null
+        ];
+    }
+
+    public function updateFile(Request $request, $fileId) {
+        // $newFile = $request->file('file'); // Новый файл из запроса
+        // $fileRecord = FileModel::find($fileId); // Находим старый файл в БД по ID
+    
+        // if ($fileRecord && $newFile) {
+        //     // Удаляем старый файл
+        //     Storage::delete($fileRecord->path);
+    
+        //     // Сохраняем новый файл
+        //     $relativePath = 'your/path/here'; // Определите путь для сохранения нового файла
+        //     $newFilename = $newFile->getClientOriginalName();
+        //     $newFile->storeAs($relativePath, $newFilename, 'public'); // Или 'local', в зависимости от диска
+    
+        //     // Обновляем запись в БД
+        //     $fileRecord->path = $relativePath . '/' . $newFilename;
+        //     $fileRecord->save();
+    
+        //     return response()->json(['message' => 'File updated successfully']);
+        // }
+    
+        // return response()->json(['message' => 'File not found or no new file provided'], 404);
+    }
+
 
     public static function getGeneralDescription(Request $request)
     {
@@ -534,7 +646,7 @@ class FileController extends Controller
 
 
 
-            
+
             //ТАБЛИЦА ЦЕН
 
 
@@ -721,19 +833,18 @@ class FileController extends Controller
 
                                     if ($isNamed) {
                                         $text = $text . '  ' . $value;
-                                        if((
+                                        if ((
                                             $cll['name'] === 'Сумма за весь период обслуживания' ||
                                             $cll['name'] === 'Сумма предоплаты' ||
                                             $cll['name'] === 'Сумма'
-                                        ) && $length > 75){
+                                        ) && $length > 75) {
                                             $textRunBold->addText($value, $boldStyle);
                                             $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
-                                        }else{
+                                        } else {
                                             $textRunBold->addText('  ' . $value, $boldStyle);
                                             $textRunBold->addText('  ' . $isNamed['value'], $colorStyle);
-
                                         }
-                                     
+
                                         $string = $string . '  ' . $value;
                                         $string = $string . '  ' . $isNamed['value'];
                                     } else {

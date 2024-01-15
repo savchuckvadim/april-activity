@@ -96,6 +96,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return DealController::getDeals($request->parameter, $request->value);
     });
 
+
+
+
     //////////////////////////////CLIENTS
     //////PORTAL
 
@@ -264,7 +267,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/field/{fieldId}/item', function () {
         return FItemController::getInitialFitem();
     });
-
+    Route::get('initial/{parentType}/{parentId}/file', function () {
+        return FileController::getInitial();
+    });
 
     //// no specific
 

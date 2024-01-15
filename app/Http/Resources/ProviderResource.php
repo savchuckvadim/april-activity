@@ -17,12 +17,14 @@ class ProviderResource extends JsonResource
 
 
         $rq = $this->rq;
+        $rqResource = new RqResource($rq);
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
             'type' => $this->type,
-            'rq' =>  $rq
+            'rq' =>  $rqResource
         ];
     }
 }
