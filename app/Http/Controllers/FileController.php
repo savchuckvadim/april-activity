@@ -192,36 +192,48 @@ class FileController extends Controller
 
                                     ];
                                     $parent = Rq::find($parentId);
-                                    $parentResource = new RqResource($parent);
+                                   
                                     $domain = $parent->agent->portal['domain'];
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
-                                    $code = $uid ;
+                                    $code = $uid;
                                     $fileModel->code = $code;
                                     $fileModel->parent_type = $entityType;
                                     $fileModel->availability = $fieldData['availability'];
-                                    $fileModel->parent = $fieldData['parent'];
+                                    // $fileModel->parent = $fieldData['parent'];
 
-                                    $generalDirectoryPath = 'clients/'. $domain;
+                                    $generalDirectoryPath = 'clients/' . $domain;
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code;
 
-                                    $uploadData = [
+                                    $uploadData = $this->uploadFile(
+                                        $file,
+                                        $fileName,
+                                        $fieldData['availability'],
+                                        $generalDirectoryPath,
+                                        $filePath
 
-                                        // 'parent' => $parentResource,
-                                        'file' => $file,
-                                        // 'fileModel' => $fileModel,
-                                        'fileName' => $fileName,
-                                        'availability' => $fieldData['availability'],
-                                        'direct' => $generalDirectoryPath,
-                                        'filePath' => $filePath,
-                                    ];
-                   
+                                    );
+                                    if ($uploadData && $uploadData['resultCode'] == 0 && $uploadData['filePath']) {
+                                        $fileModel->path = $uploadData['filePath'];
+                                        $fileModel->entity()->associate($parent); // Устанавливаем связь с родительской моделью
+                                        $fileModel->save();
+                                        return APIController::getSuccess([
+                                            $entityType => $fileModel
+                                        ]);
+                                    }
+                                    return APIController::getError(
+                                        'file not saved',
+                                        ['uploadData' => $uploadData]
+                                    );
                                 }
-                                return APIController::getSuccess($uploadData);
+                                return APIController::getError(
+                                    'invalid data file',
+                                    ['file' => $file]
+                                );
                             }
-                            
+
                         case 'signature':
                         case 'stamp':
                         case 'qr':
