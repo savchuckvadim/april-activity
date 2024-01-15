@@ -52,7 +52,7 @@ class RqResource extends JsonResource
             'bankAdress' => $this->bankAdress,
             'bankOther' =>  $this->bankOther,
             // Добавьте все другие атрибуты, которые вам нужны
-            'logo' => $this->logos->map(function ($logo) {
+            'logos' => $this->logos->map(function ($logo) {
                 return [
                     'name' => $logo->name,
                     'code' => $logo->code,
@@ -61,7 +61,7 @@ class RqResource extends JsonResource
                     // Добавьте другие поля из $fillable в модели 'File', которые вам нужны
                 ];
             }),
-            'stamp' => $this->stamps->map(function ($stamp) {
+            'stamps' => $this->stamps->map(function ($stamp) {
                 return [
                     'name' => $stamp->name,
                     'code' => $stamp->code,
@@ -70,7 +70,7 @@ class RqResource extends JsonResource
                     // Добавьте другие поля из $fillable в модели 'File', которые вам нужны
                 ];
             }),
-            'signature' => $this->signatures->map(function ($signature) {
+            'signatures' => $this->signatures->map(function ($signature) {
                 return [
                     'name' => $signature->name,
                     'code' => $signature->code,

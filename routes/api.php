@@ -221,6 +221,17 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getFitems($fieldId);
     });
 
+    Route::get('rq/{rqId}/logos', function ($rqId) {
+        return RqController::getLogos($rqId);
+    });
+    Route::get('rq/{rqId}/stamps', function ($rqId) {
+        return RqController::getStamps($rqId);
+    });
+    Route::get('rq/{rqId}/signatures', function ($rqId) {
+        return RqController::getSignatures($rqId);
+    });
+
+
     //// no specific
     Route::get('templates', function () {
         return TemplateController::getAllTemplates();

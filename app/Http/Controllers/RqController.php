@@ -102,4 +102,72 @@ class RqController extends Controller
             );
         }
     }
+
+
+    public static function getLogos($rqId)
+    {
+        try {
+
+
+            $rq = Rq::find($rqId);
+            if ($rq) {
+                $logos = $rq->logos;
+                return APIController::getSuccess(['logos' => $logos]);
+            }else{
+                return APIController::getError(
+                    'rq not found',
+                    null
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
+    }
+    public static function getStamps($rqId)
+    {
+        try {
+
+
+            $rq = Rq::find($rqId);
+            if ($rq) {
+                $stamps = $rq->stamps;
+                return APIController::getSuccess(['stamps' => $stamps]);
+            }else{
+                return APIController::getError(
+                    'rq not found',
+                    null
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
+    }
+    public static function getSignatures($rqId)
+    {
+        try {
+
+
+            $rq = Rq::find($rqId);
+            if ($rq) {
+                $signatures = $rq->signatures;
+                return APIController::getSuccess(['signatures' => $signatures]);
+            }else{
+                return APIController::getError(
+                    'rq not found',
+                    null
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
+    }
 }
