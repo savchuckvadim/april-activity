@@ -147,7 +147,7 @@ class File extends Model
                             'entityType' => 'file',
                             'name' => 'file',
                             'apiName' => 'file',
-                            'type' =>  'file',
+                            'type' =>  'img',
                             'validation' => '',
                             'initialValue' => false,
                             'isCanAddField' => false,
