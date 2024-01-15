@@ -778,7 +778,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 // Route::post('/settings', 'SettingsController@index');
 // Route::post('/upload', 'FileUploadController@upload');
 Route::post('upload', function (Request $request) {
-    return FileController::getFile($request);
+    // return FileController::getFile($request);
 });
 
 //Users

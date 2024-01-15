@@ -85,30 +85,36 @@ class BaseController extends Controller
     {
 
         try {
-            switch ($model && $modelId) {
-                case 'logo':
-                case 'signature':
-                case 'stamp':
-                case 'qr':
-                case 'file':
-                    return FileController::getFile($model,$modelId);
-                   
-                case 'template':
+            if ($model && $modelId) {
+                switch ($model && $modelId) {
+                    case 'logo':
+                    case 'signature':
+                    case 'stamp':
+                    case 'qr':
+                    case 'file':
+                        return FileController::getFile($model, $modelId);
 
-                    return TemplateController::getTemplate($modelId);
-                   
-                case 'field':
-                    return FieldController::getField($modelId);
-                    
-                case 'item':
-                    return FItemController::getFitem($modelId);
+                    case 'template':
 
-                default:
-                    return APIController::getError(
-                        'model was not found',
-                        ['model' => $model, 'modelId' => $modelId]
-                    );
-                    break;
+                        return TemplateController::getTemplate($modelId);
+
+                    case 'field':
+                        return FieldController::getField($modelId);
+
+                    case 'item':
+                        return FItemController::getFitem($modelId);
+
+                    default:
+                        return APIController::getError(
+                            'model was not found',
+                            ['model' => $model, 'modelId' => $modelId]
+                        );
+                }
+            } else {
+                return APIController::getError(
+                    'model was not found',
+                    ['model' => $model, 'modelId' => $modelId]
+                );
             }
         } catch (\Throwable $th) {
             Log::error('Ошибка: ' . $model . '' . $th->getMessage());
