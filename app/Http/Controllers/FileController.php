@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\Rq;
 use App\Models\Template;
 use CRest;
 use Exception;
@@ -143,13 +144,11 @@ class FileController extends Controller
         return response()->json(['message' => 'No file uploaded']);
     }
 
-    public static function setFile($entityType, $parentType, $parentId, Request $request)
+    public function setFile($entityType, $parentType, $parentId, Request $request)
     {
         //entityType logo | stamp | последняя или единственная часть урл
         // $parentType - может быть null тогда можно взять из formdata
         // parentId - id родительского элемента
-
-
         $fieldData = [
             'name' => $request['name'],
             'type' => $request['type'], //Тип файла (table | video | word | img)
@@ -162,19 +161,78 @@ class FileController extends Controller
             'file' => $request['file'],
 
         ];
-        if ($request->hasFile('file_0')) {
-            $file = $request->file('file_0');
 
-            // Проверяем, является ли файл экземпляром UploadedFile и был ли он успешно загружен
-            if ($file instanceof UploadedFile && $file->isValid()) {
-                // Обрабатываем файл, например, сохраняем его
-                // $filePath = $file->store('path/to/store', 'disk_name');
 
-                // Сохраняем путь к файлу в $fieldData
-                // $fieldData['file'] = $file;
+        if ($parentType) {
+            switch ($parentType) {
+                case 'rq':
+                    switch ($entityType) {
+                        case 'logo':
+                            if ($request->hasFile('file_0')) {
+                                $file = $request->file('file_0');
+
+                                // Проверяем, является ли файл экземпляром UploadedFile и был ли он успешно загружен
+                                if ($file instanceof UploadedFile && $file->isValid()) {
+                                    // Обрабатываем файл, например, сохраняем его
+                                    // $filePath = $file->store('path/to/store', 'disk_name');
+
+                                    // Сохраняем путь к файлу в $fieldData
+                                    // $fieldData['file'] = $file;
+                                    $fieldData = [
+                                        'name' => $request['name'],
+                                        'type' => $request['type'], //Тип файла (table | video | word | img)
+                                        'parent' => $request['parent'], //Родительская модель (rq)
+                                        'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
+                                        'availability' => $request['availability'], //Доступность public |  local
+                                        '$entityType' => $entityType,
+                                        '$parentType' => $parentType,
+                                        '$parentId' => $parentId,
+                                        'file' => $request['file'],
+
+                                    ];
+                                    $parent = Rq::find($parentId);
+                                    $file = new File();
+                                    $file['name'] = $fieldData['name'];
+                                    $uid = Uuid::uuid4()->toString();
+                                    $file['code'] = $uid;
+                                    $file['parent_type'] = $entityType;
+                                    $file['availability'] = $fieldData['availability'];
+                                    $file['parent'] = $fieldData['parent'];
+                                    $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
+                                    $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $fieldData['code'];
+                                    $uploadData = [
+
+                                        'file' => $file,
+                                        'fileName' => $fileName,
+                                        'fieldData' => $fieldData['availability'],
+                                        'domain' => '$domain',
+                                        'clients' => 'clients',
+                                        'filePath' => $filePath,
+                                    ];
+                                    // $filePath = $this->uploadFile(
+                                    //     $file,
+                                    //     $fileName,
+                                    //     $fieldData['availability'], //public | other non public directory
+                                    //     '$domain',
+                                    //     'clients',        // clients | documents | rqs
+                                    //     $filePath,
+                                    // );
+                                    // $fileId = $file->id;
+                                }
+                            }
+                            return APIController::getSuccess($uploadData);
+                        case 'signature':
+                        case 'stamp':
+                        case 'qr':
+                        case 'file':
+                    }
+
+                case 'template':
+                case 'field':
+                case 'qr':
+                case 'file':
             }
         }
-        return APIController::getSuccess($fieldData);
     }
 
     protected function uploadFile(
