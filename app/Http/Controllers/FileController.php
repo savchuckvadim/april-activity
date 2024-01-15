@@ -191,19 +191,20 @@ class FileController extends Controller
 
                                     ];
                                     $parent = Rq::find($parentId);
-                                    $file = new File();
-                                    $file['name'] = $fieldData['name'];
+                                    $fileModel = new File();
+                                    $fileModel['name'] = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
-                                    $file['code'] = $uid;
-                                    $file['parent_type'] = $entityType;
-                                    $file['availability'] = $fieldData['availability'];
-                                    $file['parent'] = $fieldData['parent'];
+                                    $fileModel['code'] = $uid;
+                                    $fileModel['parent_type'] = $entityType;
+                                    $fileModel['availability'] = $fieldData['availability'];
+                                    $fileModel['parent'] = $fieldData['parent'];
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $fieldData['code'];
                                     $uploadData = [
 
                                         'parent' => $parent,
                                         'file' => $file,
+                                        'fileModel' => $fileModel,
                                         'fileName' => $fileName,
                                         'fieldData' => $fieldData['availability'],
                                         'domain' => '$domain',
@@ -220,8 +221,9 @@ class FileController extends Controller
                                     // );
                                     // $fileId = $file->id;
                                 }
+                                return APIController::getSuccess($uploadData);
                             }
-                            return APIController::getSuccess($uploadData);
+                            
                         case 'signature':
                         case 'stamp':
                         case 'qr':
