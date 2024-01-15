@@ -15,6 +15,9 @@ class RqResource extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request);
+        $agent = $this->agent;
+        $portal = $agent->portal;
+        $domain  = $portal->domain;
         return [
             'id' => $this->id,
             'number' => $this->number,
@@ -80,7 +83,8 @@ class RqResource extends JsonResource
                 ];
             }),
 
-            'agent' => $this->agent
+            'agent' => $this->agent,
+            'domain' => $domain,
             // Включите другие связанные данные по необходимости
         ];
     }
