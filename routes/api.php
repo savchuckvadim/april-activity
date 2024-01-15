@@ -222,18 +222,16 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getFitems($fieldId);
     });
 
-    Route::get('rq/{rqId}/logos', function ($rqId) {
-        return RqController::getLogos($rqId);
+
+    Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
+        return RqController::getFiles($rqId, $fileType);
     });
-    Route::get('rq/{rqId}/stamps', function ($rqId) {
-        return RqController::getStamps($rqId);
-    });
-    Route::get('rq/{rqId}/signatures', function ($rqId) {
-        return RqController::getSignatures($rqId);
-    });
+
 
 
     //// no specific
+  
+
     Route::get('templates', function () {
         return TemplateController::getAllTemplates();
     });
@@ -255,20 +253,27 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getFitems($fieldId);
     });
 
+    // Route::get('{entityType}', function ($entityType) {
+    //     return BaseController::getCollection($entityType, null, null);
+    // });
+
+
 
     //GET ITEM
     //// no specific
-    Route::get('template/{templateId}', function ($templateId) {
-        return TemplateController::getTemplate($templateId);
-    });
+    // Route::get('template/{templateId}', function ($templateId) {
+    //     return TemplateController::getTemplate($templateId);
+    // });
 
-    Route::get('field/{fieldId}', function ($fieldId) {
-        return FieldController::getField($fieldId);
+    // Route::get('field/{fieldId}', function ($fieldId) {
+    //     return FieldController::getField($fieldId);
+    // });
+    // Route::get('item/{fitemId}', function ($fitemId) {
+    //     return FItemController::getFitem($fitemId);
+    // });
+    Route::get('{model}/{modelId}', function ($model, $modelId) {
+        return BaseController::get($model, $modelId);
     });
-    Route::get('item/{fitemId}', function ($fitemId) {
-        return FItemController::getFitem($fitemId);
-    });
-
 
 
     //INITIAL SET

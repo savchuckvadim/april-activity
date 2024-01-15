@@ -108,29 +108,53 @@ class FileController extends Controller
         return APIController::getSuccess($data);
     }
 
-
-
-
-    public static function getFile(Request $request)
+    public static function getFile($fileId)
     {
-        $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла
-        $DEAL_ID = 1; // Используйте реальный ID вашей сделки
+        try {
 
-        CRest::call(
-            'crm.deal.update',
-            [
-                'id' => $DEAL_ID,
-                'fields' => [
-                    "UF_CRM_1234567890" => [ // Замените "UF_CRM_1234567890" на код вашего пользовательского поля
-                        'fileData' => ["file.docx", $base64] // Используйте реальное имя вашего файла
-                    ],
-                ],
-                'params' => [
-                    "REGISTER_SONET_EVENT" => "Y"
-                ]
-            ]
-        );
+            $file = File::find($fileId);
+
+
+            if (!$file) {
+
+                return APIController::getError(
+                    'file not found',
+                    ['fileId' => $fileId]
+                );
+            }
+
+            return APIController::getSuccess(
+                ['file' => $file]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
     }
+
+
+    // public static function getFile(Request $request)
+    // {
+    //     $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла
+    //     $DEAL_ID = 1; // Используйте реальный ID вашей сделки
+
+    //     CRest::call(
+    //         'crm.deal.update',
+    //         [
+    //             'id' => $DEAL_ID,
+    //             'fields' => [
+    //                 "UF_CRM_1234567890" => [ // Замените "UF_CRM_1234567890" на код вашего пользовательского поля
+    //                     'fileData' => ["file.docx", $base64] // Используйте реальное имя вашего файла
+    //                 ],
+    //             ],
+    //             'params' => [
+    //                 "REGISTER_SONET_EVENT" => "Y"
+    //             ]
+    //         ]
+    //     );
+    // }
 
     public static function uploadDescriptionTemplate(Request $request)
     {
@@ -186,7 +210,7 @@ class FileController extends Controller
                                         'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
                                         'availability' => $request['availability'], //Доступность public |  local
 
-    
+
 
                                     ];
                                     $parent = Rq::find($parentId);
@@ -204,7 +228,7 @@ class FileController extends Controller
                                     $code = $uid;
                                     $fileModel->code = $code;
 
-                                   
+
                                     // $fileModel->parent = $fieldData['parent'];
 
                                     $generalDirectoryPath = 'clients/' . $domain;

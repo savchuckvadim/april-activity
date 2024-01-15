@@ -80,4 +80,42 @@ class BaseController extends Controller
             );
         }
     }
+
+    public static function get($model, $modelId)
+    {
+
+        try {
+            switch ($model && $modelId) {
+                case 'logo':
+                case 'signature':
+                case 'stamp':
+                case 'qr':
+                case 'file':
+                    return FileController::getFile($modelId);
+                   
+                case 'template':
+
+                    return TemplateController::getTemplate($modelId);
+                   
+                case 'field':
+                    return FieldController::getField($modelId);
+                    
+                case 'item':
+                    return FItemController::getFitem($modelId);
+
+                default:
+                    return APIController::getError(
+                        'model was not found',
+                        ['model' => $model, 'modelId' => $modelId]
+                    );
+                    break;
+            }
+        } catch (\Throwable $th) {
+            Log::error('Ошибка: ' . $model . '' . $th->getMessage());
+            return APIController::getError(
+                $th->getMessage(),
+                ['model' => $model, 'modelId' => $modelId]
+            );
+        }
+    }
 }

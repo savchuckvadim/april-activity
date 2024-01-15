@@ -103,6 +103,40 @@ class RqController extends Controller
         }
     }
 
+    public static function getFiles($rqId, $childrenName)
+    {
+
+        try {
+            if ($rqId && $childrenName) {
+                switch ($childrenName) {
+                    case 'logos':
+                    case 'logo':
+                        return RqController::getLogos($rqId);
+
+                    case 'signatures':
+                    case 'signature':
+                        return RqController::getSignatures($rqId);
+
+                    case 'stamps':
+                    case 'stamp':
+                        return RqController::getStamps($rqId);
+
+
+
+                    default:
+                        return APIController::getError(
+                            'children name is undefined',
+                            ['childrenName' => $childrenName]
+                        );
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['rqId' => $rqId, 'childrenName' => $childrenName,]
+            );
+        }
+    }
 
     public static function getLogos($rqId)
     {
@@ -113,7 +147,7 @@ class RqController extends Controller
             if ($rq) {
                 $logos = $rq->logos;
                 return APIController::getSuccess(['logos' => $logos]);
-            }else{
+            } else {
                 return APIController::getError(
                     'rq not found',
                     null
@@ -135,7 +169,7 @@ class RqController extends Controller
             if ($rq) {
                 $stamps = $rq->stamps;
                 return APIController::getSuccess(['stamps' => $stamps]);
-            }else{
+            } else {
                 return APIController::getError(
                     'rq not found',
                     null
@@ -157,7 +191,7 @@ class RqController extends Controller
             if ($rq) {
                 $signatures = $rq->signatures;
                 return APIController::getSuccess(['signatures' => $signatures]);
-            }else{
+            } else {
                 return APIController::getError(
                     'rq not found',
                     null
