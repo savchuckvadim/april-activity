@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\DocumentController;
@@ -272,43 +273,47 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     //INITIAL SET
     //// specific
-    Route::get('initial/template/{templateId}/field', function ($templateId) {
-        return FieldController::getInitialField($templateId);
+    // Route::get('initial/template/{templateId}/field', function ($templateId) {
+    //     return FieldController::getInitialField();
+    // });
+    // Route::get('initial/field/{fieldId}/item', function () {
+    //     return FItemController::getInitialFitem();
+    // });
+    Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+
+        return BaseController::initial($entityType);
     });
-    Route::get('initial/field/{fieldId}/item', function () {
-        return FItemController::getInitialFitem();
+
+    Route::get('initial/{entityType}/', function ($entityType) {
+        return BaseController::initial($entityType);
     });
-    Route::get('initial/{parentType}/{parentId}/{childrenType}', function () {
-        return FileController::getInitial();
-    });
-  
+
     //// no specific
 
-    Route::get('initial/template', function (Request $request) {
-        $domain = $request->query('domain');
+    // Route::get('initial/template', function (Request $request) {
 
-        return TemplateController::initialTemplate($domain);
-    });
+    //     return TemplateController::initialTemplate();
+    // });
 
-    Route::get('initial/field', function () {
-        return FieldController::getInitialField();
-    });
-    Route::get('initial/item', function () {
-        return FItemController::getInitialFitem();
-    });
+    // Route::get('initial/field', function () {
+    //     return FieldController::getInitialField();
+    // });
+    // Route::get('initial/item', function () {
+    //     return FItemController::getInitialFitem();
+    // });
 
-    Route::get('initial/logo', function () {
-        return FileController::getInitial();
-    });
-    Route::get('initial/stamp', function () {
-        return FileController::getInitial();
-    });
-    Route::get('initial/signature', function () {
-        return FileController::getInitial();
-    });
-    Route::get('initial/file', function () {
-        return FileController::getInitial();
-    });
+    // Route::get('initial/logo', function () {
+    //     return FileController::getInitial();
+    // });
+    // Route::get('initial/stamp', function () {
+    //     return FileController::getInitial();
+    // });
+    // Route::get('initial/signature', function () {
+    //     return FileController::getInitial();
+    // });
+    // Route::get('initial/file', function () {
+    //     return FileController::getInitial();
+    // });
     //SET 
     //// specific
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
@@ -351,9 +356,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'order' => $request['order'],
             'value' => $request['value'],
             'bitrixId' => $request['bitrixId'],
-      
+
         ];
-    
+
         return FItemController::setFitem($fieldId, $fieldData);
     });
     Route::post('rq/{fieldId}/item', function ($fieldId, Request $request) {
@@ -364,9 +369,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             'order' => $request['order'],
             'value' => $request['value'],
             'bitrixId' => $request['bitrixId'],
-      
+
         ];
-    
+
         return FItemController::setFitem($fieldId, $fieldData);
     });
 

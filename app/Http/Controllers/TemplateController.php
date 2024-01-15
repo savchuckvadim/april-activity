@@ -111,46 +111,16 @@ class TemplateController extends Controller
         }
     }
 
-    public static function initialTemplate($domain)
+    public static function initialTemplate()
     {
 
-        // создает новый template 
-        // берет fields isgeneral
-        // в итоге возвращает филды и id нового template
-
-        // если по итогу пользователь save то еще создаются связи с созданным template 
-        // и c выбранными (или еще и созданными) филдс
-        //
-        // $portal = Portal::where('domain', $domain)->first();
-
-        // if ($portal) {
-        // $template = new Template;
-        // $template['portalId'] = $portal->id;
-        // $template['type'] = $type;
-        // $template['name'] = $name;
-        // $uid = Uuid::uuid4()->toString();
-        // $template['code'] = $domain . '' . '' . $type . '' . $uid;
-        // $generalFields = Field::where('isGeneral', true)->get();
-        // $generalFieldsCollection = new FieldCollection($generalFields);
-        // $template->save();
-
-        // $templates = Template::get();
+   
         $initialData = Template::getForm();
         $data = [
             'initial' => $initialData
         ];
-        return APIController::getResponse(0, 'success', $data);
-        // } else {
-        //     return response([
-        //         'resultCode' => 1,
-        //         'message' => 'portal was not found',
-        //         '$portal' => $portal,
-        //         '$domain' => $domain,
-        //         '$type' => $type,
-        //         '$name' => $name
+        return APIController::getSuccess($data);
 
-        //     ]);
-        // }
     }
     public static function getTemplate($templateId)
     {
