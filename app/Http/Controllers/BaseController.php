@@ -47,31 +47,29 @@ class BaseController extends Controller
 
         try {
 
-            if ($parentType) {
-            } else {
-                switch ($entityType) {
-                    case 'logo':
-                    case 'signature':
-                    case 'stamp':
-                    case 'qr':
-                    case 'file':
-                        return FileController::setFile($entityType, $parentType, $parentId, $request);
-                        break;
-                    case 'template':
 
-                        return TemplateController::initialTemplate();
-                        break;
-                    case 'field':
-                        return FieldController::getInitialField();
-                        break;
-                    case 'item':
-                    default:
-                        return APIController::getError(
-                            'not fount entity type',
-                            ['entityType' => $entityType]
-                        );
-                        break;
-                }
+            switch ($entityType) {
+                case 'logo':
+                case 'signature':
+                case 'stamp':
+                case 'qr':
+                case 'file':
+                    return FileController::setFile($entityType, $parentType, $parentId, $request);
+                    break;
+                case 'template':
+
+                    return TemplateController::initialTemplate();
+                    break;
+                case 'field':
+                    return FieldController::getInitialField();
+                    break;
+                case 'item':
+                default:
+                    return APIController::getError(
+                        'not fount entity type',
+                        ['entityType' => $entityType]
+                    );
+                    break;
             }
         } catch (\Throwable $th) {
             Log::error('Ошибка: ' . $entityType . '' . $th->getMessage());
