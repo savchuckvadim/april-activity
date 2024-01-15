@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RqCollection;
+use App\Http\Resources\RqResource;
 use App\Models\Agent;
 use App\Models\Rq;
 use Bitrix24\Bizproc\Provider;
@@ -20,8 +21,7 @@ class RqController extends Controller
                 $rqsCollection
             );
         } catch (\Throwable $th) {
-            return APIController::getResponse(
-                1,
+            return APIController::getError(
                 $th->getMessage(),
                 null
             );
@@ -35,21 +35,18 @@ class RqController extends Controller
 
 
             if (!$rq) {
-                return response([
-                    'resultCode' => 1,
-                    'rqId' => $rqId,
-                    'message' => 'rq not found'
-                ]);
-            }
 
-            return APIController::getResponse(
-                0,
-                'success',
-                ['rq' => $rq]
+                return APIController::getError(
+                    'rq not found',
+                    ['rqId' => $rqId]
+                );
+            }
+            $rqResourse = new RqResource($rq);
+            return APIController::getSuccess(
+                ['rq' => $rqResourse]
             );
         } catch (\Throwable $th) {
-            return APIController::getResponse(
-                1,
+            return APIController::getError(
                 $th->getMessage(),
                 null
             );
