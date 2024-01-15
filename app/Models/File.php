@@ -152,10 +152,10 @@ class File extends Model
                             'initialValue' => false,
                             'isCanAddField' => false,
                         ],
-                        'relations' => [],
+                        
 
-                    ]
-
+                    ],
+                    'relations' => [],
 
                 ]
             ]
