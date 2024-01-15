@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RqResource;
 use App\Models\File;
 use App\Models\Rq;
 use App\Models\Template;
@@ -191,6 +192,7 @@ class FileController extends Controller
 
                                     ];
                                     $parent = Rq::find($parentId);
+                                    $parentResource = new RqResource($parent);
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
@@ -201,9 +203,10 @@ class FileController extends Controller
                                     $fileModel->parent = $fieldData['parent'];
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
                                     $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code;
+
                                     $uploadData = [
 
-                                        'parent' => $parent,
+                                        'parent' => $parentResource,
                                         'file' => $file,
                                         'fileModel' => $fileModel,
                                         'fileName' => $fileName,
