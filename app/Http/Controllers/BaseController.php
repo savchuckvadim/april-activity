@@ -20,6 +20,7 @@ class BaseController extends Controller
                     return FileController::getInitial();
                     break;
                 case 'template':
+                case 'templates':
                     return TemplateController::initialTemplate();
                     break;
                 case 'field':
