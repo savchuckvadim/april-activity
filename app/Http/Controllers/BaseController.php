@@ -86,7 +86,7 @@ class BaseController extends Controller
 
         try {
             if ($model && $modelId) {
-                switch ($model && $modelId) {
+                switch ($model) {
                     case 'logo':
                     case 'signature':
                     case 'stamp':
