@@ -16,10 +16,8 @@ class RqController extends Controller
 
             $rqs = Rq::all();
             $rqsCollection = new RqCollection($rqs);
-            return APIController::getResponse(
-                0,
-                'success',
-                [$rqsCollection]
+            return APIController::getSuccess(
+                $rqsCollection
             );
         } catch (\Throwable $th) {
             return APIController::getResponse(
