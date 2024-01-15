@@ -48,7 +48,7 @@ class RqResource extends JsonResource
                 ];
             }),
           
-            'agent' => $this->agents(),
+            'agent' => $this->agents,
             // Включите другие связанные данные по необходимости
         ];
     }
