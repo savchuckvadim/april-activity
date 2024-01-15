@@ -194,12 +194,13 @@ class FileController extends Controller
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
-                                    $fileModel->code = $uid;
+                                    $code = $uid ;
+                                    $fileModel->code = $code;
                                     $fileModel->parent_type = $entityType;
                                     $fileModel->availability = $fieldData['availability'];
                                     $fileModel->parent = $fieldData['parent'];
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
-                                    $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $fieldData['code'];
+                                    $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code;
                                     $uploadData = [
 
                                         'parent' => $parent,
