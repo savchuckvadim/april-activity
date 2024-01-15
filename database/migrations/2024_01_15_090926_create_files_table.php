@@ -23,6 +23,8 @@ class CreateFilesTable extends Migration
             $table->string('parent'); //portal rq field april
             $table->string('parent_type')->nullable();
             $table->unsignedBigInteger('entity_id')->nullable();
+            $table->unsignedBigInteger('size')->nullable();
+            $table->unsignedBigInteger('format')->nullable();
             $table->string('availability'); //public | local
 
         });
