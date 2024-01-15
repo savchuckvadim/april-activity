@@ -12,7 +12,7 @@ class Agent extends Model
    
     public function portal()
     {
-        return $this->hasOne(Portal::class, 'portalId');
+        return $this->hasOne(Portal::class);
     }
 
     
