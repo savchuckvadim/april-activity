@@ -54,7 +54,8 @@ class BaseController extends Controller
                 case 'stamp':
                 case 'qr':
                 case 'file':
-                    return FileController::setFile($entityType, $parentType, $parentId, $request);
+                    $fileController = new FileController;
+                    return $fileController->setFile($entityType, $parentType, $parentId, $request);
                     break;
                 case 'template':
 
