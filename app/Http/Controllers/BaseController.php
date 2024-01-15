@@ -66,7 +66,7 @@ class BaseController extends Controller
                 case 'item':
                 default:
                     return APIController::getError(
-                        'not fount entity type',
+                        'not found entity type',
                         ['entityType' => $entityType]
                     );
                     break;
