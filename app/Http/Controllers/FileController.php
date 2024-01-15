@@ -192,7 +192,7 @@ class FileController extends Controller
 
                                     ];
                                     $parent = Rq::find($parentId);
-                                   
+
                                     $domain = $parent->agent->portal['domain'];
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
@@ -280,7 +280,7 @@ class FileController extends Controller
             // Когда вы используете диск local, вам не нужно указывать app/ в пути, так как это уже предполагается по умолчанию.
             // Пример: $file->storeAs($resultPath, $filename, 'local');, где $resultPath - это путь внутри storage/app.
             $relativePath = $direct  .  '/' . $filePath  . '/' . $filename;
-            $file->stoteAs($relativePath, $filename, 'local');
+            $file->storeAs($relativePath, $filename, 'local');
 
             return [
                 'resultCode' => 0,
