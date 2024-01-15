@@ -185,10 +185,8 @@ class FileController extends Controller
                                         'parent' => $request['parent'], //Родительская модель (rq)
                                         'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
                                         'availability' => $request['availability'], //Доступность public |  local
-                                        '$entityType' => $entityType,
-                                        '$parentType' => $parentType,
-                                        '$parentId' => $parentId,
-                                        'file' => $request['file'],
+
+    
 
                                     ];
                                     $parent = Rq::find($parentId);
@@ -196,6 +194,7 @@ class FileController extends Controller
                                     $domain = $parent->agent->portal['domain'];
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
+                                    $fileModel->type = $fieldData['type'];
                                     $uid = Uuid::uuid4()->toString();
                                     $code = $uid;
                                     $fileModel->code = $code;
