@@ -278,7 +278,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('initial/field/{fieldId}/item', function () {
         return FItemController::getInitialFitem();
     });
-    Route::get('initial/{parentType}/{parentId}/file', function () {
+    Route::get('initial/{parentType}/{parentId}/{childrenType}', function () {
         return FileController::getInitial();
     });
   
@@ -356,7 +356,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     
         return FItemController::setFitem($fieldId, $fieldData);
     });
-
+    Route::post('rq/{fieldId}/item', function ($fieldId, Request $request) {
+        $fieldData = [
+            'number' => $request['number'],
+            'code' => $request['code'],
+            'fieldNumber' => $request['fieldNumber'],
+            'order' => $request['order'],
+            'value' => $request['value'],
+            'bitrixId' => $request['bitrixId'],
+      
+        ];
+    
+        return FItemController::setFitem($fieldId, $fieldData);
+    });
 
     //// no specific
 
