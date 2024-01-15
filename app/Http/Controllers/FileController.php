@@ -193,6 +193,7 @@ class FileController extends Controller
                                     ];
                                     $parent = Rq::find($parentId);
                                     $parentResource = new RqResource($parent);
+                                    $domain = $parentResource['domain'];
                                     $fileModel = new File();
                                     $fileModel->name = $fieldData['name'];
                                     $uid = Uuid::uuid4()->toString();
@@ -211,7 +212,7 @@ class FileController extends Controller
                                         'fileModel' => $fileModel,
                                         'fileName' => $fileName,
                                         'fieldData' => $fieldData['availability'],
-                                        'domain' => '$domain',
+                                        'domain' => $domain,
                                         'clients' => 'clients',
                                         'filePath' => $filePath,
                                     ];
