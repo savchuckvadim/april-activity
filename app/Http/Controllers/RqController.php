@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RqCollection;
 use App\Models\Agent;
 use App\Models\Rq;
 use Bitrix24\Bizproc\Provider;
@@ -14,10 +15,11 @@ class RqController extends Controller
         try {
 
             $rqs = Rq::all();
+            $rqsCollection = new RqCollection($rqs);
             return APIController::getResponse(
                 0,
                 'success',
-                ['rqs' => $rqs]
+                ['rqs' => $rqsCollection]
             );
         } catch (\Throwable $th) {
             return APIController::getResponse(
