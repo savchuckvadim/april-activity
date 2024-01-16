@@ -7,10 +7,13 @@ use App\Http\Resources\FieldResource;
 use App\Models\Field;
 use App\Models\FItem;
 use App\Models\Template;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Mockery\Undefined;
+use Ramsey\Uuid\Uuid;
 
 class FieldController extends Controller
 {
@@ -274,7 +277,7 @@ class FieldController extends Controller
             $result = [];
             foreach ($fields as $fieldData) {
                 $fieldData['type'] = $fieldData['type'] == 'null' ? '' : $fieldData['type'];
-                $fieldData['code'] = $fieldData['code'] == 'null' ? '' : $fieldData['code'];
+
                 $fieldData['value'] = $fieldData['value'] == 'null' ? '' : $fieldData['value'];
                 $fieldData['description'] = $fieldData['description'] == 'null' ? '' : $fieldData['description'];
                 $fieldData['bitixId'] = $fieldData['bitixId'] == 'null' ? '' : $fieldData['bitixId'];
@@ -303,8 +306,22 @@ class FieldController extends Controller
                 // if (!isset($fieldData['isPlural'])) {
                 //     $fieldData['isPlural'] = false;
                 // }
-                if (!isset($fieldData['type'])) {
+                // if (!isset($fieldData['type'])) {
+                //     $fieldData['type'] = 'string';
+                // }
+                if (!isset($fieldData['code'])) {
+                    $uid = Uuid::uuid4()->toString();
+                    $fieldData['code'] = 'field_' . $uid;
                     $fieldData['type'] = 'string';
+                }
+                if ($fieldData['type']) {
+                    if ($fieldData['type'] == 'boolean') {
+                        if ($fieldData['value'] == '0' || $fieldData['value'] == 0 || $fieldData['value'] == 'false' || $fieldData['value'] == false || $fieldData['value'] == null) {
+                            $fieldData['value'] = false;
+                        }else{
+                            $fieldData['value'] = true;
+                        }
+                    }
                 }
 
                 $field = $this->createOrUpdateField($fieldData);
