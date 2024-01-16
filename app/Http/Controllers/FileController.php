@@ -172,10 +172,11 @@ class FileController extends Controller
                 if ($fileExist) {
                     Storage::disk('local')->delete($file->path);
                 }
+                $updtfileExist = Storage::disk('local')->exists($file->path);
                 $file->delete();
                 return APIController::getSuccess(
 
-                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path]
+                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path, 'updtfileExist' => $updtfileExist]
                 );
         }
     }
