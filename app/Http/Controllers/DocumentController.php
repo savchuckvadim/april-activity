@@ -223,7 +223,7 @@ class DocumentController extends Controller
     public function getDocument($data)
 
     {
-        try {
+        // try {
             $infoblocksOptions = [
                 'description' => $data['infoblocks']['description']['current'],
                 'style' => $data['infoblocks']['style']['current']['code'],
@@ -287,16 +287,16 @@ class DocumentController extends Controller
                 'link' => $link,
                 // 'testInfoblocks' => $testInfoblocks
             ]);
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                'something wrong ' . $th->getMessage(),
-                [
-                    'data' => $data,
-                    'styleMode' => $infoblocksOptions['style']
+        // } catch (\Throwable $th) {
+        //     return APIController::getError(
+        //         'something wrong ' . $th->getMessage(),
+        //         [
+        //             'data' => $data,
+        //             'styleMode' => $infoblocksOptions['style']
 
-                ]
-            );
-        }
+        //         ]
+        //     );
+        // }
     }
 
     protected function getInfoblocks($infoblocksOptions, $complect, $section, $styles)
