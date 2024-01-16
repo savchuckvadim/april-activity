@@ -103,7 +103,7 @@ class DocumentController extends Controller
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
-               
+
                 'align' => [
                     'left' => [
                         'alignment' => 'left',
@@ -277,15 +277,32 @@ class DocumentController extends Controller
 
         //data for header
         $providerRq = $data['provider']['rq'];
-        $headerRqData = [
-            'fullname' => $providerRq['fullname'],
-            'primaryAdresss' => $providerRq['primaryAdresss'],
-            'inn' => $providerRq['inn'],
-            'kpp' => $providerRq['kpp'],
-            'email' => $providerRq['email'],
-            'phone' => $providerRq['phone'],
+        // $headerRqData = [
+        //     'fullname' => $providerRq['fullname'],
+        //     'primaryAdresss' => $providerRq['primaryAdresss'],
+        //     'inn' => $providerRq['inn'],
+        //     'kpp' => $providerRq['kpp'],
+        //     'email' => $providerRq['email'],
+        //     'phone' => $providerRq['phone'],
 
-        ];
+        // ];
+        $first = $providerRq['fullname'];
+        if ($providerRq['inn']) {
+            $first = $first . ', ИНН: ' . $providerRq['inn'];
+        }
+        if ($providerRq['kpp']) {
+            $first = $first . ', КПП: ' . $providerRq['kpp'];
+        }
+        $second = $providerRq['primaryAdresss'];
+        if ($providerRq['phone']) {
+            $second = $second . ', ' . $providerRq['phone'];
+        }
+        if ($providerRq['email']) {
+            $second = $second . ', ' . $providerRq['email'];
+        }
+
+
+
 
         // create header
 
@@ -297,27 +314,23 @@ class DocumentController extends Controller
         $cell = $tableHeader->addCell($halfPageWidth);
         $rqTable = $cell->addTable();
 
-
-
-        foreach ($headerRqData as $key => $value) {
-            if ($value) {
-                $rqTable->addRow();
-                $rqCell = $rqTable->addCell($halfPageWidth);
-                $text = $value;
-                if ($key == 'inn') {
-                    $text = 'ИНН: ' . $text;
-                }
-                if ($key == 'kpp') {
-                    $text = 'КПП: ' . $text;
-                }
-                $rqCell->addText($text, $headerTextStyle, $headerRqParagraf);
-            }
+        if ($first) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($halfPageWidth);
+            $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
+        }
+        if ($second) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($halfPageWidth);
+            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
         }
 
+      
 
 
 
-        $header->addText('header test');
+
+       
         $logo =  null;
         if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
             $logo =  $data['provider']['rq']['logos'][0];
