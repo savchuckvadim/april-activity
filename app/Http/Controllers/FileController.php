@@ -124,7 +124,7 @@ class FileController extends Controller
             }
 
             return APIController::getSuccess(
-                [$fileType=> $file]
+                [$fileType => $file]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
@@ -293,8 +293,9 @@ class FileController extends Controller
             // если вы хотите сохранить файл в storage/app/public/clients, то в методе storeAs вы укажете только 'clients/'.
             // Пример: $file->storeAs('clients/', $filename, 'public');
 
+            $extension = $file->getClientOriginalExtension();
+            $relativePath = $direct . '/' . $filePath . '/' . $filename . '.' . $extension;
 
-            $relativePath = $direct . '/' . $filePath;
             $file->storeAs($relativePath, $filename, 'public');
             $fullPath = 'storage/' . $relativePath . '/' . $filename;
 
@@ -307,7 +308,8 @@ class FileController extends Controller
             // Диск local используется для хранения файлов внутри storage/app, которые не должны быть доступны напрямую через веб.
             // Когда вы используете диск local, вам не нужно указывать app/ в пути, так как это уже предполагается по умолчанию.
             // Пример: $file->storeAs($resultPath, $filename, 'local');, где $resultPath - это путь внутри storage/app.
-            $relativePath = $direct  .  '/' . $filePath  . '/' . $filename;
+            $extension = $file->getClientOriginalExtension();
+            $relativePath = $direct  .  '/' . $filePath  . '/' . $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'local');
 
             return [
