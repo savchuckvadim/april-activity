@@ -150,7 +150,7 @@ class FileController extends Controller
             }
 
             return APIController::getSuccess(
-                ['files' => $files]
+                [$fileType => $files]
             );
         
     }
