@@ -267,7 +267,7 @@ class DocumentController extends Controller
         $resultFileName = $templateType . '_' . $uid . '.docx';
         $document = new \PhpOffice\PhpWord\PhpWord();
 
-        
+
         //create document
         $section = $document->addSection($this->documentStyle['page']);
 
@@ -1210,8 +1210,8 @@ class DocumentController extends Controller
 
 
         $logo =  null;
-        if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
-            $logo =  $data['provider']['rq']['logos'][0];
+        if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos'])) {
+            $logo =  $providerRq['logos'][0];
         }
         if ($logo) {
 
