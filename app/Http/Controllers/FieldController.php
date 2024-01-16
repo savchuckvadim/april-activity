@@ -290,25 +290,25 @@ class FieldController extends Controller
                 $fieldData['isPlural'] = $fieldData['isPlural'] == 'true' ? 1 : 0;
                 $fieldData['isClient'] = $fieldData['isClient'] == 'true' ? 1 : 0;
 
-                // if (!isset($fieldData['isGeneral'])) {
-                //     $fieldData['isGeneral'] = false;
-                // }
+                if (!isset($fieldData['isGeneral'])) {
+                    $fieldData['isGeneral'] = false;
+                }
 
-                // if (!isset($fieldData['isDefault'])) {
-                //     $fieldData['isDefault'] = false;
-                // }
-                // if (!isset($fieldData['isRequired'])) {
-                //     $fieldData['isRequired'] = false;
-                // }
-                // if (!isset($fieldData['isActive'])) {
-                //     $fieldData['isActive'] = false;
-                // }
-                // if (!isset($fieldData['isPlural'])) {
-                //     $fieldData['isPlural'] = false;
-                // }
-                // if (!isset($fieldData['type'])) {
-                //     $fieldData['type'] = 'string';
-                // }
+                if (!isset($fieldData['isDefault'])) {
+                    $fieldData['isDefault'] = false;
+                }
+                if (!isset($fieldData['isRequired'])) {
+                    $fieldData['isRequired'] = false;
+                }
+                if (!isset($fieldData['isActive'])) {
+                    $fieldData['isActive'] = false;
+                }
+                if (!isset($fieldData['isPlural'])) {
+                    $fieldData['isPlural'] = false;
+                }
+                if (!isset($fieldData['type'])) {
+                    $fieldData['type'] = 'string';
+                }
                 if (!isset($fieldData['code'])) {
                     $uid = Uuid::uuid4()->toString();
                     $fieldData['code'] = 'field_' . $uid;
