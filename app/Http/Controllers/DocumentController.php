@@ -18,7 +18,7 @@ class DocumentController extends Controller
     {
         $generalFont = [
             'name' => 'Arial',
-            'color' => '005fa8',
+            'color' => '003b68',
             'lang' => 'ru-RU',
         ];
         $this->documentStyle = [
@@ -31,12 +31,12 @@ class DocumentController extends Controller
 
             'colors' => [
 
-                'general' => '005fa8',
-                'second' => '005fa8',
-                'white' => '005fa8',
-                'shadow' => '005fa8',
-                'atention' => '005fa8',
-                'shadowText' => '005fa8'
+                'general' => '003b68',
+                'second' => '003b68',
+                'white' => '003b68',
+                'shadow' => '003b68',
+                'atention' => '003b68',
+                'shadowText' => '003b68'
 
 
             ],
@@ -44,7 +44,7 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => '005fa8',
+                    'color' => '003b68',
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
@@ -255,6 +255,9 @@ class DocumentController extends Controller
 
 
 
+        // STYLES
+        $styles = $this->documentStyle;
+
 
         //RESULT
         //result document
@@ -277,74 +280,74 @@ class DocumentController extends Controller
 
 
         //create document
-        $section = $document->addSection($this->documentStyle['page']);
+        $section = $document->addSection($styles['page']);
 
         //Header
-        $this->getHeader($section, $this->documentStyle,  $providerRq);
+        $this->getHeader($section, $styles,  $providerRq);
 
         //Main
-        $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-        $this->getInfoblocks($section, $this->documentStyle, $infoblocksOptions, $complect,);
+        $this->getPriceSection($section, $styles,  $data['price']);
+        $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
 
         //Footer
-        if ($manager) {
+        if ($manager && $manager['NAME']) {
             //data
-            $styles = $this->documentStyle;
-            $managerPosition = $manager['WORK_POSITION'];
-            if (!$managerPosition) {
-                $managerPosition = 'Ваш персональный менеджер';
-            }
-            $managerName = $manager['NAME'];
-            $managerLastName = $manager['LAST_NAME'];
-            $name =  $managerName . ' ' . $managerLastName;
 
-            $managerEmail = $manager['EMAIL'];
-            $email = null;
-            if ($managerEmail) {
-                $email = 'e-mail: ' . $managerEmail;
-            }
+            $this->getFooter($section, $styles, $manager);
+            // $managerPosition = $manager['WORK_POSITION'];
+            // if (!$managerPosition) {
+            //     $managerPosition = 'Ваш персональный менеджер';
+            // }
+            // $managerName = $manager['NAME'];
+            // $managerLastName = $manager['LAST_NAME'];
+            // $name =  $managerName . ' ' . $managerLastName;
 
-            $workPhone = $manager['WORK_PHONE'];
-            $mobilePhone = $manager['PERSONAL_MOBILE'];
-            $phone = $workPhone;
-            if (!$phone) {
-                $phone = $mobilePhone;
-            }
-            if ($phone) {
-                $phone = 'телелефон: ' . $phone;
-            }
+            // $managerEmail = $manager['EMAIL'];
+            // $email = null;
+            // if ($managerEmail) {
+            //     $email = 'e-mail: ' . $managerEmail;
+            // }
 
-
-            //styles
-            $footerManagerWidth = $styles['page']['pageSizeW'] / 2.5;
-            $footerTextStyle = $styles['fonts']['text']['small'];
-            $footerManagerParagraf = $styles['paragraphs']['general'];
-            $footerManagerParagrafAlign = $styles['paragraphs']['align']['left'];
+            // $workPhone = $manager['WORK_PHONE'];
+            // $mobilePhone = $manager['PERSONAL_MOBILE'];
+            // $phone = $workPhone;
+            // if (!$phone) {
+            //     $phone = $mobilePhone;
+            // }
+            // if ($phone) {
+            //     $phone = 'телелефон: ' . $phone;
+            // }
 
 
-            //create
-            $footer = $section->addFooter();
-            $tableFooter = $footer->addTable();
-            //position
-            $tableFooter->addRow();
+            // //styles
+            // $footerManagerWidth = $styles['page']['pageSizeW'] / 2.5;
+            // $footerTextStyle = $styles['fonts']['text']['small'];
+            // $footerManagerParagraf = $styles['paragraphs']['general'];
+            // $footerManagerParagrafAlign = $styles['paragraphs']['align']['left'];
 
-            $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            $footerManagerNameCell->addText($managerPosition, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
 
-            //name
+            // //create
+            // $footer = $section->addFooter();
+            // $tableFooter = $footer->addTable();
+            // //position
             // $tableFooter->addRow();
 
             // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+            // $footerManagerNameCell->addText($managerPosition, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
 
-            //email phone
-            // $tableFooter->addRow();
+            // //name
+            // // $tableFooter->addRow();
 
-            // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
-            $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
-      
+            // // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+            // $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+
+            // //email phone
+            // // $tableFooter->addRow();
+
+            // // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+            // $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+            // $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
         }
 
 
@@ -1300,6 +1303,55 @@ class DocumentController extends Controller
             }
         }
 
+        return $section;
+    }
+    protected function getFooter($section, $styles, $manager)
+    {
+        //FOOTER
+        //data
+        $styles = $this->documentStyle;
+        $managerPosition = $manager['WORK_POSITION'];
+        if (!$managerPosition) {
+            $managerPosition = 'Ваш персональный менеджер';
+        }
+        $managerName = $manager['NAME'];
+        $managerLastName = $manager['LAST_NAME'];
+        $name =  $managerName . ' ' . $managerLastName;
+
+        $managerEmail = $manager['EMAIL'];
+        $email = null;
+        if ($managerEmail) {
+            $email = 'e-mail: ' . $managerEmail;
+        }
+
+        $workPhone = $manager['WORK_PHONE'];
+        $mobilePhone = $manager['PERSONAL_MOBILE'];
+        $phone = $workPhone;
+        if (!$phone) {
+            $phone = $mobilePhone;
+        }
+        if ($phone) {
+            $phone = 'телелефон: ' . $phone;
+        }
+
+
+        //styles
+        $footerManagerWidth = $styles['page']['pageSizeW'] / 2.5;
+        $footerTextStyle = $styles['fonts']['text']['small'];
+        $footerManagerParagraf = $styles['paragraphs']['general'];
+        $footerManagerParagrafAlign = $styles['paragraphs']['align']['left'];
+
+
+        //create
+        $footer = $section->addFooter();
+        $tableFooter = $footer->addTable();
+        $tableFooter->addRow();
+
+        $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+        $footerManagerNameCell->addText($managerPosition, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+        $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+        $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+        $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
         return $section;
     }
 }
