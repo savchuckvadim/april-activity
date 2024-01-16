@@ -262,14 +262,14 @@ class DocumentController extends Controller
 
             $header = $section->addHeader();
             $logo =  null;
-            if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])){
+            if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
                 $logo =  $data['provider']['rq']['logos'][0];
             }
-            if($logo){
-
-                $header->addImage($logo['path'], array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+            if ($logo) {
+                $fullPath = '/var/www/html/public/storage/' . $logo['path'];
+                $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
             }
-          
+
 
 
             $this->getPriceSection($section, $this->documentStyle,  $data['price']);
