@@ -319,6 +319,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $fieldData = [
             'name' => $request['name'],
             'type' => $request['type'],
+            'code' => $request['code'],
             'isGeneral' => $request['isGeneral'],
             'isDefault' => $request['isDefault'],
             'isRequired' => $request['isRequired'],
