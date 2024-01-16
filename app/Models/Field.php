@@ -118,6 +118,18 @@ class Field extends Model
 
                     ],
                     [
+                        'title' => 'Код для ассоциаций',
+                        'entityType' => 'field',
+                        'name' => 'code',
+                        'apiName' => 'code',
+                        'type' =>  'string',
+                        'validation' => 'required|max:255',
+                        'initialValue' => '',
+
+                        'isCanAddField' => false,
+
+                    ],
+                    [
                         'title' => 'Является общим для всех шаблонов',
                         'entityType' => 'field',
                         'name' => 'isGeneral',
