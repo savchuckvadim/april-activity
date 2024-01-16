@@ -253,9 +253,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getFitems($fieldId);
     });
 
-    Route::get('{model}', function ($model) {
-        return BaseController::getCollection($model);
-    });
+   
     // Route::get('{entityType}', function ($entityType) {
     //     return BaseController::getCollection($entityType, null, null);
     // });
@@ -274,10 +272,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('item/{fitemId}', function ($fitemId) {
     //     return FItemController::getFitem($fitemId);
     // });
-    Route::get('{model}/{modelId}', function ($model, $modelId) {
-        return BaseController::get($model, $modelId);
-    });
-
+   
 
     //INITIAL SET
     //// specific
@@ -287,14 +282,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('initial/field/{fieldId}/item', function () {
     //     return FItemController::getInitialFitem();
     // });
-    Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
-
-        return BaseController::initial($entityType);
-    });
-
-    Route::get('initial/{entityType}/', function ($entityType) {
-        return BaseController::initial($entityType);
-    });
 
     //// no specific
 
@@ -387,14 +374,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::setFitem($fieldId, $fieldData);
     });
 
-    Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
 
-        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
-    });
 
-    Route::post('{entityType}/', function ($entityType, Request $request) {
-        return BaseController::setOrUpdate($entityType, null, null, $request);
-    });
 
 
 
@@ -528,9 +509,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::delete('field/{fieldId}', function ($fieldId) {
         return FieldController::deleteField($fieldId);
     });
-    Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
-        return BaseController::delete($entityType, $fileId);
-    });
+
+
+
+   
+
+
+
 
 
     // Route::post('field/set', function (Request $request) {
@@ -625,11 +610,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return $result;
     });
-
-
-
-
-
 
 
 
@@ -771,6 +751,38 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('getDescription', function (Request $request) {
         return FileController::getGeneralDescription($request);
     });
+
+
+
+     ////////////////////////BASE CONTROLLER
+     Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+
+        return BaseController::initial($entityType);
+    });
+
+    Route::get('initial/{entityType}/', function ($entityType) {
+        return BaseController::initial($entityType);
+    });
+
+    Route::get('{model}/{modelId}', function ($model, $modelId) {
+        return BaseController::get($model, $modelId);
+    });
+    Route::get('{model}', function ($model) {
+        return BaseController::getCollection($model);
+    });
+    Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
+
+        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+    });
+
+    Route::post('{entityType}/', function ($entityType, Request $request) {
+        return BaseController::setOrUpdate($entityType, null, null, $request);
+    });
+    Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
+        return BaseController::delete($entityType, $fileId);
+    });
+
+
 });
 
 
