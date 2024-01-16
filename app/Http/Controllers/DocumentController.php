@@ -219,7 +219,7 @@ class DocumentController extends Controller
                 'logo' => [
                     'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
                     'width' => 100,
-                    
+
                     // 'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
                 ]
@@ -273,16 +273,45 @@ class DocumentController extends Controller
         //HEADER
         $header = $section->addHeader();
 
-        // Add first page header
-  
+
+        //data for header
+        $providerRq = $data['provider']['rq'];
+        $headerRqData = [
+            'fullname' => $providerRq['fullname'],
+            'primaryAdresss' => $providerRq['primaryAdresss'],
+            'inn' => $providerRq['inn'],
+            'kpp' => $providerRq['kpp'],
+            'email' => $providerRq['email'],
+            'phone' => $providerRq['phone'],
+
+        ];
+
+        // create header
+
         $tableHeader = $header->addTable();
         $tableHeader->addRow();
-        $halfPageWidth =$this->documentStyle['page']['pageSizeW'] / 2;
+        $halfPageWidth = $this->documentStyle['page']['pageSizeW'] / 2;
+        $headerTextStyle = $this->documentStyle['fonts']['text']['small'];
+
         $cell = $tableHeader->addCell($halfPageWidth);
-        $textrun = $cell->addTextRun();
-        $textrun->addText(htmlspecialchars('This is the header with '));
-        $textrun->addLink('https://www.garant.ru/', htmlspecialchars('link to Garant'));
-      
+        $rqTable = $cell->addTable();
+
+
+
+        foreach ($headerRqData as $key => $value) {
+            if ($value) {
+                $rqTable->addRow();
+                $cell = $tableHeader->addCell($halfPageWidth);
+                $text = $value;
+                if ($key == 'inn') {
+                    $text = 'ИНН: ' . $text;
+                }
+                if ($key == 'kpp') {
+                    $text = 'КПП: ' . $text;
+                }
+                $cell->addText($text, $headerTextStyle);
+            }
+        }
 
 
 
