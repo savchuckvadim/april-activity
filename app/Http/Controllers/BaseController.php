@@ -130,21 +130,21 @@ class BaseController extends Controller
         try {
             if ($model) {
                 switch ($model) {
-                    case 'logo':
-                    case 'signature':
-                    case 'stamp':
-                    case 'qr':
-                    case 'file':
+                    case 'logos':
+                    case 'signatures':
+                    case 'stamps':
+                    case 'qrs':
+                    case 'files':
                         return FileController::getFiles($model);
 
-                    case 'template':
+                    case 'templates':
 
                         // return TemplateController::getTemplate($modelId);
 
-                    case 'field':
+                    case 'fields':
                         // return FieldController::getField($modelId);
 
-                    case 'item':
+                    case 'items':
                         // return FItemController::getFitem($modelId);
 
                     default:
