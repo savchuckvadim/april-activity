@@ -261,6 +261,7 @@ class DocumentController extends Controller
         $section = $document->addSection($this->documentStyle['page']);
 
         $header = $section->addHeader();
+        $header->addText('header test');
         $logo =  null;
         if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
             $logo =  $data['provider']['rq']['logos'][0];
