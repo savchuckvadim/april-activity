@@ -134,7 +134,26 @@ class FileController extends Controller
         }
     }
 
+    public static function getFiles($fileType)
+    {
+     
 
+            $files = File::all();
+
+
+            if (!$files) {
+
+                return APIController::getError(
+                    'files not found',
+                    ['fileType' => $fileType]
+                );
+            }
+
+            return APIController::getSuccess(
+                ['files' => $files]
+            );
+        
+    }
     // public static function getFile(Request $request)
     // {
     //     $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла

@@ -124,6 +124,49 @@ class BaseController extends Controller
             );
         }
     }
+    public static function getCollection($model)
+    {
+
+        try {
+            if ($model) {
+                switch ($model) {
+                    case 'logo':
+                    case 'signature':
+                    case 'stamp':
+                    case 'qr':
+                    case 'file':
+                        return FileController::getFiles($model);
+
+                    case 'template':
+
+                        // return TemplateController::getTemplate($modelId);
+
+                    case 'field':
+                        // return FieldController::getField($modelId);
+
+                    case 'item':
+                        // return FItemController::getFitem($modelId);
+
+                    default:
+                        return APIController::getError(
+                            'model was not found',
+                            ['model' => $model]
+                        );
+                }
+            } else {
+                return APIController::getError(
+                    'model was not found',
+                    ['model' => $model]
+                );
+            }
+        } catch (\Throwable $th) {
+            Log::error('Ошибка: ' . $model . '' . $th->getMessage());
+            return APIController::getError(
+                $th->getMessage(),
+                ['model' => $model]
+            );
+        }
+    }
     public static function delete($model, $modelId)
     {
 

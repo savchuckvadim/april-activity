@@ -226,7 +226,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
         return RqController::getFiles($rqId, $fileType);
     });
-
+    Route::get('{model}', function ($model) {
+        return BaseController::getCollection($model);
+    });
 
 
     //// no specific
