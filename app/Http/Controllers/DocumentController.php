@@ -267,7 +267,16 @@ class DocumentController extends Controller
             $logo =  $data['provider']['rq']['logos'][0];
         }
         if ($logo) {
-            $fullPath = '/' . $logo['path'];
+
+            $fullPath = storage_path('app/' . $logo['path']);
+            if (file_exists($fullPath)) {
+                // Добавление изображения в документ PHPWord
+            } else {
+                return APIController::getError(
+                    'invalid file path',
+                    ['fullPath' => $fullPath]
+                );
+            }
             $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
         }
 
