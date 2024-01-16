@@ -301,7 +301,7 @@ class DocumentController extends Controller
         foreach ($headerRqData as $key => $value) {
             if ($value) {
                 $rqTable->addRow();
-                $cell = $tableHeader->addCell($halfPageWidth);
+                $cellRq = $rqTable->addCell();
                 $text = $value;
                 if ($key == 'inn') {
                     $text = 'ИНН: ' . $text;
@@ -309,7 +309,7 @@ class DocumentController extends Controller
                 if ($key == 'kpp') {
                     $text = 'КПП: ' . $text;
                 }
-                $cell->addText($text, $headerTextStyle);
+                $cellRq->addText($text, $headerTextStyle);
             }
         }
 
