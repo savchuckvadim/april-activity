@@ -293,7 +293,7 @@ class DocumentController extends Controller
         $tableHeader->addRow();
         $halfPageWidth = $this->documentStyle['page']['pageSizeW'] / 2;
         $headerTextStyle = $this->documentStyle['fonts']['text']['small'];
-        $headerRqParagraf = $this->documentStyle['paragraphs']['text']['small'];
+        $headerRqParagraf = $this->documentStyle['paragraphs']['general'];
         $cell = $tableHeader->addCell($halfPageWidth);
         $rqTable = $cell->addTable();
 
