@@ -266,7 +266,7 @@ class DocumentController extends Controller
                 $logo =  $data['provider']['rq']['logos'][0];
             }
             if ($logo) {
-                $fullPath = '/var/www/html/public/storage/' . $logo['path'];
+                $fullPath = '/' . $logo['path'];
                 $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
             }
 
