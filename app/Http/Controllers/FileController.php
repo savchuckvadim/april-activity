@@ -396,12 +396,17 @@ class FileController extends Controller
             case 'file':
             case 'logo':
                 $file = File::find($fileId);
+                $file->entity_type = null;
+                $file->entity_id = null;
+                $file->save();
                 $fileExist = Storage::disk('local')->exists($file->path);
-               
-              
+                if ($fileExist) {
+                    Storage::disk('local')->delete($file->path);
+                }
+                $file->delete();
                 return APIController::getSuccess(
-                
-                    ['file' => $file, 'fileExist' => $fileExist]
+
+                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path]
                 );
         }
     }
