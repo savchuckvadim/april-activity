@@ -395,13 +395,12 @@ class FileController extends Controller
             case 'qr':
             case 'file':
             case 'logo':
-                $fileExist = false;
                 $file = File::find($fileId);
-                if (Storage::disk('local')->exists($file->path)) {
-                   
-                }
-                return APIController::getError(
-                    'invalid data file',
+                $fileExist = Storage::disk('local')->exists($file->path);
+               
+              
+                return APIController::getSuccess(
+                
                     ['file' => $file, 'fileExist' => $fileExist]
                 );
         }
