@@ -18,7 +18,7 @@ class DocumentController extends Controller
     {
         $generalFont = [
             'name' => 'Arial',
-            'color' => '514a64',
+            'color' => '272547',
             'lang' => 'ru-RU',
         ];
         $this->documentStyle = [
@@ -31,12 +31,12 @@ class DocumentController extends Controller
 
             'colors' => [
 
-                'general' => '514a64',
-                'second' => '514a64',
-                'white' => '514a64',
-                'shadow' => '514a64',
-                'atention' => '514a64',
-                'shadowText' => '514a64'
+                'general' => '272547',
+                'second' => '272547',
+                'white' => '272547',
+                'shadow' => '272547',
+                'atention' => '272547',
+                'shadowText' => '272547'
 
 
             ],
@@ -44,7 +44,7 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => '514a64',
+                    'color' => '272547',
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
