@@ -247,6 +247,14 @@ class DocumentController extends Controller
         $complect = $data['complect'];
 
 
+        //manager
+        $manager = $data['manager'];
+        //UF_DEPARTMENT
+        //SECOND_NAME
+
+
+
+
 
         //RESULT
         //result document
@@ -277,6 +285,73 @@ class DocumentController extends Controller
         //Main
         $this->getPriceSection($section, $this->documentStyle,  $data['price']);
         $this->getInfoblocks($section, $this->documentStyle, $infoblocksOptions, $complect,);
+
+
+        //Footer
+        if ($manager) {
+            //data
+            $styles = $this->documentStyle;
+            $managerPosition = $data['WORK_POSITION'];
+            if (!$managerPosition) {
+                $managerPosition = 'Ваш персональный менеджер';
+            }
+            $managerName = $data['NAME'];
+            $managerLastName = $data['LAST_NAME'];
+            $name =  $managerName . ' ' . $managerLastName;
+
+            $managerEmail = $data['EMAIL'];
+            $email = null;
+            if ($managerEmail) {
+                $email = 'e-mail: ' . $managerEmail;
+            }
+
+            $workPhone = $data['WORK_PHONE'];
+            $mobilePhone = $data['PERSONAL_MOBILE'];
+            $phone = $workPhone;
+            if (!$phone) {
+                $phone = $mobilePhone;
+            }
+            if ($phone) {
+                $phone = 'телелефон: ' . $phone;
+            }
+
+
+            //styles
+            $footerManagerWidth = $styles['page']['pageSizeW'] / 2.5;
+            $footerTextStyle = $styles['fonts']['text']['small'];
+            $footerManagerParagraf = $styles['paragraphs']['general'];
+            $footerManagerParagrafAlign = $styles['paragraphs']['align']['left'];
+
+
+            //create
+            $footer = $section->addFooter();
+            $tableFooter = $footer->addTable();
+            //position
+            $tableFooter->addRow();
+
+            $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+            $footerManagerNameCell->addText($managerPosition, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+
+            //name
+            // $tableFooter->addRow();
+
+            // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+            $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+
+            //email phone
+            // $tableFooter->addRow();
+
+            // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
+            $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+            $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+      
+        }
+
+
+
+
+
+
 
         // //СОХРАНЕНИЕ ДОКУМЕТА
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
