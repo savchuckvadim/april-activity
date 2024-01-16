@@ -103,6 +103,7 @@ class DocumentController extends Controller
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
+               
                 'align' => [
                     'left' => [
                         'alignment' => 'left',
@@ -292,7 +293,7 @@ class DocumentController extends Controller
         $tableHeader->addRow();
         $halfPageWidth = $this->documentStyle['page']['pageSizeW'] / 2;
         $headerTextStyle = $this->documentStyle['fonts']['text']['small'];
-
+        $headerRqParagraf = $this->documentStyle['paragraphs']['text']['small'];
         $cell = $tableHeader->addCell($halfPageWidth);
         $rqTable = $cell->addTable();
 
@@ -301,7 +302,7 @@ class DocumentController extends Controller
         foreach ($headerRqData as $key => $value) {
             if ($value) {
                 $rqTable->addRow();
-                $cellRq = $rqTable->addCell();
+                $rqCell = $rqTable->addCell($halfPageWidth);
                 $text = $value;
                 if ($key == 'inn') {
                     $text = 'ИНН: ' . $text;
@@ -309,7 +310,7 @@ class DocumentController extends Controller
                 if ($key == 'kpp') {
                     $text = 'КПП: ' . $text;
                 }
-                $cellRq->addText($text, $headerTextStyle);
+                $rqCell->addText($text, $headerTextStyle, $headerRqParagraf);
             }
         }
 
