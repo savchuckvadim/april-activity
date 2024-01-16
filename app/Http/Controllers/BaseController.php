@@ -135,7 +135,8 @@ class BaseController extends Controller
                     case 'stamp':
                     case 'qr':
                     case 'file':
-                        return FileController::deleteFile($model, $modelId);
+                        $fileController = new FileController;
+                        return $fileController->deleteFile($model, $modelId);
 
                     case 'template':
 

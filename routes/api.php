@@ -525,8 +525,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::delete('field/{fieldId}', function ($fieldId) {
         return FieldController::deleteField($fieldId);
     });
-    Route::delete('{entityType}/{entityId}', function ($fieldId) {
-        return FieldController::deleteField($fieldId);
+    Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
+        return BaseController::delete($entityType, $fileId);
     });
 
 
