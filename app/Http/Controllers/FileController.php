@@ -154,6 +154,32 @@ class FileController extends Controller
             );
         
     }
+    public function deleteFile($fileType, $fileId)
+    {
+
+
+        switch ($fileType) {
+            case 'signature':
+            case 'stamp':
+            case 'qr':
+            case 'file':
+            case 'logo':
+                $file = File::find($fileId);
+                $file->entity_type = null;
+                $file->entity_id = null;
+                $file->save();
+                $fileExist = Storage::disk('local')->exists($file->path);
+                if ($fileExist) {
+                    Storage::disk('local')->delete($file->path);
+                }
+                $file->delete();
+                return APIController::getSuccess(
+
+                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path]
+                );
+        }
+    }
+
     // public static function getFile(Request $request)
     // {
     //     $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла
@@ -404,32 +430,7 @@ class FileController extends Controller
 
 
 
-    public function deleteFile($fileType, $fileId)
-    {
-
-
-        switch ($fileType) {
-            case 'signature':
-            case 'stamp':
-            case 'qr':
-            case 'file':
-            case 'logo':
-                $file = File::find($fileId);
-                $file->entity_type = null;
-                $file->entity_id = null;
-                $file->save();
-                $fileExist = Storage::disk('local')->exists($file->path);
-                if ($fileExist) {
-                    Storage::disk('local')->delete($file->path);
-                }
-                $file->delete();
-                return APIController::getSuccess(
-
-                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path]
-                );
-        }
-    }
-
+  
 
 
 

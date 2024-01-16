@@ -139,10 +139,10 @@ class BaseController extends Controller
 
                     case 'templates':
 
-                        // return TemplateController::getTemplate($modelId);
+                        return TemplateController::getAllTemplates();
 
                     case 'fields':
-                        // return FieldController::getField($modelId);
+                        return FieldController::getAllFields();
 
                     case 'items':
                         // return FItemController::getFitem($modelId);

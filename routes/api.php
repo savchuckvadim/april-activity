@@ -226,17 +226,15 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
         return RqController::getFiles($rqId, $fileType);
     });
-    Route::get('{model}', function ($model) {
-        return BaseController::getCollection($model);
-    });
+  
 
 
     //// no specific
   
 
-    Route::get('templates', function () {
-        return TemplateController::getAllTemplates();
-    });
+    // Route::get('templates', function () {
+    //     return TemplateController::getAllTemplates();
+    // });
 
 
     Route::get('templates/{domain}', function ($domain) {
@@ -248,13 +246,16 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('fields/{templateId}', function ($templateId) {
         return FieldController::getFields($templateId);
     });
-    Route::get('fields', function () {
-        return FieldController::getAllFields();
-    });
+    // Route::get('fields', function () {
+    //     return FieldController::getAllFields();
+    // });
     Route::get('items/{fieldId}', function ($fieldId) {
         return FItemController::getFitems($fieldId);
     });
 
+    Route::get('{model}', function ($model) {
+        return BaseController::getCollection($model);
+    });
     // Route::get('{entityType}', function ($entityType) {
     //     return BaseController::getCollection($entityType, null, null);
     // });
