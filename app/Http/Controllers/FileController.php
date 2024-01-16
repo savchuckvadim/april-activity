@@ -153,66 +153,6 @@ class FileController extends Controller
             [$fileType => $files]
         );
     }
-    public function deleteFile($fileType, $fileId)
-    {
-
-
-        switch ($fileType) {
-            case 'signature':
-            case 'stamp':
-            case 'qr':
-            case 'file':
-            case 'logo':
-                $file = File::find($fileId);
-                $file->entity_type = null;
-                $file->entity_id = null;
-                $file->save();
-                $fileExist = Storage::disk('local')->exists($file->path);
-                if ($fileExist) {
-                    Storage::disk('local')->delete($file->path);
-                }
-                $updtfileExist = Storage::disk('local')->exists($file->path);
-                $file->delete();
-                return APIController::getSuccess(
-
-                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path, 'updtfileExist' => $updtfileExist]
-                );
-        }
-    }
-
-    // public static function getFile(Request $request)
-    // {
-    //     $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла
-    //     $DEAL_ID = 1; // Используйте реальный ID вашей сделки
-
-    //     CRest::call(
-    //         'crm.deal.update',
-    //         [
-    //             'id' => $DEAL_ID,
-    //             'fields' => [
-    //                 "UF_CRM_1234567890" => [ // Замените "UF_CRM_1234567890" на код вашего пользовательского поля
-    //                     'fileData' => ["file.docx", $base64] // Используйте реальное имя вашего файла
-    //                 ],
-    //             ],
-    //             'params' => [
-    //                 "REGISTER_SONET_EVENT" => "Y"
-    //             ]
-    //         ]
-    //     );
-    // }
-
-    public static function uploadDescriptionTemplate(Request $request)
-    {
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filename = 'Description';
-            // time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('description/general', $filename, 'public');
-
-            return response()->json(['message' => 'File uploaded successfully']);
-        }
-        return response()->json(['message' => 'No file uploaded']);
-    }
 
     public function setFile($entityType, $parentType, $parentId, Request $request)
     {
@@ -372,6 +312,70 @@ class FileController extends Controller
             'filePath' => null,
         ];
     }
+
+    
+    public function deleteFile($fileType, $fileId)
+    {
+
+
+        switch ($fileType) {
+            case 'signature':
+            case 'stamp':
+            case 'qr':
+            case 'file':
+            case 'logo':
+                $file = File::find($fileId);
+                $file->entity_type = null;
+                $file->entity_id = null;
+                $file->save();
+                $fileExist = Storage::disk('local')->exists($file->path);
+                if ($fileExist) {
+                    Storage::disk('local')->delete($file->path);
+                }
+                $updtfileExist = Storage::disk('local')->exists($file->path);
+                $file->delete();
+                return APIController::getSuccess(
+
+                    ['file' => $file, 'fileExist' => $fileExist, 'path' => $file->path, 'updtfileExist' => $updtfileExist]
+                );
+        }
+    }
+
+    // public static function getFile(Request $request)
+    // {
+    //     $base64 = base64_encode(file_get_contents('/path/to/your/file.docx')); // Замените '/path/to/your/file.docx' на реальный путь до вашего файла
+    //     $DEAL_ID = 1; // Используйте реальный ID вашей сделки
+
+    //     CRest::call(
+    //         'crm.deal.update',
+    //         [
+    //             'id' => $DEAL_ID,
+    //             'fields' => [
+    //                 "UF_CRM_1234567890" => [ // Замените "UF_CRM_1234567890" на код вашего пользовательского поля
+    //                     'fileData' => ["file.docx", $base64] // Используйте реальное имя вашего файла
+    //                 ],
+    //             ],
+    //             'params' => [
+    //                 "REGISTER_SONET_EVENT" => "Y"
+    //             ]
+    //         ]
+    //     );
+    // }
+
+    public static function uploadDescriptionTemplate(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = 'Description';
+            // time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('description/general', $filename, 'public');
+
+            return response()->json(['message' => 'File uploaded successfully']);
+        }
+        return response()->json(['message' => 'No file uploaded']);
+    }
+
+  
     protected function getFilePath(
         $filename,
         $availability, //public | other non public directory

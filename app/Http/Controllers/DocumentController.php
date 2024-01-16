@@ -214,6 +214,13 @@ class DocumentController extends Controller
                     ],
 
                 ],
+            ],
+            'header' => [
+                'logo' => [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
+                    'width' => 200,
+                    'height' => 100,
+                ]
             ]
 
         ];
@@ -271,7 +278,7 @@ class DocumentController extends Controller
             $fullPath = storage_path('app/' . $logo['path']);
             if (file_exists($fullPath)) {
                 // Добавление изображения в документ PHPWord
-                $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+                $header->addImage($fullPath, $this->documentStyle['header']['logo']);
                 // return APIController::getError(
                 //     'path exist',
                 //     ['fullPath' => $fullPath]
@@ -282,7 +289,6 @@ class DocumentController extends Controller
                     ['fullPath' => $fullPath]
                 );
             }
-           
         }
 
 
