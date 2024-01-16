@@ -267,9 +267,7 @@ class DocumentController extends Controller
         $resultFileName = $templateType . '_' . $uid . '.docx';
         $document = new \PhpOffice\PhpWord\PhpWord();
 
-
-
-
+        
         //create document
         $section = $document->addSection($this->documentStyle['page']);
 
