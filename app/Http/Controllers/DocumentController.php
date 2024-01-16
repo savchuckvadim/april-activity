@@ -218,8 +218,9 @@ class DocumentController extends Controller
             'header' => [
                 'logo' => [
                     'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
-                    'width' => 150,
-                    'wrappingStyle' => 'behind'
+                    'width' => 100,
+                    
+                    // 'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
                 ]
             ]
@@ -268,7 +269,24 @@ class DocumentController extends Controller
 
         $section = $document->addSection($this->documentStyle['page']);
 
+
+        //HEADER
         $header = $section->addHeader();
+
+        // Add first page header
+  
+        $tableHeader = $header->addTable();
+        $tableHeader->addRow();
+        $halfPageWidth =$this->documentStyle['page']['pageSizeW'] / 2;
+        $cell = $tableHeader->addCell($halfPageWidth);
+        $textrun = $cell->addTextRun();
+        $textrun->addText(htmlspecialchars('This is the header with '));
+        $textrun->addLink('https://www.garant.ru/', htmlspecialchars('link to Garant'));
+      
+
+
+
+
         $header->addText('header test');
         $logo =  null;
         if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
@@ -279,7 +297,11 @@ class DocumentController extends Controller
             $fullPath = storage_path('app/' . $logo['path']);
             if (file_exists($fullPath)) {
                 // Добавление изображения в документ PHPWord
-                $header->addImage($fullPath, $this->documentStyle['header']['logo']);
+                $tableHeader->addCell($halfPageWidth)->addImage(
+                    $fullPath,
+                    $this->documentStyle['header']['logo']
+                );
+                // $header->addImage($fullPath, $this->documentStyle['header']['logo']);
                 // return APIController::getError(
                 //     'path exist',
                 //     ['fullPath' => $fullPath]
@@ -294,6 +316,11 @@ class DocumentController extends Controller
 
 
 
+
+
+
+
+        //MAIN
         $this->getPriceSection($section, $this->documentStyle,  $data['price']);
         $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
 
