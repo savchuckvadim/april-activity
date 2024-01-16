@@ -234,17 +234,23 @@ class DocumentController extends Controller
 
     {
         // try {
+
+        //Data
+        $templateType = $data['template']['type'];
+        //header-data
+        $providerRq = $data['provider']['rq'];
+        //infoblocks data
         $infoblocksOptions = [
             'description' => $data['infoblocks']['description']['current'],
             'style' => $data['infoblocks']['style']['current']['code'],
         ];
-
         $complect = $data['complect'];
 
-        $templateType = $data['template']['type'];
 
 
+        //RESULT
         //result document
+        $uid = Uuid::uuid4()->toString();
         $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
 
 
@@ -258,116 +264,21 @@ class DocumentController extends Controller
         }
 
 
-
-        $uid = Uuid::uuid4()->toString();
         $resultFileName = $templateType . '_' . $uid . '.docx';
-
-
-
         $document = new \PhpOffice\PhpWord\PhpWord();
 
 
 
+
+        //create document
         $section = $document->addSection($this->documentStyle['page']);
 
+        //Header
+        $this->getHeader($section, $this->documentStyle,  $providerRq);
 
-        //HEADER
-        $header = $section->addHeader();
-
-
-        //data for header
-        $providerRq = $data['provider']['rq'];
-        // $headerRqData = [
-        //     'fullname' => $providerRq['fullname'],
-        //     'primaryAdresss' => $providerRq['primaryAdresss'],
-        //     'inn' => $providerRq['inn'],
-        //     'kpp' => $providerRq['kpp'],
-        //     'email' => $providerRq['email'],
-        //     'phone' => $providerRq['phone'],
-
-        // ];
-        $first = $providerRq['fullname'];
-        if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn']. ', ';
-        }
-        if ($providerRq['kpp']) {
-            $first = $first . ', КПП: ' . $providerRq['kpp']. ', ';
-        }
-        $second = $providerRq['primaryAdresss'];
-        if ($providerRq['phone']) {
-            $second = $second . ', ' . $providerRq['phone'];
-        }
-        if ($providerRq['email']) {
-            $second = $second . ', ' . $providerRq['email'];
-        }
-
-
-
-
-        // create header
-
-        $tableHeader = $header->addTable();
-        $tableHeader->addRow();
-        $headerRqWidth = $this->documentStyle['page']['pageSizeW'] / 2.5;
-        $headerLogoWidth = $this->documentStyle['page']['pageSizeW'] / 1.5;
-
-        $headerTextStyle = $this->documentStyle['fonts']['text']['small'];
-        $headerRqParagraf = $this->documentStyle['paragraphs']['general'];
-        $cell = $tableHeader->addCell($headerRqWidth);
-        $rqTable = $cell->addTable();
-
-        if ($first) {
-            $rqTable->addRow();
-            $rqCell = $rqTable->addCell($headerRqWidth);
-            $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
-        }
-        if ($second) {
-            $rqTable->addRow();
-            $rqCell = $rqTable->addCell($headerRqWidth);
-            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
-        }
-
-      
-
-
-
-
-       
-        $logo =  null;
-        if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
-            $logo =  $data['provider']['rq']['logos'][0];
-        }
-        if ($logo) {
-
-            $fullPath = storage_path('app/' . $logo['path']);
-            if (file_exists($fullPath)) {
-                // Добавление изображения в документ PHPWord
-                $tableHeader->addCell($headerLogoWidth)->addImage(
-                    $fullPath,
-                    $this->documentStyle['header']['logo']
-                );
-                // $header->addImage($fullPath, $this->documentStyle['header']['logo']);
-                // return APIController::getError(
-                //     'path exist',
-                //     ['fullPath' => $fullPath]
-                // );
-            } else {
-                return APIController::getError(
-                    'invalid file path',
-                    ['fullPath' => $fullPath]
-                );
-            }
-        }
-
-
-
-
-
-
-
-        //MAIN
+        //Main
         $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-        $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
+        $this->getInfoblocks($section, $this->documentStyle, $infoblocksOptions, $complect,);
 
         // //СОХРАНЕНИЕ ДОКУМЕТА
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
@@ -393,7 +304,7 @@ class DocumentController extends Controller
         // }
     }
 
-    protected function getInfoblocks($infoblocksOptions, $complect, $section, $styles)
+    protected function getInfoblocks($section, $styles, $infoblocksOptions, $complect)
     {
 
         $totalCount = $this->getInfoblocksCount($complect);
@@ -1235,5 +1146,87 @@ class DocumentController extends Controller
         }
 
         return $result;
+    }
+
+    protected function getHeader($section, $styles, $providerRq)
+    {
+        //HEADER
+        $header = $section->addHeader();
+
+
+        //data for header
+
+        //     'fullname' => $providerRq['fullname'],
+        //     'primaryAdresss' => $providerRq['primaryAdresss'],
+        //     'inn' => $providerRq['inn'],
+        //     'kpp' => $providerRq['kpp'],
+        //     'email' => $providerRq['email'],
+        //     'phone' => $providerRq['phone'],
+
+
+        $first = $providerRq['fullname'];
+        if ($providerRq['inn']) {
+            $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+        }
+        if ($providerRq['kpp']) {
+            $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+        }
+        $second = $providerRq['primaryAdresss'];
+        if ($providerRq['phone']) {
+            $second = $second . ', ' . $providerRq['phone'];
+        }
+        if ($providerRq['email']) {
+            $second = $second . ', ' . $providerRq['email'];
+        }
+
+
+
+
+        // create header
+
+        $tableHeader = $header->addTable();
+        $tableHeader->addRow();
+        $headerRqWidth = $styles['page']['pageSizeW'] / 2.5;
+        $headerLogoWidth = $styles['page']['pageSizeW'] / 1.5;
+
+        $headerTextStyle = $styles['fonts']['text']['small'];
+        $headerRqParagraf = $styles['paragraphs']['general'];
+        $cell = $tableHeader->addCell($headerRqWidth);
+        $rqTable = $cell->addTable();
+
+        if ($first) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($headerRqWidth);
+            $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
+        }
+        if ($second) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($headerRqWidth);
+            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
+        }
+
+
+
+
+
+
+
+        $logo =  null;
+        if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
+            $logo =  $data['provider']['rq']['logos'][0];
+        }
+        if ($logo) {
+
+            $fullPath = storage_path('app/' . $logo['path']);
+            if (file_exists($fullPath)) {
+                // Добавление изображения в документ PHPWord
+                $tableHeader->addCell($headerLogoWidth)->addImage(
+                    $fullPath,
+                    $styles['header']['logo']
+                );
+            }
+        }
+
+        return $section;
     }
 }
