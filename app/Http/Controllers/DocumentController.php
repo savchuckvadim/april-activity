@@ -219,7 +219,7 @@ class DocumentController extends Controller
             'header' => [
                 'logo' => [
                     'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
-                    'width' => 150,
+                    'width' => 300,
 
                     // 'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
