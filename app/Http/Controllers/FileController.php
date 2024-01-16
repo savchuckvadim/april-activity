@@ -342,8 +342,9 @@ class FileController extends Controller
             $relativePath = $direct . '/' . $filePath;
             $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'public');
-            $fullPath = 'storage/' . $relativePath;
-
+            
+            $resultPathToFile =  $relativePath . '/' . $filename;
+            $fullPath = 'storage/' . $resultPathToFile;
             return [
                 'resultCode' => 0,
                 'filePath' => $fullPath,
@@ -357,10 +358,11 @@ class FileController extends Controller
             $relativePath = $direct  .  '/' . $filePath;
             $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'local');
-
+            $resultPathToFile =  $relativePath . '/' . $filename;
+           
             return [
                 'resultCode' => 0,
-                'filePath' => $relativePath,
+                'filePath' => $resultPathToFile,
 
             ];
         }
