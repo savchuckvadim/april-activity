@@ -288,10 +288,10 @@ class DocumentController extends Controller
         // ];
         $first = $providerRq['fullname'];
         if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn'];
+            $first = $first . ', ИНН: ' . $providerRq['inn']. ', ';
         }
         if ($providerRq['kpp']) {
-            $first = $first . ', КПП: ' . $providerRq['kpp'];
+            $first = $first . ', КПП: ' . $providerRq['kpp']. ', ';
         }
         $second = $providerRq['primaryAdresss'];
         if ($providerRq['phone']) {
