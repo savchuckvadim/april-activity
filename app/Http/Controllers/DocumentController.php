@@ -271,7 +271,7 @@ class DocumentController extends Controller
             $fullPath = storage_path('app/' . $logo['path']);
             if (file_exists($fullPath)) {
                 // Добавление изображения в документ PHPWord
-                $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+                // $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
                 return APIController::getError(
                     'path exist',
                     ['fullPath' => $fullPath]
