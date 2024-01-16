@@ -308,20 +308,22 @@ class DocumentController extends Controller
 
         $tableHeader = $header->addTable();
         $tableHeader->addRow();
-        $halfPageWidth = $this->documentStyle['page']['pageSizeW'] / 2;
+        $headerRqWidth = $this->documentStyle['page']['pageSizeW'] / 2.5;
+        $headerLogoWidth = $this->documentStyle['page']['pageSizeW'] / 1.5;
+
         $headerTextStyle = $this->documentStyle['fonts']['text']['small'];
         $headerRqParagraf = $this->documentStyle['paragraphs']['general'];
-        $cell = $tableHeader->addCell($halfPageWidth);
+        $cell = $tableHeader->addCell($headerRqWidth);
         $rqTable = $cell->addTable();
 
         if ($first) {
             $rqTable->addRow();
-            $rqCell = $rqTable->addCell($halfPageWidth);
+            $rqCell = $rqTable->addCell($headerRqWidth);
             $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
         }
         if ($second) {
             $rqTable->addRow();
-            $rqCell = $rqTable->addCell($halfPageWidth);
+            $rqCell = $rqTable->addCell($headerRqWidth);
             $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
         }
 
@@ -340,7 +342,7 @@ class DocumentController extends Controller
             $fullPath = storage_path('app/' . $logo['path']);
             if (file_exists($fullPath)) {
                 // Добавление изображения в документ PHPWord
-                $tableHeader->addCell($halfPageWidth)->addImage(
+                $tableHeader->addCell($headerLogoWidth)->addImage(
                     $fullPath,
                     $this->documentStyle['header']['logo']
                 );
