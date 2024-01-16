@@ -18,7 +18,7 @@ class DocumentController extends Controller
     {
         $generalFont = [
             'name' => 'Arial',
-            'color' => '18171b',
+            'color' => '18171B',
             'lang' => 'ru-RU',
         ];
         $this->documentStyle = [
@@ -31,12 +31,12 @@ class DocumentController extends Controller
 
             'colors' => [
 
-                'general' => '18171b',
-                'second' => '18171b',
-                'white' => '18171b',
-                'shadow' => '18171b',
-                'atention' => '18171b',
-                'shadowText' => '18171b'
+                'general' => '18171B',
+                'second' => '18171B',
+                'white' => '18171B',
+                'shadow' => '18171B',
+                'atention' => '18171B',
+                'shadowText' => '18171B'
 
 
             ],
@@ -44,7 +44,7 @@ class DocumentController extends Controller
             'fonts' => [
                 'general' => [
                     'name' => 'Arial',
-                    'color' => '18171b',
+                    'color' => '18171B',
                     'lang' => 'ru-RU',
                 ],
                 'h1' => [
@@ -219,7 +219,7 @@ class DocumentController extends Controller
             'header' => [
                 'logo' => [
                     'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
-                    'width' => 200,
+                    'width' => 150,
 
                     // 'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
