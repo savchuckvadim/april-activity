@@ -291,22 +291,22 @@ class DocumentController extends Controller
         if ($manager) {
             //data
             $styles = $this->documentStyle;
-            $managerPosition = $data['WORK_POSITION'];
+            $managerPosition = $manager['WORK_POSITION'];
             if (!$managerPosition) {
                 $managerPosition = 'Ваш персональный менеджер';
             }
-            $managerName = $data['NAME'];
-            $managerLastName = $data['LAST_NAME'];
+            $managerName = $manager['NAME'];
+            $managerLastName = $manager['LAST_NAME'];
             $name =  $managerName . ' ' . $managerLastName;
 
-            $managerEmail = $data['EMAIL'];
+            $managerEmail = $manager['EMAIL'];
             $email = null;
             if ($managerEmail) {
                 $email = 'e-mail: ' . $managerEmail;
             }
 
-            $workPhone = $data['WORK_PHONE'];
-            $mobilePhone = $data['PERSONAL_MOBILE'];
+            $workPhone = $manager['WORK_PHONE'];
+            $mobilePhone = $manager['PERSONAL_MOBILE'];
             $phone = $workPhone;
             if (!$phone) {
                 $phone = $mobilePhone;
