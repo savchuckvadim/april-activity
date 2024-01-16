@@ -384,6 +384,45 @@ class FileController extends Controller
     }
 
 
+
+    public function deleteFile($fileType, $fileId)
+    {
+
+
+        switch ($fileType) {
+            case 'signature':
+            case 'stamp':
+            case 'qr':
+            case 'file':
+            case 'logo':
+                $fileExist = false;
+                $file = File::find($fileId);
+                if (Storage::disk('local')->exists($file->path)) {
+                   
+                }
+                return APIController::getError(
+                    'invalid data file',
+                    ['file' => $file, 'fileExist' => $fileExist]
+                );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static function getGeneralDescription(Request $request)
     {
 

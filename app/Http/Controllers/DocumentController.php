@@ -224,69 +224,69 @@ class DocumentController extends Controller
 
     {
         // try {
-            $infoblocksOptions = [
-                'description' => $data['infoblocks']['description']['current'],
-                'style' => $data['infoblocks']['style']['current']['code'],
-            ];
+        $infoblocksOptions = [
+            'description' => $data['infoblocks']['description']['current'],
+            'style' => $data['infoblocks']['style']['current']['code'],
+        ];
 
-            $complect = $data['complect'];
+        $complect = $data['complect'];
 
-            $templateType = $data['template']['type'];
-
-
-            //result document
-            $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+        $templateType = $data['template']['type'];
 
 
-            if (!file_exists($resultPath)) {
-                mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-            }
-
-            // Проверить доступность каталога для записи
-            if (!is_writable($resultPath)) {
-                throw new \Exception("Невозможно записать в каталог: $resultPath");
-            }
+        //result document
+        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
 
 
+        if (!file_exists($resultPath)) {
+            mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+        }
 
-            $uid = Uuid::uuid4()->toString();
-            $resultFileName = $templateType . '_' . $uid . '.docx';
+        // Проверить доступность каталога для записи
+        if (!is_writable($resultPath)) {
+            throw new \Exception("Невозможно записать в каталог: $resultPath");
+        }
 
 
 
-            $document = new \PhpOffice\PhpWord\PhpWord();
+        $uid = Uuid::uuid4()->toString();
+        $resultFileName = $templateType . '_' . $uid . '.docx';
 
 
 
-            $section = $document->addSection($this->documentStyle['page']);
-
-            $header = $section->addHeader();
-            $logo =  null;
-            if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
-                $logo =  $data['provider']['rq']['logos'][0];
-            }
-            if ($logo) {
-                $fullPath = '/' . $logo['path'];
-                $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
-            }
+        $document = new \PhpOffice\PhpWord\PhpWord();
 
 
 
-            $this->getPriceSection($section, $this->documentStyle,  $data['price']);
-            $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
+        $section = $document->addSection($this->documentStyle['page']);
 
-            // //СОХРАНЕНИЕ ДОКУМЕТА
-            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-            $objWriter->save($resultPath . '/' . $resultFileName);
+        $header = $section->addHeader();
+        $logo =  null;
+        if (isset($data['provider']['rq']['logos']) && is_array($data['provider']['rq']['logos']) && !empty($data['provider']['rq']['logos'])) {
+            $logo =  $data['provider']['rq']['logos'][0];
+        }
+        if ($logo) {
+            $fullPath = '/' . $logo['path'];
+            $header->addImage($fullPath, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END));
+        }
 
-            // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-            $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
-            return APIController::getSuccess([
-                'data' => $data,
-                'link' => $link,
-                // 'testInfoblocks' => $testInfoblocks
-            ]);
+
+        $this->getPriceSection($section, $this->documentStyle,  $data['price']);
+        $this->getInfoblocks($infoblocksOptions, $complect, $section, $this->documentStyle);
+
+        // //СОХРАНЕНИЕ ДОКУМЕТА
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+        $objWriter->save($resultPath . '/' . $resultFileName);
+
+        // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+        $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
+
+        return APIController::getSuccess([
+            'data' => $data,
+            'link' => $link,
+            // 'testInfoblocks' => $testInfoblocks
+        ]);
         // } catch (\Throwable $th) {
         //     return APIController::getError(
         //         'something wrong ' . $th->getMessage(),
