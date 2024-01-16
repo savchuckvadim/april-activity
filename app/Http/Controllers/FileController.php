@@ -136,23 +136,22 @@ class FileController extends Controller
 
     public static function getFiles($fileType)
     {
-     
-
-            $files = File::all();
 
 
-            if (!$files) {
+        $files = File::all();
 
-                return APIController::getError(
-                    'files not found',
-                    ['fileType' => $fileType]
-                );
-            }
 
-            return APIController::getSuccess(
-                [$fileType => $files]
+        if (!$files) {
+
+            return APIController::getError(
+                'files not found',
+                ['fileType' => $fileType]
             );
-        
+        }
+
+        return APIController::getSuccess(
+            [$fileType => $files]
+        );
     }
     public function deleteFile($fileType, $fileId)
     {
@@ -340,10 +339,10 @@ class FileController extends Controller
             // Пример: $file->storeAs('clients/', $filename, 'public');
 
             $extension = $file->getClientOriginalExtension();
-            $relativePath = $direct . '/' . $filePath . '/' . $filename . '.' . $extension;
-
+            $relativePath = $direct . '/' . $filePath;
+            $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'public');
-            $fullPath = 'storage/' . $relativePath . '/' . $filename;
+            $fullPath = 'storage/' . $relativePath;
 
             return [
                 'resultCode' => 0,
@@ -355,7 +354,8 @@ class FileController extends Controller
             // Когда вы используете диск local, вам не нужно указывать app/ в пути, так как это уже предполагается по умолчанию.
             // Пример: $file->storeAs($resultPath, $filename, 'local');, где $resultPath - это путь внутри storage/app.
             $extension = $file->getClientOriginalExtension();
-            $relativePath = $direct  .  '/' . $filePath  . '/' . $filename . '.' . $extension;
+            $relativePath = $direct  .  '/' . $filePath;
+            $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'local');
 
             return [
@@ -431,7 +431,7 @@ class FileController extends Controller
 
 
 
-  
+
 
 
 
