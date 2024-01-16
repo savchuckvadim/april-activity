@@ -899,7 +899,7 @@ class FileController extends Controller
                 $cellWidth = $contentWidth / $numCells;
 
                 $fancyTableStyle = ['borderSize' => 0, 'borderColor' => 'FFFFF', 'cellMargin' => 25, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER];
-                $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '33315c', 'bgColor' => '66BBFF',
+                $fancyTableFirstRowStyle = ['cellMargin' => 25,]; //'borderBottomSize' => 18, 'borderBottomColor' => '005fa8', 'bgColor' => '66BBFF',
                 $fancyTableCellStyle = ['valign' => 'center'];
                 // $fancyTableCellBtlrStyle = ['valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR];
                 $fancyTableFontStyle = [...$languageEnGbStyle, 'bold' => true,];
