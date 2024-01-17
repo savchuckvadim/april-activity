@@ -143,6 +143,19 @@ class File extends Model
                         ],
                         [
                             'id' => 5,
+                            'title' => 'Код для ассоциаций',
+                            'entityType' => 'field',
+                            'name' => 'code',
+                            'apiName' => 'code',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+    
+                            'isCanAddField' => false,
+    
+                        ],
+                        [
+                            'id' => 6,
                             'title' => 'Файл',
                             'entityType' => 'file',
                             'name' => 'file',
@@ -152,6 +165,7 @@ class File extends Model
                             'initialValue' => false,
                             'isCanAddField' => false,
                         ],
+                 
                         
 
                     ],
