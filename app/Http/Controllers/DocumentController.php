@@ -1327,7 +1327,7 @@ class DocumentController extends Controller
         }
        
         $stampsSection = $section->addTable();
-        $stampsSection->addRow();
+        $stampsSection->addRow(900);
         $stampsWidth = $styles['page']['pageSizeW'];
 
         $cell = $stampsSection->addCell($stampsWidth / 3);
