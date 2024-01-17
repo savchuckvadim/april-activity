@@ -239,6 +239,16 @@ class DocumentController extends Controller
         $templateType = $data['template']['type'];
         //header-data
         $providerRq = $data['provider']['rq'];
+        $stamp = null;
+        $signature = null;
+        if ($providerRq && $providerRq['stamp'] && $providerRq['signature']) {
+            if (!empty($providerRq['stamp']) && $providerRq['stamp'][0]) {
+                $stamp = $providerRq['stamp'][0];
+            }
+            if (!empty($providerRq['signature']) && $providerRq['signature'][0]) {
+                $signature = $providerRq['signature'][0];
+            }
+        }
         //infoblocks data
         $infoblocksOptions = [
             'description' => $data['infoblocks']['description']['current'],
@@ -290,64 +300,34 @@ class DocumentController extends Controller
         $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
 
+
+        $stampsSection = $section->addTable();
+        $stampsSection->addRow();
+        $stampsWidth = $styles['page']['pageSizeW'];
+
+        $cell = $stampsSection->addCell($stampsWidth);
+
+        if ($stamp) {
+            $stampPath = storage_path('app/' . $stamp['path']);
+            if (file_exists($stampPath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $stampPath,
+                    $styles['header']['logo']
+                );
+            }
+        }
+
+
+
+
+
+
         //Footer
         if ($manager && $manager['NAME']) {
             //data
 
             $this->getFooter($section, $styles, $manager);
-            // $managerPosition = $manager['WORK_POSITION'];
-            // if (!$managerPosition) {
-            //     $managerPosition = 'Ваш персональный менеджер';
-            // }
-            // $managerName = $manager['NAME'];
-            // $managerLastName = $manager['LAST_NAME'];
-            // $name =  $managerName . ' ' . $managerLastName;
-
-            // $managerEmail = $manager['EMAIL'];
-            // $email = null;
-            // if ($managerEmail) {
-            //     $email = 'e-mail: ' . $managerEmail;
-            // }
-
-            // $workPhone = $manager['WORK_PHONE'];
-            // $mobilePhone = $manager['PERSONAL_MOBILE'];
-            // $phone = $workPhone;
-            // if (!$phone) {
-            //     $phone = $mobilePhone;
-            // }
-            // if ($phone) {
-            //     $phone = 'телелефон: ' . $phone;
-            // }
-
-
-            // //styles
-            // $footerManagerWidth = $styles['page']['pageSizeW'] / 2.5;
-            // $footerTextStyle = $styles['fonts']['text']['small'];
-            // $footerManagerParagraf = $styles['paragraphs']['general'];
-            // $footerManagerParagrafAlign = $styles['paragraphs']['align']['left'];
-
-
-            // //create
-            // $footer = $section->addFooter();
-            // $tableFooter = $footer->addTable();
-            // //position
-            // $tableFooter->addRow();
-
-            // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            // $footerManagerNameCell->addText($managerPosition, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
-
-            // //name
-            // // $tableFooter->addRow();
-
-            // // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            // $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
-
-            // //email phone
-            // // $tableFooter->addRow();
-
-            // // $footerManagerNameCell = $tableFooter->addCell($footerManagerWidth);
-            // $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
-            // $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
         }
 
 
