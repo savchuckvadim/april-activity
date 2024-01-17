@@ -239,7 +239,7 @@ class DocumentController extends Controller
         $templateType = $data['template']['type'];
         //header-data
         $providerRq = $data['provider']['rq'];
-    
+
 
         //infoblocks data
         $infoblocksOptions = [
@@ -321,7 +321,7 @@ class DocumentController extends Controller
         return APIController::getSuccess([
             'data' => $data,
             'link' => $link,
-       
+
             // 'testInfoblocks' => $testInfoblocks
         ]);
         // } catch (\Throwable $th) {
@@ -1265,7 +1265,7 @@ class DocumentController extends Controller
     {
         //FOOTER
         //data
-      
+
         $managerPosition = $manager['WORK_POSITION'];
         if (!$managerPosition) {
             $managerPosition = 'Ваш персональный менеджер';
@@ -1325,12 +1325,18 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-       
+
         $stampsSection = $section->addTable();
-        $stampsSection->addRow(900);
+        $stampsSection->addRow(
+            900,
+            $styles['tables']['general']['row'],
+        );
         $stampsWidth = $styles['page']['pageSizeW'];
 
-        $cell = $stampsSection->addCell($stampsWidth / 3);
+        $cell = $stampsSection->addCell(
+            $stampsWidth / 3,
+            $styles['tables']['inner']['cell'],
+        );
 
         $cell->addText(
             $providerRq['position'],
@@ -1341,7 +1347,10 @@ class DocumentController extends Controller
         );
 
 
-        $cell = $stampsSection->addCell($stampsWidth / 3);
+        $cell = $stampsSection->addCell(
+            $stampsWidth / 3,
+            $styles['tables']['inner']['cell'],
+        );
         if ($stamp) {
             $stampPath = storage_path('app/' . $stamp['path']);
             if (file_exists($stampPath)) {
@@ -1362,7 +1371,10 @@ class DocumentController extends Controller
                 );
             }
         }
-        $cell = $stampsSection->addCell($stampsWidth / 3);
+        $cell = $stampsSection->addCell(
+            $stampsWidth / 3,
+            $styles['tables']['inner']['cell'],
+        );
 
         $cell->addText(
             $providerRq['director'],
