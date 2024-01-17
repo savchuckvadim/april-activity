@@ -239,18 +239,7 @@ class DocumentController extends Controller
         $templateType = $data['template']['type'];
         //header-data
         $providerRq = $data['provider']['rq'];
-        $stamps = $providerRq['stamps'];
-        $signatures = $providerRq['signatures'];
-        $stamp = null;
-        $signature = null;
-
-
-        if (!empty($stamps)) {
-            $stamp = $stamps[0];
-        }
-        if (!empty($signatures)) {
-            $signature = $signatures[0];
-        }
+    
 
         //infoblocks data
         $infoblocksOptions = [
@@ -300,43 +289,11 @@ class DocumentController extends Controller
 
         //Main
         $this->getPriceSection($section, $styles,  $data['price']);
+        $this->getStamps($section, $styles,  $providerRq);
         $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        $this->getStamps($section, $styles,  $providerRq);
 
 
-
-        $stampsSection = $section->addTable();
-        $stampsSection->addRow();
-        $stampsWidth = $styles['page']['pageSizeW'];
-
-        $cell = $stampsSection->addCell($stampsWidth / 3);
-
-        $cell->addText($providerRq['position'], $styles['fonts']['text']['normal'], $styles['paragraphs']['align']['left']);
-
-
-        $cell = $stampsSection->addCell($stampsWidth / 3);
-        if ($stamp) {
-            $stampPath = storage_path('app/' . $stamp['path']);
-            if (file_exists($stampPath)) {
-                // Добавление изображения в документ PHPWord
-                $cell->addImage(
-                    $stampPath,
-                    $styles['header']['logo']
-                );
-            }
-        }
-        if ($signature) {
-            $signaturePath = storage_path('app/' . $signature['path']);
-            if (file_exists($signaturePath)) {
-                // Добавление изображения в документ PHPWord
-                $cell->addImage(
-                    $signaturePath,
-                    $styles['header']['logo']
-                );
-            }
-        }
-        $cell = $stampsSection->addCell($stampsWidth / 3);
-
-        $cell->addText($providerRq['director'], $styles['fonts']['text']['normal'], $styles['paragraphs']['align']['right']);
 
 
 
@@ -362,9 +319,9 @@ class DocumentController extends Controller
         $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
         return APIController::getSuccess([
-            // 'data' => $data,
+            'data' => $data,
             'link' => $link,
-            '$stamp' => $stamp
+       
             // 'testInfoblocks' => $testInfoblocks
         ]);
         // } catch (\Throwable $th) {
@@ -1308,7 +1265,7 @@ class DocumentController extends Controller
     {
         //FOOTER
         //data
-        $styles = $this->documentStyle;
+      
         $managerPosition = $manager['WORK_POSITION'];
         if (!$managerPosition) {
             $managerPosition = 'Ваш персональный менеджер';
@@ -1351,6 +1308,68 @@ class DocumentController extends Controller
         $footerManagerNameCell->addText($name, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
         $footerManagerNameCell->addText($email, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
         $footerManagerNameCell->addText($phone, $footerTextStyle, $footerManagerParagraf, $footerManagerParagrafAlign);
+        return $section;
+    }
+    protected function getStamps($section, $styles, $providerRq)
+    {
+
+        $stamps = $providerRq['stamps'];
+        $signatures = $providerRq['signatures'];
+        $stamp = null;
+        $signature = null;
+
+
+        if (!empty($stamps)) {
+            $stamp = $stamps[0];
+        }
+        if (!empty($signatures)) {
+            $signature = $signatures[0];
+        }
+       
+        $stampsSection = $section->addTable();
+        $stampsSection->addRow();
+        $stampsWidth = $styles['page']['pageSizeW'];
+
+        $cell = $stampsSection->addCell($stampsWidth / 3);
+
+        $cell->addText(
+            $providerRq['position'],
+            $styles['fonts']['text']['normal'],
+            $styles['paragraphs']['head'],
+            $styles['paragraphs']['align']['left']
+
+        );
+
+
+        $cell = $stampsSection->addCell($stampsWidth / 3);
+        if ($stamp) {
+            $stampPath = storage_path('app/' . $stamp['path']);
+            if (file_exists($stampPath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $stampPath,
+                    $styles['header']['logo']
+                );
+            }
+        }
+        if ($signature) {
+            $signaturePath = storage_path('app/' . $signature['path']);
+            if (file_exists($signaturePath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $signaturePath,
+                    $styles['header']['logo']
+                );
+            }
+        }
+        $cell = $stampsSection->addCell($stampsWidth / 3);
+
+        $cell->addText(
+            $providerRq['director'],
+            $styles['fonts']['text']['normal'],
+            $styles['paragraphs']['head'],
+            $styles['paragraphs']['align']['right']
+        );
         return $section;
     }
 }
