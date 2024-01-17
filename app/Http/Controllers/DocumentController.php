@@ -308,8 +308,12 @@ class DocumentController extends Controller
         $stampsSection->addRow();
         $stampsWidth = $styles['page']['pageSizeW'];
 
-        $cell = $stampsSection->addCell($stampsWidth);
+        $cell = $stampsSection->addCell($stampsWidth / 3);
 
+        $cell->addText($providerRq['position'], $styles['fonts']['text']['normal'], $styles['paragraphs']['align']['left']);
+
+
+        $cell = $stampsSection->addCell($stampsWidth / 3);
         if ($stamp) {
             $stampPath = storage_path('app/' . $stamp['path']);
             if (file_exists($stampPath)) {
@@ -320,8 +324,19 @@ class DocumentController extends Controller
                 );
             }
         }
+        if ($signature) {
+            $signaturePath = storage_path('app/' . $signature['path']);
+            if (file_exists($signaturePath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $signaturePath,
+                    $styles['header']['logo']
+                );
+            }
+        }
+        $cell = $stampsSection->addCell($stampsWidth / 3);
 
-
+        $cell->addText($providerRq['director'], $styles['fonts']['text']['normal'], $styles['paragraphs']['align']['right']);
 
 
 
