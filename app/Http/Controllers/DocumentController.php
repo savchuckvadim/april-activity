@@ -225,22 +225,25 @@ class DocumentController extends Controller
                     // 'height' => 'auto',
                 ]
             ],
+            //'inline', 'behind', 'infront', 'square', 'tight'
             'stamp' => [
                 'width'            => 100,
 
                 'wrappingStyle' => 'behind',
-                'positioning'      => 'absolute',
+                'positioning' => 'relative',
                 'posHorizontal'    => 'center',
                 // 'posVertical'      => 'center',
-                // 'marginLeft'       => 100,
-                // 'marginTop'        => 100,
+                'marginLeft'       => 100,
+                'marginTop'        => 100,
             ],
             'signature' => [
                 'width'            => 50,
+                'positioning' => 'relative',
                 // 'height'           => 50,
                 // 'positioning'      => 'absolute',
                 // 'posHorizontal'    => 'center',
                 // 'posVertical'      => 'center',
+                'wrappingStyle' => 'infront',
                 'marginLeft'       => 120,
                 'marginTop'        => 120,
             ]
