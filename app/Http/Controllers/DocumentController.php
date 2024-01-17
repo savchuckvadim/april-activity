@@ -1325,7 +1325,7 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-
+        $section->addTextBreak(3);
         $stampsSection = $section->addTable();
         $stampsSection->addRow(
             900,
