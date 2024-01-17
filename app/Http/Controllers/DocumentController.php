@@ -224,7 +224,26 @@ class DocumentController extends Controller
                     'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
                 ]
+            ],
+            'stamp' => [
+                'width'            => 100,
+
+                'positioning'      => 'absolute',
+                'posHorizontal'    => 'center',
+                'posVertical'      => 'center',
+                'marginLeft'       => 100,
+                'marginTop'        => 100,
+            ],
+            'signature' => [
+                'width'            => 50,
+                // 'height'           => 50,
+                'positioning'      => 'absolute',
+                'posHorizontal'    => 'center',
+                'posVertical'      => 'center',
+                'marginLeft'       => 120,
+                'marginTop'        => 120,
             ]
+
 
         ];
     }
@@ -1357,7 +1376,7 @@ class DocumentController extends Controller
                 // Добавление изображения в документ PHPWord
                 $cell->addImage(
                     $stampPath,
-                    $styles['header']['logo']
+                    $styles['stamp']
                 );
             }
         }
@@ -1367,7 +1386,7 @@ class DocumentController extends Controller
                 // Добавление изображения в документ PHPWord
                 $cell->addImage(
                     $signaturePath,
-                    $styles['header']['logo']
+                    $styles['signature']
                 );
             }
         }
