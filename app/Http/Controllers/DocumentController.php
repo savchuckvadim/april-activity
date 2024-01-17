@@ -242,6 +242,7 @@ class DocumentController extends Controller
             'signature' => [
                 'width'            => 110,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+                'valign' => 'center',
                 // 'positioning' => 'relative',
                 // 'height'           => 50,
                 // 'positioning'      => 'absolute',
