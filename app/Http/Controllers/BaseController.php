@@ -44,7 +44,7 @@ class BaseController extends Controller
     }
     public static function setOrUpdate($entityType, $parentType, $parentId, Request $request)
     {
-
+        $all = $request->all();
         try {
 
 
@@ -68,7 +68,10 @@ class BaseController extends Controller
                 default:
                     return APIController::getError(
                         'not found entity type',
-                        ['entityType' => $entityType]
+                        [
+                            'entityType' => $entityType,
+                            'all' => $all
+                        ]
                     );
                     break;
             }
