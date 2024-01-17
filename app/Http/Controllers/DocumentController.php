@@ -229,6 +229,7 @@ class DocumentController extends Controller
             'stamp' => [
                 'width'            => 110,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+                'valign' => 'center',
                 'wrappingStyle' => 'behind',
                 'positioning' => 'relative',
                 'posHorizontal'    => 'center',
