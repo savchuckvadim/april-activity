@@ -229,13 +229,14 @@ class DocumentController extends Controller
             'stamp' => [
                 'width'            => 110,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-                'valign' => 'center',
+                'valign' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'wrappingStyle' => 'behind',
-                'positioning' => 'relative',
-                'posHorizontal'    => 'center',
-                'posVertical'      => 'center',
-                // 'marginLeft'       => 100,
-                'marginTop'        => 100,
+                'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+                'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+                'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+                'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
+                'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
+             
             ],
             'signature' => [
                 'width'            => 110,
