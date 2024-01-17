@@ -59,10 +59,10 @@ class BaseController extends Controller
                     break;
                 case 'template':
 
-                    return TemplateController::initialTemplate();
+                    // return TemplateController::initialTemplate();
                     break;
                 case 'field':
-                    return FieldController::getInitialField();
+                    // return FieldController::getInitialField();
                     break;
                 case 'item':
                 default:
@@ -80,7 +80,44 @@ class BaseController extends Controller
             );
         }
     }
+    public static function update($entityType, $entityId, Request $request)
+    {
 
+        try {
+
+
+            switch ($entityType) {
+                case 'logo':
+                case 'signature':
+                case 'stamp':
+                case 'qr':
+                case 'file':
+                    $fileController = new FileController;
+                    return $fileController->updateFile($entityType, $entityId, $request);
+                    break;
+                case 'template':
+
+                    // return TemplateController::initialTemplate();
+                    break;
+                case 'field':
+                    // return FieldController::getInitialField();
+                    break;
+                case 'item':
+                default:
+                    return APIController::getError(
+                        'not found entity type',
+                        ['entityType' => $entityType]
+                    );
+                    break;
+            }
+        } catch (\Throwable $th) {
+            Log::error('Ошибка: ' . $entityType . '' . $th->getMessage());
+            return APIController::getError(
+                $th->getMessage(),
+                ['entityType' => $entityType]
+            );
+        }
+    }
     public static function get($model, $modelId)
     {
 

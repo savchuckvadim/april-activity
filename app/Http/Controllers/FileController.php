@@ -161,6 +161,7 @@ class FileController extends Controller
         // parentId - id родительского элемента
         $fieldData = [
             'name' => $request['name'],
+            'code' => $request['code'],
             'type' => $request['type'], //Тип файла (table | video | word | img)
             'parent' => $request['parent'], //Родительская модель (rq)
             'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp  // rq->morphMany(File::class, 'entity')->where('parent_type', 'logo'); //тоже системное поле по которому rq определяет что за связь - logo | stamp | signature по сути название типа файла
@@ -194,6 +195,7 @@ class FileController extends Controller
                                     // $fieldData['file'] = $file;
                                     $fieldData = [
                                         'name' => $request['name'],
+                                        'code' => $request['code'],
                                         'type' => $request['type'], //Тип файла (table | video | word | img)
                                         'parent' => $request['parent'], //Родительская модель (rq)
                                         'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
@@ -213,8 +215,8 @@ class FileController extends Controller
                                     $fileModel->availability = $fieldData['availability'];
 
 
-                                    $uid = Uuid::uuid4()->toString();
-                                    $code = $uid;
+                                    // $uid = Uuid::uuid4()->toString();
+                                    $code = $fieldData['code'];
                                     $fileModel->code = $code;
 
 
@@ -263,7 +265,60 @@ class FileController extends Controller
             }
         }
     }
+    public function updateFile($entityType, $entityId, Request $request)
+    {
 
+        $fieldData = [
+            'name' => $request['name'],
+            'code' => $request['code'],
+        ];
+
+
+        if ($entityType) {
+
+            switch ($entityType) {
+                case 'logo':
+                case 'signature':
+                case 'stamp':
+                case 'qr':
+                case 'file':
+
+
+                    $fieldData = [
+                        'name' => $request['name'],
+                        'code' => $request['code'],
+
+                    ];
+       
+   
+                    $fileModel = File::find($entityId);
+                    if($fileModel){
+                        $fileModel->name = $fieldData['name'];
+                        $fileModel->type = $fieldData['code'];
+    
+    
+    
+                        $uid = Uuid::uuid4()->toString();
+                        $code = $uid;
+                        $fileModel->code = $code;
+    
+                        $fileModel->save();
+                        return APIController::getSuccess([
+                            $entityType => $fileModel
+                        ]);
+                    }else{
+                        return APIController::getError(
+                            'file was not found',
+                            [$entityType.'Id' => $entityId]
+                        );
+                    }
+              
+
+
+                  
+            }
+        }
+    }
     protected function uploadFile(
         $file,
         $filename,
@@ -414,29 +469,7 @@ class FileController extends Controller
         ];
     }
 
-    public function updateFile(Request $request, $fileId)
-    {
-        // $newFile = $request->file('file'); // Новый файл из запроса
-        // $fileRecord = FileModel::find($fileId); // Находим старый файл в БД по ID
 
-        // if ($fileRecord && $newFile) {
-        //     // Удаляем старый файл
-        //     Storage::delete($fileRecord->path);
-
-        //     // Сохраняем новый файл
-        //     $relativePath = 'your/path/here'; // Определите путь для сохранения нового файла
-        //     $newFilename = $newFile->getClientOriginalName();
-        //     $newFile->storeAs($relativePath, $newFilename, 'public'); // Или 'local', в зависимости от диска
-
-        //     // Обновляем запись в БД
-        //     $fileRecord->path = $relativePath . '/' . $newFilename;
-        //     $fileRecord->save();
-
-        //     return response()->json(['message' => 'File updated successfully']);
-        // }
-
-        // return response()->json(['message' => 'File not found or no new file provided'], 404);
-    }
 
 
 
