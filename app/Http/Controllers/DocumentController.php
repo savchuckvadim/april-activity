@@ -377,8 +377,9 @@ class DocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
         $section->addPageBreak();
-        $section->addText('Информационное наполнение', $fonts['h1']);
         $section->addTextBreak(1);
+        $section->addText('Информационное наполнение', $fonts['h1']);
+        // $section->addTextBreak(1);
 
 
         if ($styleMode == 'list') {
@@ -424,7 +425,7 @@ class DocumentController extends Controller
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
-            $textStyle = $fonts['text']['bold'];
+            $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
             $fancyTableStyleName = 'TableStyle';
