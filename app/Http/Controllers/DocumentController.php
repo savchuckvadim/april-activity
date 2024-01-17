@@ -241,12 +241,12 @@ class DocumentController extends Controller
         $providerRq = $data['provider']['rq'];
         $stamp = null;
         $signature = null;
-        if ($providerRq && $providerRq['stamp'] && $providerRq['signature']) {
-            if (!empty($providerRq['stamp']) && $providerRq['stamp'][0]) {
-                $stamp = $providerRq['stamp'][0];
+        if ($providerRq && $providerRq['stamps'] && $providerRq['signatures']) {
+            if (!empty($providerRq['stamps']) && $providerRq['stamps'][0]) {
+                $stamp = $providerRq['stamps'][0];
             }
-            if (!empty($providerRq['signature']) && $providerRq['signature'][0]) {
-                $signature = $providerRq['signature'][0];
+            if (!empty($providerRq['signatures']) && $providerRq['signatures'][0]) {
+                $signature = $providerRq['signatures'][0];
             }
         }
         //infoblocks data
