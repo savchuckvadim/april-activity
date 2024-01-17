@@ -240,18 +240,18 @@ class DocumentController extends Controller
         //header-data
         $providerRq = $data['provider']['rq'];
         $stamps = $providerRq['stamps'];
-        $signatures =$providerRq['signatures'];
+        $signatures = $providerRq['signatures'];
         $stamp = null;
         $signature = null;
 
-        
-            if (!empty($stamps)) {
-                $stamp = $stamps[0];
-            }
-            if (empty($signatures)) {
-                $signature = $providerRq['signatures'][0];
-            }
-        
+
+        if (!empty($stamps)) {
+            $stamp = $stamps[0];
+        }
+        if (!empty($signatures)) {
+            $signature = $signatures[0];
+        }
+
         //infoblocks data
         $infoblocksOptions = [
             'description' => $data['infoblocks']['description']['current'],
