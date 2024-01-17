@@ -227,7 +227,7 @@ class DocumentController extends Controller
             ],
             //'inline', 'behind', 'infront', 'square', 'tight'
             'stamp' => [
-                'width'            => 110,
+                'width'            => 120,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'valign' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'wrappingStyle' => 'behind',
