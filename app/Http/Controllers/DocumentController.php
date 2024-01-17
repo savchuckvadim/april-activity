@@ -228,7 +228,7 @@ class DocumentController extends Controller
             //'inline', 'behind', 'infront', 'square', 'tight'
             'stamp' => [
                 'width'            => 110,
-
+                'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'wrappingStyle' => 'behind',
                 'positioning' => 'relative',
                 // 'posHorizontal'    => 'center',
@@ -238,6 +238,7 @@ class DocumentController extends Controller
             ],
             'signature' => [
                 'width'            => 110,
+                'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 // 'positioning' => 'relative',
                 // 'height'           => 50,
                 // 'positioning'      => 'absolute',
