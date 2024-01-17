@@ -239,13 +239,16 @@ class DocumentController extends Controller
         $templateType = $data['template']['type'];
         //header-data
         $providerRq = $data['provider']['rq'];
-        $stamp = $providerRq['stamps'][0];
-        $signature =$providerRq['signatures'][0];
+        $stamps = $providerRq['stamps'];
+        $signatures =$providerRq['signatures'];
+        $stamp = null;
+        $signature = null;
+
         if ($providerRq && $providerRq['stamps'] && $providerRq['signatures']) {
-            if (!empty($providerRq['stamps']) && $providerRq['stamps'][0]) {
+            if (!empty($stamps)) {
                 $stamp = $providerRq['stamps'][0];
             }
-            if (!empty($providerRq['signatures']) && $providerRq['signatures'][0]) {
+            if (!empty($signatures)) {
                 $signature = $providerRq['signatures'][0];
             }
         }
