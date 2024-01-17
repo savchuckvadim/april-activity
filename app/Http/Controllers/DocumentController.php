@@ -235,7 +235,7 @@ class DocumentController extends Controller
                 'posHorizontal'    => 'center',
                 'posVertical'      => 'center',
                 // 'marginLeft'       => 100,
-                // 'marginTop'        => 100,
+                'marginTop'        => 100,
             ],
             'signature' => [
                 'width'            => 110,
