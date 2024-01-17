@@ -1379,17 +1379,6 @@ class DocumentController extends Controller
             $stampsWidth / 3,
             $styles['tables']['inner']['cell'],
         );
-        
-        if ($signature) {
-            $signaturePath = storage_path('app/' . $signature['path']);
-            if (file_exists($signaturePath)) {
-                // Добавление изображения в документ PHPWord
-                $cell->addImage(
-                    $signaturePath,
-                    $styles['signature']
-                );
-            }
-        }
         if ($stamp) {
             $stampPath = storage_path('app/' . $stamp['path']);
             if (file_exists($stampPath)) {
@@ -1397,6 +1386,16 @@ class DocumentController extends Controller
                 $cell->addImage(
                     $stampPath,
                     $styles['stamp']
+                );
+            }
+        }
+        if ($signature) {
+            $signaturePath = storage_path('app/' . $signature['path']);
+            if (file_exists($signaturePath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $signaturePath,
+                    $styles['signature']
                 );
             }
         }
