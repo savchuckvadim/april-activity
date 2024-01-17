@@ -237,7 +237,7 @@ class DocumentController extends Controller
                 'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
                 'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
                 'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
-             
+
             ],
             'signature' => [
                 'width'            => 100,
@@ -1366,8 +1366,12 @@ class DocumentController extends Controller
             $styles['tables']['inner']['cell'],
         );
 
+        $stampsFirstString = $providerRq['position'] . '' . $providerRq['fullname'];
+        if ($providerRq['type'] == 'ip') {
+            $stampsFirstString = $providerRq['fullname'];
+        }
         $cell->addText(
-            $providerRq['position'],
+            $stampsFirstString,
             $styles['fonts']['text']['normal'],
             $styles['paragraphs']['head'],
             $styles['paragraphs']['align']['left']
@@ -1404,8 +1408,13 @@ class DocumentController extends Controller
             $styles['tables']['inner']['cell'],
         );
 
+        $stampsSecondString = '';
+        if ($providerRq['type'] == 'org') {
+            $stampsSecondString = $providerRq['director'];
+        }
+
         $cell->addText(
-            $providerRq['director'],
+            $stampsSecondString,
             $styles['fonts']['text']['normal'],
             $styles['paragraphs']['head'],
             $styles['paragraphs']['align']['right']
