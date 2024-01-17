@@ -1366,7 +1366,7 @@ class DocumentController extends Controller
             $styles['tables']['inner']['cell'],
         );
 
-        $stampsFirstString = $providerRq['position'] . '' . $providerRq['fullname'];
+        $stampsFirstString = $providerRq['position'] . ' ' . $providerRq['fullname'];
         if ($providerRq['type'] == 'ip') {
             $stampsFirstString = $providerRq['fullname'];
         }
