@@ -240,7 +240,7 @@ class DocumentController extends Controller
         //header-data
         $providerRq = $data['provider']['rq'];
         $stamp = $providerRq['stamps'][0];
-        $signature = null;
+        $signature =$providerRq['signatures'][0];
         if ($providerRq && $providerRq['stamps'] && $providerRq['signatures']) {
             if (!empty($providerRq['stamps']) && $providerRq['stamps'][0]) {
                 $stamp = $providerRq['stamps'][0];
