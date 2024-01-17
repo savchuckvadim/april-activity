@@ -245,10 +245,10 @@ class DocumentController extends Controller
         $signature = null;
 
         if ($providerRq && $providerRq['stamps'] && $providerRq['signatures']) {
-            if (!empty($stamps)) {
+            if (empty($stamps)) {
                 $stamp = $providerRq['stamps'][0];
             }
-            if (!empty($signatures)) {
+            if (empty($signatures)) {
                 $signature = $providerRq['signatures'][0];
             }
         }
