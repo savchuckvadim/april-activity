@@ -346,6 +346,7 @@ class DocumentController extends Controller
         return APIController::getSuccess([
             'data' => $data,
             'link' => $link,
+            '$stamp' => $stamp
             // 'testInfoblocks' => $testInfoblocks
         ]);
         // } catch (\Throwable $th) {
