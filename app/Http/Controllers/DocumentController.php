@@ -221,7 +221,7 @@ class DocumentController extends Controller
                     'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
                     'width' => 120,
 
-                    // 'wrappingStyle' => 'behind'
+                    'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
                 ]
             ]
