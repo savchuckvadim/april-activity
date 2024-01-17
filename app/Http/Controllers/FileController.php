@@ -157,17 +157,17 @@ class FileController extends Controller
     public function setFile($entityType, $parentType, $parentId, Request $request)
     {
         //entityType logo | stamp | последняя или единственная часть урл
-        // $parentType - может быть null тогда можно взять из formdata
+        // $parentType - может быть null тогда можно взять из formdata // вообще это название родительской модели из url
         // parentId - id родительского элемента
         $fieldData = [
             'name' => $request['name'],
             'type' => $request['type'], //Тип файла (table | video | word | img)
             'parent' => $request['parent'], //Родительская модель (rq)
-            'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp
+            'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp  // rq->morphMany(File::class, 'entity')->where('parent_type', 'logo'); //тоже системное поле по которому rq определяет что за связь - logo | stamp | signature по сути название типа файла
             'availability' => $request['availability'], //Доступность public |  local
-            '$entityType' => $entityType,
-            '$parentType' => $parentType,
-            '$parentId' => $parentId,
+            // '$entityType' => $entityType, // file->entity_type - системное поле для осуществления полиморфной связи с родительской моделью
+            // '$parentType' => $parentType,
+            // '$parentId' => $parentId,
             'file' => $request['file'],
 
         ];
@@ -178,6 +178,10 @@ class FileController extends Controller
                 case 'rq':
                     switch ($entityType) {
                         case 'logo':
+                        case 'signature':
+                        case 'stamp':
+                        case 'qr':
+                        case 'file':
                             if ($request->hasFile('file_0')) {
                                 $file = $request->file('file_0');
 
@@ -230,7 +234,11 @@ class FileController extends Controller
                                     );
                                     if ($uploadData && $uploadData['resultCode'] == 0 && $uploadData['filePath']) {
                                         $fileModel->path = $uploadData['filePath'];
-                                        $fileModel->entity()->associate($parent); // Устанавливаем связь с родительской моделью
+
+                                        // Устанавливаем связь с родительской моделью
+                                        // здесь заполняются поля entity_type и entity_id
+                                        $fileModel->entity()->associate($parent);
+
                                         $fileModel->save();
                                         return APIController::getSuccess([
                                             $entityType => $fileModel
@@ -246,11 +254,6 @@ class FileController extends Controller
                                     ['file' => $file]
                                 );
                             }
-
-                        case 'signature':
-                        case 'stamp':
-                        case 'qr':
-                        case 'file':
                     }
 
                 case 'template':
@@ -282,7 +285,7 @@ class FileController extends Controller
             $relativePath = $direct . '/' . $filePath;
             $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'public');
-            
+
             $resultPathToFile =  $relativePath . '/' . $filename;
             $fullPath = 'storage/' . $resultPathToFile;
             return [
@@ -299,7 +302,7 @@ class FileController extends Controller
             $filename = $filename . '.' . $extension;
             $file->storeAs($relativePath, $filename, 'local');
             $resultPathToFile =  $relativePath . '/' . $filename;
-           
+
             return [
                 'resultCode' => 0,
                 'filePath' => $resultPathToFile,
@@ -313,7 +316,7 @@ class FileController extends Controller
         ];
     }
 
-    
+
     public function deleteFile($fileType, $fileId)
     {
 
@@ -375,7 +378,7 @@ class FileController extends Controller
         return response()->json(['message' => 'No file uploaded']);
     }
 
-  
+
     protected function getFilePath(
         $filename,
         $availability, //public | other non public directory
