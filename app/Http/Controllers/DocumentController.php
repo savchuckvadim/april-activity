@@ -230,7 +230,7 @@ class DocumentController extends Controller
                 'width'            => 110,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'valign' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-                'wrappingStyle' => 'tight',
+                'wrappingStyle' => 'behind',
                 'marginTop'        => 120,
                 // 'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
                 // 'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
