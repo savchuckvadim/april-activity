@@ -231,11 +231,12 @@ class DocumentController extends Controller
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'valign' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'wrappingStyle' => 'square',
-                'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-                'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-                'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-                'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
-                'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
+                'marginTop'        => 120,
+                // 'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+                // 'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+                // 'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+                // 'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
+                // 'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
              
             ],
             'signature' => [
