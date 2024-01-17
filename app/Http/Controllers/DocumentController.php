@@ -347,7 +347,7 @@ class DocumentController extends Controller
         $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
         return APIController::getSuccess([
-            'data' => $data,
+            // 'data' => $data,
             'link' => $link,
             '$stamp' => $stamp
             // 'testInfoblocks' => $testInfoblocks
