@@ -243,11 +243,11 @@ class DocumentController extends Controller
                 'width'            => 100,
                 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'valign' => 'center',
-                'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-                'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-                'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-                'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
-                'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
+                // 'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+                // 'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+                // 'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+                // 'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
+                // 'posVerticalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_LINE,
                 'wrappingStyle' => 'infront',
                 // 'marginLeft'       => 120,
                 // 'marginTop'        => 120,
@@ -1379,16 +1379,7 @@ class DocumentController extends Controller
             $stampsWidth / 3,
             $styles['tables']['inner']['cell'],
         );
-        if ($stamp) {
-            $stampPath = storage_path('app/' . $stamp['path']);
-            if (file_exists($stampPath)) {
-                // Добавление изображения в документ PHPWord
-                $cell->addImage(
-                    $stampPath,
-                    $styles['stamp']
-                );
-            }
-        }
+        
         if ($signature) {
             $signaturePath = storage_path('app/' . $signature['path']);
             if (file_exists($signaturePath)) {
@@ -1396,6 +1387,16 @@ class DocumentController extends Controller
                 $cell->addImage(
                     $signaturePath,
                     $styles['signature']
+                );
+            }
+        }
+        if ($stamp) {
+            $stampPath = storage_path('app/' . $stamp['path']);
+            if (file_exists($stampPath)) {
+                // Добавление изображения в документ PHPWord
+                $cell->addImage(
+                    $stampPath,
+                    $styles['stamp']
                 );
             }
         }
