@@ -305,7 +305,7 @@ class DocumentController extends Controller
         foreach ($fields as $field) {
             if ($field && $field['code']) {
                 if (
-                    $field['code'] == 'letter' || $field['bitrixTemplateId']
+                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter' 
 
                 ) {
                     if ($field['description']) {
@@ -353,7 +353,12 @@ class DocumentController extends Controller
 
         if ($withLetter) {
             $section->addTextBreak(2);
-            $section->addText($letterText);
+            $section->addText(
+                $letterText,
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+                $styles['paragraphs']['align']['left']
+            );
         }
 
 
