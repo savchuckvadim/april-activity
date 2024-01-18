@@ -309,7 +309,7 @@ class DocumentController extends Controller
 
                 ) {
                     if ($field['decription']) {
-                        $letterText = $field['decription'];
+                        $letterText = $field['description'];
                     }
                 }
             }
