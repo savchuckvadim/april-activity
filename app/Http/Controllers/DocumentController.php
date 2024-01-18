@@ -283,6 +283,37 @@ class DocumentController extends Controller
         //SECOND_NAME
 
 
+        //fields
+        $fields = $data['template']['fields'];
+
+
+        //letter
+        $withLetter = false;
+        foreach ($fields as $field) {
+            if ($field && $field['code']) {
+                if (
+                    $field['code'] == 'isLetter' && $field['value'] && $field['value'] !== '0'
+                    && $field['value'] !== 'false'
+                    && $field['value'] !== 'null'
+                    && $field['value'] !== ''
+                ) {
+                    $withLetter = true;
+                }
+            }
+        }
+        $letterText = '';
+        foreach ($fields as $field) {
+            if ($field && $field['code']) {
+                if (
+                    $field['code'] == 'letter' || $field['bitrixTemplateId']
+
+                ) {
+                    if ($field['decription']) {
+                        $letterText = $field['decription'];
+                    }
+                }
+            }
+        }
 
 
         // STYLES
@@ -313,13 +344,23 @@ class DocumentController extends Controller
         $section = $document->addSection($styles['page']);
 
         //Header
-        $this->getHeader($section, $styles,  $providerRq);
+        $headerSection = $this->getHeader($section, $styles,  $providerRq);
+
+
+
 
         //Main
-        $this->getPriceSection($section, $styles,  $data['price']);
-        $this->getStamps($section, $styles,  $providerRq);
-        $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-        $this->getStamps($section, $styles,  $providerRq);
+
+        if ($withLetter) {
+            $section->addTextBreak(2);
+            $section->addText($letterText);
+        }
+
+
+        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
 
 
@@ -1354,7 +1395,7 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-        $section->addTextBreak(3);
+        $section->addTextBreak(2);
         $stampsSection = $section->addTable();
         $stampsSection->addRow(
             900,
