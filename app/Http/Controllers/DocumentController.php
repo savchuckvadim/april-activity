@@ -354,10 +354,8 @@ class DocumentController extends Controller
         if ($withLetter && $letterText) {
             $section->addTextBreak(2);
             $section->addText(
-                $letterText,
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-                $styles['paragraphs']['align']['left']
+                '$letterText',
+                $styles['fonts']['text']['normal']
             );
         }
 
