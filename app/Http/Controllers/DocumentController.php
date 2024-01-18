@@ -351,7 +351,7 @@ class DocumentController extends Controller
 
         //Main
 
-        if ($withLetter) {
+        if ($withLetter && $letterText) {
             $section->addTextBreak(2);
             $section->addText(
                 $letterText,
@@ -393,8 +393,10 @@ class DocumentController extends Controller
         $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
         return APIController::getSuccess([
-            'data' => $data,
+            // 'data' => $data,
             'link' => $link,
+            'withLetter' => $withLetter,
+            'letterText' => $letterText,
 
             // 'testInfoblocks' => $testInfoblocks
         ]);
