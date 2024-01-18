@@ -308,7 +308,7 @@ class DocumentController extends Controller
                     $field['code'] == 'letter' || $field['bitrixTemplateId']
 
                 ) {
-                    if ($field['decription']) {
+                    if ($field['description']) {
                         $letterText = $field['description'];
                     }
                 }
