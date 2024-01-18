@@ -360,15 +360,18 @@ class DocumentController extends Controller
         // Переменная для отслеживания, находимся ли мы в выделенном блоке
         $inHighlight = false;
 
+        $textRun = $section->addTextRun();
+
+        $inHighlight = false;
         foreach ($parts as $part) {
             if ($inHighlight) {
-                // Добавление выделенного текста
-                $section->addText($part, $highlightStyle);
+                // Добавление выделенного текста в TextRun
+                $textRun->addText($part, $highlightStyle);
             } else {
-                // Добавление обычного текста
-                $section->addText($part, $normalStyle);
+                // Добавление обычного текста в TextRun
+                $textRun->addText($part, $normalStyle);
             }
-            $inHighlight = !$inHighlight; // Переключение между выделенным и обычным текстом
+            $inHighlight = !$inHighlight;
         }
         // if ($withLetter && $letterText) {
         //     $section->addTextBreak(2);
