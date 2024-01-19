@@ -18,6 +18,12 @@ class BitrixController extends Controller
 
     public static function getReport(Request $request)
     {
+        $callingsTotalCount = [
+            'all' => null,
+            '30' => 30,
+            '60' => 60,
+            '180' => 180
+        ];
         try {
             $domain = $request['domain'];
             $filters = $request['filters'];
@@ -38,38 +44,47 @@ class BitrixController extends Controller
                                 $url = $hook . $actionUrl;
                                 $next = 0; // Начальное значение параметра "next"
 
-                                do {
-                                    // Отправляем запрос на другой сервер
-                                    $response = Http::get($url, [
-                                        "FILTER" => [
+                                // do {
+                                // Отправляем запрос на другой сервер
+                                foreach ($callingsTotalCount as $key => $duration) {
+                                    if ($duration) {
+                                        $data =   [
+                                            "FILTER" => [
+                                                ">CALL_DURATION" => $duration,
+                                                ">CALL_START_DATE" => $callStartDateFrom,
+                                                "<CALL_START_DATE" =>  $callStartDateTo
+                                            ]
+                                        ];
+                                    } else {
+                                        ["FILTER" => [
+
                                             ">CALL_START_DATE" => $callStartDateFrom,
                                             "<CALL_START_DATE" =>  $callStartDateTo
-                                        ],
-                                        "start" => $next // Передаем значение "next" в запросе
-                                    ]);
-                                    Log::info('response', ['response' => $response]);
-
-                                    if (isset($response['result']) && !empty($response['result'])) {
-                                        // Добавляем полученные звонки к общему списку
-                                        $resultCallings = array_merge($resultCallings, $response['result']);
-                                        if (isset($response['next'])) {
-                                            // Получаем значение "next" из ответа
-                                            $next = $response['next'];
-                                        } else {
-                                            // Если ключ "next" отсутствует, выходим из цикла
-                                            break;
-                                        }
+                                        ]];
                                     }
-                                    // Ждем некоторое время перед следующим запросом
-                                    sleep(1); // Например, ждем 5 секунд
+                                }
+                                $response = Http::get($url, $data);
 
-                                } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
+
+                                if (isset($response['total'])) {
+                                    // Добавляем полученные звонки к общему списку
+                                    // $resultCallings = array_merge($resultCallings, $response['result']);
+                                    // if (isset($response['next'])) {
+                                    //     // Получаем значение "next" из ответа
+                                    //     $next = $response['next'];
+                                    // }
+                                    $callingsTotalCount[$key] = $response['total'];
+                                }
+                                // Ждем некоторое время перед следующим запросом
+                                sleep(1); // Например, ждем 5 секунд
+
+                                // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
 
                                 return APIController::getSuccess(
 
                                     [
-                                        'result' => $resultCallings, 'response' => $response,
-                                        'callStartDateFrom' => $callStartDateFrom, 'callStartDateTo' => $callStartDateTo
+                                        
+                                        'result' => $callingsTotalCount
                                     ]
                                 );
                             }
