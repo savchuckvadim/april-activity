@@ -149,7 +149,7 @@ class BitrixController extends Controller
 
                                 $data =   [
                                     "FILTER" => [
-                                        "UF_DEPARTMENT_NAME" => 'КМВ',
+                                        "UF_DEPARTMENT_ID" => $departamentId,
                                         'ACTIVE' => true
 
                                     ]
