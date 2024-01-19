@@ -217,30 +217,34 @@ class BitrixController extends Controller
                                     'IBLOCK_ID' => $listId
                                 ];
 
-                         
+
                                 $response = Http::get($url, $data);
 
-                                if (isset($response['result'])){
+                                if (isset($response['result'])) {
                                     return APIController::getSuccess(
 
                                         [
-    
+
                                             'response' => $response,
                                             'departament' => $response['result']
                                         ]
                                     );
-                                }else{
+                                } else {
+                                    Log::info('Response error ', [
+
+                                        'response' => $response,
+
+                                    ]);
                                     return APIController::getError(
                                         'request error',
 
                                         [
-    
+
                                             'response' => $response,
                                             // 'request' => $response
                                         ]
                                     );
                                 }
-                             
                             }
 
 
