@@ -12,7 +12,7 @@ class HookController extends Controller
     {
         try {
             $baseUrl = 'https://april-hook.ru/api';
-            $getFields = Http::get($baseUrl . '/calling', [
+            $getFields = Http::post($baseUrl . '/calling', [
                 'domain' => 'april-garant.bitrix24.ru'
             ]);
             Log::info('calling proxy ', ['fields ' => $getFields]);
