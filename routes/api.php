@@ -769,7 +769,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
     Route::post('list', function (Request $request) {
 
-        return BitrixController::getListFields($request);
+        return BitrixController::getList($request);
+    });
+    Route::post('filter', function (Request $request) {
+
+        return BitrixController::getListFilter($request);
     });
 
 

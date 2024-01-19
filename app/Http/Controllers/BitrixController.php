@@ -278,7 +278,7 @@ class BitrixController extends Controller
             );
         }
     }
-    public static function getListFields(Request $request)
+    public static function getListFilter(Request $request)
     {
 
 
@@ -320,7 +320,7 @@ class BitrixController extends Controller
                                         [
 
                                             'response' => $response,
-                                            'list.fields' => $response['result'],
+                                            'filter' => $response['result'],
 
                                         ]
                                     );
