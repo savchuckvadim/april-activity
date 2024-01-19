@@ -50,7 +50,7 @@ class BitrixController extends Controller
                                 // do {
                                 // Отправляем запрос на другой сервер
 
-                                if (isset($request['userIds'])) {
+                                if (isset($filters) && isset($filters['userIds'])) {
                                     $userIds = $request['userIds'];
                                 }
 
