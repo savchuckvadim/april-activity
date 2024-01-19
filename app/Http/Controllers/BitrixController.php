@@ -220,7 +220,7 @@ class BitrixController extends Controller
 
 
                                 $response = Http::get($url, $data);
-                                $fieldsResponse = Http::get($hook . $actionUrl, $data);
+                                $fieldsResponse = Http::get($hook . $fieldsMethod, $data);
                                 if (isset($response['result'])) {
                                     return APIController::getSuccess(
 
