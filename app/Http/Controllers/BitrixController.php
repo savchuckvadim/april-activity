@@ -78,7 +78,12 @@ class BitrixController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
         }
     }
 
