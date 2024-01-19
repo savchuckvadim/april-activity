@@ -111,6 +111,80 @@ class BitrixController extends Controller
     }
 
 
+    public static function getDepartamentUsers(Request $request)
+    {
+
+
+
+        // FILTER	Массив может содержать поля в любом сочетании:
+        // NAME - имя
+        // LAST_NAME - фамилия
+        // WORK_POSITION - должность
+        // UF_DEPARTMENT_NAME - название подразделения
+        // USER_TYPE - тип пользователя. Может принимать следующие значения:
+        // employee - сотрудник,
+        // extranet - пользователь экстранета,
+        // email - почтовый пользователь
+
+        $method = '/user.search.json';
+
+        try {
+            $domain = $request['domain'];
+            $departamentId = 476;
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                                $actionUrl =  $method;
+                                $url = $hook . $actionUrl;
+
+
+
+                                $data =   [
+                                    "FILTER" => [
+                                        "UF_DEPARTMENT_NAME" => 'ЦУП',
+
+                                    ]
+                                ];
+
+
+                                $response = Http::get($url, $data);
+                                return APIController::getSuccess(
+
+                                    [
+
+                                        'response' => $response,
+                                        'result' => $response['result']
+                                    ]
+                                );
+                            }
+
+
+                            return APIController::getError(
+                                'portal not found',
+                                null
+                            );
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
+    }
+
 
     public static function connect($bitrix)
     {
