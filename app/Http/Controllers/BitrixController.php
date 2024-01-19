@@ -189,7 +189,7 @@ class BitrixController extends Controller
     {
 
 
-        $method = '/lists.get.json';
+        $method = '/lists.element.get.json';
         $listId = 86;
 
         try {
