@@ -130,7 +130,7 @@ class BitrixController extends Controller
 
         try {
             $domain = $request['domain'];
-            $departamentId = 476;
+            $departamentId = 620;
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
                 if (isset($portalResponse['resultCode'])) {
@@ -149,7 +149,8 @@ class BitrixController extends Controller
 
                                 $data =   [
                                     "FILTER" => [
-                                        "UF_DEPARTMENT_NAME" => 'ЦУП',
+                                        "UF_DEPARTMENT_NAME" => 'КМВ',
+                                        'ACTIVE' => true
 
                                     ]
                                 ];
