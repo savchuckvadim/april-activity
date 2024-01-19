@@ -190,6 +190,7 @@ class BitrixController extends Controller
 
 
         $method = '/lists.element.get.json';
+        $fieldsMethod = 'lists.field.type.get';
         $listId = 86;
 
         try {
@@ -219,14 +220,15 @@ class BitrixController extends Controller
 
 
                                 $response = Http::get($url, $data);
-
+                                $fieldsResponse = Http::get($hook . $actionUrl, $data);
                                 if (isset($response['result'])) {
                                     return APIController::getSuccess(
 
                                         [
 
                                             'response' => $response,
-                                            'list' => $response['result']
+                                            'list' => $response['result'],
+                                            'fieldsMethod' => $fieldsResponse['result']
                                         ]
                                     );
                                 } else {
