@@ -79,7 +79,7 @@ class BitrixController extends Controller
                                         // }
                                         $callingsTotalCount[$key] = $response['total'];
                                     } else {
-                                        array_push($errors, $response['result']);
+                                        array_push($errors, $response);
                                         $callingsTotalCount[$key] = 0;
                                     }
                                     // Ждем некоторое время перед следующим запросом
