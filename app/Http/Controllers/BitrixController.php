@@ -241,7 +241,8 @@ class BitrixController extends Controller
                                             [
 
                                                 'response' => $response,
-                                                'departament' => $response['error']
+                                                'error' => $response['error'],
+                                                'description' => $response['error_description']
                                             ]
                                         );
                                     }
