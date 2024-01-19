@@ -235,6 +235,16 @@ class BitrixController extends Controller
                                         'response' => $response,
 
                                     ]);
+                                    if (isset($response['error'])) {
+                                        return APIController::getError(
+                                            'request error',
+                                            [
+
+                                                'response' => $response,
+                                                'departament' => $response['error']
+                                            ]
+                                        );
+                                    }
                                     return APIController::getError(
                                         'request error',
 
