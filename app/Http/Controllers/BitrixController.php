@@ -51,7 +51,7 @@ class BitrixController extends Controller
                                     if ($duration) {
                                         $data =   [
                                             "FILTER" => [
-                                                // "USER_ID" => $userId,
+                                                "USER_ID" => $userId,
                                                 ">CALL_DURATION" => $duration,
                                                 ">CALL_START_DATE" => $callStartDateFrom,
                                                 "<CALL_START_DATE" =>  $callStartDateTo
@@ -59,7 +59,7 @@ class BitrixController extends Controller
                                         ];
                                     } else {
                                         $data =  ["FILTER" => [
-                                            // "USER_ID" => $userId,
+                                            "USER_ID" => $userId,
                                             ">CALL_START_DATE" => $callStartDateFrom,
                                             "<CALL_START_DATE" =>  $callStartDateTo
                                         ]];
