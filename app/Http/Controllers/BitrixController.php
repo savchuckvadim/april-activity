@@ -161,7 +161,7 @@ class BitrixController extends Controller
                                     [
 
                                         'response' => $response,
-                                        'result' => $response['result']
+                                        'departament' => $response['result']
                                     ]
                                 );
                             }

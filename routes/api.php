@@ -763,6 +763,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $filters = $request->filters;
         return BitrixController::getReport($request);
     });
+    Route::post('departament', function (Request $request) {
+
+        return BitrixController::getDepartamentUsers($request);
+    });
 
 
 
