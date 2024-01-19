@@ -17,6 +17,7 @@ class HookController extends Controller
                 'filters' => $filters
             ]);
             $result = $response['data']['result'];
+            $resultData = $response['data'];
             Log::info('calling proxy ', ['callings ' => $result]);
 
             return  response([
@@ -25,7 +26,7 @@ class HookController extends Controller
                     'response' => $response,
                     'domain' => $domain,
                     'filters' => $filters,
-                   
+                    'resultData' => $resultData,
                 
                 ],
                 'message' => 'success'
