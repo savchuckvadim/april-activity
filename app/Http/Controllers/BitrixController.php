@@ -43,13 +43,14 @@ class BitrixController extends Controller
                                 $actionUrl = '/voximplant.statistic.get.json';
                                 $url = $hook . $actionUrl;
                                 $next = 0; // Начальное значение параметра "next"
-
+                                $userId = 107;
                                 // do {
                                 // Отправляем запрос на другой сервер
                                 foreach ($callingsTotalCount as $key => $duration) {
                                     if ($duration) {
                                         $data =   [
                                             "FILTER" => [
+                                                "USER_ID" => $userId,
                                                 ">CALL_DURATION" => $duration,
                                                 ">CALL_START_DATE" => $callStartDateFrom,
                                                 "<CALL_START_DATE" =>  $callStartDateTo
@@ -57,7 +58,7 @@ class BitrixController extends Controller
                                         ];
                                     } else {
                                         ["FILTER" => [
-
+                                            "USER_ID" => $userId,
                                             ">CALL_START_DATE" => $callStartDateFrom,
                                             "<CALL_START_DATE" =>  $callStartDateTo
                                         ]];
