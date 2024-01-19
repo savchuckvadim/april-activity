@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class HookController extends Controller
 {
-    public static function getCalling()
+    public static function getCalling($domain, $filters)
     {
         try {
             $baseUrl = 'https://april-hook.ru/api';
@@ -18,7 +18,13 @@ class HookController extends Controller
             Log::info('calling proxy ', ['callings ' => $response['result']]);
 
             return  response([
-                'result' => ['calling' => $response['result']],
+                'result' => [
+                    'calling' => $response['result'],
+                    'domain' => $domain,
+                    'filters' => $filters,
+                   
+                
+                ],
                 'message' => 'success'
             ]);
         } catch (\Throwable $th) {

@@ -227,11 +227,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
         return RqController::getFiles($rqId, $fileType);
     });
-  
+
 
 
     //// no specific
-  
+
 
     // Route::get('templates', function () {
     //     return TemplateController::getAllTemplates();
@@ -254,7 +254,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FItemController::getFitems($fieldId);
     });
 
-   
+
     // Route::get('{entityType}', function ($entityType) {
     //     return BaseController::getCollection($entityType, null, null);
     // });
@@ -273,7 +273,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('item/{fitemId}', function ($fitemId) {
     //     return FItemController::getFitem($fitemId);
     // });
-   
+
 
     //INITIAL SET
     //// specific
@@ -514,7 +514,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
-   
+
 
 
 
@@ -758,15 +758,16 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     /////////////////////////APRIL_HOOK CONNECT
 
-    Route::get('calling', function () {
-
-        return HookController::getCalling();
+    Route::post('calling', function (Request $request) {
+        $domain = $request->domain;
+        $filters = $request->filters;
+        return HookController::getCalling($domain, $filters);
     });
 
 
 
-     ////////////////////////BASE CONTROLLER
-     Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+    ////////////////////////BASE CONTROLLER
+    Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
 
         return BaseController::initial($entityType);
     });
@@ -792,12 +793,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('{entityType}/', function ($entityType, Request $request) {
         return BaseController::setOrUpdate($entityType, null, null, $request);
     });
-   
+
     Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
         return BaseController::delete($entityType, $fileId);
     });
-
-
 });
 
 
