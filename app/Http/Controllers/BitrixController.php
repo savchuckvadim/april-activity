@@ -282,7 +282,7 @@ class BitrixController extends Controller
     {
 
 
-        $method = '/lists.field.type.get.json';
+        $method = '/lists.field.get.json';
 
         $listId = 86;
 
