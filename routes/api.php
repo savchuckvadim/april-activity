@@ -9,6 +9,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FItemController;
+use App\Http\Controllers\HookController;
 use App\Http\Controllers\InfoblockController;
 use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\LinkController;
@@ -751,6 +752,15 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     Route::post('getDescription', function (Request $request) {
         return FileController::getGeneralDescription($request);
+    });
+
+
+
+    /////////////////////////APRIL_HOOK CONNECT
+
+    Route::get('calling', function () {
+
+        return HookController::getCalling();
     });
 
 
