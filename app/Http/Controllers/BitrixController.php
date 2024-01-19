@@ -20,9 +20,9 @@ class BitrixController extends Controller
     {
         $callingsTotalCount = [
             'all' => null,
-            '30' => 10,
-            '60' => 10,
-            '180' => 10
+            '30' => 30,
+            '60' => 60,
+            '180' => 180
         ];
         $responses = [];
         try {
