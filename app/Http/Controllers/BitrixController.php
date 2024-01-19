@@ -278,7 +278,99 @@ class BitrixController extends Controller
             );
         }
     }
+    public static function getListFields(Request $request)
+    {
 
+
+        $method = '/lists.field.type.get.json';
+
+        $listId = 86;
+
+        try {
+            $domain = $request['domain'];
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                                $actionUrl =  $method;
+                                $url = $hook . $actionUrl;
+
+
+
+                                $data =   [
+                                    'IBLOCK_TYPE_ID' => 'lists',
+                                    // IBLOCK_CODE/IBLOCK_ID
+                                    'IBLOCK_ID' => $listId
+                                ];
+
+
+                                $response = Http::get($url, $data);
+
+                                if (isset($response['result'])) {
+                                    return APIController::getSuccess(
+
+                                        [
+
+                                            'response' => $response,
+                                            'list.fields' => $response['result'],
+
+                                        ]
+                                    );
+                                } else {
+                                    Log::info('Response error ', [
+
+                                        'response' => $response,
+
+                                    ]);
+                                    if (isset($response['error'])) {
+                                        return APIController::getError(
+                                            'request error',
+                                            [
+
+                                                'response' => $response,
+                                                'error' => $response['error'],
+                                                'description' => $response['error_description']
+                                            ]
+                                        );
+                                    }
+                                    return APIController::getError(
+                                        'request error',
+
+                                        [
+
+                                            'response' => $response,
+                                            // 'request' => $response
+                                        ]
+                                    );
+                                }
+                            }
+
+
+                            return APIController::getError(
+                                'portal not found',
+                                null
+                            );
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
+    }
 
     public static function connect($bitrix)
     {
