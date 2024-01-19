@@ -117,10 +117,10 @@ class PortalController extends Controller
                     'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
                     'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
                     'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
-                //     'key' => $portal->getKey(),
-                //     'C_REST_CLIENT_ID' => $portal->getClientId(),
-                //     'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                //     'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+                    //     'key' => $portal->getKey(),
+                    //     'C_REST_CLIENT_ID' => $portal->getClientId(),
+                    //     'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                    //     'C_REST_WEB_HOOK_URL' => $portal->getHook(),
                 ]
 
             ]
@@ -161,15 +161,41 @@ class PortalController extends Controller
             $portal = Portal::find($portalId);
             if (!$portal) {
                 APIController::getResponse(0, 'success', ['portalId' => $portalId]);
-            }else{
+            } else {
                 return APIController::getResponse(1, 'error - portal was not deleted', $portal);
             }
-        
         } catch (\Throwable $th) {
             return APIController::getResponse(1, $th->getMessage(), $portal);
         }
     }
 
+    public static function innerGetPortal($domain)
+    {
+
+        $portal = Portal::where('domain', $domain)->first();
+
+        if (!$portal) {
+            return [
+                'resultCode' => 1,
+                'message' => 'portal does not exist!',
+                'portal' => null
+            ];
+        }
+
+        return [
+            'resultCode' => 0,
+            'portal' => [
+                'id' => $portal->id,
+                'number' => $portal->number,
+                'domain' => $domain,
+                'key' => $portal->getKey(),
+                'C_REST_CLIENT_ID' => $portal->getClientId(),
+                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            ]
+
+        ];
+    }
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);

@@ -761,7 +761,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('calling', function (Request $request) {
         $domain = $request->domain;
         $filters = $request->filters;
-        return HookController::getCalling($domain, $filters);
+        return BitrixController::getReport($request);
     });
 
 
