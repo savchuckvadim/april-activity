@@ -32,7 +32,7 @@ class BitrixController extends Controller
                                 $resultCallings = [];
                                 $portal = $portalResponse['portal'];
 
-                                $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
                                 $hook = 'https://' . $domain  . '/' . $webhookRestKey;
                                 $actionUrl = '/voximplant.statistic.get.json';
                                 $url = $hook . $actionUrl;
