@@ -16,11 +16,12 @@ class HookController extends Controller
                 'domain' => 'april-garant.bitrix24.ru',
                 'filters' => $filters
             ]);
-            Log::info('calling proxy ', ['callings ' => $response['result']]);
+            $result = $response['data']['result'];
+            Log::info('calling proxy ', ['callings ' => $result]);
 
             return  response([
                 'result' => [
-                    'calling' => $response['result'],
+                    'calling' => $result,
                     'response' => $response,
                     'domain' => $domain,
                     'filters' => $filters,
