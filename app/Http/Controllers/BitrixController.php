@@ -26,6 +26,7 @@ class BitrixController extends Controller
         ];
         $errors = [];
         $responses = [];
+        $userIds = [];
         try {
             $domain = $request['domain'];
             $filters = $request['filters'];
@@ -45,14 +46,22 @@ class BitrixController extends Controller
                                 $actionUrl = '/voximplant.statistic.get.json';
                                 $url = $hook . $actionUrl;
                                 $next = 0; // Начальное значение параметра "next"
-                                $userId = 174;
+                                // $userId = 174;
                                 // do {
                                 // Отправляем запрос на другой сервер
+
+                                if (isset($request['userIds'])) {
+                                    $userIds = $request['userIds'];
+                                }
+
+
+
+
                                 foreach ($callingsTotalCount as $key => $duration) {
                                     if ($duration) {
                                         $data =   [
                                             "FILTER" => [
-                                                "PORTAL_USER_ID" => [$userId],
+                                                "PORTAL_USER_ID" => $userIds,
                                                 ">CALL_DURATION" => $duration,
                                                 ">CALL_START_DATE" => $callStartDateFrom,
                                                 "<CALL_START_DATE" =>  $callStartDateTo
@@ -60,7 +69,7 @@ class BitrixController extends Controller
                                         ];
                                     } else {
                                         $data =  ["FILTER" => [
-                                            "PORTAL_USER_ID" => [$userId],
+                                            "PORTAL_USER_ID" => $userIds,
                                             ">CALL_START_DATE" => $callStartDateFrom,
                                             "<CALL_START_DATE" =>  $callStartDateTo
                                         ]];
