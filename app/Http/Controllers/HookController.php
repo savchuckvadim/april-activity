@@ -12,7 +12,7 @@ class HookController extends Controller
     {
         try {
             $baseUrl = 'https://april-hook.ru/api';
-            $response = Http::post($baseUrl . '/calling', [
+            $response = Http::timeout(160)->post($baseUrl . '/calling', [
                 'domain' => 'april-garant.bitrix24.ru',
                 'filters' => $filters
             ]);
