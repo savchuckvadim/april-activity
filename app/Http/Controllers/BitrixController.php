@@ -24,6 +24,7 @@ class BitrixController extends Controller
             '60' => 0,
             '180' => 0
         ];
+        $responses = [];
         try {
             $domain = $request['domain'];
             $filters = $request['filters'];
@@ -50,7 +51,7 @@ class BitrixController extends Controller
                                     if ($duration) {
                                         $data =   [
                                             "FILTER" => [
-                                                "USER_ID" => $userId,
+                                                // "USER_ID" => $userId,
                                                 ">CALL_DURATION" => $duration,
                                                 ">CALL_START_DATE" => $callStartDateFrom,
                                                 "<CALL_START_DATE" =>  $callStartDateTo
@@ -58,7 +59,7 @@ class BitrixController extends Controller
                                         ];
                                     } else {
                                         $data =  ["FILTER" => [
-                                            "USER_ID" => $userId,
+                                            // "USER_ID" => $userId,
                                             ">CALL_START_DATE" => $callStartDateFrom,
                                             "<CALL_START_DATE" =>  $callStartDateTo
                                         ]];
@@ -66,6 +67,7 @@ class BitrixController extends Controller
 
                                     $response = Http::get($url, $data);
 
+                                    array_push($responses, $response);
 
                                     if (isset($response['total'])) {
                                         // Добавляем полученные звонки к общему списку
@@ -84,7 +86,7 @@ class BitrixController extends Controller
                                 return APIController::getSuccess(
 
                                     [
-
+                                        'responses' => $responses,
                                         'result' => $callingsTotalCount
                                     ]
                                 );
