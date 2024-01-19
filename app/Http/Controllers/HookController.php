@@ -12,13 +12,13 @@ class HookController extends Controller
     {
         try {
             $baseUrl = 'https://april-hook.ru/api';
-            $getFields = Http::post($baseUrl . '/calling', [
+            $response = Http::post($baseUrl . '/calling', [
                 'domain' => 'april-garant.bitrix24.ru'
             ]);
-            Log::info('calling proxy ', ['fields ' => $getFields]);
+            Log::info('calling proxy ', ['callings ' => $response['result']]);
 
             return  response([
-                'result' => ['calling' => $getFields],
+                'result' => ['calling' => $response['result']],
                 'message' => 'success'
             ]);
         } catch (\Throwable $th) {
