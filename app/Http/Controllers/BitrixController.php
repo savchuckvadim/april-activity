@@ -24,6 +24,7 @@ class BitrixController extends Controller
             '60' => 60,
             '180' => 180
         ];
+        $errors = [];
         $responses = [];
         try {
             $domain = $request['domain'];
@@ -44,7 +45,7 @@ class BitrixController extends Controller
                                 $actionUrl = '/voximplant.statistic.get.json';
                                 $url = $hook . $actionUrl;
                                 $next = 0; // Начальное значение параметра "next"
-                                $userId = 107;
+                                $userId = 1;
                                 // do {
                                 // Отправляем запрос на другой сервер
                                 foreach ($callingsTotalCount as $key => $duration) {
@@ -77,6 +78,9 @@ class BitrixController extends Controller
                                         //     $next = $response['next'];
                                         // }
                                         $callingsTotalCount[$key] = $response['total'];
+                                    } else {
+                                        array_push($errors, $response['result']);
+                                        $callingsTotalCount[$key] = 0;
                                     }
                                     // Ждем некоторое время перед следующим запросом
                                     sleep(1); // Например, ждем 5 секунд
@@ -86,6 +90,7 @@ class BitrixController extends Controller
                                 return APIController::getSuccess(
 
                                     [
+                                        'errors' => $errors,
                                         'responses' => $responses,
                                         'result' => $callingsTotalCount
                                     ]
