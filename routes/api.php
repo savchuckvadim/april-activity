@@ -767,7 +767,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return BitrixController::getDepartamentUsers($request);
     });
+    Route::post('list', function (Request $request) {
 
+        return BitrixController::getList($request);
+    });
 
 
     ////////////////////////BASE CONTROLLER

@@ -185,6 +185,68 @@ class BitrixController extends Controller
             );
         }
     }
+    public static function getList(Request $request)
+    {
+
+
+        $method = '/lists.get.json';
+        $listId = 86;
+
+        try {
+            $domain = $request['domain'];
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                                $actionUrl =  $method;
+                                $url = $hook . $actionUrl;
+
+
+
+                                $data =   [
+                                    'IBLOCK_TYPE_ID' => 'lists',
+                                    // IBLOCK_CODE/IBLOCK_ID
+                                    'IBLOCK_ID' => $listId
+                                ];
+
+
+                                $response = Http::get($url, $data);
+                                return APIController::getSuccess(
+
+                                    [
+
+                                        'response' => $response,
+                                        'departament' => $response['result']
+                                    ]
+                                );
+                            }
+
+
+                            return APIController::getError(
+                                'portal not found',
+                                null
+                            );
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
+    }
 
 
     public static function connect($bitrix)
