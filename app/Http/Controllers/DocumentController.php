@@ -32,13 +32,31 @@ class DocumentController extends Controller
 
             'colors' => [
 
-                'general' => '000000',
-                'corporate' => '0262ae',
-                'second' => '000000',
-                'white' => 'ffffff',
-                'shadow' => 'e5e5e5',
-                'atention' => 'd32c65',
-                'shadowText' => '343541'
+                'general' => [
+                    'color' => '000000'
+                ],
+                'corporate' => [
+                    'color' => '0262ae'
+                ],
+                'second' => [
+                    'color' => '000000'
+                ],
+                'white' => [
+                    'color' => 'ffffff'
+                ],
+                'shadow' => [
+                    'color' => 'e5e5e5'
+                ],
+                'atention' => [
+                    'color' => 'd32c65'
+                ],
+                'shadowText' => [
+                    'color' => '343541'
+                ],
+                'general' => [
+                    'color' => '000000'
+                ],
+
 
 
             ],
@@ -1464,6 +1482,7 @@ class DocumentController extends Controller
             $styles['paragraphs']['head'],
             $styles['paragraphs']['align']['right']
         );
+        $section->addPageBreake();
         return $section;
     }
 
@@ -1500,10 +1519,10 @@ class DocumentController extends Controller
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
-                    $textRun->addText($subpart, $letterTextStyle, $baseColor);
+                    $textRun->addText($subpart, $letterTextStyle, $corporateColor);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart, $letterTextStyle, $corporateColor);
+                    $textRun->addText($subpart, $letterTextStyle, $baseColor);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
