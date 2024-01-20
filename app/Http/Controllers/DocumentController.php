@@ -75,7 +75,7 @@ class DocumentController extends Controller
                         'bold' => true,
                         'size' => 10
                     ],
-                    'official' => [
+                    'oficial' => [
                         ...$generalFont,
                         'size' => 11,
                         'spaceAfter' => 1,    // Интервал после абзаца
