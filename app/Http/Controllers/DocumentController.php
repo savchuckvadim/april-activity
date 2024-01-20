@@ -1494,6 +1494,17 @@ class DocumentController extends Controller
         $letterTextStyle = $styles['fonts']['text']['oficial'];
         $baseColor = $styles['colors']['general'];
         $corporateColor = $styles['colors']['corporate'];
+        $fullWidth = $styles['page']['pageSizeW'];
+        $marginRight = $section->getStyle()->getMarginRight();
+        $marginLeft = $section->getStyle()->getMarginLeft();
+        $contentWidth = $fullWidth - $marginLeft - $marginRight;
+        $table = $section->addTable();
+        $table->addRow(3000);
+        $cellWidth = $contentWidth / 2;
+        $letterNumberell = $table->addCell($contentWidth);
+        $letterNumberell->addText('Номер Письма', $letterTextStyle, $corporateColor);
+        $letterRecipientell = $table->addCell($contentWidth);
+        $letterRecipientell->addText('Кому', $letterTextStyle, $corporateColor);
 
         $letterText = '';
         foreach ($fields as $field) {
