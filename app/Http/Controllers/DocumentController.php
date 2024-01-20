@@ -1482,7 +1482,7 @@ class DocumentController extends Controller
             $styles['paragraphs']['head'],
             $styles['paragraphs']['align']['right']
         );
-        $section->addPageBreake();
+        $section->addPageBreak();
         return $section;
     }
 
@@ -1519,7 +1519,7 @@ class DocumentController extends Controller
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
-                    $textRun->addText($subpart, $letterTextStyle, $corporateColor);
+                    $textRun->addText($subpart, $letterTextStyle, ['color' => '0262ae']);
                 } else {
                     // Добавление обычного текста
                     $textRun->addText($subpart, $letterTextStyle, $baseColor);
@@ -1533,7 +1533,7 @@ class DocumentController extends Controller
         }
 
 
-        $section->addPageBreak();
+
         return $section;
     }
 }
