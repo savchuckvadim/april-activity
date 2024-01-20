@@ -114,7 +114,7 @@ class DocumentController extends Controller
                     ],
                     'oficial' => [
                         ...$generalFont,
-                        'size' => 11,
+                        'size' => 10,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
@@ -1532,7 +1532,7 @@ class DocumentController extends Controller
         $leftAlign = $styles['paragraphs']['align']['left'];
         $rightAlign = $styles['paragraphs']['align']['right'];
         $table = $section->addTable();
-        $table->addRow(1000);
+        $table->addRow();
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
         $letterNumberell->addText('Номер Письма', $letterTextStyle, $leftAlign);
