@@ -759,7 +759,7 @@ class DocumentController extends Controller
     protected function getPriceSection($section, $styles, $price)
     {
         try {
-            $section->addPageBreak();
+            // $section->addPageBreak();
 
 
             //ТАБЛИЦА ЦЕН
@@ -1518,7 +1518,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
-        $section->addTextBreak(2);
+        $section->addTextBreak(1);
         $letterTextStyle = $styles['fonts']['text']['oficial'];
         $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
         $fullWidth = $styles['page']['pageSizeW'];
