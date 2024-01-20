@@ -403,14 +403,14 @@ class DocumentController extends Controller
 
 
         $letterSection = $this->getLetter($section, $styles,  $fields);
-        $pageSizeHLetter = $letterSection->getStyle()->getPageSizeH();
+        // $pageSizeHLetter = $letterSection->getStyle()->getPageSizeH();
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
    
-        $pageSizeHStamp = $stampsSection->getStyle()->getPageSizeH();
+        // $pageSizeHStamp = $stampsSection->getStyle()->getPageSizeH();
 
 
 
@@ -439,8 +439,8 @@ class DocumentController extends Controller
         return APIController::getSuccess([
             // 'data' => $data,
             'link' => $link,
-            'pageSizeHLetter' => $pageSizeHLetter,
-            'pageSizeHStamp' => $pageSizeHStamp,
+            // 'pageSizeHLetter' => $pageSizeHLetter,
+            // 'pageSizeHStamp' => $pageSizeHStamp,
 
 
             // 'testInfoblocks' => $testInfoblocks
