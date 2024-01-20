@@ -21,6 +21,7 @@ class DocumentController extends Controller
             'color' => '0962ae',
             'lang' => 'ru-RU',
         ];
+
         $this->documentStyle = [
             'page' => [
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
@@ -32,6 +33,7 @@ class DocumentController extends Controller
             'colors' => [
 
                 'general' => '0962ae',
+                'corporate' => '0262ae',
                 'second' => '0962ae',
                 'white' => '0962ae',
                 'shadow' => '0962ae',
@@ -301,19 +303,7 @@ class DocumentController extends Controller
                 }
             }
         }
-        $letterText = '';
-        foreach ($fields as $field) {
-            if ($field && $field['code']) {
-                if (
-                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
 
-                ) {
-                    if ($field['description']) {
-                        $letterText = $field['description'];
-                    }
-                }
-            }
-        }
 
 
         // STYLES
@@ -350,46 +340,17 @@ class DocumentController extends Controller
 
 
         //Main
-      
-        $parts = preg_split('/<color>|<\/color>/', $letterText);
 
-        // Стили для обычного и выделенного текста
-        $normalStyle = ['name' => 'Arial', 'size' => 12];
-        $highlightStyle = ['name' => 'Arial', 'size' => 12, 'color' => 'FF0000']; // Красный цвет
+
+
+
 
         // Переменная для отслеживания, находимся ли мы в выделенном блоке
         $inHighlight = false;
 
-        $textRun = $section->addTextRun();
 
-        $inHighlight = false;
-        foreach ($parts as $part) {
-            // Разбиваем часть на подстроки по символам переноса строки
-            $subparts = preg_split("/\r\n|\n|\r/", $part);
-            foreach ($subparts as $subpart) {
-                if ($inHighlight) {
-                    // Добавление выделенного текста
-                    $textRun->addText($subpart, $highlightStyle);
-                } else {
-                    // Добавление обычного текста
-                    $textRun->addText($subpart, $normalStyle);
-                }
-                // Добавление разрыва строки после каждой подстроки, кроме последней
-                if ($subpart !== end($subparts)) {
-                    $textRun->addTextBreak();
-                }
-            }
-            $inHighlight = !$inHighlight;
-        }
-        // if ($withLetter && $letterText) {
-        //     $section->addTextBreak(2);
-        //     $section->addText(
-        //         $letterText,
-        //         $styles['fonts']['text']['normal']
-        //     );
-        // }
-
-
+        $letterSection = $this->getLetter($section, $styles,  $fields);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
@@ -423,8 +384,7 @@ class DocumentController extends Controller
         return APIController::getSuccess([
             // 'data' => $data,
             'link' => $link,
-            'withLetter' => $withLetter,
-            'letterText' => $letterText,
+
 
             // 'testInfoblocks' => $testInfoblocks
         ]);
@@ -452,7 +412,7 @@ class DocumentController extends Controller
 
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
-        $section->addPageBreak();
+
         $section->addTextBreak(1);
         $section->addText('Информационное наполнение', $fonts['h1']);
         // $section->addTextBreak(1);
@@ -1496,6 +1456,56 @@ class DocumentController extends Controller
             $styles['paragraphs']['head'],
             $styles['paragraphs']['align']['right']
         );
+        return $section;
+    }
+
+    protected function getLetter($section, $styles, $fields)
+    {
+        //FOOTER
+        //data
+        // Стили для обычного и выделенного текста
+        $letterTextStyle = $styles['fonts']['text']['normal'];
+        $color = $styles['colors']['corporate'];
+
+        $letterText = '';
+        foreach ($fields as $field) {
+            if ($field && $field['code']) {
+                if (
+                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
+
+                ) {
+                    if ($field['description']) {
+                        $letterText = $field['description'];
+                    }
+                }
+            }
+        }
+        $parts = preg_split('/<color>|<\/color>/', $letterText);
+
+        $textRun = $section->addTextRun();
+
+        $inHighlight = false;
+        foreach ($parts as $part) {
+            // Разбиваем часть на подстроки по символам переноса строки
+            $subparts = preg_split("/\r\n|\n|\r/", $part);
+            foreach ($subparts as $subpart) {
+                if ($inHighlight) {
+                    // Добавление выделенного текста
+                    $textRun->addText($subpart, $letterTextStyle);
+                } else {
+                    // Добавление обычного текста
+                    $textRun->addText($subpart, $letterTextStyle, $color);
+                }
+                // Добавление разрыва строки после каждой подстроки, кроме последней
+                if ($subpart !== end($subparts)) {
+                    $textRun->addTextBreak();
+                }
+            }
+            $inHighlight = !$inHighlight;
+        }
+
+
+        $section->addPageBreak();
         return $section;
     }
 }
