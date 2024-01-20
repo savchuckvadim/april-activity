@@ -18,7 +18,7 @@ class DocumentController extends Controller
     {
         $generalFont = [
             'name' => 'Arial',
-            'color' => '000000',
+            // 'color' => '000000',
             'lang' => 'ru-RU',
         ];
 
@@ -1473,7 +1473,8 @@ class DocumentController extends Controller
         //data
         // Стили для обычного и выделенного текста
         $letterTextStyle = $styles['fonts']['text']['oficial'];
-        $color = $styles['colors']['corporate'];
+        $baseColor = $styles['colors']['general'];
+        $corporateColor = $styles['colors']['corporate'];
 
         $letterText = '';
         foreach ($fields as $field) {
@@ -1499,14 +1500,14 @@ class DocumentController extends Controller
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
-                    $textRun->addText($subpart, $letterTextStyle);
+                    $textRun->addText($subpart, $letterTextStyle, $baseColor);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart, $letterTextStyle, $color);
+                    $textRun->addText($subpart, $letterTextStyle, $corporateColor);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
-                    $textRun->addTextBreak(2);
+                    $textRun->addTextBreak(1);
                 }
             }
             $inHighlight = !$inHighlight;
