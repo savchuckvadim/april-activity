@@ -16,12 +16,28 @@ class DocumentController extends Controller
 
     public function __construct()
     {
+
+        $colors = [
+            'general' => '000000',
+
+            'corporate' =>  '34c3f1',
+            'second' =>  '000000',
+            'white' =>  'ffffff',
+            'shadow' =>  'e5e5e5',
+            'atention' =>  'd32c65',
+            'shadowText' =>  '343541',
+
+        ];
         $generalFont = [
             'name' => 'Arial',
-            // 'color' => '000000',
+            'color' => $colors['general'],
             'lang' => 'ru-RU',
         ];
-
+        $corporateFont = [
+            'name' => 'Arial',
+            'color' => $colors['34c3f1'],
+            'lang' => 'ru-RU',
+        ];
         $this->documentStyle = [
             'page' => [
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
@@ -98,6 +114,14 @@ class DocumentController extends Controller
                     ],
                     'oficial' => [
                         ...$generalFont,
+                        'size' => 11,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+
+                    ],
+                    'corporate' => [
+                        ...$corporateFont,
                         'size' => 11,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
@@ -1495,8 +1519,7 @@ class DocumentController extends Controller
         //data
         // Стили для обычного и выделенного текста
         $letterTextStyle = $styles['fonts']['text']['oficial'];
-        $baseColor = $styles['colors']['general'];
-        $corporateColor = $styles['colors']['corporate'];
+        $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
         $fullWidth = $styles['page']['pageSizeW'];
         $marginRight = $section->getStyle()->getMarginRight();
         $marginLeft = $section->getStyle()->getMarginLeft();
@@ -1507,9 +1530,9 @@ class DocumentController extends Controller
         $table->addRow(1000);
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
-        $letterNumberell->addText('Номер Письма', $letterTextStyle, $corporateColor, $leftAlign);
+        $letterNumberell->addText('Номер Письма', $letterTextStyle, $leftAlign);
         $letterRecipientell = $table->addCell($contentWidth);
-        $letterRecipientell->addText('Кому', $letterTextStyle, $corporateColor, $rightAlign);
+        $letterRecipientell->addText('Кому', $corporateletterTextStyle, $rightAlign);
 
         $letterText = '';
         foreach ($fields as $field) {
@@ -1538,7 +1561,7 @@ class DocumentController extends Controller
                     $textRun->addText($subpart, $letterTextStyle, ['color' => '0262ae']);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart, $letterTextStyle, $baseColor);
+                    $textRun->addText($subpart, $corporateletterTextStyle);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
