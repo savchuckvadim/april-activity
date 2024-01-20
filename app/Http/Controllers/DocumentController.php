@@ -35,7 +35,7 @@ class DocumentController extends Controller
         ];
         $corporateFont = [
             'name' => 'Arial',
-            'color' => $colors['34c3f1'],
+            'color' => $colors['corporate'],
             'lang' => 'ru-RU',
         ];
         $this->documentStyle = [
