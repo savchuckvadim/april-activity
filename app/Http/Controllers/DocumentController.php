@@ -35,8 +35,11 @@ class DocumentController extends Controller
                 'general' => [
                     'color' => '000000'
                 ],
+                // 'corporate' => [
+                //     'color' => '0262ae'
+                // ],
                 'corporate' => [
-                    'color' => '0262ae'
+                    'color' => '34c3f1'
                 ],
                 'second' => [
                     'color' => '000000'
@@ -1498,13 +1501,15 @@ class DocumentController extends Controller
         $marginRight = $section->getStyle()->getMarginRight();
         $marginLeft = $section->getStyle()->getMarginLeft();
         $contentWidth = $fullWidth - $marginLeft - $marginRight;
+        $leftAlign = $styles['paragraphs']['align']['left'];
+        $rightAlign = $styles['paragraphs']['align']['right'];
         $table = $section->addTable();
-        $table->addRow(3000);
+        $table->addRow(1000);
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
-        $letterNumberell->addText('Номер Письма', $letterTextStyle, $corporateColor);
+        $letterNumberell->addText('Номер Письма', $letterTextStyle, $corporateColor, $leftAlign);
         $letterRecipientell = $table->addCell($contentWidth);
-        $letterRecipientell->addText('Кому', $letterTextStyle, $corporateColor);
+        $letterRecipientell->addText('Кому', $letterTextStyle, $corporateColor, $rightAlign);
 
         $letterText = '';
         foreach ($fields as $field) {
