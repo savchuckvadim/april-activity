@@ -114,7 +114,7 @@ class DocumentController extends Controller
                     ],
                     'oficial' => [
                         ...$generalFont,
-                        'size' => 10,
+                        'size' => 11,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
