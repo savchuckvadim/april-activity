@@ -1518,6 +1518,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
+        $section->addTextBreak(2);
         $letterTextStyle = $styles['fonts']['text']['oficial'];
         $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
         $fullWidth = $styles['page']['pageSizeW'];
@@ -1532,7 +1533,7 @@ class DocumentController extends Controller
         $letterNumberell = $table->addCell($contentWidth);
         $letterNumberell->addText('Номер Письма', $letterTextStyle, $leftAlign);
         $letterRecipientell = $table->addCell($contentWidth);
-        $letterRecipientell->addText('Кому', $corporateletterTextStyle, $rightAlign);
+        $letterRecipientell->addText('Кому', $letterTextStyle, $rightAlign);
 
         $letterText = '';
         foreach ($fields as $field) {
@@ -1558,10 +1559,10 @@ class DocumentController extends Controller
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
-                    $textRun->addText($subpart, $letterTextStyle, ['color' => '0262ae']);
+                    $textRun->addText($subpart, $corporateletterTextStyle);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart, $corporateletterTextStyle);
+                    $textRun->addText($subpart,$letterTextStyle );
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
