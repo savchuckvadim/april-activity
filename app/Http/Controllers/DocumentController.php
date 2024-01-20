@@ -75,6 +75,14 @@ class DocumentController extends Controller
                         'bold' => true,
                         'size' => 10
                     ],
+                    'official' => [
+                        ...$generalFont,
+                        'size' => 11,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+
+                    ]
 
                 ],
                 'table' => [
@@ -1464,7 +1472,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
-        $letterTextStyle = $styles['fonts']['text']['normal'];
+        $letterTextStyle = $styles['fonts']['text']['oficial'];
         $color = $styles['colors']['corporate'];
 
         $letterText = '';
@@ -1498,7 +1506,7 @@ class DocumentController extends Controller
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
-                    $textRun->addTextBreak();
+                    $textRun->addTextBreak(2);
                 }
             }
             $inHighlight = !$inHighlight;
