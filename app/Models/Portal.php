@@ -34,6 +34,40 @@ class Portal extends Model
         return $this->hasMany(Template::class, 'portalId', 'id');
     }
 
+    public function callingGroups()
+    {
+        return $this->hasMany(Calling::class);
+    }
+    public function smarts()
+    {
+        return $this->hasMany(Smart::class);
+    }
+    public function lists()
+    {
+        return $this->hasMany(Bitrixlist::class);
+    }
+    public function departaments()
+    {
+        return $this->hasMany(Departament::class);
+    }
+    public function timezones()
+    {
+        return $this->hasMany(Timezone::class);
+    }
+    //todo
+    // smart smartId stages categories
+    // departament - id группы сотрудников - по идее может быть в итоге несколько групп hasMany
+    // callings tasks - taskGroupId hasMany
+    // report 
+    // lists - универсальные списки id списка по идее списков может стать много kpi отказы звонки и тд
+    // hasMany у списков должен быть type (kpi, fucks, invoices, conversions)
+
+    
+
+
+
+
+
 
 
 
