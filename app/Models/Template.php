@@ -50,6 +50,11 @@ class Template extends Model
         return $this->belongsTo(Portal::class, 'portalId', 'id');
     }
 
+    public function counters()
+    {
+        return $this->belongsToMany(Counter::class, 'template_counter')
+            ->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
+    }
 
     public static function getForm()
     {
@@ -112,7 +117,7 @@ class Template extends Model
                 [
                     'groupName' => 'Портал и реквизиты',
                     'entityType' => 'group',
-                    
+
                     // 'type' => 'template',
                     'isCanAddField' => false,
                     'isCanDeleteField' => false,
@@ -133,10 +138,10 @@ class Template extends Model
                             'isCanAddField' => false,
 
                         ],
-                        
-                  
-                        ],
-                        'relations' => [],
+
+
+                    ],
+                    'relations' => [],
                 ]
             ]
         ];
