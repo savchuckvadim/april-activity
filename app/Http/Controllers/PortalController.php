@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PortalResource;
 use App\Models\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -103,28 +104,29 @@ class PortalController extends Controller
                 'message' => 'portal not found'
             ]);
         }
+        $resource = new PortalResource($portal);
+        return APIController::getSuccess(['portal' => $resource]);
+        // return response(
 
-        return response(
+        //     [
+        //         'resultCode' => 0,
+        //         'message' => 'success',
+        //         'portal' => [
+        //             'id' => $portal->id,
+        //             'number' => $portal->number,
+        //             'domain' => $portal->domain,
+        //             'key' => $portal->key,
+        //             'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
+        //             'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
+        //             'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
+        //             //     'key' => $portal->getKey(),
+        //             //     'C_REST_CLIENT_ID' => $portal->getClientId(),
+        //             //     'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+        //             //     'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+        //         ]
 
-            [
-                'resultCode' => 0,
-                'message' => 'success',
-                'portal' => [
-                    'id' => $portal->id,
-                    'number' => $portal->number,
-                    'domain' => $portal->domain,
-                    'key' => $portal->key,
-                    'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
-                    'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
-                    'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
-                    //     'key' => $portal->getKey(),
-                    //     'C_REST_CLIENT_ID' => $portal->getClientId(),
-                    //     'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                    //     'C_REST_WEB_HOOK_URL' => $portal->getHook(),
-                ]
-
-            ]
-        );
+        //     ]
+        // );
     }
     public static function getPortals()
     {
