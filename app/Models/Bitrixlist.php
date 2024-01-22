@@ -25,6 +25,7 @@ class Bitrixlist extends Model
                 'id' => $portal->id,
                 'domain' => $portal->domain,
                 'name' => $portal->domain,
+                'title' => $portal->domain,
             ]);
         };
 
