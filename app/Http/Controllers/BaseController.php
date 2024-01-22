@@ -32,7 +32,7 @@ class BaseController extends Controller
                 case 'departament':
                 case 'timezone':
                 case 'callingGroup':
-                    return APIController::getSuccess(['initial' => ['entityType' => $entityType]]);
+                    return APIController::getSuccess(['initial' => [['entityType' => $entityType]]]);
                 case 'item':
                     break;
                 default:
