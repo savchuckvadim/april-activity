@@ -16,11 +16,15 @@ class Bitrixlist extends Model
         return $this->belongsTo(Portal::class);
     }
 
-    public static function getForm()
+    public static function getForm($portalId = null)
     {
         $allPortals = Portal::all();
+        if ($portalId) {
+            $allPortals = Portal::where('id', $portalId);
+        }
+
         $portalsSelect = [];
-        foreach($allPortals  as $portal){
+        foreach ($allPortals  as $portal) {
             array_push($portalsSelect, [
                 'id' => $portal->id,
                 'domain' => $portal->domain,

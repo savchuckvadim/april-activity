@@ -811,7 +811,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     ////////////////////////BASE CONTROLLER
     Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
 
-        return BaseController::initial($entityType);
+        return BaseController::initial($entityType, $parentType, $parentId);
     });
 
     Route::get('initial/{entityType}/', function ($entityType) {
