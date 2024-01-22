@@ -85,4 +85,14 @@ class CounterController extends Controller
 
         );
     }
+
+    public static function get($counterId)
+    {
+
+        $counter = Counter::find($counterId);
+        $data = [
+            'counter' => $counter
+        ];
+        return APIController::getSuccess($data);
+    }
 }
