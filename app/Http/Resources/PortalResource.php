@@ -26,9 +26,9 @@ class PortalResource extends JsonResource
             'C_REST_WEB_HOOK_URL' => $this->C_REST_WEB_HOOK_URL,
             'providers' => $this->providers,
             'templates' => $this->templates,
-            'callins' => $this->callingGroups,
+            'callingGroups' => $this->callingGroups,
             'smarts' => $this->smarts,
-            'lists' => $this->lists,
+            'bitrixlist' => $this->lists,
             'departaments' => $this->departaments,
             'timezones' => $this->timezones,
 

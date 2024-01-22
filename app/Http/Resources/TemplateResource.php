@@ -37,6 +37,7 @@ class TemplateResource extends JsonResource
             'portal' => $domain,
             'providers' => $providersCollection,
             'fields' =>  $resultFields,
+            'counters' => $this->counters,
 
 
 
