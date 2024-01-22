@@ -28,7 +28,7 @@ class PortalResource extends JsonResource
             'templates' => $this->templates,
             'callingGroups' => $this->callingGroups,
             'smarts' => $this->smarts,
-            'bitrixlist' => $this->lists,
+            'bitrixlists' => $this->lists,
             'departaments' => $this->departaments,
             'timezones' => $this->timezones,
 
