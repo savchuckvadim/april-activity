@@ -32,6 +32,21 @@ class CounterController extends Controller
         $year = $request['year'];
         $template_id = $request['template_id'];
 
+        if (!$day || $day == 'false' || $day == 'null' || $day == '0'  || $day == '') {
+            $day = 0;
+        } else {
+            $day = 1;
+        }
+        if (!$month || $month == 'false' || $month == 'null' || $month == '0'  || $month == '') {
+            $month = 0;
+        } else {
+            $month = 1;
+        }
+        if (!$year || $year == 'false' || $year == 'null' || $year == '0' || $year == '') {
+            $year = 0;
+        } else {
+            $year = 1;
+        }
 
         $template = Template::find($template_id);
 
@@ -54,7 +69,7 @@ class CounterController extends Controller
                     'count' => $count,
                     'size' => $size,
                     // 'template_id' => $template_id,
-       
+
                 ];
                 // Установка связи с Template и добавление данных в сводную таблицу
                 $template->counters()->attach($counter->id, $relationData);
