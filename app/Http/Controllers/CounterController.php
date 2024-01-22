@@ -92,11 +92,25 @@ class CounterController extends Controller
         $counter = Counter::with(['templates' => function ($query) {
             $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
         }])->find($counterId);
+        $pivot = $counter['templates'][0]['pivot'];
+        $counter = [
+            'id' => $counter['id'],
+            'name' => $counter['name'],
+            'title' => $counter['title'],
 
-        $counter = $counter;
+            'count' => $pivot['count'],
+            'prefix' => $pivot['prefix'],
+            'day' => $pivot['day'],
+            'month' => $pivot['month'],
+            'size' => $pivot['size'],
+            'template_id' => $pivot['template_id'],
+
+        ];
+
+
         $data = [
-            'counter' => $counter,
-            'pivot' => $counter['templates'][0]['pivot'],
+            'counter' => $counter
+
         ];
 
         if (!$counter) {
