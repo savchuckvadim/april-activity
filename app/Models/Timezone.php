@@ -26,8 +26,8 @@ class Timezone extends Model
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
         $initialValue = null;
-        if($portalsSelect && count($portalsSelect) > 0){
-            $initialValue[0];
+        if ($portalsSelect && count($portalsSelect) > 0) {
+            $initialValue = $portalsSelect[0];
         }
         return [
             'apiName' => 'timezone',
@@ -110,7 +110,7 @@ class Timezone extends Model
                             'isCanAddField' => false,
 
                         ],
-                
+
 
 
                     ],
