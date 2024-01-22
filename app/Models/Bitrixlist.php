@@ -18,6 +18,15 @@ class Bitrixlist extends Model
 
     public static function getForm()
     {
+        $allPortals = Portal::all();
+        $portalsSelect = [];
+        foreach($allPortals  as $portal){
+            array_push($portalsSelect, [
+                'id' => $portal->id,
+                'domain' => $portal->domain,
+                'name' => $portal->name,
+            ]);
+        };
 
         return [
             'apiName' => 'bitrixlist',
@@ -109,7 +118,7 @@ class Bitrixlist extends Model
                             'type' =>  'select',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
-                            'items' => Portal::all(),
+                            'items' => $portalsSelect,
                             'isCanAddField' => false,
 
                         ],
