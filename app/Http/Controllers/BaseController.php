@@ -97,14 +97,14 @@ class BaseController extends Controller
                     if (class_exists($controllerClass)) {
                         $controller = app()->make($controllerClass);
                     }
-                    return $controller->getInitial($parentId);
+                    return $controller->set($request);
 
                     break;
 
                 case 'callingGroup':
 
                     return CallingController::getInitial();
-                    
+
                 case 'item':
                 default:
                     return APIController::getError(

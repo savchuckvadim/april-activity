@@ -20,7 +20,10 @@ class Counter extends Model
     {
 
         $templatesSelect = TemplateController::getSelectTempates($templateId);
-
+        $initialValue = null;
+        if ($templatesSelect && count($templatesSelect) > 0) {
+            $initialValue = $templatesSelect[0];
+        }
         return [
             'apiName' => 'counter',
             'title' => 'Создание counter',
@@ -156,14 +159,14 @@ class Counter extends Model
                         ],
                         [
                             'id' => 10,
-                            'title' => 'Relation portal_id',
+                            'title' => 'Relation template_id',
                             'entityType' => 'counter',
-                            'name' => 'portal_id',
-                            'apiName' => 'portal_id',
+                            'name' => 'template_id',
+                            'apiName' => 'template_id',
                             'type' =>  'select',
                             'validation' => 'required',
                             'initialValue' => '',
-                            'items' => $templatesSelect,
+                            'items' => $initialValue,
                             'isCanAddField' => false,
 
                         ],
