@@ -49,7 +49,9 @@ class CounterController extends Controller
             'year' => $year, // или false
             'month' => $month, // или false
             'count' => $count,
-            'size' => $size
+            'size' => $size,
+            'template_id' => $template_id,
+            'template' => $template,
         ];
         // Установка связи с Template и добавление данных в сводную таблицу
         // $template->counters()->attach($counter->id, $relationData);
