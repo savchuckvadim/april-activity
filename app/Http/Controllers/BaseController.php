@@ -41,13 +41,13 @@ class BaseController extends Controller
                     return $controller->getInitial();
 
                     break;
-                case 'provider':
+
                 case 'callingGroup':
 
+                    return CallingController::getInitial();
 
-                    return APIController::getSuccess(['initial' => [['entityType' => $entityType]]]);
+                case 'provider':
                 case 'item':
-                    break;
                 default:
                     return APIController::getError(
                         'not fount entity type',

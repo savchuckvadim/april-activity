@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Timezone;
+use App\Models\Counter;
 use Illuminate\Http\Request;
 
-class TimezoneController extends Controller
+class CounterController extends Controller
 {
     public static function getInitial()
     {
 
-        $initialData = Timezone::getForm();
+        $initialData = Counter::getForm();
         $data = [
             'initial' => $initialData
         ];
