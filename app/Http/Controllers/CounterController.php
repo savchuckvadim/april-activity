@@ -93,7 +93,7 @@ class CounterController extends Controller
             $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
         }])->find($counterId);
         $data = [
-            'counter' => $counter
+            'counter' => [...$counter, $counter['templates'][0]]
         ];
         if (!$counter) {
             // Обработка случая, когда счетчик не найден
