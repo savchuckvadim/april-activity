@@ -100,7 +100,20 @@ class Bitrixlist extends Model
                             'isCanAddField' => false,
 
                         ],
-                
+                        [
+                            'id' => 6,
+                            'title' => 'ID в битриксе !',
+                            'entityType' => 'bitrixlist',
+                            'name' => 'bitrixId',
+                            'apiName' => 'bitrixId',
+                            'type' =>  'select',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'items' => Portal::all(),
+                            'isCanAddField' => false,
+
+                        ],
+
 
 
                     ],
