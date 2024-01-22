@@ -35,26 +35,39 @@ class CounterController extends Controller
 
         $template = Template::find($template_id);
 
-        // Создание нового Counter
-        $counter = new Counter;
-        $counter->name = $name;
-        $counter->title = $title;
-        // $counter->save(); // Сохранение Counter в базе данных
+        if ($template) {
+            // Создание нового Counter
+            $counter = new Counter;
+            if ($counter) {
+
+                $counter->name = $name;
+                $counter->title = $title;
+                $counter->save(); // Сохранение Counter в базе данных
 
 
-        $relationData = [
-            'value' => $value,
-            'prefix' => $prefix,
-            'day' => $day, // или false
-            'year' => $year, // или false
-            'month' => $month, // или false
-            'count' => $count,
-            'size' => $size,
-            'template_id' => $template_id,
-            'template' => $template,
-        ];
-        // Установка связи с Template и добавление данных в сводную таблицу
-        // $template->counters()->attach($counter->id, $relationData);
-        return APIController::getSuccess(['counter' => $relationData]);
+                $relationData = [
+                    'value' => $value,
+                    'prefix' => $prefix,
+                    'day' => $day, // или false
+                    'year' => $year, // или false
+                    'month' => $month, // или false
+                    'count' => $count,
+                    'size' => $size,
+                    'template_id' => $template_id,
+                    'template' => $template,
+                ];
+                // Установка связи с Template и добавление данных в сводную таблицу
+                $template->counters()->attach($counter->id, $relationData);
+                return APIController::getSuccess(
+                    ['counter' => $counter, 'template' => $template]
+                );
+            }
+        }
+
+        return APIController::getError(
+            'template or counter was not found',
+            ['template' => $template]
+
+        );
     }
 }
