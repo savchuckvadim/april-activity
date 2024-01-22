@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class BitrixlistController extends Controller
 {
-    public static function getInitial()
+    public static function getInitial($parentId)
     {
 
-        $initialData = Bitrixlist::getForm();
+        $initialData = Bitrixlist::getForm($parentId);
         $data = [
             'initial' => $initialData
         ];
