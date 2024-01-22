@@ -165,8 +165,8 @@ class Counter extends Model
                             'apiName' => 'template_id',
                             'type' =>  'select',
                             'validation' => 'required',
-                            'initialValue' => '',
-                            'items' => $initialValue,
+                            'initialValue' => $initialValue,
+                            'items' => $templatesSelect,
                             'isCanAddField' => false,
 
                         ],
