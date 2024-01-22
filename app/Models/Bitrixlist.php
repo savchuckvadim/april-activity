@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,21 +19,12 @@ class Bitrixlist extends Model
 
     public static function getForm($portalId = null)
     {
-        $allPortals = Portal::all();
-        if ($portalId) {
-            $int = intval($portalId);
-            $allPortals = [Portal::find($int)];
-        }
 
-        $portalsSelect = [];
-        foreach ($allPortals  as $portal) {
-            array_push($portalsSelect, [
-                'id' => $portal->id,
-                'domain' => $portal->domain,
-                'name' => $portal->domain,
-                'title' => $portal->domain,
-            ]);
-        };
+
+
+        $portalsSelect = PortalController::getSelectPortals($portalId);
+
+
 
         return [
             'apiName' => 'bitrixlist',

@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class DepartamentController extends Controller
 {
-    public static function getInitial()
+    public static function getInitial($portalId)
     {
 
-        $initialData = Departament::getForm();
+        $initialData = Departament::getForm($portalId);
         $data = [
             'initial' => $initialData
         ];

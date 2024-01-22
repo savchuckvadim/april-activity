@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\TemplateController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,8 +16,10 @@ class Counter extends Model
             ->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
     }
 
-    public static function getForm()
+    public static function getForm($templateId)
     {
+
+        $templatesSelect = TemplateController::getSelectTempates($templateId);
 
         return [
             'apiName' => 'counter',
@@ -148,6 +151,19 @@ class Counter extends Model
                             'validation' => '',
                             'initialValue' => false,
 
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 10,
+                            'title' => 'Relation portal_id',
+                            'entityType' => 'smart',
+                            'name' => 'portal_id',
+                            'apiName' => 'portal_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => '',
+                            'items' => $templatesSelect,
                             'isCanAddField' => false,
 
                         ],

@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class CounterController extends Controller
 {
-    public static function getInitial()
+    public static function getInitial($templateId)
     {
 
-        $initialData = Counter::getForm();
+        $initialData = Counter::getForm($templateId);
         $data = [
             'initial' => $initialData
         ];

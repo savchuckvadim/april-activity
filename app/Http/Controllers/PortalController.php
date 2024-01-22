@@ -392,6 +392,39 @@ class PortalController extends Controller
             );
         }
     }
+
+
+    public static function getSelectPortals($portalId)
+    {
+        $allPortals = [];
+        $portalsSelect = [];
+
+        if ($portalId) {
+            $int = intval($portalId);
+            $findingPortal = Portal::find($int);
+            if ($findingPortal) {
+                $allPortals = [
+                    $findingPortal
+                ];
+            }
+        } else {
+            $allPortals = Portal::all();
+        }
+
+
+        foreach ($allPortals  as $portal) {
+            array_push($portalsSelect, [
+                'id' => $portal->id,
+                'domain' => $portal->domain,
+                'name' => $portal->domain,
+                'title' => $portal->domain,
+            ]);
+        };
+
+        return  $portalsSelect;
+    }
+
+
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);

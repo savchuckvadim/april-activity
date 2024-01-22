@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,9 +20,11 @@ class Timezone extends Model
         return $this->belongsTo(Portal::class);
     }
 
-    public static function getForm()
+    public static function getForm($portalId)
     {
 
+
+        $portalsSelect = PortalController::getSelectPortals($portalId);
         return [
             'apiName' => 'timezone',
             'title' => 'Создание Временной зоны',
@@ -90,7 +93,19 @@ class Timezone extends Model
 
                         ],
 
-                    
+                        [
+                            'id' => 6,
+                            'title' => 'Relation portal_id',
+                            'entityType' => 'timezone',
+                            'name' => 'portal_id',
+                            'apiName' => 'portal_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => '',
+                            'items' => $portalsSelect,
+                            'isCanAddField' => false,
+
+                        ],
                 
 
 

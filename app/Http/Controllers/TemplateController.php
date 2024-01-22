@@ -169,6 +169,37 @@ class TemplateController extends Controller
         }
         return APIController::getError('invalid template id', ['templateId' => $templateId]);
     }
+
+    public static function getSelectTempates($templateId)
+    {
+        $allTemplates = [];
+        $templatesSelects = [];
+
+        if ($templateId) {
+            $int = intval($templateId);
+            $findingTemplate = Template::find($int);
+            if ($findingTemplate) {
+                $allTemplates = [
+                    $findingTemplate
+                ];
+            }
+        } else {
+            $allTemplates = Template::all();
+        }
+
+
+        foreach ($allTemplates  as $template) {
+            array_push($templatesSelects, [
+                'id' => $template->id,
+                'name' => $template->name,
+                'title' => $template->name,
+            ]);
+        };
+
+        return  $templatesSelects;
+    }
+
+
     // public static function setTemplate($domain, $fieldIds, $type, $name, $file)
     // {
 

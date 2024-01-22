@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,8 +17,10 @@ class Calling extends Model
         return $this->belongsTo(Portal::class);
     }
 
-    public static function getForm()
+    public static function getForm($portalId)
     {
+        $portalsSelect = PortalController::getSelectPortals($portalId);
+
 
         return [
             'apiName' => 'callingGroup',
@@ -97,6 +100,19 @@ class Calling extends Model
                             'validation' => 'required|max:255',
                             'initialValue' => '',
 
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 6,
+                            'title' => 'Relation portal_id',
+                            'entityType' => 'callingGroups',
+                            'name' => 'portal_id',
+                            'apiName' => 'portal_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => '',
+                            'items' => $portalsSelect,
                             'isCanAddField' => false,
 
                         ],
