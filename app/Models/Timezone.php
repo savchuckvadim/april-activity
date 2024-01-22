@@ -25,6 +25,10 @@ class Timezone extends Model
 
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
+        $initialValue = null;
+        if($portalsSelect && count($portalsSelect) > 0){
+            $initialValue[0];
+        }
         return [
             'apiName' => 'timezone',
             'title' => 'Создание Временной зоны',
@@ -101,7 +105,7 @@ class Timezone extends Model
                             'apiName' => 'portal_id',
                             'type' =>  'select',
                             'validation' => 'required',
-                            'initialValue' => '',
+                            'initialValue' => $initialValue,
                             'items' => $portalsSelect,
                             'isCanAddField' => false,
 
