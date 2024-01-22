@@ -38,9 +38,9 @@ class BaseController extends Controller
                     if (class_exists($controllerClass)) {
                         $controller = app()->make($controllerClass);
                     }
-                    APIController::getSuccess($controller->getInitial());
+                    return APIController::getSuccess($controller->getInitial());
 
-                    
+                    break;
                 case 'provider':
                 case 'callingGroup':
 
