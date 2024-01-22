@@ -85,6 +85,26 @@ class BaseController extends Controller
                 case 'field':
                     // return FieldController::getInitialField();
                     break;
+
+                case 'smart':
+                case 'bitrixlist':
+                case 'departament':
+                case 'timezone':
+                case 'counter':
+                    $controllerName = ucfirst($entityType) . 'Controller';
+                    $controllerClass = "App\\Http\\Controllers\\" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
+
+                    if (class_exists($controllerClass)) {
+                        $controller = app()->make($controllerClass);
+                    }
+                    return $controller->getInitial($parentId);
+
+                    break;
+
+                case 'callingGroup':
+
+                    return CallingController::getInitial();
+                    
                 case 'item':
                 default:
                     return APIController::getError(
