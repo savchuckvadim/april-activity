@@ -219,6 +219,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('template/{templateId}/fields', function ($templateId) {
         return FieldController::getFields($templateId);
     });
+    Route::get('template/{templateId}/providers', function ($templateId) {
+        return FieldController::getFields($templateId);
+    });
+    Route::get('template/{templateId}/counters', function ($templateId) {
+        return FieldController::getFields($templateId);
+    });
     Route::get('field/{fieldId}/items', function ($fieldId) {
         return FItemController::getFitems($fieldId);
     });
@@ -236,7 +242,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('templates', function () {
     //     return TemplateController::getAllTemplates();
     // });
-
 
     Route::get('templates/{domain}', function ($domain) {
         return TemplateController::getTemplates($domain);
