@@ -92,9 +92,12 @@ class CounterController extends Controller
         $counter = Counter::with(['templates' => function ($query) {
             $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
         }])->find($counterId);
+
+
         $data = [
-            'counter' => [...$counter, $counter['templates'][0]]
+            'counter' => $counter['templates'][0]
         ];
+        
         if (!$counter) {
             // Обработка случая, когда счетчик не найден
             return APIController::getSuccess('Counter not found', $data);
