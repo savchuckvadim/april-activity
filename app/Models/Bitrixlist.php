@@ -20,7 +20,7 @@ class Bitrixlist extends Model
     {
         $allPortals = Portal::all();
         if ($portalId) {
-            $allPortals = Portal::where('id', $portalId);
+            $allPortals = Portal::find($portalId);
         }
 
         $portalsSelect = [];
