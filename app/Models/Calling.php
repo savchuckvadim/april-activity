@@ -20,12 +20,12 @@ class Calling extends Model
     {
 
         return [
-            'apiName' => 'file',
-            'title' => 'Загрузка файла',
+            'apiName' => 'callingGroup',
+            'title' => 'Создание группы звонков',
             'entityType' => 'entity',
             'groups' => [
                 [
-                    'groupName' => 'Поля для загрузки файла',
+                    'groupName' => 'Поля для Создания группы звонков',
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
