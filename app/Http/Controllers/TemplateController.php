@@ -114,13 +114,12 @@ class TemplateController extends Controller
     public static function initialTemplate()
     {
 
-   
+
         $initialData = Template::getForm();
         $data = [
             'initial' => $initialData
         ];
         return APIController::getSuccess($data);
-
     }
     public static function getTemplate($templateId)
     {
@@ -139,7 +138,37 @@ class TemplateController extends Controller
             return APIController::getResponse(1, $th->getMessage(), null);
         }
     }
-  
+    public static function getCounters($templateId)
+    {
+        $counters = [];
+        $template = Template::find($templateId);
+        if ($template) {
+            $counters = $template->counters;
+            if ($counters) {
+                // $collectionFields = new FieldCollection($fields);
+                return APIController::getSuccess(
+                    ['counters' => $counters]
+                );
+            }
+        }
+        return APIController::getError('invalid template id', ['templateId' => $templateId]);
+    }
+
+    public static function getProviders($templateId)
+    {
+        $counters = [];
+        $template = Template::find($templateId);
+        if ($template) {
+            $portal = $template->portal;
+            if ($portal) {
+                $providers = $portal->providers;
+                return APIController::getSuccess(
+                    ['providers' => $providers]
+                );
+            }
+        }
+        return APIController::getError('invalid template id', ['templateId' => $templateId]);
+    }
     // public static function setTemplate($domain, $fieldIds, $type, $name, $file)
     // {
 
@@ -424,7 +453,4 @@ class TemplateController extends Controller
             'isCollection' => true,
         ]);
     }
-
-
- 
 }

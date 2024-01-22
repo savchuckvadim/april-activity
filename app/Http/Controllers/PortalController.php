@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PortalResource;
+use App\Http\Resources\ProviderCollection;
+use App\Http\Resources\TemplateCollection;
 use App\Models\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -197,6 +199,171 @@ class PortalController extends Controller
             ]
 
         ];
+    }
+
+    public static function getProviders($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $providers = $portal->providers;
+                if ($providers) {
+                    $providersCollection = new ProviderCollection($providers);
+                    if ($providersCollection) {
+
+                        return APIController::getSuccess($providersCollection);
+                    }
+                }
+            }
+            return APIController::getError(
+
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
+    public static function getTemplates($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $templates = $portal->templates;
+                if ($templates) {
+                    $templatesCollection = new TemplateCollection($templates);
+                    if ($templatesCollection) {
+
+                        return APIController::getSuccess($templatesCollection);
+                    }
+                }
+            }
+            return APIController::getError(
+
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
+
+    public static function getSmarts($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $smarts = $portal->smarts;
+                if ($smarts) {
+                    return APIController::getSuccess(['smarts' => $smarts]);
+                    // $smartsCollection = new TemplateCollection($smarts);
+                    // if ($smartsCollection) {
+
+                    //     return APIController::getSuccess($smartsCollection);
+                    // }
+                }
+            }
+            return APIController::getError(
+
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
+    public static function getBitrixlists($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $bitrixlists = $portal->lists;
+                if ($bitrixlists) {
+                    return APIController::getSuccess(['bitrixlists' => $bitrixlists]);
+                    // $smartsCollection = new TemplateCollection($smarts);
+                    // if ($smartsCollection) {
+
+                    //     return APIController::getSuccess($smartsCollection);
+                    // }
+                }
+            }
+            return APIController::getError(
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
+    public static function getDepartaments($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $departaments = $portal->departaments;
+                if ($departaments) {
+                    return APIController::getSuccess(['departaments' => $departaments]);
+                    // $smartsCollection = new TemplateCollection($smarts);
+                    // if ($smartsCollection) {
+
+                    //     return APIController::getSuccess($smartsCollection);
+                    // }
+                }
+            }
+            return APIController::getError(
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
+    public static function getTimezones($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $timezones = $portal->timezones;
+                if ($timezones) {
+                    return APIController::getSuccess(['timezones' => $timezones]);
+                    // $smartsCollection = new TemplateCollection($smarts);
+                    // if ($smartsCollection) {
+
+                    //     return APIController::getSuccess($smartsCollection);
+                    // }
+                }
+            }
+            return APIController::getError(
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
     }
     // public function getDomain()
     // {

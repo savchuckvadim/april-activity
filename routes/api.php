@@ -220,15 +220,38 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return FieldController::getFields($templateId);
     });
     Route::get('template/{templateId}/providers', function ($templateId) {
-        return FieldController::getFields($templateId);
+        return TemplateController::getProviders($templateId);
     });
     Route::get('template/{templateId}/counters', function ($templateId) {
-        return FieldController::getFields($templateId);
+        return TemplateController::getCounters($templateId);
     });
+
+
     Route::get('field/{fieldId}/items', function ($fieldId) {
         return FItemController::getFitems($fieldId);
     });
 
+    Route::get('portal/{portalId}/providers', function ($portalId) {
+        return PortalController::getProviders($portalId);
+    });
+    Route::get('portal/{portalId}/templates', function ($portalId) {
+        return PortalController::getTemplates($portalId);
+    });
+    Route::get('portal/{portalId}/smarts', function ($portalId) {
+        return PortalController::getSmarts($portalId);
+    });
+    Route::get('portal/{portalId}/bitrixlists', function ($portalId) {
+        return PortalController::getBitrixlists($portalId);
+    });
+    Route::get('portal/{portalId}/departaments', function ($portalId) {
+        return PortalController::getDepartaments($portalId);
+    });
+    Route::get('portal/{portalId}/timezones', function ($portalId) {
+        return PortalController::getTimezones($portalId);
+    });
+
+
+    
 
     Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
         return RqController::getFiles($rqId, $fileType);

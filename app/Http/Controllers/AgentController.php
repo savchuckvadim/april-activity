@@ -30,6 +30,7 @@ class AgentController extends Controller
             );
         }
     }
+    
     public static function getProvider($providerId)
     {
         try {
