@@ -12,7 +12,8 @@ class BitrixlistController extends Controller
 
         $initialData = Bitrixlist::getForm($parentId);
         $data = [
-            'initial' => $initialData
+            'initial' => $initialData,
+            'parentId' => $parentId
         ];
         return APIController::getSuccess($data);
     }
