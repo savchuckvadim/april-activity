@@ -30,6 +30,7 @@ class BaseController extends Controller
                 case 'smart':
                 case 'bitrixlist':
                 case 'departament':
+                case 'timezone':
                 case 'callingGroup':
                     return APIController::getSuccess(['initial' => ['entityType' => $entityType]]);
                 case 'item':
