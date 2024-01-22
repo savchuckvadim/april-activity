@@ -194,7 +194,7 @@ class BaseController extends Controller
                         if (class_exists($controllerClass)) {
                             $controller = app()->make($controllerClass);
                         }
-                        return $controller->getInitial($modelId);
+                        return $controller->get($modelId);
 
                         break;
 
