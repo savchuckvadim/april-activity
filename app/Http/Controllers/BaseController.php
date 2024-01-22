@@ -26,7 +26,14 @@ class BaseController extends Controller
                 case 'field':
                     return FieldController::getInitialField();
                     break;
+                case 'provider':
+                case 'smart':
+                case 'bitrixlist':
+                case 'departament':
+                case 'callingGroup':
+                    return APIController::getSuccess(['initial' => ['entityType' => $entityType]]);
                 case 'item':
+                    break;
                 default:
                     return APIController::getError(
                         'not fount entity type',
