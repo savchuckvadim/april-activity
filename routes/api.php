@@ -246,8 +246,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::get('portal/{portalId}/departaments', function ($portalId) {
         return PortalController::getDepartaments($portalId);
     });
-    Route::get('portal/{portalId}/timezones', function ($portalId) {
-        return PortalController::getTimezones($portalId);
+    Route::get('portal/{portalId}/callingGroups', function ($portalId) {
+        return PortalController::getCallingGroups($portalId);
     });
 
 

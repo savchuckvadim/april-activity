@@ -365,6 +365,33 @@ class PortalController extends Controller
             );
         }
     }
+    public static function getCallingGroups($portalId)
+    {
+        try {
+            $portal = Portal::find($portalId);
+
+            if ($portal) {
+                $callingGroups = $portal->callingGroups;
+                if ($callingGroups) {
+                    return APIController::getSuccess(['callingGroups' => $callingGroups]);
+                    // $smartsCollection = new TemplateCollection($smarts);
+                    // if ($smartsCollection) {
+
+                    //     return APIController::getSuccess($smartsCollection);
+                    // }
+                }
+            }
+            return APIController::getError(
+                'invalid data',
+                ['portalId' => $portalId]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['portalId' => $portalId]
+            );
+        }
+    }
     // public function getDomain()
     // {
     //     return Crypt::decryptString($this->domain);
