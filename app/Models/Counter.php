@@ -157,7 +157,7 @@ class Counter extends Model
                         [
                             'id' => 10,
                             'title' => 'Relation portal_id',
-                            'entityType' => 'smart',
+                            'entityType' => 'counter',
                             'name' => 'portal_id',
                             'apiName' => 'portal_id',
                             'type' =>  'select',
