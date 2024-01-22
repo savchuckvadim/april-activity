@@ -24,7 +24,7 @@ class Bitrixlist extends Model
             array_push($portalsSelect, [
                 'id' => $portal->id,
                 'domain' => $portal->domain,
-                'name' => $portal->name,
+                'name' => $portal->domain,
             ]);
         };
 
