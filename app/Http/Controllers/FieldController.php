@@ -356,7 +356,7 @@ class FieldController extends Controller
             $field->value = Storage::url($filePath);
         }
         $field->number = 0;
-        $field->code = 'field.' . Str::uuid()->toString();
+        // $field->code = 'field.' . Str::uuid()->toString();
         $field->save();
 
         return $field;
