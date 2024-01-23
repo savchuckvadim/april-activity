@@ -402,16 +402,16 @@ class DocumentController extends Controller
         $inHighlight = false;
 
 
-        $letterSection = $this->getLetter($section, $styles,  $fields);
-        // $pageSizeHLetter = $letterSection->getStyle()->getPageSizeH();
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-        $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-   
-        // $pageSizeHStamp = $stampsSection->getStyle()->getPageSizeH();
+        // $letterSection = $this->getLetter($section, $styles,  $fields);
 
+        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+
+        // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+
+        $invoice = $this->getInvoice($section, $styles, $data['price'], $providerRq);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
 
 
@@ -1566,7 +1566,7 @@ class DocumentController extends Controller
                     $textRun->addText($subpart, $corporateletterTextStyle);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart,$letterTextStyle );
+                    $textRun->addText($subpart, $letterTextStyle);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
@@ -1579,5 +1579,74 @@ class DocumentController extends Controller
 
 
         return $section;
+    }
+    protected function getInvoice($section, $styles, $price, $providerRq)
+    {
+        try {
+
+            //ТАБЛИЦА ЦЕН
+          
+            // $cells = [];
+            $isTable = $price['isTable'];
+
+
+            $section->addPageBreak();
+            
+            $fancyTableStyleName = 'DocumentPrice';
+
+
+            $fullWidth = $styles['page']['pageSizeW'];
+            $marginRight = $section->getStyle()->getMarginRight();
+            $marginLeft = $section->getStyle()->getMarginLeft();
+            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            $invoiceHeaderCellWidth =
+
+
+                $comePrices = $price['cells'];
+
+            //SORT CELLS
+            $sortActivePrices = $this->getSortActivePrices($comePrices);
+            $allPrices =  $sortActivePrices;
+
+
+            //TABLE
+ 
+
+            $fancyTableStyleName = 'InvoiceHeaderTableStyle';
+
+            $section->addTableStyle(
+                $fancyTableStyleName,
+                $styles['tables']['general']['table'],
+                $styles['tables']['general']['row']
+            );
+
+
+            //TABLE HEADER
+            $table = $section->addTable($fancyTableStyleName);
+            $table->addRow(4000);
+            $table->addCell(5000)->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $table->addCell(2000)->addText("БИК", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $table->addCell(2000)->addText("040349556", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+
+            $table->addRow();
+            $table->addCell(5000)->addText("Сч. №", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $table->addCell(4000)->addText("30101810900000000556", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+           
+           
+
+            //TABLE BODY
+            $section->addTextBreak(2);
+            $section->addText('Счет на оплату', $styles['fonts']['h3'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['center'] );
+            // $priceSection = $this->getPriceSection($section, $styles, $price);
+
+
+            return $section;
+        } catch (\Throwable $th) {
+            return [
+                'resultCode' => 1,
+                'result' => null,
+                'message' => $th->getMessage()
+            ];
+        }
     }
 }
