@@ -395,17 +395,15 @@ class BitrixController extends Controller
     public static function getCompany(Request $request)
     {
 
-        $domain = $request->domain;
-        $companyId = $request->companyId;
-        $method = '/crm.company.get.json';
-        $resultCompany = null;
+
 
 
         try {
-            $domain = $request['domain'];
-            $filters = $request['filters'];
-            $callStartDateFrom = $filters['callStartDateFrom'];
-            $callStartDateTo = $filters['callStartDateTo'];
+
+            $domain = $request->domain;
+            $companyId = $request->companyId;
+            $method = '/crm.company.get.json';
+            $resultCompany = null;
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
                 if (isset($portalResponse['resultCode'])) {
@@ -434,6 +432,7 @@ class BitrixController extends Controller
                                     [
                                         'company' => $resultCompany,
                                         'response' => $response,
+                                        'result' => $response['result'],
 
                                     ]
                                 );
