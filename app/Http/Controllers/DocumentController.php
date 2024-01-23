@@ -1587,7 +1587,7 @@ class DocumentController extends Controller
             //ТАБЛИЦА ЦЕН
 
             // $cells = [];
-            $isTable = $price['isTable'];
+            // $isTable = $price['isTable'];
 
 
             $section->addPageBreak();
@@ -1599,12 +1599,13 @@ class DocumentController extends Controller
             $marginRight = $section->getStyle()->getMarginRight();
             $marginLeft = $section->getStyle()->getMarginLeft();
             $contentWidth = $fullWidth - $marginLeft - $marginRight;
-            $invoiceHeaderCellWidth =
+            $invoiceHeaderCellWidth = $contentWidth  / 3;
 
 
-                $comePrices = $price['cells'];
+
 
             //SORT CELLS
+            $comePrices = $price['cells'];
             $sortActivePrices = $this->getSortActivePrices($comePrices);
             $allPrices =  $sortActivePrices;
 
