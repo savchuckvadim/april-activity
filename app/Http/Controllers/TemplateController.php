@@ -88,10 +88,10 @@ class TemplateController extends Controller
 
         $templatesCollection = new TemplateCollection($templates);
 
-        return APIController::getSuccess([
-
-           'data' => $templatesCollection,
-
+        return response([
+            'resultCode' => 0,
+            'templates' => $templatesCollection,
+            'isCollection' => true,
         ]);
     }
 
