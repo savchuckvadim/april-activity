@@ -422,7 +422,7 @@ class BitrixController extends Controller
                                 ];
 
                                 $response = Http::get($url, $data);
-                                if ($response['result']) {
+                                if (isset($response['result'])) {
 
                                     $resultCompany = $response['result'];
                                 }
@@ -465,7 +465,7 @@ class BitrixController extends Controller
                     if ($portalResponse['resultCode'] == 0) {
                         if (isset($portalResponse['portal'])) {
                             if ($portalResponse['portal']) {
-                          
+
                                 $portal = $portalResponse['portal'];
 
                                 $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
@@ -479,7 +479,7 @@ class BitrixController extends Controller
                                 $response = Http::get($url, $data);
 
 
-                                if ($response['result']) {
+                                if (isset($response['result'])) {
 
                                     $resultDeal = $response['result'];
                                 }
@@ -488,6 +488,7 @@ class BitrixController extends Controller
 
                                     [
                                         'deal' => $resultDeal,
+                                        '$response' => $response
 
 
                                     ]
