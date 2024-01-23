@@ -431,8 +431,7 @@ class BitrixController extends Controller
 
                                     [
                                         'company' => $resultCompany,
-                                        'response' => $response,
-                                        'result' => $response['result'],
+
 
                                     ]
                                 );
