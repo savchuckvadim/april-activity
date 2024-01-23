@@ -254,7 +254,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
 
 
-    
+
 
     Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
         return RqController::getFiles($rqId, $fileType);
@@ -806,6 +806,30 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return BitrixController::getListFilter($request);
     });
+
+
+
+
+
+    //APRIL OFFER KONSTRUCTOR////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    Route::post('bitrixcompany', function (Request $request) {
+
+        return BitrixController::getCompany($request);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     ////////////////////////BASE CONTROLLER

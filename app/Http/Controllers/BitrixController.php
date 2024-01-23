@@ -51,7 +51,7 @@ class BitrixController extends Controller
                                 // Отправляем запрос на другой сервер
 
                                 // if (isset($filters) && isset($filters['userIds'])) {
-                                    $userIds = $filters['userIds'];
+                                $userIds = $filters['userIds'];
                                 // }
 
 
@@ -389,5 +389,66 @@ class BitrixController extends Controller
 
         $profile = $bitrix->call('profile');
         return $profile;
+    }
+
+
+    public static function getCompany(Request $request)
+    {
+
+        $domain = $request->domain;
+        $companyId = $request->companyId;
+        $method = '/crm.company.get.json';
+        $resultCompany = null;
+
+
+        try {
+            $domain = $request['domain'];
+            $filters = $request['filters'];
+            $callStartDateFrom = $filters['callStartDateFrom'];
+            $callStartDateTo = $filters['callStartDateTo'];
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+                                $resultCallings = [];
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+
+                                $url = $hook . $method;
+                                $data = [
+                                    'id' => $companyId
+                                ];
+
+                                $response = Http::get($url, $data);
+                                if ($response['result']) {
+
+                                    $resultCompany = $response['result'];
+                                }
+
+                                return APIController::getSuccess(
+
+                                    [
+                                        'company' => $resultCompany,
+                                        'response' => $response,
+
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
     }
 }
