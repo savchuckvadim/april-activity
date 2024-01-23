@@ -1585,13 +1585,13 @@ class DocumentController extends Controller
         try {
 
             //ТАБЛИЦА ЦЕН
-          
+
             // $cells = [];
             $isTable = $price['isTable'];
 
 
             $section->addPageBreak();
-            
+
             $fancyTableStyleName = 'DocumentPrice';
             $tableStyle = $styles['table'];
 
@@ -1610,7 +1610,7 @@ class DocumentController extends Controller
 
 
             //TABLE
- 
+
 
             $fancyTableStyleName = 'InvoiceHeaderTableStyle';
 
@@ -1625,19 +1625,53 @@ class DocumentController extends Controller
             //TABLE HEADER
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(4000);
-            $table->addCell(5000, $tableStyle['general']['table'])->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-            $table->addCell(2000, $tableStyle['general']['table'])->addText("БИК", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-            $table->addCell(2000, $tableStyle['general']['table'])->addText("040349556", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $table->addCell(5000, $tableStyle['general']['table']);
+            $table->addText(
+                "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+
+                $styles['paragraphs']['align']['right']
+            );
+
+            $table->addCell(2000, $tableStyle['general']['table']);
+            $table->addText(
+                "БИК",
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+                $styles['paragraphs']['align']['right']
+            );
+
+            $table->addCell(2000, $tableStyle['general']['table']);
+            $table->addText(
+                "040349556",
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+                $styles['paragraphs']['align']['right']
+            );
 
             $table->addRow();
-            $table->addCell(5000, $tableStyle['general']['table'])->addText("Сч. №", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-            $table->addCell(4000, $tableStyle['general']['table'])->addText("30101810900000000556", $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-           
-           
+            $table->addCell(5000, $tableStyle['general']['table']);
+            $table->addText(
+                "Сч. №",
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+                $styles['paragraphs']['align']['right']
+            );
+
+            $table->addCell(4000, $tableStyle['general']['table']);
+            $table->addText(
+                "30101810900000000556",
+                $styles['fonts']['text']['normal'],
+                $styles['paragraphs']['head'],
+                $styles['paragraphs']['align']['right']
+            );
+
+
 
             //TABLE BODY
             $section->addTextBreak(2);
-            $section->addText('Счет на оплату', $styles['fonts']['h3'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['center'] );
+            $section->addText('Счет на оплату', $styles['fonts']['h3'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['center']);
             // $priceSection = $this->getPriceSection($section, $styles, $price);
 
 
