@@ -90,7 +90,7 @@ class TemplateController extends Controller
 
         return APIController::getSuccess([
 
-            $templatesCollection,
+           'data' => $templatesCollection,
 
         ]);
     }
