@@ -449,4 +449,61 @@ class BitrixController extends Controller
             );
         }
     }
+
+    public static function getDeal(Request $request)
+    {
+
+        try {
+
+            $domain = $request->domain;
+            $dealId = $request->dealId;
+            $method = '/crm.deal.get.json';
+            $resultDeal = null;
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+                          
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+
+                                $url = $hook . $method;
+                                $data = [
+                                    'id' => $dealId
+                                ];
+
+                                $response = Http::get($url, $data);
+
+
+                                if ($response['result']) {
+
+                                    $resultDeal = $response['result'];
+                                }
+
+                                return APIController::getSuccess(
+
+                                    [
+                                        'deal' => $resultDeal,
+
+
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
+    }
 }

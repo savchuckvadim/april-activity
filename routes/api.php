@@ -819,7 +819,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return BitrixController::getCompany($request);
     });
 
+    Route::post('bitrixdeal', function (Request $request) {
 
+        return BitrixController::getDeal($request);
+    });
 
 
 
