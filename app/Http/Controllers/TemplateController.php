@@ -88,11 +88,9 @@ class TemplateController extends Controller
 
         $templatesCollection = new TemplateCollection($templates);
 
-        return  APIController::getSuccess([
-
-            $templatesCollection,
-
-        ]);
+        return  APIController::getSuccess(
+            $templatesCollection
+        );
     }
 
     public static function getAllTemplates()
