@@ -482,6 +482,15 @@ class BitrixController extends Controller
                                 if (isset($response['result'])) {
 
                                     $resultDeal = $response['result'];
+                                } else if (isset($response['error_description'])) {
+                                    return APIController::getError(
+                                        $response['error_description'],
+                                        [
+                                            'response' => $response
+
+                                        ]
+
+                                    );
                                 }
 
                                 return APIController::getSuccess(
