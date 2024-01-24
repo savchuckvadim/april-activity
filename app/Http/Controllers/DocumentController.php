@@ -297,6 +297,17 @@ class DocumentController extends Controller
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
                     ],
 
+                ],
+                'valign' => [
+                    'center' =>
+                    [
+                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    ],
+                    'top' =>
+                    [
+                        'top' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                    ],
+
                 ]
             ],
             'header' => [
@@ -1656,7 +1667,7 @@ class DocumentController extends Controller
             $section->addTableStyle(
                 $fancyTableStyleName,
                 $styles['tables']['general']['table'],
-                $styles['tables']['general']['row'],
+                // $styles['tables']['general']['row'],
                 // $styles['tables']['general']['cell']
             );
 
@@ -1665,10 +1676,18 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow($topTableHeight / 2.2);
 
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['cell'], $styles['tables']['alignment']['start']);
+            $cell = $table->addCell(
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['general']['cell'],
+                $styles['tables']['alignment']['start'],
+                $styles['tables']['valign']['top']
+
+            );
+
+
             $innerTable = $cell->addTable($tableStyle['inner']['table'], $styles['tables']['alignment']['start']);
             $innerTable->addRow();
-            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell'],$styles['tables']['alignment']['start']);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell'], $styles['tables']['alignment']['start']);
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell']);
