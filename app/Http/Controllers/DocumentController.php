@@ -1837,7 +1837,7 @@ class DocumentController extends Controller
             $innerCell2 = $innerTable->addCell(
                 null,
 
-                $styles['tables']['valign']['bottom']
+                $styles['tables']['valign']['top']
 
             );
             $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
