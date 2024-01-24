@@ -1703,14 +1703,15 @@ class DocumentController extends Controller
                 $styles['tables']['inner']['cell'],
                 $styles['tables']['alignment']['start'],
                 $styles['tables']['valign']['top']
-              
+
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
                 $topTableHeight / 2.2 / 2
             );
             $innerCell2 = $innerTable->addCell(
-                $invoiceHeaderCellWidthFirstInner,
+                null,
+                $styles['tables']['inner']['cell'],
                 $styles['tables']['valign']['bottom']
 
             );
