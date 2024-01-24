@@ -1599,13 +1599,13 @@ class DocumentController extends Controller
             $fullWidth = $styles['page']['pageSizeW'];
             $marginRight = $styles['page']['marginLeft'];
             $marginLeft = $styles['page']['marginRight'];
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight);
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = $contentWidth  * 0.3;
+            $invoiceHeaderCellWidthFirst = 200;
             $invoiceHeaderCellWidthSecond = $contentWidth  * 0.1;
             $invoiceHeaderCellWidthThird = $contentWidth  * 0.3;
 
@@ -1632,7 +1632,7 @@ class DocumentController extends Controller
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(1000);
-            $cellFirst = $table->addCell($contentWidth / 2, $tableStyle['general']['table']);
+            $cellFirst = $table->addCell(300, $tableStyle['general']['table']);
             $innerTable = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthFirst, $tableStyle['inner']['cell']);
