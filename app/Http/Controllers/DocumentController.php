@@ -228,10 +228,10 @@ class DocumentController extends Controller
                         'valign' => 'center',
                         'borderSize' => 6,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 10,
-                        'cellMarginRight' => 10,
-                        'cellMarginBottom' => 10,
-                        'cellMarginLeft' => 10,
+                        'cellMarginTop' => 40,
+                        'cellMarginRight' => 40,
+                        'cellMarginBottom' => 40,
+                        'cellMarginLeft' => 40,
                     ],
                     'paragraphs' => [
                         'left' => [
@@ -1654,7 +1654,7 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow($topTableHeight / 2.2);
 
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table'], $styles['tables']['general']['cell']);
             $innerTable = $cell->addTable();
             $innerTable->addRow();
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner);
