@@ -1651,7 +1651,7 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight / 2.5);
+            $table->addRow($topTableHeight / 2.3);
 
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
@@ -1686,7 +1686,7 @@ class DocumentController extends Controller
 
 
 
-            $table->addRow($topTableHeight / 2);
+            $table->addRow($topTableHeight / 1.7);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
