@@ -1631,8 +1631,8 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow(2000);
-            $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
+            $table->addRow(1000);
+            $cellFirst = $table->addCell($contentWidth / 2, $tableStyle['general']['table']);
             $innerTable = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthFirst, $tableStyle['inner']['cell']);
