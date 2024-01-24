@@ -1657,12 +1657,12 @@ class DocumentController extends Controller
 
 
 
-            $table->addRow();
-            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+            // $table->addRow();
+            // $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
-            $innerTable = $cell->addTable($tableStyle['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
+            // $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            // $innerTable->addRow();
+            // $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
             // $table->addText(
             //     "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
             //     $styles['fonts']['text']['normal'],
