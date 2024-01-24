@@ -1605,9 +1605,9 @@ class DocumentController extends Controller
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = $contentWidth  / 3 ;
-            $invoiceHeaderCellWidthSecond = 200;
-            $invoiceHeaderCellWidthThird = $contentWidth  * 0.4;
+            $invoiceHeaderCellWidthFirst = $contentWidth  / 2.5 ;
+            $invoiceHeaderCellWidthSecond = 100;
+            $invoiceHeaderCellWidthThird = $contentWidth  / 3;
 
 
             //SORT CELLS
@@ -1632,14 +1632,14 @@ class DocumentController extends Controller
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(1000);
-            $cellFirst = $table->addCell($contentWidth, $tableStyle['general']['table']);
+            $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTableFirst ->addRow();
-            $innerTableCellFirst  = $innerTableFirst ->addCell($innerContentWidth, $tableStyle['inner']['cell']);
+            $innerTableCellFirst  = $innerTableFirst ->addCell(($invoiceHeaderCellWidthFirst - 30), $tableStyle['inner']['cell']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
-            $cellSecond = $table->addCell($contentWidth, $tableStyle['general']['table']);
+            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
             // $innerTable = $cellSecond->addTable($tableStyle['inner']['table']);
             // $innerTable->addRow();
             // $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthSecond, $tableStyle['inner']['cell']);
@@ -1656,11 +1656,11 @@ class DocumentController extends Controller
 
 
             $table->addRow();
-            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+            $cell = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['cell']);
 
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
+            $innerTableCell = $innerTable->addCell(($invoiceHeaderCellWidthThird - 30), $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
             // $table->addText(
             //     "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
             //     $styles['fonts']['text']['normal'],
