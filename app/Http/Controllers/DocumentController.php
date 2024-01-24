@@ -1623,7 +1623,7 @@ class DocumentController extends Controller
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
             $invoiceHeaderCellWidthFirst = $fullWidth  * 0.48;
-            $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
+            $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 130;
             $invoiceHeaderCellWidthSecond = $fullWidth  * 0.07;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
             $invoiceHeaderCellWidthThird = $fullWidth  * 0.5;
@@ -1667,7 +1667,7 @@ class DocumentController extends Controller
 
             $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['general']['table']);
             $innerTable = $cellSecond->addTable();
-            $innerTable->addRow($topTableHeight / 4);
+            $innerTable->addRow($topTableHeight / 8);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['border']['bottom']);
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
