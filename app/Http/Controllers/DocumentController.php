@@ -230,7 +230,7 @@ class DocumentController extends Controller
                     ],
                     'cell' => [
                         // 'valign' => 'center',
-                        'borderSize' => 6,
+                        'borderSize' => 7,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
                         'cellMarginTop' => 40,
                         'cellMarginRight' => 40,
@@ -1687,10 +1687,9 @@ class DocumentController extends Controller
 
             $section->addTableStyle(
                 $fancyTableStyleName,
-                [
-                    ...$styles['tables']['general']['table'],
-                    // ...$styles['tables']['general']['row'],
-                ]
+                $styles['tables']['general']['table'],
+                // ...$styles['tables']['general']['row'],
+
 
                 // $styles['tables']['general']['row'],
                 // $styles['tables']['general']['cell']
@@ -1752,7 +1751,7 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthSecond,
                 [
                     // ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['borderbottom']
+                    ...$styles['tables']['general']['cell']
                 ]
 
             );
