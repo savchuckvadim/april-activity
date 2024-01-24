@@ -280,7 +280,7 @@ class DocumentController extends Controller
 
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 70,
+                        'cellMargin' => 40,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 40,
                         'cellMarginTop' => 40,
@@ -1780,7 +1780,24 @@ class DocumentController extends Controller
                 $styles['tables']['borderbottom']['table']
 
             );
-            $innerTable = $cellSecond->addTable(
+
+            //BIK LINE TABLE
+            $lineTable = $cellSecond->addTable([
+                'cellMargin' => 0,
+            ]);
+            $lineTable->addRow($topTableHeight / 7);
+            $lineTable = $lineTable->addCell(
+                ($invoiceHeaderCellWidthSecond),
+                [
+                    // ...$styles['tables']['general']['cell'],
+                    ... $styles['tables']['borderbottom']['cell'],
+
+                ]
+
+            );
+
+
+            $innerTable = $lineTable->addTable(
                 $styles['tables']['borderbottom']['innertable']
             );
             $innerTable->addRow($topTableHeight / 7);
