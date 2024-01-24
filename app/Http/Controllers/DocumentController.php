@@ -1795,7 +1795,9 @@ class DocumentController extends Controller
             $innerTable = $cellSecond->addTable(
                 $styles['tables']['borderbottom']['innertable']
             );
-            $innerTable->addRow();
+            $innerTable->addRow(
+                $topTableHeight / 7
+            );
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
                 [
@@ -1832,7 +1834,7 @@ class DocumentController extends Controller
             );
             $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
-                // $topTableHeight / 2.2 / 2
+                $topTableHeight / 7
             );
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
