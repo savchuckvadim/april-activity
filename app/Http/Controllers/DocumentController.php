@@ -1609,7 +1609,7 @@ class DocumentController extends Controller
             $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
             $invoiceHeaderCellWidthSecond =  $contentWidth  * 0.2;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 130;
-            $invoiceHeaderCellWidthThird = $contentWidth  * 0.8;
+            $invoiceHeaderCellWidthThird = $contentWidth  * 0.4;
             $invoiceHeaderCellWidthThirdInner = $invoiceHeaderCellWidthThird - 30;
 
 
