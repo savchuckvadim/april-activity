@@ -1781,11 +1781,11 @@ class DocumentController extends Controller
 
             );
             $innerTable = $cellSecond->addTable(
-                $styles['tables']['borderbottom']['innertable']
+                $styles['tables']['general']['table']
             );
-            $innerTable->addRow($topTableHeight / 8);
+            $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
-                ($invoiceHeaderCellWidthSecond * 2),
+                ($invoiceHeaderCellWidthSecond),
                 [
                     // ...$styles['tables']['general']['cell'],
                     ... $styles['tables']['borderbottom']['cell'],
@@ -1818,7 +1818,14 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable();
 
             $innerTable->addRow();
-            $innerCell1 = $innerTable->addCell();
+            $innerCell1 = $innerTable->addCell(
+                $invoiceHeaderCellWidthFirstInner,
+                [
+                    ...$styles['tables']['inner']['cell'],
+                    ...$styles['tables']['alignment']['start'],
+                    ...$styles['tables']['valign']['top']
+                ]
+            );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
