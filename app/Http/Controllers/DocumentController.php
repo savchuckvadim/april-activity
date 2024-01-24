@@ -193,7 +193,7 @@ class DocumentController extends Controller
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
                         'cellMargin' => 30,
-                        'valign' => 'end',
+                        'valign' => 'bottom',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellMarginTop' => 40,
                         'cellMarginRight' => 40,
@@ -309,7 +309,7 @@ class DocumentController extends Controller
                     ],
                     'bottom' =>
                     [
-                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'valign' => 'bottom',
                     ],
 
                 ]
