@@ -1778,13 +1778,7 @@ class DocumentController extends Controller
 
             );
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
-            $cellSecond->addLine(
-                array(
-                    'width'       => $invoiceHeaderCellWidthSecond,
-                    // 'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(10),
-                    // 'positioning' => 'absolute',
-                )
-            );
+          
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
