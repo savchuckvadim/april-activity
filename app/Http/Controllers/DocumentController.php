@@ -1644,18 +1644,55 @@ class DocumentController extends Controller
                 $fancyTableStyleName,
                 $styles['tables']['general']['table'],
                 $styles['tables']['general']['row'],
-                $styles['tables']['general']['cell']
+                // $styles['tables']['general']['cell']
             );
 
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight);
-            $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
-            $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
-            $innerTableFirst->addRow($topTableHeight / 2);
-            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
-            $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
+            $table->addRow($topTableHeight / 2);
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst);
+            $innerTable = $cell->addTable();
+            $innerTable->addRow();
+            $innerCell1 = $innerTable->addCell();
+            $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell();
+            $innerCell2->addText("2", $fonts['text']['small'], $paragraphStyle);
+           
+
+
+            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond);
+            $innerTable = $cellSecond->addTable();
+            $innerTable->addRow($topTableHeight / 4);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
+
+
+            $cellThird = $table->addCell($invoiceHeaderCellWidthThird);
+            $innerTable = $cellThird->addTable();
+            $innerTable->addRow($topTableHeight / 4);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
+
+
+
+
+            $table->addRow($topTableHeight / 2);
+            $table->addCell($invoiceHeaderCellWidthFirst);
+
+
+            // $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
+            // $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
+            // $innerTableFirst->addRow($topTableHeight / 2);
+            // $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
+            // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             // $innerTableFirst->addRow();
             // $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell']);
             // $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
@@ -1678,68 +1715,20 @@ class DocumentController extends Controller
 
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
-            $innerTable = $cellSecond->addTable($tableStyle['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthSecondInner, $tableStyle['inner']['cell']);
-            $innerTableCell->addText("БИК", $fonts['text']['small'], $paragraphStyle);
-
-
-            $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['table']);
-            $innerTableThird = $cellThird->addTable($tableStyle['inner']['table']);
-            $innerTableThird->addRow();
-            $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThirdInner, $tableStyle['inner']['cell']);
-            $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-
-
-
-
-            // $table->addRow();
-            // $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
-
-            // $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            // $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
+            // $innerTable = $cellSecond->addTable($tableStyle['inner']['table']);
             // $innerTable->addRow();
-            // $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
-            // $table->addText(
-            //     "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
-            //     $styles['fonts']['text']['normal'],
-            //     $styles['paragraphs']['head'],
+            // $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthSecondInner, $tableStyle['inner']['cell']);
+            // $innerTableCell->addText("БИК", $fonts['text']['small'], $paragraphStyle);
 
-            //     $styles['paragraphs']['align']['right']
-            // );
 
-            // $table->addCell(2000, $tableStyle['general']['table']);
-            // $table->addText(
-            //     "БИК",
-            //     $styles['fonts']['text']['normal'],
-            //     $styles['paragraphs']['head'],
-            //     $styles['paragraphs']['align']['right']
-            // );
+            // $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['table']);
+            // $innerTableThird = $cellThird->addTable($tableStyle['inner']['table']);
+            // $innerTableThird->addRow();
+            // $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThirdInner, $tableStyle['inner']['cell']);
+            // $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
 
-            // $table->addCell(2000, $tableStyle['general']['table']);
-            // $table->addText(
-            //     "040349556",
-            //     $styles['fonts']['text']['normal'],
-            //     $styles['paragraphs']['head'],
-            //     $styles['paragraphs']['align']['right']
-            // );
 
-            // $table->addRow();
-            // $table->addCell(5000, $tableStyle['general']['table']);
-            // $table->addText(
-            //     "Сч. №",
-            //     $styles['fonts']['text']['normal'],
-            //     $styles['paragraphs']['head'],
-            //     $styles['paragraphs']['align']['right']
-            // );
-
-            // $table->addCell(4000, $tableStyle['general']['table']);
-            // $table->addText(
-            //     "30101810900000000556",
-            //     $styles['fonts']['text']['normal'],
-            //     $styles['paragraphs']['head'],
-            //     $styles['paragraphs']['align']['right']
-            // );
 
 
 
