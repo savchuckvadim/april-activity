@@ -32,7 +32,7 @@ class BitrixController extends Controller
             $beelineResponse = Http::withHeaders([
                 'X-MPBX-API-AUTH-TOKEN' => '0c506738-88a9-47ec-8c6c-c0f938027317',
                 // 'Another-Header' => 'Another-Value',
-            ])->get('https://cloudpbx.beeline.ru/apis/portal/v2/statistics?userId=700&dateFrom=2024-01-01T00%3A00%3A00Z&dateTo=2024-01-09T00%3A00%3A00Z&page=1&pageSize=100');
+            ])->get('https://cloudpbx.beeline.ru/apis/portal/v2/statistics?userId=703&dateFrom=2024-01-01T00%3A00%3A00Z&dateTo=2024-01-24T00%3A00%3A00Z&page=0&pageSize=100');
 
             Log::info('BEELINE', ['beelineResponse' => $beelineResponse]);
             return APIController::getSuccess(
