@@ -309,7 +309,7 @@ class DocumentController extends Controller
                     ],
                     'bottom' =>
                     [
-                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::END,
+                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                     ],
 
                 ]
