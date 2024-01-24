@@ -1623,7 +1623,7 @@ class DocumentController extends Controller
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
             $invoiceHeaderCellWidthFirst = $fullWidth  * 0.48;
-            $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 130;
+            $invoiceHeaderCellWidthFirstInner = ($invoiceHeaderCellWidthFirst - 130);
             $invoiceHeaderCellWidthSecond = $fullWidth  * 0.07;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
             $invoiceHeaderCellWidthThird = $fullWidth  * 0.5;
@@ -1654,8 +1654,8 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow($topTableHeight / 2.2);
 
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
-            $innerTable = $cell->addTable();
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['cell']);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell']);
             $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
@@ -1691,7 +1691,7 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
-            
+
             $innerTable->addRow();
             $innerCell1 = $innerTable->addCell();
             $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
