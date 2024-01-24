@@ -278,7 +278,7 @@ class DocumentController extends Controller
                     ],
                     'cell' =>  [
 
-                        'borderBottomSize' => 10,
+                        'borderSize' => 7,
                         'borderColor' => '000000',
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
