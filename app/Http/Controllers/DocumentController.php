@@ -1583,22 +1583,28 @@ class DocumentController extends Controller
     protected function getInvoice($section, $styles, $price, $providerRq)
     {
         try {
+            //STYLES
+            $fonts = $styles['fonts'];
+            $paragraphs = $styles['paragraphs'];
+            $tableStyle = $styles['tables'];
 
+
+            //SIZES
             //ТАБЛИЦА ЦЕН
 
             // $cells = [];
             // $isTable = $price['isTable'];
 
 
-            $section->addPageBreak();
-
-            $fancyTableStyleName = 'DocumentPrice';
-            $tableStyle = $styles['table'];
-
             $fullWidth = $styles['page']['pageSizeW'];
-            $marginRight = $section->getStyle()->getMarginRight();
-            $marginLeft = $section->getStyle()->getMarginLeft();
-            $contentWidth = $fullWidth - $marginLeft - $marginRight;
+            $marginRight = $styles['page']['marginLeft'];
+            $marginLeft = $styles['page']['marginRight'];
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
+            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
+            $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
+            $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+            $textStyle = $fonts['text']['normal'];
+            $titleStyle = $fonts['text']['bold'];
             $invoiceHeaderCellWidth = $contentWidth  / 3;
 
 
@@ -1626,47 +1632,58 @@ class DocumentController extends Controller
             //TABLE HEADER
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(4000);
-            $table->addCell(5000, $tableStyle['general']['table']);
-            $table->addText(
-                "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-
-                $styles['paragraphs']['align']['right']
-            );
-
-            $table->addCell(2000, $tableStyle['general']['table']);
-            $table->addText(
-                "БИК",
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-                $styles['paragraphs']['align']['right']
-            );
-
-            $table->addCell(2000, $tableStyle['general']['table']);
-            $table->addText(
-                "040349556",
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-                $styles['paragraphs']['align']['right']
-            );
+            $cell = $table->addCell(5000, $tableStyle['general']['table']);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
+            $innerTableCell->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
             $table->addRow();
-            $table->addCell(5000, $tableStyle['general']['table']);
-            $table->addText(
-                "Сч. №",
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-                $styles['paragraphs']['align']['right']
-            );
+            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
-            $table->addCell(4000, $tableStyle['general']['table']);
-            $table->addText(
-                "30101810900000000556",
-                $styles['fonts']['text']['normal'],
-                $styles['paragraphs']['head'],
-                $styles['paragraphs']['align']['right']
-            );
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
+            // $table->addText(
+            //     "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
+            //     $styles['fonts']['text']['normal'],
+            //     $styles['paragraphs']['head'],
+
+            //     $styles['paragraphs']['align']['right']
+            // );
+
+            // $table->addCell(2000, $tableStyle['general']['table']);
+            // $table->addText(
+            //     "БИК",
+            //     $styles['fonts']['text']['normal'],
+            //     $styles['paragraphs']['head'],
+            //     $styles['paragraphs']['align']['right']
+            // );
+
+            // $table->addCell(2000, $tableStyle['general']['table']);
+            // $table->addText(
+            //     "040349556",
+            //     $styles['fonts']['text']['normal'],
+            //     $styles['paragraphs']['head'],
+            //     $styles['paragraphs']['align']['right']
+            // );
+
+            // $table->addRow();
+            // $table->addCell(5000, $tableStyle['general']['table']);
+            // $table->addText(
+            //     "Сч. №",
+            //     $styles['fonts']['text']['normal'],
+            //     $styles['paragraphs']['head'],
+            //     $styles['paragraphs']['align']['right']
+            // );
+
+            // $table->addCell(4000, $tableStyle['general']['table']);
+            // $table->addText(
+            //     "30101810900000000556",
+            //     $styles['fonts']['text']['normal'],
+            //     $styles['paragraphs']['head'],
+            //     $styles['paragraphs']['align']['right']
+            // );
 
 
 
