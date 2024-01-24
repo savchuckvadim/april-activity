@@ -1796,7 +1796,12 @@ class DocumentController extends Controller
                 $styles['tables']['borderbottom']['innertable']
             );
             $innerTable->addRow();
-            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2 = $innerTable->addCell(
+                $invoiceHeaderCellWidthSecond,
+                [
+                    'cellMarginTop' => 70,
+                ]
+            );
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
 
