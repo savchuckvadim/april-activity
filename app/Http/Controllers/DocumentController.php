@@ -270,6 +270,20 @@ class DocumentController extends Controller
                     ],
 
                 ],
+                'border' => [
+                    'top' => [
+                        'borderTop' => 7,
+                    ],
+                    'bottom' => [
+                        'borderBottom' => 7,
+                    ],
+                    'left' => [
+                        'borderLeft' => 7,
+                    ],
+                    'right' => [
+                        'borderRight' => 7,
+                    ],
+                ]
             ],
             'header' => [
                 'logo' => [
@@ -1639,10 +1653,10 @@ class DocumentController extends Controller
             $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             $innerTableFirst  = $cellFirst->addTable($tableStyle['general']['table']);
             $innerTableFirst->addRow($topTableHeight / 2);
-            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['inner']['cell']);
+            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            $innerTableFirst->addRow($topTableHeight / 2);
-            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['inner']['cell']);
+            $innerTableFirst->addRow();
+            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell']);
             $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
 
             // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
