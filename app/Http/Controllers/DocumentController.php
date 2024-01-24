@@ -277,6 +277,7 @@ class DocumentController extends Controller
                         'borderColor' => '000000',  // Цвет границы (чёрный)
                     ],
                     'bottom' => [
+                        'borderBottomSize' => 37,
                         'borderBottom' => 7,
                     ],
                     'left' => [
@@ -1667,7 +1668,7 @@ class DocumentController extends Controller
             $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['general']['table']);
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 4);
-            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['border']['bottom']);
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
