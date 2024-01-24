@@ -1605,7 +1605,7 @@ class DocumentController extends Controller
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = ($fullWidth  * 0.5);
+            $invoiceHeaderCellWidthFirst = $fullWidth;
             $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
             $invoiceHeaderCellWidthSecond = 250;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 130;
