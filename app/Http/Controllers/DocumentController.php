@@ -1638,13 +1638,13 @@ class DocumentController extends Controller
             $table->addRow($topTableHeight);
             $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             $innerTableFirst  = $cellFirst->addTable($tableStyle['general']['table']);
-            $innerTableFirst->addRow();
+            $innerTableFirst->addRow($topTableHeight / 2);
             $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['inner']['cell']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            $innerTableFirst->addRow();
+            $innerTableFirst->addRow($topTableHeight / 2);
             $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['inner']['cell']);
             $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
-           
+
             // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
 
 
