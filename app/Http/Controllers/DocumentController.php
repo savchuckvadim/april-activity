@@ -1835,9 +1835,12 @@ class DocumentController extends Controller
                 // $topTableHeight / 2.2 / 2
             );
             $innerCell2 = $innerTable->addCell(
-                null,
-
-                $styles['tables']['valign']['top']
+                $invoiceHeaderCellWidthFirstInner,
+                [
+                    ...$styles['tables']['inner']['cell'],
+                    ...$styles['tables']['alignment']['start'],
+                    ...$styles['tables']['valign']['top']
+                ]
 
             );
             $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
