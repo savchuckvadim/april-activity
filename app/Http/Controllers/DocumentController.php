@@ -221,9 +221,9 @@ class DocumentController extends Controller
                     'table' => [
                         'borderSize' => 7,
                         'borderColor' => '000000',
-                        'cellMargin' => 20,
+                        // 'cellMargin' => 20,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 20
+                        // 'cellSpacing' => 20
                     ],
                     'row' => [
                         'cellMargin' => 20, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
@@ -262,14 +262,14 @@ class DocumentController extends Controller
                     ]
                 ],
                 'borderbottom' => [
-                  
-                    'borderSize' => 7,
+
+                    'borderBottomSize' => 7,
                     'borderColor' => '000000',
                     'cellMargin' => 0,
                     // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                     'cellSpacing' => 0
-                    
-                    
+
+
                 ],
                 'total' => [
 
@@ -1687,7 +1687,11 @@ class DocumentController extends Controller
 
             $section->addTableStyle(
                 $fancyTableStyleName,
-                $styles['tables']['general']['table'],
+                [
+                    ...$styles['tables']['general']['table'],
+                    // ...$styles['tables']['general']['row'],
+                ]
+
                 // $styles['tables']['general']['row'],
                 // $styles['tables']['general']['cell']
             );
@@ -1737,9 +1741,10 @@ class DocumentController extends Controller
 
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond,
-             $styles['tables']['borderbottom']
-            
+            $cellSecond = $table->addCell(
+                $invoiceHeaderCellWidthSecond,
+                $styles['tables']['borderbottom']
+
             );
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 8);
