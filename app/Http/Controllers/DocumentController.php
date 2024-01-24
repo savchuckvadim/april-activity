@@ -280,13 +280,13 @@ class DocumentController extends Controller
 
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 40,
+                        'cellMargin' => 10,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 40,
-                        'cellMarginTop' => 40,
-                        'cellMarginRight' => 40,
-                        'cellMarginBottom' => 40,
-                        'cellMarginLeft' => 40,
+                        // 'cellSpacing' => 40,
+                        // 'cellMarginTop' => 40,
+                        // 'cellMarginRight' => 40,
+                        // 'cellMarginBottom' => 40,
+                        // 'cellMarginLeft' => 40,
 
 
                     ],
@@ -1812,8 +1812,8 @@ class DocumentController extends Controller
             );
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
           
-            $innerTable->addRow();
-            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $lineTable->addRow();
+            $innerCell2 = $lineTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
 
