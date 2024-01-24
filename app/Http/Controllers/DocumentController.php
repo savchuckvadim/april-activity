@@ -273,6 +273,7 @@ class DocumentController extends Controller
                         'cellMarginRight' => 0,
                         'cellMarginBottom' => 0,
                         'cellMarginLeft' => 0,
+                        'cellSpacing' => 0
 
 
                     ],
@@ -296,7 +297,7 @@ class DocumentController extends Controller
                         'borderColor' => '000000',
                         'cellMargin' => 40,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                  
+
 
 
                     ],
@@ -493,13 +494,13 @@ class DocumentController extends Controller
         // $letterSection = $this->getLetter($section, $styles,  $fields);
 
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-        $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
         $invoice = $this->getInvoice($section, $styles, $data['price'], $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
-       
+
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
 
@@ -1775,9 +1776,7 @@ class DocumentController extends Controller
 
             );
 
-            //BIK LINE TABLE
-
-
+            //BIK  TABLE
 
             $innerTable = $cellSecond->addTable(
                 $styles['tables']['borderbottom']['innertable']
@@ -1803,7 +1802,7 @@ class DocumentController extends Controller
 
 
 
-
+            //CELL THIRD 
             $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $styles['tables']['general']['table']);
             $innerTable = $cellThird->addTable(
                 $tableStyle['inner']['table']
@@ -1816,7 +1815,7 @@ class DocumentController extends Controller
             // $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
 
 
-           
+
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
