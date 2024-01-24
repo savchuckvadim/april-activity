@@ -1648,21 +1648,21 @@ class DocumentController extends Controller
             $cellSecond->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
-            $cellThird = $table->addCell($contentWidth, $tableStyle['general']['table']);
+            $cellThird = $table->addCell($invoiceHeaderCellWidthThird , $tableStyle['general']['table']);
             $innerTableThird = $cellThird->addTable($tableStyle['inner']['table']);
             $innerTableThird->addRow();
-            $innerTableCellThird = $innerTableThird->addCell($innerContentWidth, $tableStyle['inner']['cell']);
+            $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThirdInner, $tableStyle['inner']['cell']);
             $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
 
 
             $table->addRow();
-            $cell = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['cell']);
+            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthThirdInner, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
+            $innerTableCell = $innerTable->addCell($innerContentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
             // $table->addText(
             //     "Южный филиал АО 'Райффайзенбанк' г.Краснодар",
             //     $styles['fonts']['text']['normal'],
