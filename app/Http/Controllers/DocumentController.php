@@ -1679,16 +1679,16 @@ class DocumentController extends Controller
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
                 $styles['tables']['general']['cell'],
-                $styles['tables']['alignment']['start'],
-                $styles['tables']['valign']['top']
+                // $styles['tables']['alignment']['start'],
+                // $styles['tables']['valign']['top']
 
             );
 
 
             $innerTable = $cell->addTable(
                 $tableStyle['inner']['table'],
-                $styles['tables']['alignment']['start'],
-                $styles['tables']['valign']['top']
+                // $styles['tables']['alignment']['start'],
+                // $styles['tables']['valign']['top']
 
             );
 
