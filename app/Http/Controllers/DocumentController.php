@@ -1796,9 +1796,11 @@ class DocumentController extends Controller
 
             );
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
-
-            $cellSecond->addRow();
-            $innerCell2 = $cellSecond->addCell($invoiceHeaderCellWidthSecond);
+            $innerTable = $cellSecond->addTable(
+                $styles['tables']['borderbottom']['innertable']
+            );
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
 
