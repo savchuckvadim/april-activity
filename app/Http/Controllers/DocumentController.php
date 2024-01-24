@@ -1607,7 +1607,7 @@ class DocumentController extends Controller
             $titleStyle = $fonts['text']['bold'];
             $invoiceHeaderCellWidthFirst = $contentWidth  / 3;
             $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
-            $invoiceHeaderCellWidthSecond = 300;
+            $invoiceHeaderCellWidthSecond = $contentWidth  / 3;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
             $invoiceHeaderCellWidthThird = $contentWidth  / 3;
             $invoiceHeaderCellWidthThirdInner = $invoiceHeaderCellWidthThird - 30;
