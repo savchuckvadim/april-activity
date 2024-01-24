@@ -195,10 +195,10 @@ class DocumentController extends Controller
                         'cellMargin' => 230,
                         'valign' => 'center',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 10,
-                        'cellMarginRight' => 10,
-                        'cellMarginBottom' => 10,
-                        'cellMarginLeft' => 10,
+                        'cellMarginTop' => 40,
+                        'cellMarginRight' => 40,
+                        'cellMarginBottom' => 40,
+                        'cellMarginLeft' => 40,
                         // ]
 
                     ],
@@ -1654,13 +1654,13 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow($topTableHeight / 2.2);
 
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table'], $styles['tables']['general']['cell']);
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
             $innerTable->addRow();
-            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell']);
             $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
-            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner);
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell']);
             $innerCell2->addText("2", $fonts['text']['small'], $paragraphStyle);
 
 
