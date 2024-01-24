@@ -1599,14 +1599,14 @@ class DocumentController extends Controller
             $fullWidth = $styles['page']['pageSizeW'];
             $marginRight = $styles['page']['marginLeft'];
             $marginLeft = $styles['page']['marginRight'];
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight);
-            $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight) / 3;
+            $innerContentWidth = $contentWidth - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = $contentWidth  * 0.4;
-            $invoiceHeaderCellWidthSecond = $contentWidth  * 0.1;
+            $invoiceHeaderCellWidthFirst = $contentWidth  / 3 ;
+            $invoiceHeaderCellWidthSecond = 200;
             $invoiceHeaderCellWidthThird = $contentWidth  * 0.4;
 
 
@@ -1632,28 +1632,26 @@ class DocumentController extends Controller
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(1000);
-            $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
+            $cellFirst = $table->addCell($contentWidth, $tableStyle['general']['table']);
             $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTableFirst ->addRow();
-            $innerTableCellFirst  = $innerTableFirst ->addCell($invoiceHeaderCellWidthFirst, $tableStyle['inner']['cell']);
+            $innerTableCellFirst  = $innerTableFirst ->addCell($innerContentWidth, $tableStyle['inner']['cell']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
+            $cellSecond = $table->addCell($contentWidth, $tableStyle['general']['table']);
             // $innerTable = $cellSecond->addTable($tableStyle['inner']['table']);
             // $innerTable->addRow();
             // $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthSecond, $tableStyle['inner']['cell']);
             $cellSecond->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
-            $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['table']);
+            $cellThird = $table->addCell($contentWidth, $tableStyle['general']['table']);
             $innerTableThird = $cellThird->addTable($tableStyle['inner']['table']);
             $innerTableThird->addRow();
-            $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThird, $tableStyle['inner']['cell']);
+            $innerTableCellThird = $innerTableThird->addCell($innerContentWidth, $tableStyle['inner']['cell']);
             $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
-            $innerTableThird->addRow();
-            $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThird, $tableStyle['inner']['cell']);
-            $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
+          
 
 
 
