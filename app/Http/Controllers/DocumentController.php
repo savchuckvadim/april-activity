@@ -1621,7 +1621,7 @@ class DocumentController extends Controller
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
             $invoiceHeaderCellWidthFirst = $fullWidth  * 0.48;
-            $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
+            $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst;
             $invoiceHeaderCellWidthSecond = $fullWidth  * 0.07;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
             $invoiceHeaderCellWidthThird = $fullWidth  * 0.42;
@@ -1650,15 +1650,15 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight, $tableStyle['border']['top']);
+            $table->addRow($topTableHeight);
             $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTableFirst->addRow($topTableHeight / 2);
             $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            $innerTableFirst->addRow();
-            $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell']);
-            $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
+            // $innerTableFirst->addRow();
+            // $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell']);
+            // $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
 
             // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
 
