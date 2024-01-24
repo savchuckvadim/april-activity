@@ -280,13 +280,13 @@ class DocumentController extends Controller
 
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 0,
+                        'cellMargin' => 70,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 0,
-                        'cellMarginTop' => 0,
-                        'cellMarginRight' => 0,
-                        'cellMarginBottom' => 0,
-                        'cellMarginLeft' => 0,
+                        'cellSpacing' => 40,
+                        'cellMarginTop' => 40,
+                        'cellMarginRight' => 40,
+                        'cellMarginBottom' => 40,
+                        'cellMarginLeft' => 40,
 
 
                     ],
@@ -1781,7 +1781,7 @@ class DocumentController extends Controller
 
             );
             $innerTable = $cellSecond->addTable(
-                $styles['tables']['general']['table']
+                $styles['tables']['borderbottom']['innertable']
             );
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
