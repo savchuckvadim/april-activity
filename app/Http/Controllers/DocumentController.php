@@ -205,12 +205,12 @@ class DocumentController extends Controller
                     'table' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 140,
+                        'cellMargin' => 70,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 140,
-                        'cellMarginRight' => 140,
-                        'cellMarginBottom' => 140,
-                        'cellMarginLeft' => 140,
+                        'cellMarginTop' => 70,
+                        'cellMarginRight' => 70,
+                        'cellMarginBottom' => 70,
+                        'cellMarginLeft' => 70,
 
 
                     ],
@@ -1715,7 +1715,7 @@ class DocumentController extends Controller
             );
             $innerCell2 = $innerTable->addCell(
                 null,
-                
+
                 $styles['tables']['valign']['bottom']
 
             );
