@@ -1692,7 +1692,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(
                 $tableStyle['inner']['table'],
                 // $styles['tables']['alignment']['start'],
-                // $styles['tables']['valign']['top']
+                $styles['tables']['valign']['bottom']
 
             );
 
@@ -1706,8 +1706,7 @@ class DocumentController extends Controller
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
-                $topTableHeight / 2.2 / 2,
-                $styles['tables']['valign']['bottom']
+                $topTableHeight / 2.2 / 2
             );
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
