@@ -284,7 +284,7 @@ class DocumentController extends Controller
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
-                        'cellMarginTop' => 40,
+                        'cellMarginTop' => 140,
                         // 'cellMarginRight' => 40,
                         // 'cellMarginBottom' => 40,
                         // 'cellMarginLeft' => 40,
