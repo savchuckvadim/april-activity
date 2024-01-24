@@ -262,19 +262,36 @@ class DocumentController extends Controller
                     ]
                 ],
                 'borderbottom' => [
+                    'table' => [
 
-                    'borderBottomSize' => 7,
-                    'borderColor' => '000000',
-                    'cellMargin' => 0,
-                    // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                    'cellSpacing' => 0,
-                    'cellMarginTop' => 0,
-                    'cellMarginRight' => 0,
-                    'cellMarginBottom' => 0,
-                    'cellMarginLeft' => 0,
+                        'borderSize' => 7,
+                        'borderColor' => '000000',
+                        'cellMargin' => 0,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellSpacing' => 0,
+                        'cellMarginTop' => 0,
+                        'cellMarginRight' => 0,
+                        'cellMarginBottom' => 0,
+                        'cellMarginLeft' => 0,
 
 
+                    ],
+                    'cell' =>  [
+
+                        'borderBottomSize' => 7,
+                        'borderColor' => '000000',
+                        'cellMargin' => 0,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        'cellSpacing' => 0,
+                        'cellMarginTop' => 0,
+                        'cellMarginRight' => 0,
+                        'cellMarginBottom' => 0,
+                        'cellMarginLeft' => 0,
+
+
+                    ],
                 ],
+
                 'total' => [
 
                     'cell' => [
@@ -1746,7 +1763,7 @@ class DocumentController extends Controller
 
             $cellSecond = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['borderbottom']
+                $styles['tables']['borderbottom']['table']
 
             );
             $innerTable = $cellSecond->addTable();
@@ -1755,7 +1772,8 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthSecond,
                 [
                     // ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['general']['cell']
+                    ... $styles['tables']['borderbottom']['cell'],
+
                 ]
 
             );
@@ -1763,8 +1781,8 @@ class DocumentController extends Controller
             $cellSecond->addLine(
                 array(
                     'width'       => $invoiceHeaderCellWidthSecond,
-                    'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(10),
-                    'positioning' => 'absolute',
+                    // 'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(10),
+                    // 'positioning' => 'absolute',
                 )
             );
             $innerTable->addRow();
