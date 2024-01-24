@@ -272,8 +272,8 @@ class DocumentController extends Controller
                 ],
                 'border' => [
                     'top' => [
-                        'borderSize' => 7,
-                        'borderTopSize' => 37,
+                        // 'borderSize' => 7,
+                        'borderTopSize' => 7,
                         'borderColor' => '000000',  // Цвет границы (чёрный)
                     ],
                     'bottom' => [
