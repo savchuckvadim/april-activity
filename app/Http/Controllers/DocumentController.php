@@ -1802,7 +1802,7 @@ class DocumentController extends Controller
             );
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
-                ($invoiceHeaderCellWidthSecond),
+                ($invoiceHeaderCellWidthSecond + 200),
                 [
                     // ...$styles['tables']['general']['cell'],
                     ... $styles['tables']['borderbottom']['cell'],
