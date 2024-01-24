@@ -1705,12 +1705,14 @@ class DocumentController extends Controller
                 $styles['tables']['valign']['top']
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            $innerTable->addRow($topTableHeight / 2.2 / 2);
-            $innerCell2 = $innerTable->addCell(
-                $invoiceHeaderCellWidthFirstInner, 
-                $styles['tables']['inner']['cell'],
+            $innerTable->addRow(
+                $topTableHeight / 2.2 / 2,
                 $styles['tables']['valign']['bottom']
-            
+            );
+            $innerCell2 = $innerTable->addCell(
+                $invoiceHeaderCellWidthFirstInner,
+                $styles['tables']['inner']['cell']
+
             );
             $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
 
