@@ -279,7 +279,7 @@ class DocumentController extends Controller
                     'innertable' => [
 
                         'borderSize' => 0,
-                        // 'borderColor' => '000000',
+                        'borderColor' => 'FFFFFF',
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
@@ -1785,7 +1785,7 @@ class DocumentController extends Controller
             );
             $innerTable->addRow($topTableHeight / 8);
             $innerCell1 = $innerTable->addCell(
-                $invoiceHeaderCellWidthSecond + 10,
+                ($invoiceHeaderCellWidthSecond * 2),
                 [
                     // ...$styles['tables']['general']['cell'],
                     ... $styles['tables']['borderbottom']['cell'],
