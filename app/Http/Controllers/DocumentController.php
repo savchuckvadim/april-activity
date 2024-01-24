@@ -493,7 +493,7 @@ class DocumentController extends Controller
         // $letterSection = $this->getLetter($section, $styles,  $fields);
 
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-        // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
         $invoice = $this->getInvoice($section, $styles, $data['price'], $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
