@@ -1605,11 +1605,11 @@ class DocumentController extends Controller
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = ($contentWidth  / 4.5);
+            $invoiceHeaderCellWidthFirst = ($contentWidth  / 2.5);
             $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst - 30;
             $invoiceHeaderCellWidthSecond = $contentWidth  / 9;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
-            $invoiceHeaderCellWidthThird = $contentWidth  / 4.5;
+            $invoiceHeaderCellWidthThird = $contentWidth  / 2.5;
             $invoiceHeaderCellWidthThirdInner = $invoiceHeaderCellWidthThird - 30;
 
             //SORT CELLS
