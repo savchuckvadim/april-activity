@@ -1633,10 +1633,10 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow(1000);
             $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
-            // $innerTable = $cellFirst->addTable($tableStyle['inner']['table']);
-            // $innerTable->addRow();
-            // $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthFirst, $tableStyle['inner']['cell']);
-            $cellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
+            $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
+            $innerTableFirst ->addRow();
+            $innerTableCellFirst  = $innerTableFirst ->addCell($invoiceHeaderCellWidthFirst, $tableStyle['inner']['cell']);
+            $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['bold'], $paragraphTitleStyle);
 
 
             $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
