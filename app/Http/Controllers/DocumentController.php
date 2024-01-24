@@ -1760,7 +1760,7 @@ class DocumentController extends Controller
 
             );
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
-            $innerTable->addLine(
+            $cellSecond->addLine(
                 array(
                     'width'       => $invoiceHeaderCellWidthSecond,
                     'height'      => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(10),
