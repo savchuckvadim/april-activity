@@ -1711,7 +1711,7 @@ class DocumentController extends Controller
             );
             $innerCell2 = $innerTable->addCell(
                 null,
-                $styles['tables']['inner']['cell'],
+                
                 $styles['tables']['valign']['bottom']
 
             );
