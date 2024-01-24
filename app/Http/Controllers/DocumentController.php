@@ -192,7 +192,7 @@ class DocumentController extends Controller
                         // 'price' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 230,
+                        'cellMargin' => 30,
                         'valign' => 'center',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellMarginTop' => 40,
@@ -219,7 +219,7 @@ class DocumentController extends Controller
                         'borderColor' => '000000',
                         'cellMargin' => 50,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellSpacing' => 250
+                        'cellSpacing' => 50
                     ],
                     'row' => [
                         'cellMargin' => 20, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
