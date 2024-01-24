@@ -294,7 +294,7 @@ class DocumentController extends Controller
 
                         'borderBottomSize' => 7,
                         'borderColor' => '000000',
-                        'cellMargin' => 0,
+                        'cellMargin' => 40,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
                         'cellMarginTop' => 0,
@@ -498,7 +498,7 @@ class DocumentController extends Controller
 
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-        
+
         $invoice = $this->getInvoice($section, $styles, $data['price'], $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
@@ -1788,7 +1788,7 @@ class DocumentController extends Controller
             );
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
-                ($invoiceHeaderCellWidthSecond + 200),
+                ($invoiceHeaderCellWidthSecond),
                 [
                     // ...$styles['tables']['general']['cell'],
                     ...$styles['tables']['borderbottom']['cell'],
