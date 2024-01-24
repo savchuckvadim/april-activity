@@ -273,6 +273,7 @@ class DocumentController extends Controller
                 'border' => [
                     'top' => [
                         'borderTop' => 7,
+                        'borderColor' => '000000',  // Цвет границы (чёрный)
                     ],
                     'bottom' => [
                         'borderBottom' => 7,
@@ -1649,9 +1650,9 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight);
+            $table->addRow($topTableHeight, $tableStyle['border']['top']);
             $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
-            $innerTableFirst  = $cellFirst->addTable($tableStyle['general']['table']);
+            $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
             $innerTableFirst->addRow($topTableHeight / 2);
             $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
             $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
