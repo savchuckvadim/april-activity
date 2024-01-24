@@ -195,10 +195,10 @@ class DocumentController extends Controller
                         'cellMargin' => 230,
                         'valign' => 'center',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 50,
-                        'cellMarginRight' => 50,
-                        'cellMarginBottom' => 50,
-                        'cellMarginLeft' => 50,
+                        'cellMarginTop' => 10,
+                        'cellMarginRight' => 10,
+                        'cellMarginBottom' => 10,
+                        'cellMarginLeft' => 10,
                         // ]
 
                     ],
@@ -217,12 +217,12 @@ class DocumentController extends Controller
                     'table' => [
                         'borderSize' => 7,
                         'borderColor' => '000000',
-                        'cellMargin' => 40,
+                        'cellMargin' => 20,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 10
                     ],
                     'row' => [
-                        'cellMargin' => 90, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                        'cellMargin' => 20, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                     ],
                     'cell' => [
                         'valign' => 'center',
