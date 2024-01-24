@@ -1599,13 +1599,13 @@ class DocumentController extends Controller
             $fullWidth = $styles['page']['pageSizeW'];
             $marginRight = $styles['page']['marginLeft'];
             $marginLeft = $styles['page']['marginRight'];
-            $contentWidth = ($fullWidth - $marginLeft - $marginRight) / 3;
+            $contentWidth = ($fullWidth - $marginLeft - $marginRight);
             $innerContentWidth = $contentWidth - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
-            $invoiceHeaderCellWidthFirst = $contentWidth  / 2;
+            $invoiceHeaderCellWidthFirst = 2000;
             $invoiceHeaderCellWidthSecond = 100;
             $invoiceHeaderCellWidthThird = $contentWidth  / 3;
 
