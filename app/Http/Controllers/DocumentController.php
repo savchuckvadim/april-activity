@@ -218,7 +218,7 @@ class DocumentController extends Controller
                         'borderSize' => 7,
                         'borderColor' => '000000',
                         'cellMargin' => 50,
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 50
                     ],
                     'row' => [
@@ -286,6 +286,17 @@ class DocumentController extends Controller
                     'right' => [
                         'borderRight' => 7,
                     ],
+                ],
+                'alignment' => [
+                    'center' =>
+                    [
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    ],
+                    'start' =>
+                    [
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                    ],
+
                 ]
             ],
             'header' => [
@@ -1654,8 +1665,8 @@ class DocumentController extends Controller
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow($topTableHeight / 2.2);
 
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['cell']);
-            $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['cell'], $styles['tables']['alignment']['start']);
+            $innerTable = $cell->addTable($tableStyle['inner']['table'], $styles['tables']['alignment']['start']);
             $innerTable->addRow();
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthFirstInner, $styles['tables']['inner']['cell']);
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
