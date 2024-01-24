@@ -1808,7 +1808,9 @@ class DocumentController extends Controller
 
 
             $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $styles['tables']['general']['table']);
-            $innerTable = $cellThird->addTable();
+            $innerTable = $cellThird->addTable(
+                $tableStyle['inner']['table']
+            );
             // $innerTable->addRow($topTableHeight / 4);
             // $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             // $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
@@ -1817,12 +1819,7 @@ class DocumentController extends Controller
             // $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
 
 
-            $innerTable = $cell->addTable(
-                $tableStyle['inner']['table'],
-
-            );
-
-
+           
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
