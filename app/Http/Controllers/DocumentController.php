@@ -193,7 +193,7 @@ class DocumentController extends Controller
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
                         'cellMargin' => 30,
-                        // 'valign' => 'center',
+                        'valign' => 'end',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellMarginTop' => 40,
                         'cellMarginRight' => 40,
@@ -1701,8 +1701,8 @@ class DocumentController extends Controller
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
                 $styles['tables']['inner']['cell'],
-                $styles['tables']['alignment']['start'],
-                $styles['tables']['valign']['bottom']
+                $styles['tables']['alignment']['start']
+              
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
