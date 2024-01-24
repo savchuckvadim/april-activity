@@ -1694,10 +1694,10 @@ class DocumentController extends Controller
 
             $innerTable->addRow();
             $innerCell1 = $innerTable->addCell();
-            $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
-            $innerCell2->addText("2", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
 
 
 
