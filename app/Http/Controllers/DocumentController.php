@@ -192,13 +192,13 @@ class DocumentController extends Controller
                         // 'price' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 30,
+                        'cellMargin' => 20,
                         // 'valign' => 'bottom',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 40,
-                        'cellMarginRight' => 40,
-                        'cellMarginBottom' => 40,
-                        'cellMarginLeft' => 40,
+                        'cellMarginTop' => 30,
+                        'cellMarginRight' => 30,
+                        'cellMarginBottom' => 30,
+                        'cellMarginLeft' => 30,
                         // ]
 
                     ],
@@ -574,7 +574,10 @@ class DocumentController extends Controller
             $section->addTableStyle($fancyTableStyleName, $tableStyle['general']['table'], $tableStyle['general']['row']);
             $table = $section->addTable($fancyTableStyleName);
             $table->addRow();
-            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+            $cell = $table->addCell(
+                $contentWidth,
+                $tableStyle['general']['cell']
+            );
 
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
@@ -1703,11 +1706,11 @@ class DocumentController extends Controller
 
             $innerTable->addRow($topTableHeight / 2.2 / 2);
             $innerCell1 = $innerTable->addCell(
-                $invoiceHeaderCellWidthFirstInner,
-                $styles['tables']['inner']['cell'],
-                $styles['tables']['alignment']['start'],
-                $styles['tables']['valign']['top']
-
+                $invoiceHeaderCellWidthFirstInner,[
+                ...$styles['tables']['inner']['cell'],
+                ...$styles['tables']['alignment']['start'],
+                ...$styles['tables']['valign']['top']
+]
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
