@@ -1625,7 +1625,7 @@ class DocumentController extends Controller
             $invoiceHeaderCellWidthFirstInner = $invoiceHeaderCellWidthFirst;
             $invoiceHeaderCellWidthSecond = $fullWidth  * 0.07;
             $invoiceHeaderCellWidthSecondInner = $invoiceHeaderCellWidthSecond - 30;
-            $invoiceHeaderCellWidthThird = $fullWidth  * 0.42;
+            $invoiceHeaderCellWidthThird = $fullWidth  * 0.5;
             $invoiceHeaderCellWidthThirdInner = $invoiceHeaderCellWidthThird - 30;
 
 
@@ -1651,7 +1651,8 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight / 2);
+            $table->addRow($topTableHeight / 2.5);
+
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
             $innerTable->addRow();
@@ -1660,10 +1661,10 @@ class DocumentController extends Controller
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
             $innerCell2->addText("2", $fonts['text']['small'], $paragraphStyle);
-           
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond);
+
+            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['general']['table']);
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
@@ -1673,7 +1674,7 @@ class DocumentController extends Controller
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
 
-            $cellThird = $table->addCell($invoiceHeaderCellWidthThird);
+            $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $styles['tables']['general']['table']);
             $innerTable = $cellThird->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
@@ -1687,7 +1688,35 @@ class DocumentController extends Controller
 
             $table->addRow($topTableHeight / 2);
             $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
+            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
+            $innerTable = $cell->addTable();
+            $innerTable->addRow();
+            $innerCell1 = $innerTable->addCell();
+            $innerCell1->addText("1", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
+            $innerCell2->addText("2", $fonts['text']['small'], $paragraphStyle);
 
+
+
+            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['general']['table']);
+            $innerTable = $cellSecond->addTable();
+            $innerTable->addRow($topTableHeight / 4);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
+
+
+            $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $styles['tables']['general']['table']);
+            $innerTable = $cellThird->addTable();
+            $innerTable->addRow($topTableHeight / 4);
+            $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
+            $innerTable->addRow();
+            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
 
             // $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             // $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
