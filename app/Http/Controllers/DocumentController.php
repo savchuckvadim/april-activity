@@ -305,7 +305,11 @@ class DocumentController extends Controller
                     ],
                     'top' =>
                     [
-                        'top' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                    ],
+                    'bottom' =>
+                    [
+                        'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::END,
                     ],
 
                 ]
