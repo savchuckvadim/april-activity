@@ -39,8 +39,9 @@ class DocumentController extends Controller
             'lang' => 'ru-RU',
         ];
 
-        $baseCellMargin = 50;
+        $baseCellMargin = 30;
         $baseCellMarginSmall = 10;
+      
         $baseBorderSize = 4;
 
 
