@@ -1962,12 +1962,13 @@ class DocumentController extends Controller
                 $styles['tables']['invoice']['inn']
             );
             $innerTable = $cell->addTable(              //inner table
-                // $styles['tables']['invoice']['table']
+                $styles['tables']['invoice']['cell']
             );
             $innerTable->addRow($topTableHeight / 8);       //inner table row
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(                      //inner table cell
                 $invoiceHeaderCellWidthSecond,
+                $styles['tables']['invoice']['cell']
 
             );
             $cell->addText("Сч. №", $fonts['text']['small'], $paragraphStyle);
@@ -1984,13 +1985,13 @@ class DocumentController extends Controller
 
 
             $innerTable = $cell->addTable(
-                // $styles['tables']['invoice']['table']
+                $styles['tables']['invoice']['cell']
             );
             $innerTable->addRow($topTableHeight / 8);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
-                $invoiceHeaderCellWidthThird,
-                $styles['tables']['invoice']['cell']
+                $invoiceHeaderCellWidthThird
+                // $styles['tables']['invoice']['cell']
             );
             $cell->addText("40802810826000050639", $fonts['text']['small'], $paragraphStyle); //////
 
