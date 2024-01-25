@@ -561,7 +561,7 @@ class BitrixController extends Controller
         $resultTasks = [];
         try {
             $domain = $request->domain;
-            $userId = $request->dealId;
+            $userId = $request->userId;
             $date = $request->date;
             $method = '/tasks.task.list.json';
             $controller = new BitrixController;
@@ -570,9 +570,9 @@ class BitrixController extends Controller
             if ($hook) {
                 $url = $hook . $method;
                 $data = [
-                    'FILTER' => [
-                        'DEADLINE' => $date,
-                        'RESPONSIBLE_ID' => $userId
+                    'filter' => [
+                        'deadLine' => $date,
+                        'responsibleId' => $userId
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
