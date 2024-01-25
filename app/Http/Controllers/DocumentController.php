@@ -38,6 +38,12 @@ class DocumentController extends Controller
             'color' => $colors['corporate'],
             'lang' => 'ru-RU',
         ];
+
+        $baseCellMargin = 50;
+        $baseCellMarginSmall = 10;
+        $baseBorderSize = 7;
+
+
         $this->documentStyle = [
             'page' => [
                 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
@@ -192,25 +198,25 @@ class DocumentController extends Controller
                         // 'price' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         // 'valign' => 'bottom',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 30,
-                        'cellMarginRight' => 30,
-                        'cellMarginBottom' => 30,
-                        'cellMarginLeft' => 30,
+                        'cellMarginTop' => $baseCellMargin,
+                        'cellMarginRight' => $baseCellMargin,
+                        'cellMarginBottom' => $baseCellMargin,
+                        'cellMarginLeft' => $baseCellMargin,
                         // ]
 
                     ],
                     'table' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 30,
-                        'cellMarginRight' => 30,
-                        'cellMarginBottom' => 30,
-                        'cellMarginLeft' => 30,
+                        // 'cellMarginTop' => 30,
+                        // 'cellMarginRight' => 30,
+                        // 'cellMarginBottom' => 30,
+                        // 'cellMarginLeft' => 30,
 
 
                     ],
@@ -219,23 +225,23 @@ class DocumentController extends Controller
 
                 'general' => [
                     'table' => [
-                        'borderSize' => 5,
+                        'borderSize' => $baseBorderSize,
                         'borderColor' => '000000',
-                        // 'cellMargin' => 20,
+                        // 'cellMargin' =>  $baseCellMarginSmall,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         // 'cellSpacing' => 20
                     ],
                     'row' => [
-                        'cellMargin' => 20, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                        'cellMargin' =>  $baseCellMarginSmall, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                     ],
                     'cell' => [
                         // 'valign' => 'center',
-                        'borderSize' => 5,
+                        'borderSize' => $baseBorderSize,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 30,
-                        'cellMarginRight' => 30,
-                        'cellMarginBottom' => 30,
-                        'cellMarginLeft' => 30,
+                        'cellMarginTop' => $baseCellMargin,
+                        'cellMarginRight' => $baseCellMargin,
+                        'cellMarginBottom' => $baseCellMargin,
+                        'cellMarginLeft' => $baseCellMargin,
                     ],
                     'paragraphs' => [
                         'left' => [
@@ -264,7 +270,7 @@ class DocumentController extends Controller
                 'invoice' => [
                     'table' => [
 
-                        'borderSize' => 5,
+                        'borderSize' => $baseBorderSize,
                         'borderColor' => '000000',
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -299,7 +305,7 @@ class DocumentController extends Controller
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         // 'cellMarginRight' => 40,
                         // 'cellMarginBottom' => 40,
                         // 'cellMarginLeft' => 40,
@@ -321,7 +327,7 @@ class DocumentController extends Controller
 
                     'inn' =>  [
 
-                        'borderRightSize' => 5,
+                        'borderRightSize' => $baseBorderSize,
                         'borderColor' => '000000',
                         'cellMargin' => 0,
                         'cellSpacing' => 0,
@@ -332,10 +338,10 @@ class DocumentController extends Controller
                     ],
                     'topleft' =>  [
 
-                        'borderTopSize' => 5,
-                        'borderLeftSize' => 5,
+                        'borderTopSize' => $baseBorderSize,
+                        'borderLeftSize' => $baseBorderSize,
                         'borderColor' => '000000',
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -343,10 +349,10 @@ class DocumentController extends Controller
                     ],
                     'top' =>  [
 
-                        'borderTopSize' => 5,
+                        'borderTopSize' => $baseBorderSize,
 
                         'borderColor' => '000000',
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -354,10 +360,10 @@ class DocumentController extends Controller
                     ],
                     'bottom' =>  [
 
-                        'borderBottomSize' => 5,
+                        'borderBottomSize' => $baseBorderSize,
 
                         'borderColor' => '000000',
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -371,28 +377,28 @@ class DocumentController extends Controller
                         'valign' => 'center',
                         // 'borderBottomSize' => 6,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 10,
-                        'cellMarginRight' => 10,
-                        'cellMarginBottom' => 10,
-                        'cellMarginLeft' => 10,
+                        'cellMarginTop' =>  $baseCellMarginSmall,
+                        'cellMarginRight' =>  $baseCellMarginSmall,
+                        'cellMarginBottom' =>  $baseCellMarginSmall,
+                        'cellMarginLeft' =>  $baseCellMarginSmall,
                     ],
 
                 ],
                 'border' => [
                     'top' => [
                         // 'borderSize' => 7,
-                        'borderTopSize' => 5,
+                        'borderTopSize' => $baseBorderSize,
                         'borderColor' => '000000',  // Цвет границы (чёрный)
                     ],
                     'bottom' => [
-                        'borderBottomSize' => 5,
+                        'borderBottomSize' => $baseBorderSize,
                         // 'invoice' => 7,
                     ],
                     'left' => [
-                        'borderLeft' => 5,
+                        'borderLeft' => $baseBorderSize,
                     ],
                     'right' => [
-                        'borderRight' => 5,
+                        'borderRight' => $baseBorderSize,
                     ],
                 ],
                 'alignment' => [
