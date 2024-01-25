@@ -2020,16 +2020,22 @@ class DocumentController extends Controller
 
 
             //THREE ROW
-            $table->addRow($topTableHeight / 2.5);
+            $rowHeight = ($topTableHeight / 2.5) - ($topTableHeight / 8);
+            $table->addRow($rowHeight);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
-            $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
-            $innerTable = $cell->addTable();
+            $cell = $table->addCell(
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['general']['cell']
+            );
+            $innerTable = $cell->addTable(
+                $tableStyle['inner']['table'],
+            );
 
 
 
 
 
-            $innerTable->addRow();
+            $innerTable->addRow($rowHeight / 2);
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
                 [
@@ -2039,12 +2045,12 @@ class DocumentController extends Controller
                 ]
             );
             $innerCell1->addText("ИП Савчук А.В.", $fonts['text']['small'], $paragraphStyle);
-            $innerTable->addRow();
+            $innerTable->addRow($rowHeight  / 2);
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirst,
                 $styles['tables']['valign']['bottom']
             );
-            $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText("Получатель", $fonts['text']['small'], $paragraphStyle);
 
 
 
