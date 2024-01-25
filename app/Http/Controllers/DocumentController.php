@@ -1742,7 +1742,7 @@ class DocumentController extends Controller
 
             //INVOICE TOP TABLE
             $table = $section->addTable($fancyTableStyleName);
-            $table->addRow($topTableHeight / 2.2);
+            $table->addRow($topTableHeight / 2.4);
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
@@ -1758,7 +1758,7 @@ class DocumentController extends Controller
             );
 
 
-            $innerTable->addRow($topTableHeight / 2.2 / 2);
+            $innerTable->addRow($topTableHeight / 2.4 / 2);
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
                 [
@@ -1769,7 +1769,7 @@ class DocumentController extends Controller
             );
             $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
-                $topTableHeight / 2.2 / 2
+                $topTableHeight / 2.4 / 2
             );
             $innerCell2 = $innerTable->addCell(
                 null,
@@ -1792,7 +1792,7 @@ class DocumentController extends Controller
             $innerTable = $cellSecond->addTable(
                 $styles['tables']['invoice']['innertable']
             );
-            $innerTable->addRow($topTableHeight / 7);
+            $innerTable->addRow($topTableHeight / 7.2);
             $innerCell1 = $innerTable->addCell(
                 ($invoiceHeaderCellWidthSecond),
                 [
@@ -1807,7 +1807,7 @@ class DocumentController extends Controller
                 $styles['tables']['invoice']['innertable']
             );
             $innerTable->addRow(
-                $topTableHeight / 7
+                $topTableHeight / 7.2
             );
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
@@ -1835,7 +1835,7 @@ class DocumentController extends Controller
 
 
 
-            $innerTable->addRow($topTableHeight / 7);
+            $innerTable->addRow($topTableHeight / 7.2);
             $innerCell1 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
                 [
@@ -1846,7 +1846,7 @@ class DocumentController extends Controller
             );
             $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
-                $topTableHeight / 7
+                $topTableHeight / 7.2
             );
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthFirstInner,
