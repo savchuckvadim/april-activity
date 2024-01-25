@@ -1905,7 +1905,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(
                 // $styles['tables']['invoice']['table']
             );
-            $innerTable->addRow($topTableHeight / 7.6);
+            $innerTable->addRow($topTableHeight / 8);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 300,
