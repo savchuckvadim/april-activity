@@ -1933,7 +1933,7 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['cell']
+                $styles['tables']['invoice']['inn']
             );
             $cell->addText("", $fonts['text']['small'], $paragraphStyle);
 
@@ -2016,11 +2016,11 @@ class DocumentController extends Controller
 
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['general']['table']);
+            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['invoice']['inn']);
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText("_", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
