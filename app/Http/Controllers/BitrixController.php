@@ -38,12 +38,11 @@ class BitrixController extends Controller
             return APIController::getSuccess(
 
                 [
-                 
+
                     'beelineResponse' => $beelineResponse->body(),
-                
+
                 ]
             );
-
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
@@ -553,6 +552,93 @@ class BitrixController extends Controller
                     'request' => $request
                 ]
             );
+        }
+    }
+
+
+    public static function getCallingTasks(Request $request)
+    {
+        $resultTasks = [];
+        try {
+            $domain = $request->domain;
+            $userId = $request->dealId;
+            $date = $request->date;
+            $method = '/tasks.task.list.json';
+            $controller = new BitrixController;
+            $hook = $controller->getHookUrl($domain);
+
+            if ($hook) {
+                $url = $hook . $method;
+                $data = [
+                    // 'DEADLINE' => $date,
+                    // 'RESPONSIBLE_LAST_NAME' => $userId,
+                    // 'GROUP_ID' => $date,
+                ];
+
+                $response = Http::get($url, $data);
+                Log::info('GET DEAL', ['response' => $response]);
+
+                if (isset($response['result'])) {
+
+                    $resultTasks = $response['result'];
+                } else if (isset($response['error_description'])) {
+                    return APIController::getError(
+                        $response['error_description'],
+                        [
+                            'response' => $response
+
+                        ]
+
+                    );
+                }
+
+                return APIController::getSuccess(
+
+                    [
+                        'tasks' => $resultTasks,
+                        '$response' => $response
+
+
+                    ]
+                );
+            } else {
+                return APIController::getError(
+                    'hook not found',
+                    [
+                        'hook' => $hook
+                    ]
+                );
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    protected function getHookUrl($domain)
+    {
+        $hook = null;
+        try {
+
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                            }
+                        }
+                    }
+                }
+            }
+            return $hook;
+        } catch (\Throwable $th) {
+            return $hook;
         }
     }
 }

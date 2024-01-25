@@ -1742,7 +1742,7 @@ class DocumentController extends Controller
 
         return $section;
     }
-    protected function getInvoice($section, $styles, $price, $providerRq)
+    protected function getInvoiceTopTable($section, $styles, $price, $providerRq)
     {
         try {
             //STYLES
@@ -1999,34 +1999,6 @@ class DocumentController extends Controller
 
 
 
-            // $cell = $table->addCell(
-            //     $invoiceHeaderCellWidthThird,
-            //     $styles['tables']['general']['table']
-            // );
-            // $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
-
-
-
-            // $innerTable = $cell->addTable();
-
-            // $innerTable->addRow();
-            // $innerCell1 = $innerTable->addCell(
-            //     $invoiceHeaderCellWidthFirstInner,
-            //     [
-            //         ...$styles['tables']['inner']['cell'],
-            //         ...$styles['tables']['alignment']['start'],
-            //         ...$styles['tables']['valign']['top']
-            //     ]
-            // );
-            // $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            // $innerTable->addRow();
-            // $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
-            // $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
-
-
-
-
-
             //THREE ROW
             $rowHeight = ($topTableHeight / 2.5) - ($topTableHeight / 9);
             $table->addRow($rowHeight);
@@ -2096,55 +2068,7 @@ class DocumentController extends Controller
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("", $fonts['text']['small'], $paragraphStyle);
 
-            // $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
-            // $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
-            // $innerTableFirst->addRow($topTableHeight / 2);
-            // $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell'], $tableStyle['border']['bottom']);
-            // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-            // $innerTableFirst->addRow();
-            // $innerTableCellFirst  = $innerTableFirst->addCell($invoiceHeaderCellWidthFirstInner, $tableStyle['general']['cell']);
-            // $innerTableCellFirst->addText("ИНН КПП", $fonts['text']['small'], $paragraphStyle);
-
-            // $innerTableCellFirst->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $tableStyle['general']['table']);
-            // $innerTable = $cellSecond->addTable($tableStyle['inner']['table']);
-            // $innerTable->addRow();
-            // $innerTableCell = $innerTable->addCell($invoiceHeaderCellWidthSecondInner, $tableStyle['inner']['cell']);
-            // $innerTableCell->addText("БИК", $fonts['text']['small'], $paragraphStyle);
-
-
-            // $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $tableStyle['general']['table']);
-            // $innerTableThird = $cellThird->addTable($tableStyle['inner']['table']);
-            // $innerTableThird->addRow();
-            // $innerTableCellThird = $innerTableThird->addCell($invoiceHeaderCellWidthThirdInner, $tableStyle['inner']['cell']);
-            // $innerTableCellThird->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
-
-
-
-
-
-            //TABLE BODY
-            $section->addTextBreak(2);
-            $section->addText('Счет на оплату', $styles['fonts']['h3'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['center']);
-            // $priceSection = $this->getPriceSection($section, $styles, $price);
-
+           
 
             return $section;
         } catch (\Throwable $th) {
@@ -2154,5 +2078,10 @@ class DocumentController extends Controller
                 'message' => $th->getMessage()
             ];
         }
+    }
+
+    protected function getInvoiceMain($section, $styles, $providerRq, $recipient)
+    {
+
     }
 }
