@@ -301,7 +301,7 @@ class DocumentController extends Controller
 
 
                     ],
-                   
+
                     'inn' =>  [
 
                         'borderRightSize' => 7,
@@ -1867,7 +1867,7 @@ class DocumentController extends Controller
             $table->addRow($topTableHeight / 8);
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
-                $styles['tables']['general']['table']
+                $styles['tables']['general']['cell']
             );
             $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
@@ -1900,7 +1900,11 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['inn']
+                [
+                    ...$styles['tables']['general']['cell'],
+                    ...$styles['tables']['invoice']['inn']
+                ]
+
             );
             $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
@@ -1918,7 +1922,10 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthThird,
-                $styles['tables']['invoice']['inn']
+                [
+                    ...$styles['tables']['general']['cell'],
+                    ...$styles['tables']['invoice']['inn']
+                ]
             );
 
 
