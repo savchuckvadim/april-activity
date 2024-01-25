@@ -1935,7 +1935,7 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['cell']
+                $styles['tables']['invoice']['inn']
             );
             $innerTable = $cell->addTable(
                 // $styles['tables']['invoice']['table']
@@ -1944,7 +1944,7 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['inn']
+                
             );
             $cell->addText("", $fonts['text']['small'], $paragraphStyle);
 
@@ -2035,7 +2035,7 @@ class DocumentController extends Controller
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['bottom']
+                // $styles['tables']['invoice']['bottom']
             );
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
