@@ -192,7 +192,7 @@ class DocumentController extends Controller
                         // 'price' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 20,
+                        'cellMargin' => 30,
                         // 'valign' => 'bottom',
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellMarginTop' => 30,
@@ -205,12 +205,12 @@ class DocumentController extends Controller
                     'table' => [
                         'borderSize' => 0,
                         'borderColor' => 'FFFFFF',
-                        'cellMargin' => 70,
+                        'cellMargin' => 30,
                         'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                        'cellMarginTop' => 70,
-                        'cellMarginRight' => 70,
-                        'cellMarginBottom' => 70,
-                        'cellMarginLeft' => 70,
+                        'cellMarginTop' => 30,
+                        'cellMarginRight' => 30,
+                        'cellMarginBottom' => 30,
+                        'cellMarginLeft' => 30,
 
 
                     ],
@@ -232,10 +232,10 @@ class DocumentController extends Controller
                         // 'valign' => 'center',
                         'borderSize' => 7,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
-                        'cellMarginTop' => 40,
-                        'cellMarginRight' => 40,
-                        'cellMarginBottom' => 40,
-                        'cellMarginLeft' => 40,
+                        'cellMarginTop' => 30,
+                        'cellMarginRight' => 30,
+                        'cellMarginBottom' => 30,
+                        'cellMarginLeft' => 30,
                     ],
                     'paragraphs' => [
                         'left' => [
