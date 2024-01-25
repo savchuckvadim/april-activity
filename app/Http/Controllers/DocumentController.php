@@ -1871,7 +1871,7 @@ class DocumentController extends Controller
             );
             $innerTable = $cell->addTable(
                 [
-                    ...$styles['tables']['general']['cell'],
+                    ...$styles['tables']['general']['row'],
                     ...$styles['tables']['invoice']['inn']
                 ]
             );
@@ -1913,7 +1913,7 @@ class DocumentController extends Controller
             );
             $innerTable = $cell->addTable(
                 [
-                    ...$styles['tables']['general']['cell'],
+                    ...$styles['tables']['general']['row'],
                     ...$styles['tables']['invoice']['inn']
                 ]
             );
