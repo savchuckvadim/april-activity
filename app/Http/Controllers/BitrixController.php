@@ -604,7 +604,9 @@ class BitrixController extends Controller
 
                     [
                         'tasks' => $resultTasks,
-                        '$response' => $response
+                        '$response' => $response,
+                        'date' => $date,
+                        'data' => $data
 
 
                     ]
