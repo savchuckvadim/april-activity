@@ -1958,7 +1958,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(              //inner table
                 // $styles['tables']['invoice']['table']
             );
-            $innerTable->addRow($topTableHeight / 7.6);       //inner table row
+            $innerTable->addRow($topTableHeight / 8);       //inner table row
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(                      //inner table cell
                 $invoiceHeaderCellWidthSecond,
@@ -1980,7 +1980,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(
                 // $styles['tables']['invoice']['table']
             );
-            $innerTable->addRow($topTableHeight / 7.6);
+            $innerTable->addRow($topTableHeight / 8);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthThird,
@@ -2020,7 +2020,7 @@ class DocumentController extends Controller
 
 
             //THREE ROW
-            $table->addRow($topTableHeight / 2.2);
+            $table->addRow($topTableHeight / 2.5);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
