@@ -1873,7 +1873,7 @@ class DocumentController extends Controller
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
-                200,
+                300,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
@@ -1883,17 +1883,24 @@ class DocumentController extends Controller
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                200,
+                300,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                1500,
-                $styles['tables']['invoice']['inn']
+                null,
+                $styles['tables']['invoice']['cell']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
 
-
+            $cell = $table->addCell(
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['invoice']['inn']
+            );
+            $cell = $table->addCell(
+                $invoiceHeaderCellWidthThird,
+                $styles['tables']['invoice']['inn']
+            );
             // $cell = $table->addCell(
             //     $invoiceHeaderCellWidthThird,
             //     $styles['tables']['general']['table']
