@@ -261,7 +261,7 @@ class DocumentController extends Controller
                         ]
                     ]
                 ],
-                'borderbottom' => [
+                'invoice' => [
                     'table' => [
 
                         'borderSize' => 7,
@@ -284,7 +284,7 @@ class DocumentController extends Controller
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
-                        'cellMarginTop' => 70,
+                        'cellMargin' => 70,
                         // 'cellMarginRight' => 40,
                         // 'cellMarginBottom' => 40,
                         // 'cellMarginLeft' => 40,
@@ -293,9 +293,9 @@ class DocumentController extends Controller
                     ],
                     'cell' =>  [
 
-                        'borderBottomSize' => 7,
-                        'borderColor' => '000000',
-                        'cellMargin' => 40,
+                        // 'borderBottomSize' => 7,
+                        // 'borderColor' => '000000',
+                        'cellMargin' => 70,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -324,7 +324,7 @@ class DocumentController extends Controller
                     ],
                     'bottom' => [
                         'borderBottomSize' => 7,
-                        // 'borderBottom' => 7,
+                        // 'invoice' => 7,
                     ],
                     'left' => [
                         'borderLeft' => 7,
@@ -1772,28 +1772,28 @@ class DocumentController extends Controller
 
             $cellSecond = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['borderbottom']['table']
+                $styles['tables']['invoice']['table']
 
             );
 
             //BIK  TABLE
 
             $innerTable = $cellSecond->addTable(
-                $styles['tables']['borderbottom']['innertable']
+                $styles['tables']['invoice']['innertable']
             );
             $innerTable->addRow($topTableHeight / 7);
             $innerCell1 = $innerTable->addCell(
                 ($invoiceHeaderCellWidthSecond),
                 [
                     // ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['borderbottom']['cell'],
+                    ...$styles['tables']['invoice']['cell'],
 
                 ]
 
             );
             $innerCell1->addText("БИК", $fonts['text']['small'], $paragraphStyle);
             $innerTable = $cellSecond->addTable(
-                $styles['tables']['borderbottom']['innertable']
+                $styles['tables']['invoice']['innertable']
             );
             $innerTable->addRow(
                 $topTableHeight / 7
@@ -1801,7 +1801,8 @@ class DocumentController extends Controller
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
                 [
-                    'cellMarginTop' => 170,
+                    ...$styles['tables']['invoice']['cell'],
+                    // 'cellMarginLefth' => 170,
                 ]
             );
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
