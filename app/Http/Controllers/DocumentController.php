@@ -284,11 +284,11 @@ class DocumentController extends Controller
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                         'cellSpacing' => 0,
-                        'cellMarginTop' => 0,
-                        'cellMarginRight' => 0,
-                        'cellMarginBottom' => 0,
-                        'cellMarginLeft' => 0,
-                        'cellSpacing' => 0
+                        // 'cellMarginTop' => 30,
+                        // 'cellMarginRight' => 30,
+                        // 'cellMarginBottom' => 30,
+                        // 'cellMarginLeft' => 30,
+                        // 'cellSpacing' => 30
 
 
                     ],
@@ -310,7 +310,7 @@ class DocumentController extends Controller
 
                         // 'borderBottomSize' => 7,
                         // 'borderColor' => '000000',
-                        'cellMargin' => 30,
+                        // 'cellMargin' => 30,
                         'cellMargin' => 0,
                         'cellSpacing' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
