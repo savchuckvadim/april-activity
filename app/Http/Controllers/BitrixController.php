@@ -571,8 +571,8 @@ class BitrixController extends Controller
                 $url = $hook . $method;
                 $data = [
                     'filter' => [
-                        'deadLine' => $date,
-                        'responsibleId' => $userId
+                        'DEADLINE' => $date,
+                        'RESPONSIBLE_ID' => $userId
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
