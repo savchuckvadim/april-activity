@@ -1893,14 +1893,47 @@ class DocumentController extends Controller
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
 
+
+
+
+
+
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
                 $styles['tables']['invoice']['inn']
             );
+            $innerTable = $cell->addTable();
+            $innerTable->addRow($topTableHeight / 7.6);
+            // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
+            $cell = $innerTable->addCell(
+                300,
+                $styles['tables']['invoice']['inn']
+            );
+            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
+
+
+
+
+
+
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthThird,
                 $styles['tables']['invoice']['inn']
             );
+
+
+            $innerTable = $cell->addTable();
+            $innerTable->addRow($topTableHeight / 7.6);
+            // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
+            $cell = $innerTable->addCell(
+                300,
+                $styles['tables']['invoice']['inn']
+            );
+            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
+
+
+
+
             // $cell = $table->addCell(
             //     $invoiceHeaderCellWidthThird,
             //     $styles['tables']['general']['table']
