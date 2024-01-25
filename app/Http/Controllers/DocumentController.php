@@ -1930,7 +1930,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(
                 $styles['tables']['invoice']['cell']
             );
-            $innerTable->addRow($topTableHeight / 8, ['cellMargin' => 0, 'cellSpacing' => 0]);
+            $innerTable->addRow($topTableHeight / 9, ['cellMargin' => 0, 'cellSpacing' => 0]);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 300,
