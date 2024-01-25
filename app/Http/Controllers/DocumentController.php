@@ -301,6 +301,16 @@ class DocumentController extends Controller
 
 
                     ],
+                    'inn' =>  [
+
+                        'borderRightSize' => 7,
+                        'borderColor' => '000000',
+                        'cellMargin' => 70,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+
+
+
+                    ],
                 ],
 
                 'total' => [
@@ -1853,31 +1863,31 @@ class DocumentController extends Controller
 
             //TWO ROW
 
-            $table->addRow($topTableHeight / 5.6);
+            $table->addRow($topTableHeight / 7.6);
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst
             );
             $innerTable = $cell->addTable();
-            $innerTable->addRow($topTableHeight / 5.6);
+            $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 200,
-                $styles['tables']['general']['table']
+                $styles['tables']['invoice']['inn']
+            );
+            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
+            $cell = $innerTable->addCell(
+                1000,
+                $styles['tables']['invoice']['inn']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
                 200,
-                $styles['tables']['general']['table']
-            );
-            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
-            $cell = $innerTable->addCell(
-                200,
-                $styles['tables']['general']['table']
+                $styles['tables']['invoice']['inn']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                200,
-                $styles['tables']['general']['table']
+                1000,
+                $styles['tables']['invoice']['inn']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
 
