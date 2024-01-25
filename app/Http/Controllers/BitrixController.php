@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use CRest;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -567,11 +568,34 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $hook = $controller->getHookUrl($domain);
 
+
+
+            // Ваша исходная строка с датой
+            $dateString = $date;
+
+            // Создаем объект DateTime из вашей строки
+            $date = new DateTime($dateString);
+
+            // Устанавливаем начало суток (00:00)
+            $date->setTime(0, 0);
+
+            // Выводим дату с началом суток
+            $start = $date->format('Y-m-d H:i:s'); // Выведет "2023-12-29 00:00:00"
+
+            // Устанавливаем конец суток (23:59)
+            $date->setTime(23, 59);
+
+            // Выводим дату с концом суток
+            $finish = $date->format('Y-m-d H:i:s'); // Выведет "2023-12-29 23:59:00"
+
+
+
             if ($hook) {
                 $url = $hook . $method;
                 $data = [
                     'filter' => [
-                        'DEADLINE' => $date,
+                        '>DEADLINE' => $start,
+                        '<DEADLINE' => $finish,
                         // 'RESPONSIBLE_ID' => $userId
                     ]
 
