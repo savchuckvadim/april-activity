@@ -41,7 +41,7 @@ class DocumentController extends Controller
 
         $baseCellMargin = 50;
         $baseCellMarginSmall = 10;
-        $baseBorderSize = 7;
+        $baseBorderSize = 4;
 
 
         $this->documentStyle = [
@@ -317,7 +317,7 @@ class DocumentController extends Controller
                         // 'borderBottomSize' => 7,
                         // 'borderColor' => '000000',
                         // 'cellMargin' => 30,
-                        'cellMargin' => 30,
+                        'cellMargin' => $baseCellMargin,
                         'cellSpacing' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
