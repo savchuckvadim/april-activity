@@ -1922,7 +1922,7 @@ class DocumentController extends Controller
 
             //TWO ROW
 
-            $table->addRow($topTableHeight / 8);
+            $table->addRow($topTableHeight / 9);
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
                 $styles['tables']['invoice']['table']
@@ -1965,7 +1965,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(              //inner table
                 $styles['tables']['invoice']['cell']
             );
-            $innerTable->addRow($topTableHeight / 8);       //inner table row
+            $innerTable->addRow($topTableHeight / 9);       //inner table row
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(                      //inner table cell
                 $invoiceHeaderCellWidthSecond,
@@ -1988,7 +1988,7 @@ class DocumentController extends Controller
             $innerTable = $cell->addTable(
                 $styles['tables']['invoice']['cell']
             );
-            $innerTable->addRow($topTableHeight / 8);
+            $innerTable->addRow($topTableHeight / 9);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthThird
@@ -2028,7 +2028,7 @@ class DocumentController extends Controller
 
 
             //THREE ROW
-            $rowHeight = ($topTableHeight / 2.5) - ($topTableHeight / 8);
+            $rowHeight = ($topTableHeight / 2.5) - ($topTableHeight / 9);
             $table->addRow($rowHeight);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell(
