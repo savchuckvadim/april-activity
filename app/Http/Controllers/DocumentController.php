@@ -1900,14 +1900,14 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['cell']
             );
             $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['cell']
             );
             $cell->addText("", $fonts['text']['small'], $paragraphStyle);
 
@@ -1918,7 +1918,7 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthThird,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['cell']
             );
 
 
@@ -1927,7 +1927,7 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 $invoiceHeaderCellWidthThird,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['cell']
             );
             $cell->addText("", $fonts['text']['small'], $paragraphStyle);
 
