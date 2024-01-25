@@ -1851,10 +1851,61 @@ class DocumentController extends Controller
 
 
 
+            //TWO ROW
+
+            $table->addRow($topTableHeight / 3.6);
+            // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
+            $cell = $table->addCell(
+                200,
+                $styles['tables']['general']['table']
+            );
+            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
+            $cell = $table->addCell(
+                200,
+                $styles['tables']['general']['table']
+            );
+            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
+            $cell = $table->addCell(
+                200,
+                $styles['tables']['general']['table']
+            );
+            $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
+            $cell = $table->addCell(
+                200,
+                $styles['tables']['general']['table']
+            );
+            $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
+
+
+            $cell = $table->addCell(
+                $invoiceHeaderCellWidthThird,
+                $styles['tables']['general']['table']
+            );
+            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
+
+
+
+            // $innerTable = $cell->addTable();
+
+            // $innerTable->addRow();
+            // $innerCell1 = $innerTable->addCell(
+            //     $invoiceHeaderCellWidthFirstInner,
+            //     [
+            //         ...$styles['tables']['inner']['cell'],
+            //         ...$styles['tables']['alignment']['start'],
+            //         ...$styles['tables']['valign']['top']
+            //     ]
+            // );
+            // $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
+            // $innerTable->addRow();
+            // $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
+            // $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
 
 
 
 
+
+            //THREE ROW
             $table->addRow($topTableHeight / 1.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
