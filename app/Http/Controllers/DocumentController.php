@@ -334,6 +334,17 @@ class DocumentController extends Controller
 
 
                     ],
+                    'bottom' =>  [
+
+                        'borderBottomSize' => 7,
+                   
+                        'borderColor' => '000000',
+                        'cellMargin' => 30,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+
+
+
+                    ],
                 ],
 
                 'total' => [
@@ -2022,7 +2033,10 @@ class DocumentController extends Controller
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell1->addText("_", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
-            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
+            $innerCell2 = $innerTable->addCell(
+                $invoiceHeaderCellWidthSecond,
+                $styles['tables']['invoice']['bottom']
+            );
             $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
 
 
