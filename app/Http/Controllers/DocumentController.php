@@ -326,7 +326,7 @@ class DocumentController extends Controller
                     'top' =>  [
 
                         'borderTopSize' => 7,
-                   
+
                         'borderColor' => '000000',
                         'cellMargin' => 30,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -337,7 +337,7 @@ class DocumentController extends Controller
                     'bottom' =>  [
 
                         'borderBottomSize' => 7,
-                   
+
                         'borderColor' => '000000',
                         'cellMargin' => 30,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -1944,7 +1944,7 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(                      //inner table cell
                 $invoiceHeaderCellWidthSecond,
-                
+
             );
             $cell->addText("Сч. №", $fonts['text']['small'], $paragraphStyle);
 
@@ -2031,23 +2031,28 @@ class DocumentController extends Controller
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            $innerCell1->addText("_", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText("", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell(
                 $invoiceHeaderCellWidthSecond,
                 // $styles['tables']['invoice']['bottom']
             );
-            $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText("", $fonts['text']['small'], $paragraphStyle);
 
 
-            $cellThird = $table->addCell($invoiceHeaderCellWidthThird, $styles['tables']['general']['table']);
+            $cellThird = $table->addCell(
+                $invoiceHeaderCellWidthThird,[
+                ...$styles['tables']['invoice']['inn'],
+                ...$styles['tables']['invoice']['bottom']
+                ]
+            );
             $innerTable = $cellThird->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText("", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText("", $fonts['text']['small'], $paragraphStyle);
 
             // $cellFirst = $table->addCell($invoiceHeaderCellWidthFirst, $tableStyle['general']['table']);
             // $innerTableFirst  = $cellFirst->addTable($tableStyle['inner']['table']);
