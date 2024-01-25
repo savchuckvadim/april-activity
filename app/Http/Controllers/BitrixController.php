@@ -572,6 +572,7 @@ class BitrixController extends Controller
                 $data = [
                     'FILTER' => [
                         'DEADLINE' => $date,
+                        'RESPONSIBLE_ID' => $userId
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
@@ -579,7 +580,7 @@ class BitrixController extends Controller
                 ];
 
                 $response = Http::get($url, $data);
-                Log::info('GET DEAL', ['response' => $response]);
+
 
                 if (isset($response['result'])) {
                     if (isset($response['result']['tasks'])) {
@@ -590,7 +591,9 @@ class BitrixController extends Controller
                     return APIController::getError(
                         $response['error_description'],
                         [
-                            'response' => $response
+                            'response' => $response,
+                            'date' => $date,
+                            'data' => $data
 
                         ]
 
