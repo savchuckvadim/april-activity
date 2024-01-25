@@ -1946,7 +1946,7 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthSecond,
                 
             );
-            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText("Сч. №", $fonts['text']['small'], $paragraphStyle);
 
 
 
@@ -1968,7 +1968,7 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthThird,
                 $styles['tables']['invoice']['cell']
             );
-            $cell->addText("Сч. №", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText("40802810826000050639", $fonts['text']['small'], $paragraphStyle); //////
 
 
 
