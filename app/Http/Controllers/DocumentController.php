@@ -1888,7 +1888,7 @@ class DocumentController extends Controller
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                null,
+                ($invoiceHeaderCellWidthFirst - 2100),
                 $styles['tables']['invoice']['cell']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
