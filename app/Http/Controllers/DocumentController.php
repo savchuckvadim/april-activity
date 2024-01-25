@@ -301,17 +301,7 @@ class DocumentController extends Controller
 
 
                     ],
-                    'innFirst' =>  [
-
-                        'borderRightSize' => 7,
-                        'borderLeftSize' => 7,
-                        'borderColor' => '000000',
-                        'cellMargin' => 70,
-                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-
-
-
-                    ],
+                   
                     'inn' =>  [
 
                         'borderRightSize' => 7,
@@ -1876,14 +1866,15 @@ class DocumentController extends Controller
 
             $table->addRow($topTableHeight / 7.6);
             $cell = $table->addCell(
-                $invoiceHeaderCellWidthFirst
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['general']['table']
             );
             $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 200,
-                $styles['tables']['invoice']['innFirst']
+                $styles['tables']['invoice']['inn']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
