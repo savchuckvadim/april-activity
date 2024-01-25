@@ -570,7 +570,7 @@ class BitrixController extends Controller
             if ($hook) {
                 $url = $hook . $method;
                 $data = [
-                    // 'DEADLINE' => $date,
+                    'DEADLINE' => $date,
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
                     // 'GROUP_ID' => $date,
                 ];
