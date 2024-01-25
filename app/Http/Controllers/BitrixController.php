@@ -572,7 +572,7 @@ class BitrixController extends Controller
                 $data = [
                     'filter' => [
                         'DEADLINE' => $date,
-                        // 'RESPONSIBLE_ID' => $userId
+                        'RESPONSIBLE_ID' => $userId
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
