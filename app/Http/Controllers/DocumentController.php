@@ -273,7 +273,7 @@ class DocumentController extends Controller
                         'cellMarginRight' => 0,
                         'cellMarginBottom' => 0,
                         'cellMarginLeft' => 0,
-
+                        'cellSpacing' => 0
 
 
                     ],
@@ -295,12 +295,7 @@ class DocumentController extends Controller
 
                         // 'borderBottomSize' => 7,
                         // 'borderColor' => '000000',
-                        // 'cellMargin' => 30,
-                        'cellSpacing' => 0,
-                        'cellMarginTop' => 0,
-                        'cellMarginRight' => 0,
-                        'cellMarginBottom' => 0,
-                        'cellMarginLeft' => 10,
+                        'cellMargin' => 70,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -311,12 +306,7 @@ class DocumentController extends Controller
 
                         'borderRightSize' => 7,
                         'borderColor' => '000000',
-                        // 'cellMargin' => 30,
-                        'cellSpacing' => 0,
-                        'cellMarginTop' => 0,
-                        'cellMarginRight' => 0,
-                        'cellMarginBottom' => 0,
-                        'cellMarginLeft' => 10,
+                        'cellMargin' => 70,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -1877,7 +1867,7 @@ class DocumentController extends Controller
             $table->addRow($topTableHeight / 8);
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
-                $styles['tables']['general']['table']
+                $styles['tables']['invoice']['cell']
             );
             $innerTable = $cell->addTable(
                 $styles['tables']['invoice']['cell']
@@ -1914,9 +1904,7 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthSecond,
                 $styles['tables']['invoice']['inn']
             );
-            $innerTable = $cell->addTable(
-                $styles['tables']['invoice']['cell']
-            );
+            $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
@@ -1936,9 +1924,7 @@ class DocumentController extends Controller
             );
 
 
-            $innerTable = $cell->addTable(
-                $styles['tables']['invoice']['cell']
-            );
+            $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
