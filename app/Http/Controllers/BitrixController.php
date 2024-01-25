@@ -596,7 +596,7 @@ class BitrixController extends Controller
                     'filter' => [
                         '>DEADLINE' => $start,
                         '<DEADLINE' => $finish,
-                        // 'RESPONSIBLE_ID' => $userId
+                        'RESPONSIBLE_ID' => $userId
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
