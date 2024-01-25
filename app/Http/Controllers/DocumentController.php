@@ -1903,14 +1903,14 @@ class DocumentController extends Controller
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
 
-            $cell = $table->addCell(
-                $invoiceHeaderCellWidthSecond,
-                $styles['tables']['invoice']['empty']
-            );
-            $cell = $table->addCell(
-                $invoiceHeaderCellWidthThird,
-                $styles['tables']['invoice']['empty']
-            );
+            // $cell = $table->addCell(
+            //     $invoiceHeaderCellWidthSecond,
+            //     $styles['tables']['invoice']['empty']
+            // );
+            // $cell = $table->addCell(
+            //     $invoiceHeaderCellWidthThird,
+            //     $styles['tables']['invoice']['empty']
+            // );
             // $cell = $table->addCell(
             //     $invoiceHeaderCellWidthThird,
             //     $styles['tables']['general']['table']
