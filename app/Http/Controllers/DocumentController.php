@@ -1884,17 +1884,17 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 300,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['empty']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
                 1500,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['empty']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
                 300,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['empty']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
