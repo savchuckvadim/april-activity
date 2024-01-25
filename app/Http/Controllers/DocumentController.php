@@ -301,32 +301,12 @@ class DocumentController extends Controller
 
 
                     ],
-                    'innFirst' =>  [
-                        'borderLeftSize' => 7,
-                        'borderRightSize' => 7,
-                        'borderColor' => '000000',
-                        'cellMargin' => 70,
-                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-
-
-
-                    ],
+                   
                     'inn' =>  [
 
                         'borderRightSize' => 7,
                         'borderColor' => '000000',
                         'cellMargin' => 70,
-                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-
-
-
-                    ],
-                    'empty' =>  [
-
-                        'borderRightSize' => 7,
-                        'borderColor' => '000000',
-                        'cellMargin' => 0,
-                        // 'cellMargin' => 70,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
 
 
@@ -1886,28 +1866,28 @@ class DocumentController extends Controller
 
             $table->addRow($topTableHeight / 7.6);
             $cell = $table->addCell(
-                300,
-                $styles['tables']['invoice']['innFirst']
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['general']['table']
             );
-            // $innerTable = $cell->addTable();
-            // $innerTable->addRow();
+            $innerTable = $cell->addTable();
+            $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
-            // $cell = $innerTable->addCell(
-            //     300,
-            //     $styles['tables']['invoice']['empty']
-            // );
+            $cell = $innerTable->addCell(
+                300,
+                $styles['tables']['invoice']['inn']
+            );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
-            $cell = $table->addCell(
+            $cell = $innerTable->addCell(
                 1500,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
-            $cell = $table->addCell(
+            $cell = $innerTable->addCell(
                 300,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
-            $cell = $table->addCell(
+            $cell = $innerTable->addCell(
                 ($invoiceHeaderCellWidthFirst - 2100),
                 $styles['tables']['invoice']['cell']
             );
