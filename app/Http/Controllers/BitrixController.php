@@ -579,8 +579,10 @@ class BitrixController extends Controller
                 Log::info('GET DEAL', ['response' => $response]);
 
                 if (isset($response['result'])) {
+                    if (isset($response['result']['tasks'])) {
 
-                    $resultTasks = $response['result'];
+                        $resultTasks = $response['result']['tasks'];
+                    }
                 } else if (isset($response['error_description'])) {
                     return APIController::getError(
                         $response['error_description'],
