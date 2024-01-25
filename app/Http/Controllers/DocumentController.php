@@ -301,6 +301,17 @@ class DocumentController extends Controller
 
 
                     ],
+                    'innFirst' =>  [
+
+                        'borderRightSize' => 7,
+                        'borderLeftSize' => 7,
+                        'borderColor' => '000000',
+                        'cellMargin' => 70,
+                        // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+
+
+
+                    ],
                     'inn' =>  [
 
                         'borderRightSize' => 7,
@@ -1872,11 +1883,11 @@ class DocumentController extends Controller
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
                 200,
-                $styles['tables']['invoice']['inn']
+                $styles['tables']['invoice']['innFirst']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                1000,
+                1500,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
@@ -1886,7 +1897,7 @@ class DocumentController extends Controller
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
-                1000,
+                1500,
                 $styles['tables']['invoice']['inn']
             );
             $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
