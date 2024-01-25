@@ -1933,16 +1933,16 @@ class DocumentController extends Controller
 
 
 
-            $cell = $table->addCell(
+            $cell = $table->addCell( //outer cell
                 $invoiceHeaderCellWidthSecond,
                 $styles['tables']['invoice']['inn']
             );
-            $innerTable = $cell->addTable(
+            $innerTable = $cell->addTable(              //inner table
                 // $styles['tables']['invoice']['table']
             );
-            $innerTable->addRow($topTableHeight / 7.6);
+            $innerTable->addRow($topTableHeight / 7.6);       //inner table row
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
-            $cell = $innerTable->addCell(
+            $cell = $innerTable->addCell(                      //inner table cell
                 $invoiceHeaderCellWidthSecond,
                 
             );
@@ -1968,7 +1968,7 @@ class DocumentController extends Controller
                 $invoiceHeaderCellWidthThird,
                 $styles['tables']['invoice']['cell']
             );
-            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText("Сч. №", $fonts['text']['small'], $paragraphStyle);
 
 
 
