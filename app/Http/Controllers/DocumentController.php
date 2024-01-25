@@ -1916,7 +1916,7 @@ class DocumentController extends Controller
                 1500,
                 $styles['tables']['invoice']['inn']
             );
-            $cell->addText("ИНН", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText("262900156801", $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
                 300,
                 $styles['tables']['invoice']['inn']
@@ -1926,7 +1926,7 @@ class DocumentController extends Controller
                 ($invoiceHeaderCellWidthFirst - 2100),
                 $styles['tables']['invoice']['cell']
             );
-            $cell->addText("КПП", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
 
 
 
@@ -2002,7 +2002,7 @@ class DocumentController extends Controller
 
 
             //THREE ROW
-            $table->addRow($topTableHeight / 1.6);
+            $table->addRow($topTableHeight / 2);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $table->addCell($invoiceHeaderCellWidthFirst, $styles['tables']['general']['table']);
             $innerTable = $cell->addTable();
@@ -2020,14 +2020,23 @@ class DocumentController extends Controller
                     ...$styles['tables']['valign']['top']
                 ]
             );
-            $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText("ИП Савчук А.В.", $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow();
-            $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthFirst);
+            $innerCell2 = $innerTable->addCell(
+                $invoiceHeaderCellWidthFirst,
+                $styles['tables']['valign']['bottom']
+            );
             $innerCell2->addText("Банк получателя", $fonts['text']['small'], $paragraphStyle);
 
 
 
-            $cellSecond = $table->addCell($invoiceHeaderCellWidthSecond, $styles['tables']['invoice']['inn']);
+            $cellSecond = $table->addCell(
+                $invoiceHeaderCellWidthSecond,
+                [
+                    ...$styles['tables']['invoice']['inn'],
+                    ...$styles['tables']['invoice']['bottom']
+                ]
+            );
             $innerTable = $cellSecond->addTable();
             $innerTable->addRow($topTableHeight / 4);
             $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
@@ -2041,9 +2050,10 @@ class DocumentController extends Controller
 
 
             $cellThird = $table->addCell(
-                $invoiceHeaderCellWidthThird,[
-                ...$styles['tables']['invoice']['inn'],
-                ...$styles['tables']['invoice']['bottom']
+                $invoiceHeaderCellWidthThird,
+                [
+                    ...$styles['tables']['invoice']['inn'],
+                    ...$styles['tables']['invoice']['bottom']
                 ]
             );
             $innerTable = $cellThird->addTable();
