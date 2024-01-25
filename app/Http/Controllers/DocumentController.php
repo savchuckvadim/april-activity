@@ -219,7 +219,7 @@ class DocumentController extends Controller
 
                 'general' => [
                     'table' => [
-                        'borderSize' => 7,
+                        'borderSize' => 5,
                         'borderColor' => '000000',
                         // 'cellMargin' => 20,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -230,7 +230,7 @@ class DocumentController extends Controller
                     ],
                     'cell' => [
                         // 'valign' => 'center',
-                        'borderSize' => 7,
+                        'borderSize' => 5,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
                         'cellMarginTop' => 30,
                         'cellMarginRight' => 30,
@@ -264,7 +264,7 @@ class DocumentController extends Controller
                 'invoice' => [
                     'table' => [
 
-                        'borderSize' => 7,
+                        'borderSize' => 5,
                         'borderColor' => '000000',
                         'cellMargin' => 0,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -304,7 +304,7 @@ class DocumentController extends Controller
 
                     'inn' =>  [
 
-                        'borderRightSize' => 7,
+                        'borderRightSize' => 5,
                         'borderColor' => '000000',
                         'cellMargin' => 30,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -314,8 +314,8 @@ class DocumentController extends Controller
                     ],
                     'topleft' =>  [
 
-                        'borderTopSize' => 7,
-                        'borderLeftSize' => 7,
+                        'borderTopSize' => 5,
+                        'borderLeftSize' => 5,
                         'borderColor' => '000000',
                         'cellMargin' => 30,
                         // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
@@ -325,7 +325,7 @@ class DocumentController extends Controller
                     ],
                     'top' =>  [
 
-                        'borderTopSize' => 7,
+                        'borderTopSize' => 5,
 
                         'borderColor' => '000000',
                         'cellMargin' => 30,
@@ -336,7 +336,7 @@ class DocumentController extends Controller
                     ],
                     'bottom' =>  [
 
-                        'borderBottomSize' => 7,
+                        'borderBottomSize' => 5,
 
                         'borderColor' => '000000',
                         'cellMargin' => 30,
@@ -363,18 +363,18 @@ class DocumentController extends Controller
                 'border' => [
                     'top' => [
                         // 'borderSize' => 7,
-                        'borderTopSize' => 7,
+                        'borderTopSize' => 5,
                         'borderColor' => '000000',  // Цвет границы (чёрный)
                     ],
                     'bottom' => [
-                        'borderBottomSize' => 7,
+                        'borderBottomSize' => 5,
                         // 'invoice' => 7,
                     ],
                     'left' => [
-                        'borderLeft' => 7,
+                        'borderLeft' => 5,
                     ],
                     'right' => [
-                        'borderRight' => 7,
+                        'borderRight' => 5,
                     ],
                 ],
                 'alignment' => [
