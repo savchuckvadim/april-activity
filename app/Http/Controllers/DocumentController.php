@@ -301,7 +301,7 @@ class DocumentController extends Controller
 
 
                     ],
-
+                   
                     'inn' =>  [
 
                         'borderRightSize' => 7,
@@ -1867,14 +1867,9 @@ class DocumentController extends Controller
             $table->addRow($topTableHeight / 8);
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthFirst,
-                $styles['tables']['general']['cell']
+                $styles['tables']['general']['table']
             );
-            $innerTable = $cell->addTable(
-                [
-                    ...$styles['tables']['general']['row'],
-                    ...$styles['tables']['invoice']['inn']
-                ]
-            );
+            $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
@@ -1905,18 +1900,9 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthSecond,
-                [
-                    ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['invoice']['inn']
-                ]
-
+                $styles['tables']['invoice']['inn']
             );
-            $innerTable = $cell->addTable(
-                [
-                    ...$styles['tables']['general']['row'],
-                    ...$styles['tables']['invoice']['inn']
-                ]
-            );
+            $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
@@ -1932,19 +1918,11 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $invoiceHeaderCellWidthThird,
-                [
-                    ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['invoice']['inn']
-                ]
+                $styles['tables']['invoice']['inn']
             );
 
 
-            $innerTable = $cell->addTable(
-                [
-                    ...$styles['tables']['general']['cell'],
-                    ...$styles['tables']['invoice']['inn']
-                ]
-            );
+            $innerTable = $cell->addTable();
             $innerTable->addRow($topTableHeight / 7.6);
             // $table->addCell($invoiceHeaderCellWidthFirst,  $styles['tables']['general']['table']);
             $cell = $innerTable->addCell(
