@@ -165,7 +165,7 @@ class DocumentController extends Controller
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
-             
+
                 'align' => [
                     'left' => [
                         'alignment' => 'left',
@@ -176,7 +176,7 @@ class DocumentController extends Controller
 
                     ],
                     'center' => [
-                        'alignment' => 'center',
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
 
                     ]
 
@@ -2111,18 +2111,14 @@ class DocumentController extends Controller
         $marginLeft = $styles['page']['marginRight'];
         $contentWidth = ($fullWidth - $marginLeft - $marginRight);
 
-
-
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
         $section->addTextBreak(3);
-        $centerAlignmentStyle = [
-            'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-        ];
-        
-        // Задаем стиль для всей секции
-        $section->getStyle()->setSectionProperties($centerAlignmentStyle);
+
         $section->addText(
-            'Счет на оплату N __   от 01.01.01'
-    
+            'Счет на оплату N __   от 01.01.01',
+            $paragraphTitleStyle
+
         );
         $section->addTextBreak(2);
         $table = $section->addTable();
