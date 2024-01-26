@@ -558,14 +558,6 @@ class DocumentController extends Controller
         //Header
         $target = 'ganeral'; //or alternative
         $headerSection = $this->getHeader($section, $styles,  $providerRq);
-        $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
-
-        if (isset($alternative)) {
-            foreach ($alternative as $alternativeCell) {
-                $target = 'alternative';
-                $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
-            }
-        }
 
 
 
@@ -579,13 +571,27 @@ class DocumentController extends Controller
         $inHighlight = false;
 
 
-        // $letterSection = $this->getLetter($section, $styles,  $fields);
+        $letterSection = $this->getLetter($section, $styles,  $fields);
 
-        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-        // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
-        // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+
+
+
+        //invoices
+        $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
+
+        if (isset($alternative)) {
+            foreach ($alternative as $alternativeCell) {
+                $target = 'alternative';
+                $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
+            }
+        }
+
+
 
 
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
@@ -1027,7 +1033,7 @@ class DocumentController extends Controller
                         $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
                         $section->addTextBreak(3);
                         $totalSum = $allPrices['general'][0]['cells'];
-                        $textTotalSum = $this->getTotalSum($allPrices, true);
+                        $textTotalSum = $this->getTotalSum($allPrices['general'], true);
                         $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
                     }
                 }
@@ -1465,24 +1471,32 @@ class DocumentController extends Controller
         return $result;
     }
     protected function getTotalSum(
-        $allPrices,
+        $allPrices, //products general || [alternative[0]]
         $isString,
     ) {
-        $result = 0;
+
         $result = false;
-        $totalCells =  $allPrices['total'][0]['cells'];
-        foreach ($totalCells as $cell) {
-            if ($cell['code'] === 'prepaymentsum') {
-                $result = $cell['value'];
+        // $totalCells =  $allPrices['total'][0]['cells'];
+        $sum = 0;
+        foreach ($allPrices as $product) {
+            foreach ($product['cells'] as $cell) {
+                if ($cell['code'] === 'prepaymentsum') {
+                    $sum = $sum + $cell['value'];
+                }
             }
         }
-        if ($isString) {
-            $result = MoneySpeller::spell($result, MoneySpeller::RUBLE);
-            $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
-            $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
-            $text = $firstChar . $restOfText . ' без НДС';
-            $result = $text;
-        }
+        // foreach ($totalCells as $cell) {
+        //     if ($cell['code'] === 'prepaymentsum') {
+        //         $result = $cell['value'];
+        //     }
+        // }
+        // if ($isString) {
+        $result = MoneySpeller::spell($sum, MoneySpeller::RUBLE);
+        $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
+        $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+        $text = $firstChar . $restOfText . ' без НДС';
+        $result = $text;
+        // }
 
         return $result;
     }
