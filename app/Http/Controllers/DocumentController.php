@@ -2119,7 +2119,7 @@ class DocumentController extends Controller
         $myCompanyName = $providerRq['fullname'];
         $myInn = $providerRq['inn'];
         $myCompanyAdress = $providerRq['registredAdress'];
-
+        $myCompanyPhone = $providerRq['phone'];
 
         //recipient
         $companyName = '';
@@ -2200,7 +2200,7 @@ class DocumentController extends Controller
 
         if ($myInn) {
             $textrun->addText(
-                ', ИНН ' . $myInn,
+                ', ИНН: ' . $myInn,
                 $fonts['text']['normal'],
                 $paragraphs['general'],
                 $paragraphs['align']['left']
@@ -2209,14 +2209,21 @@ class DocumentController extends Controller
 
         if ($myCompanyAdress) {
             $textrun->addText(
-                ', ' . $myCompanyAdress,
+                ', адрес:' . $myCompanyAdress,
                 $fonts['text']['normal'],
                 $paragraphs['general'],
                 $paragraphs['align']['left']
             );
         }
-
-
+        
+        if ($myCompanyPhone) {
+            $textrun->addText(
+                ', телефон:' . $myCompanyPhone,
+                $fonts['text']['normal'],
+                $paragraphs['general'],
+                $paragraphs['align']['left']
+            );
+        }
 
 
 
