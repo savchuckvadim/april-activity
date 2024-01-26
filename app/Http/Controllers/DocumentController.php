@@ -494,8 +494,8 @@ class DocumentController extends Controller
 
         //price
         $price = $data['price'];
-
-
+        $general = $price['cells']['general'];
+        $alternative = $price['cells']['alternative'];
         //manager
         $manager = $data['manager'];
         //UF_DEPARTMENT
@@ -554,10 +554,10 @@ class DocumentController extends Controller
         //Header
         $target = 'ganeral'; //or alternative
         $headerSection = $this->getHeader($section, $styles,  $providerRq);
-        $invoice = $this->getInvoice($section, $styles, $price['general'], $providerRq, $recipient, $target);
+        $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
 
-        if (isset($price['alternative'])) {
-            foreach ($price['alternative'] as $alternativeCell) {
+        if (isset($alternative)) {
+            foreach ($alternative as $alternativeCell) {
                 $target = 'alternative';
                 $headerSection = $this->getHeader($section, $styles,  $providerRq);
                 $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
@@ -2372,13 +2372,12 @@ class DocumentController extends Controller
                     }
                 }
             }
-           
-                $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
-                $section->addTextBreak(3);
-               
-                $textTotalSum = $this->getTotalSum($price, true);
-                $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-            
+
+            $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+            $section->addTextBreak(3);
+
+            $textTotalSum = $this->getTotalSum($price, true);
+            $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
         }
 
         return $section;
