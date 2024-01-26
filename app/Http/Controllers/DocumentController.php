@@ -41,7 +41,7 @@ class DocumentController extends Controller
 
         $baseCellMargin = 30;
         $baseCellMarginSmall = 10;
-      
+
         $baseBorderSize = 4;
 
 
@@ -490,6 +490,10 @@ class DocumentController extends Controller
         $complect = $data['complect'];
 
 
+        //price
+        $price = $data['price'];
+
+
         //manager
         $manager = $data['manager'];
         //UF_DEPARTMENT
@@ -498,6 +502,7 @@ class DocumentController extends Controller
 
         //fields
         $fields = $data['template']['fields'];
+        $recipient = $data['recipient'];
 
 
         //letter
@@ -546,7 +551,7 @@ class DocumentController extends Controller
 
         //Header
         $headerSection = $this->getHeader($section, $styles,  $providerRq);
-
+        $invoice = $this->getInvoice($section, $styles, $price, $providerRq, $recipient);
 
 
 
@@ -565,7 +570,6 @@ class DocumentController extends Controller
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
-        $invoice = $this->getInvoice($section, $styles, $data['price'], $providerRq);
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
@@ -1742,7 +1746,19 @@ class DocumentController extends Controller
 
         return $section;
     }
-    protected function getInvoiceTopTable($section, $styles, $price, $providerRq)
+
+
+    //INVOICE
+
+    protected function getInvoice($section, $styles, $price, $providerRq, $recipient)
+    {
+        $section = $this->getITopTable($section, $styles, $price, $providerRq);
+        return $section;
+    }
+
+
+
+    protected function getITopTable($section, $styles, $price, $providerRq)
     {
         try {
             //STYLES
@@ -2068,7 +2084,7 @@ class DocumentController extends Controller
             $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
             $innerCell2->addText("", $fonts['text']['small'], $paragraphStyle);
 
-           
+
 
             return $section;
         } catch (\Throwable $th) {
@@ -2080,8 +2096,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInvoiceMain($section, $styles, $providerRq, $recipient)
+    protected function getIMain($section, $styles, $providerRq, $recipient)
     {
-
     }
 }
