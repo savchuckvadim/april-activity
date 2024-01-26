@@ -2118,9 +2118,9 @@ class DocumentController extends Controller
             'Счет на оплату N __   от 01.01.01',
 
             [
-                ...$fonts['h1'],
-                ...$paragraphs['general'],
-                ...$paragraphs['align']['center']
+                // ...$fonts['h1'],
+                // ...$paragraphs['general'],
+                ...$paragraphs['align']['right']
             ]
 
 
