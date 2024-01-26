@@ -2288,9 +2288,7 @@ class DocumentController extends Controller
     {
 
         //data
-        //SORT CELLS
-        $sortActivePrices = $this->getSortActivePrices([$price]);
-        $allPrices =  $sortActivePrices;
+
 
 
         // $section->addPageBreak();
@@ -2324,18 +2322,7 @@ class DocumentController extends Controller
         $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
 
 
-        // $comePrices = $price['cells'];
-
-        //SORT CELLS
-        // $sortActivePrices = $this->getSortActivePrices($comePrices);
-        // log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
-        // $allPrices =  $sortActivePrices;
-
-
-        // //IS WITH TOTAL 
-        // $withTotal = $this->getWithTotal($allPrices);
-
-        //TABLE
+     
 
 
 
