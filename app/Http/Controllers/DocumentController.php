@@ -563,7 +563,6 @@ class DocumentController extends Controller
         if (isset($alternative)) {
             foreach ($alternative as $alternativeCell) {
                 $target = 'alternative';
-                $headerSection = $this->getHeader($section, $styles,  $providerRq);
                 $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
             }
         }
