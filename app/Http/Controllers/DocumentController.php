@@ -2103,6 +2103,45 @@ class DocumentController extends Controller
 
     protected function getInvoiceMain($section, $styles, $providerRq, $recipient)
     {
+
+        //data
+        // code: "recipient"
+        // companyAdress: ""
+        // companyName: ""
+        // inn: ""
+        // position: ""
+        // positionCase: ""
+        // recipient: ""
+        // recipientCase: ""
+        // type: ""
+
+        //provider rq
+        $myCompanyName = $providerRq['fullname'];
+        $myInn = $providerRq['inn'];
+        $myCompanyAdress = $providerRq['registredAdress'];
+
+
+        //recipient
+        $companyName = '';
+        $inn = '';
+        $companyAdress = '';
+        $isRecipientHave = false;
+        foreach ($recipient as $key => $value) {
+            if ($key == 'companyName') {
+                $companyName = $value;
+                $isRecipientHave = true;
+            }
+            if ($key == 'inn') {
+                $inn = $value;
+            }
+            if ($key == 'companyAdress') {
+                $companyAdress = $value;
+            }
+        }
+
+
+
+        //styles
         $fonts = $styles['fonts'];
         $paragraphs = $styles['paragraphs'];
         $tableStyle = $styles['tables'];
@@ -2142,27 +2181,91 @@ class DocumentController extends Controller
             $tableStyle['inner']['cell'],
 
         );
-        $innerCell->addText(
-            'Поставщик:',
+        $textrun = $innerCell->addTextRun();
+
+        $textrun->addText(
+            'Поставщик: ',
             $fonts['text']['bold'],
             $paragraphs['general'],
             $paragraphs['align']['left']
         );
+
+        if ($myCompanyName) {
+            $textrun->addText(
+                $myCompanyName,
+                $fonts['text']['normal'],
+                $paragraphs['general'],
+                $paragraphs['align']['left']
+            );
+        }
+
+        if ($myInn) {
+            $textrun->addText(
+                ', ИНН ' . $myInn,
+                $fonts['text']['normal'],
+                $paragraphs['general'],
+                $paragraphs['align']['left']
+            );
+        }
+
+        if ($myCompanyAdress) {
+            $textrun->addText(
+                ', ' . $myCompanyAdress,
+                $fonts['text']['normal'],
+                $paragraphs['general'],
+                $paragraphs['align']['left']
+            );
+        }
+
+
+
 
 
         //Покупатель
+        if ($isRecipientHave) {
+            $innerTable->addRow();
+            $innerCell = $innerTable->addCell(
+                $contentWidth,
+                $tableStyle['inner']['cell'],
 
-        $innerTable->addRow();
-        $innerCell = $innerTable->addCell(
-            $contentWidth,
-            $tableStyle['inner']['cell'],
+            );
+            $textrun = $innerCell->addTextRun();
 
-        );
-        $innerCell->addText(
-            'Покупатель:',
-            $fonts['text']['bold'],
-            $paragraphs['general'],
-            $paragraphs['align']['left']
-        );
+
+
+            $textrun->addText(
+                'Покупатель: ',
+                $fonts['text']['bold'],
+                $paragraphs['general'],
+                $paragraphs['align']['left']
+            );
+
+            if ($companyName) {
+                $textrun->addText(
+                    $companyName,
+                    $fonts['text']['normal'],
+                    $paragraphs['general'],
+                    $paragraphs['align']['left']
+                );
+            }
+
+            if ($inn) {
+                $textrun->addText(
+                    ', ИНН ' . $inn,
+                    $fonts['text']['normal'],
+                    $paragraphs['general'],
+                    $paragraphs['align']['left']
+                );
+            }
+
+            if ($companyAdress) {
+                $textrun->addText(
+                    ', ' . $companyAdress,
+                    $fonts['text']['normal'],
+                    $paragraphs['general'],
+                    $paragraphs['align']['left']
+                );
+            }
+        }
     }
 }
