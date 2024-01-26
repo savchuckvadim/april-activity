@@ -2398,7 +2398,7 @@ class DocumentController extends Controller
             // }
             // }
 
-            $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+            // $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
             $section->addTextBreak(3);
 
             $textTotalSum = $this->getTotalSum($price, true);
