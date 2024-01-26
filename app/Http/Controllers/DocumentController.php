@@ -1783,8 +1783,14 @@ class DocumentController extends Controller
 
     //INVOICE
 
-    protected function getInvoice($section, $styles, $price, $providerRq, $recipient, $target)
-    {
+    protected function getInvoice(
+        $section,
+        $styles,
+        $price, //массив продуктов либо general либо alternetive в каждом массиве обхекты product  у каждого пproduct есть cells
+        $providerRq,
+        $recipient,
+        $target
+    ) {
         $section = $this->getInvoiceTopTable($section, $styles, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
         $section = $this->getInvoicePrice($section, $styles, $price, $target);
@@ -2303,8 +2309,12 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getInvoicePrice($section, $styles, $price, $target)
-    {
+    protected function getInvoicePrice(
+        $section,
+        $styles,
+        $price, //массив продуктов либо general либо alternetive в каждом массиве обхекты product  у каждого пproduct есть cells 
+        $target
+    ) {
 
         //data
 
@@ -2358,7 +2368,7 @@ class DocumentController extends Controller
             );
             $table = $section->addTable($fancyTableStyleName);
 
-            $table->addRow();
+            $table->addRow(400);
 
             $count = 0;
             //TABLE HEADER
@@ -2369,30 +2379,30 @@ class DocumentController extends Controller
             }
 
             //TABLE BODY
-            foreach ([$price] as $target) {
-                if ($target) {
-                    if (is_array($target) && !empty($target)) {
-                        foreach ($target as $product) {
+            // foreach ([$price] as $target) {
+            // if ($target) {
+            // if (is_array($target) && !empty($target)) {
+            foreach ($price as $product) {
 
-                            if ($product) {
-                                if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
-                                    $table->addRow(600);
-                                    foreach ($product['cells'] as $cell) {
+                if ($product) {
+                    if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
+                        $table->addRow(500);
+                        foreach ($product['cells'] as $cell) {
 
-                                        $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
-                                    }
-                                }
-                            }
+                            $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
                         }
                     }
                 }
             }
+            // }
+            // }
+            // }
 
-            // $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
-            // $section->addTextBreak(3);
+            $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+            $section->addTextBreak(3);
 
-            // $textTotalSum = $this->getTotalSum($price, true);
-            // $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $textTotalSum = $this->getTotalSum($price, true);
+            $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
         }
 
         return $section;
