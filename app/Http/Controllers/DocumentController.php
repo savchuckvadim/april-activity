@@ -2482,13 +2482,18 @@ class DocumentController extends Controller
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
-            $cell = $table->addCell($outerWidth, $outerCellStyle);
+            $cell = $table->addCell(
+                $outerWidth,
+                $outerCellStyle,
+                $tableStyle['valign']['center']
+            );
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell(
-                $innerWidth, $tableStyle['inner']['cell'],
-                $tableStyle['valign']['center']
-                )
+                $innerWidth,
+                $tableStyle['inner']['cell']
+               
+            )
                 ->addText($cellValue, $font, $textTableGroupTitleParagraph);
         }
         return $table;
