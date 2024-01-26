@@ -267,6 +267,8 @@ class DocumentController extends Controller
                             'valign' => 'center',
                         ]
                     ]
+
+
                 ],
                 'invoice' => [
                     'table' => [
@@ -1753,12 +1755,13 @@ class DocumentController extends Controller
     protected function getInvoice($section, $styles, $price, $providerRq, $recipient)
     {
         $section = $this->getITopTable($section, $styles, $price, $providerRq);
+        $section = $this->getInvoiceMain($section, $styles, $price, $providerRq);
         return $section;
     }
 
 
 
-    protected function getITopTable($section, $styles, $price, $providerRq)
+    protected function getInvoiceTopTable($section, $styles, $price, $providerRq)
     {
         try {
             //STYLES
@@ -1798,6 +1801,8 @@ class DocumentController extends Controller
             $allPrices =  $sortActivePrices;
 
 
+
+            $section->addTextBreake(1);
             //TABLE
 
 
@@ -2096,7 +2101,66 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getIMain($section, $styles, $providerRq, $recipient)
+    protected function getInvoiceMain($section, $styles, $providerRq, $recipient)
     {
+        $fonts = $styles['fonts'];
+        $paragraphs = $styles['paragraphs'];
+        $tableStyle = $styles['tables'];
+        $fullWidth = $styles['page']['pageSizeW'];
+        $marginRight = $styles['page']['marginLeft'];
+        $marginLeft = $styles['page']['marginRight'];
+        $contentWidth = ($fullWidth - $marginLeft - $marginRight);
+
+
+
+        $section->addTextBreake();
+        $section->addText(
+            'Счет на оплату N __   от 01.01.01',
+            $fonts['h1'],
+            $paragraphs['general'],
+            $paragraphs['align']['center']
+
+
+        );
+
+        $table = $section->addTable();
+        $table->addRow();
+        $cell = $table->addCell(
+            $contentWidth,
+            $tableStyle['general']['cell'],
+
+        );
+
+
+        //Поставщик
+        $innerTable = $cell->addTable();
+        $innerTable->addRow();
+        $innerCell = $table->addCell(
+            $contentWidth,
+            $tableStyle['inner']['cell'],
+
+        );
+        $innerCell->addText(
+            'Поставщик:',
+            $fonts['text']['bold'],
+            $paragraphs['general'],
+            $paragraphs['align']['left']
+        );
+
+
+        //Покупатель
+        $innerTable = $cell->addTable();
+        $innerTable->addRow();
+        $innerCell = $table->addCell(
+            $contentWidth,
+            $tableStyle['inner']['cell'],
+
+        );
+        $innerCell->addText(
+            'Покупатель:',
+            $fonts['text']['bold'],
+            $paragraphs['general'],
+            $paragraphs['align']['left']
+        );
     }
 }
