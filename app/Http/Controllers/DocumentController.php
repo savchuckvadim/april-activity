@@ -119,10 +119,21 @@ class DocumentController extends Controller
                         'bold' => true,
                         'size' => 10
                     ],
-                    'big' => [
+                    'spanBold' => [
+                        ...$generalFont,
+                        'bold' => true,
+                        'size' => 11,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+                    ],
+                    'span' => [
                         ...$generalFont,
                         'bold' => false,
-                        'size' => 12
+                        'size' => 11,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
                     ],
                     'oficial' => [
                         ...$generalFont,
@@ -177,7 +188,7 @@ class DocumentController extends Controller
 
                     ],
                     'right' => [
-                        'alignment' => 'right',
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
 
                     ],
                     'center' => [
@@ -2429,7 +2440,7 @@ class DocumentController extends Controller
             // }
 
             // $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
-            $section->addTextBreak(3);
+            $section->addTextBreak(1);
 
             $textTotalSum = $this->getTotalSum($price, true);
             $totalTextRun = $section->addTextRun();
