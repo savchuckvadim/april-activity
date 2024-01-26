@@ -2111,12 +2111,13 @@ class DocumentController extends Controller
         $marginLeft = $styles['page']['marginRight'];
         $contentWidth = ($fullWidth - $marginLeft - $marginRight);
 
-        $paragraphTitleStyle  = [...$paragraphs['head'], ...$fonts['h1'], ...$paragraphs['align']['center']];
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
         $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
         $section->addTextBreak(3);
 
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
+            $fonts['h1'],
             $paragraphTitleStyle
 
         );
