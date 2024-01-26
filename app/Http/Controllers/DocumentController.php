@@ -20,8 +20,8 @@ class DocumentController extends Controller
         $colors = [
             'general' => '000000',
 
-            'corporate' =>  '34c3f1',
-            'oficial' => '005fa8',
+            'corporate' =>  '6334F9',
+            'oficial' => '3311A2',
             'second' =>  '000000',
             'white' =>  'ffffff',
             'shadow' =>  'e5e5e5',
@@ -1852,7 +1852,7 @@ class DocumentController extends Controller
         //data
         // Стили для обычного и выделенного текста
         $section->addTextBreak(1);
-        $letterTextStyle = $styles['fonts']['text']['oficial'];
+        $letterTextStyle = $styles['fonts']['text']['span'];
         $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
         $fullWidth = $styles['page']['pageSizeW'];
         $marginRight = $section->getStyle()->getMarginRight();
