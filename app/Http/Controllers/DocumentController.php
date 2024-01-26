@@ -236,7 +236,7 @@ class DocumentController extends Controller
                         'cellMargin' =>  $baseCellMarginSmall, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                     ],
                     'cell' => [
-                        // 'valign' => 'center',
+                        'valign' => 'center',
                         'borderSize' => $baseBorderSize,
                         // 'borderColor' => '000000',  // Цвет границы (чёрный)
                         'cellMarginTop' => $baseCellMargin,
@@ -2484,15 +2484,17 @@ class DocumentController extends Controller
 
             $cell = $table->addCell(
                 $outerWidth,
-                $outerCellStyle,
-                $tableStyle['valign']['center']
+                [
+                    ...$outerCellStyle,
+                    ...$tableStyle['valign']['center']
+                ]
             );
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell(
                 $innerWidth,
                 $tableStyle['inner']['cell']
-               
+
             )
                 ->addText($cellValue, $font, $textTableGroupTitleParagraph);
         }
