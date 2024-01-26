@@ -150,7 +150,23 @@ class DocumentController extends Controller
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
 
-                    ]
+                    ],
+                    'big' => [
+                        ...$generalFont,
+                        'bold' => false,
+                        'size' => 12,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+                    ],
+                    'bigBold' => [
+                        ...$generalFont,
+                        'bold' => true,
+                        'size' => 12,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+                    ],
 
                 ],
                 'table' => [
@@ -2446,7 +2462,7 @@ class DocumentController extends Controller
             $totalTextRun = $section->addTextRun();
             $totalTextRun->addText(
                 'Итого: ',
-                $styles['fonts']['h3'],
+                $styles['fonts']['text']['spanBold'],
                 [
                     ...$styles['paragraphs']['head'],
                     ...$styles['paragraphs']['align']['right']
@@ -2455,7 +2471,7 @@ class DocumentController extends Controller
             );
             $totalTextRun->addText(
                 $textTotalSum,
-                $styles['fonts']['text']['big'],
+                $styles['fonts']['text']['span'],
                 [
                     ...$styles['paragraphs']['head'],
                     ...$styles['paragraphs']['align']['right']
