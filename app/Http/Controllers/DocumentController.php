@@ -2127,14 +2127,14 @@ class DocumentController extends Controller
         $companyAdress = '';
         $isRecipientHave = false;
         foreach ($recipient as $key => $value) {
-            if ($key == 'companyName') {
+            if ($key == 'companyName' && $value) {
                 $companyName = $value;
                 $isRecipientHave = true;
             }
-            if ($key == 'inn') {
+            if ($key == 'inn' && $value) {
                 $inn = $value;
             }
-            if ($key == 'companyAdress') {
+            if ($key == 'companyAdress' && $value) {
                 $companyAdress = $value;
             }
         }
