@@ -640,11 +640,18 @@ class DocumentController extends Controller
 
         //invoices
         $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
-
+        if ($withStamps) {
+            $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        }
+        $section->addPageBreak();
         if (isset($alternative)) {
             foreach ($alternative as $alternativeCell) {
                 $target = 'alternative';
                 $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
+                if ($withStamps) {
+                    $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                }
+                $section->addPageBreak();
             }
         }
 
@@ -1851,8 +1858,7 @@ class DocumentController extends Controller
         $section = $this->getInvoiceTopTable($section, $styles, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
         $section = $this->getInvoicePrice($section, $styles, $price, $target);
-        $section = $this->getStamps($section, $styles, $providerRq);
-        $section->addPageBreak();
+
         return $section;
     }
 
@@ -2464,7 +2470,7 @@ class DocumentController extends Controller
             $totalTextRun->addText(
                 'Итого: ',
                 $styles['fonts']['text']['spanBold'],
-                
+
 
             );
             $totalTextRun->addText(
