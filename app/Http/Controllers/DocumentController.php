@@ -119,6 +119,11 @@ class DocumentController extends Controller
                         'bold' => true,
                         'size' => 10
                     ],
+                    'big' => [
+                        ...$generalFont,
+                        'bold' => false,
+                        'size' => 12
+                    ],
                     'oficial' => [
                         ...$generalFont,
                         'size' => 11,
@@ -2427,7 +2432,25 @@ class DocumentController extends Controller
             $section->addTextBreak(3);
 
             $textTotalSum = $this->getTotalSum($price, true);
-            $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            $totalTextRun = $section->addTextRun();
+            $totalTextRun->addText(
+                'Итого: ',
+                $styles['fonts']['h3'],
+                [
+                    ...$styles['paragraphs']['head'],
+                    ...$styles['paragraphs']['align']['right']
+                ]
+
+            );
+            $totalTextRun->addText(
+                $textTotalSum,
+                $styles['fonts']['text']['big'],
+                [
+                    ...$styles['paragraphs']['head'],
+                    ...$styles['paragraphs']['align']['right']
+                ]
+
+            );
         }
 
         return $section;
