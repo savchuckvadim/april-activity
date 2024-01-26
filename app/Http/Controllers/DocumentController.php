@@ -494,8 +494,12 @@ class DocumentController extends Controller
 
         //price
         $price = $data['price'];
-        $general = $price['cells']['general'];
-        $alternative = $price['cells']['alternative'];
+        $comePrices = $price['cells'];
+        //SORT CELLS
+        $sortActivePrices = $this->getSortActivePrices($comePrices);
+        $allPrices =  $sortActivePrices;
+        $general = $allPrices['general'];
+        $alternative = $allPrices['alternative'];
         //manager
         $manager = $data['manager'];
         //UF_DEPARTMENT
@@ -968,7 +972,6 @@ class DocumentController extends Controller
 
             //SORT CELLS
             $sortActivePrices = $this->getSortActivePrices($comePrices);
-            log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
             $allPrices =  $sortActivePrices;
 
 
@@ -2284,6 +2287,12 @@ class DocumentController extends Controller
     protected function getInvoicePrice($section, $styles, $price, $target)
     {
 
+        //data
+        //SORT CELLS
+        $sortActivePrices = $this->getSortActivePrices([$price]);
+        $allPrices =  $sortActivePrices;
+
+
         // $section->addPageBreak();
         $fonts = $styles['fonts'];
         $paragraphs = $styles['paragraphs'];
@@ -2349,7 +2358,7 @@ class DocumentController extends Controller
             //TABLE HEADER
             foreach ($price[0]['cells'] as $priceCell) {
 
-                $this->getPriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                $this->getInvoicePriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                 $count += 1;
             }
 
@@ -2364,7 +2373,7 @@ class DocumentController extends Controller
                                     $table->addRow();
                                     foreach ($product['cells'] as $cell) {
 
-                                        $this->getPriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                        $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
                                     }
                                 }
                             }
@@ -2381,5 +2390,159 @@ class DocumentController extends Controller
         }
 
         return $section;
+    }
+    protected function getInvoicePriceCell(
+        $isHeader,
+        $isTotal,
+        $table,
+        $styles,
+        $priceCell,
+        $contentWidth,
+        $isHaveLongPrepayment,
+        $allCellsCount,
+    ) {
+        $code = $priceCell['code'];
+
+        $longWidth = 2700;
+        $without = 1;
+        if ($isHaveLongPrepayment) {
+            $longWidth = 3300;
+            $without = 3;
+        }
+        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
+        $outerWidth =  $cellWidth;
+        $innerWidth = $outerWidth - 30;
+
+
+        $tableStyle = $styles['tables'];
+        $outerCellStyle = $tableStyle['general']['cell'];
+        $paragraphs = $tableStyle['general']['paragraphs'];
+        $fonts = $styles['fonts']['table'];
+        $textTableGroupTitleParagraph = $paragraphs['center'];
+
+        $tableHeaderFont = $fonts['h2'];
+        $tableBodyFont = $fonts['text'];
+
+
+        if ($code) {
+
+
+            switch ($code) {
+                case 'name':  //Наименование
+                    $textTableGroupTitleParagraph =  $paragraphs['left'];
+                    $outerWidth =  $cellWidth + 2700;
+                    $innerWidth = $outerWidth - 30;
+                    $tableBodyFont =  $fonts['h2'];
+                    break;
+                case 'quantity': //Количество
+                    if ($priceCell['name'] == 'Количество') {
+                        $outerWidth =  $cellWidth - 500;
+                        $innerWidth = $outerWidth - 30;
+                    } else {
+                        $outerWidth =  $cellWidth + 500;
+                        $innerWidth = $outerWidth - 30;
+                    }
+
+                case 'prepayment':  // При внесении предоплаты от
+                    // $outerWidth =  $cellWidth + 500;
+                    // $innerWidth = $outerWidth - 30;
+                    break;
+
+
+                case 'discountprecent': //Скидка, %
+                    // $outerWidth =  $cellWidth - 500;
+                    // $innerWidth = $outerWidth - 30;
+
+
+                    $outerWidth =  $cellWidth + 1000;
+                    $innerWidth = $outerWidth - 30;
+
+                case 'measure': //Единица
+                    $outerWidth =  $cellWidth - 500;
+                    $innerWidth = $outerWidth - 30;
+
+                case 'measureCode': //Кодовое обозначение единицы
+                case 'contract':
+                case 'supply':
+                case 'supplyOffer':
+
+                case 'discountamount': //Скидка в рублях
+                case 'current': //Цена
+                case 'currentmonth': //Цена в месяц
+                case 'default': //Цена по прайсу
+                case 'defaultmonth': //Цена по прайсу в месяц
+                case 'prepaymentsum':  // При внесении предоплаты от
+            }
+
+            $cellValue = $priceCell['value'];
+            $font  = $tableBodyFont;
+            if ($isHeader) {
+                $cellValue = $priceCell['name'];
+                $font  = $tableHeaderFont;
+            }
+
+            if ($isTotal) {
+                $outerCellStyle = $tableStyle['total']['cell'];
+                if ($code == 'name') {
+                    $cellValue = 'Итого';
+                    $font  =  $tableHeaderFont;
+                } else if ($code == 'prepaymentsum') {
+                    $cellValue = $priceCell['value'];
+                    $font  = $tableHeaderFont;
+                } else {
+                    $cellValue = '';
+                }
+            }
+
+            // $totalWidth =  $totalWidth + $outerWidth;
+
+            $cell = $table->addCell($outerWidth, $outerCellStyle);
+            $innerTable = $cell->addTable($tableStyle['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
+                ->addText($cellValue, $font, $textTableGroupTitleParagraph);
+        }
+        return $table;
+
+        // NAME = 'name',     
+        // PREPAYMENT = 'prepayment',
+        // QUANTITY = 'quantity',
+        // DEFAULT_QUANTITY = 'defaultquantity',
+        // CONTRACT_QUANTITY = 'contractquantity',
+        // DISCOUNT_PRECENT = 'discountprecent',
+        // DISCOUNT_AMOUNT = 'discountamount',
+        // DEFAULT = 'default',
+        // CURRENT = 'current',
+        // DEFAULT_MONTH = 'defaultmonth',
+        // CURRENT_MONTH = 'currentmonth',
+        // PREPAYMENT_SUM = 'prepaymentsum',
+        // QUANTITY_SUM = 'quantitysum',
+        // CONTRACT_SUM = 'contractsum',
+        // MEASURE = 'measure',
+        // MEASURE_CODE = 'measureCode',
+        // CONTRACT = 'contract',
+        // SUPPLY = 'supply',
+        // SUPPLY_FOR_OFFER = 'supplyForOffer',
+        // вычислить длину ячейки 100
+        // NAME = 'Наименование',
+        // QUANTITY = 'Количество',
+        // SUM = 'Сумма',
+        // DEFAULT_QUANTITY = 'Количество изначальное',
+        // DISCOUNT_PRECENT = 'Скидка, %',
+        // DISCOUNT_AMOUNT = 'Скидка в рублях',
+        // DEFAULT = 'Цена по прайсу',
+        // CURRENT = 'Цена',
+        // DEFAULT_MONTH = 'Цена по прайсу в месяц',
+        // CURRENT_MONTH = 'Цена в месяц',
+        // QUANTITY_SUM = 'Сумма Количество',
+        // CONTRACT_QUANTITY = 'При заключении договора от',
+        // PREPAYMENT_QUANTITY = 'При внесении предоплаты от',
+        // CONTRACT_SUM = 'Сумма за весь период обслуживания',
+        // PREPAYMENT_SUM = 'Сумма предоплаты',
+        // MEASURE = 'Единица',
+        // MEASURE_CODE = 'Кодовое обозначение единицы',
+        // CONTRACT = 'contract',
+        // SUPPLY = 'Количество доступов',
+        // SUPPLY_FOR_OFFER = 'Версия',
     }
 }
