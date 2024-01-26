@@ -2111,7 +2111,7 @@ class DocumentController extends Controller
         $marginLeft = $styles['page']['marginRight'];
         $contentWidth = ($fullWidth - $marginLeft - $marginRight);
 
-        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$fonts['h1'], ...$paragraphs['align']['center']];
         $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
         $section->addTextBreak(3);
 
