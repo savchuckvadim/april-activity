@@ -2113,13 +2113,20 @@ class DocumentController extends Controller
 
 
 
-        $section->addTextBreak(4);
-        $section->addText(
+        $section->addTextBreak(3);
+        $table = $section->addTable();
+        $table->addRow();
+        $cell = $table->addCell(
+            $contentWidth,
+            $tableStyle['general']['cell'],
+
+        );
+        $cell->addText(
             'Счет на оплату N __   от 01.01.01',
 
             [
                 // ...$fonts['h1'],
-                // ...$paragraphs['general'],
+                ...$paragraphs['head'],
                 ...$paragraphs['align']['right']
             ]
 
