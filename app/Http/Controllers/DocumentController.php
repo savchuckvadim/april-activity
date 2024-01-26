@@ -2119,7 +2119,7 @@ class DocumentController extends Controller
         ];
         
         // Задаем стиль для всей секции
-        $section->getStyle()->setParagraphProperties($centerAlignmentStyle);
+        $section->getStyle()->setSectionProperties($centerAlignmentStyle);
         $section->addText(
             'Счет на оплату N __   от 01.01.01'
     
