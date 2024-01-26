@@ -1754,7 +1754,7 @@ class DocumentController extends Controller
 
     protected function getInvoice($section, $styles, $price, $providerRq, $recipient)
     {
-        $section = $this->getITopTable($section, $styles, $price, $providerRq);
+        $section = $this->getInvoiceTopTable($section, $styles, $price, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $price, $providerRq);
         return $section;
     }
