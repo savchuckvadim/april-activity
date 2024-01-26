@@ -2118,14 +2118,9 @@ class DocumentController extends Controller
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
             [
-                'alignment' => 'center',
+                'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
             ]
-            // $paragraphs['head'],
-            // $fonts['h1'],
-            // $paragraphs['align']['right']
-
-
-
+    
         );
         $section->addTextBreak(2);
         $table = $section->addTable();
