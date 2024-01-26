@@ -2369,11 +2369,11 @@ class DocumentController extends Controller
                 }
             }
 
-            $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
-            $section->addTextBreak(3);
+            // $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+            // $section->addTextBreak(3);
 
-            $textTotalSum = $this->getTotalSum($price, true);
-            $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            // $textTotalSum = $this->getTotalSum($price, true);
+            // $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
         }
 
         return $section;
