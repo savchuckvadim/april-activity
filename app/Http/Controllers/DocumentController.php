@@ -2117,10 +2117,12 @@ class DocumentController extends Controller
 
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
-            
-            $paragraphs['head'],
-            $fonts['h1'],
-            $paragraphs['align']['right']
+            [
+                'alignment' => 'center',
+            ]
+            // $paragraphs['head'],
+            // $fonts['h1'],
+            // $paragraphs['align']['right']
 
 
 
