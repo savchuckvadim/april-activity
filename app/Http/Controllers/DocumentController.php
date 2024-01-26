@@ -2460,17 +2460,16 @@ class DocumentController extends Controller
             $section->addTextBreak(1);
 
             $textTotalSum = $this->getTotalSum($price, true);
-            $totalTextRun = $section->addTextRun();
+            $totalTextRun = $section->addTextRun($paragraphTotalStyle);
             $totalTextRun->addText(
                 'Итого: ',
                 $styles['fonts']['text']['spanBold'],
-                $paragraphTotalStyle
+                
 
             );
             $totalTextRun->addText(
                 $textTotalSum,
                 $styles['fonts']['text']['span'],
-                $paragraphTotalStyle
 
             );
         }
