@@ -513,6 +513,8 @@ class DocumentController extends Controller
 
         //letter
         $withLetter = false;
+
+
         foreach ($fields as $field) {
             if ($field && $field['code']) {
                 if (
@@ -526,7 +528,17 @@ class DocumentController extends Controller
             }
         }
 
-
+        //stamps
+        $withStamps = false;
+        if (count($providerRq['stamps'])) {
+            foreach ($providerRq['stamps'] as $stamp) {
+                if (isset($stamp['img'])) {
+                    if ($stamp['img']) {
+                        $withStamps = true;
+                    }
+                }
+            }
+        }
 
         // STYLES
         $styles = $this->documentStyle;
@@ -570,14 +582,27 @@ class DocumentController extends Controller
         // Переменная для отслеживания, находимся ли мы в выделенном блоке
         $inHighlight = false;
 
+        if ($withLetter) {
+            $letterSection = $this->getLetter($section, $styles,  $fields);
+            if ($withStamps) {
+                $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+            }
 
-        $letterSection = $this->getLetter($section, $styles,  $fields);
+            $section->addPageBreak();
+        }
 
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+        if ($withStamps) {
+            $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        }
+        $section->addPageBreak();
+
 
         $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        if ($withStamps) {
+            $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        }
+        $section->addPageBreak();
 
 
 
@@ -654,7 +679,7 @@ class DocumentController extends Controller
         $styleMode = $infoblocksOptions['style'];
 
         $section->addTextBreak(1);
-        $section->addText('Информационное наполнение', $fonts['h1']);
+        $section->addText('Информационное наполнение', $fonts['h2']);
         // $section->addTextBreak(1);
 
 
