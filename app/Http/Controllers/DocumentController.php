@@ -1565,12 +1565,12 @@ class DocumentController extends Controller
                     $sum = $sum + $cell['value'];
                 }
                 if ($cell['code'] === 'quantity' && $cell['value']) {
-                    $quantityMeasureString = $cell['value'] . ' ';
+                    $quantityMeasureString = $cell['value'];
                 }
                 if ($cell['code'] === 'measure' && $cell['value']) {
                     if ($cell['isActive']) {
 
-                        $quantityMeasureString = $quantityMeasureString + $cell['value'];
+                        $quantityMeasureString = $quantityMeasureString . '' . $cell['value'];
                     }
                 }
             }
@@ -1593,7 +1593,7 @@ class DocumentController extends Controller
             $totalTextRun = $section->addTextRun($paragraphStyle);
             $totalTextRun->addText(
                 'Итого: ',
-                $styles['fonts']['text']['oficial'],
+                $styles['fonts']['text']['spanBold'],
 
 
             );
@@ -1602,7 +1602,7 @@ class DocumentController extends Controller
                 $styles['fonts']['text']['span'],
 
             );
-       
+
             $totalTextRun->addText(
                 'за: ',
                 $styles['fonts']['text']['span'],
@@ -1610,7 +1610,7 @@ class DocumentController extends Controller
 
             $totalTextRun->addText(
                 $quantityMeasureString,
-                $styles['fonts']['text']['oficial'],
+                $styles['fonts']['text']['spanBold'],
 
             );
         } else {
