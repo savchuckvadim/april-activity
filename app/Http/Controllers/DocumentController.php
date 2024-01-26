@@ -1802,7 +1802,7 @@ class DocumentController extends Controller
 
 
 
-            $section->addTextBreak(2);
+            $section->addTextBreak(1);
             //TABLE
 
 
@@ -2113,7 +2113,7 @@ class DocumentController extends Controller
 
 
 
-        $section->addTextBreak(5);
+        $section->addTextBreak(4);
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
 
@@ -2125,7 +2125,7 @@ class DocumentController extends Controller
 
 
         );
-
+        $section->addTextBreak(2);
         $table = $section->addTable();
         $table->addRow();
         $cell = $table->addCell(
