@@ -1012,7 +1012,7 @@ class DocumentController extends Controller
 
                                     if ($product) {
                                         if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
-                                            $table->addRow();
+                                            $table->addRow(600);
                                             foreach ($product['cells'] as $cell) {
 
                                                 $this->getPriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
@@ -1306,7 +1306,13 @@ class DocumentController extends Controller
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
-            $cell = $table->addCell($outerWidth, $outerCellStyle);
+            $cell = $table->addCell(
+                $outerWidth,
+                [
+                    ...$outerCellStyle,
+                    ...$tableStyle['valign']['center']
+                ]
+            );
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
@@ -2356,7 +2362,7 @@ class DocumentController extends Controller
 
                             if ($product) {
                                 if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
-                                    $table->addRow(1000);
+                                    $table->addRow(600);
                                     foreach ($product['cells'] as $cell) {
 
                                         $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
