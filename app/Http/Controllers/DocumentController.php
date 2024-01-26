@@ -165,13 +165,7 @@ class DocumentController extends Controller
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
-                'title' => [
-                    'valign' => 'center',
-                    'spaceAfter' => 1,    // Интервал после абзаца
-                    'spaceBefore' => 0,   // Интервал перед абзацем
-                    'lineHeight' => 1.5,  // Высота строки
-                    'alignment' => 'center',
-                ],
+             
                 'align' => [
                     'left' => [
                         'alignment' => 'left',
@@ -2120,15 +2114,14 @@ class DocumentController extends Controller
 
 
         $section->addTextBreak(3);
-      
+
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
+            
+            $paragraphs['head'],
+            $fonts['h1'],
+            $paragraphs['align']['right']
 
-            [
-                ...$fonts['h1'],
-                ...$paragraphs['title'],
-                // ...$paragraphs['align']['right']
-            ]
 
 
         );
