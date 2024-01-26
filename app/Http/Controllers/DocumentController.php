@@ -2354,7 +2354,7 @@ class DocumentController extends Controller
             }
 
             //TABLE BODY
-            foreach ($price as $target) {
+            foreach ([$price] as $target) {
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
