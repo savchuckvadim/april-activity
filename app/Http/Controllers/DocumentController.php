@@ -1769,7 +1769,7 @@ class DocumentController extends Controller
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
         $section = $this->getInvoicePrice($section, $styles, $price, $target);
         $section = $this->getStamps($section, $styles, $providerRq);
-
+        $section->addPageBreak();
         return $section;
     }
 
@@ -2321,7 +2321,7 @@ class DocumentController extends Controller
         $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
 
 
-     
+
 
 
 
