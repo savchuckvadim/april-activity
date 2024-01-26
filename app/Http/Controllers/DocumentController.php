@@ -552,8 +552,17 @@ class DocumentController extends Controller
         $section = $document->addSection($styles['page']);
 
         //Header
+        $target = 'ganeral'; //or alternative
         $headerSection = $this->getHeader($section, $styles,  $providerRq);
-        $invoice = $this->getInvoice($section, $styles, $price, $providerRq, $recipient);
+        $invoice = $this->getInvoice($section, $styles, $price['general'], $providerRq, $recipient, $target);
+
+        if (isset($price['alternative'])) {
+            foreach ($price['alternative'] as $alternativeCell) {
+                $target = 'alternative';
+                $headerSection = $this->getHeader($section, $styles,  $providerRq);
+                $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
+            }
+        }
 
 
 
@@ -1752,19 +1761,19 @@ class DocumentController extends Controller
 
     //INVOICE
 
-    protected function getInvoice($section, $styles, $price, $providerRq, $recipient)
+    protected function getInvoice($section, $styles, $price, $providerRq, $recipient, $target)
     {
-        $section = $this->getInvoiceTopTable($section, $styles, $price, $providerRq);
+        $section = $this->getInvoiceTopTable($section, $styles, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
-        $section = $this->getInvoicePrice($section, $styles, $price);
+        $section = $this->getInvoicePrice($section, $styles, $price, $target);
         $section = $this->getStamps($section, $styles, $providerRq);
-        
+
         return $section;
     }
 
 
 
-    protected function getInvoiceTopTable($section, $styles, $price, $providerRq)
+    protected function getInvoiceTopTable($section, $styles, $providerRq)
     {
         try {
             //STYLES
@@ -1775,9 +1784,6 @@ class DocumentController extends Controller
 
             //SIZES
             //ТАБЛИЦА ЦЕН
-
-            // $cells = [];
-            // $isTable = $price['isTable'];
 
 
             $fullWidth = $styles['page']['pageSizeW'];
@@ -1799,9 +1805,9 @@ class DocumentController extends Controller
 
             $topTableHeight = 2000;
             //SORT CELLS
-            $comePrices = $price['cells'];
-            $sortActivePrices = $this->getSortActivePrices($comePrices);
-            $allPrices =  $sortActivePrices;
+            // $comePrices = $price['cells'];
+            // $sortActivePrices = $this->getSortActivePrices($comePrices);
+            // $allPrices =  $sortActivePrices;
 
 
 
@@ -2275,7 +2281,7 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getInvoicePrice($section, $styles, $price)
+    protected function getInvoicePrice($section, $styles, $price, $target)
     {
 
         // $section->addPageBreak();
@@ -2286,7 +2292,7 @@ class DocumentController extends Controller
         $textStyle = $fonts['text']['normal'];
         $titleStyle = $fonts['text']['bold'];
         //ТАБЛИЦА ЦЕН
-        $isHaveLongPrepayment = $this->getIsHaveLongPrepayment($price['cells']);
+        $isHaveLongPrepayment = false;
 
 
 
@@ -2309,23 +2315,23 @@ class DocumentController extends Controller
         $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
 
 
-        $comePrices = $price['cells'];
+        // $comePrices = $price['cells'];
 
         //SORT CELLS
-        $sortActivePrices = $this->getSortActivePrices($comePrices);
-        log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
-        $allPrices =  $sortActivePrices;
+        // $sortActivePrices = $this->getSortActivePrices($comePrices);
+        // log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
+        // $allPrices =  $sortActivePrices;
 
 
-        //IS WITH TOTAL 
-        $withTotal = $this->getWithTotal($allPrices);
+        // //IS WITH TOTAL 
+        // $withTotal = $this->getWithTotal($allPrices);
 
         //TABLE
 
 
 
-        if ($allPrices['general'][0]) {
-            $numCells = count($allPrices['general'][0]['cells']); // Количество столбцов
+        if ($price[0]) {
+            $numCells = count($price[0]['cells']); // Количество столбцов
 
 
             $fancyTableStyleName = 'TableStyle';
@@ -2341,14 +2347,14 @@ class DocumentController extends Controller
 
             $count = 0;
             //TABLE HEADER
-            foreach ($allPrices['general'][0]['cells'] as $priceCell) {
+            foreach ($price[0]['cells'] as $priceCell) {
 
                 $this->getPriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
                 $count += 1;
             }
 
             //TABLE BODY
-            foreach ([$allPrices['general'], $allPrices['alternative']] as $target) {
+            foreach ([$price] as $target) {
                 if ($target) {
                     if (is_array($target) && !empty($target)) {
                         foreach ($target as $product) {
@@ -2366,13 +2372,13 @@ class DocumentController extends Controller
                     }
                 }
             }
-            if ($withTotal) {
-                $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+           
+                $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
                 $section->addTextBreak(3);
-                $totalSum = $allPrices['general'][0]['cells'];
-                $textTotalSum = $this->getTotalSum($allPrices, true);
+               
+                $textTotalSum = $this->getTotalSum($price, true);
                 $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-            }
+            
         }
 
         return $section;
