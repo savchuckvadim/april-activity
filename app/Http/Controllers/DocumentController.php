@@ -2132,8 +2132,10 @@ class DocumentController extends Controller
         );
 
 
-        //Поставщик
+    
         $innerTable = $cell->addTable();
+
+            //Поставщик
         $innerTable->addRow();
         $innerCell = $table->addCell(
             $contentWidth,
@@ -2149,7 +2151,7 @@ class DocumentController extends Controller
 
 
         //Покупатель
-        $innerTable = $cell->addTable();
+
         $innerTable->addRow();
         $innerCell = $table->addCell(
             $contentWidth,
