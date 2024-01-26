@@ -2165,7 +2165,6 @@ class DocumentController extends Controller
         $table->addRow();
         $cell = $table->addCell(
             $contentWidth,
-            $tableStyle['general']['table'],
             $tableStyle['general']['cell'],
 
         );
