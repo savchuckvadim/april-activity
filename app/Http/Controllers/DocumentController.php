@@ -2356,7 +2356,7 @@ class DocumentController extends Controller
 
                             if ($product) {
                                 if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
-                                    $table->addRow();
+                                    $table->addRow(1000);
                                     foreach ($product['cells'] as $cell) {
 
                                         $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
