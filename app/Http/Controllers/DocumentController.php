@@ -572,8 +572,8 @@ class DocumentController extends Controller
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
         // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
-        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+        // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+        // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
 
         // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
@@ -2215,7 +2215,7 @@ class DocumentController extends Controller
                 $paragraphs['align']['left']
             );
         }
-        
+
         if ($myCompanyPhone) {
             $textrun->addText(
                 ', телефон:' . $myCompanyPhone,
@@ -2273,5 +2273,111 @@ class DocumentController extends Controller
                 );
             }
         }
+    }
+
+    protected function getInvoicePrice($section, $styles, $price)
+    {
+
+        // $section->addPageBreak();
+        $fonts = $styles['fonts'];
+        $paragraphs = $styles['paragraphs'];
+        $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $textStyle = $fonts['text']['normal'];
+        $titleStyle = $fonts['text']['bold'];
+        //ТАБЛИЦА ЦЕН
+        $isHaveLongPrepayment = $this->getIsHaveLongPrepayment($price['cells']);
+
+
+        // $cells = [];
+        $isTable = $price['isTable'];
+
+
+        $section->addTextBreak(1);
+        $section->addText(
+            'Стоимость',
+            $fonts['h1'],
+            $paragraphTitleStyle
+        );
+
+        $fancyTableStyleName = 'DocumentPrice';
+
+
+        $fullWidth = $styles['page']['pageSizeW'];
+        $marginRight = $section->getStyle()->getMarginRight();
+        $marginLeft = $section->getStyle()->getMarginLeft();
+        $contentWidth = $fullWidth - $marginLeft - $marginRight;
+
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $paragraphTextStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
+
+
+        $comePrices = $price['cells'];
+
+        //SORT CELLS
+        $sortActivePrices = $this->getSortActivePrices($comePrices);
+        log::info('sortActivePrices', ['$sortActivePrices' => $sortActivePrices['general'][0]['cells']]);
+        $allPrices =  $sortActivePrices;
+
+
+        //IS WITH TOTAL 
+        $withTotal = $this->getWithTotal($allPrices);
+
+        //TABLE
+
+
+
+        if ($allPrices['general'][0]) {
+            $numCells = count($allPrices['general'][0]['cells']); // Количество столбцов
+
+
+            $fancyTableStyleName = 'TableStyle';
+
+            $section->addTableStyle(
+                $fancyTableStyleName,
+                $styles['tables']['general']['table'],
+                $styles['tables']['general']['row']
+            );
+            $table = $section->addTable($fancyTableStyleName);
+
+            $table->addRow();
+
+            $count = 0;
+            //TABLE HEADER
+            foreach ($allPrices['general'][0]['cells'] as $priceCell) {
+
+                $this->getPriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                $count += 1;
+            }
+
+            //TABLE BODY
+            foreach ([$allPrices['general'], $allPrices['alternative']] as $target) {
+                if ($target) {
+                    if (is_array($target) && !empty($target)) {
+                        foreach ($target as $product) {
+
+                            if ($product) {
+                                if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
+                                    $table->addRow();
+                                    foreach ($product['cells'] as $cell) {
+
+                                        $this->getPriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if ($withTotal) {
+                $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+                $section->addTextBreak(3);
+                $totalSum = $allPrices['general'][0]['cells'];
+                $textTotalSum = $this->getTotalSum($allPrices, true);
+                $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            }
+        }
+
+        return $section;
     }
 }
