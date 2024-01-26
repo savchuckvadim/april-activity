@@ -2382,6 +2382,7 @@ class DocumentController extends Controller
         $paragraphs = $styles['paragraphs'];
         $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
         $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $paragraphTotalStyle  = [...$paragraphs['head'], ...$paragraphs['align']['right']];
         $textStyle = $fonts['text']['normal'];
         $titleStyle = $fonts['text']['bold'];
         //ТАБЛИЦА ЦЕН
@@ -2390,11 +2391,11 @@ class DocumentController extends Controller
 
 
         $section->addTextBreak(1);
-        $section->addText(
-            'Стоимость',
-            $fonts['h1'],
-            $paragraphTitleStyle
-        );
+        // $section->addText(
+        //     'Стоимость',
+        //     $fonts['h1'],
+        //     $paragraphTitleStyle
+        // );
 
         $fancyTableStyleName = 'DocumentPrice';
 
@@ -2463,19 +2464,13 @@ class DocumentController extends Controller
             $totalTextRun->addText(
                 'Итого: ',
                 $styles['fonts']['text']['spanBold'],
-                [
-                    ...$styles['paragraphs']['head'],
-                    ...$styles['paragraphs']['align']['right']
-                ]
+                $paragraphTotalStyle
 
             );
             $totalTextRun->addText(
                 $textTotalSum,
                 $styles['fonts']['text']['span'],
-                [
-                    ...$styles['paragraphs']['head'],
-                    ...$styles['paragraphs']['align']['right']
-                ]
+                $paragraphTotalStyle
 
             );
         }
