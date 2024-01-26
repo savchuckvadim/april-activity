@@ -1802,7 +1802,7 @@ class DocumentController extends Controller
 
 
 
-            $section->addTextBreake(1);
+            $section->addTextBreake(3);
             //TABLE
 
 
@@ -2113,12 +2113,15 @@ class DocumentController extends Controller
 
 
 
-        $section->addTextBreake(1);
+        $section->addTextBreake(5);
         $section->addText(
             'Счет на оплату N __   от 01.01.01',
-            $fonts['h1'],
-            $paragraphs['general'],
-            $paragraphs['align']['center']
+
+            [
+                ...$fonts['h1'],
+                ...$paragraphs['general'],
+                ...$paragraphs['align']['center']
+            ]
 
 
         );
@@ -2133,10 +2136,10 @@ class DocumentController extends Controller
         );
 
 
-    
+
         $innerTable = $cell->addTable();
 
-            //Поставщик
+        //Поставщик
         $innerTable->addRow();
         $innerCell = $innerTable->addCell(
             $contentWidth,
