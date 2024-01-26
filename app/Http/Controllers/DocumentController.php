@@ -21,6 +21,7 @@ class DocumentController extends Controller
             'general' => '000000',
 
             'corporate' =>  '34c3f1',
+            'oficial' => '005fa8',
             'second' =>  '000000',
             'white' =>  'ffffff',
             'shadow' =>  'e5e5e5',
@@ -36,6 +37,11 @@ class DocumentController extends Controller
         $corporateFont = [
             'name' => 'Arial',
             'color' => $colors['corporate'],
+            'lang' => 'ru-RU',
+        ];
+        $oficialFont = [
+            'name' => 'Arial',
+            'color' => $colors['oficial'],
             'lang' => 'ru-RU',
         ];
 
@@ -136,7 +142,7 @@ class DocumentController extends Controller
                         'lineHeight' => 1.5,  // Высота строки
                     ],
                     'oficial' => [
-                        ...$generalFont,
+                        ...$oficialFont,
                         'size' => 11,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
@@ -1093,13 +1099,6 @@ class DocumentController extends Controller
                             }
                         }
                     }
-                    if ($withTotal) {
-                        $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
-                        $section->addTextBreak(3);
-                        $totalSum = $allPrices['general'][0]['cells'];
-                        $textTotalSum = $this->getTotalSum($allPrices['general'], true);
-                        $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
-                    }
                 }
             } else {
 
@@ -1261,6 +1260,16 @@ class DocumentController extends Controller
                     }
                 }
             }
+
+            if ($withTotal) {
+                $this->getTotalPriceRow($allPrices, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
+                $section->addTextBreak(3);
+                // $totalSum = $allPrices['general'][0]['cells'];
+                $textTotalSum = $this->getTotalSum($section, $styles, 'offer', $allPrices['general'], true);
+                // $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
+            }
+
+
             return $section;
         } catch (\Throwable $th) {
             return [
@@ -1535,34 +1544,91 @@ class DocumentController extends Controller
         return $result;
     }
     protected function getTotalSum(
+        $section,
+        $styles,
+        $documentType, // offer | invoice
         $allPrices, //products general || [alternative[0]]
         $isString,
     ) {
-
+        $fonts = $styles['fonts'];
+        $paragraphs = $styles['paragraphs'];
+        $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
+        $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+        $paragraphTotalRight  = [...$paragraphs['head'], ...$paragraphs['align']['right']];
         $result = false;
         // $totalCells =  $allPrices['total'][0]['cells'];
         $sum = 0;
+        $quantityMeasureString = '';
         foreach ($allPrices as $product) {
             foreach ($product['cells'] as $cell) {
                 if ($cell['code'] === 'prepaymentsum') {
                     $sum = $sum + $cell['value'];
                 }
+                if ($cell['code'] === 'quantity' && $cell['value']) {
+                    $quantityMeasureString = $cell['value'] . ' ';
+                }
+                if ($cell['code'] === 'measure' && $cell['value']) {
+                    if ($cell['isActive']) {
+
+                        $quantityMeasureString = $quantityMeasureString + $cell['value'];
+                    }
+                }
             }
         }
-        // foreach ($totalCells as $cell) {
-        //     if ($cell['code'] === 'prepaymentsum') {
-        //         $result = $cell['value'];
-        //     }
-        // }
-        // if ($isString) {
+
         $result = MoneySpeller::spell($sum, MoneySpeller::RUBLE);
         $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
         $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+
+
+
+
+
+
         $text = $firstChar . $restOfText . ' без НДС';
-        $result = $text;
+        $textTotalSum = $text;
         // }
 
-        return $result;
+        if ($documentType == 'offer') {
+            $totalTextRun = $section->addTextRun($paragraphStyle);
+            $totalTextRun->addText(
+                'Итого: ',
+                $styles['fonts']['text']['oficial'],
+
+
+            );
+            $totalTextRun->addText(
+                $textTotalSum,
+                $styles['fonts']['text']['span'],
+
+            );
+       
+            $totalTextRun->addText(
+                'за: ',
+                $styles['fonts']['text']['span'],
+            );
+
+            $totalTextRun->addText(
+                $quantityMeasureString,
+                $styles['fonts']['text']['oficial'],
+
+            );
+        } else {
+            $totalTextRun = $section->addTextRun($paragraphTotalRight);
+            $totalTextRun->addText(
+                'Итого: ',
+                $styles['fonts']['text']['spanBold'],
+
+
+            );
+            $totalTextRun->addText(
+                $textTotalSum,
+                $styles['fonts']['text']['span'],
+
+            );
+        }
+
+        return $section;
     }
 
     protected function getHeader($section, $styles, $providerRq)
@@ -2465,19 +2531,7 @@ class DocumentController extends Controller
             // $this->getTotalPriceRow($price, $table, $styles, $contentWidth, $isHaveLongPrepayment, $numCells);
             $section->addTextBreak(1);
 
-            $textTotalSum = $this->getTotalSum($price, true);
-            $totalTextRun = $section->addTextRun($paragraphTotalStyle);
-            $totalTextRun->addText(
-                'Итого: ',
-                $styles['fonts']['text']['spanBold'],
-
-
-            );
-            $totalTextRun->addText(
-                $textTotalSum,
-                $styles['fonts']['text']['span'],
-
-            );
+            $textTotalSum = $this->getTotalSum($section, $styles, 'invoice', $price, true);
         }
 
         return $section;
