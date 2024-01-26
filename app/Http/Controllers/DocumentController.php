@@ -2485,7 +2485,10 @@ class DocumentController extends Controller
             $cell = $table->addCell($outerWidth, $outerCellStyle);
             $innerTable = $cell->addTable($tableStyle['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerWidth, $tableStyle['inner']['cell'])
+            $innerTableCell = $innerTable->addCell(
+                $innerWidth, $tableStyle['inner']['cell'],
+                $tableStyle['valign']['center']
+                )
                 ->addText($cellValue, $font, $textTableGroupTitleParagraph);
         }
         return $table;
