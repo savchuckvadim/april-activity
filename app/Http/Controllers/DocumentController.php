@@ -1756,6 +1756,9 @@ class DocumentController extends Controller
     {
         $section = $this->getInvoiceTopTable($section, $styles, $price, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
+        $section = $this->getInvoicePrice($section, $styles, $price);
+        $section = $this->getStamps($section, $styles, $providerRq);
+        
         return $section;
     }
 
