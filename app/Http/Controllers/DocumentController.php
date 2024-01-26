@@ -2096,11 +2096,7 @@ class DocumentController extends Controller
 
             return $section;
         } catch (\Throwable $th) {
-            return [
-                'resultCode' => 1,
-                'result' => null,
-                'message' => $th->getMessage()
-            ];
+            return $section;
         }
     }
 
@@ -2276,6 +2272,7 @@ class DocumentController extends Controller
                 );
             }
         }
+        return $section;
     }
 
     protected function getInvoicePrice($section, $styles, $price)
@@ -2291,9 +2288,6 @@ class DocumentController extends Controller
         //ТАБЛИЦА ЦЕН
         $isHaveLongPrepayment = $this->getIsHaveLongPrepayment($price['cells']);
 
-
-        // $cells = [];
-        $isTable = $price['isTable'];
 
 
         $section->addTextBreak(1);
