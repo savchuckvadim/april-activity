@@ -2114,12 +2114,14 @@ class DocumentController extends Controller
 
 
         $section->addTextBreak(3);
-
+        $centerAlignmentStyle = [
+            'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+        ];
+        
+        // Задаем стиль для всей секции
+        $section->getStyle()->setParagraphProperties($centerAlignmentStyle);
         $section->addText(
-            'Счет на оплату N __   от 01.01.01',
-            [
-                'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-            ]
+            'Счет на оплату N __   от 01.01.01'
     
         );
         $section->addTextBreak(2);
