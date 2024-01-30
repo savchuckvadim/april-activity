@@ -1428,7 +1428,23 @@ class DocumentController extends Controller
                     $cellValue = '';
                 }
             }
+            if ($code == 'discountprecent') {
+                $cellValue = $priceCell['value'];
+                $variableFloat = floatval($cellValue);
 
+                // Выполняем расчет
+                $result = 100 - (100 * $variableFloat);
+
+                // Округляем до двух знаков после запятой
+                $cellValue = round($result, 2);
+            }
+            if ($code == 'quantity' || $code == 'prepayment') {
+                $cellValue = $priceCell['value'];
+                $variableFloat = floatval($cellValue);
+
+                // Округляем до двух знаков после запятой
+                $cellValue = round($variableFloat, 2);
+            }
             // $totalWidth =  $totalWidth + $outerWidth;
 
             $cell = $table->addCell(
@@ -2681,9 +2697,16 @@ class DocumentController extends Controller
             $count = 0;
             //TABLE HEADER
             foreach ($price[0]['cells'] as $priceCell) {
-
-                $this->getInvoicePriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
-                $count += 1;
+                if (
+                    $priceCell['code'] !== 'default' &&
+                    $priceCell['code'] !== 'default_month' &&
+                    $priceCell['code'] !== 'discount' &&
+                    $priceCell['code'] !== 'discountprecent' &&
+                    $priceCell['code'] !== 'discount_amount'
+                ) {
+                    $this->getInvoicePriceCell(true, false, $table, $styles, $priceCell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                    $count += 1;
+                }
             }
 
             //TABLE BODY
@@ -2696,8 +2719,15 @@ class DocumentController extends Controller
                     if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
                         $table->addRow(600);
                         foreach ($product['cells'] as $cell) {
-
-                            $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                            if (
+                                $priceCell['code'] !== 'default' &&
+                                $priceCell['code'] !== 'default_month' &&
+                                $priceCell['code'] !== 'discount' &&
+                                $priceCell['code'] !== 'discountprecent' &&
+                                $priceCell['code'] !== 'discount_amount'
+                            ) {
+                                $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                            }
                         }
                     }
                 }
@@ -2825,6 +2855,15 @@ class DocumentController extends Controller
                 } else {
                     $cellValue = '';
                 }
+            }
+
+          
+            if ($code == 'quantity' || $code == 'prepayment') {
+                $cellValue = $priceCell['value'];
+                $variableFloat = floatval($cellValue);
+
+                // Округляем до двух знаков после запятой
+                $cellValue = round($variableFloat, 2);
             }
 
             // $totalWidth =  $totalWidth + $outerWidth;
