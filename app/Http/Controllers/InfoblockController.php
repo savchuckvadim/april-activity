@@ -143,6 +143,33 @@ class InfoblockController extends Controller
         try {
             if (isset($request['number'])) {
                 $block = $request->all();
+
+                $isLa = false;
+                $isFree = false;
+                $isShowing = false;
+                $isSet = false;
+
+                if(isset($request['isLa'])){
+                    if($request['isLa'] == 'true' || $request['isLa'] == '1'){
+                        $isLa = true;
+                    }
+                }
+                if(isset($request['isFree'])){
+                    if($request['isFree'] == 'true' || $request['isFree'] == '1'){
+                        $isFree = true;
+                    }
+                }
+                if(isset($request['isShowing'])){
+                    if($request['isShowing'] == 'true' || $request['isShowing'] == '1'){
+                        $isShowing = true;
+                    }
+                }
+                if(isset($request['isSet'])){
+                    if($request['isSet'] == 'true' || $request['isSet'] == '1'){
+                        $isSet = true;
+                    }
+                }
+
                 $data = [
                     'number' => $block['number'],
                     'name' => $block['name'],
@@ -154,10 +181,10 @@ class InfoblockController extends Controller
                     'code' => $block['code'],
                     'inGroupId' => $block['inGroupId'],
                     'groupId' => $block['groupId'],
-                    'isLa' => $block['isLa'],
-                    'isFree' => $block['isFree'],
-                    'isShowing' => $block['isShowing'],
-                    'isSet' => $block['isSet'],
+                    'isLa' => $isLa,
+                    'isFree' => $isFree,
+                    'isShowing' => $isShowing,
+                    'isSet' => $isSet,
                 ];
 
                 $infoblockNumber = $block['number'];
