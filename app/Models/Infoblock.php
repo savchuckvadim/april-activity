@@ -9,6 +9,22 @@ class Infoblock extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'number',
+        'name',
+        'code',
+        'title',
+        'description',
+        'descriptionForSale',
+        'shortDescription',
+        'weight',
+        'inGroupId',
+        'groupId',
+        'isLa',
+        'isFree',
+        'isShowing',
+        'isSet',
+    ];
 
     public static function getForm()
     {
