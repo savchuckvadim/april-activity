@@ -11,9 +11,9 @@ class InfoblockController extends Controller
     public static function getInfoblock($infoblockId)
     {
         try {
-    
+
             $infoblock = Infoblock::find($infoblockId);
-          
+
 
             if (!$infoblock) {
                 return response([
@@ -22,13 +22,12 @@ class InfoblockController extends Controller
                     'message' => 'infoblock not found'
                 ]);
             }
-    
+
             return APIController::getResponse(
                 0,
                 'success',
                 ['infoblock' => $infoblock]
             );
-    
         } catch (\Throwable $th) {
             return APIController::getResponse(
                 1,
@@ -89,7 +88,46 @@ class InfoblockController extends Controller
             'message' => $message
         ]);
     }
+    public static function updateInfoblock($infoblockId, Request $request)
+    {
 
+
+        try {
+            $infoblock = Infoblock::find($infoblockId);
+
+            if ($infoblock) {
+                $block = $request;
+                $data = [
+                    'number' => $block['number'],
+                    'name' => $block['name'],
+                    'title' => $block['title'],
+                    'description' => $block['description'],
+                    'descriptionForSale' => $block['descriptionForSale'],
+                    'shortDescription' => $block['shortDescription'],
+                    'weight' => $block['weight'],
+                    'code' => $block['code'],
+                    'inGroupId' => $block['inGroupId'],
+                    'groupId' => $block['groupId'],
+                    'isLa' => $block['isLa'],
+                    'isFree' => $block['isFree'],
+                    'isShowing' => $block['isShowing'],
+                    'isSet' => $block['isSet'],
+                ];
+
+
+                $infoblock->update($data);
+                return APIController::getSuccess(['infoblock' => $infoblock]);
+            } else {
+
+                return APIController::getError('infoblock was not found', ['infoblockId' => $infoblockId]);
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                'something wrong ' . $th->getMessage(),
+                ['infoblockId' => $infoblockId]
+            );
+        }
+    }
     public static function getInfoblocksDescription($parts)
     {
         $result = [];
