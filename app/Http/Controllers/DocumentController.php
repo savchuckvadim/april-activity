@@ -1762,7 +1762,7 @@ class DocumentController extends Controller
 
         $logo =  null;
         if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos'])) {
-            $logo =  $providerRq['logos'][1];
+            $logo =  $providerRq['logos'][0];
         }
         if ($logo) {
 
