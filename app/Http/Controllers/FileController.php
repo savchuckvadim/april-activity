@@ -215,7 +215,7 @@ class FileController extends Controller
                                     $fileModel->availability = $fieldData['availability'];
 
 
-                                    // $uid = Uuid::uuid4()->toString();
+                                    $uid = Uuid::uuid4()->toString();
                                     $code = $fieldData['code'];
                                     $fileModel->code = $code;
 
@@ -224,7 +224,7 @@ class FileController extends Controller
 
                                     $generalDirectoryPath = 'clients/' . $domain;
                                     $filePath = $fieldData['parent'] . '/' . $parentId . '/' . $fieldData['parent_type'];
-                                    $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code;
+                                    $fileName = $parentId . '_' . $fieldData['parent_type'] . '_' . $code . '_' . $uid;
 
                                     $uploadData = $this->uploadFile(
                                         $file,
@@ -289,33 +289,29 @@ class FileController extends Controller
                         'code' => $request['code'],
 
                     ];
-       
-   
+
+
                     $fileModel = File::find($entityId);
-                    if($fileModel){
+                    if ($fileModel) {
                         $fileModel->name = $fieldData['name'];
                         $fileModel->type = $fieldData['code'];
-    
-    
-    
+
+
+
                         $uid = Uuid::uuid4()->toString();
                         $code = $uid;
                         $fileModel->code = $code;
-    
+
                         $fileModel->save();
                         return APIController::getSuccess([
                             $entityType => $fileModel
                         ]);
-                    }else{
+                    } else {
                         return APIController::getError(
                             'file was not found',
-                            [$entityType.'Id' => $entityId]
+                            [$entityType . 'Id' => $entityId]
                         );
                     }
-              
-
-
-                  
             }
         }
     }
