@@ -1787,7 +1787,11 @@ class DocumentController extends Controller
 
         $cell = $stampsSection->addCell(
             $stampsWidth / 3,
-            $styles['tables']['inner']['cell'],
+            [
+                ...$styles['tables']['inner']['cell'],
+                ...$styles['tables']['valign']['center'],
+            ]
+
         );
 
         $stampsFirstString = $providerRq['position'] . ' ' . $providerRq['fullname'];
@@ -1805,7 +1809,10 @@ class DocumentController extends Controller
 
         $cell = $stampsSection->addCell(
             $stampsWidth / 3,
-            $styles['tables']['inner']['cell'],
+            [
+                ...$styles['tables']['inner']['cell'],
+                ...$styles['tables']['valign']['center'],
+            ]
         );
         if ($stamp) {
             $stampPath = storage_path('app/' . $stamp['path']);
@@ -1829,7 +1836,10 @@ class DocumentController extends Controller
         }
         $cell = $stampsSection->addCell(
             $stampsWidth / 3,
-            $styles['tables']['inner']['cell'],
+            [
+                ...$styles['tables']['inner']['cell'],
+                ...$styles['tables']['valign']['center'],
+            ]
         );
 
         $stampsSecondString = '';
