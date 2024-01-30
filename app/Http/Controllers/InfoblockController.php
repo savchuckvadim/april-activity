@@ -167,12 +167,12 @@ class InfoblockController extends Controller
                 );
                 return APIController::getSuccess(['infoblock' => $infoblock]);
             } else {
-                return APIController::getError('invalid number data', ['data' => $request]);
+                return APIController::getError('invalid number data', ['data' => $request->all()]);
             }
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['data' => $request]
+                ['data' => $request->all()]
             );
         }
     }
