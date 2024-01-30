@@ -471,12 +471,13 @@ class DocumentController extends Controller
             ],
             'header' => [
                 'logo' => [
-                    'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
+                    // 'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
                     'width' => 120,
 
                     'wrappingStyle' => 'behind'
                     // 'height' => 'auto',
-                ]
+                ],
+
             ],
             //'inline', 'behind', 'infront', 'square', 'tight'
             'stamp' => [
@@ -504,6 +505,38 @@ class DocumentController extends Controller
                 'wrappingStyle' => 'infront',
                 // 'marginLeft'       => 120,
                 // 'marginTop'        => 120,
+            ],
+
+            'alignment' => [
+                'center' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+                'start' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                ],
+                'end' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END,
+                ],
+
+
+            ],
+            'valign' => [
+                'center' =>
+                [
+                    'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+                'top' =>
+                [
+                    'valign' => 'top',
+                ],
+                'bottom' =>
+                [
+                    'valign' => 'bottom',
+                ],
+
             ]
 
 
@@ -1708,7 +1741,11 @@ class DocumentController extends Controller
                     // Добавление изображения в документ PHPWord
                     $cell->addImage(
                         $fullPath,
-                        $styles['header']['logo']
+                        [
+                            ...$styles['header']['logo'],
+                            ...$styles['alignment']['start']
+                        ]
+
                     );
                 }
             }
@@ -1734,7 +1771,10 @@ class DocumentController extends Controller
                 // Добавление изображения в документ PHPWord
                 $tableHeader->addCell($headerLogoWidth)->addImage(
                     $fullPath,
-                    $styles['header']['logo']
+                    [
+                        ...$styles['header']['logo'],
+                        ...$styles['alignment']['end']
+                    ]
                 );
             }
         }
