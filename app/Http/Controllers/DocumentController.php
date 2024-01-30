@@ -1430,7 +1430,7 @@ class DocumentController extends Controller
                 $cellValue = round($variableFloat, 2);
             }
 
-            
+
             if ($isHeader) {
                 $cellValue = $priceCell['name'];
                 $font  = $tableHeaderFont;
@@ -2724,11 +2724,11 @@ class DocumentController extends Controller
                         $table->addRow(600);
                         foreach ($product['cells'] as $cell) {
                             if (
-                                $priceCell['code'] !== 'default' &&
-                                $priceCell['code'] !== 'default_month' &&
-                                $priceCell['code'] !== 'discount' &&
-                                $priceCell['code'] !== 'discountprecent' &&
-                                $priceCell['code'] !== 'discount_amount'
+                                $cell['code'] !== 'default' &&
+                                $cell['code'] !== 'default_month' &&
+                                $cell['code'] !== 'discount' &&
+                                $cell['code'] !== 'discountprecent' &&
+                                $cell['code'] !== 'discount_amount'
                             ) {
                                 $this->getInvoicePriceCell(false, false, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
                             }
