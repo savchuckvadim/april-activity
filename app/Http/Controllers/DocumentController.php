@@ -692,6 +692,7 @@ class DocumentController extends Controller
         return APIController::getSuccess([
             // 'data' => $data,
             'link' => $link,
+            'withStamps' => $withStamps,
             // 'pageSizeHLetter' => $pageSizeHLetter,
             // 'pageSizeHStamp' => $pageSizeHStamp,
 

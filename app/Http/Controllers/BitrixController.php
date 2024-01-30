@@ -425,9 +425,6 @@ class BitrixController extends Controller
     public static function getCompany(Request $request)
     {
 
-
-
-
         try {
 
             $domain = $request->domain;
