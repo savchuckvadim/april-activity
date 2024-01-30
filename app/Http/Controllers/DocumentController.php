@@ -581,6 +581,8 @@ class DocumentController extends Controller
         $allPrices =  $sortActivePrices;
         $general = $allPrices['general'];
         $alternative = $allPrices['alternative'];
+
+
         //manager
         $manager = $data['manager'];
         //UF_DEPARTMENT
@@ -1510,7 +1512,7 @@ class DocumentController extends Controller
                             ) {
                                 log::info('getSort : product', ['product' => $product]);
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
-                                    return $prc['isActive'] == true;
+                                    return $prc['isActive'] == true || $prc['code'] == 'measure';
                                 });
 
                                 usort($filtredCells, function ($a, $b) {
@@ -2796,9 +2798,19 @@ class DocumentController extends Controller
             }
 
             $cellValue = $priceCell['value'];
+
+
             $font  = $tableBodyFont;
             if ($isHeader) {
                 $cellValue = $priceCell['name'];
+                switch ($code) {
+                    case 'quantity': //Количество
+                        $cellValue = 'Количество';
+                        break;
+                    case 'prepaymentsum':  // При внесении предоплаты от
+                        $cellValue = 'Сумма';
+                        break;
+                }
                 $font  = $tableHeaderFont;
             }
 
