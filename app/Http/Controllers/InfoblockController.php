@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class InfoblockController extends Controller
 {
+    public static function getInitial()
+    {
+
+        $initialData = Infoblock::getForm();
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
+    }
 
     public static function getInfoblock($infoblockId)
     {

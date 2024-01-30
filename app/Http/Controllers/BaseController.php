@@ -12,6 +12,9 @@ class BaseController extends Controller
 
         try {
             switch ($entityType) {
+                case 'infoblock':
+                    return InfoblockController::getInitial();
+                    break;
                 case 'logo':
                 case 'signature':
                 case 'stamp':
