@@ -88,7 +88,7 @@ class InfoblockController extends Controller
             'message' => $message
         ]);
     }
-    public static function updateInfoblock($infoblockId, Request $request)
+    public static function updateInfoblock($infoblockId, Request $request) //update by id or fail
     {
 
 
@@ -125,6 +125,45 @@ class InfoblockController extends Controller
             return APIController::getError(
                 'something wrong ' . $th->getMessage(),
                 ['infoblockId' => $infoblockId]
+            );
+        }
+    }
+
+    public static function setInfoblock(Request $request)  //update by nuber or create
+    {
+        try {
+            if (isset($block['number'])) {
+                $block = $request;
+                $data = [
+                    'number' => $block['number'],
+                    'name' => $block['name'],
+                    'title' => $block['title'],
+                    'description' => $block['description'],
+                    'descriptionForSale' => $block['descriptionForSale'],
+                    'shortDescription' => $block['shortDescription'],
+                    'weight' => $block['weight'],
+                    'code' => $block['code'],
+                    'inGroupId' => $block['inGroupId'],
+                    'groupId' => $block['groupId'],
+                    'isLa' => $block['isLa'],
+                    'isFree' => $block['isFree'],
+                    'isShowing' => $block['isShowing'],
+                    'isSet' => $block['isSet'],
+                ];
+
+                $infoblockNumber = $block['number'];
+                $infoblock = Infoblock::updateOrCreate(
+                    ['number' => $infoblockNumber], // Поиск по ID
+                    $data
+                );
+                return APIController::getSuccess(['infoblock' => $infoblock]);
+            } else {
+                return APIController::getError('invalid number data', ['data' => $request]);
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['data' => $request]
             );
         }
     }

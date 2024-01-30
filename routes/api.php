@@ -676,8 +676,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return InfoblockController::setInfoBlocks($infoblocks);
     });
 
-    Route::post('infoblock/{infoblockId}', function (Request $request) {
-       //TODO
+    Route::post('infoblock/{infoblockId}', function ($infoblockId, Request $request) {
+        return InfoblockController::updateInfoblock($infoblockId, $request);
+    });
+    Route::post('infoblock', function (Request $request) {
+        return InfoblockController::setInfoblock($request);
     });
 
     Route::get('infogroups', function () {
