@@ -1448,7 +1448,7 @@ class DocumentController extends Controller
                     $cellValue = '';
                 }
             }
-            
+
             // $totalWidth =  $totalWidth + $outerWidth;
 
             $cell = $table->addCell(
@@ -2766,7 +2766,7 @@ class DocumentController extends Controller
             $longWidth = 3300;
             $without = 3;
         }
-        $cellWidth = ($contentWidth - $longWidth) / ($allCellsCount - $without);
+        $cellWidth = $contentWidth / 4;
         $outerWidth =  $cellWidth;
         $innerWidth = $outerWidth - 30;
 
