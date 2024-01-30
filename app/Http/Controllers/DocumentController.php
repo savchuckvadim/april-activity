@@ -570,8 +570,8 @@ class DocumentController extends Controller
         $withStamps = false;
         if (count($providerRq['stamps'])) {
             foreach ($providerRq['stamps'] as $stamp) {
-                if (isset($stamp['img'])) {
-                    if ($stamp['img']) {
+                if (isset($stamp['path'])) {
+                    if ($stamp['path']) {
                         $withStamps = true;
                     }
                 }
