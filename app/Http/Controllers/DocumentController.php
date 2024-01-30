@@ -1718,9 +1718,12 @@ class DocumentController extends Controller
         //FOOTER
         //data
 
-        $managerPosition = $manager['WORK_POSITION'];
-        if (!$managerPosition) {
-            $managerPosition = 'Ваш персональный менеджер';
+        $managerPosition = 'Ваш персональный менеджер';
+
+        if (isset($manager['WORK_POSITION'])) {
+            if ($manager['WORK_POSITION']) {
+                $managerPosition = $manager['WORK_POSITION'];
+            }
         }
         $managerName = $manager['NAME'];
         $managerLastName = $manager['LAST_NAME'];
