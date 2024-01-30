@@ -141,8 +141,8 @@ class InfoblockController extends Controller
     public static function setInfoblock(Request $request)  //update by nuber or create
     {
         try {
-            if (isset($block['number'])) {
-                $block = $request;
+            if (isset($request['number'])) {
+                $block = $request->all();
                 $data = [
                     'number' => $block['number'],
                     'name' => $block['name'],
