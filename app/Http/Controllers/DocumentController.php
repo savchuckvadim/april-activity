@@ -518,8 +518,18 @@ class DocumentController extends Controller
 
         //Data
         $templateType = $data['template']['type'];
+
+
         //header-data
         $providerRq = $data['provider']['rq'];
+        $isTwoLogo = false;
+        if ($providerRq) {
+            if (isset($providerRq['logos'])) {
+                if (count($providerRq['logos']) > 1) {
+                    $isTwoLogo = true;
+                }
+            }
+        }
 
 
         //infoblocks data
@@ -607,7 +617,7 @@ class DocumentController extends Controller
 
         //Header
         $target = 'ganeral'; //or alternative
-        $headerSection = $this->getHeader($section, $styles,  $providerRq);
+        $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
 
 
 
@@ -1632,36 +1642,15 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getHeader($section, $styles, $providerRq)
+    protected function getHeader($section, $styles, $providerRq, $isTwoLogo)
     {
         //HEADER
         $header = $section->addHeader();
 
 
-        //data for header
-
-        //     'fullname' => $providerRq['fullname'],
-        //     'primaryAdresss' => $providerRq['primaryAdresss'],
-        //     'inn' => $providerRq['inn'],
-        //     'kpp' => $providerRq['kpp'],
-        //     'email' => $providerRq['email'],
-        //     'phone' => $providerRq['phone'],
 
 
-        $first = $providerRq['fullname'];
-        if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
-        }
-        if ($providerRq['kpp']) {
-            $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
-        }
-        $second = $providerRq['primaryAdresss'];
-        if ($providerRq['phone']) {
-            $second = $second . ', ' . $providerRq['phone'];
-        }
-        if ($providerRq['email']) {
-            $second = $second . ', ' . $providerRq['email'];
-        }
+
 
 
 
@@ -1676,18 +1665,57 @@ class DocumentController extends Controller
         $headerTextStyle = $styles['fonts']['text']['small'];
         $headerRqParagraf = $styles['paragraphs']['general'];
         $cell = $tableHeader->addCell($headerRqWidth);
-        $rqTable = $cell->addTable();
 
-        if ($first) {
-            $rqTable->addRow();
-            $rqCell = $rqTable->addCell($headerRqWidth);
-            $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
+        if (!$isTwoLogo) {
+            $first = $providerRq['fullname'];
+            if ($providerRq['inn']) {
+                $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+            }
+            if ($providerRq['kpp']) {
+                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+            }
+            $second = $providerRq['primaryAdresss'];
+            if ($providerRq['phone']) {
+                $second = $second . ', ' . $providerRq['phone'];
+            }
+            if ($providerRq['email']) {
+                $second = $second . ', ' . $providerRq['email'];
+            }
+
+            $rqTable = $cell->addTable();
+
+            if ($first) {
+                $rqTable->addRow();
+                $rqCell = $rqTable->addCell($headerRqWidth);
+                $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
+            }
+            if ($second) {
+                $rqTable->addRow();
+                $rqCell = $rqTable->addCell($headerRqWidth);
+                $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
+            }
+        } else {
+
+            $logo =  null;
+            if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos']) && count($providerRq['logos']) > 1) {
+
+                $logo =  $providerRq['logos'][1];
+            }
+            if ($logo) {
+
+                $fullPath = storage_path('app/' . $logo['path']);
+                if (file_exists($fullPath)) {
+                    // Добавление изображения в документ PHPWord
+                    $cell->addImage(
+                        $fullPath,
+                        $styles['header']['logo']
+                    );
+                }
+            }
         }
-        if ($second) {
-            $rqTable->addRow();
-            $rqCell = $rqTable->addCell($headerRqWidth);
-            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
-        }
+
+
+
 
 
 
