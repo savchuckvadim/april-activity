@@ -1411,23 +1411,7 @@ class DocumentController extends Controller
 
             $cellValue = $priceCell['value'];
             $font  = $tableBodyFont;
-            if ($isHeader) {
-                $cellValue = $priceCell['name'];
-                $font  = $tableHeaderFont;
-            }
 
-            if ($isTotal) {
-                $outerCellStyle = $tableStyle['total']['cell'];
-                if ($code == 'name') {
-                    $cellValue = 'Итого';
-                    $font  =  $tableHeaderFont;
-                } else if ($code == 'prepaymentsum') {
-                    $cellValue = $priceCell['value'];
-                    $font  = $tableHeaderFont;
-                } else {
-                    $cellValue = '';
-                }
-            }
             if ($code == 'discountprecent') {
                 $cellValue = $priceCell['value'];
                 $variableFloat = floatval($cellValue);
@@ -1445,6 +1429,26 @@ class DocumentController extends Controller
                 // Округляем до двух знаков после запятой
                 $cellValue = round($variableFloat, 2);
             }
+
+            
+            if ($isHeader) {
+                $cellValue = $priceCell['name'];
+                $font  = $tableHeaderFont;
+            }
+
+            if ($isTotal) {
+                $outerCellStyle = $tableStyle['total']['cell'];
+                if ($code == 'name') {
+                    $cellValue = 'Итого';
+                    $font  =  $tableHeaderFont;
+                } else if ($code == 'prepaymentsum') {
+                    $cellValue = $priceCell['value'];
+                    $font  = $tableHeaderFont;
+                } else {
+                    $cellValue = '';
+                }
+            }
+            
             // $totalWidth =  $totalWidth + $outerWidth;
 
             $cell = $table->addCell(
@@ -2831,6 +2835,15 @@ class DocumentController extends Controller
 
 
             $font  = $tableBodyFont;
+            if ($code == 'quantity' || $code == 'prepayment') {
+                $cellValue = $priceCell['value'];
+                $variableFloat = floatval($cellValue);
+
+                // Округляем до двух знаков после запятой
+                $cellValue = round($variableFloat, 2);
+            }
+
+
             if ($isHeader) {
                 $cellValue = $priceCell['name'];
                 switch ($code) {
@@ -2857,14 +2870,7 @@ class DocumentController extends Controller
                 }
             }
 
-          
-            if ($code == 'quantity' || $code == 'prepayment') {
-                $cellValue = $priceCell['value'];
-                $variableFloat = floatval($cellValue);
 
-                // Округляем до двух знаков после запятой
-                $cellValue = round($variableFloat, 2);
-            }
 
             // $totalWidth =  $totalWidth + $outerWidth;
 
