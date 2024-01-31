@@ -20,7 +20,7 @@ class DocumentController extends Controller
         $colors = [
             'general' => '120D21',
 
-            'corporate' =>  '3D3556',
+            'corporate' =>  '005fa8',
             'oficial' => '1A1138',
             'second' =>  '000000',
             'white' =>  'ffffff',
@@ -215,6 +215,10 @@ class DocumentController extends Controller
                     ],
                     'center' => [
                         'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
+
+                    ],
+                    'both' => [
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
 
                     ]
 
@@ -666,7 +670,7 @@ class DocumentController extends Controller
         $inHighlight = false;
 
         if ($withLetter) {
-            $letterSection = $this->getLetter($section, $styles,  $fields);
+            $letterSection = $this->getLetter($section, $styles,  $fields, $recipient);
             if ($withStamps) {
                 $stampsSection = $this->getStamps($section, $styles,  $providerRq);
             }
@@ -789,17 +793,17 @@ class DocumentController extends Controller
                             if ($descriptionMode === 0) {
                                 $section->addText($currentInfoblock['name'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                             } else   if ($descriptionMode === 1) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
-                                $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-                                $section->addTextBreak(1);
-                            } else   if ($descriptionMode === 2) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
-                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-                                $section->addTextBreak(1);
-                            } else   if ($descriptionMode === 3) {
-                                $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
-                                $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-                                $section->addTextBreak(1);
+                                if ($currentInfoblock['shortDescription']) {
+                                    $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                                    $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
+                                    $section->addTextBreak(1);
+                                }
+                            } else {
+                                if ($currentInfoblock['descriptionForSale']) {
+                                    $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
+                                    $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
+                                    $section->addTextBreak(1);
+                                }
                             }
                         }
                     }
@@ -923,36 +927,37 @@ class DocumentController extends Controller
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
                 $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
+                if ($group['groupsName'] !== "Пакет Энциклопедий решений") {
+                    foreach ($group['value'] as $infoblock) {
 
-                foreach ($group['value'] as $infoblock) {
+                        if (array_key_exists('code', $infoblock)) {
+                            $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
 
-                    if (array_key_exists('code', $infoblock)) {
-                        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+                            if ($currentInfoblock) {
+                                $table->addRow();
+                                $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
-                        if ($currentInfoblock) {
-                            $table->addRow();
-                            $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
-
-                            $innerTable = $cell->addTable($tableStyle['inner']['table']);
-                            $innerTable->addRow();
-                            $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
-                            $isTwoColExist = true;
+                                $innerTable = $cell->addTable($tableStyle['inner']['table']);
+                                $innerTable->addRow();
+                                $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']); // Уменьшаем ширину, чтобы создать отступ
+                                $isTwoColExist = true;
 
 
-                            $this->addInfoblockToCell(
-                                $styleMode,
-                                $innerTableCell,
-                                $currentInfoblock,
-                                $descriptionMode,
-                                // $tableParagraphs['center'],
-                                $paragraphStyle,
-                                $paragraphTitleStyle,
-                                $textStyle,
-                                $titleStyle
-                            );
+                                $this->addInfoblockToCell(
+                                    $styleMode,
+                                    $innerTableCell,
+                                    $currentInfoblock,
+                                    $descriptionMode,
+                                    // $tableParagraphs['center'],
+                                    $paragraphStyle,
+                                    $paragraphTitleStyle,
+                                    $textStyle,
+                                    $titleStyle
+                                );
 
-                            // $section->addTextBreak(1);
-                            $count = $count  + 1;
+                                // $section->addTextBreak(1);
+                                $count = $count  + 1;
+                            }
                         }
                     }
                 }
@@ -995,7 +1000,7 @@ class DocumentController extends Controller
 
 
 
-                    if ($currentInfoblock) {
+                    if ($currentInfoblock && $currentInfoblock['description'] && $currentInfoblock['description'] !== ' ') {
                         $section->addText($currentInfoblock['name'], $textStyleBold);
 
                         $section->addText($currentInfoblock['description'], $textStyle);
@@ -1044,20 +1049,26 @@ class DocumentController extends Controller
                 $cell->addText($infoblock['name'], $textStyle, $paragraphStyle);
                 break;
             case 1:
-                $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
-                $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
-                if ($tableType == 'table') {
-                    $cell->addTextBreak(1);
+                if ($infoblock['shortDescription'] && $infoblock['shortDescription']  !== '') {
+                    $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
+                    $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
+                    if ($tableType == 'table') {
+                        $cell->addTextBreak(1);
+                    }
                 }
+
 
                 break;
             case 2:
             case 3:
-                $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
-                $cell->addText($infoblock['descriptionForSale'], $textStyle, $paragraphStyle);
-                if ($tableType == 'table') {
-                    $cell->addTextBreak(1);
+                if ($infoblock['descriptionForSale'] && $infoblock['descriptionForSale']  !== '') {
+                    $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
+                    $cell->addText($infoblock['descriptionForSale'], $textStyle, $paragraphStyle);
+                    if ($tableType == 'table') {
+                        $cell->addTextBreak(1);
+                    }
                 }
+
                 break;
         }
     }
@@ -2044,7 +2055,7 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getLetter($section, $styles, $fields)
+    protected function getLetter($section, $styles, $fields, $recipient)
     {
         //FOOTER
         //data
@@ -2064,7 +2075,42 @@ class DocumentController extends Controller
         $letterNumberell = $table->addCell($contentWidth);
         $letterNumberell->addText('Номер Письма', $letterTextStyle, $leftAlign);
         $letterRecipientell = $table->addCell($contentWidth);
-        $letterRecipientell->addText('Кому', $letterTextStyle, $rightAlign);
+
+
+
+        $companyName = '';
+        $inn = '';
+
+        $positionCase = '';
+        $recipientNameCase = '';
+        if ($recipient) {
+            if (isset($recipient['companyName'])) {
+                if ($recipient['companyName']) {
+                    $companyName = $recipient['companyName'];
+                    $letterRecipientell->addText($companyName, $letterTextStyle, $rightAlign);
+                }
+            }
+            if (isset($recipient['inn'])) {
+                if ($recipient['inn']) {
+                    $inn = 'ИНН: ' . $recipient['inn'];
+                    $letterRecipientell->addText($inn, $letterTextStyle, $rightAlign);
+                }
+            }
+            if (isset($recipient['positionCase'])) {
+                if ($recipient['positionCase']) {
+                    $positionCase = $recipient['positionCase'];
+                    $letterRecipientell->addText($positionCase, $letterTextStyle, $rightAlign);
+                }
+            }
+            if (isset($recipient['recipientCase'])) {
+                if ($recipient['recipientCase']) {
+                    $recipientCase = $recipient['recipientCase'];
+                    $letterRecipientell->addText($recipientCase, $letterTextStyle, $rightAlign);
+                }
+            }
+        }
+
+        
 
         $letterText = '';
         foreach ($fields as $field) {
@@ -2082,7 +2128,7 @@ class DocumentController extends Controller
         $parts = preg_split('/<color>|<\/color>/', $letterText);
 
         $textRun = $section->addTextRun();
-
+        $textRun->getParagraph()->setAlignment($styles['paragraphs']['align']['both']);
         $inHighlight = false;
         foreach ($parts as $part) {
             // Разбиваем часть на подстроки по символам переноса строки
