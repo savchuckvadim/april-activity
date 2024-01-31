@@ -232,7 +232,7 @@ class BitrixController extends Controller
 
                 [
                     'errors' => $errors,
-                    'responses' => $responses,
+                    'request' => $request->all(),
                     'result' => $callingsTotalCount
                 ]
             );
