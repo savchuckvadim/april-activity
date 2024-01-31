@@ -579,31 +579,34 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('wordCase', function (Request $request) {
         $phrase  = $request->input('word');
         $wordCase  = $request->input('wordCase');
+        if (!$phrase || $phrase == '') {
+            return APIController::getSuccess(['wordCase' => '']);
+        } else {
+            $words = explode(' ', $phrase);
+            $resultWords = [];
+            // $resultposition = NounDeclension::getCase($wordFromFront, $wordCase);
+            // $declension = new NounDeclension();
+            foreach ($words as $word) {
+                $declinedWord  = NounDeclension::getCase($word, Cases::DATIVE); // Используйте DATIVE для дательного падежа
 
-        $words = explode(' ', $phrase);
-        $resultWords = [];
-        // $resultposition = NounDeclension::getCase($wordFromFront, $wordCase);
-        // $declension = new NounDeclension();
-        foreach ($words as $word) {
-            $declinedWord  = NounDeclension::getCase($word, Cases::DATIVE); // Используйте DATIVE для дательного падежа
 
 
-
-            if (mb_substr($word, 0, 1) === mb_strtoupper(mb_substr($word, 0, 1))) {
-                // Применяем заглавную букву к склоненному слову
-                $declinedWord = mb_strtoupper(mb_substr($declinedWord, 0, 1)) . mb_substr($declinedWord, 1);
+                if (mb_substr($word, 0, 1) === mb_strtoupper(mb_substr($word, 0, 1))) {
+                    // Применяем заглавную букву к склоненному слову
+                    $declinedWord = mb_strtoupper(mb_substr($declinedWord, 0, 1)) . mb_substr($declinedWord, 1);
+                }
+                array_push($resultWords, $declinedWord);
+                $word = $declinedWord;
             }
-            array_push($resultWords, $declinedWord);
-            $word = $declinedWord;
-        }
 
-        $declinedPhrase = implode(' ', $resultWords);
-        return response([
-            'resultCode' =>  0,
-            'wordCase' => $declinedPhrase,
-            '$words' => $words,
-            '$resultWords' => $resultWords
-        ]);
+            $declinedPhrase = implode(' ', $resultWords);
+            return response([
+                'resultCode' =>  0,
+                'wordCase' => $declinedPhrase,
+
+
+            ]);
+        }
     });
 
 

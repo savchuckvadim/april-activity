@@ -121,4 +121,8 @@ class CounterController extends Controller
 
         return APIController::getSuccess($data);
     }
+
+    public static function getCount($templateId){
+        
+    }
 }
