@@ -114,7 +114,8 @@ class DocumentController extends Controller
                 'text' => [
                     'small' => [
                         ...$generalFont,
-                        'size' => 9
+                        'size' => 9,
+                        'lineHeight' => 0.5,
                     ],
                     'normal' => [
                         ...$generalFont,
@@ -2064,6 +2065,9 @@ class DocumentController extends Controller
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = $styles['fonts']['text']['span'];
         $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
+        $recipientTextStyle = $styles['fonts']['text']['small'];
+
+
         $fullWidth = $styles['page']['pageSizeW'];
         $marginRight = $section->getStyle()->getMarginRight();
         $marginLeft = $section->getStyle()->getMarginLeft();
@@ -2079,7 +2083,7 @@ class DocumentController extends Controller
         $table->addRow();
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
-        $letterNumberell->addText('Номер Письма', $letterTextStyle, $leftAlign);
+        $letterNumberell->addText('Номер Письма', $recipientTextStyle, $leftAlign);
         $letterRecipientell = $table->addCell($contentWidth);
 
 
@@ -2103,25 +2107,25 @@ class DocumentController extends Controller
             if (isset($recipient['companyName'])) {
                 if ($recipient['companyName']) {
                     $companyName = $recipient['companyName'];
-                    $letterRecipientell->addText($companyName, $letterTextStyle, $rightAlign);
+                    $letterRecipientell->addText($companyName, $recipientTextStyle, $rightAlign);
                 }
             }
             if (isset($recipient['inn'])) {
                 if ($recipient['inn']) {
                     $inn = 'ИНН: ' . $recipient['inn'];
-                    $letterRecipientell->addText($inn, $letterTextStyle, $rightAlign);
+                    $letterRecipientell->addText($inn, $recipientTextStyle, $rightAlign);
                 }
             }
             if (isset($recipient['positionCase'])) {
                 if ($recipient['positionCase']) {
                     $positionCase = $recipient['positionCase'];
-                    $letterRecipientell->addText($positionCase, $letterTextStyle, $rightAlign);
+                    $letterRecipientell->addText($positionCase, $recipientTextStyle, $rightAlign);
                 }
             }
             if (isset($recipient['recipientCase'])) {
                 if ($recipient['recipientCase']) {
                     $recipientCase = $recipient['recipientCase'];
-                    $letterRecipientell->addText($recipientCase, $letterTextStyle, $rightAlign);
+                    $letterRecipientell->addText($recipientCase, $recipientTextStyle, $rightAlign);
                 }
             }
         }
