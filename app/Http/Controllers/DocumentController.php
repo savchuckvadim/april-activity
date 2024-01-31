@@ -2083,14 +2083,15 @@ class DocumentController extends Controller
         $letterRecipientell = $table->addCell($contentWidth);
 
 
-        $section->addTextBreak(2);
+        $section->addTextBreak(1);
         if (isset($recipient['recipient'])) {
             if ($recipient['recipient']) {
                 $recipientName = $recipient['recipient'];
                 $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
             }
+            $section->addTextBreak(1);
         }
-        $section->addTextBreak(2);
+      
 
 
 
