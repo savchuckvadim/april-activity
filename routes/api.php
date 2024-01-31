@@ -794,12 +794,15 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
+
+
+
     /////////////////////////APRIL_HOOK CONNECT
 
     Route::post('calling', function (Request $request) {
         $domain = $request->domain;
         $filters = $request->filters;
-        return BitrixController::getReport($request);
+        return BitrixController::getBitrixCallingStatistics($request);
     });
     Route::post('departament', function (Request $request) {
 

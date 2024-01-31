@@ -148,7 +148,139 @@ class BitrixController extends Controller
             );
         }
     }
+    public static function getBitrixCallingStatistics(Request $request)
+    {
+        $callingsTotalCount = [
+            'all' => null,
+            '30' => 30,
+            '60' => 60,
+            '180' => 180
+        ];
+        $errors = [];
+        $responses = [];
+        $userIds = [];
 
+
+
+
+
+
+
+
+        try {
+            $domain = $request['domain'];
+            $filters = $request['filters'];
+            $callStartDateFrom = $filters['callStartDateFrom'];
+            $callStartDateTo = $filters['callStartDateTo'];
+            $controller = new BitrixController;
+            $hook = $controller->getHookUrl($domain);
+
+            $actionUrl = '/voximplant.statistic.get.json';
+            $url = $hook . $actionUrl;
+            $next = 0; // Начальное значение параметра "next"
+            // $userId = 174;
+            // do {
+            // Отправляем запрос на другой сервер
+
+            // if (isset($filters) && isset($filters['userIds'])) {
+            $userIds = $filters['userIds'];
+            // }
+
+
+
+
+            foreach ($callingsTotalCount as $key => $duration) {
+                if ($duration) {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            ">CALL_DURATION" => $duration,
+                            ">CALL_START_DATE" => $callStartDateFrom,
+                            "<CALL_START_DATE" =>  $callStartDateTo
+                        ]
+                    ];
+                } else {
+                    $data =  ["FILTER" => [
+                        "PORTAL_USER_ID" => $userIds,
+                        ">CALL_START_DATE" => $callStartDateFrom,
+                        "<CALL_START_DATE" =>  $callStartDateTo
+                    ]];
+                }
+
+                $response = Http::get($url, $data);
+
+                array_push($responses, $response);
+
+                if (isset($response['total'])) {
+                    // Добавляем полученные звонки к общему списку
+                    // $resultCallings = array_merge($resultCallings, $response['result']);
+                    // if (isset($response['next'])) {
+                    //     // Получаем значение "next" из ответа
+                    //     $next = $response['next'];
+                    // }
+                    $callingsTotalCount[$key] = $response['total'];
+                } else {
+                    array_push($errors, $response);
+                    $callingsTotalCount[$key] = 0;
+                }
+                // Ждем некоторое время перед следующим запросом
+                sleep(1); // Например, ждем 5 секунд
+            }
+            // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
+
+            return APIController::getSuccess(
+
+                [
+                    'errors' => $errors,
+                    'responses' => $responses,
+                    'result' => $callingsTotalCount
+                ]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'request' => $request
+                ]
+            );
+        }
+    }
+    public static function getBeelineStatistics(Request $request)
+    {
+        $callingsTotalCount = [
+            'all' => null,
+            '30' => 30,
+            '60' => 60,
+            '180' => 180
+        ];
+        $errors = [];
+        $responses = [];
+        $userIds = [];
+        $beelineResponse = null;
+        try {
+            $beelineResponse = Http::withHeaders([
+                'X-MPBX-API-AUTH-TOKEN' => '0c506738-88a9-47ec-8c6c-c0f938027317',
+                // 'Another-Header' => 'Another-Value',
+            ])->get('https://cloudpbx.beeline.ru/apis/portal/v2/statistics?userId=703&dateFrom=2024-01-01T00%3A00%3A00Z&dateTo=2024-01-24T00%3A00%3A00Z&page=0&pageSize=100');
+
+            $beelineData = json_decode($beelineResponse->body(), true);
+            return APIController::getSuccess(
+
+                [
+
+                    'result' => $beelineData,
+
+                ]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'beelin error' => $request
+                ]
+            );
+        }
+    }
 
     public static function getDepartamentUsers(Request $request)
     {
