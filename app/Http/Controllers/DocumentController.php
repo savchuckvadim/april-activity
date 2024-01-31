@@ -115,7 +115,7 @@ class DocumentController extends Controller
                     'small' => [
                         ...$generalFont,
                         'size' => 9,
-                        'lineHeight' => 1.15,
+                        'lineHeight' => 1,
                         'spaceAfter' => 0,
                         'spaceBefore' => 0,
                     ],
@@ -206,7 +206,12 @@ class DocumentController extends Controller
                     'spaceBefore' => 0,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
-
+                'small' => [
+                    'valign' => 'center',
+                    'spaceAfter' => 0,    // Интервал после абзаца
+                    'spaceBefore' => 0,   // Интервал перед абзацем
+                    'lineHeight' => 1,  // Высота строки
+                ],
                 'align' => [
                     'left' => [
                         'alignment' => 'left',
@@ -2075,7 +2080,10 @@ class DocumentController extends Controller
         $marginLeft = $section->getStyle()->getMarginLeft();
         $contentWidth = $fullWidth - $marginLeft - $marginRight;
         $leftAlign = $styles['paragraphs']['align']['left'];
-        $rightAlign = $styles['paragraphs']['align']['right'];
+        $rightAlign = [
+            ...$styles['paragraphs']['align']['right'],
+            ...$styles['paragraphs']['small'],
+        ];
 
 
 
