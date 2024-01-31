@@ -121,7 +121,7 @@ class DocumentController extends Controller
                     ],
                     'normal' => [
                         ...$generalFont,
-                        'size' => 10
+                        'size' => 9
                     ],
                     'bold' => [
                         ...$generalFont,
