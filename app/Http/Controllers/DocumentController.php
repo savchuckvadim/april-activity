@@ -131,7 +131,7 @@ class DocumentController extends Controller
                     'spanBold' => [
                         ...$generalFont,
                         'bold' => true,
-                        'size' => 11,
+                        'size' => 10,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
@@ -139,14 +139,14 @@ class DocumentController extends Controller
                     'span' => [
                         ...$generalFont,
                         'bold' => false,
-                        'size' => 11,
+                        'size' => 10,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
                     ],
                     'oficial' => [
                         ...$oficialFont,
-                        'size' => 11,
+                        'size' => 10,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
@@ -154,7 +154,7 @@ class DocumentController extends Controller
                     ],
                     'corporate' => [
                         ...$corporateFont,
-                        'size' => 11,
+                        'size' => 10,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
