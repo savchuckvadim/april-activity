@@ -115,7 +115,9 @@ class DocumentController extends Controller
                     'small' => [
                         ...$generalFont,
                         'size' => 9,
-                        'lineHeight' => 1,
+                        'lineHeight' => 1.15,
+                        'spaceAfter' => 0,
+                        'spaceBefore' => 0,
                     ],
                     'normal' => [
                         ...$generalFont,
@@ -2078,7 +2080,7 @@ class DocumentController extends Controller
 
 
 
-       
+
         $table = $section->addTable();
         $table->addRow();
         $cellWidth = $contentWidth / 2;
@@ -2095,7 +2097,7 @@ class DocumentController extends Controller
             }
             $section->addTextBreak(1);
         }
-      
+
 
 
 
@@ -2130,7 +2132,7 @@ class DocumentController extends Controller
             }
         }
 
-        
+
 
         $letterText = '';
         foreach ($fields as $field) {
@@ -2148,7 +2150,7 @@ class DocumentController extends Controller
         $parts = preg_split('/<color>|<\/color>/', $letterText);
 
         $textRun = $section->addTextRun();
-        
+
         $inHighlight = false;
         foreach ($parts as $part) {
             // Разбиваем часть на подстроки по символам переноса строки
