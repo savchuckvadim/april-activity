@@ -35,12 +35,12 @@ class BitrixController extends Controller
                 // 'Another-Header' => 'Another-Value',
             ])->get('https://cloudpbx.beeline.ru/apis/portal/v2/statistics?userId=703&dateFrom=2024-01-01T00%3A00%3A00Z&dateTo=2024-01-24T00%3A00%3A00Z&page=0&pageSize=100');
 
-            Log::info('BEELINE', ['beelineResponse' => $beelineResponse]);
+            $beelineData = json_decode($beelineResponse->body(), true);
             return APIController::getSuccess(
 
                 [
 
-                    'result' => $beelineResponse->body(),
+                    'result' => $beelineData,
 
                 ]
             );
