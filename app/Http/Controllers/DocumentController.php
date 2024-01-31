@@ -2143,7 +2143,7 @@ class DocumentController extends Controller
         $parts = preg_split('/<color>|<\/color>/', $letterText);
 
         $textRun = $section->addTextRun();
-        $textRun->getParagraph()->setAlignment($styles['paragraphs']['align']['both']);
+        
         $inHighlight = false;
         foreach ($parts as $part) {
             // Разбиваем часть на подстроки по символам переноса строки
@@ -2151,10 +2151,10 @@ class DocumentController extends Controller
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
-                    $textRun->addText($subpart, $corporateletterTextStyle);
+                    $textRun->addText($subpart, $corporateletterTextStyle, $styles['paragraphs']['align']['both']);
                 } else {
                     // Добавление обычного текста
-                    $textRun->addText($subpart, $letterTextStyle);
+                    $textRun->addText($subpart, $letterTextStyle, $styles['paragraphs']['align']['both']);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
