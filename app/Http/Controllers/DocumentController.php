@@ -115,7 +115,7 @@ class DocumentController extends Controller
                     'small' => [
                         ...$generalFont,
                         'size' => 9,
-                        'lineHeight' => 0.5,
+                        'lineHeight' => 1,
                     ],
                     'normal' => [
                         ...$generalFont,
