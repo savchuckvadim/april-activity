@@ -40,7 +40,7 @@ class BitrixController extends Controller
 
                 [
 
-                    'beelineResponse' => $beelineResponse->body(),
+                    'result' => $beelineResponse->body(),
 
                 ]
             );
