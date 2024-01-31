@@ -2061,6 +2061,7 @@ class DocumentController extends Controller
         //data
         // Стили для обычного и выделенного текста
         $section->addTextBreak(1);
+        $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = $styles['fonts']['text']['span'];
         $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
         $fullWidth = $styles['page']['pageSizeW'];
@@ -2069,6 +2070,11 @@ class DocumentController extends Controller
         $contentWidth = $fullWidth - $marginLeft - $marginRight;
         $leftAlign = $styles['paragraphs']['align']['left'];
         $rightAlign = $styles['paragraphs']['align']['right'];
+
+
+
+
+       
         $table = $section->addTable();
         $table->addRow();
         $cellWidth = $contentWidth / 2;
@@ -2077,10 +2083,19 @@ class DocumentController extends Controller
         $letterRecipientell = $table->addCell($contentWidth);
 
 
+        $section->addTextBreak(2);
+        if (isset($recipient['recipient'])) {
+            if ($recipient['recipient']) {
+                $recipientName = $recipient['recipient'];
+                $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
+            }
+        }
+        $section->addTextBreak(2);
+
+
 
         $companyName = '';
         $inn = '';
-
         $positionCase = '';
         $recipientNameCase = '';
         if ($recipient) {
