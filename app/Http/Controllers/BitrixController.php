@@ -52,8 +52,8 @@ class BitrixController extends Controller
 
             $controller = new BitrixController;
             $listsResponses = [];
-            foreach($departament as $user){
-                $userName =  $user['LAST_NAME'].' '. $user['NAME'];
+            foreach ($departament as $user) {
+                $userName =  $user['LAST_NAME'] . ' ' . $user['NAME'];
                 $listsResponse = $controller->getReportLists(
                     $domain,
                     $userFieldId,
@@ -71,7 +71,7 @@ class BitrixController extends Controller
                 ];
                 array_push($listsResponses, $userKPI);
             }
-            
+
 
             // if ($listsResponse) {
             //     if (isset($listsResponse['data'])) {
@@ -226,6 +226,7 @@ class BitrixController extends Controller
 
         $url = $hook . $method;
 
+        $result = [];
 
         foreach ($currentActions as $actionId => $actionTitle) {
             $data =   [
@@ -239,17 +240,17 @@ class BitrixController extends Controller
                     // '<' . $dateFieldId => $dateTo,
                 ]
             ];
-    
+
             $response = Http::get($url, $data);
             if ($response) {
                 if (isset($response['result'])) {
-    
+
                     $otherData = [];
                     if (isset($response['next'])) {
                         $otherData['next'] = $response['next'];
                     }
-    
-                   
+
+
                     $res = [
                         'action' => $actionTitle,
                         'count' =>  0
@@ -257,20 +258,17 @@ class BitrixController extends Controller
                     if (isset($response['total'])) {
                         $res['count'] = $response['total'];
                     }
-    
-                    return ['data' => $res];
-                } else {
-                    return ['message' => $response['error_description']];
+                    array_push($result, $res);
                 }
             }
         }
 
-       
-      
+
+        return $result;
 
 
 
-                // $next = 0;
+        // $next = 0;
         // $allResults = [];
         // do {
         //     $response = Http::get($url, array_merge($data, ['next' => $next])); // Добавляем параметр start к запросу
@@ -285,7 +283,7 @@ class BitrixController extends Controller
         // } while (!is_null($next));
 
         // return ['data' => $allResults];
-        
+
     }
 
 
