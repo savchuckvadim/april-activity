@@ -1108,9 +1108,9 @@ class DocumentController extends Controller
                 if ($infoblock['shortDescription'] && $infoblock['shortDescription']  !== '') {
                     $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
                     $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
-                    // if ($tableType == 'table') {
-                    //     $cell->addTextBreak(1);
-                    // }
+                    if ($tableType == 'table') {
+                        $cell->addTextBreak(0.5);
+                    }
                 }
 
 
