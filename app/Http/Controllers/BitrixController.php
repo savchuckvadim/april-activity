@@ -51,17 +51,22 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $listsResponses = [];
             foreach($userIds as $userId){
+                
                 $listsResponse = $controller->getReportLists(
                     $domain,
                     $userFieldId,
                     [$userId],
                     $actionFieldId,
-                    $currentActions,
+                    $currentActionsData,
                     $dateFieldId,
                     $dateFrom,
                     $dateTo
                 );
-                array_push($listsResponses, $listsResponse);
+                $userKPI = [
+                    'userId' => $userId,
+                    'kpi' => $listsResponse
+                ];
+                array_push($listsResponses, $userKPI);
             }
             
 
@@ -219,19 +224,49 @@ class BitrixController extends Controller
         $url = $hook . $method;
 
 
+        foreach ($currentActions as $actionId => $actionTitle) {
+            $data =   [
+                'IBLOCK_TYPE_ID' => 'lists',
+                // IBLOCK_CODE/IBLOCK_ID
+                'IBLOCK_ID' => $listId,
+                'FILTER' => [
+                    $userFieldId => $userIds,
+                    $actionFieldId => $actionId,
+                    // '>' . $dateFieldId => $dateFrom,
+                    // '<' . $dateFieldId => $dateTo,
+                ]
+            ];
+    
+            $response = Http::get($url, $data);
+            if ($response) {
+                if (isset($response['result'])) {
+    
+                    $otherData = [];
+                    if (isset($response['next'])) {
+                        $otherData['next'] = $response['next'];
+                    }
+    
+                    if (isset($response['total'])) {
+                        $otherData['total'] = $response['total'];
+                    }
+                    $res = [
+                        'action' => $actionTitle,
+                        'count' =>  $response['result']
+                    ];
+    
+                    return ['data' => $res, '$otherData' => $otherData];
+                } else {
+                    return ['message' => $response['error_description']];
+                }
+            }
+        }
 
-        $data =   [
-            'IBLOCK_TYPE_ID' => 'lists',
-            // IBLOCK_CODE/IBLOCK_ID
-            'IBLOCK_ID' => $listId,
-            'FILTER' => [
-                $userFieldId => $userIds,
-                $actionFieldId => $currentActions,
-                // '>' . $dateFieldId => $dateFrom,
-                // '<' . $dateFieldId => $dateTo,
-            ]
-        ];
-        // $next = 0;
+       
+      
+
+
+
+                // $next = 0;
         // $allResults = [];
         // do {
         //     $response = Http::get($url, array_merge($data, ['next' => $next])); // Добавляем параметр start к запросу
@@ -245,25 +280,6 @@ class BitrixController extends Controller
 
         // } while (!is_null($next));
 
-        $response = Http::get($url, $data);
-        if ($response) {
-            if (isset($response['result'])) {
-
-                $otherData = [];
-                if (isset($response['next'])) {
-                    $otherData['next'] = $response['next'];
-                }
-
-                if (isset($response['total'])) {
-                    $otherData['total'] = $response['total'];
-                }
-
-                return ['data' => $response['result'], '$otherData' => $otherData];
-            } else {
-                return ['message' => $response['error_description']];
-            }
-        }
-        return  $response->body();
         // return ['data' => $allResults];
         
     }
