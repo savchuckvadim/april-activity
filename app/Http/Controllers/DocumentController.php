@@ -1848,11 +1848,12 @@ class DocumentController extends Controller
 
         $tableHeader = $section->addTable();
         $tableHeader->addRow();
-        $headerRqWidth = $styles['page']['pageSizeW'] / 2.5;
-        $headerLogoWidth = $styles['page']['pageSizeW'] / 1.5;
+        $headerRqWidth = $styles['page']['pageSizeW'] / 2;
+        $headerLogoWidth = $styles['page']['pageSizeW'] / 2;
 
         $headerTextStyle = $styles['fonts']['text']['small'];
         $headerRqParagraf = $styles['paragraphs']['general'];
+        $alignEnd = $styles['alignment']['end'];
         $cell = $tableHeader->addCell($headerRqWidth);
 
 
@@ -1894,7 +1895,11 @@ class DocumentController extends Controller
             }
             if ($providerRq['email']) {
                 $email = 'e-mail:' . $providerRq['email'];
-                $rqCell->addText($email, $headerTextStyle, $headerRqParagraf);
+                $rqCell->addText($email, $headerTextStyle, [
+                    ...$headerRqParagraf,
+                    ...$alignEnd
+
+                ]);
             }
         }
 
