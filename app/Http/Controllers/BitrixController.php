@@ -231,40 +231,40 @@ class BitrixController extends Controller
                 // '<' . $dateFieldId => $dateTo,
             ]
         ];
-        $next = 0;
-        $allResults = [];
-        do {
-            $response = Http::get($url, array_merge($data, ['next' => $next])); // Добавляем параметр start к запросу
-            $responseBody = $response->json();
+        // $next = 0;
+        // $allResults = [];
+        // do {
+        //     $response = Http::get($url, array_merge($data, ['next' => $next])); // Добавляем параметр start к запросу
+        //     $responseBody = $response->json();
 
-            if (isset($responseBody['result'])) {
-                $allResults = array_merge($allResults, $responseBody['result']); // Собираем результаты
-            }
-
-            $next = $responseBody['next'] ?? null; // Обновляем start для следующего запроса
-
-        } while (!is_null($next));
-
-        // $response = Http::get($url, $data);
-        // if ($response) {
-        //     if (isset($response['result'])) {
-
-        //         $otherData = [];
-        //         if (isset($response['next'])) {
-        //             $otherData['next'] = $response['next'];
-        //         }
-
-        //         if (isset($response['total'])) {
-        //             $otherData['total'] = $response['total'];
-        //         }
-
-        //         return ['data' => $response['result'], 'requesttoB' => $data, '$otherData' => $otherData];
-        //     } else {
-        //         return ['message' => $response['error_description']];
+        //     if (isset($responseBody['result'])) {
+        //         $allResults = array_merge($allResults, $responseBody['result']); // Собираем результаты
         //     }
-        // }
-        // return  $response->body();
-        return ['data' => $allResults];
+
+        //     $next = $responseBody['next'] ?? null; // Обновляем start для следующего запроса
+
+        // } while (!is_null($next));
+
+        $response = Http::get($url, $data);
+        if ($response) {
+            if (isset($response['result'])) {
+
+                $otherData = [];
+                if (isset($response['next'])) {
+                    $otherData['next'] = $response['next'];
+                }
+
+                if (isset($response['total'])) {
+                    $otherData['total'] = $response['total'];
+                }
+
+                return ['data' => $response['result'], 'requesttoB' => $data, '$otherData' => $otherData];
+            } else {
+                return ['message' => $response['error_description']];
+            }
+        }
+        return  $response->body();
+        // return ['data' => $allResults];
         
     }
 
