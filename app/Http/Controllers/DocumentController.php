@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Counter;
 use App\Models\Infoblock;
 use Ramsey\Uuid\Uuid;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -565,6 +566,11 @@ class DocumentController extends Controller
             if ($template && isset($template['id'])) {
                 $templateId = $template['id'];
 
+                //get counter test 
+                $counter = Counter::whereHas('templates', function ($query) use ($templateId) {
+                    $query->where('templates.id', $templateId);
+                })->first();
+
 
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
@@ -758,6 +764,7 @@ class DocumentController extends Controller
                     'price' => $price,
                     'link' => $link,
                     'documentNumber' => $documentNumber,
+                    'counter' => $counter,
 
                 ]);
             }
