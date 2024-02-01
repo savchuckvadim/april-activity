@@ -129,7 +129,7 @@ class CounterController extends Controller
         $counter = null;
         $count = 0;
         if ($template) {
-            $templateCounters = $template->counters();
+            $templateCounters = $template->counters;
             if ($templateCounters && count($templateCounters) > 0) {
 
                 $counterId =   $templateCounters[0]['id'];
