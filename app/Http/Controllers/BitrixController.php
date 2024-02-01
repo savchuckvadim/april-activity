@@ -227,8 +227,8 @@ class BitrixController extends Controller
             'FILTER' => [
                 $userFieldId => $userIds,
                 $actionFieldId => $currentActions,
-                // '>' . $dateFieldId => $dateFrom,
-                // '<' . $dateFieldId => $dateTo,
+                '>' . $dateFieldId => $dateFrom,
+                '<' . $dateFieldId => $dateTo,
             ]
         ];
         $next = 0;
