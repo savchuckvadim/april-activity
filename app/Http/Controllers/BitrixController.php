@@ -69,13 +69,13 @@ class BitrixController extends Controller
             }
             return APIController::getSuccess(
                 ['report' => [
-                    'report' => $lists,
+                    'lists' => $lists,
                     'userFieldId' => $userFieldId,
                     'userIds' => $userIds,
                     'actionFieldId' => $actionFieldId,
                     'currentActions' => $currentActions,
                     'dateFieldId' => $dateFieldId,
-
+                    'dateFrom' => $dateFrom,
                     'dateFrom' => $dateFrom,
                     'dateTo' => $dateTo,
 
@@ -211,8 +211,8 @@ class BitrixController extends Controller
         $listId = 86;
         $controller = new BitrixController;
         $hook = $controller->getHookUrl($domain);
-        $actionUrl =  $method;
-        $url = $hook . $actionUrl;
+      
+        $url = $hook . $method;
 
 
 
