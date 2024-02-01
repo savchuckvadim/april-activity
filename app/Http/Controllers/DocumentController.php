@@ -708,6 +708,7 @@ class DocumentController extends Controller
 
                 $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
                 if ($withStamps) {
+                    $section->addTextBreak(1);
                     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                 }
                 $section->addPageBreak();
@@ -715,6 +716,7 @@ class DocumentController extends Controller
 
                 $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
                 if ($withStamps) {
+                    $section->addTextBreak(2);
                     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                 }
                 $section->addPageBreak();
@@ -724,17 +726,20 @@ class DocumentController extends Controller
                 //invoices
                 $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
                 if ($withStamps) {
+                    $section->addTextBreak(1);
                     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                 }
-                $section->addPageBreak();
+                
                 if (isset($alternative)) {
+                    
                     foreach ($alternative as $alternativeCell) {
                         $target = 'alternative';
+                        $section->addPageBreak();
                         $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
                         if ($withStamps) {
                             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                         }
-                        $section->addPageBreak();
+                       
                     }
                 }
 
@@ -1973,7 +1978,7 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-        $section->addTextBreak(1);
+        
         $stampsSection = $section->addTable();
         $stampsSection->addRow(
             900,
