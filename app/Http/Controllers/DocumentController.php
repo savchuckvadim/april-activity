@@ -680,6 +680,11 @@ class DocumentController extends Controller
                 $target = 'ganeral'; //or alternative
                 $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
 
+                if ($isTwoLogo) {
+
+                    $this->getDoubleHeader($section, $styles,  $providerRq);
+                }
+
 
 
                 //Main
@@ -1830,7 +1835,7 @@ class DocumentController extends Controller
 
         return $section;
     }
-   
+
     //TODO
     protected function getDoubleHeader($section, $styles, $providerRq)
     {
@@ -1849,35 +1854,35 @@ class DocumentController extends Controller
         $headerRqParagraf = $styles['paragraphs']['general'];
         $cell = $tableHeader->addCell($headerRqWidth);
 
-       
-            $first = $providerRq['fullname'];
-            if ($providerRq['inn']) {
-                $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
-            }
-            if ($providerRq['kpp']) {
-                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
-            }
-            $second = $providerRq['primaryAdresss'];
-            if ($providerRq['phone']) {
-                $second = $second . ', ' . $providerRq['phone'];
-            }
-            if ($providerRq['email']) {
-                $second = $second . ', ' . $providerRq['email'];
-            }
 
-            $rqTable = $cell->addTable();
+        $first = $providerRq['fullname'];
+        if ($providerRq['inn']) {
+            $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+        }
+        if ($providerRq['kpp']) {
+            $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+        }
+        $second = $providerRq['primaryAdresss'];
+        if ($providerRq['phone']) {
+            $second = $second . ', ' . $providerRq['phone'];
+        }
+        if ($providerRq['email']) {
+            $second = $second . ', ' . $providerRq['email'];
+        }
 
-            if ($first) {
-                $rqTable->addRow();
-                $rqCell = $rqTable->addCell($headerRqWidth);
-                $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
-            }
-            if ($second) {
-                $rqTable->addRow();
-                $rqCell = $rqTable->addCell($headerRqWidth);
-                $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
-            }
-      
+        $rqTable = $cell->addTable();
+
+        if ($first) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($headerRqWidth);
+            $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
+        }
+        if ($second) {
+            $rqTable->addRow();
+            $rqCell = $rqTable->addCell($headerRqWidth);
+            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
+        }
+
 
         return $section;
     }
@@ -2070,10 +2075,9 @@ class DocumentController extends Controller
             if ($recipient['recipient']) {
                 $recipientName = $recipient['recipient'];
                 $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
-            }else{
+            } else {
                 $section->addTextBreak(1);
             }
-            
         }
 
 
