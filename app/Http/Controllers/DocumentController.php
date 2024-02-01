@@ -122,7 +122,7 @@ class DocumentController extends Controller
                     ],
                     'normal' => [
                         ...$generalFont,
-                        'size' => 9
+                        'size' => 8
                     ],
                     'bold' => [
                         ...$generalFont,
@@ -205,7 +205,7 @@ class DocumentController extends Controller
                 'head' => [
                     'valign' => 'center',
                     'spaceAfter' => 1,    // Интервал после абзаца
-                    'spaceBefore' => 3,   // Интервал перед абзацем
+                    'spaceBefore' => 1,   // Интервал перед абзацем
                     'lineHeight' => 1.15,  // Высота строки
                 ],
                 'small' => [
@@ -829,13 +829,13 @@ class DocumentController extends Controller
                                 if ($currentInfoblock['shortDescription']) {
                                     $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
                                     $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-                                    // $section->addTextBreak(1);
+                                    $section->addTextBreak(1);
                                 }
                             } else {
                                 if ($currentInfoblock['descriptionForSale']) {
                                     $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
                                     $section->addText($currentInfoblock['descriptionForSale'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
-                                    // $section->addTextBreak(1);
+                                    $section->addTextBreak(1);
                                 }
                             }
                         }
