@@ -961,7 +961,7 @@ class DocumentController extends Controller
 
                     $innerTable = $cell->addTable($tableStyle['inner']['table']);
                     $innerTable->addRow();
-                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell'], ['valign' => 'bottom']);
+                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['table'], ['valign' => 'bottom']);
                     $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
 
 
