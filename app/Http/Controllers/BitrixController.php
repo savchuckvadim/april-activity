@@ -237,7 +237,7 @@ class BitrixController extends Controller
         //         return ['message' => $response['error_description']];
         //     }
         // }
-        return  $response;
+        return  $response->body();
     }
 
 
