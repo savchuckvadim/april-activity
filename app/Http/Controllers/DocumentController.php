@@ -1017,12 +1017,18 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getIsHaveDescription($groupBlocks){
+    protected function getIsHaveDescription($groupBlocks)
+    {
         $isBlockHaveInfoblockWithDescription = false;
+
         foreach ($groupBlocks as $infblck) {
-            if (isset($infblck['description']) && isset($infblck['descriptionForSale']) && isset($infblck['shortDescription'])) {
-                if ($infblck['description'] || $infblck['descriptionForSale'] || $infblck['shortDescription']) {
-                    $isBlockHaveInfoblockWithDescription = true;
+            $currentInfoblock = Infoblock::where('code', $infblck['code'])->first();
+
+            if ($currentInfoblock) {
+                if (isset($currentInfoblock['description']) && isset($currentInfoblock['descriptionForSale']) && isset($currentInfoblock['shortDescription'])) {
+                    if ($currentInfoblock['description'] || $currentInfoblock['descriptionForSale'] || $currentInfoblock['shortDescription']) {
+                        $isBlockHaveInfoblockWithDescription = true;
+                    }
                 }
             }
         }
