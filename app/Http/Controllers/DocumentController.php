@@ -937,7 +937,7 @@ class DocumentController extends Controller
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$styles['alignment']['start']];
-            $paragraphTitleStyle  = [...$paragraphs['head'], ...$styles['alignment']['center'], ...$styles['valign']['center']];
+            $paragraphTitleStyle  = [...$paragraphs['head'], ...$styles['alignment']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
@@ -961,7 +961,7 @@ class DocumentController extends Controller
 
                     $innerTable = $cell->addTable($tableStyle['inner']['table']);
                     $innerTable->addRow();
-                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell'], $paragraphTitleStyle);
+                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell'], ['valign' => 'bottom']);
                     $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
 
 
