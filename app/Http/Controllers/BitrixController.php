@@ -49,16 +49,21 @@ class BitrixController extends Controller
             }
 
             $controller = new BitrixController;
-            $listsResponse = $controller->getReportLists(
-                $domain,
-                $userFieldId,
-                $userIds,
-                $actionFieldId,
-                $currentActions,
-                $dateFieldId,
-                $dateFrom,
-                $dateTo
-            );
+            $listsResponses = [];
+            foreach($userIds as $userId){
+                $listsResponse = $controller->getReportLists(
+                    $domain,
+                    $userFieldId,
+                    $userIds,
+                    $actionFieldId,
+                    $currentActions,
+                    $dateFieldId,
+                    $dateFrom,
+                    $dateTo
+                );
+                array_push($listsResponses, $listsResponse);
+            }
+            
 
             // if ($listsResponse) {
             //     if (isset($listsResponse['data'])) {
@@ -77,6 +82,7 @@ class BitrixController extends Controller
             return APIController::getSuccess(
                 ['report' => [
                     'lists' => $listsResponse,
+                    'listsResponses' => $listsResponses,
                     'userFieldId' => $userFieldId,
                     'userIds' => $userIds,
                     'actionFieldId' => $actionFieldId,
@@ -225,7 +231,19 @@ class BitrixController extends Controller
                 // '<' . $dateFieldId => $dateTo,
             ]
         ];
+        $next = 0;
+        $allResults = [];
+        do {
+            $response = Http::get($url, array_merge($data, ['next' => $next])); // Добавляем параметр start к запросу
+            $responseBody = $response->json();
 
+            if (isset($responseBody['result'])) {
+                $allResults = array_merge($allResults, $responseBody['result']); // Собираем результаты
+            }
+
+            $next = $responseBody['next'] ?? null; // Обновляем start для следующего запроса
+
+        } while (!is_null($next));
 
         $response = Http::get($url, $data);
         if ($response) {
