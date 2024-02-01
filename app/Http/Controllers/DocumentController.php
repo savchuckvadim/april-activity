@@ -156,6 +156,7 @@ class DocumentController extends Controller
                     'corporate' => [
                         ...$corporateFont,
                         'size' => 10,
+                        'bold' => true,
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
@@ -1967,7 +1968,7 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-        $section->addTextBreak(2);
+        $section->addTextBreak(1);
         $stampsSection = $section->addTable();
         $stampsSection->addRow(
             900,
