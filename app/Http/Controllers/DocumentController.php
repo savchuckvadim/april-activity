@@ -1869,12 +1869,10 @@ class DocumentController extends Controller
             $first = $first . ', р/c: ' . $providerRq['rs'];
         }
 
-        $second = $providerRq['phone'];
+        $second = $providerRq['primaryAdresss'];
 
 
-        if ($providerRq['email']) {
-            $second = $second . ', e-mail:' . $providerRq['email'];
-        }
+
 
         $rqTable = $cell->addTable();
 
@@ -1889,7 +1887,14 @@ class DocumentController extends Controller
         if ($second) {
             $rqTable->addRow();
             $rqCell = $rqTable->addCell($headerRqWidth);
-            $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
+            if ($providerRq['phone']) {
+                $phone = $providerRq['phone'];
+                $rqCell->addText($phone, $headerTextStyle, $headerRqParagraf);
+            }
+            if ($providerRq['email']) {
+                $email = 'e-mail:' . $providerRq['email'];
+                $rqCell->addText($email, $headerTextStyle, $headerRqParagraf);
+            }
         }
 
 
