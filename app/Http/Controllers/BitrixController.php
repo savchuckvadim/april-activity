@@ -54,7 +54,7 @@ class BitrixController extends Controller
                 $listsResponse = $controller->getReportLists(
                     $domain,
                     $userFieldId,
-                    $userIds,
+                    [$userId],
                     $actionFieldId,
                     $currentActions,
                     $dateFieldId,
