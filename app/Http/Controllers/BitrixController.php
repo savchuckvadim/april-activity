@@ -230,7 +230,7 @@ class BitrixController extends Controller
         $response = Http::get($url, $data);
         if ($response) {
             if (isset($response['result'])) {
-                return ['data' => $response['result']];
+                return ['data' => $response->body()];
             } else {
                 return ['message' => $response['error_description']];
             }
