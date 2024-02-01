@@ -33,6 +33,8 @@ class BitrixController extends Controller
             $domain = $request['domain'];
             $userFieldId = $request['filters']['userFieldId'];
             $userIds = $request['filters']['userIds'];
+            $departament = $request['filters']['departament'];
+
 
             $actionFieldId = $request['filters']['actionFieldId'];
             $currentActionsData = $request['filters']['currentActions'];
@@ -50,12 +52,12 @@ class BitrixController extends Controller
 
             $controller = new BitrixController;
             $listsResponses = [];
-            foreach($userIds as $userId){
-                
+            foreach($departament as $user){
+                $userName =  $user['LAST_NAME'].' '. $user['NAME'];
                 $listsResponse = $controller->getReportLists(
                     $domain,
                     $userFieldId,
-                    [$userId],
+                    [$user['ID']],
                     $actionFieldId,
                     $currentActionsData,
                     $dateFieldId,
@@ -63,7 +65,8 @@ class BitrixController extends Controller
                     $dateTo
                 );
                 $userKPI = [
-                    'userId' => $userId,
+                    'user' => $user,
+                    'userName' => $userName,
                     'kpi' => $listsResponse
                 ];
                 array_push($listsResponses, $userKPI);
@@ -246,15 +249,16 @@ class BitrixController extends Controller
                         $otherData['next'] = $response['next'];
                     }
     
-                    if (isset($response['total'])) {
-                        $otherData['total'] = $response['total'];
-                    }
+                   
                     $res = [
                         'action' => $actionTitle,
-                        'count' =>  $response['result']
+                        'count' =>  0
                     ];
+                    if (isset($response['total'])) {
+                        $res['count'] = $response['total'];
+                    }
     
-                    return ['data' => $res, '$otherData' => $otherData];
+                    return ['data' => $res];
                 } else {
                     return ['message' => $response['error_description']];
                 }
