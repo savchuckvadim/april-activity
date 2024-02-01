@@ -801,14 +801,19 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     /////////////////////////APRIL_HOOK CONNECT
-
+    //report
     Route::post('calling', function (Request $request) {
         $domain = $request->domain;
         $filters = $request->filters;
         return BitrixController::getBitrixCallingStatistics($request);
     });
-    Route::post('departament', function (Request $request) {
+    Route::post('report', function (Request $request) {
+        $domain = $request->domain;
+        $filters = $request->filters;
+        return BitrixController::getReport($request);
+    });
 
+    Route::post('departament', function (Request $request) {
         return BitrixController::getDepartamentUsers($request);
     });
     Route::post('list', function (Request $request) {
@@ -839,6 +844,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
+
+    //calling tasks
     Route::post('bitrixcallingtasks', function (Request $request) {
 
         //userId

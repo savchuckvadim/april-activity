@@ -27,22 +27,21 @@ class BitrixController extends Controller
         ];
         $errors = [];
         $responses = [];
-        $userIds = [];
-        $beelineResponse = null;
+        $userIds = $request['filters']['userIds'];
+        $dateFrom = $request['filters']['dateFrom'];
+        $dateTo = $request['filters']['dateTo'];
+
         try {
-            $beelineResponse = Http::withHeaders([
-                'X-MPBX-API-AUTH-TOKEN' => '0c506738-88a9-47ec-8c6c-c0f938027317',
-                // 'Another-Header' => 'Another-Value',
-            ])->get('https://cloudpbx.beeline.ru/apis/portal/v2/statistics?userId=703&dateFrom=2024-01-01T00%3A00%3A00Z&dateTo=2024-01-24T00%3A00%3A00Z&page=0&pageSize=100');
 
-            $beelineData = json_decode($beelineResponse->body(), true);
             return APIController::getSuccess(
-
+                ['report' =>
                 [
 
-                    'result' => $beelineData,
+                    'userIds' => $userIds,
+                    'dateFrom' => $dateFrom,
+                    'dateTo' => $dateTo,
 
-                ]
+                ]]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
