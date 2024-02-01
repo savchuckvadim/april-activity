@@ -227,8 +227,8 @@ class BitrixController extends Controller
             'FILTER' => [
                 $userFieldId => $userIds,
                 $actionFieldId => $currentActions,
-                '>' . $dateFieldId => $dateFrom,
-                '<' . $dateFieldId => $dateTo,
+                // '>' . $dateFieldId => $dateFrom,
+                // '<' . $dateFieldId => $dateTo,
             ]
         ];
         $next = 0;
@@ -245,25 +245,27 @@ class BitrixController extends Controller
 
         } while (!is_null($next));
 
-        $response = Http::get($url, $data);
-        if ($response) {
-            if (isset($response['result'])) {
+        // $response = Http::get($url, $data);
+        // if ($response) {
+        //     if (isset($response['result'])) {
 
-                $otherData = [];
-                if (isset($response['next'])) {
-                    $otherData['next'] = $response['next'];
-                }
+        //         $otherData = [];
+        //         if (isset($response['next'])) {
+        //             $otherData['next'] = $response['next'];
+        //         }
 
-                if (isset($response['total'])) {
-                    $otherData['total'] = $response['total'];
-                }
+        //         if (isset($response['total'])) {
+        //             $otherData['total'] = $response['total'];
+        //         }
 
-                return ['data' => $response['result'], 'requesttoB' => $data, '$otherData' => $otherData];
-            } else {
-                return ['message' => $response['error_description']];
-            }
-        }
-        return  $response->body();
+        //         return ['data' => $response['result'], 'requesttoB' => $data, '$otherData' => $otherData];
+        //     } else {
+        //         return ['message' => $response['error_description']];
+        //     }
+        // }
+        // return  $response->body();
+        return ['data' => $allResults];
+        
     }
 
 
