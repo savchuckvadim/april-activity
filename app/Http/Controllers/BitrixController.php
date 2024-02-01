@@ -30,6 +30,7 @@ class BitrixController extends Controller
 
 
         try {
+            $domain = $request['domain'];
             $userFieldId = $request['filters']['userFieldId'];
             $userIds = $request['filters']['userIds'];
 
@@ -38,8 +39,28 @@ class BitrixController extends Controller
             $dateFieldId = $request['filters']['dateFieldId'];
             $dateFrom = $request['filters']['dateFrom'];
             $dateTo = $request['filters']['dateTo'];
-        
 
+            $lists = [];
+            $controller = new BitrixController;
+            $listsResponse = $controller->getReportLists(
+                $domain,
+                $userFieldId,
+                $userIds,
+                $actionFieldId,
+                $currentActions,
+                $dateFieldId,
+                $dateFrom,
+                $dateTo
+            );
+
+            if ($listsResponse) {
+                if (isset($listsResponse['data'])) {
+                    $lists = $listsResponse['data'];
+                } else {
+                    if (isset($listsResponse['message']))
+                        return APIController::getError($listsResponse['message'], ['data' => $request->all()]);
+                }
+            }
 
             if ($userIds && count($userIds) > 0) {
 
@@ -48,6 +69,7 @@ class BitrixController extends Controller
             }
             return APIController::getSuccess(
                 ['report' => [
+                    'report' => $lists,
                     'userFieldId' => $userFieldId,
                     'userIds' => $userIds,
                     'actionFieldId' => $actionFieldId,
@@ -198,11 +220,23 @@ class BitrixController extends Controller
             'IBLOCK_TYPE_ID' => 'lists',
             // IBLOCK_CODE/IBLOCK_ID
             'IBLOCK_ID' => $listId,
-            'FILTER' => []
+            'FILTER' => [
+                $userFieldId => $userIds,
+                $actionFieldId => $currentActions,
+                '>' . $dateFieldId => $dateFrom,
+                '<' . $dateFieldId => $dateTo,
+            ]
         ];
 
 
         $response = Http::get($url, $data);
+        if ($response) {
+            if (isset($response['result'])) {
+                return ['data' => $response['result']];
+            } else {
+                return ['message' => $response['error_description']];
+            }
+        }
     }
 
 
