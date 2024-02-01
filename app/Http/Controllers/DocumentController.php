@@ -757,7 +757,7 @@ class DocumentController extends Controller
                 return APIController::getSuccess([
                     'price' => $price,
                     'link' => $link,
-                    'withStamps' => $withStamps,
+                    'documentNumber' => $documentNumber,
 
                 ]);
             }
