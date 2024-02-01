@@ -205,7 +205,7 @@ class DocumentController extends Controller
                 'head' => [
                     'valign' => 'center',
                     'spaceAfter' => 1,    // Интервал после абзаца
-                    'spaceBefore' => 0,   // Интервал перед абзацем
+                    'spaceBefore' => 1,   // Интервал перед абзацем
                     'lineHeight' => 1.5,  // Высота строки
                 ],
                 'small' => [
@@ -936,8 +936,8 @@ class DocumentController extends Controller
             $marginLeft = $styles['page']['marginRight'];
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
-            $paragraphStyle  = [...$paragraphs['general'], ...$paragraphs['align']['left']];
-            $paragraphTitleStyle  = [...$paragraphs['head'], ...$paragraphs['align']['center']];
+            $paragraphStyle  = [...$paragraphs['general'], ...$styles['alignment']['left']];
+            $paragraphTitleStyle  = [...$paragraphs['head'], ...$styles['alignment']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
