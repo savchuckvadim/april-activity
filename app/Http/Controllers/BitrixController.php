@@ -240,7 +240,7 @@ class BitrixController extends Controller
                     $otherData['total'] = $response['total'];
                 }
 
-                return ['data' => $response['result'], 'requesttoB' => $data];
+                return ['data' => $response['result'], 'requesttoB' => $data, '$otherData' => $otherData];
             } else {
                 return ['message' => $response['error_description']];
             }
