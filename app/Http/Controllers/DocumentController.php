@@ -208,6 +208,12 @@ class DocumentController extends Controller
                     'spaceBefore' => 100,   // Интервал перед абзацем
                     'lineHeight' => 1,  // Высота строки
                 ],
+                'tableHead' => [
+                    'valign' => 'center',
+                    'spaceAfter' => 1,    // Интервал после абзаца
+                    'spaceBefore' => 1,   // Интервал перед абзацем
+                    'lineHeight' => 1,  // Высота строки
+                ],
                 'small' => [
                     'valign' => 'center',
                     'spaceAfter' => 0,    // Интервал после абзаца
@@ -654,10 +660,10 @@ class DocumentController extends Controller
                 $styles = $this->documentStyle;
 
 
-             
 
 
-               
+
+
                 $document = new \PhpOffice\PhpWord\PhpWord();
 
 
@@ -941,7 +947,7 @@ class DocumentController extends Controller
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
             $paragraphStyle  = [...$paragraphs['general'], ...$styles['alignment']['start']];
-            $paragraphTitleStyle  = [...$paragraphs['head'], ...$styles['alignment']['center']];
+            $paragraphTitleStyle  = [...$paragraphs['tableHead'], ...$styles['alignment']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
 
@@ -2092,7 +2098,10 @@ class DocumentController extends Controller
         $section->addTextBreak(1);
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = $styles['fonts']['text']['span'];
-        $corporateletterTextStyle = $styles['fonts']['text']['corporate'];
+        $corporateletterTextStyle = [
+            ...$styles['fonts']['text']['corporate'],
+            'lineHeight' => 1.5
+        ];
         $recipientTextStyle = $styles['fonts']['text']['small'];
 
 
