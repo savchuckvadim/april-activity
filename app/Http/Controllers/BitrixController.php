@@ -35,12 +35,19 @@ class BitrixController extends Controller
             $userIds = $request['filters']['userIds'];
 
             $actionFieldId = $request['filters']['actionFieldId'];
-            $currentActions = $request['filters']['currentActions'];
+            $currentActionsData = $request['filters']['currentActions'];
             $dateFieldId = $request['filters']['dateFieldId'];
             $dateFrom = $request['filters']['dateFrom'];
             $dateTo = $request['filters']['dateTo'];
-
+            $currentActions = [];
             $lists = [];
+
+            if ($currentActionsData) {
+                foreach ($currentActionsData as $id => $title) {
+                    array_push($currentActions, $id);
+                }
+            }
+
             $controller = new BitrixController;
             $listsResponse = $controller->getReportLists(
                 $domain,
@@ -99,83 +106,74 @@ class BitrixController extends Controller
             $filters = $request['filters'];
             $callStartDateFrom = $filters['callStartDateFrom'];
             $callStartDateTo = $filters['callStartDateTo'];
-            $portalResponse = PortalController::innerGetPortal($domain);
-            if ($portalResponse) {
-                if (isset($portalResponse['resultCode'])) {
-                    if ($portalResponse['resultCode'] == 0) {
-                        if (isset($portalResponse['portal'])) {
-                            if ($portalResponse['portal']) {
-                                $resultCallings = [];
-                                $portal = $portalResponse['portal'];
+            $actionUrl = '/voximplant.statistic.get.json';
 
-                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
-                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
-                                $actionUrl = '/voximplant.statistic.get.json';
-                                $url = $hook . $actionUrl;
-                                $next = 0; // Начальное значение параметра "next"
-                                // $userId = 174;
-                                // do {
-                                // Отправляем запрос на другой сервер
 
-                                // if (isset($filters) && isset($filters['userIds'])) {
-                                $userIds = $filters['userIds'];
-                                // }
+
+            $hook = $controller->getHookUrl($domain);
+
+
+
+            $url = $hook . $actionUrl;
+            $next = 0; // Начальное значение параметра "next"
+            // $userId = 174;
+            // do {
+            // Отправляем запрос на другой сервер
+
+            // if (isset($filters) && isset($filters['userIds'])) {
+            $userIds = $filters['userIds'];
+            // }
 
 
 
 
-                                foreach ($callingsTotalCount as $key => $duration) {
-                                    if ($duration) {
-                                        $data =   [
-                                            "FILTER" => [
-                                                "PORTAL_USER_ID" => $userIds,
-                                                ">CALL_DURATION" => $duration,
-                                                ">CALL_START_DATE" => $callStartDateFrom,
-                                                "<CALL_START_DATE" =>  $callStartDateTo
-                                            ]
-                                        ];
-                                    } else {
-                                        $data =  ["FILTER" => [
-                                            "PORTAL_USER_ID" => $userIds,
-                                            ">CALL_START_DATE" => $callStartDateFrom,
-                                            "<CALL_START_DATE" =>  $callStartDateTo
-                                        ]];
-                                    }
-
-                                    $response = Http::get($url, $data);
-
-                                    array_push($responses, $response);
-
-                                    if (isset($response['total'])) {
-                                        // Добавляем полученные звонки к общему списку
-                                        // $resultCallings = array_merge($resultCallings, $response['result']);
-                                        // if (isset($response['next'])) {
-                                        //     // Получаем значение "next" из ответа
-                                        //     $next = $response['next'];
-                                        // }
-                                        $callingsTotalCount[$key] = $response['total'];
-                                    } else {
-                                        array_push($errors, $response);
-                                        $callingsTotalCount[$key] = 0;
-                                    }
-                                    // Ждем некоторое время перед следующим запросом
-                                    sleep(1); // Например, ждем 5 секунд
-                                }
-                                // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
-
-                                return APIController::getSuccess(
-
-                                    [
-                                        'errors' => $errors,
-                                        'responses' => $responses,
-                                        'result' => $callingsTotalCount
-                                    ]
-                                );
-                            }
-                        }
-                    }
+            foreach ($callingsTotalCount as $key => $duration) {
+                if ($duration) {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            ">CALL_DURATION" => $duration,
+                            ">CALL_START_DATE" => $callStartDateFrom,
+                            "<CALL_START_DATE" =>  $callStartDateTo
+                        ]
+                    ];
+                } else {
+                    $data =  ["FILTER" => [
+                        "PORTAL_USER_ID" => $userIds,
+                        ">CALL_START_DATE" => $callStartDateFrom,
+                        "<CALL_START_DATE" =>  $callStartDateTo
+                    ]];
                 }
+
+                $response = Http::get($url, $data);
+
+                array_push($responses, $response);
+
+                if (isset($response['total'])) {
+                    // Добавляем полученные звонки к общему списку
+                    // $resultCallings = array_merge($resultCallings, $response['result']);
+                    // if (isset($response['next'])) {
+                    //     // Получаем значение "next" из ответа
+                    //     $next = $response['next'];
+                    // }
+                    $callingsTotalCount[$key] = $response['total'];
+                } else {
+                    array_push($errors, $response);
+                    $callingsTotalCount[$key] = 0;
+                }
+                // Ждем некоторое время перед следующим запросом
+                sleep(1); // Например, ждем 5 секунд
             }
+            // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
+
+            return APIController::getSuccess(
+
+                [
+                    'errors' => $errors,
+                    'responses' => $responses,
+                    'result' => $callingsTotalCount
+                ]
+            );
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
@@ -211,7 +209,7 @@ class BitrixController extends Controller
         $listId = 86;
 
         $hook = $this->getHookUrl($domain);
-      
+
         $url = $hook . $method;
 
 
