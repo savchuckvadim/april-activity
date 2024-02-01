@@ -957,11 +957,11 @@ class DocumentController extends Controller
 
                 if ($group['groupsName'] !== "Пакет Энциклопедий решений" && $isBlockHaveInfoblockWithDescription) {
                     $table->addRow();
-                    $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+                    $cell = $table->addCell($contentWidth, $tableStyle['general']['cell'],['valign' => 'bottom']);
 
                     $innerTable = $cell->addTable($tableStyle['inner']['table']);
                     $innerTable->addRow();
-                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['table'], ['valign' => 'bottom']);
+                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['table']);
                     $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
 
 
