@@ -1857,17 +1857,23 @@ class DocumentController extends Controller
 
         $first = $providerRq['fullname'];
         if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+            $first = $first . ', ИНН: ' . $providerRq['inn'];
         }
         if ($providerRq['kpp']) {
-            $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+            $first = $first . ', КПП: ' . $providerRq['kpp'];
         }
-        $second = $providerRq['primaryAdresss'];
-        if ($providerRq['phone']) {
-            $second = $second . ', ' . $providerRq['phone'];
+        if ($providerRq['primaryAdresss']) {
+            $first = $first . ', ' . $providerRq['primaryAdresss'];
         }
+        if ($providerRq['rs']) {
+            $first = $first . ', р/c: ' . $providerRq['rs'];
+        }
+
+        $second = $providerRq['phone'];
+
+
         if ($providerRq['email']) {
-            $second = $second . ', ' . $providerRq['email'];
+            $second = $second . ', e-mail:' . $providerRq['email'];
         }
 
         $rqTable = $cell->addTable();
@@ -1877,6 +1883,9 @@ class DocumentController extends Controller
             $rqCell = $rqTable->addCell($headerRqWidth);
             $rqCell->addText($first, $headerTextStyle, $headerRqParagraf);
         }
+        $cell = $tableHeader->addCell($headerRqWidth);
+        $rqTable = $cell->addTable();
+
         if ($second) {
             $rqTable->addRow();
             $rqCell = $rqTable->addCell($headerRqWidth);
