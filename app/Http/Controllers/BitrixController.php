@@ -230,6 +230,16 @@ class BitrixController extends Controller
         $response = Http::get($url, $data);
         if ($response) {
             if (isset($response['result'])) {
+
+                $otherData = [];
+                if (isset($response['next'])) {
+                    $otherData['next'] = $response['next'];
+                }
+
+                if (isset($response['total'])) {
+                    $otherData['total'] = $response['total'];
+                }
+
                 return ['data' => $response['result'], 'requesttoB' => $data];
             } else {
                 return ['message' => $response['error_description']];
