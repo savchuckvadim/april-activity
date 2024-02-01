@@ -773,7 +773,7 @@ class DocumentController extends Controller
                     throw new \Exception("Невозможно записать в каталог: $resultPath");
                 }
                 $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
-                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'RTF');
+                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
                 $objWriter->save($resultPath . '/' . $resultFileName);
 
