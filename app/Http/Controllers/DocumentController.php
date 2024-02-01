@@ -959,7 +959,7 @@ class DocumentController extends Controller
                     $table->addRow();
                     $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
 
-                    $innerTable = $cell->addTable($tableStyle['inner']['table'],['valign' => 'bottom']);
+                    $innerTable = $cell->addTable($tableStyle['inner']['table'], ['valign' => 'bottom']);
                     $innerTable->addRow();
                     $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['table']);
                     $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
@@ -1109,7 +1109,7 @@ class DocumentController extends Controller
                     $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
                     $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
                     if ($tableType == 'table') {
-                        $cell->addTextBreak(0.5);
+                        $cell->addText('', $textStyle, $paragraphStyle);
                     }
                 }
 
