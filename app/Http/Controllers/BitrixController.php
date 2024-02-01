@@ -221,8 +221,8 @@ class BitrixController extends Controller
             'FILTER' => [
                 $userFieldId => $userIds,
                 $actionFieldId => $currentActions,
-                '>' . $dateFieldId => $dateFrom,
-                '<' . $dateFieldId => $dateTo,
+                // '>' . $dateFieldId => $dateFrom,
+                // '<' . $dateFieldId => $dateTo,
             ]
         ];
 
@@ -230,7 +230,7 @@ class BitrixController extends Controller
         $response = Http::get($url, $data);
         if ($response) {
             if (isset($response['result'])) {
-                return ['data' => $response->body()];
+                return ['data' => $response->body(), 'requesttoB' => $data];
             } else {
                 return ['message' => $response['error_description']];
             }
