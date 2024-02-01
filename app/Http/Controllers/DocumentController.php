@@ -654,23 +654,10 @@ class DocumentController extends Controller
                 $styles = $this->documentStyle;
 
 
-                //RESULT
-                //result document
-                $uid = Uuid::uuid4()->toString();
-                $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+             
 
 
-                if (!file_exists($resultPath)) {
-                    mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-                }
-
-                // Проверить доступность каталога для записи
-                if (!is_writable($resultPath)) {
-                    throw new \Exception("Невозможно записать в каталог: $resultPath");
-                }
-
-
-                $resultFileName = $templateType . '_' . $uid . '.docx';
+               
                 $document = new \PhpOffice\PhpWord\PhpWord();
 
 
@@ -764,7 +751,24 @@ class DocumentController extends Controller
 
 
                 // //СОХРАНЕНИЕ ДОКУМЕТА
-                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+
+                $uid = Uuid::uuid4()->toString();
+                $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+                $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+
+
+                if (!file_exists($resultPath)) {
+                    mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                }
+
+                // Проверить доступность каталога для записи
+                if (!is_writable($resultPath)) {
+                    throw new \Exception("Невозможно записать в каталог: $resultPath");
+                }
+                $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
+                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'RTF');
+
                 $objWriter->save($resultPath . '/' . $resultFileName);
 
                 // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
