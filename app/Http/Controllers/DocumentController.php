@@ -1020,7 +1020,7 @@ class DocumentController extends Controller
     protected function getIsHaveDescription($groupBlocks){
         $isBlockHaveInfoblockWithDescription = false;
         foreach ($groupBlocks as $infblck) {
-            if (isset($infblck['description']) || isset($infblck['descriptionForSale']) || isset($infblck['shortDescription'])) {
+            if (isset($infblck['description']) && isset($infblck['descriptionForSale']) && isset($infblck['shortDescription'])) {
                 if ($infblck['description'] || $infblck['descriptionForSale'] || $infblck['shortDescription']) {
                     $isBlockHaveInfoblockWithDescription = true;
                 }
