@@ -27,17 +27,33 @@ class BitrixController extends Controller
         ];
         $errors = [];
         $responses = [];
-        $userIds = $request['filters']['userIds'];
-        $dateFrom = $request['filters']['dateFrom'];
-        $dateTo = $request['filters']['dateTo'];
+
 
         try {
+            $userFieldId = $request['filters']['userFieldId'];
+            $userIds = $request['filters']['userIds'];
 
+            $actionFieldId = $request['filters']['actionFieldId'];
+            $currentActions = $request['filters']['currentActions'];
+            $dateFieldId = $request['filters']['dateFieldId'];
+            $dateFrom = $request['filters']['dateFrom'];
+            $dateTo = $request['filters']['dateTo'];
+        
+
+
+            if ($userIds && count($userIds) > 0) {
+
+                foreach ($userIds as $userId) {
+                }
+            }
             return APIController::getSuccess(
-                ['report' =>
-                [
-
+                ['report' => [
+                    'userFieldId' => $userFieldId,
                     'userIds' => $userIds,
+                    'actionFieldId' => $actionFieldId,
+                    'currentActions' => $currentActions,
+                    'dateFieldId' => $dateFieldId,
+
                     'dateFrom' => $dateFrom,
                     'dateTo' => $dateTo,
 
@@ -147,6 +163,52 @@ class BitrixController extends Controller
             );
         }
     }
+
+    //protected report inner methods
+    protected function getReportCallings($userId)
+    {
+    }
+    protected function getReportLists(
+        $domain,
+        $userFieldId,
+        $userIds,
+        $actionFieldId,
+        $currentActions,
+        $dateFieldId,
+        $dateFrom,
+        $dateTo
+    ) {
+        // $domain
+        // $action  - id поля в котором содержатся items действий
+        // currentActions = массив айдишников действий которые нужно получить
+        // date from
+        // date to
+
+        $method = '/lists.element.get.json';
+
+        $listId = 86;
+        $controller = new BitrixController;
+        $hook = $controller->getHookUrl($domain);
+        $actionUrl =  $method;
+        $url = $hook . $actionUrl;
+
+
+
+        $data =   [
+            'IBLOCK_TYPE_ID' => 'lists',
+            // IBLOCK_CODE/IBLOCK_ID
+            'IBLOCK_ID' => $listId,
+            'FILTER' => []
+        ];
+
+
+        $response = Http::get($url, $data);
+    }
+
+
+
+
+
     public static function getBitrixCallingStatistics(Request $request)
     {
         $callingsTotalCount = [
