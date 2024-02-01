@@ -157,9 +157,9 @@ class DocumentController extends Controller
                         ...$corporateFont,
                         'size' => 9,
                         'bold' => true,
-                        'spaceAfter' => 1,    // Интервал после абзаца
-                        'spaceBefore' => 0,   // Интервал перед абзацем
-                        'lineHeight' => 1.5,  // Высота строки
+                        // 'spaceAfter' => 1,    // Интервал после абзаца
+                        // 'spaceBefore' => 0,   // Интервал перед абзацем
+                        // 'lineHeight' => 1.5,  // Высота строки
 
                     ],
                     'big' => [
@@ -205,7 +205,7 @@ class DocumentController extends Controller
                 'head' => [
                     'valign' => 'center',
                     'spaceAfter' => 1,    // Интервал после абзаца
-                    'spaceBefore' => 30,   // Интервал перед абзацем
+                    'spaceBefore' => 100,   // Интервал перед абзацем
                     'lineHeight' => 1,  // Высота строки
                 ],
                 'small' => [
