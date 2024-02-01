@@ -729,9 +729,9 @@ class DocumentController extends Controller
                     $section->addTextBreak(1);
                     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                 }
-                
+
                 if (isset($alternative)) {
-                    
+
                     foreach ($alternative as $alternativeCell) {
                         $target = 'alternative';
                         $section->addPageBreak();
@@ -739,7 +739,6 @@ class DocumentController extends Controller
                         if ($withStamps) {
                             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                         }
-                       
                     }
                 }
 
@@ -954,14 +953,18 @@ class DocumentController extends Controller
             $isTwoColExist = false;
             foreach ($complect as $group) {
                 // $table->addCell($contentWidth, $fancyTableCellStyle)->addText($group['groupsName'], $headingStyle);
-                $table->addRow();
-                $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+                $isBlockHaveInfoblockWithDescription = $this->getIsHaveDescription($group['value']);
 
-                $innerTable = $cell->addTable($tableStyle['inner']['table']);
-                $innerTable->addRow();
-                $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
-                $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
-                if ($group['groupsName'] !== "Пакет Энциклопедий решений") {
+                if ($group['groupsName'] !== "Пакет Энциклопедий решений" && $isBlockHaveInfoblockWithDescription) {
+                    $table->addRow();
+                    $cell = $table->addCell($contentWidth, $tableStyle['general']['cell']);
+
+                    $innerTable = $cell->addTable($tableStyle['inner']['table']);
+                    $innerTable->addRow();
+                    $innerTableCell = $innerTable->addCell($contentWidth, $tableStyle['inner']['cell']);
+                    $innerTableCell->addText($group['groupsName'], $fonts['text']['bold'], $paragraphTitleStyle);
+
+
                     foreach ($group['value'] as $infoblock) {
 
                         if (array_key_exists('code', $infoblock)) {
@@ -1013,6 +1016,19 @@ class DocumentController extends Controller
 
         return $section;
     }
+
+    protected function getIsHaveDescription($groupBlocks){
+        $isBlockHaveInfoblockWithDescription = false;
+        foreach ($groupBlocks as $infblck) {
+            if (isset($infblck['description']) || isset($infblck['descriptionForSale']) || isset($infblck['shortDescription'])) {
+                if ($infblck['description'] || $infblck['descriptionForSale'] || $infblck['shortDescription']) {
+                    $isBlockHaveInfoblockWithDescription = true;
+                }
+            }
+        }
+        return $isBlockHaveInfoblockWithDescription;
+    }
+
 
     protected function getDescriptionPage(
         $complect,
@@ -1978,7 +1994,7 @@ class DocumentController extends Controller
         if (!empty($signatures)) {
             $signature = $signatures[0];
         }
-        
+
         $stampsSection = $section->addTable();
         $stampsSection->addRow(
             900,
