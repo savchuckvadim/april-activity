@@ -205,7 +205,7 @@ class DocumentController extends Controller
                 'head' => [
                     'valign' => 'center',
                     'spaceAfter' => 1,    // Интервал после абзаца
-                    'spaceBefore' => 300,   // Интервал перед абзацем
+                    'spaceBefore' => 30,   // Интервал перед абзацем
                     'lineHeight' => 1,  // Высота строки
                 ],
                 'small' => [
@@ -827,7 +827,7 @@ class DocumentController extends Controller
                                 $section->addText($currentInfoblock['name'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                             } else   if ($descriptionMode === 1) {
                                 if ($currentInfoblock['shortDescription']) {
-                                    $section->addText($currentInfoblock['name'], $fonts['text']['corporate'], $paragraphs['head'], $paragraphs['align']['center']);
+                                    $section->addText($currentInfoblock['name'], $fonts['text']['bold'], $paragraphs['head'], $paragraphs['align']['center']);
                                     $section->addText($currentInfoblock['shortDescription'], $fonts['text']['normal'], $paragraphs['general'], $paragraphs['align']['left']);
                                     // $section->addTextBreak(1);
                                 }
