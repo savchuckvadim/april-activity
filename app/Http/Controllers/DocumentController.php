@@ -936,7 +936,7 @@ class DocumentController extends Controller
             $marginLeft = $styles['page']['marginRight'];
             $contentWidth = ($fullWidth - $marginLeft - $marginRight - 100);
             $innerContentWidth = ($fullWidth - $marginLeft - $marginRight) - 30;
-            $paragraphStyle  = [...$paragraphs['general'], ...$styles['alignment']['left']];
+            $paragraphStyle  = [...$paragraphs['general'], ...$styles['alignment']['start']];
             $paragraphTitleStyle  = [...$paragraphs['head'], ...$styles['alignment']['center']];
             $textStyle = $fonts['text']['normal'];
             $titleStyle = $fonts['text']['bold'];
