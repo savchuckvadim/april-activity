@@ -1830,17 +1830,17 @@ class DocumentController extends Controller
 
         return $section;
     }
-
+   
     //TODO
-    protected function getDoubleHeader($section, $styles, $providerRq, $isTwoLogo)
+    protected function getDoubleHeader($section, $styles, $providerRq)
     {
         //HEADER
-        $header = $section->addHeader();
+        // $header = $section->addHeader();
 
 
         // create header
 
-        $tableHeader = $header->addTable();
+        $tableHeader = $section->addTable();
         $tableHeader->addRow();
         $headerRqWidth = $styles['page']['pageSizeW'] / 2.5;
         $headerLogoWidth = $styles['page']['pageSizeW'] / 1.5;
@@ -1849,7 +1849,7 @@ class DocumentController extends Controller
         $headerRqParagraf = $styles['paragraphs']['general'];
         $cell = $tableHeader->addCell($headerRqWidth);
 
-        if (!$isTwoLogo) {
+       
             $first = $providerRq['fullname'];
             if ($providerRq['inn']) {
                 $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
@@ -1877,57 +1877,7 @@ class DocumentController extends Controller
                 $rqCell = $rqTable->addCell($headerRqWidth);
                 $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
             }
-        } else {
-
-            $logo =  null;
-            if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos']) && count($providerRq['logos']) > 1) {
-
-                $logo =  $providerRq['logos'][1];
-            }
-            if ($logo) {
-
-                $fullPath = storage_path('app/' . $logo['path']);
-                if (file_exists($fullPath)) {
-                    // Добавление изображения в документ PHPWord
-                    $cell->addImage(
-                        $fullPath,
-                        [
-                            ...$styles['header']['logo'],
-                            ...$styles['alignment']['start']
-                        ]
-
-                    );
-                }
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-        $logo =  null;
-        if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos'])) {
-            $logo =  $providerRq['logos'][0];
-        }
-        if ($logo) {
-
-            $fullPath = storage_path('app/' . $logo['path']);
-            if (file_exists($fullPath)) {
-                // Добавление изображения в документ PHPWord
-                $tableHeader->addCell($headerLogoWidth)->addImage(
-                    $fullPath,
-                    [
-                        ...$styles['header']['logo'],
-                        ...$styles['alignment']['end']
-                    ]
-                );
-            }
-        }
+      
 
         return $section;
     }
@@ -2120,8 +2070,10 @@ class DocumentController extends Controller
             if ($recipient['recipient']) {
                 $recipientName = $recipient['recipient'];
                 $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
+            }else{
+                $section->addTextBreak(1);
             }
-            $section->addTextBreak(1);
+            
         }
 
 
