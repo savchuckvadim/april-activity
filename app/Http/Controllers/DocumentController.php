@@ -206,7 +206,7 @@ class DocumentController extends Controller
                     'valign' => 'center',
                     'spaceAfter' => 1,    // Интервал после абзаца
                     'spaceBefore' => 1,   // Интервал перед абзацем
-                    'lineHeight' => 1.5,  // Высота строки
+                    'lineHeight' => 1.15,  // Высота строки
                 ],
                 'small' => [
                     'valign' => 'center',
