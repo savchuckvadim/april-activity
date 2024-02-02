@@ -37,7 +37,7 @@ class BitrixController extends Controller
 
                         foreach ($batch['result_total'] as $kpi) {
 
-                            array_push($result['result_total'], $kpi);
+                            array_push($result['result'], $kpi);
                         }
                     }
                 }
