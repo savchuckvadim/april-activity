@@ -35,7 +35,7 @@ class BitrixController extends Controller
                 foreach ($responseData as $batch) {
                     if (isset($batch['result_total']) && count($batch['result_total']) > 0) {
 
-                        foreach ($batch['result_total'] as $kpi) {
+                        foreach ($batch['result'] as $kpi) {
 
                             array_push($result['result'], $kpi);
                         }
@@ -48,7 +48,41 @@ class BitrixController extends Controller
 
         return $result;
     }
+    protected function processBatchResults($department, $currentActionsData, $batchResponseData)
+    {
+        $usersKPI = [];
 
+        // Перебор всех результатов в ответе от batch запроса
+        foreach ($batchResponseData['result'] as $cmdKey => $cmdResult) {
+            // Разбиваем ключ команды, чтобы получить ID пользователя и ID действия
+            list($userPrefix, $userId, $actionPrefix, $actionId) = explode('-', $cmdKey);
+
+            // Находим информацию о пользователе и название действия
+            $user = $department[array_search($userId, array_column($department, 'ID'))];
+            $userName = $user['LAST_NAME'] . ' ' . $user['NAME'];
+            $actionTitle = $currentActionsData[$actionId];
+
+            // Подсчет результатов
+            $count = isset($cmdResult['total']) ? $cmdResult['total'] : 0;
+
+            // Формирование структуры данных для пользователя и его KPI
+            if (!isset($usersKPI[$userId])) {
+                $usersKPI[$userId] = [
+                    'user' => $user,
+                    'userName' => $userName,
+                    'kpi' => []
+                ];
+            }
+
+            // Добавляем информацию о действии и его результаты в массив KPI пользователя
+            $usersKPI[$userId]['kpi'][] = [
+                'action' => $actionTitle,
+                'count' => $count
+            ];
+        }
+
+        return array_values($usersKPI); // Возвращаем переиндексированный массив пользователей и их KPI
+    }
     public static function getReport(Request $request)
     {
         $callingsTotalCount = [
@@ -94,16 +128,16 @@ class BitrixController extends Controller
 
                 foreach ($currentActionsData as $actionId => $actionTitle) {
                     // Формируем ключ команды, используя ID пользователя и ID действия для уникальности
-                    $cmdKey = "user_{$userId}_action_{$actionId}";
+                    $cmdKey = "user_{$userId}-action_{$actionId}";
 
                     // Добавляем команду в массив команд
-                    $commands[$cmdKey] = $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[>=DATE_CREATE]=$dateFrom&filter[<=DATE_CREATE]=$dateTo";
-
+                    $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[>=DATE_CREATE]=$dateFrom&filter[<=DATE_CREATE]=$dateTo";
                 }
             }
 
             // Отправляем batch запрос
             $batchResults = $controller->sendBatchRequest($domain, $commands);
+            $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
             if (isset($batchResults['results']) && $batchResults['results']) {
                 foreach ($batchResults['result'] as $response) {
                     if ($response) {
@@ -164,12 +198,12 @@ class BitrixController extends Controller
             // }
             return APIController::getSuccess(
                 [
-                    'report' => $result,
+                    'report' => $report,
                     'batchResults' =>  $batchResults,
                     'commands' =>  $commands
 
 
-                    
+
                     // [
                     //     'lists' => $listsResponse,
                     //     'listsResponses' => $listsResponses,
