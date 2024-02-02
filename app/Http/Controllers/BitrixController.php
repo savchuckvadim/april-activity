@@ -97,7 +97,7 @@ class BitrixController extends Controller
                     $cmdKey = "user_{$userId}_action_{$actionId}";
 
                     // Добавляем команду в массив команд
-                    $commands[$cmdKey] = $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[>=DATE_CREATE]=$dateFrom&filter[<=DATE_CREATE]=$dateTo";
+                    $commands[$cmdKey] = $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId";
 
                 }
             }
