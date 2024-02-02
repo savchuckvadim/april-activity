@@ -70,7 +70,7 @@ class BitrixController extends Controller
                     }
                 }
 
-                array_push($usersKPI['kpi'], [
+                array_push($userKPI['kpi'], [
                     'id' => $actId,
                     'action' =>  $actionTitle,
                     'count' =>  $count
