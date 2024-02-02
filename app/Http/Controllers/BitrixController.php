@@ -29,12 +29,12 @@ class BitrixController extends Controller
                 'halt' => 0,
                 'cmd' => $batchCommands
             ]);
-            // $responseData = $response->json();
+            $responseData = $response->json();
 
             if (isset($response['result_total']) && count($response['result_total']) > 0) {
-                // foreach ($responseData['result_total'] as  $kpiCount) {
+                foreach ($responseData['result_total'] as  $kpiCount) {
                   
-                    array_push($result['result'], $response);
+                    array_push($result['result'], $kpiCount);
                     // if (isset($batch['result_total'])) {
 
                         // foreach ($batch['result'] as $kpi) {
@@ -42,9 +42,9 @@ class BitrixController extends Controller
                         //     array_push($result['result'], $kpi);
                         // }
                     // }
-                // }
+                }
             } else {
-                // return APIController::getError('batch result not found', $responseData);
+                return APIController::getError('batch result not found', $responseData);
             }
         };
 
