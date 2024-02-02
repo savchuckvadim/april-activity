@@ -20,13 +20,18 @@ class BitrixController extends Controller
     {
         $hook = $this->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
         $url = $hook . '/batch';
+        $maxCommandsPerBatch = 50; // Максимальное количество команд на один batch запрос
+        $batchRequests = array_chunk($commands, $maxCommandsPerBatch, true);
+        $result = ['result' => []];
+        foreach ($batchRequests as $batchCommands) {
+            $response = Http::post($url, [
+                'halt' => 0,
+                'cmd' => $batchCommands
+            ]);
+            array_push($result['result'], $response->json());
+        };
 
-        $response = Http::post($url, [
-            'halt' => 0,
-            'cmd' => $commands
-        ]);
-
-        return $response->json(); // Возвращаем ответ как массив
+        return $result;
     }
 
     public static function getReport(Request $request)
@@ -66,6 +71,7 @@ class BitrixController extends Controller
             $listsResponses = [];
 
             // Подготовка команд для batch запроса
+
             $commands = [];
             foreach ($departament as $user) {
                 $userId = $user['ID'];
@@ -77,7 +83,6 @@ class BitrixController extends Controller
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&FILTER[$userFieldId]=$userId&FILTER[$actionFieldId]=$actionId&FILTER[>=DATE_CREATE]=$dateFrom&FILTER[<=DATE_CREATE]=$dateTo";
-
                 }
             }
 
