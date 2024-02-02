@@ -88,19 +88,23 @@ class BitrixController extends Controller
                 }
             }
             return APIController::getSuccess(
-                ['report' => [
-                    'lists' => $listsResponse,
-                    'listsResponses' => $listsResponses,
-                    'userFieldId' => $userFieldId,
-                    'userIds' => $userIds,
-                    'actionFieldId' => $actionFieldId,
-                    'currentActions' => $currentActions,
-                    'dateFieldId' => $dateFieldId,
-                    'dateFrom' => $dateFrom,
-                    'dateFrom' => $dateFrom,
-                    'dateTo' => $dateTo,
+                [
+                    'report' => $listsResponses
 
-                ]]
+                    // [
+                    //     'lists' => $listsResponse,
+                    //     'listsResponses' => $listsResponses,
+                    //     'userFieldId' => $userFieldId,
+                    //     'userIds' => $userIds,
+                    //     'actionFieldId' => $actionFieldId,
+                    //     'currentActions' => $currentActions,
+                    //     'dateFieldId' => $dateFieldId,
+                    //     'dateFrom' => $dateFrom,
+                    //     'dateFrom' => $dateFrom,
+                    //     'dateTo' => $dateTo,
+
+                    // ]
+                ]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
@@ -228,8 +232,8 @@ class BitrixController extends Controller
 
         $result = [];
 
-        $fromProp = '>' . $dateFieldId;
-        $torop = '>' . $dateFieldId;
+        // $fromProp = '>' . $dateFieldId;
+        // $torop = '>' . $dateFieldId;
 
         foreach ($currentActions as $actionId => $actionTitle) {
             $data =   [
@@ -239,8 +243,9 @@ class BitrixController extends Controller
                 'FILTER' => [
                     $userFieldId => $userIds,
                     $actionFieldId => $actionId,
-                    $fromProp => $dateFrom,
-                    $torop . $dateFieldId => $dateTo,
+                    '>=DATE_CREATE' => $dateFrom,
+                    '<=DATE_CREATE' => $dateTo,
+ 
                 ]
             ];
 
