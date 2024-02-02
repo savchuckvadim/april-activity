@@ -165,7 +165,8 @@ class BitrixController extends Controller
             return APIController::getSuccess(
                 [
                     'report' => $result,
-                    'batchResults' =>  $batchResults
+                    'batchResults' =>  $batchResults,
+                    'commands' => $commands
                     // [
                     //     'lists' => $listsResponse,
                     //     'listsResponses' => $listsResponses,
