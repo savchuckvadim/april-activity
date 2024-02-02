@@ -37,7 +37,7 @@ class BitrixController extends Controller
                         $resultObject = [
                             $key => $batch['result_total']
                         ];
-                        array_push($result['result'], $resultObject);
+                        array_push($responseData['result'], $resultObject);
                     }
                   
                     // if (isset($batch['result_total'])) {
