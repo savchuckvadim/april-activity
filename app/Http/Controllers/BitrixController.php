@@ -225,7 +225,7 @@ class BitrixController extends Controller
             return APIController::getError(
                 $th->getMessage(),
                 [
-                    'beelin error' => $request
+                    '$batchResults' => $batchResults
                 ]
             );
         }
