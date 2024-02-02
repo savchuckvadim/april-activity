@@ -33,12 +33,13 @@ class BitrixController extends Controller
 
             if (isset($responseData['result']) && count($responseData['result']) > 0) {
                 foreach ($responseData as $batch) {
-                    if (isset($batch['result_total']) && count($batch['result_total']) > 0) {
+                    array_push($result['result'], $batch);
+                    if (isset($batch['result_total'])) {
 
-                        foreach ($batch['result'] as $kpi) {
+                        // foreach ($batch['result'] as $kpi) {
 
-                            array_push($result['result'], $kpi);
-                        }
+                        //     array_push($result['result'], $kpi);
+                        // }
                     }
                 }
             } else {
