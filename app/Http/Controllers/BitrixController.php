@@ -35,9 +35,9 @@ class BitrixController extends Controller
                 foreach ($responseData as $batch) {
                     foreach ($batch as $key => $value) {
                         $resultObject = [
-                            $key => $batch['result_total']
+                            $key => $responseData['result_total']
                         ];
-                        array_push($responseData['result'], $resultObject);
+                        array_push($result['result'], $resultObject);
                     }
                   
                     // if (isset($batch['result_total'])) {
