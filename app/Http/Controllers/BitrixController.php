@@ -137,7 +137,7 @@ class BitrixController extends Controller
 
             // Отправляем batch запрос
             $batchResults = $controller->sendBatchRequest($domain, $commands);
-            $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
+            // $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
             if (isset($batchResults['results']) && $batchResults['results']) {
                 foreach ($batchResults['result'] as $response) {
                     if ($response) {
@@ -198,7 +198,7 @@ class BitrixController extends Controller
             // }
             return APIController::getSuccess(
                 [
-                    'report' => $report,
+                    'report' => [],
                     'batchResults' =>  $batchResults,
                     'commands' =>  $commands
 
