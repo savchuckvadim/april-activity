@@ -74,13 +74,24 @@ class BitrixController extends Controller
                     'userName' => $userName,
                     'kpi' => []
                 ];
-            }
+                foreach ($currentActionsData as $actId => $actionTitle) {
 
-            // Добавляем информацию о действии и его результаты в массив KPI пользователя
-            $usersKPI[$userId]['kpi'][] = [
-                'action' => $actionTitle,
-                'count' => $count
-            ];
+                    array_push($usersKPI[$userId]['kpi'], [
+                        'id' => $actId,
+                        'action' =>  $actionTitle,
+                        'count' =>  0
+                    ]);
+                }
+                foreach ($usersKPI[$userId]['kpi'] as $initialKpiItem) {
+                    if ($initialKpiItem['id'] === $actionId) {
+                        $initialKpiItem['count'] = $count;
+                    }
+                }
+                // $usersKPI[$userId]['kpi'][] = [
+                //     'action' => $actionTitle,
+                //     'count' => $count
+                // ];
+            }
         }
 
         return array_values($usersKPI); // Возвращаем переиндексированный массив пользователей и их KPI
