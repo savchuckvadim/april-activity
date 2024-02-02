@@ -16,6 +16,18 @@ class BitrixController extends Controller
         return response(['hellou' => 'world']);
     }
 
+    protected function sendBatchRequest($domain, $commands)
+    {
+        $hook = $this->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
+        $url = $hook . '/batch';
+
+        $response = Http::post($url, [
+            'halt' => 0,
+            'cmd' => $commands
+        ]);
+
+        return $response->json(); // Возвращаем ответ как массив
+    }
 
     public static function getReport(Request $request)
     {
@@ -27,7 +39,7 @@ class BitrixController extends Controller
         ];
         $errors = [];
         $responses = [];
-
+        $result = [];
 
         try {
             $domain = $request['domain'];
@@ -52,25 +64,66 @@ class BitrixController extends Controller
 
             $controller = new BitrixController;
             $listsResponses = [];
+
+            // Подготовка команд для batch запроса
+            $commands = [];
             foreach ($departament as $user) {
-                $userName =  $user['LAST_NAME'] . ' ' . $user['NAME'];
-                $listsResponse = $controller->getReportLists(
-                    $domain,
-                    $userFieldId,
-                    [$user['ID']],
-                    $actionFieldId,
-                    $currentActionsData,
-                    $dateFieldId,
-                    $dateFrom,
-                    $dateTo
-                );
-                $userKPI = [
-                    'user' => $user,
-                    'userName' => $userName,
-                    'kpi' => $listsResponse
-                ];
-                array_push($listsResponses, $userKPI);
+                $userId = $user['ID'];
+                $userName = $user['LAST_NAME'] . ' ' . $user['NAME'];
+
+                foreach ($currentActions as $actionId => $actionTitle) {
+                    // Формируем ключ команды, используя ID пользователя и ID действия для уникальности
+                    $cmdKey = "user_{$userId}_action_{$actionId}";
+
+                    // Добавляем команду в массив команд
+                    $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&FILTER[{$userFieldId}]={$userId}&FILTER[{$actionFieldId}]={$actionId}&FILTER[>=DATE_CREATE]={$dateFrom}&FILTER[<=DATE_CREATE]={$dateTo}";
+                }
             }
+
+            // Отправляем batch запрос
+            $batchResults = $controller->sendBatchRequest($domain, $commands);
+            if (isset($batchResults['results']) && $batchResults['results']) {
+                foreach ($batchResults['result'] as $response) {
+                    if ($response) {
+                        if (isset($response['result'])) {
+
+                            $otherData = [];
+                            if (isset($response['next'])) {
+                                $otherData['next'] = $response['next'];
+                            }
+
+
+                            $res = [
+                                'action' => $actionTitle,
+                                'count' =>  0
+                            ];
+                            if (isset($response['total'])) {
+                                $res['count'] = $response['total'];
+                            }
+                            array_push($result, $res);
+                        }
+                    }
+                }
+            }
+            // foreach ($departament as $user) {
+            //     $userName =  $user['LAST_NAME'] . ' ' . $user['NAME'];
+            //     $listsResponse = $controller->getReportLists(
+            //         $domain,
+            //         $userFieldId,
+            //         [$user['ID']],
+            //         $actionFieldId,
+            //         $currentActionsData,
+            //         $dateFieldId,
+            //         $dateFrom,
+            //         $dateTo
+            //     );
+            //     $userKPI = [
+            //         'user' => $user,
+            //         'userName' => $userName,
+            //         'kpi' => $listsResponse
+            //     ];
+            //     array_push($listsResponses, $userKPI);
+            // }
 
 
             // if ($listsResponse) {
@@ -82,14 +135,14 @@ class BitrixController extends Controller
             //     }
             // }
 
-            if ($userIds && count($userIds) > 0) {
+            // if ($userIds && count($userIds) > 0) {
 
-                foreach ($userIds as $userId) {
-                }
-            }
+            //     foreach ($userIds as $userId) {
+            //     }
+            // }
             return APIController::getSuccess(
                 [
-                    'report' => $listsResponses
+                    'report' => $result
 
                     // [
                     //     'lists' => $listsResponse,
@@ -245,7 +298,7 @@ class BitrixController extends Controller
                     $actionFieldId => $actionId,
                     '>=DATE_CREATE' => $dateFrom,
                     '<=DATE_CREATE' => $dateTo,
- 
+
                 ]
             ];
 
