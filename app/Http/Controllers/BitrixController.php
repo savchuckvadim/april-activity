@@ -29,12 +29,12 @@ class BitrixController extends Controller
                 'halt' => 0,
                 'cmd' => $batchCommands
             ]);
-            $responseData = $response->json();
+            // $responseData = $response->json();
 
             if (isset($response['result_total']) && count($response['result_total']) > 0) {
                 // foreach ($responseData['result_total'] as  $kpiCount) {
                   
-                    array_push($result['result'], $response['result_total']);
+                    array_push($result['result'], $response);
                     // if (isset($batch['result_total'])) {
 
                         // foreach ($batch['result'] as $kpi) {
@@ -44,7 +44,7 @@ class BitrixController extends Controller
                     // }
                 // }
             } else {
-                return APIController::getError('batch result not found', $responseData);
+                // return APIController::getError('batch result not found', $responseData);
             }
         };
 
@@ -140,29 +140,29 @@ class BitrixController extends Controller
             // Отправляем batch запрос
             $batchResults = $controller->sendBatchRequest($domain, $commands);
             // $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
-            if (isset($batchResults['results']) && $batchResults['results']) {
-                foreach ($batchResults['result'] as $response) {
-                    if ($response) {
-                        if (isset($response['result'])) {
+            // if (isset($batchResults['results']) && $batchResults['results']) {
+            //     foreach ($batchResults['result'] as $response) {
+            //         if ($response) {
+            //             if (isset($response['result'])) {
 
-                            $otherData = [];
-                            if (isset($response['next'])) {
-                                $otherData['next'] = $response['next'];
-                            }
+            //                 $otherData = [];
+            //                 if (isset($response['next'])) {
+            //                     $otherData['next'] = $response['next'];
+            //                 }
 
 
-                            $res = [
-                                'action' => $actionTitle,
-                                'count' =>  0
-                            ];
-                            if (isset($response['total'])) {
-                                $res['count'] = $response['total'];
-                            }
-                            array_push($result, $res);
-                        }
-                    }
-                }
-            }
+            //                 $res = [
+            //                     'action' => $actionTitle,
+            //                     'count' =>  0
+            //                 ];
+            //                 if (isset($response['total'])) {
+            //                     $res['count'] = $response['total'];
+            //                 }
+            //                 array_push($result, $res);
+            //             }
+            //         }
+            //     }
+            // }
             // foreach ($departament as $user) {
             //     $userName =  $user['LAST_NAME'] . ' ' . $user['NAME'];
             //     $listsResponse = $controller->getReportLists(
