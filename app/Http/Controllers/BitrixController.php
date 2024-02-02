@@ -57,7 +57,7 @@ class BitrixController extends Controller
         // Перебор всех результатов в ответе от batch запроса
         foreach ($batchResponseData as $cmdKey => $cmdResult) {
             // Разбиваем ключ команды, чтобы получить ID пользователя и ID действия
-            list($userPrefix, $userId, $actionPrefix, $actionId) = explode('-', $cmdKey);
+            list($userPrefix, $userId, $actionPrefix, $actionId) = explode('_', $cmdKey);
 
             // Находим информацию о пользователе и название действия
             $user = $department[array_search($userId, array_column($department, 'ID'))];
@@ -65,7 +65,7 @@ class BitrixController extends Controller
             $actionTitle = $currentActionsData[$actionId];
 
             // Подсчет результатов
-            $count = isset($cmdResult['total']) ? $cmdResult['total'] : 0;
+            $count = isset($cmdResult) ? $cmdResult : 0;
 
             // Формирование структуры данных для пользователя и его KPI
             if (!isset($usersKPI[$userId])) {
@@ -130,7 +130,7 @@ class BitrixController extends Controller
 
                 foreach ($currentActionsData as $actionId => $actionTitle) {
                     // Формируем ключ команды, используя ID пользователя и ID действия для уникальности
-                    $cmdKey = "user_{$userId}-action_{$actionId}";
+                    $cmdKey = "user_{$userId}_action_{$actionId}";
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[>=DATE_CREATE]=$dateFrom&filter[<=DATE_CREATE]=$dateTo";
