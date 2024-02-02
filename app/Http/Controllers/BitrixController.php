@@ -120,7 +120,7 @@ class BitrixController extends Controller
         //     }
         // }
 
-        return array_values($usersKPI); // Возвращаем переиндексированный массив пользователей и их KPI
+        return $usersKPI; // Возвращаем переиндексированный массив пользователей и их KPI
     }
     public static function getReport(Request $request)
     {
