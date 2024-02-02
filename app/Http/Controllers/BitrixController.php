@@ -33,9 +33,15 @@ class BitrixController extends Controller
 
             if (isset($responseData['result']) && count($responseData['result']) > 0) {
                 foreach ($responseData as $batch) {
-                    array_push($result['result'], $batch);
+                    if (isset($batch['result']) && count($batch['result']) > 0) {
+
+                        foreach ($batch['result'] as $kpi) {
+
+                            array_push($result['result'], $kpi);
+                        }
+                    }
                 }
-            }else{
+            } else {
                 return APIController::getError('batch result not found', $responseData);
             }
         };
