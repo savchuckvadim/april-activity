@@ -22,7 +22,7 @@ class BitrixController extends Controller
         $url = $hook . '/batch';
         $maxCommandsPerBatch = 50; // Максимальное количество команд на один batch запрос
         $batchRequests = array_chunk($commands, $maxCommandsPerBatch, true);
-        $result = ['result' => []];
+        $result = [];
 
         foreach ($batchRequests as $batchCommands) {
             $response = Http::post($url, [
@@ -34,7 +34,7 @@ class BitrixController extends Controller
             if (isset($responseData['result']['result_total']) && count($responseData['result']['result_total']) > 0) {
                 foreach ($responseData['result']['result_total'] as $key => $kpiCount) {
 
-                    $result['result'][$key] = $kpiCount;
+                    $result[$key] = $kpiCount;
                     // if (isset($batch['result_total'])) {
 
                     // foreach ($batch['result'] as $kpi) {
@@ -55,7 +55,7 @@ class BitrixController extends Controller
         $usersKPI = [];
 
         // Перебор всех результатов в ответе от batch запроса
-        foreach ($batchResponseData['result'] as $cmdKey => $cmdResult) {
+        foreach ($batchResponseData as $cmdKey => $cmdResult) {
             // Разбиваем ключ команды, чтобы получить ID пользователя и ID действия
             list($userPrefix, $userId, $actionPrefix, $actionId) = explode('-', $cmdKey);
 
@@ -139,7 +139,7 @@ class BitrixController extends Controller
 
             // Отправляем batch запрос
             $batchResults = $controller->sendBatchRequest($domain, $commands);
-            // $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
+            $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
             // if (isset($batchResults['results']) && $batchResults['results']) {
             //     foreach ($batchResults['result'] as $response) {
             //         if ($response) {
@@ -200,7 +200,7 @@ class BitrixController extends Controller
             // }
             return APIController::getSuccess(
                 [
-                    'report' => [],
+                    'report' => $report,
                     'batchResults' =>  $batchResults,
                     'commands' =>  $commands
 
