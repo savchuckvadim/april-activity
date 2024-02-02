@@ -23,12 +23,21 @@ class BitrixController extends Controller
         $maxCommandsPerBatch = 50; // Максимальное количество команд на один batch запрос
         $batchRequests = array_chunk($commands, $maxCommandsPerBatch, true);
         $result = ['result' => []];
+
         foreach ($batchRequests as $batchCommands) {
             $response = Http::post($url, [
                 'halt' => 0,
                 'cmd' => $batchCommands
             ]);
-            array_push($result['result'], $response->json());
+            $responseData = $response->json();
+
+            if (isset($responseData['result']) && count($responseData['result']) > 0) {
+                foreach ($responseData as $batch) {
+                    array_push($result['result'], $batch);
+                }
+            }else{
+                return APIController::getError('batch result not found', $responseData);
+            }
         };
 
         return $result;
