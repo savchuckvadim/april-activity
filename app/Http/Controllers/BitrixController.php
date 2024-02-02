@@ -228,6 +228,9 @@ class BitrixController extends Controller
 
         $result = [];
 
+        $fromProp = '>' . $dateFieldId;
+        $torop = '>' . $dateFieldId;
+
         foreach ($currentActions as $actionId => $actionTitle) {
             $data =   [
                 'IBLOCK_TYPE_ID' => 'lists',
@@ -236,8 +239,8 @@ class BitrixController extends Controller
                 'FILTER' => [
                     $userFieldId => $userIds,
                     $actionFieldId => $actionId,
-                    // '>' . $dateFieldId => $dateFrom,
-                    // '<' . $dateFieldId => $dateTo,
+                    $fromProp => $dateFrom,
+                    $torop . $dateFieldId => $dateTo,
                 ]
             ];
 
