@@ -32,9 +32,9 @@ class BitrixController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['result_total']) && count($responseData['result_total']) > 0) {
-                foreach ($responseData['result_total'] as $key => $kpiCount) {
+                foreach ($responseData['result_total'] as  $kpiCount) {
                   
-                    array_push($result['result'], [$key => $kpiCount]);
+                    array_push($result['result'], $kpiCount);
                     // if (isset($batch['result_total'])) {
 
                         // foreach ($batch['result'] as $kpi) {
