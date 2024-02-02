@@ -62,7 +62,7 @@ class BitrixController extends Controller
                 'kpi' => []
             ];
             foreach ($currentActionsData as $actId => $actionTitle) {
-                $kpiKey = 'user_' . $user . ['ID'] . '_action_' . $actId;
+                $kpiKey = 'user_' . $user['ID'] . '_action_' . $actId;
                 $count = 0;
                 foreach ($batchResponseData as $cmdKey => $cmdResult) {
                     if ($cmdKey == $kpiKey) {
