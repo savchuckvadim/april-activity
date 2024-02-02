@@ -32,11 +32,9 @@ class BitrixController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['result_total']) && count($responseData['result_total']) > 0) {
-                foreach ($responseData['result_total'] as $key => $kpi) {
-                      $resultObject = [
-                            $key => $responseData
-                        ];
-                        array_push($result['result'], $resultObject);
+                // foreach ($responseData['result_total'] as  $kpiCount) {
+                  
+                    array_push($result['result'], $responseData['result_total']);
                     // if (isset($batch['result_total'])) {
 
                         // foreach ($batch['result'] as $kpi) {
@@ -44,7 +42,7 @@ class BitrixController extends Controller
                         //     array_push($result['result'], $kpi);
                         // }
                     // }
-                }
+                // }
             } else {
                 return APIController::getError('batch result not found', $responseData);
             }
