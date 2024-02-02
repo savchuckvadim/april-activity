@@ -73,14 +73,14 @@ class BitrixController extends Controller
             $dateFieldId = $request['filters']['dateFieldId'];
             $dateFrom = $request['filters']['dateFrom'];
             $dateTo = $request['filters']['dateTo'];
-            $currentActions = [];
-            $lists = [];
+            // $currentActions = [];
+            // $lists = [];
 
-            if ($currentActionsData) {
-                foreach ($currentActionsData as $id => $title) {
-                    array_push($currentActions, $id);
-                }
-            }
+            // if ($currentActionsData) {
+            //     foreach ($currentActionsData as $id => $title) {
+            //         array_push($currentActions, $id);
+            //     }
+            // }
 
             $controller = new BitrixController;
             $listsResponses = [];
@@ -92,12 +92,12 @@ class BitrixController extends Controller
                 $userId = $user['ID'];
                 $userName = $user['LAST_NAME'] . ' ' . $user['NAME'];
 
-                foreach ($currentActions as $actionId => $actionTitle) {
+                foreach ($currentActionsData as $actionId => $actionTitle) {
                     // Формируем ключ команды, используя ID пользователя и ID действия для уникальности
                     $cmdKey = "user_{$userId}_action_{$actionId}";
 
                     // Добавляем команду в массив команд
-                    $commands[$cmdKey] = $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId";
+                    $commands[$cmdKey] = $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[>=DATE_CREATE]=$dateFrom&filter[<=DATE_CREATE]=$dateTo";
 
                 }
             }
@@ -166,7 +166,10 @@ class BitrixController extends Controller
                 [
                     'report' => $result,
                     'batchResults' =>  $batchResults,
-                    'commands' => $commands
+                    'commands' =>  $commands
+
+
+                    
                     // [
                     //     'lists' => $listsResponse,
                     //     'listsResponses' => $listsResponses,
