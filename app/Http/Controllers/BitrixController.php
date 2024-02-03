@@ -262,24 +262,24 @@ class BitrixController extends Controller
 
 
 
-            foreach ($resultUserReport['callings'] as $type) {
+            foreach ($resultUserReport['callings'] as $key => $type) {
 
                 if ($type['id'] === 'all') {
                     $data =   [
                         "FILTER" => [
                             "PORTAL_USER_ID" => $userIds,
                             // ">CALL_DURATION" => $type->duration,
-                            ">CALL_START_DATE" => $dateFrom,
-                            "<CALL_START_DATE" =>  $dateTo
+                            ">=CALL_START_DATE" => $dateFrom,
+                            "<=CALL_START_DATE" =>  $dateTo
                         ]
                     ];
                 } else {
                     $data =   [
                         "FILTER" => [
                             "PORTAL_USER_ID" => $userIds,
-                            ">CALL_DURATION" => $type['id'],
-                            ">CALL_START_DATE" => $dateFrom,
-                            "<CALL_START_DATE" =>  $dateTo
+                            ">=CALL_DURATION" => $type['id'],
+                            ">=CALL_START_DATE" => $dateFrom,
+                            "<=CALL_START_DATE" =>  $dateTo
                         ]
                     ];
                 }
@@ -296,8 +296,9 @@ class BitrixController extends Controller
                 //     $next = $response['next'];
                 // }
 
-                $type['count'] = $response['total'];
-                // } else {
+                // $type['count'] = $response['total'];
+                $resultUserReport['callings'][$key]['count'] = $response['total'];
+                // } else { 
                 //     return APIController::getError(
                 //         'response total not found',
                 //         [
