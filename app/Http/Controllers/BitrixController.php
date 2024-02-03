@@ -260,56 +260,57 @@ class BitrixController extends Controller
             $resultUserReport = $userReport;
             $resultUserReport['callings'] = $callingsTypes;
 
+
+
+            foreach ($resultUserReport['callings'] as $type) {
+
+                if ($type['id'] === 'all') {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            // ">CALL_DURATION" => $type->duration,
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
+                        ]
+                    ];
+                } else {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            ">CALL_DURATION" => $type['id'],
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
+                        ]
+                    ];
+                }
+
+                $response = Http::get($url, $data);
+
+                array_push($responses, $response);
+
+                // if (isset($response['total'])) {
+                // Добавляем полученные звонки к общему списку
+                // $resultCallings = array_merge($resultCallings, $response['result']);
+                // if (isset($response['next'])) {
+                //     // Получаем значение "next" из ответа
+                //     $next = $response['next'];
+                // }
+
+                $type['count'] = $response['total'];
+                // } else {
+                //     return APIController::getError(
+                //         'response total not found',
+                //         [
+                //             'response' => $response
+                //         ]
+                //     );
+                //     array_push($errors, $response);
+                //     $type['count'] = 0;
+                // }
+                // Ждем некоторое время перед следующим запросом
+                // sleep(1); // Например, ждем 5 секунд
+            }
             array_push($result, $resultUserReport);
-
-            // foreach ($userReport['callings'] as $type) {
-
-            //     if ($type['id'] === 'all') {
-            //         $data =   [
-            //             "FILTER" => [
-            //                 "PORTAL_USER_ID" => $userIds,
-            //                 // ">CALL_DURATION" => $type->duration,
-            //                 ">CALL_START_DATE" => $dateFrom,
-            //                 "<CALL_START_DATE" =>  $dateTo
-            //             ]
-            //         ];
-            //     } else {
-            //         $data =   [
-            //             "FILTER" => [
-            //                 "PORTAL_USER_ID" => $userIds,
-            //                 ">CALL_DURATION" => $type['id'],
-            //                 ">CALL_START_DATE" => $dateFrom,
-            //                 "<CALL_START_DATE" =>  $dateTo
-            //             ]
-            //         ];
-            //     }
-
-            //     $response = Http::get($url, $data);
-
-            //     array_push($responses, $response);
-
-            //     // if (isset($response['total'])) {
-            //         // Добавляем полученные звонки к общему списку
-            //         // $resultCallings = array_merge($resultCallings, $response['result']);
-            //         // if (isset($response['next'])) {
-            //         //     // Получаем значение "next" из ответа
-            //         //     $next = $response['next'];
-            //         // }
-
-            //         $type['count'] = $response['total'];
-            //     // } else {
-            //     //     return APIController::getError(
-            //     //         'response total not found',
-            //     //         [
-            //     //             'response' => $response
-            //     //         ]
-            //     //     );
-            //     //     array_push($errors, $response);
-            //     //     $type['count'] = 0;
-            //     // }
-            //     // Ждем некоторое время перед следующим запросом
-            //     // sleep(1); // Например, ждем 5 секунд
-            // }
             // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
         }
         return  $result;
