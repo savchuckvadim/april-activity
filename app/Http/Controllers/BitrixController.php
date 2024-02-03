@@ -164,7 +164,8 @@ class BitrixController extends Controller
         return [
             'report' => $report,
             'total' => $totalKPI,
-            'medium' => $mediumKPI
+            'medium' => $mediumKPI,
+            'kpiToRemove' => $kpiToRemove,
         ];
     }
 
