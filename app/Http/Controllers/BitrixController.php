@@ -244,83 +244,74 @@ class BitrixController extends Controller
         $responses = [];
 
         $result = [];
-        try {
 
-            $hook = $this->getHookUrl($domain);
+        $hook = $this->getHookUrl($domain);
 
-            $actionUrl = '/voximplant.statistic.get.json';
-            $url = $hook . $actionUrl;
-            $next = 0; // Начальное значение параметра "next"
-
-
-            foreach ($report as $userReport) {
-
-                $user = $userReport['user'];
-                $userId = $user['ID'];
-                $userIds = [$userId];
-                $resultUserRepor = $userReport;
-                $resultUserRepor['callings'] = $callingsTypes;
+        $actionUrl = '/voximplant.statistic.get.json';
+        $url = $hook . $actionUrl;
+        $next = 0; // Начальное значение параметра "next"
 
 
-                // foreach ($userReport['callings'] as $type) {
+        foreach ($report as $userReport) {
 
-                //     if ($type['id'] === 'all') {
-                //         $data =   [
-                //             "FILTER" => [
-                //                 "PORTAL_USER_ID" => $userIds,
-                //                 // ">CALL_DURATION" => $type->duration,
-                //                 ">CALL_START_DATE" => $dateFrom,
-                //                 "<CALL_START_DATE" =>  $dateTo
-                //             ]
-                //         ];
-                //     } else {
-                //         $data =   [
-                //             "FILTER" => [
-                //                 "PORTAL_USER_ID" => $userIds,
-                //                 ">CALL_DURATION" => $type['id'],
-                //                 ">CALL_START_DATE" => $dateFrom,
-                //                 "<CALL_START_DATE" =>  $dateTo
-                //             ]
-                //         ];
-                //     }
+            $user = $userReport['user'];
+            $userId = $user['ID'];
+            $userIds = [$userId];
+            $resultUserRepor = $userReport;
+            $resultUserRepor['callings'] = $callingsTypes;
 
-                //     $response = Http::get($url, $data);
 
-                //     array_push($responses, $response);
+            // foreach ($userReport['callings'] as $type) {
 
-                //     // if (isset($response['total'])) {
-                //         // Добавляем полученные звонки к общему списку
-                //         // $resultCallings = array_merge($resultCallings, $response['result']);
-                //         // if (isset($response['next'])) {
-                //         //     // Получаем значение "next" из ответа
-                //         //     $next = $response['next'];
-                //         // }
+            //     if ($type['id'] === 'all') {
+            //         $data =   [
+            //             "FILTER" => [
+            //                 "PORTAL_USER_ID" => $userIds,
+            //                 // ">CALL_DURATION" => $type->duration,
+            //                 ">CALL_START_DATE" => $dateFrom,
+            //                 "<CALL_START_DATE" =>  $dateTo
+            //             ]
+            //         ];
+            //     } else {
+            //         $data =   [
+            //             "FILTER" => [
+            //                 "PORTAL_USER_ID" => $userIds,
+            //                 ">CALL_DURATION" => $type['id'],
+            //                 ">CALL_START_DATE" => $dateFrom,
+            //                 "<CALL_START_DATE" =>  $dateTo
+            //             ]
+            //         ];
+            //     }
 
-                //         $type['count'] = $response['total'];
-                //     // } else {
-                //     //     return APIController::getError(
-                //     //         'response total not found',
-                //     //         [
-                //     //             'response' => $response
-                //     //         ]
-                //     //     );
-                //     //     array_push($errors, $response);
-                //     //     $type['count'] = 0;
-                //     // }
-                //     // Ждем некоторое время перед следующим запросом
-                //     // sleep(1); // Например, ждем 5 секунд
-                // }
-                // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
-            }
-            return  $result;
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                $th->getMessage(),
-                [
-                    'report' => $report
-                ]
-            );
+            //     $response = Http::get($url, $data);
+
+            //     array_push($responses, $response);
+
+            //     // if (isset($response['total'])) {
+            //         // Добавляем полученные звонки к общему списку
+            //         // $resultCallings = array_merge($resultCallings, $response['result']);
+            //         // if (isset($response['next'])) {
+            //         //     // Получаем значение "next" из ответа
+            //         //     $next = $response['next'];
+            //         // }
+
+            //         $type['count'] = $response['total'];
+            //     // } else {
+            //     //     return APIController::getError(
+            //     //         'response total not found',
+            //     //         [
+            //     //             'response' => $response
+            //     //         ]
+            //     //     );
+            //     //     array_push($errors, $response);
+            //     //     $type['count'] = 0;
+            //     // }
+            //     // Ждем некоторое время перед следующим запросом
+            //     // sleep(1); // Например, ждем 5 секунд
+            // }
+            // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
         }
+        return  $result;
     }
 
 
