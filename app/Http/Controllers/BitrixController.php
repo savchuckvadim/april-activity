@@ -191,8 +191,6 @@ class BitrixController extends Controller
                 ]
             );
         }
-
-
     }
 
     protected function addVoximplantInReport($domain, $dateFrom, $dateTo, $report)
@@ -245,7 +243,7 @@ class BitrixController extends Controller
         $errors = [];
         $responses = [];
 
-
+        $result = [];
         try {
 
             $hook = $this->getHookUrl($domain);
@@ -260,8 +258,8 @@ class BitrixController extends Controller
                 $user = $userReport['user'];
                 $userId = $user['ID'];
                 $userIds = [$userId];
-                $userReport['callings'] = $callingsTypes;
-
+                $resultUserRepor = $userReport;
+                $resultUserRepor['callings'] = $callingsTypes;
 
 
                 // foreach ($userReport['callings'] as $type) {
@@ -314,7 +312,7 @@ class BitrixController extends Controller
                 // }
                 // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
             }
-            return  $report;
+            return  $result;
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
