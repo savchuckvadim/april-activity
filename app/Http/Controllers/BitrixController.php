@@ -52,7 +52,8 @@ class BitrixController extends Controller
             $userKPI = [
                 'user' => $user,
                 'userName' => $userName,
-                'kpi' => []
+                'kpi' => [],
+                'callings' => []
             ];
             foreach ($currentActionsData as $actId => $actionTitle) {
                 $kpiKey = 'user_' . $user['ID'] . '_action_' . $actId;
@@ -390,6 +391,12 @@ class BitrixController extends Controller
 
                         $type['count'] = $response['total'];
                     } else {
+                        return APIController::getError(
+                            'response total not found',
+                            [
+                                'response' => $response
+                            ]
+                        );
                         array_push($errors, $response);
                         $type['count'] = 0;
                     }
