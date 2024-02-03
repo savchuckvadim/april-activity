@@ -109,15 +109,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return PortalController::getPortal($domain);
     });
     Route::get('portal/{portalId}', function ($portalId) {
-
         return PortalController::getPortalById($portalId);
     });
-    Route::delete('portal/{portalId}', function ($portalId) {
 
+    Route::delete('portal/{portalId}', function ($portalId) {
         return PortalController::deletePortal($portalId);
     });
     Route::get('portals', function () {
-
         return PortalController::getPortals();
     });
     Route::post('portal', function (Request $request) {

@@ -167,88 +167,19 @@ class BitrixController extends Controller
                 }
             }
 
+            //lists
             // Отправляем batch запрос
             $batchResults = $controller->sendBatchRequest($domain, $commands);
             $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
-            // if (isset($batchResults['results']) && $batchResults['results']) {
-            //     foreach ($batchResults['result'] as $response) {
-            //         if ($response) {
-            //             if (isset($response['result'])) {
+            $report = $controller->addVoximplantInReport($domain, $dateFrom, $dateTo, $report);
 
-            //                 $otherData = [];
-            //                 if (isset($response['next'])) {
-            //                     $otherData['next'] = $response['next'];
-            //                 }
-
-
-            //                 $res = [
-            //                     'action' => $actionTitle,
-            //                     'count' =>  0
-            //                 ];
-            //                 if (isset($response['total'])) {
-            //                     $res['count'] = $response['total'];
-            //                 }
-            //                 array_push($result, $res);
-            //             }
-            //         }
-            //     }
-            // }
-            // foreach ($departament as $user) {
-            //     $userName =  $user['LAST_NAME'] . ' ' . $user['NAME'];
-            //     $listsResponse = $controller->getReportLists(
-            //         $domain,
-            //         $userFieldId,
-            //         [$user['ID']],
-            //         $actionFieldId,
-            //         $currentActionsData,
-            //         $dateFieldId,
-            //         $dateFrom,
-            //         $dateTo
-            //     );
-            //     $userKPI = [
-            //         'user' => $user,
-            //         'userName' => $userName,
-            //         'kpi' => $listsResponse
-            //     ];
-            //     array_push($listsResponses, $userKPI);
-            // }
-
-
-            // if ($listsResponse) {
-            //     if (isset($listsResponse['data'])) {
-            //         $lists = $listsResponse['data'];
-            //     } else {
-            //         if (isset($listsResponse['message']))
-            //             return APIController::getError($listsResponse['message'], ['data' => $request->all()]);
-            //     }
-            // }
-
-            // if ($userIds && count($userIds) > 0) {
-
-            //     foreach ($userIds as $userId) {
-            //     }
-            // }
+            //voximplant
             return APIController::getSuccess(
                 [
                     'report' => $report,
                     'batchResults' =>  $batchResults,
                     'commands' =>  $commands
 
-
-
-                    // [
-                    //     'lists' => $listsResponse,
-                    //     'listsResponses' => $listsResponses,
-                    //     'userFieldId' => $userFieldId,
-                    //     'userIds' => $userIds,
-                    //     'actionFieldId' => $actionFieldId,
-                    //     'currentActions' => $currentActions,
-                    //     'dateFieldId' => $dateFieldId,
-                    //     'dateFrom' => $dateFrom,
-                    //     'dateFrom' => $dateFrom,
-                    //     'dateTo' => $dateTo,
-
-                    // ]
                 ]
             );
         } catch (\Throwable $th) {
@@ -346,6 +277,138 @@ class BitrixController extends Controller
             );
         }
     }
+
+    protected function addVoximplantInReport($domain, $dateFrom, $dateTo, $report)
+    {
+        $callingsTypes = [
+            [
+                'id' => 'all',
+                'action' => 'Наборов номера',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+            [
+                'id' => 30,
+                'action' => 'Звонки > 30 сек',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+            [
+                'id' => 60,
+                'action' => 'Звонки > минуты',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+            [
+                'id' => 180,
+                'action' => 'Звонки > 3 минут',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+            [
+                'id' => 300,
+                'action' => 'Звонки > 5 минут',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+            [
+                'id' => 600,
+                'action' => 'Звонки > 10 минут',
+                'count' => 0,
+                'duration' => 0,
+                'period' => []
+            ],
+
+        ];
+        $errors = [];
+        $responses = [];
+
+
+
+
+
+
+
+
+
+        try {
+
+            $hook = $this->getHookUrl($domain);
+
+            $actionUrl = '/voximplant.statistic.get.json';
+            $url = $hook . $actionUrl;
+            $next = 0; // Начальное значение параметра "next"
+
+
+            foreach ($report as $userReport) {
+
+                $user = $userReport['user'];
+                $userId = $user['ID'];
+                $userIds = [$userId];
+                $userReport['callings'] = $callingsTypes;
+
+
+
+                foreach ($userReport['callings'] as $type) {
+
+                    if ($type['id'] === 'all') {
+                        $data =   [
+                            "FILTER" => [
+                                "PORTAL_USER_ID" => $userIds,
+                                // ">CALL_DURATION" => $type->duration,
+                                ">CALL_START_DATE" => $dateFrom,
+                                "<CALL_START_DATE" =>  $dateTo
+                            ]
+                        ];
+                    } else {
+                        $data =   [
+                            "FILTER" => [
+                                "PORTAL_USER_ID" => $userIds,
+                                ">CALL_DURATION" => $type['id'],
+                                ">CALL_START_DATE" => $dateFrom,
+                                "<CALL_START_DATE" =>  $dateTo
+                            ]
+                        ];
+                    }
+
+                    $response = Http::get($url, $data);
+
+                    array_push($responses, $response);
+
+                    if (isset($response['total'])) {
+                        // Добавляем полученные звонки к общему списку
+                        // $resultCallings = array_merge($resultCallings, $response['result']);
+                        // if (isset($response['next'])) {
+                        //     // Получаем значение "next" из ответа
+                        //     $next = $response['next'];
+                        // }
+
+                        $type['count'] = $response['total'];
+                    } else {
+                        array_push($errors, $response);
+                        $type['count'] = 0;
+                    }
+                    // Ждем некоторое время перед следующим запросом
+                    sleep(1); // Например, ждем 5 секунд
+                }
+                // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
+            }
+            return  $report;
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                [
+                    'report' => $report
+                ]
+            );
+        }
+    }
+
 
     //protected report inner methods
     protected function getReportCallings($userId)
