@@ -141,7 +141,8 @@ class BitrixController extends Controller
             $dateFrom = $request['filters']['dateFrom'];
             $dateTo = $request['filters']['dateTo'];
 
-            $dateFieldForHook = "><".$dateFieldId;
+            $dateFieldForHookFrom = ">" . $dateFieldId;
+            $dateFieldForHookTo = ">" . $dateFieldId;
             // $currentActions = [];
             // $lists = [];
 
@@ -166,7 +167,8 @@ class BitrixController extends Controller
                     $cmdKey = "user_{$userId}_action_{$actionId}";
 
                     // Добавляем команду в массив команд
-                    $commands[$cmdKey] = "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHook]=[01.02.2024, 03.02.2024]";
+                    $commands[$cmdKey] =
+                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
                 }
             }
 
@@ -271,17 +273,17 @@ class BitrixController extends Controller
                         "FILTER" => [
                             "PORTAL_USER_ID" => $userIds,
                             // ">CALL_DURATION" => $type->duration,
-                            ">=CALL_START_DATE" => $dateFrom,
-                            "<=CALL_START_DATE" =>  $dateTo
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
                         ]
                     ];
                 } else {
                     $data =   [
                         "FILTER" => [
                             "PORTAL_USER_ID" => $userIds,
-                            ">=CALL_DURATION" => $type['id'],
-                            ">=CALL_START_DATE" => $dateFrom,
-                            "<=CALL_START_DATE" =>  $dateTo
+                            ">CALL_DURATION" => $type['id'],
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
                         ]
                     ];
                 }
