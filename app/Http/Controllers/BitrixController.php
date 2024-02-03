@@ -179,7 +179,7 @@ class BitrixController extends Controller
                 [
                     'report' => $report,
                     'batchResults' =>  $batchResults,
-                    'commands' =>  $commands
+                    // 'commands' =>  $commands
 
                 ]
             );
@@ -193,90 +193,6 @@ class BitrixController extends Controller
         }
 
 
-
-
-
-        try {
-            $domain = $request['domain'];
-            $filters = $request['filters'];
-            $callStartDateFrom = $filters['callStartDateFrom'];
-            $callStartDateTo = $filters['callStartDateTo'];
-            $actionUrl = '/voximplant.statistic.get.json';
-
-
-
-            $hook = $controller->getHookUrl($domain);
-
-
-
-            $url = $hook . $actionUrl;
-            $next = 0; // Начальное значение параметра "next"
-            // $userId = 174;
-            // do {
-            // Отправляем запрос на другой сервер
-
-            // if (isset($filters) && isset($filters['userIds'])) {
-            $userIds = $filters['userIds'];
-            // }
-
-
-
-
-            foreach ($callingsTotalCount as $key => $duration) {
-                if ($duration) {
-                    $data =   [
-                        "FILTER" => [
-                            "PORTAL_USER_ID" => $userIds,
-                            ">CALL_DURATION" => $duration,
-                            ">CALL_START_DATE" => $callStartDateFrom,
-                            "<CALL_START_DATE" =>  $callStartDateTo
-                        ]
-                    ];
-                } else {
-                    $data =  ["FILTER" => [
-                        "PORTAL_USER_ID" => $userIds,
-                        ">CALL_START_DATE" => $callStartDateFrom,
-                        "<CALL_START_DATE" =>  $callStartDateTo
-                    ]];
-                }
-
-                $response = Http::get($url, $data);
-
-                array_push($responses, $response);
-
-                if (isset($response['total'])) {
-                    // Добавляем полученные звонки к общему списку
-                    // $resultCallings = array_merge($resultCallings, $response['result']);
-                    // if (isset($response['next'])) {
-                    //     // Получаем значение "next" из ответа
-                    //     $next = $response['next'];
-                    // }
-                    $callingsTotalCount[$key] = $response['total'];
-                } else {
-                    array_push($errors, $response);
-                    $callingsTotalCount[$key] = 0;
-                }
-                // Ждем некоторое время перед следующим запросом
-                sleep(1); // Например, ждем 5 секунд
-            }
-            // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
-
-            return APIController::getSuccess(
-
-                [
-                    'errors' => $errors,
-                    'responses' => $responses,
-                    'result' => $callingsTotalCount
-                ]
-            );
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                $th->getMessage(),
-                [
-                    'request' => $request
-                ]
-            );
-        }
     }
 
     protected function addVoximplantInReport($domain, $dateFrom, $dateTo, $report)
@@ -330,13 +246,6 @@ class BitrixController extends Controller
         $responses = [];
 
 
-
-
-
-
-
-
-
         try {
 
             $hook = $this->getHookUrl($domain);
@@ -355,54 +264,54 @@ class BitrixController extends Controller
 
 
 
-                foreach ($userReport['callings'] as $type) {
+                // foreach ($userReport['callings'] as $type) {
 
-                    if ($type['id'] === 'all') {
-                        $data =   [
-                            "FILTER" => [
-                                "PORTAL_USER_ID" => $userIds,
-                                // ">CALL_DURATION" => $type->duration,
-                                ">CALL_START_DATE" => $dateFrom,
-                                "<CALL_START_DATE" =>  $dateTo
-                            ]
-                        ];
-                    } else {
-                        $data =   [
-                            "FILTER" => [
-                                "PORTAL_USER_ID" => $userIds,
-                                ">CALL_DURATION" => $type['id'],
-                                ">CALL_START_DATE" => $dateFrom,
-                                "<CALL_START_DATE" =>  $dateTo
-                            ]
-                        ];
-                    }
+                //     if ($type['id'] === 'all') {
+                //         $data =   [
+                //             "FILTER" => [
+                //                 "PORTAL_USER_ID" => $userIds,
+                //                 // ">CALL_DURATION" => $type->duration,
+                //                 ">CALL_START_DATE" => $dateFrom,
+                //                 "<CALL_START_DATE" =>  $dateTo
+                //             ]
+                //         ];
+                //     } else {
+                //         $data =   [
+                //             "FILTER" => [
+                //                 "PORTAL_USER_ID" => $userIds,
+                //                 ">CALL_DURATION" => $type['id'],
+                //                 ">CALL_START_DATE" => $dateFrom,
+                //                 "<CALL_START_DATE" =>  $dateTo
+                //             ]
+                //         ];
+                //     }
 
-                    $response = Http::get($url, $data);
+                //     $response = Http::get($url, $data);
 
-                    array_push($responses, $response);
+                //     array_push($responses, $response);
 
-                    if (isset($response['total'])) {
-                        // Добавляем полученные звонки к общему списку
-                        // $resultCallings = array_merge($resultCallings, $response['result']);
-                        // if (isset($response['next'])) {
-                        //     // Получаем значение "next" из ответа
-                        //     $next = $response['next'];
-                        // }
+                //     // if (isset($response['total'])) {
+                //         // Добавляем полученные звонки к общему списку
+                //         // $resultCallings = array_merge($resultCallings, $response['result']);
+                //         // if (isset($response['next'])) {
+                //         //     // Получаем значение "next" из ответа
+                //         //     $next = $response['next'];
+                //         // }
 
-                        $type['count'] = $response['total'];
-                    } else {
-                        return APIController::getError(
-                            'response total not found',
-                            [
-                                'response' => $response
-                            ]
-                        );
-                        array_push($errors, $response);
-                        $type['count'] = 0;
-                    }
-                    // Ждем некоторое время перед следующим запросом
-                    // sleep(1); // Например, ждем 5 секунд
-                }
+                //         $type['count'] = $response['total'];
+                //     // } else {
+                //     //     return APIController::getError(
+                //     //         'response total not found',
+                //     //         [
+                //     //             'response' => $response
+                //     //         ]
+                //     //     );
+                //     //     array_push($errors, $response);
+                //     //     $type['count'] = 0;
+                //     // }
+                //     // Ждем некоторое время перед следующим запросом
+                //     // sleep(1); // Например, ждем 5 секунд
+                // }
                 // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
             }
             return  $report;
