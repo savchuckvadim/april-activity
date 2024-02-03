@@ -257,9 +257,10 @@ class BitrixController extends Controller
             $user = $userReport['user'];
             $userId = $user['ID'];
             $userIds = [$userId];
-            $resultUserRepor = $userReport;
-            $resultUserRepor['callings'] = $callingsTypes;
+            $resultUserReport = $userReport;
+            $resultUserReport['callings'] = $callingsTypes;
 
+            array_push($result, $resultUserReport);
 
             // foreach ($userReport['callings'] as $type) {
 
