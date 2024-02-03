@@ -120,54 +120,73 @@ class BitrixController extends Controller
     protected function cleanReport($report)
     {
         $kpiToRemove = []; // KPI для удаления
-        $totalKPI = []; // Суммарная информация по KPI для всех пользователей
-        $mediumKPI = []; // Средняя информация по KPI для всех пользователей
 
-        // Первый проход: собираем статистику по KPI
+        // Собираем информацию о KPI для удаления
         foreach ($report as $user) {
             foreach ($user['kpi'] as $kpi) {
                 $action = $kpi['action'];
-                // Инициализируем или обновляем статистику по KPI
                 if (!isset($kpiToRemove[$action])) {
-                    $kpiToRemove[$action] = ['count' => 0, 'total' => 0];
-                    $totalKPI[$action] = ['count' => 0, 'users' => 0];
+                    $kpiToRemove[$action] = ['zeroCount' => 0, 'totalCount' => 0];
                 }
-                $kpiToRemove[$action]['count'] += $kpi['count'];
-                $kpiToRemove[$action]['total'] += 1;
-                $totalKPI[$action]['count'] += $kpi['count'];
-                $totalKPI[$action]['users'] += 1;
+                $kpiToRemove[$action]['totalCount']++;
+                if ($kpi['count'] == 0) {
+                    $kpiToRemove[$action]['zeroCount']++;
+                }
             }
         }
 
-        // Вычисляем средние значения KPI
-        foreach ($totalKPI as $action => &$data) {
+        // Определение KPI для удаления
+        foreach ($kpiToRemove as $action => $data) {
+            if ($data['zeroCount'] != $data['totalCount']) {
+                unset($kpiToRemove[$action]);
+            }
+        }
+
+        // Удаление ненужных KPI
+        foreach ($report as &$user) {
+            $user['kpi'] = array_values(array_filter($user['kpi'], function ($kpi) use ($kpiToRemove) {
+                return !isset($kpiToRemove[$kpi['action']]);
+            }));
+        }
+        unset($user); // Разорвать ссылку
+
+        return $report;
+    }
+
+    protected function addTotalAndMediumKPI($report)
+    {
+        $totalKPI = []; // Суммарная информация по KPI
+        $mediumKPI = []; // Средняя информация по KPI
+    
+        // Собираем суммарную информацию
+        foreach ($report as $user) {
+            foreach ($user['kpi'] as $kpi) {
+                $action = $kpi['action'];
+                if (!isset($totalKPI[$action])) {
+                    $totalKPI[$action] = ['count' => 0, 'users' => 0];
+                }
+                $totalKPI[$action]['count'] += $kpi['count'];
+                $totalKPI[$action]['users']++;
+            }
+        }
+    
+        // Вычисляем средние значения
+        foreach ($totalKPI as $action => $data) {
             $mediumKPI[$action] = ['count' => 0];
             if ($data['users'] > 0) {
                 $mediumKPI[$action]['count'] = $data['count'] / $data['users'];
             }
         }
-        unset($data); // Разорвать ссылку на последний элемент
-
-        // Удаление ненужных KPI и переиндексация
-        foreach ($report as &$user) {
-            foreach ($user['kpi'] as $index => $kpi) {
-                $action = $kpi['action'];
-                if (isset($kpiToRemove[$action])) {
-                    unset($user['kpi'][$index]);
-                }
-            }
-            $user['kpi'] = array_values($user['kpi']);
-        }
-        unset($user); // Разорвать ссылку на последний элемент
-
-        // Возвращаем отчет вместе с суммарной и средней информацией
+    
+        // Возвращаем дополненный отчет
         return [
-            'report' => $report,
             'total' => $totalKPI,
             'medium' => $mediumKPI,
-            'kpiToRemove' => $kpiToRemove,
         ];
     }
+    
+
+
 
     public static function getReport(Request $request)
     {
@@ -231,10 +250,14 @@ class BitrixController extends Controller
             $report = $controller->processBatchResults($departament, $currentActionsData, $batchResults);
             $report = $controller->addVoximplantInReport($domain, $dateFrom, $dateTo, $report);
             $report = $controller->cleanReport($report);
+            $totalReport = $controller->addTotalAndMediumKPI($report);
+
             //voximplant
             return APIController::getSuccess(
                 [
-                    ...$report,
+                    'report' =>  $report,
+                    'total' =>  $totalReport['total'],
+                    'medium' =>  $totalReport['medium'],
                     'batchResults' =>  $batchResults,
                     // 'commands' =>  $commands
 
