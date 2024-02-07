@@ -2095,7 +2095,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
-        // $section->addTextBreak(1);
+        $section->addTextBreak(1);
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = [
             ...$styles['fonts']['text']['normal'],
@@ -2127,6 +2127,7 @@ class DocumentController extends Controller
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
         if ($documentNumber) {
+            $letterNumberell->addTextBreak(1);
             $letterNumberell->addText('Исх. № ' . $documentNumber, $recipientTextStyle, $leftAlign);
         }
 
@@ -2166,7 +2167,7 @@ class DocumentController extends Controller
             }
         }
 
-        $section->addTextBreak(1);
+        // $section->addTextBreak(1);
         if (isset($recipient['recipient'])) {
             if ($recipient['recipient']) {
                 $recipientName = $recipient['recipient'];
