@@ -2095,7 +2095,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
-        $section->addTextBreak(1);
+        // $section->addTextBreak(1);
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = [
             ...$styles['fonts']['text']['normal'],
