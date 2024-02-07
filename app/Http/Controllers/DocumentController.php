@@ -582,6 +582,22 @@ class DocumentController extends Controller
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
 
+                // /invoice base number
+                $step1 = preg_replace_callback(
+                    '/([а-яА-Яa-zA-Z])\W+/u',
+                    function ($matches) {
+                        return $matches[1]; // Возвращает найденную букву без следующих за ней символов
+                    },
+                    $documentNumber
+                );
+
+                // Затем удаляем нежелательные символы в конце строки, если они не являются цифрами
+                $invoiceBaseNumber = preg_replace('/\W+$/u', '', $step1);
+
+
+
+
+
                 //Data
                 $templateType = $data['template']['type'];
 
@@ -717,7 +733,7 @@ class DocumentController extends Controller
 
 
                 //invoices
-                $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target);
+                $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
                 if ($withStamps) {
                     $section->addTextBreak(1);
                     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
@@ -728,7 +744,7 @@ class DocumentController extends Controller
                     foreach ($alternative as $alternativeCell) {
                         $target = 'alternative';
                         $section->addPageBreak();
-                        $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target);
+                        $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
                         if ($withStamps) {
                             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                         }
@@ -2127,7 +2143,7 @@ class DocumentController extends Controller
         $cellWidth = $contentWidth / 2;
         $letterNumberell = $table->addCell($contentWidth);
         if ($documentNumber) {
-            $letterNumberell->addTextBreak(1);
+            // $letterNumberell->addTextBreak(1);
             $letterNumberell->addText('Исх. № ' . $documentNumber, $recipientTextStyle, $leftAlign);
         }
 
@@ -2230,10 +2246,11 @@ class DocumentController extends Controller
         $price, //массив продуктов либо general либо alternetive в каждом массиве обхекты product  у каждого пproduct есть cells
         $providerRq,
         $recipient,
-        $target
+        $target,
+        $invoiceBaseNumber
     ) {
         $section = $this->getInvoiceTopTable($section, $styles, $providerRq);
-        $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient);
+        $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient, $invoiceBaseNumber);
         $section = $this->getInvoicePrice($section, $styles, $price, $target);
 
         return $section;
@@ -2323,7 +2340,7 @@ class DocumentController extends Controller
                     ...$styles['tables']['valign']['top']
                 ]
             );
-            $innerCell1->addText("Южный филиал АО 'Райффайзенбанк' г.Краснодар", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText($providerRq['bank'], $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
                 $topTableHeight / 2.5 / 2
             );
@@ -2372,7 +2389,7 @@ class DocumentController extends Controller
                     // 'cellMarginLefth' => 170,
                 ]
             );
-            $innerCell2->addText("Cx #", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText("Cч. №", $fonts['text']['small'], $paragraphStyle);
 
 
 
@@ -2382,12 +2399,6 @@ class DocumentController extends Controller
             $innerTable = $cellThird->addTable(
                 $tableStyle['inner']['table']
             );
-            // $innerTable->addRow($topTableHeight / 4);
-            // $innerCell1 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            // $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
-            // $innerTable->addRow();
-            // $innerCell2 = $innerTable->addCell($invoiceHeaderCellWidthSecond);
-            // $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
 
 
 
@@ -2400,7 +2411,7 @@ class DocumentController extends Controller
                     ...$styles['tables']['valign']['top']
                 ]
             );
-            $innerCell1->addText("040349556", $fonts['text']['small'], $paragraphStyle);
+            $innerCell1->addText($providerRq['bik'], $fonts['text']['small'], $paragraphStyle);
             $innerTable->addRow(
                 $topTableHeight / 7.2
             );
@@ -2413,7 +2424,7 @@ class DocumentController extends Controller
                 ]
 
             );
-            $innerCell2->addText("30101810900000000556", $fonts['text']['small'], $paragraphStyle);
+            $innerCell2->addText($providerRq['ks'], $fonts['text']['small'], $paragraphStyle);
 
 
 
@@ -2439,7 +2450,7 @@ class DocumentController extends Controller
                 1500,
                 $styles['tables']['invoice']['inn']
             );
-            $cell->addText("262900156801", $fonts['text']['small'], $paragraphStyle);
+            $cell->addText($providerRq['inn'], $fonts['text']['small'], $paragraphStyle);
             $cell = $innerTable->addCell(
                 300,
                 $styles['tables']['invoice']['inn']
@@ -2449,7 +2460,9 @@ class DocumentController extends Controller
                 ($invoiceHeaderCellWidthFirst - 2100),
                 $styles['tables']['invoice']['cell']
             );
-            $cell->addText("", $fonts['text']['small'], $paragraphStyle);
+            if (isset($providerRq['kpp'])) {
+                $cell->addText($providerRq['kpp'], $fonts['text']['small'], $paragraphStyle);
+            }
 
 
 
@@ -2574,7 +2587,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getInvoiceMain($section, $styles, $providerRq, $recipient)
+    protected function getInvoiceMain($section, $styles, $providerRq, $recipient, $invoiceBaseNumber)
     {
 
         //data
@@ -2628,8 +2641,8 @@ class DocumentController extends Controller
         $section->addTextBreak(3);
 
         $section->addText(
-            'Счет на оплату N __   от 01.01.01',
-            $fonts['h1'],
+            'Счет на оплату N ' . $invoiceBaseNumber,
+            $fonts['h2'],
             $paragraphTitleStyle
 
         );
