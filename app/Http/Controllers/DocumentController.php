@@ -566,258 +566,256 @@ class DocumentController extends Controller
 
     public function getDocument($data)
     {
-        // try {
+        try {
 
-        if ($data &&  isset($data['template'])) {
-            $template = $data['template'];
-            if ($template && isset($template['id'])) {
-                $templateId = $template['id'];
+            if ($data &&  isset($data['template'])) {
+                $template = $data['template'];
+                if ($template && isset($template['id'])) {
+                    $templateId = $template['id'];
 
-                //get counter test 
-                $counter = Counter::whereHas('templates', function ($query) use ($templateId) {
-                    $query->where('templates.id', $templateId);
-                })->first();
-
-
-                //document number
-                $documentNumber = CounterController::getCount($templateId);
-
-                // /invoice base number
-                $step1 = preg_replace_callback(
-                    '/([а-яА-Яa-zA-Z])\W+/u',
-                    function ($matches) {
-                        return $matches[1]; // Возвращает найденную букву без следующих за ней символов
-                    },
-                    $documentNumber
-                );
-
-                // Затем удаляем нежелательные символы в конце строки, если они не являются цифрами
-                $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
-                // preg_replace('/\W+$/u', '', $step1);
+                    //get counter test 
+                    $counter = Counter::whereHas('templates', function ($query) use ($templateId) {
+                        $query->where('templates.id', $templateId);
+                    })->first();
 
 
+                    //document number
+                    $documentNumber = CounterController::getCount($templateId);
+
+                    // /invoice base number
+                    $step1 = preg_replace_callback(
+                        '/([а-яА-Яa-zA-Z])\W+/u',
+                        function ($matches) {
+                            return $matches[1]; // Возвращает найденную букву без следующих за ней символов
+                        },
+                        $documentNumber
+                    );
+
+                    // Затем удаляем нежелательные символы в конце строки, если они не являются цифрами
+                    $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
+                    // preg_replace('/\W+$/u', '', $step1);
 
 
 
-                //Data
-                $templateType = $data['template']['type'];
 
 
-                //header-data
-                $providerRq = $data['provider']['rq'];
-                $isTwoLogo = false;
-                if ($providerRq) {
-                    if (isset($providerRq['logos'])) {
-                        if (count($providerRq['logos']) > 1) {
-                            $isTwoLogo = true;
-                        }
-                    }
-                }
+                    //Data
+                    $templateType = $data['template']['type'];
 
 
-                //infoblocks data
-                $infoblocksOptions = [
-                    'description' => $data['infoblocks']['description']['current'],
-                    'style' => $data['infoblocks']['style']['current']['code'],
-                ];
-                $complect = $data['complect'];
-
-
-                //price
-                $price = $data['price'];
-                $comePrices = $price['cells'];
-                //SORT CELLS
-                $sortActivePrices = $this->getSortActivePrices($comePrices);
-                $allPrices =  $sortActivePrices;
-                $general = $allPrices['general'];
-                $alternative = $allPrices['alternative'];
-
-
-                //manager
-                $manager = $data['manager'];
-                //UF_DEPARTMENT
-                //SECOND_NAME
-
-
-                //fields
-                $fields = $data['template']['fields'];
-                $recipient = $data['recipient'];
-
-
-                //letter
-                $withLetter = false;
-
-
-                foreach ($fields as $field) {
-                    if ($field && $field['code']) {
-                        if (
-                            $field['code'] == 'isLetter' && $field['value'] && $field['value'] !== '0'
-                            && $field['value'] !== 'false'
-                            && $field['value'] !== 'null'
-                            && $field['value'] !== ''
-                        ) {
-                            $withLetter = true;
-                        }
-                    }
-                }
-
-                //stamps
-                $withStamps = false;
-                if (count($providerRq['stamps'])) {
-                    foreach ($providerRq['stamps'] as $stamp) {
-                        if (isset($stamp['path'])) {
-                            if ($stamp['path']) {
-                                $withStamps = true;
+                    //header-data
+                    $providerRq = $data['provider']['rq'];
+                    $isTwoLogo = false;
+                    if ($providerRq) {
+                        if (isset($providerRq['logos'])) {
+                            if (count($providerRq['logos']) > 1) {
+                                $isTwoLogo = true;
                             }
                         }
                     }
-                }
-
-                // STYLES
-                $styles = $this->documentStyle;
 
 
+                    //infoblocks data
+                    $infoblocksOptions = [
+                        'description' => $data['infoblocks']['description']['current'],
+                        'style' => $data['infoblocks']['style']['current']['code'],
+                    ];
+                    $complect = $data['complect'];
 
 
+                    //price
+                    $price = $data['price'];
+                    $comePrices = $price['cells'];
+                    //SORT CELLS
+                    $sortActivePrices = $this->getSortActivePrices($comePrices);
+                    $allPrices =  $sortActivePrices;
+                    $general = $allPrices['general'];
+                    $alternative = $allPrices['alternative'];
 
 
-                $document = new \PhpOffice\PhpWord\PhpWord();
+                    //manager
+                    $manager = $data['manager'];
+                    //UF_DEPARTMENT
+                    //SECOND_NAME
 
 
-                //create document
-                $section = $document->addSection($styles['page']);
-
-                //Header
-                $target = 'ganeral'; //or alternative
-                $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
-
-                if ($isTwoLogo) {
-
-                    $this->getDoubleHeader($section, $styles,  $providerRq);
-                }
+                    //fields
+                    $fields = $data['template']['fields'];
+                    $recipient = $data['recipient'];
 
 
-
-                //Main
-
-
+                    //letter
+                    $withLetter = false;
 
 
-
-                // Переменная для отслеживания, находимся ли мы в выделенном блоке
-                $inHighlight = false;
-
-                if ($withLetter) {
-                    $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
-                    if ($withStamps) {
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    foreach ($fields as $field) {
+                        if ($field && $field['code']) {
+                            if (
+                                $field['code'] == 'isLetter' && $field['value'] && $field['value'] !== '0'
+                                && $field['value'] !== 'false'
+                                && $field['value'] !== 'null'
+                                && $field['value'] !== ''
+                            ) {
+                                $withLetter = true;
+                            }
+                        }
                     }
 
-                    $section->addPageBreak();
-                }
+                    //stamps
+                    $withStamps = false;
+                    if (count($providerRq['stamps'])) {
+                        foreach ($providerRq['stamps'] as $stamp) {
+                            if (isset($stamp['path'])) {
+                                if ($stamp['path']) {
+                                    $withStamps = true;
+                                }
+                            }
+                        }
+                    }
 
-                $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-                if ($withStamps) {
-                    $section->addTextBreak(1);
-                    $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                }
-                $section->addPageBreak();
-
-
-                $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-                if ($withStamps) {
-                    $section->addTextBreak(2);
-                    $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                }
-                $section->addPageBreak();
+                    // STYLES
+                    $styles = $this->documentStyle;
 
 
 
-                //invoices
-                $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
-                if ($withStamps) {
-                    $section->addTextBreak(1);
-                    $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                }
 
-                if (isset($alternative)) {
 
-                    foreach ($alternative as $alternativeCell) {
-                        $target = 'alternative';
-                        $section->addPageBreak();
-                        $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
+
+                    $document = new \PhpOffice\PhpWord\PhpWord();
+
+
+                    //create document
+                    $section = $document->addSection($styles['page']);
+
+                    //Header
+                    $target = 'ganeral'; //or alternative
+                    $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
+
+                    if ($isTwoLogo) {
+
+                        $this->getDoubleHeader($section, $styles,  $providerRq);
+                    }
+
+
+
+                    //Main
+
+
+
+
+
+                    // Переменная для отслеживания, находимся ли мы в выделенном блоке
+                    $inHighlight = false;
+
+                    if ($withLetter) {
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         if ($withStamps) {
                             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                         }
+
+                        $section->addPageBreak();
                     }
+
+                    $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+                    if ($withStamps) {
+                        $section->addTextBreak(1);
+                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    }
+                    $section->addPageBreak();
+
+
+                    $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+                    if ($withStamps) {
+                        $section->addTextBreak(2);
+                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    }
+                    $section->addPageBreak();
+
+
+
+                    //invoices
+                    $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
+                    if ($withStamps) {
+                        $section->addTextBreak(1);
+                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    }
+
+                    if (isset($alternative)) {
+
+                        foreach ($alternative as $alternativeCell) {
+                            $target = 'alternative';
+                            $section->addPageBreak();
+                            $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
+                            if ($withStamps) {
+                                $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                            }
+                        }
+                    }
+
+
+
+
+                    // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+
+
+
+
+                    //Footer
+                    if ($manager && $manager['NAME']) {
+                        //data
+
+                        $this->getFooter($section, $styles, $manager);
+                    }
+
+
+
+
+
+
+
+                    // //СОХРАНЕНИЕ ДОКУМЕТА
+
+                    $uid = Uuid::uuid4()->toString();
+                    $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+                    $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+
+
+                    if (!file_exists($resultPath)) {
+                        mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                    }
+
+                    // Проверить доступность каталога для записи
+                    if (!is_writable($resultPath)) {
+                        throw new \Exception("Невозможно записать в каталог: $resultPath");
+                    }
+                    $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
+                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+
+                    $objWriter->save($resultPath . '/' . $resultFileName);
+
+                    // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+                    $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
+
+                    return APIController::getSuccess([
+                        'price' => $price,
+                        'link' => $link,
+                        'documentNumber' => $documentNumber,
+                        'counter' => $counter,
+
+                    ]);
                 }
-
-
-
-
-                // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-
-
-
-
-                //Footer
-                if ($manager && $manager['NAME']) {
-                    //data
-
-                    $this->getFooter($section, $styles, $manager);
-                }
-
-
-
-
-
-
-
-                // //СОХРАНЕНИЕ ДОКУМЕТА
-
-                $uid = Uuid::uuid4()->toString();
-                $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-
-                $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-
-
-                if (!file_exists($resultPath)) {
-                    mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-                }
-
-                // Проверить доступность каталога для записи
-                if (!is_writable($resultPath)) {
-                    throw new \Exception("Невозможно записать в каталог: $resultPath");
-                }
-                $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
-                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-
-                $objWriter->save($resultPath . '/' . $resultFileName);
-
-                // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-                $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
-
-                return APIController::getSuccess([
-                    'price' => $price,
-                    'link' => $link,
-                    'documentNumber' => $documentNumber,
-                    'counter' => $counter,
-
-                ]);
             }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                'something wrong ' . $th->getMessage(),
+                [
+                    'data' => $data,
+
+
+                ]
+            );
         }
-
-
-        // } catch (\Throwable $th) {
-        //     return APIController::getError(
-        //         'something wrong ' . $th->getMessage(),
-        //         [
-        //             'data' => $data,
-        //             'styleMode' => $infoblocksOptions['style']
-
-        //         ]
-        //     );
-        // }
     }
 
     protected function getInfoblocks($section, $styles, $infoblocksOptions, $complect)
