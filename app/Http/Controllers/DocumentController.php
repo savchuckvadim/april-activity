@@ -2095,7 +2095,7 @@ class DocumentController extends Controller
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
-        // $section->addTextBreak(1);
+        $section->addTextBreak(1);
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = [
             ...$styles['fonts']['text']['normal'],
@@ -2133,17 +2133,6 @@ class DocumentController extends Controller
         $letterRecipientell = $table->addCell($contentWidth);
 
 
-        $section->addTextBreak(1);
-        if (isset($recipient['recipient'])) {
-            if ($recipient['recipient']) {
-                $recipientName = $recipient['recipient'];
-                $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
-            } else {
-                $section->addTextBreak(1);
-            }
-        }
-
-
 
 
         $companyName = '';
@@ -2174,6 +2163,16 @@ class DocumentController extends Controller
                     $recipientCase = $recipient['recipientCase'];
                     $letterRecipientell->addText($recipientCase, $recipientTextStyle, $rightAlign);
                 }
+            }
+        }
+
+        $section->addTextBreak(1);
+        if (isset($recipient['recipient'])) {
+            if ($recipient['recipient']) {
+                $recipientName = $recipient['recipient'];
+                $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
+            } else {
+                $section->addTextBreak(1);
             }
         }
 
