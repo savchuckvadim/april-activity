@@ -115,14 +115,14 @@ class DocumentController extends Controller
                 'text' => [
                     'small' => [
                         ...$generalFont,
-                        'size' => 9,
+                        'size' => 8,
                         'lineHeight' => 1,
                         'spaceAfter' => 0,
                         'spaceBefore' => 0,
                     ],
                     'normal' => [
                         ...$generalFont,
-                        'size' => 8
+                        'size' => 9
                     ],
                     'bold' => [
                         ...$generalFont,
@@ -2097,7 +2097,10 @@ class DocumentController extends Controller
         // Стили для обычного и выделенного текста
         $section->addTextBreak(1);
         $titleTextStyle = $styles['fonts']['h3'];
-        $letterTextStyle = $styles['fonts']['text']['span'];
+        $letterTextStyle = [
+            ...$styles['fonts']['text']['normal'],
+            'lineHeight' => 1.5
+        ];
         $corporateletterTextStyle = [
             ...$styles['fonts']['text']['corporate'],
             'lineHeight' => 1.5
