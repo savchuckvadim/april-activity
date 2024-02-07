@@ -11,10 +11,42 @@ use Vipblogger\LaravelBitrix24\Bitrix;
 
 class BitrixController extends Controller
 {
+
+    protected function getHookUrl($domain)
+    {
+        $hook = null;
+        try {
+
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                            }
+                        }
+                    }
+                }
+            }
+            return $hook;
+        } catch (\Throwable $th) {
+            return $hook;
+        }
+    }
+
+
+
     public static function hooktest()
     {
         return response(['hellou' => 'world']);
     }
+
 
     protected function sendBatchRequest($domain, $commands)
     {
@@ -157,7 +189,7 @@ class BitrixController extends Controller
     {
         $totalKPI = []; // Суммарная информация по KPI
         $mediumKPI = []; // Средняя информация по KPI
-    
+
         // Собираем суммарную информацию
         foreach ($report as $user) {
             foreach ($user['kpi'] as $kpi) {
@@ -169,7 +201,7 @@ class BitrixController extends Controller
                 $totalKPI[$action]['users']++;
             }
         }
-    
+
         // Вычисляем средние значения
         foreach ($totalKPI as $action => $data) {
             $mediumKPI[$action] = ['count' => 0];
@@ -177,15 +209,13 @@ class BitrixController extends Controller
                 $mediumKPI[$action]['count'] = $data['count'] / $data['users'];
             }
         }
-    
+
         // Возвращаем дополненный отчет
         return [
             'total' => $totalKPI,
             'medium' => $mediumKPI,
         ];
     }
-    
-
 
 
     public static function getReport(Request $request)
@@ -439,8 +469,8 @@ class BitrixController extends Controller
                 'FILTER' => [
                     $userFieldId => $userIds,
                     $actionFieldId => $actionId,
-                    '>=DATE_CREATE' => $dateFrom,
-                    '<=DATE_CREATE' => $dateTo,
+                    '>DATE_CREATE' => $dateFrom,
+                    '<DATE_CREATE' => $dateTo,
 
                 ]
             ];
@@ -1123,31 +1153,36 @@ class BitrixController extends Controller
         }
     }
 
-    protected function getHookUrl($domain)
+    protected function setTimeline($domain, $dealId, $commentLink, $commentText)
     {
-        $hook = null;
+
+
+        $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
         try {
+            $hook = $this->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
 
-
-            $portalResponse = PortalController::innerGetPortal($domain);
-            if ($portalResponse) {
-                if (isset($portalResponse['resultCode'])) {
-                    if ($portalResponse['resultCode'] == 0) {
-                        if (isset($portalResponse['portal'])) {
-                            if ($portalResponse['portal']) {
-
-                                $portal = $portalResponse['portal'];
-
-                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
-                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
-                            }
-                        }
+            $method = '/crm.timeline.comment.add';
+            $url = $hook . $method;
+            $fields = [
+                "ENTITY_ID" => $dealId,
+                "ENTITY_TYPE" => "deal",
+                "COMMENT" => $resultTex
+            ];
+            $data = [
+                'fields' => $fields
+            ];
+            $response = Http::get($url, $data);
+            if ($response) {
+                if (isset($response['result'])) {
+                    return APIController::getSuccess($response['result']);
+                } else {
+                    if (isset($response['error_description'])) {
+                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
                     }
                 }
             }
-            return $hook;
         } catch (\Throwable $th) {
-            return $hook;
+            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
         }
     }
 }

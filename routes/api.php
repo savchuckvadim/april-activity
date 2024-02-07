@@ -617,30 +617,8 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
-        // $templateId  = $data('templateId');
-        $template  = $data['template'];
-
-        $domain  =  $template['portal'];
-        $userId  = $data['userId'];
-        $price  = $data['price'];
-        $infoblocks  = $data['infoblocks'];
-
-        $provider  = $data['provider'];
-        $recipient  = $data['recipient'];
-
-        // $result = FileController::getDocument(
-        //     $template,
-        //     $domain,
-        //     $userId,
-        //     $price,
-        //     $infoblocks,
-        //     $provider,
-        //     $recipient
-        // );
         $documentController = new DocumentController;
         $result = $documentController->getDocument($data);
-        // $wordCase  = $request->input('wordCase');
-        // $resultName = inflectName($word, $wordCase);
 
         return $result;
     });

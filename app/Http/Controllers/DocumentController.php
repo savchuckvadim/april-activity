@@ -571,7 +571,13 @@ class DocumentController extends Controller
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
+
+
                     $templateId = $template['id'];
+                    $domain = $data['template']['portal'];
+                    $dealId = $data['dealId'];
+
+
 
                     //get counter test 
                     $counter = Counter::whereHas('templates', function ($query) use ($templateId) {
@@ -795,15 +801,20 @@ class DocumentController extends Controller
                     $objWriter->save($resultPath . '/' . $resultFileName);
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-                    $link = asset('storage/clients/' . $data['domain'] . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
-                    return APIController::getSuccess([
-                        'price' => $price,
-                        'link' => $link,
-                        'documentNumber' => $documentNumber,
-                        'counter' => $counter,
+                    $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
-                    ]);
+                    // return APIController::getSuccess([
+                    //     'price' => $price,
+                    //     'link' => $link,
+                    //     'documentNumber' => $documentNumber,
+                    //     'counter' => $counter,
+
+                    // ]);
+
+                    $bitrixController = new BitrixController();
+
+                    return $bitrixController->setTimeline($domain, $dealId, $link, $documentNumber);
                 }
             }
         } catch (\Throwable $th) {
