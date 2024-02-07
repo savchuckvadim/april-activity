@@ -812,9 +812,9 @@ class DocumentController extends Controller
 
                     // ]);
 
-                    $bitrixController = new BitrixController();
+                    
 
-                    return $bitrixController->setTimeline($domain, $dealId, $link, $documentNumber);
+                    return BitrixController::setTimeline($domain, $dealId, $link, $documentNumber);
                 }
             }
         } catch (\Throwable $th) {

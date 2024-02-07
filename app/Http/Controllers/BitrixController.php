@@ -1153,13 +1153,13 @@ class BitrixController extends Controller
         }
     }
 
-    protected function setTimeline($domain, $dealId, $commentLink, $commentText)
+    public static function setTimeline($domain, $dealId, $commentLink, $commentText)
     {
 
-
+        $bitrixController = new BitrixController();
         $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
         try {
-            $hook = $this->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
+            $hook = $bitrixController->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
 
             $method = '/crm.timeline.comment.add';
             $url = $hook . $method;
