@@ -105,9 +105,15 @@ class BaseController extends Controller
 
                 case 'callingGroup':
                     return CallingController::set($request);
+                    break;
 
                 case 'departament':
-                    return DepartamentController::set($request);
+                    // return DepartamentController::set($request);
+                    return APIController::getSuccess(
+                        ['departament' => $entityType]
+                    );
+                    break;
+
 
                 case 'item':
                 default:
