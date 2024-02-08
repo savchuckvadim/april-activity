@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Bitrixlist extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['id', 'type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
+    public $timestamps = false;
+    protected $fillable = ['type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
 
     public function portal()
     {

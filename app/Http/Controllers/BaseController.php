@@ -111,7 +111,7 @@ class BaseController extends Controller
                     return DepartamentController::set($request);
                     break;
 
-                    
+
                 case 'item':
                 default:
                     return APIController::getError(
@@ -256,8 +256,14 @@ class BaseController extends Controller
                         // return FItemController::getFitem($modelId);
                     case 'callingGroups':
                         return CallingController::getAll();
+
+
                     case 'departaments':
                         return DepartamentController::getAll();
+
+                    case 'bitrixlists':
+                        return BitrixlistController::getAll();
+                        
 
 
                     default:
