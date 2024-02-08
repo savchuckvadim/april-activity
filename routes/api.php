@@ -864,7 +864,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
         return BaseController::update($entityType, $entityId,  $request);
     });
-    Route::post('{entityType}/', function ($entityType, Request $request) {
+    Route::post('{entityType}', function ($entityType, Request $request) {
         return BaseController::setOrUpdate($entityType, null, null, $request);
     });
 

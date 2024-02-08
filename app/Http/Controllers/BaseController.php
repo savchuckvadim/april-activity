@@ -106,7 +106,7 @@ class BaseController extends Controller
 
                 case 'callingGroup':
 
-                    return CallingController::getInitial();
+                    return CallingController::set($request);
 
                 case 'item':
                 default:
