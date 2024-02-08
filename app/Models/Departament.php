@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Departament extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $fillable = ['type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
 
     public function portal()
