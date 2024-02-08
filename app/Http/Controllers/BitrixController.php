@@ -1190,7 +1190,7 @@ class BitrixController extends Controller
 
             $url = $hook . $method;
             $fields = [
-                "STAGE_ID" => "PREPARATION",
+                "STAGE_ID" => "C6:PREPARATION",
                 // "PROBABILITY" => 70
             ];
             $data = [
