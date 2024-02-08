@@ -56,7 +56,7 @@ class CallingController extends Controller
 
         );
     }
-    public static function get()
+    public static function getAll()
     {
 
         // Создание нового Counter

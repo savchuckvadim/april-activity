@@ -201,7 +201,7 @@ class BaseController extends Controller
 
                         break;
 
-                    case 'callingGroups':
+                    case 'callingGroup':
 
                         return CallingController::getInitial();
 
@@ -251,6 +251,8 @@ class BaseController extends Controller
 
                     case 'items':
                         // return FItemController::getFitem($modelId);
+                    case 'callingGroups':
+                        return CallingController::getAll();
 
                     default:
                         return APIController::getError(
