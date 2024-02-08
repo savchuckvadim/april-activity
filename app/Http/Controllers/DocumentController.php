@@ -813,7 +813,7 @@ class DocumentController extends Controller
 
                     // ]);
 
-                    $response = $this->setTimeline($domain, $dealId, $link, $documentNumber);
+                    $response = BitrixController::setTimeline($domain, $dealId, $link, $documentNumber);
 
                     return $response;
                 }
