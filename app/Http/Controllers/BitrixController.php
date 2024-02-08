@@ -39,7 +39,33 @@ class BitrixController extends Controller
             return $hook;
         }
     }
+    public static function getHook($domain)
+    {
+        $hook = null;
+        try {
 
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+
+                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                            }
+                        }
+                    }
+                }
+            }
+            return $hook;
+        } catch (\Throwable $th) {
+            return $hook;
+        }
+    }
 
 
     public static function hooktest()
