@@ -3078,7 +3078,9 @@ class DocumentController extends Controller
     {
 
         // $bitrixController = new BitrixController();
-        $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
+        // $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
+        $resultText = "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a>";
+
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
 
@@ -3087,7 +3089,7 @@ class DocumentController extends Controller
             $fields = [
                 "ENTITY_ID" => $dealId,
                 "ENTITY_TYPE" => "deal",
-                "COMMENT" => $resultTex
+                "COMMENT" => $resultText
             ];
             $data = [
                 'fields' => $fields
