@@ -35,20 +35,18 @@ class DepartamentController extends Controller
         if ($portal) {
             // Создание нового Counter
             $departament = new Departament;
-            if ($departament) {
 
-                $departament->name = $name;
-                $departament->title = $title;
-                $departament->type = $type;
-                $departament->group = $group;
-                $departament->bitrixId = $bitrixId;
-                $departament->portal_id = $portal_id;
-                $departament->save(); // Сохранение Counter в базе данных
+            $departament->name = $name;
+            $departament->title = $title;
+            $departament->type = $type;
+            $departament->group = $group;
+            $departament->bitrixId = $bitrixId;
+            $departament->portal_id = $portal_id;
+            $departament->save(); // Сохранение Counter в базе данных
 
-                return APIController::getSuccess(
-                    ['departament' => $departament, 'portal' => $portal]
-                );
-            }
+            return APIController::getSuccess(
+                ['departament' => $departament, 'portal' => $portal]
+            );
         }
 
         return APIController::getError(
