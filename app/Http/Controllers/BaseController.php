@@ -201,7 +201,7 @@ class BaseController extends Controller
 
                         break;
 
-                    case 'callingGroup':
+                    case 'callingGroups':
 
                         return CallingController::getInitial();
 
