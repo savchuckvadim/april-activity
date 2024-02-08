@@ -72,9 +72,9 @@ class BitrixController extends Controller
     {
         $portal = Portal::where('domain', $domain)->first();
         return [
-            'bitrixlistId' =>  $portal->getSalesBitrixListId(),
-            'callingGroupId' =>  $portal->getSalesCallingGroupId(),
-            'departamentId' =>  $portal->getSalesDepartamentId(),
+            'bitrixlistId' =>  $portal->getSalesBitrixListId()->id,
+            'callingGroupId' =>  $portal->getSalesCallingGroupId()->id,
+            'departamentId' =>  $portal->getSalesDepartamentId()->id,
         ];
     }
 
