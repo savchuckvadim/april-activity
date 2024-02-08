@@ -1180,7 +1180,7 @@ class BitrixController extends Controller
     }
 
 
-    protected function changeDealStage($domain, $dealId, $stage)
+    public function changeDealStage($domain, $dealId, $stage)
     {
         $method = '/crm.deal.update';
         // $bitrixController = new BitrixController();

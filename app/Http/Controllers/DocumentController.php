@@ -815,7 +815,7 @@ class DocumentController extends Controller
 
                     $this->setTimeline($domain, $dealId, $link, $documentNumber);
                     $bitrixController = new BitrixController();
-                    $response = $bitrixController->changeDealStage($domain, $dealId);
+                    $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
                     return $response;
                 }
             }
