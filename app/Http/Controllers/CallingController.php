@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class CallingController extends Controller
 {
-    public static function getInitial()
+    public static function getInitial($portalId = null)
     {
 
-        $initialData = Calling::getForm();
+        $initialData = Calling::getForm($portalId);
         $data = [
             'initial' => $initialData
         ];

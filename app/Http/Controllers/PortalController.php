@@ -394,7 +394,7 @@ class PortalController extends Controller
     }
 
 
-    public static function getSelectPortals($portalId)
+    public static function getSelectPortals($portalId = null)
     {
         $allPortals = [];
         $portalsSelect = [];
