@@ -91,7 +91,6 @@ class BaseController extends Controller
 
                 case 'smart':
                 case 'bitrixlist':
-                case 'departament':
                 case 'timezone':
                 case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
@@ -105,8 +104,10 @@ class BaseController extends Controller
                     break;
 
                 case 'callingGroup':
-
                     return CallingController::set($request);
+
+                case 'departament':
+                    return DepartamentController::set($request);
 
                 case 'item':
                 default:
