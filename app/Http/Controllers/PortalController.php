@@ -200,7 +200,7 @@ class PortalController extends Controller
 
         ];
     }
-
+   
     public static function getProviders($portalId)
     {
         try {

@@ -62,12 +62,21 @@ class Portal extends Model
     // lists - универсальные списки id списка по идее списков может стать много kpi отказы звонки и тд
     // hasMany у списков должен быть type (kpi, fucks, invoices, conversions)
 
-    
 
 
 
-
-
+    public function getSalesCallingGroupId()
+    {
+        return $this->callingGroups()->first();
+    }
+    public function getSalesBitrixListId()
+    {
+        return $this->lists()->first();
+    }
+    public function getSalesDepartamentId()
+    {
+        return $this->departaments()->first();
+    }
 
 
 

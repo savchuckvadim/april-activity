@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portal;
 use CRest;
 use DateTime;
 use Illuminate\Http\Request;
@@ -67,6 +68,15 @@ class BitrixController extends Controller
         }
     }
 
+    public function getPortalReportData($domain)
+    {
+        $portal = Portal::where('domain', $domain)->first();
+        return [
+            'bitrixlistId' =>  $portal->getSalesBitrixListId(),
+            'callingGroupId' =>  $portal->getSalesCallingGroupId(),
+            'departamentId' =>  $portal->getSalesDepartamentId(),
+        ];
+    }
 
     public static function hooktest()
     {
@@ -281,6 +291,9 @@ class BitrixController extends Controller
             // }
 
             $controller = new BitrixController;
+            $getPortalReportData = $controller->getPortalReportData($domain);
+            $listId = $getPortalReportData['bitrixlistId'];
+         
             $listsResponses = [];
 
             // Подготовка команд для batch запроса
@@ -296,7 +309,7 @@ class BitrixController extends Controller
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] =
-                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=86&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
+                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=".$listId."&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
                 }
             }
 
@@ -700,10 +713,16 @@ class BitrixController extends Controller
         // email - почтовый пользователь
 
         $method = '/user.search.json';
-
+    
+        
         try {
             $domain = $request['domain'];
-            $departamentId = 620;
+           
+            $controller = new BitrixController;
+            $getPortalReportData = $controller->getPortalReportData($domain);
+            $departamentId = $getPortalReportData['departamentId'];
+
+            // $departamentId = 620;
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
                 if (isset($portalResponse['resultCode'])) {
@@ -718,8 +737,6 @@ class BitrixController extends Controller
                                 $actionUrl =  $method;
                                 $url = $hook . $actionUrl;
 
-
-
                                 $data =   [
                                     "FILTER" => [
                                         "UF_DEPARTMENT" => $departamentId,
@@ -727,13 +744,9 @@ class BitrixController extends Controller
 
                                     ]
                                 ];
-
-
                                 $response = Http::get($url, $data);
                                 return APIController::getSuccess(
-
                                     [
-
                                         'response' => $response,
                                         'departament' => $response['result']
                                     ]
