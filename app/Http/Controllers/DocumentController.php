@@ -7,6 +7,7 @@ use App\Models\Infoblock;
 use Ramsey\Uuid\Uuid;
 use PhpOffice\PhpWord\Shared\Converter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Mockery\Undefined;
 use morphos\Russian\MoneySpeller;
@@ -812,9 +813,9 @@ class DocumentController extends Controller
 
                     // ]);
 
-                    
+                    $response = $this->setTimeline($domain, $dealId, $link, $documentNumber);
 
-                    return BitrixController::setTimeline($domain, $dealId, $link, $documentNumber);
+                    return $response;
                 }
             }
         } catch (\Throwable $th) {
@@ -3068,5 +3069,41 @@ class DocumentController extends Controller
         // CONTRACT = 'contract',
         // SUPPLY = 'Количество доступов',
         // SUPPLY_FOR_OFFER = 'Версия',
+    }
+
+
+    //SET IN BITRIX
+
+    protected function setTimeline($domain, $dealId, $commentLink, $commentText)
+    {
+
+        $bitrixController = new BitrixController();
+        $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
+        try {
+            $hook = $bitrixController->getHookUrl($domain); // Предполагаем, что функция getHookUrl уже определена
+
+            $method = '/crm.timeline.comment.add';
+            $url = $hook . $method;
+            $fields = [
+                "ENTITY_ID" => $dealId,
+                "ENTITY_TYPE" => "deal",
+                "COMMENT" => $resultTex
+            ];
+            $data = [
+                'fields' => $fields
+            ];
+            $response = Http::get($url, $data);
+            if ($response) {
+                if (isset($response['result'])) {
+                    return APIController::getSuccess($response['result']);
+                } else {
+                    if (isset($response['error_description'])) {
+                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+        }
     }
 }
