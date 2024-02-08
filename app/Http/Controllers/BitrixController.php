@@ -327,7 +327,8 @@ class BitrixController extends Controller
                     'report' =>  $report,
                     'total' =>  $totalReport['total'],
                     'medium' =>  $totalReport['medium'],
-                    'batchResults' =>  $batchResults,
+                    'getPortalReportData' =>  $getPortalReportData,
+                    'listId' =>  $listId,
                     // 'commands' =>  $commands
 
                 ]
