@@ -56,5 +56,23 @@ class CallingController extends Controller
 
         );
     }
+    public static function get()
+    {
 
+        // Создание нового Counter
+        $callingGroups = Calling::all();
+        if ($callingGroups) {
+
+            return APIController::getSuccess(
+                ['callingGroups' => $callingGroups]
+            );
+        }
+
+
+        return APIController::getError(
+            'callingGroups was not found',
+            null
+
+        );
+    }
 }
