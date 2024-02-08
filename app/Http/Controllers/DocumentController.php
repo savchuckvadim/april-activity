@@ -813,7 +813,7 @@ class DocumentController extends Controller
 
                     // ]);
 
-                    $response = BitrixController::setTimeline($domain, $dealId, $link, $documentNumber);
+                    $response = $this->setTimeline($domain, $dealId, $link, $documentNumber);
 
                     return $response;
                 }
@@ -3098,7 +3098,7 @@ class DocumentController extends Controller
                     return APIController::getSuccess($response['result']);
                 } else {
                     if (isset($response['error_description'])) {
-                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+                        return APIController::getError($response['error'].' '.$response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
                     }
                 }
             }
