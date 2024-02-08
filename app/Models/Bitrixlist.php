@@ -43,7 +43,7 @@ class Bitrixlist extends Model
 
                         [
                             'id' => 1,
-                            'title' => 'Тип группы звоноков (sales, service)',
+                            'title' => 'Тип bitrixlist',
                             'name' => 'type',
                             'apiName' => 'type',
                             'type' =>  'string',
