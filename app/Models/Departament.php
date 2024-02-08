@@ -10,14 +10,14 @@ class Departament extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
+    protected $fillable = ['type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
 
     public function portal()
     {
         return $this->belongsTo(Portal::class);
     }
 
-    public static function getForm($portalId )
+    public static function getForm($portalId = null)
     {
 
         $portalsSelect = PortalController::getSelectPortals($portalId);

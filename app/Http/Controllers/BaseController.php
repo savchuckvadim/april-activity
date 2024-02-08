@@ -243,7 +243,6 @@ class BaseController extends Controller
                         return FileController::getFiles($model);
 
                     case 'templates':
-
                         return TemplateController::getAllTemplates();
 
                     case 'fields':
@@ -253,6 +252,9 @@ class BaseController extends Controller
                         // return FItemController::getFitem($modelId);
                     case 'callingGroups':
                         return CallingController::getAll();
+                    case 'departaments':
+                        return DepartamentController::getAll();
+
 
                     default:
                         return APIController::getError(
