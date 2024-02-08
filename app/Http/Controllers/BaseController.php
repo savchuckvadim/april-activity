@@ -108,13 +108,10 @@ class BaseController extends Controller
                     break;
 
                 case 'departament':
-                    // return DepartamentController::set($request);
-                    return APIController::getSuccess(
-                        ['departament' => $entityType]
-                    );
+                    return DepartamentController::set($request);
                     break;
 
-
+                    
                 case 'item':
                 default:
                     return APIController::getError(

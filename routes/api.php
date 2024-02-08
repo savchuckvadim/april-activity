@@ -778,25 +778,25 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     /////////////////////////APRIL_HOOK CONNECT
     //report
-    Route::post('calling', function (Request $request) {
+    Route::post('bitrix/calling', function (Request $request) {
         $domain = $request->domain;
         $filters = $request->filters;
         return BitrixController::getBitrixCallingStatistics($request);
     });
-    Route::post('report', function (Request $request) {
+    Route::post('bitrix/report', function (Request $request) {
         $domain = $request->domain;
         $filters = $request->filters;
         return BitrixController::getReport($request);
     });
 
-    Route::post('departament', function (Request $request) {
+    Route::post('bitrix/departament', function (Request $request) {
         return BitrixController::getDepartamentUsers($request);
     });
-    Route::post('list', function (Request $request) {
+    Route::post('bitrix/list', function (Request $request) {
 
         return BitrixController::getList($request);
     });
-    Route::post('filter', function (Request $request) {
+    Route::post('bitrix/filter', function (Request $request) {
 
         return BitrixController::getListFilter($request);
     });
@@ -822,7 +822,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     //calling tasks
-    Route::post('bitrixcallingtasks', function (Request $request) {
+    Route::post('bitrix/callingtasks', function (Request $request) {
 
         //userId
         //domain
