@@ -1180,22 +1180,21 @@ class BitrixController extends Controller
     }
 
 
-    public static function setTimeline($domain, $dealId, $commentLink, $commentText)
+    protected function changeDealStage($domain, $dealId, $stage)
     {
-
+        $method = '/crm.deal.update';
         // $bitrixController = new BitrixController();
-        $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
+
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
 
-            $method = '/crm.timeline.comment.add';
             $url = $hook . $method;
             $fields = [
-                "ENTITY_ID" => $dealId,
-                "ENTITY_TYPE" => "deal",
-                "COMMENT" => $resultTex
+                "STAGE_ID" => "PREPARATION",
+                // "PROBABILITY" => 70
             ];
             $data = [
+                'id' => $dealId,
                 'fields' => $fields
             ];
             $response = Http::get($url, $data);
@@ -1204,13 +1203,12 @@ class BitrixController extends Controller
                     return APIController::getSuccess($response['result']);
                 } else {
                     if (isset($response['error_description'])) {
-                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId]]);
                     }
                 }
             }
         } catch (\Throwable $th) {
-            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId]]);
         }
     }
-   
 }

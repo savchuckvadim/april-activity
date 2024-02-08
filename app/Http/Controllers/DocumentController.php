@@ -813,8 +813,9 @@ class DocumentController extends Controller
 
                     // ]);
 
-                    $response = $this->setTimeline($domain, $dealId, $link, $documentNumber);
-
+                    $this->setTimeline($domain, $dealId, $link, $documentNumber);
+                    $bitrixController = new BitrixController();
+                    $response = $bitrixController->changeDealStage($domain, $dealId);
                     return $response;
                 }
             }
@@ -3076,7 +3077,7 @@ class DocumentController extends Controller
 
     protected function setTimeline($domain, $dealId, $commentLink, $commentText)
     {
-
+        $method = '/crm.timeline.comment.add';
         // $bitrixController = new BitrixController();
         // $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
         $resultText = "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a>";
@@ -3084,7 +3085,7 @@ class DocumentController extends Controller
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
 
-            $method = '/crm.timeline.comment.add';
+
             $url = $hook . $method;
             $fields = [
                 "ENTITY_ID" => $dealId,
@@ -3097,10 +3098,10 @@ class DocumentController extends Controller
             $response = Http::get($url, $data);
             if ($response) {
                 if (isset($response['result'])) {
-                    return APIController::getSuccess($response['result']);
+                    return $response['result'];
                 } else {
                     if (isset($response['error_description'])) {
-                        return APIController::getError($response['error'].' '.$response['error_description'], ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+                        return $response['result'];
                     }
                 }
             }
