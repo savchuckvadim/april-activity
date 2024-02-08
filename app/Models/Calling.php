@@ -10,6 +10,7 @@ class Calling extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $fillable = ['id', 'type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
 
     public function portal()
