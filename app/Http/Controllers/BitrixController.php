@@ -1309,8 +1309,12 @@ class BitrixController extends Controller
 
 
             $responseData = Http::get($url, $taskData);
+            $task = null;
+            if(isset($responseData['result'])){
+                $task = $responseData['result'];
+            }
 
-            return APIController::getSuccess(['createdTask' => $responseData, '$lead' => $lead]);
+            return APIController::getSuccess(['createdTask' => $task, '$lead' => $lead]);
         } catch (\Throwable $th) {
             Log::error('ERROR: Exception caught', [
                 'message'   => $th->getMessage(),
