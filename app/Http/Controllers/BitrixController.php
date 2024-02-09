@@ -1274,7 +1274,7 @@ class BitrixController extends Controller
                     'select' => ["TITLE"],
                 ];
                 $lead = Http::get($url,  $getLeadData);
-                $description = $lead['TITLE'];
+                $description = $lead['phone'];
             }
 
             //task
