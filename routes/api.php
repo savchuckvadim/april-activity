@@ -832,7 +832,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return BitrixController::getCallingTasks($request);
     });
 
+    Route::post('bitrix/callingtasks/create', function (Request $request) {
 
+        $result = $request->all();
+
+        return APIController::getSuccess(['task' => $result]);
+    });
 
 
 
