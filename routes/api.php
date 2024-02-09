@@ -837,7 +837,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $data = $request->all();
         $controller = new BitrixController();
         $placement = $data['placement']['placement'];
-        $placementId = $data['placement']['options']['id'];
+        $placementId = $data['placement']['options']['ID'];
         $crm = null;
         if (strpos($placement, "LEAD") !== false) {
             $crm = "L_" + $placementId;
