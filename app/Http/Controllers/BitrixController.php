@@ -110,6 +110,7 @@ class BitrixController extends Controller
                 // array_push($result['errors'], $responseData);
                 // return APIController::getError('batch result not found', $responseData);
             }
+            sleep(1); 
         };
 
         return $result;
