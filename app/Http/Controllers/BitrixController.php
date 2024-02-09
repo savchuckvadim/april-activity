@@ -1224,7 +1224,7 @@ class BitrixController extends Controller
             $portalData = $this->getPortalReportData($domain);
             $tasksGroupId = $portalData['callingGroupId'];
             //company and contacts
-
+            $description = '';
             if (strpos($crm, "CO") !== false) {
                 $methodContacts = '/crm.contact.list.json';
                 $methodCompany = '/crm.company.get.json';
@@ -1274,6 +1274,7 @@ class BitrixController extends Controller
                     'select' => ["TITLE"],
                 ];
                 $lead = Http::get($url,  $getLeadData);
+                $description = $lead['TITLE'];
             }
 
             //task
