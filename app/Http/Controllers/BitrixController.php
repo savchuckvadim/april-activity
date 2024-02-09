@@ -1225,6 +1225,7 @@ class BitrixController extends Controller
             $tasksGroupId = $portalData['callingGroupId'];
             //company and contacts
             $description = '';
+            $lead = null;
             if (strpos($crm, "CO") !== false) {
                 $methodContacts = '/crm.contact.list.json';
                 $methodCompany = '/crm.company.get.json';
@@ -1274,7 +1275,7 @@ class BitrixController extends Controller
                     'select' => ["TITLE"],
                 ];
                 $lead = Http::get($url,  $getLeadData);
-                $description = $lead['phone'];
+                // $description = $lead['phone'];
             }
 
             //task
@@ -1309,8 +1310,7 @@ class BitrixController extends Controller
 
             $responseData = Http::get($url, $taskData);
 
-            Log::info('SUCCESS RESPONSE TASK', ['createdTask' => $responseData]);
-            return APIController::getSuccess(['createdTask' => $responseData]);
+            return APIController::getSuccess(['createdTask' => $responseData, '$lead' => $lead]);
         } catch (\Throwable $th) {
             Log::error('ERROR: Exception caught', [
                 'message'   => $th->getMessage(),
