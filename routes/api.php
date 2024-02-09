@@ -836,16 +836,29 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         $data = $request->all();
         $controller = new BitrixController();
-        return APIController::getSuccess(['task' => $data]);
-        // return $controller->createTask(
-        //     $data['domain'],
-        //     $data['company'],
-        //     $data['responsibility'],
-        //     $data['createdBy'],
-        //     $data['type'],
-        //     $data['name'],
-        //     $data['deadline'],
-        // );
+        $placement = $data['placement']['placement'];
+        $placementId = $data['placement']['options']['id'];
+        $crm = null;
+        if (strpos($placement, "LEAD") !== false) {
+            $crm = "L_" + $placementId;
+        } elseif (strpos($placement, "COMPANY") !== false) {
+            $crm = "CO_" + $placementId;
+        } elseif (strpos($placement, "DEAL") !== false) {
+            $crm = "D_" + $placementId;
+        }
+        // return APIController::getSuccess(['task' => $data]);
+        return $controller->createTask(
+            $data['domain'],
+            $placementId,
+            $data['createdBy'],
+            $data['responsibility'],
+            $data['deadline'],
+            $data['name'],
+            $crm ,
+            $data['type'],
+           
+    
+        );
     });
 
 

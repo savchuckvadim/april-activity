@@ -1207,12 +1207,12 @@ class BitrixController extends Controller
     }
     public function createTask(
         $domain,
-        $companyId,
+        $placementId,
         $createdId,
         $responsibleId,
         $deadline,
         $name,
-        // $crm,
+        $crm,
         $type
     ) {
 
@@ -1224,38 +1224,57 @@ class BitrixController extends Controller
             $portalData = $this->getPortalReportData($domain);
             $tasksGroupId = $portalData['callingGroupId'];
             //company and contacts
-            $methodContacts = '/crm.contact.list.json';
-            $methodCompany = '/crm.company.get.json';
-            $url = $hook . $methodContacts;
-            $contactsData =  [
-                'FILTER' => [
-                    'COMPANY_ID' => $companyId,
 
-                ],
-                'select' => ["ID", "NAME", "LAST_NAME", "SECOND_NAME", "TYPE_ID", "SOURCE_ID", "PHONE", "EMAIL", "COMMENTS"],
-            ];
-            $getCompanyData = [
-                'ID'  => $companyId,
-                'select' => ["TITLE"],
-            ];
+            if (strpos($crm, "CO") !== false) {
+                $methodContacts = '/crm.contact.list.json';
+                $methodCompany = '/crm.company.get.json';
+                $url = $hook . $methodContacts;
 
-            $contacts = Http::get($url,  $contactsData);
-            $url = $hook . $methodCompany;
-            $company = Http::get($url,  $getCompanyData);
+                $contactsData =  [
+                    'FILTER' => [
+                        'COMPANY_ID' => $placementId,
 
-            $contactsString = '';
+                    ],
+                    'select' => ["ID", "NAME", "LAST_NAME", "SECOND_NAME", "TYPE_ID", "SOURCE_ID", "PHONE", "EMAIL", "COMMENTS"],
+                ];
 
-            foreach ($contacts['result'] as  $contact) {
-                $contactPhones = '';
-                foreach ($contact["PHONE"] as $phone) {
-                    $contactPhones = $contactPhones .  $phone["VALUE"] . "   ";
+                $contacts = Http::get($url,  $contactsData);
+                $url = $hook . $methodCompany;
+
+                $getCompanyData = [
+                    'ID'  => $placementId,
+                    'select' => ["TITLE"],
+                ];
+                $company = Http::get($url,  $getCompanyData);
+
+
+
+
+
+                $contactsString = '';
+
+                foreach ($contacts['result'] as  $contact) {
+                    $contactPhones = '';
+                    foreach ($contact["PHONE"] as $phone) {
+                        $contactPhones = $contactPhones .  $phone["VALUE"] . "   ";
+                    }
+                    $contactsString = $contactsString . "<p>" . $contact["NAME"] . " " . $contact["SECOND_NAME"] . " " . $contact["SECOND_NAME"] . "  "  .  $contactPhones . "</p>";
                 }
-                $contactsString = $contactsString . "<p>" . $contact["NAME"] . " " . $contact["SECOND_NAME"] . " " . $contact["SECOND_NAME"] . "  "  .  $contactPhones . "</p>";
+
+                $companyTitleString = $company['result']['TITLE'];
+                $description =  '<p>' . $companyTitleString . '</p>' . '<p> Контакты компании: </p>' . $contactsString;
+            } else if (strpos($crm, "L") !== false) {
+
+                $methodLead = '/crm.lead.get.json';
+
+                $url = $hook . $methodLead;
+
+                $getLeadData = [
+                    'ID'  => $placementId,
+                    'select' => ["TITLE"],
+                ];
+                $lead = Http::get($url,  $getLeadData);
             }
-
-            $companyTitleString = $company['result']['TITLE'];
-            $description =  '<p>' . $companyTitleString . '</p>' . '<p> Контакты компании: </p>' . $contactsString;
-
 
             //task
             $methodTask = '/tasks.task.add.json';
@@ -1280,6 +1299,7 @@ class BitrixController extends Controller
                     'CREATED_DATE' => $nowDate, // - дата создания;
                     'DEADLINE' => $deadline, //- крайний срок;
                     // 'UF_CRM_TASK' => ['T9c_' . $crm],
+                    'UF_CRM_TASK' => $crm,
                     'ALLOW_CHANGE_DEADLINE' => 'N',
                     'DESCRIPTION' => $description
                 ]
