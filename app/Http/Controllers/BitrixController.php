@@ -1169,7 +1169,8 @@ class BitrixController extends Controller
                         [
                             'response' => $response,
                             'date' => $date,
-                            'data' => $data
+                            'data' => $data,
+                            'RESPONSIBLE_ID' => $userId
 
                         ]
 
@@ -1182,7 +1183,8 @@ class BitrixController extends Controller
                         'tasks' => $resultTasks,
                         '$response' => $response,
                         'date' => $date,
-                        'data' => $data
+                        'data' => $data,
+                        'RESPONSIBLE_ID' => $userId
 
 
                     ]
