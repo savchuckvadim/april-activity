@@ -279,8 +279,8 @@ class BitrixController extends Controller
             $dateFrom = $request['filters']['dateFrom'];
             $dateTo = $request['filters']['dateTo'];
 
-            $dateFieldForHookFrom = ">" . $dateFieldId;
-            $dateFieldForHookTo = "<" . $dateFieldId;
+            $dateFieldForHookFrom = ">DATE_CREATE";
+            $dateFieldForHookTo = "<DATE_CREATE" ;
             // $currentActions = [];
             // $lists = [];
 
