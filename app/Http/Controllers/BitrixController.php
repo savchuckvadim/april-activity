@@ -870,11 +870,13 @@ class BitrixController extends Controller
 
 
         $method = '/lists.field.get.json';
-
-        $listId = 86;
+        $domain = $request['domain'];
+        $controller = new BitrixController;
+        $getPortalReportData = $controller->getPortalReportData($domain);
+        $listId = $getPortalReportData['bitrixlistId'];
 
         try {
-            $domain = $request['domain'];
+           
 
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
