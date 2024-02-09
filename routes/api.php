@@ -840,11 +840,11 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $placementId = $data['placement']['options']['ID'];
         $crm = null;
         if (strpos($placement, "LEAD") !== false) {
-            $crm = "L_" + $placementId;
+            $crm = "L_" . $placementId;
         } elseif (strpos($placement, "COMPANY") !== false) {
-            $crm = "CO_" + $placementId;
+            $crm = "CO_" . $placementId;
         } elseif (strpos($placement, "DEAL") !== false) {
-            $crm = "D_" + $placementId;
+            $crm = "D_" . $placementId;
         }
         // return APIController::getSuccess(['task' => $data]);
         return $controller->createTask(
