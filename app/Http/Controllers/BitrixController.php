@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Portal;
+use Carbon\Carbon;
 use CRest;
 use DateTime;
 use Illuminate\Http\Request;
@@ -110,7 +111,7 @@ class BitrixController extends Controller
                 // array_push($result['errors'], $responseData);
                 // return APIController::getError('batch result not found', $responseData);
             }
-            sleep(1); 
+            sleep(1);
         };
 
         return $result;
@@ -285,7 +286,7 @@ class BitrixController extends Controller
             $dateTo = $request['filters']['dateTo'];
 
             $dateFieldForHookFrom = ">DATE_CREATE";
-            $dateFieldForHookTo = "<DATE_CREATE" ;
+            $dateFieldForHookTo = "<DATE_CREATE";
             // $currentActions = [];
             // $lists = [];
 
@@ -298,7 +299,7 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $getPortalReportData = $controller->getPortalReportData($domain);
             $listId = $getPortalReportData['bitrixlistId'];
-         
+
             $listsResponses = [];
 
             // Подготовка команд для batch запроса
@@ -314,7 +315,7 @@ class BitrixController extends Controller
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] =
-                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=".$listId."&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
+                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=" . $listId . "&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
                 }
             }
 
@@ -719,11 +720,11 @@ class BitrixController extends Controller
         // email - почтовый пользователь
 
         $method = '/user.search.json';
-    
-        
+
+
         try {
             $domain = $request['domain'];
-           
+
             $controller = new BitrixController;
             $getPortalReportData = $controller->getPortalReportData($domain);
             $departamentId = $getPortalReportData['departamentId'];
@@ -881,7 +882,7 @@ class BitrixController extends Controller
         $listId = $getPortalReportData['bitrixlistId'];
 
         try {
-           
+
 
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
@@ -1109,6 +1110,9 @@ class BitrixController extends Controller
     }
 
 
+
+    ///CALING
+
     public static function getCallingTasks(Request $request)
     {
         $resultTasks = [];
@@ -1199,6 +1203,101 @@ class BitrixController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+    public function createTask(
+        $domain,
+        $companyId,
+        $createdId,
+        $responsibleId,
+        $deadline,
+        $name,
+        // $crm,
+        $type
+    ) {
+
+        try {
+            // $portal = $portal['data'];
+
+            $hook = $this->getHookUrl($domain);
+
+            $portalData = $this->getPortalReportData($domain);
+            $tasksGroupId = $portalData['callingGroupId'];
+            //company and contacts
+            $methodContacts = '/crm.contact.list.json';
+            $methodCompany = '/crm.company.get.json';
+            $url = $hook . $methodContacts;
+            $contactsData =  [
+                'FILTER' => [
+                    'COMPANY_ID' => $companyId,
+
+                ],
+                'select' => ["ID", "NAME", "LAST_NAME", "SECOND_NAME", "TYPE_ID", "SOURCE_ID", "PHONE", "EMAIL", "COMMENTS"],
+            ];
+            $getCompanyData = [
+                'ID'  => $companyId,
+                'select' => ["TITLE"],
+            ];
+
+            $contacts = Http::get($url,  $contactsData);
+            $url = $hook . $methodCompany;
+            $company = Http::get($url,  $getCompanyData);
+
+            $contactsString = '';
+
+            foreach ($contacts['result'] as  $contact) {
+                $contactPhones = '';
+                foreach ($contact["PHONE"] as $phone) {
+                    $contactPhones = $contactPhones .  $phone["VALUE"] . "   ";
+                }
+                $contactsString = $contactsString . "<p>" . $contact["NAME"] . " " . $contact["SECOND_NAME"] . " " . $contact["SECOND_NAME"] . "  "  .  $contactPhones . "</p>";
+            }
+
+            $companyTitleString = $company['result']['TITLE'];
+            $description =  '<p>' . $companyTitleString . '</p>' . '<p> Контакты компании: </p>' . $contactsString;
+
+
+            //task
+            $methodTask = '/tasks.task.add.json';
+            $url = $hook . $methodTask;
+
+            $nowDate = now();
+            // $novosibirskTime = Carbon::createFromFormat('d.m.Y H:i:s', $deadline, 'Asia/Novosibirsk');
+            // $moscowTime = $novosibirskTime->setTimezone('Europe/Moscow');
+            // $moscowTime = $moscowTime->format('Y-m-d H:i:s');
+            // Log::info('novosibirskTime', ['novosibirskTime' => $novosibirskTime]);
+            // Log::info('moscowTime', ['moscowTime' => $moscowTime]);
+
+            $title = $type['title'] . '  ' . $name . '  ' . $deadline;
+
+            $taskData =  [
+                'fields' => [
+                    'TITLE' => $title,
+                    'RESPONSIBLE_ID' => $responsibleId,
+                    'GROUP_ID' => $tasksGroupId,
+                    'CHANGED_BY' => $createdId, //- постановщик;
+                    'CREATED_BY' => $createdId, //- постановщик;
+                    'CREATED_DATE' => $nowDate, // - дата создания;
+                    'DEADLINE' => $deadline, //- крайний срок;
+                    // 'UF_CRM_TASK' => ['T9c_' . $crm],
+                    'ALLOW_CHANGE_DEADLINE' => 'N',
+                    'DESCRIPTION' => $description
+                ]
+            ];
+
+
+            $responseData = Http::get($url, $taskData);
+
+            Log::info('SUCCESS RESPONSE TASK', ['createdTask' => $responseData]);
+            return APIController::getSuccess(['createdTask' => $responseData]);
+        } catch (\Throwable $th) {
+            Log::error('ERROR: Exception caught', [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ]);
+            return APIController::getError($th->getMessage(), null);
         }
     }
 

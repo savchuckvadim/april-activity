@@ -834,9 +834,18 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     Route::post('bitrix/callingtasks/create', function (Request $request) {
 
-        $result = $request->all();
-
-        return APIController::getSuccess(['task' => $result]);
+        $data = $request->all();
+        $controller = new BitrixController();
+        return APIController::getSuccess(['task' => $data]);
+        // return $controller->createTask(
+        //     $data['domain'],
+        //     $data['company'],
+        //     $data['responsibility'],
+        //     $data['createdBy'],
+        //     $data['type'],
+        //     $data['name'],
+        //     $data['deadline'],
+        // );
     });
 
 
