@@ -309,7 +309,7 @@ class BitrixController extends Controller
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] =
-                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=".$listId."&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
+                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=".$listId."&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId";
                 }
             }
 
