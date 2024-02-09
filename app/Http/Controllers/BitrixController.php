@@ -91,7 +91,7 @@ class BitrixController extends Controller
         $maxCommandsPerBatch = 50; // Максимальное количество команд на один batch запрос
         $batchRequests = array_chunk($commands, $maxCommandsPerBatch, true);
         $result = [
-            'errors' => []
+            // 'errors' => []
         ];
 
         foreach ($batchRequests as $batchCommands) {
@@ -107,7 +107,7 @@ class BitrixController extends Controller
                     $result[$key] = $kpiCount;
                 }
             } else {
-                array_push($result['errors'], $responseData);
+                // array_push($result['errors'], $responseData);
                 // return APIController::getError('batch result not found', $responseData);
             }
         };
@@ -185,7 +185,7 @@ class BitrixController extends Controller
         //         // ];
         //     }
         // }
-        array_push($usersKPI, $batchResponseData['errors']);
+        // array_push($usersKPI, $batchResponseData['errors']);
         return $usersKPI; // Возвращаем переиндексированный массив пользователей и их KPI
     }
 
@@ -284,7 +284,7 @@ class BitrixController extends Controller
             $dateTo = $request['filters']['dateTo'];
 
             $dateFieldForHookFrom = ">DATE_CREATE";
-            $dateFieldForHookTo = "<DATE_CREATE";
+            $dateFieldForHookTo = "<DATE_CREATE" ;
             // $currentActions = [];
             // $lists = [];
 
@@ -297,7 +297,7 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $getPortalReportData = $controller->getPortalReportData($domain);
             $listId = $getPortalReportData['bitrixlistId'];
-
+         
             $listsResponses = [];
 
             // Подготовка команд для batch запроса
@@ -313,7 +313,7 @@ class BitrixController extends Controller
 
                     // Добавляем команду в массив команд
                     $commands[$cmdKey] =
-                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=" . $listId . "&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
+                        "lists.element.get?IBLOCK_TYPE_ID=lists&IBLOCK_ID=".$listId."&filter[$userFieldId]=$userId&filter[$actionFieldId]=$actionId&filter[$dateFieldForHookFrom]=$dateFrom&filter[$dateFieldForHookTo]=$dateTo";
                 }
             }
 
@@ -407,67 +407,66 @@ class BitrixController extends Controller
 
 
         foreach ($report as $k => $userReport) {
-            if ($k !== 'errors') {
-                $user = $userReport['user'];
-                $userId = $user['ID'];
-                $userIds = [$userId];
-                $resultUserReport = $userReport;
-                $resultUserReport['callings'] = $callingsTypes;
+
+            $user = $userReport['user'];
+            $userId = $user['ID'];
+            $userIds = [$userId];
+            $resultUserReport = $userReport;
+            $resultUserReport['callings'] = $callingsTypes;
 
 
 
-                foreach ($resultUserReport['callings'] as $key => $type) {
+            foreach ($resultUserReport['callings'] as $key => $type) {
 
-                    if ($type['id'] === 'all') {
-                        $data =   [
-                            "FILTER" => [
-                                "PORTAL_USER_ID" => $userIds,
-                                // ">CALL_DURATION" => $type->duration,
-                                ">CALL_START_DATE" => $dateFrom,
-                                "<CALL_START_DATE" =>  $dateTo
-                            ]
-                        ];
-                    } else {
-                        $data =   [
-                            "FILTER" => [
-                                "PORTAL_USER_ID" => $userIds,
-                                ">CALL_DURATION" => $type['id'],
-                                ">CALL_START_DATE" => $dateFrom,
-                                "<CALL_START_DATE" =>  $dateTo
-                            ]
-                        ];
-                    }
-
-                    $response = Http::get($url, $data);
-
-                    array_push($responses, $response);
-
-                    // if (isset($response['total'])) {
-                    // Добавляем полученные звонки к общему списку
-                    // $resultCallings = array_merge($resultCallings, $response['result']);
-                    // if (isset($response['next'])) {
-                    //     // Получаем значение "next" из ответа
-                    //     $next = $response['next'];
-                    // }
-
-                    // $type['count'] = $response['total'];
-                    $resultUserReport['callings'][$key]['count'] = $response['total'];
-                    // } else { 
-                    //     return APIController::getError(
-                    //         'response total not found',
-                    //         [
-                    //             'response' => $response
-                    //         ]
-                    //     );
-                    //     array_push($errors, $response);
-                    //     $type['count'] = 0;
-                    // }
-                    // Ждем некоторое время перед следующим запросом
-                    // sleep(1); // Например, ждем 5 секунд
+                if ($type['id'] === 'all') {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            // ">CALL_DURATION" => $type->duration,
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
+                        ]
+                    ];
+                } else {
+                    $data =   [
+                        "FILTER" => [
+                            "PORTAL_USER_ID" => $userIds,
+                            ">CALL_DURATION" => $type['id'],
+                            ">CALL_START_DATE" => $dateFrom,
+                            "<CALL_START_DATE" =>  $dateTo
+                        ]
+                    ];
                 }
-                array_push($result, $resultUserReport);
-                // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
+
+                $response = Http::get($url, $data);
+
+                array_push($responses, $response);
+
+                // if (isset($response['total'])) {
+                // Добавляем полученные звонки к общему списку
+                // $resultCallings = array_merge($resultCallings, $response['result']);
+                // if (isset($response['next'])) {
+                //     // Получаем значение "next" из ответа
+                //     $next = $response['next'];
+                // }
+
+                // $type['count'] = $response['total'];
+                $resultUserReport['callings'][$key]['count'] = $response['total'];
+                // } else { 
+                //     return APIController::getError(
+                //         'response total not found',
+                //         [
+                //             'response' => $response
+                //         ]
+                //     );
+                //     array_push($errors, $response);
+                //     $type['count'] = 0;
+                // }
+                // Ждем некоторое время перед следующим запросом
+                // sleep(1); // Например, ждем 5 секунд
             }
+            array_push($result, $resultUserReport);
+            // } while ($next > 0); // Продолжаем цикл, пока значение "next" больше нуля
         }
         return  $result;
     }
@@ -719,11 +718,11 @@ class BitrixController extends Controller
         // email - почтовый пользователь
 
         $method = '/user.search.json';
-
-
+    
+        
         try {
             $domain = $request['domain'];
-
+           
             $controller = new BitrixController;
             $getPortalReportData = $controller->getPortalReportData($domain);
             $departamentId = $getPortalReportData['departamentId'];
@@ -881,7 +880,7 @@ class BitrixController extends Controller
         $listId = $getPortalReportData['bitrixlistId'];
 
         try {
-
+           
 
             $portalResponse = PortalController::innerGetPortal($domain);
             if ($portalResponse) {
