@@ -90,7 +90,9 @@ class BitrixController extends Controller
         $url = $hook . '/batch';
         $maxCommandsPerBatch = 50; // Максимальное количество команд на один batch запрос
         $batchRequests = array_chunk($commands, $maxCommandsPerBatch, true);
-        $result = [];
+        $result = [
+            'errors' => []
+        ];
 
         foreach ($batchRequests as $batchCommands) {
             $response = Http::post($url, [
@@ -105,7 +107,8 @@ class BitrixController extends Controller
                     $result[$key] = $kpiCount;
                 }
             } else {
-                return APIController::getError('batch result not found', $responseData);
+                array_push($result['errors'], $responseData);
+                // return APIController::getError('batch result not found', $responseData);
             }
         };
 
@@ -135,7 +138,8 @@ class BitrixController extends Controller
                 array_push($userKPI['kpi'], [
                     'id' => $actId,
                     'action' =>  $actionTitle,
-                    'count' =>  $count
+                    'count' =>  $count,
+                    'items' => []
                 ]);
             }
 
@@ -181,7 +185,7 @@ class BitrixController extends Controller
         //         // ];
         //     }
         // }
-
+        array_push($usersKPI, $batchResponseData['errors']);
         return $usersKPI; // Возвращаем переиндексированный массив пользователей и их KPI
     }
 
