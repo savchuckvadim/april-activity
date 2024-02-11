@@ -12,7 +12,6 @@ class Smart extends Model
 
 
     protected $fillable = [
-        'id',
         'type',
         'group',
         'name',

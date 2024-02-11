@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portal;
 use App\Models\Smart;
 use Illuminate\Http\Request;
 
@@ -15,5 +16,50 @@ class SmartController extends Controller
             'initial' => $initialData
         ];
         return APIController::getSuccess($data);
+    }
+
+
+    public static function set(Request $request)
+    {
+        $type = $request['type'];
+        $group = $request['group'];
+        $name = $request['name'];
+        $title = $request['title'];
+        $bitrixId = $request['bitrixId'];
+        $entityTypeId = $request['entityTypeId'];
+        $forStageId = $request['forStageId'];
+        $forFilterId = $request['forFilterId'];
+        $crmId = $request['crmId'];
+        $portal_id = $request['portal_id'];
+
+
+        $portal = Portal::find($portal_id);
+
+        if ($portal) {
+            // Создание нового Counter
+            $smart = new Smart();
+
+            $smart->name = $name;
+            $smart->title = $title;
+            $smart->type = $type;
+            $smart->group = $group;
+            $smart->bitrixId = $bitrixId;
+            $smart->entityTypeId = $entityTypeId;
+            $smart->forStageId = $forStageId;
+            $smart->forFilterId = $forFilterId;
+            $smart->crmId = $crmId;
+            $smart->portal_id = $portal_id;
+            $smart->save(); // Сохранение Counter в базе данных
+
+            return APIController::getSuccess(
+                ['smart' => $smart, 'portal' => $portal]
+            );
+        }
+
+        return APIController::getError(
+            'portal was not found',
+            ['portal' => $portal]
+
+        );
     }
 }
