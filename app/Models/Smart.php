@@ -18,9 +18,12 @@ class Smart extends Model
         'title',
         'bitrixId',
         'entityTypeId', //134
-        'forStageId', //DT134_
-        'forFilterId',  //DYNAMIC_134_  
-        'crmId',  //T9c_
+        'forStageId', //134
+        'forFilterId',  //134
+        'crmId',  //134_
+        'forStage', //DT134_
+        'forFilter',  //DYNAMIC_134_  
+        'crm',  //T9c_
         'portal_id'
 
     ];

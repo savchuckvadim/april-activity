@@ -30,6 +30,10 @@ class SmartController extends Controller
         $forStageId = $request['forStageId'];
         $forFilterId = $request['forFilterId'];
         $crmId = $request['crmId'];
+    
+        $forStage = $request['forStage'];
+        $forFilter = $request['forFilter'];
+        $crm = $request['crm'];
         $portal_id = $request['portal_id'];
 
 
@@ -48,6 +52,9 @@ class SmartController extends Controller
             $smart->forStageId = $forStageId;
             $smart->forFilterId = $forFilterId;
             $smart->crmId = $crmId;
+            $smart->forStage = $forStage;
+            $smart->forFilter = $forFilter;
+            $smart->crm = $crm;
             $smart->portal_id = $portal_id;
             $smart->save(); // Сохранение Counter в базе данных
 
