@@ -62,7 +62,28 @@ class SmartController extends Controller
 
         );
     }
+    public static function get($smartId)
+    {
+        try {
+            $smart = Smart::find($smartId);
+            if ($smart) {
 
+                return APIController::getSuccess(
+                    ['smart' => $smart]
+                );
+            } else {
+                return APIController::getError(
+                    'smart was not found',
+                    ['smart' => $smart]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['smartId' => $smartId]
+            );
+        }
+    }
     public static function getAll()
     {
 
@@ -92,7 +113,7 @@ class SmartController extends Controller
             $smart->delete();
             return APIController::getSuccess($smart);
         } else {
-    
+
             return APIController::getError(
                 'Smart not found',
                 null
