@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Smart extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
 
     protected $fillable = [
         'type',
@@ -104,7 +104,7 @@ class Smart extends Model
 
                         ],
 
-           
+
                         [
                             'id' => 5,
                             'title' => 'ID в битриксе !',
@@ -184,7 +184,7 @@ class Smart extends Model
                             'isCanAddField' => false,
 
                         ],
-                
+
 
 
                     ],
