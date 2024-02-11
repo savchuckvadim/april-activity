@@ -133,7 +133,7 @@ class Smart extends Model
                         ],
                         [
                             'id' => 7,
-                            'title' => 'forStageId  //DT134_',
+                            'title' => 'forStageId 134',
                             'entityType' => 'smart',
                             'name' => 'forStageId',
                             'apiName' => 'forStageId',
@@ -146,7 +146,7 @@ class Smart extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'forFilterId  // DYNAMIC_134_',
+                            'title' => 'forFilterId  134',
                             'entityType' => 'smart',
                             'name' => 'forFilterId',
                             'apiName' => 'forFilterId',
@@ -159,10 +159,50 @@ class Smart extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'crmId  // T9c_',
+                            'title' => 'crmId  134',
                             'entityType' => 'smart',
                             'name' => 'crmId',
                             'apiName' => 'crmId',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+
+                            'isCanAddField' => false,
+
+                        ],
+
+                        [
+                            'id' => 9,
+                            'title' => 'forStage  //DT134_',
+                            'entityType' => 'smart',
+                            'name' => 'forStage',
+                            'apiName' => 'forStage',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 8,
+                            'title' => 'forFilter  // DYNAMIC_134_',
+                            'entityType' => 'smart',
+                            'name' => 'forFilter',
+                            'apiName' => 'forFilter',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 8,
+                            'title' => 'crm  // T9c_',
+                            'entityType' => 'smart',
+                            'name' => 'crm',
+                            'apiName' => 'crm',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
