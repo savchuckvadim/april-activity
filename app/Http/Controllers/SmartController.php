@@ -62,4 +62,41 @@ class SmartController extends Controller
 
         );
     }
+
+    public static function getAll()
+    {
+
+        // Создание нового Counter
+        $smarts = Smart::all();
+        if ($smarts) {
+
+            return APIController::getSuccess(
+                ['smarts' => $smarts]
+            );
+        }
+
+
+        return APIController::getError(
+            'callingGroups was not found',
+            null
+
+        );
+    }
+
+    public static function delete($smartId)
+    {
+        $smart = Smart::find($smartId);
+
+        if ($smart) {
+            // Получаем все связанные поля
+            $smart->delete();
+            return APIController::getSuccess($smart);
+        } else {
+    
+            return APIController::getError(
+                'Smart not found',
+                null
+            );
+        }
+    }
 }

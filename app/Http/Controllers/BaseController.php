@@ -263,7 +263,8 @@ class BaseController extends Controller
 
                     case 'bitrixlists':
                         return BitrixlistController::getAll();
-                        
+                    case 'smarts':
+                        return SmartController::getAll();
 
 
                     default:
@@ -299,7 +300,10 @@ class BaseController extends Controller
                     case 'file':
                         $fileController = new FileController;
                         return $fileController->deleteFile($model, $modelId);
-
+                        break;
+                    case 'smart':
+                        return SmartController::delete($modelId);
+                        break;
                     case 'template':
 
                         // return TemplateController::getTemplate($modelId);
@@ -309,6 +313,8 @@ class BaseController extends Controller
 
                     case 'item':
                         // return FItemController::getFitem($modelId);
+
+
 
                     default:
                         return APIController::getError(
