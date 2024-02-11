@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Smart extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable = [
         'type',
