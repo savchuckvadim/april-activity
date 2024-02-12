@@ -796,8 +796,8 @@ class DocumentController extends Controller
                     if (!is_writable($resultPath)) {
                         throw new \Exception("Невозможно записать в каталог: $resultPath");
                     }
-                    $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
-                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+                    $resultFileName = $documentNumber . '_' . $shortUid . '.rtf';
+                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'RTF');
 
                     $objWriter->save($resultPath . '/' . $resultFileName);
 
@@ -816,7 +816,13 @@ class DocumentController extends Controller
                     $this->setTimeline($domain, $dealId, $link, $documentNumber);
                     $bitrixController = new BitrixController();
                     $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-                    return $response;
+                    return APIController::getSuccess([
+                        'price' => $price,
+                        'link' => $link,
+                        'documentNumber' => $documentNumber,
+                        'counter' => $counter,
+
+                    ]);
                 }
             }
         } catch (\Throwable $th) {
