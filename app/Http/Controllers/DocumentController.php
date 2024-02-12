@@ -1066,15 +1066,18 @@ class DocumentController extends Controller
         $isBlockHaveInfoblockWithDescription = false;
 
         foreach ($groupBlocks as $infblck) {
-            $currentInfoblock = Infoblock::where('code', $infblck['code'])->first();
+            if(isset($infblck['code'])){
+                $currentInfoblock = Infoblock::where('code', $infblck['code'])->first();
 
-            if ($currentInfoblock) {
-                if (isset($currentInfoblock['description']) && isset($currentInfoblock['descriptionForSale']) && isset($currentInfoblock['shortDescription'])) {
-                    if ($currentInfoblock['description'] || $currentInfoblock['descriptionForSale'] || $currentInfoblock['shortDescription']) {
-                        $isBlockHaveInfoblockWithDescription = true;
+                if ($currentInfoblock) {
+                    if (isset($currentInfoblock['description']) && isset($currentInfoblock['descriptionForSale']) && isset($currentInfoblock['shortDescription'])) {
+                        if ($currentInfoblock['description'] || $currentInfoblock['descriptionForSale'] || $currentInfoblock['shortDescription']) {
+                            $isBlockHaveInfoblockWithDescription = true;
+                        }
                     }
                 }
             }
+          
         }
         return $isBlockHaveInfoblockWithDescription;
     }
