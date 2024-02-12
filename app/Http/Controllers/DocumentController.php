@@ -656,7 +656,7 @@ class DocumentController extends Controller
 
 
                     foreach ($fields as $field) {
-                        if ($field && $field['code']) {
+                        if ($field && isset($field['code']) && $field['code']) {
                             if (
                                 $field['code'] == 'isLetter' && $field['value'] && $field['value'] !== '0'
                                 && $field['value'] !== 'false'
@@ -724,10 +724,10 @@ class DocumentController extends Controller
                     }
 
                     $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-                    if ($withStamps) {
-                        $section->addTextBreak(1);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    }
+                    // if ($withStamps) {
+                    //     $section->addTextBreak(1);
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
                     $section->addPageBreak();
 
 
@@ -1124,9 +1124,10 @@ class DocumentController extends Controller
 
         foreach ($complect as $group) {
             $result['groups'] += 1;
-
-            foreach ($group['value'] as $infoblock) {
-                $result['infoblocks'] += 1;
+            if (isset($group['value'])) {
+                foreach ($group['value'] as $infoblock) {
+                    $result['infoblocks'] += 1;
+                }
             }
         }
         return  $result;
