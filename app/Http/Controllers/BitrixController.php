@@ -331,8 +331,8 @@ class BitrixController extends Controller
             return APIController::getSuccess(
                 [
                     'report' =>  $report,
-                    'total' =>  $totalReport['total'],
-                    'medium' =>  $totalReport['medium'],
+                    // 'total' =>  $totalReport['total'],
+                    // 'medium' =>  $totalReport['medium'],
                     'getPortalReportData' =>  $getPortalReportData,
                     'listId' =>  $listId,
                     // 'commands' =>  $commands
@@ -453,7 +453,10 @@ class BitrixController extends Controller
                 // }
 
                 // $type['count'] = $response['total'];
-                $resultUserReport['callings'][$key]['count'] = $response['total'];
+                if(isset($response['total'])){
+                    $resultUserReport['callings'][$key]['count'] = $response['total'];
+                }
+                
                 // } else { 
                 //     return APIController::getError(
                 //         'response total not found',
