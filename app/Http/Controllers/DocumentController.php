@@ -796,8 +796,8 @@ class DocumentController extends Controller
                     if (!is_writable($resultPath)) {
                         throw new \Exception("Невозможно записать в каталог: $resultPath");
                     }
-                    $resultFileName = $documentNumber . '_' . $shortUid . '.odt';
-                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'ODText');
+                    $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
+                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
                     $objWriter->save($resultPath . '/' . $resultFileName);
 
