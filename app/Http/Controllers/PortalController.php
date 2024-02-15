@@ -80,6 +80,12 @@ class PortalController extends Controller
             ]);
         }
 
+        $timezone = null;
+        $departament = null;
+        $bitrixList = null;
+        $bitrixCallingTasksGroup = null;
+        $bitrixSmart = null;
+
         return response([
             'resultCode' => 0,
             'portal' => [
@@ -90,6 +96,13 @@ class PortalController extends Controller
                 'C_REST_CLIENT_ID' => $portal->getClientId(),
                 'C_REST_CLIENT_SECRET' => $portal->getSecret(),
                 'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+
+                'timezone' => $portal->getSalesTimezone(),
+                'departament' => $portal->getSalesDepartamentId(),
+                'bitrixList' => $portal->getSalesBitrixListId(),
+                'bitrixCallingTasksGroup' => $portal->getSalesBitrixListId(),
+                'bitrixSmart' => $portal->getSalesSmart(),
+
             ]
 
         ]);

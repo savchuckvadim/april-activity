@@ -77,7 +77,14 @@ class Portal extends Model
     {
         return $this->departaments()->first();
     }
-
+    public function getSalesTimezone()
+    {
+        return $this->timezones()->first();
+    }
+    public function getSalesSmart()
+    {
+        return $this->smarts()->first();
+    }
 
 
 
