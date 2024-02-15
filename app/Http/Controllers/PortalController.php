@@ -80,11 +80,7 @@ class PortalController extends Controller
             ]);
         }
 
-        $timezone = null;
-        $departament = null;
-        $bitrixList = null;
-        $bitrixCallingTasksGroup = null;
-        $bitrixSmart = null;
+     
 
         return response([
             'resultCode' => 0,
@@ -100,7 +96,7 @@ class PortalController extends Controller
                 'timezone' => $portal->getSalesTimezone(),
                 'departament' => $portal->getSalesDepartamentId(),
                 'bitrixList' => $portal->getSalesBitrixListId(),
-                'bitrixCallingTasksGroup' => $portal->getSalesBitrixListId(),
+                'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
                 'bitrixSmart' => $portal->getSalesSmart(),
 
             ]
