@@ -682,12 +682,14 @@ class GoogleController extends Controller
 
 
 
-                $client = new Client();
-
-                $driveService = new Drive($client);
+                
             }
         }
-        $client->setApplicationName('Ваше приложение');
+
+
+        $client = new Client();
+        $driveService = new Drive($client);
+        $client->setApplicationName('April App');
         $client->setScopes([
             Docs::DOCUMENTS,
             Drive::DRIVE // Добавьте этот scope
@@ -781,7 +783,7 @@ class GoogleController extends Controller
         $permission->setType('anyone');
         $permission->setRole('writer');
 
-
+        $this->documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo);
 
 
         try {
@@ -800,7 +802,7 @@ class GoogleController extends Controller
         // return $documentUrl;
     }
 
-    public static function documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo)
+    public function documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo)
     {
         $imageUrl = "";
         $logo =  null;
@@ -858,5 +860,49 @@ class GoogleController extends Controller
         ];
 
         $service->documents->batchUpdate($documentId, new Docs\BatchUpdateDocumentRequest(['requests' => $requests]));
+    }
+
+
+
+
+    //
+    protected function getSortActivePrices($allPrices)
+    {
+        $result = [
+            'general' => [],
+            'alternative' => [],
+            'total' => []
+        ];
+        foreach ($allPrices as $key => $target) {
+
+            if ($target) {
+
+                if (is_array($target) && !empty($target)) {
+                    $result[$key] = $target;
+                    foreach ($target as $index => $product) {
+
+                        if ($product) {
+
+
+                            if (
+
+                                is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
+                            ) {
+                                $filtredCells = array_filter($product['cells'], function ($prc) {
+                                    return $prc['isActive'] == true || $prc['code'] == 'measure';
+                                });
+
+                                usort($filtredCells, function ($a, $b) {
+                                    return $a['order'] - $b['order'];
+                                });
+                                $result[$key][$index]['cells']  = $filtredCells;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 }
