@@ -55,10 +55,15 @@ class DocumentController extends Controller
 
         $this->documentStyle = [
             'page' => [
-                'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
-                'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
-                'marginLeft' => Converter::inchToTwip(0.5),
-                'marginRight' => Converter::inchToTwip(0.5),
+                // 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+                // 'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+                // 'marginLeft' => Converter::inchToTwip(0.5),
+                // 'marginRight' => Converter::inchToTwip(0.5),
+
+                'pageSizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
+                'pageSizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
+                'marginLeft' => Converter::inchToTwip(0.5),       // левый отступ
+                'marginRight' => Converter::inchToTwip(0.5),      // правый отступ
             ],
 
             'colors' => [
@@ -1060,7 +1065,7 @@ class DocumentController extends Controller
         $isBlockHaveInfoblockWithDescription = false;
 
         foreach ($groupBlocks as $infblck) {
-            if(isset($infblck['code'])){
+            if (isset($infblck['code'])) {
                 $currentInfoblock = Infoblock::where('code', $infblck['code'])->first();
 
                 if ($currentInfoblock) {
@@ -1071,7 +1076,6 @@ class DocumentController extends Controller
                     }
                 }
             }
-          
         }
         return $isBlockHaveInfoblockWithDescription;
     }
@@ -1906,7 +1910,7 @@ class DocumentController extends Controller
         return $section;
     }
 
- 
+
     protected function getDoubleHeader($section, $styles, $providerRq)
     {
         //HEADER

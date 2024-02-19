@@ -616,21 +616,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     //RESULT DOCUMENTS
 
-    // Route::post('get/document', function (Request $request) {
-    //     $data  = $request->input('data');
-    //     $documentController = new DocumentController;
-    //     $result = $documentController->getDocument($data);
-
-    //     return $result;
-    // });
-
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
-        $documentController = new GoogleController;
-        $result = $documentController->documentCreate($data);
+        $documentController = new DocumentController;
+        $result = $documentController->getDocument($data);
 
         return $result;
     });
+
+    // Route::post('get/document', function (Request $request) {
+    //     $data  = $request->input('data');
+    //     $documentController = new GoogleController;
+    //     $result = $documentController->documentCreate($data);
+
+    //     return $result;
+    // });
 
 
     ///infoblocks for template 
