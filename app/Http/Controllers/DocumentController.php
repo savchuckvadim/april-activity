@@ -2222,6 +2222,8 @@ class DocumentController extends Controller
             } else {
                 $section->addTextBreak(1);
             }
+        } else {
+            $section->addTextBreak(1);
         }
 
 
