@@ -869,7 +869,7 @@ class GoogleController extends Controller
             }
             $second = $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
-                $second = $second . ', \n' . $providerRq['phone'];
+                $second = $second . ', \n ' . $providerRq['phone'];
             }
             if ($providerRq['email']) {
                 $second = $second . ', ' . $providerRq['email'];
