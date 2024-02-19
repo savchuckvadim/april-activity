@@ -865,7 +865,7 @@ class GoogleController extends Controller
                 $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
             }
             if ($providerRq['kpp']) {
-                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', \n';
             }
             $second = $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
