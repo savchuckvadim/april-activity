@@ -838,26 +838,26 @@ class GoogleController extends Controller
                     'text' => "Название компании\nАдрес: ...\nТелефон: ..."
                 ]
             ]),
-            new Docs\Request([
-                'insertInlineImage' => [
-                    'uri' => $imageUrl,
-                    'location' => [
-                        'segmentId' => $headerId,
-                        // Указываем индекс вставки изображения. Это должно быть после текста
-                        'index' => strlen("Название компании\nАдрес: ...\nТелефон: ") + 1,
-                    ],
-                    'objectSize' => [
-                        'height' => [
-                            'magnitude' => 50,
-                            'unit' => 'PT'
-                        ],
-                        'width' => [
-                            'magnitude' => 50,
-                            'unit' => 'PT'
-                        ],
-                    ],
-                ]
-            ])
+            // new Docs\Request([
+            //     'insertInlineImage' => [
+            //         'uri' => $imageUrl,
+            //         'location' => [
+            //             'segmentId' => $headerId,
+            //             // Указываем индекс вставки изображения. Это должно быть после текста
+            //             'index' => strlen("Название компании\nАдрес: ...\nТелефон: ") + 1,
+            //         ],
+            //         'objectSize' => [
+            //             'height' => [
+            //                 'magnitude' => 50,
+            //                 'unit' => 'PT'
+            //             ],
+            //             'width' => [
+            //                 'magnitude' => 50,
+            //                 'unit' => 'PT'
+            //             ],
+            //         ],
+            //     ]
+            // ])
         ];
 
         $service->documents->batchUpdate($documentId, new Docs\BatchUpdateDocumentRequest(['requests' => $requests]));
