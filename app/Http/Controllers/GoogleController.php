@@ -836,7 +836,7 @@ class GoogleController extends Controller
                 'insertText' => [
                     'location' => [
                         'segmentId' => $headerId,
-                        'index' => 1, // Индекс должен быть 1, если вы хотите начать с начала хедера
+                        'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
                     ],
                     'text' => "Название компании\nАдрес: ...\nТелефон: ..."
                 ]
