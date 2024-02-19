@@ -577,6 +577,12 @@ class GoogleController extends Controller
         // Создание нового документа
         $document = new Docs\Document();
 
+        $document->setTitle('Новый документ');
+        $createdDocument = $service->documents->create($document);
+        // Получение ID созданного документа
+        $documentId = $createdDocument->documentId;
+
+
         if ($data &&  isset($data['template'])) {
             $template = $data['template'];
             if ($template && isset($template['id'])) {
@@ -695,8 +701,6 @@ class GoogleController extends Controller
 
 
 
-        $document->setTitle('Новый документ');
-        $createdDocument = $service->documents->create($document);
 
 
 
@@ -705,42 +709,41 @@ class GoogleController extends Controller
 
 
 
-        // Получение ID созданного документа
-        $documentId = $createdDocument->documentId;
 
 
-        $requests = [
-            new Docs\Request([
-                'insertText' => [
-                    'location' => [
-                        'index' => 1,
-                    ],
-                    'text' => "Заголовок документа\n"
-                ]
-            ]),
-            new Docs\Request([
-                'updateTextStyle' => [
-                    'range' => [
-                        'startIndex' => 1,
-                        'endIndex' => 20,
-                    ],
-                    'textStyle' => [
-                        'bold' => true,
-                        'fontSize' => [
-                            'magnitude' => 24,
-                            'unit' => 'PT'
-                        ],
-                    ],
-                    'fields' => 'bold,fontSize'
-                ]
-            ]),
-        ];
 
-        $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
-            'requests' => $requests
-        ]);
+        // $requests = [
+        //     new Docs\Request([
+        //         'insertText' => [
+        //             'location' => [
+        //                 'index' => 1,
+        //             ],
+        //             'text' => "Заголовок документа\n"
+        //         ]
+        //     ]),
+        //     new Docs\Request([
+        //         'updateTextStyle' => [
+        //             'range' => [
+        //                 'startIndex' => 1,
+        //                 'endIndex' => 20,
+        //             ],
+        //             'textStyle' => [
+        //                 'bold' => true,
+        //                 'fontSize' => [
+        //                     'magnitude' => 24,
+        //                     'unit' => 'PT'
+        //                 ],
+        //             ],
+        //             'fields' => 'bold,fontSize'
+        //         ]
+        //     ]),
+        // ];
 
-        $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
+        // $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
+        //     'requests' => $requests
+        // ]);
+
+        // $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
 
 
         $requests = [
