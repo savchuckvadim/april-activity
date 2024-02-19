@@ -627,7 +627,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
         $documentController = new GoogleController;
-        $result = $documentController->getDocument($data);
+        $result = $documentController->documentCreate($data);
 
         return $result;
     });
