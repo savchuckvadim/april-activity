@@ -583,6 +583,34 @@ class GoogleController extends Controller
         $documentId = $createdDocument->documentId;
 
 
+
+        //DOCUMENT STYLE
+        $requests = [
+            new Docs\Request([
+                'updateDocumentStyle' => [
+                    'documentStyle' => [
+                        'pageSize' => [
+                            'width' => 1500,
+                            // 'height' => $newHeightInPoints,
+                        ],
+                        // Опционально: изменение полей
+                        // 'marginBottom' => $marginInPoints,
+                        // 'marginTop' => $marginInPoints,
+                        // 'marginLeft' => $marginInPoints,
+                        // 'marginRight' => $marginInPoints,
+                    ],
+                    'fields' => 'pageSize,marginBottom,marginTop,marginLeft,marginRight',
+                ]
+            ]),
+        ];
+
+
+
+
+
+
+
+
         if ($data &&  isset($data['template'])) {
             $template = $data['template'];
             if ($template && isset($template['id'])) {
