@@ -1820,8 +1820,9 @@ class DocumentController extends Controller
 
         $tableHeader = $header->addTable();
         $tableHeader->addRow();
-        $headerRqWidth = $styles['page']['pageSizeW'] * 0.45;
-        $headerLogoWidth = $styles['page']['pageSizeW'] * 0.55;
+        $headerRqWidth = ($styles['page']['pageSizeW'] - $styles['page']['marginLeft']) * 0.45;
+      
+        $headerLogoWidth = ($styles['page']['pageSizeW'] - $styles['page']['marginLeft'] )* 0.55;
 
         $headerTextStyle = $styles['fonts']['text']['small'];
         $headerRqParagraf = $styles['paragraphs']['general'];
