@@ -914,8 +914,8 @@ class GoogleController extends Controller
 
         // Добавление текста с номером документа, если он есть
         if (!empty($documentNumber)) {
-            $requests[] = new Request([
-                'insertText' => new InsertTextRequest([
+            $requests[] =  new Docs\Request([
+                'insertText' => new Docs\InsertTextRequest([
                     'location' => [
                         'index' => 1,
                     ],
@@ -939,8 +939,8 @@ class GoogleController extends Controller
         // Продолжить добавление других полей...
 
         if (!empty($recipientText)) {
-            $requests[] = new Request([
-                'insertText' => new InsertTextRequest([
+            $requests[] = new Docs\Request([
+                'insertText' => new Docs\InsertTextRequest([
                     'location' => [
                         'index' => 1,
                     ],
@@ -950,8 +950,8 @@ class GoogleController extends Controller
         }
 
         // Добавление таблицы (как пример, таблица 2x2)
-        $requests[] = new Request([
-            'insertTable' => new InsertTableRequest([
+        $requests[] = new Docs\Request([
+            'insertTable' => new Docs\InsertTableRequest([
                 'rows' => 2,
                 'columns' => 2,
                 'location' => [
@@ -969,8 +969,8 @@ class GoogleController extends Controller
         }
 
         if (!empty($letterText)) {
-            $requests[] = new Request([
-                'insertText' => new InsertTextRequest([
+            $requests[] = new Docs\Request([
+                'insertText' => new Docs\InsertTextRequest([
                     'location' => [
                         'index' => 1,
                     ],
@@ -980,7 +980,7 @@ class GoogleController extends Controller
         }
 
         // Выполнение запроса
-        $batchUpdateRequest = new BatchUpdateDocumentRequest([
+        $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
             'requests' => $requests
         ]);
 
