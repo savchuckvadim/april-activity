@@ -9,6 +9,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FItemController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HookController;
 use App\Http\Controllers\InfoblockController;
 use App\Http\Controllers\InfoGroupController;
@@ -615,15 +616,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     //RESULT DOCUMENTS
 
+    // Route::post('get/document', function (Request $request) {
+    //     $data  = $request->input('data');
+    //     $documentController = new DocumentController;
+    //     $result = $documentController->getDocument($data);
+
+    //     return $result;
+    // });
+
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
-        $documentController = new DocumentController;
+        $documentController = new GoogleController;
         $result = $documentController->getDocument($data);
 
         return $result;
     });
-
-
 
 
     ///infoblocks for template 

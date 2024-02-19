@@ -706,11 +706,6 @@ class DocumentController extends Controller
 
 
                     //Main
-
-
-
-
-
                     // Переменная для отслеживания, находимся ли мы в выделенном блоке
                     $inHighlight = false;
 
@@ -781,7 +776,6 @@ class DocumentController extends Controller
 
 
                     // //СОХРАНЕНИЕ ДОКУМЕТА
-
                     $uid = Uuid::uuid4()->toString();
                     $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
@@ -1912,7 +1906,7 @@ class DocumentController extends Controller
         return $section;
     }
 
-    //TODO
+ 
     protected function getDoubleHeader($section, $styles, $providerRq)
     {
         //HEADER

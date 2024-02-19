@@ -39,7 +39,9 @@ class CreateGoogleDocument extends Command
      */
     public function handle()
     {
-        $result = GoogleController::documentCreate();
+        $data = null;
+        $googleController = new GoogleController();
+        $result = $googleController->documentCreate($data);
         $this->info('Google Document has been created successfully.' . $result);
     }
 }
