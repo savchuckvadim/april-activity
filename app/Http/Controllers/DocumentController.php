@@ -512,7 +512,7 @@ class DocumentController extends Controller
                 'valign' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
                 'wrappingStyle' => 'behind',
                 // 'marginTop'        => 120,
-                // 'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+                'positioning' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
                 // 'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
                 // 'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
                 // 'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER,
