@@ -7,7 +7,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Google\Client;
 use Google\Service\Docs;
+use Google\Service\Docs\BatchUpdateDocumentRequest;
 use Google\Service\Docs\CreateHeaderRequest;
+use Google\Service\Docs\InsertTableRequest;
+use Google\Service\Docs\InsertTextRequest;
 use Google\Service\Drive;
 
 class GoogleController extends Controller
@@ -735,73 +738,6 @@ class GoogleController extends Controller
 
 
 
-
-
-
-
-
-        // $requests = [
-        //     new Docs\Request([
-        //         'insertText' => [
-        //             'location' => [
-        //                 'index' => 1,
-        //             ],
-        //             'text' => "Заголовок документа\n"
-        //         ]
-        //     ]),
-        //     new Docs\Request([
-        //         'updateTextStyle' => [
-        //             'range' => [
-        //                 'startIndex' => 1,
-        //                 'endIndex' => 20,
-        //             ],
-        //             'textStyle' => [
-        //                 'bold' => true,
-        //                 'fontSize' => [
-        //                     'magnitude' => 24,
-        //                     'unit' => 'PT'
-        //                 ],
-        //             ],
-        //             'fields' => 'bold,fontSize'
-        //         ]
-        //     ]),
-        // ];
-
-        // $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
-        //     'requests' => $requests
-        // ]);
-
-        // $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
-
-
-        // $requests = [
-        //     new Docs\Request([
-        //         'insertTable' => [
-        //             'rows' => 3,
-        //             'columns' => 3,
-        //             'location' => [
-        //                 'index' => 21, // Добавить после текста
-        //             ],
-        //         ]
-        //     ])
-        //     // Здесь могут быть дополнительные запросы для заполнения таблицы
-        // ];
-
-        // $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
-        //     'requests' => $requests
-        // ]);
-
-        // $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
-
-
-
-
-
-
-
-
-
-
         // Формирование URL-адреса для доступа к документу
         $documentUrl = 'https://docs.google.com/document/d/' . $documentId . '/edit';
         $permission = new Drive\Permission();
@@ -810,7 +746,7 @@ class GoogleController extends Controller
         $permission->setRole('writer');
 
         $this->documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo);
-
+        $this->documentLetterCreate($service, $documentId, $documentNumber, $fields, $recipient);
 
         try {
             $driveService->permissions->create($documentId, $permission);
@@ -828,6 +764,9 @@ class GoogleController extends Controller
         // return $documentUrl;
     }
 
+
+
+    //DOCUMENT SECTIONS
     public function documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo)
     {
         $imageUrl = "";
@@ -858,6 +797,9 @@ class GoogleController extends Controller
         $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
         $headerId = $response->replies[0]->createHeader->headerId;
         $headerText = '';
+        $requests = [];
+
+
 
         if (!$isTwoLogo) {
             $first = $providerRq['fullname'];
@@ -878,10 +820,34 @@ class GoogleController extends Controller
 
 
             if ($first) {
-                $headerText = $first;
+                // $headerText = $first;
+                array_push(
+                    $requests,
+                    new Docs\Request([
+                        'insertText' => [
+                            'location' => [
+                                'segmentId' => $headerId,
+                                'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
+                            ],
+                            'text' => $first
+                        ]
+                    ])
+                );
             }
             if ($second) {
-                $headerText = $headerText . ' ' . $second;
+                array_push(
+                    $requests,
+                    new Docs\Request([
+                        'insertText' => [
+                            'location' => [
+                                'segmentId' => $headerId,
+                                'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
+                            ],
+                            'text' => $second
+                        ]
+                    ])
+                );
+                // $headerText = $headerText . ' ' . $second;
             }
         } else {
 
@@ -907,45 +873,128 @@ class GoogleController extends Controller
             // }
         }
         // Пример добавления текста в хедер
-        $requests = [
-            new Docs\Request([
-                'insertText' => [
-                    'location' => [
-                        'segmentId' => $headerId,
-                        'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
-                    ],
-                    'text' => $headerText
-                ]
-            ]),
-            // new Docs\Request([
-            //     'insertInlineImage' => [
-            //         'uri' => $imageUrl,
-            //         'location' => [
-            //             'segmentId' => $headerId,
-            //             // Указываем индекс вставки изображения. Это должно быть после текста
-            //             'index' => strlen("Название компании\nАдрес: ...\nТелефон: ") + 1,
-            //         ],
-            //         'objectSize' => [
-            //             'height' => [
-            //                 'magnitude' => 50,
-            //                 'unit' => 'PT'
-            //             ],
-            //             'width' => [
-            //                 'magnitude' => 50,
-            //                 'unit' => 'PT'
-            //             ],
-            //         ],
-            //     ]
-            // ])
-        ];
+        // $requests = [
+        //     new Docs\Request([
+        //         'insertText' => [
+        //             'location' => [
+        //                 'segmentId' => $headerId,
+        //                 'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
+        //             ],
+        //             'text' => $headerText
+        //         ]
+        //     ]),
+        // new Docs\Request([
+        //     'insertInlineImage' => [
+        //         'uri' => $imageUrl,
+        //         'location' => [
+        //             'segmentId' => $headerId,
+        //             // Указываем индекс вставки изображения. Это должно быть после текста
+        //             'index' => strlen("Название компании\nАдрес: ...\nТелефон: ") + 1,
+        //         ],
+        //         'objectSize' => [
+        //             'height' => [
+        //                 'magnitude' => 50,
+        //                 'unit' => 'PT'
+        //             ],
+        //             'width' => [
+        //                 'magnitude' => 50,
+        //                 'unit' => 'PT'
+        //             ],
+        //         ],
+        //     ]
+        // ])
+        // ];
 
         $service->documents->batchUpdate($documentId, new Docs\BatchUpdateDocumentRequest(['requests' => $requests]));
     }
 
+    protected function documentLetterCreate($service, $documentId, $documentNumber, $fields, $recipient)
+    {
+        $requests = [];
+
+        // Добавление текста с номером документа, если он есть
+        if (!empty($documentNumber)) {
+            $requests[] = new Request([
+                'insertText' => new InsertTextRequest([
+                    'location' => [
+                        'index' => 1,
+                    ],
+                    'text' => "Исх. № " . $documentNumber . "\n"
+                ])
+            ]);
+        }
+
+        // Предположим, что $styles содержит настройки стилей
+        // $titleTextStyle = $styles['fonts']['h3'];
+        // $letterTextStyle = $styles['fonts']['text']['normal'];
+
+        // Добавление текста с информацией о получателе
+        $recipientText = "";
+        if (!empty($recipient['companyName'])) {
+            $recipientText .= $recipient['companyName'] . "\n";
+        }
+        if (!empty($recipient['inn'])) {
+            $recipientText .= "ИНН: " . $recipient['inn'] . "\n";
+        }
+        // Продолжить добавление других полей...
+
+        if (!empty($recipientText)) {
+            $requests[] = new Request([
+                'insertText' => new InsertTextRequest([
+                    'location' => [
+                        'index' => 1,
+                    ],
+                    'text' => $recipientText
+                ])
+            ]);
+        }
+
+        // Добавление таблицы (как пример, таблица 2x2)
+        $requests[] = new Request([
+            'insertTable' => new InsertTableRequest([
+                'rows' => 2,
+                'columns' => 2,
+                'location' => [
+                    'index' => 1,
+                ],
+            ])
+        ]);
+
+        // Пример добавления дополнительного текста (тела письма)
+        $letterText = "";
+        foreach ($fields as $field) {
+            if ($field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter') {
+                $letterText .= $field['description'] . "\n";
+            }
+        }
+
+        if (!empty($letterText)) {
+            $requests[] = new Request([
+                'insertText' => new InsertTextRequest([
+                    'location' => [
+                        'index' => 1,
+                    ],
+                    'text' => $letterText
+                ])
+            ]);
+        }
+
+        // Выполнение запроса
+        $batchUpdateRequest = new BatchUpdateDocumentRequest([
+            'requests' => $requests
+        ]);
+
+        try {
+            $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
+            return $response;
+        } catch (Exception $e) {
+            echo 'Ошибка при добавлении раздела в документ: ',  $e->getMessage(), "\n";
+        }
+    }
 
 
 
-    //
+    // UTILITS
     protected function getSortActivePrices($allPrices)
     {
         $result = [
