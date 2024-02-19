@@ -690,17 +690,11 @@ class GoogleController extends Controller
 
                 // STYLES
                 $styles = $this->documentStyle;
-
-
-
-
-
-                
             }
         }
 
 
-  
+
         $document->setTitle('Новый документ');
         $createdDocument = $service->documents->create($document);
 
@@ -819,12 +813,15 @@ class GoogleController extends Controller
         $headerTextStyle = $styles['fonts']['text']['small'];
         $headerRqParagraf = $styles['paragraphs']['general'];
         $createHeaderRequest = new CreateHeaderRequest();
+        $createHeaderRequest->setType('DEFAULT'); // Указываем тип хедера как DEFAULT
+
         // Создание хедера
         $requests = [
             new Docs\Request([
                 'createHeader' => $createHeaderRequest
             ])
         ];
+
 
         $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest(['requests' => $requests]);
         $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
@@ -836,15 +833,18 @@ class GoogleController extends Controller
                 'insertText' => [
                     'location' => [
                         'segmentId' => $headerId,
-                        'index' => 0,
+                        'index' => 1, // Индекс должен быть 1, если вы хотите начать с начала хедера
                     ],
                     'text' => "Название компании\nАдрес: ...\nТелефон: ..."
-                ],
+                ]
+            ]),
+            new Docs\Request([
                 'insertInlineImage' => [
                     'uri' => $imageUrl,
                     'location' => [
                         'segmentId' => $headerId,
-                        'index' => 0,
+                        // Указываем индекс вставки изображения. Это должно быть после текста
+                        'index' => strlen("Название компании\nАдрес: ...\nТелефон: ") + 1,
                     ],
                     'objectSize' => [
                         'height' => [
