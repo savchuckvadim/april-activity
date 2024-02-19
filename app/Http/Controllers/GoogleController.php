@@ -829,7 +829,55 @@ class GoogleController extends Controller
         $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest(['requests' => $requests]);
         $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
         $headerId = $response->replies[0]->createHeader->headerId;
+        $headerText = '';
 
+        if (!$isTwoLogo) {
+            $first = $providerRq['fullname'];
+            if ($providerRq['inn']) {
+                $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+            }
+            if ($providerRq['kpp']) {
+                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
+            }
+            $second = $providerRq['primaryAdresss'];
+            if ($providerRq['phone']) {
+                $second = $second . ', ' . $providerRq['phone'];
+            }
+            if ($providerRq['email']) {
+                $second = $second . ', ' . $providerRq['email'];
+            }
+
+
+
+            if ($first) {
+                $headerText = $first;
+            }
+            if ($second) {
+                $headerText = $headerText . ' ' . $second;
+            }
+        } else {
+
+            // $logo =  null;
+            // if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos']) && count($providerRq['logos']) > 1) {
+
+            //     $logo =  $providerRq['logos'][1];
+            // }
+            // if ($logo) {
+
+            //     $fullPath = storage_path('app/' . $logo['path']);
+            //     if (file_exists($fullPath)) {
+            //         // Добавление изображения в документ PHPWord
+            //         $cell->addImage(
+            //             $fullPath,
+            //             [
+            //                 ...$styles['header']['logo'],
+            //                 ...$styles['alignment']['start']
+            //             ]
+
+            //         );
+            //     }
+            // }
+        }
         // Пример добавления текста в хедер
         $requests = [
             new Docs\Request([
@@ -838,7 +886,7 @@ class GoogleController extends Controller
                         'segmentId' => $headerId,
                         'index' => 0, // Индекс должен быть 1, если вы хотите начать с начала хедера
                     ],
-                    'text' => "Название компании\nАдрес: ...\nТелефон: ..."
+                    'text' => $headerText
                 ]
             ]),
             // new Docs\Request([
