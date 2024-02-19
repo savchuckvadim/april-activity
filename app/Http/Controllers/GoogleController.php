@@ -593,7 +593,7 @@ class GoogleController extends Controller
                 'updateDocumentStyle' => [
                     'documentStyle' => [
                         'pageSize' => [
-                            'width' => 1500,
+                            'width' => 1900,
                             // 'height' => $newHeightInPoints,
                         ],
                         // Опционально: изменение полей
@@ -746,11 +746,15 @@ class GoogleController extends Controller
         $permission->setRole('writer');
 
         $this->documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo);
-        $this->documentLetterCreate($service, $documentId, $documentNumber, $fields, $recipient);
+        // $this->documentLetterCreate($service, $documentId, $documentNumber, $fields, $recipient);
+
+        $this->createTableAndInsertText($service, $documentId, 'textToInsert');
+
+
 
         try {
             $driveService->permissions->create($documentId, $permission);
-            echo "Разрешение на доступ добавлено.";
+            // echo "Разрешение на доступ добавлено.";
         } catch (Exception $e) {
             echo 'Произошла ошибка: ',  $e->getMessage(), "\n";
         }
@@ -1033,5 +1037,49 @@ class GoogleController extends Controller
         }
 
         return $result;
+    }
+
+    protected  function createTableAndInsertText($service, $documentId, $textToInsert)
+    {
+        // Создание запроса на добавление таблицы из двух столбцов и одной строки
+        $insertTableRequest = new Docs\InsertTableRequest([
+            'rows' => 1,
+            'columns' => 2,
+            'location' => [
+                'index' => 1, // Вставляем таблицу в начало документа
+            ],
+        ]);
+
+        // Создание объекта запроса для добавления таблицы
+        $requestForTable = new Docs\Request();
+        $requestForTable->setInsertTable($insertTableRequest);
+
+        // Создание запроса на добавление текста. 
+        // Обратите внимание: реальный индекс для вставки текста в ячейку таблицы 
+        // потребует дополнительных вычислений и может зависеть от содержимого документа.
+        // Для простоты примера используется предполагаемый индекс.
+        $insertTextRequest = new Docs\InsertTextRequest([
+            'location' => [
+                'index' => 2, // Предполагаемый индекс для вставки текста в первую ячейку
+            ],
+            'text' => $textToInsert,
+        ]);
+
+        // Создание объекта запроса для добавления текста
+        $requestForText = new Request();
+        $requestForText->setInsertText($insertTextRequest);
+
+        // Формирование итогового запроса на обновление документа
+        $batchUpdateRequest = new BatchUpdateDocumentRequest();
+        $batchUpdateRequest->setRequests([$requestForTable, $requestForText]);
+
+        // Выполнение запроса
+        try {
+            $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
+            return $response;
+        } catch (Exception $e) {
+            echo 'Ошибка при создании таблицы и вставке текста: ',  $e->getMessage(), "\n";
+            return null;
+        }
     }
 }
