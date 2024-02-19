@@ -746,24 +746,24 @@ class GoogleController extends Controller
         // $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
 
 
-        $requests = [
-            new Docs\Request([
-                'insertTable' => [
-                    'rows' => 3,
-                    'columns' => 3,
-                    'location' => [
-                        'index' => 21, // Добавить после текста
-                    ],
-                ]
-            ])
-            // Здесь могут быть дополнительные запросы для заполнения таблицы
-        ];
+        // $requests = [
+        //     new Docs\Request([
+        //         'insertTable' => [
+        //             'rows' => 3,
+        //             'columns' => 3,
+        //             'location' => [
+        //                 'index' => 21, // Добавить после текста
+        //             ],
+        //         ]
+        //     ])
+        //     // Здесь могут быть дополнительные запросы для заполнения таблицы
+        // ];
 
-        $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
-            'requests' => $requests
-        ]);
+        // $batchUpdateRequest = new Docs\BatchUpdateDocumentRequest([
+        //     'requests' => $requests
+        // ]);
 
-        $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
+        // $response = $service->documents->batchUpdate($documentId, $batchUpdateRequest);
 
 
 
