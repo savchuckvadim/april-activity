@@ -563,6 +563,19 @@ class GoogleController extends Controller
     }
     public function documentCreate($data)
     {
+        $client = new Client();
+        $driveService = new Drive($client);
+        $client->setApplicationName('April App');
+        $client->setScopes([
+            Docs::DOCUMENTS,
+            Drive::DRIVE // Добавьте этот scope
+        ]);
+        $client->setAuthConfig(env('GOOGLE_DOCS_PATH'));
+
+        $service = new Docs($client);
+
+        // Создание нового документа
+        $document = new Docs\Document();
 
         if ($data &&  isset($data['template'])) {
             $template = $data['template'];
@@ -687,19 +700,7 @@ class GoogleController extends Controller
         }
 
 
-        $client = new Client();
-        $driveService = new Drive($client);
-        $client->setApplicationName('April App');
-        $client->setScopes([
-            Docs::DOCUMENTS,
-            Drive::DRIVE // Добавьте этот scope
-        ]);
-        $client->setAuthConfig(env('GOOGLE_DOCS_PATH'));
-
-        $service = new Docs($client);
-
-        // Создание нового документа
-        $document = new Docs\Document();
+  
         $document->setTitle('Новый документ');
         $createdDocument = $service->documents->create($document);
 
