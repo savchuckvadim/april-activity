@@ -865,11 +865,11 @@ class GoogleController extends Controller
                 $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
             }
             if ($providerRq['kpp']) {
-                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', \n';
+                $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
             }
             $second = $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
-                $second = $second . ', ' . $providerRq['phone'];
+                $second = $second . ', \n' . $providerRq['phone'];
             }
             if ($providerRq['email']) {
                 $second = $second . ', ' . $providerRq['email'];
