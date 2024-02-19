@@ -2162,13 +2162,13 @@ class DocumentController extends Controller
         $table = $section->addTable();
         $table->addRow();
         $cellWidth = $contentWidth / 2;
-        $letterNumberell = $table->addCell($contentWidth);
+        $letterNumberell = $table->addCell($cellWidth);
         if ($documentNumber) {
             // $letterNumberell->addTextBreak(1);
             $letterNumberell->addText('Исх. № ' . $documentNumber, $recipientTextStyle, $leftAlign);
         }
 
-        $letterRecipientell = $table->addCell($contentWidth);
+        $letterRecipientell = $table->addCell($cellWidth);
 
 
 
