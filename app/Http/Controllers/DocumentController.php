@@ -1925,11 +1925,15 @@ class DocumentController extends Controller
 
 
         // create header
+        $fullWidth = $styles['page']['pageSizeW'];
+        $marginRight = $section->getStyle()->getMarginRight();
+        $marginLeft = $section->getStyle()->getMarginLeft();
+        $contentWidth = $fullWidth - $marginLeft - $marginRight;
 
         $tableHeader = $section->addTable();
         $tableHeader->addRow();
-        $headerRqWidth = $styles['page']['pageSizeW'] / 2;
-        $headerLogoWidth = $styles['page']['pageSizeW'] / 2;
+        $headerRqWidth = $contentWidth / 2;
+        $headerLogoWidth = $contentWidth / 2;
 
         $headerTextStyle = $styles['fonts']['text']['small'];
         $headerRqParagraf = $styles['paragraphs']['general'];
