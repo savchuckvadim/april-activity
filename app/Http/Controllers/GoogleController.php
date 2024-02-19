@@ -790,7 +790,14 @@ class GoogleController extends Controller
         } catch (Exception $e) {
             echo 'Произошла ошибка: ',  $e->getMessage(), "\n";
         }
-        return $documentUrl;
+        return APIController::getSuccess([
+            'price' => $price,
+            'link' => $documentUrl,
+            'documentNumber' => $documentNumber,
+            'counter' => $counter,
+
+        ]);
+        // return $documentUrl;
     }
 
     public static function documentHeaderCreate($service, $documentId,  $styles, $providerRq, $isTwoLogo)
