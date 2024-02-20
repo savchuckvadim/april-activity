@@ -1,66 +1,26 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Заголовок</title>
     <style>
-        body {
-            font-family: DejaVu Sans, sans-serif;
-        }
-
-        .header {
-            text-align: center;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 0px;
-            text-align: center;
-            width: 100%;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+        @page { margin: 100px 25px; }
+        header { position: fixed; top: -60px; left: 0px; right: 0px; height: 50px; }
+        footer { position: fixed; bottom: -60px; left: 0px; right: 0px; height: 50px; }
+        .page-break { page-break-after: always; }
+        body { font-family: DejaVu Sans, sans-serif; }
     </style>
 </head>
-
 <body>
-
-
-    <p>domain</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Header 1</th>
-                <th>Header 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Data 1</td>
-                <td>Data 2</td>
-            </tr>
-            <tr>
-                <td>Data 3</td>
-                <td>Data 4</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="footer">
-        <p>This is a custom footer.</p>
-    </div>
-
+    <header>
+        Это хедер документа.
+    </header>
+    <footer>
+        Это футер документа.
+    </footer>
+    
+    <main>
+        Основной контент документа.
+        <div class="page-break"></div>
+        Следующая страница документа.
+    </main>
 </body>
-
 </html>
