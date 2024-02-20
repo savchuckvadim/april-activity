@@ -39,10 +39,10 @@
             </div>
             @endif
 
-            <div class="letter-title-wrapper">
-                <h2>
+            <div class="letter-text-wrapper">
+                <p class="text-small">
                     {{$letterData['text']}}
-                </h2>
+                </p>
             </div>
         </div>
 
