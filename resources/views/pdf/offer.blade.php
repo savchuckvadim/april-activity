@@ -48,16 +48,26 @@
         .page-break {
             page-break-after: always;
         }
-        main{
+
+        main {
             margin-top: 100px;
         }
+
         body {
             font-family: DejaVu Sans, sans-serif;
         }
 
         p {
             margin-top: 0px;
+
+        }
+
+        .text-small {
             font-size: 10px;
+        }
+
+        .text-normal {
+            font-size: 15px;
         }
     </style>
 </head>
@@ -76,7 +86,7 @@
         <!-- Если isTwoLogo ложно, отображаем текст -->
         <div class="rowItem">
             <div class="rq-wrapper">
-                <p>{{ $headerData['rq'] }}</p>
+                <p class="text-small">{{ $headerData['rq'] }}</p>
             </div>
 
         </div>
@@ -97,7 +107,7 @@
 
     <main>
         <div class="letter">
-            @component('pdf.components.letter')
+            @component('pdf.components.letter', $letterData)
 
             @endcomponent
         </div>

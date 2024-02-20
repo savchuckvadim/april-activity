@@ -1,5 +1,5 @@
 <div class="letter">
-    <p>
+    <p class="text-normal">
         Письмо
     </p>
 </div>

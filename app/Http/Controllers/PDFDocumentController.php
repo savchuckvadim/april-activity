@@ -28,16 +28,43 @@ class PDFDocumentController extends Controller
                         }
                     }
                 }
+                //infoblocks data
+                $infoblocksOptions = [
+                    'description' => $data['infoblocks']['description']['current'],
+                    'style' => $data['infoblocks']['style']['current']['code'],
+                ];
+                $complect = $data['complect'];
+
+
+                //price
+                $price = $data['price'];
+                $comePrices = $price['cells'];
+                //SORT CELLS
+                $sortActivePrices = $this->getSortActivePrices($comePrices);
+                $allPrices =  $sortActivePrices;
+                $general = $allPrices['general'];
+                $alternative = $allPrices['alternative'];
+
+
+                //manager
+                $manager = $data['manager'];
+                //UF_DEPARTMENT
+                //SECOND_NAME
+
+
+                //fields
+                $fields = $data['template']['fields'];
+                $recipient = $data['recipient'];
 
 
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
 
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
-
+                $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
-                $pdf = Pdf::loadView('pdf.offer', ['headerData' =>  $headerData]);
+                $pdf = Pdf::loadView('pdf.offer', ['headerData' =>  $headerData, 'letterData' => $letterData]);
 
 
 
@@ -137,5 +164,102 @@ class PDFDocumentController extends Controller
         }
         $headerData['rq'] = $rq;
         return $headerData;
+    }
+
+
+    protected function getLetterData($documentNumber, $fields, $recipient)
+    {
+        $letterData = [
+            'documentNumber' => null,
+            'companyName' => null,
+            'inn' => null,
+            'positionCase' => null,
+            'recipientCase' => null,
+            'recipientName' => null,
+            'text' => null
+        ];
+
+
+
+        if ($documentNumber) {
+
+            $letterData['documentNumber'] = 'Исх. № ' . $documentNumber;
+        }
+
+
+
+        if ($recipient) {
+            if (isset($recipient['companyName'])) {
+                if ($recipient['companyName']) {
+                    $letterData['companyName'] = $recipient['companyName'];
+                }
+            }
+            if (isset($recipient['inn'])) {
+                if ($recipient['inn']) {
+                    $letterData['inn'] = 'ИНН: ' . $recipient['inn'];
+                }
+            }
+            if (isset($recipient['positionCase'])) {
+                if ($recipient['positionCase']) {
+                    $letterData['positionCase']  = $recipient['positionCase'];
+                }
+            }
+            if (isset($recipient['recipientCase'])) {
+                if ($recipient['recipientCase']) {
+                    $letterData['recipientCase'] = $recipient['recipientCase'];
+                }
+            }
+        }
+
+        // $section->addTextBreak(1);
+        if (isset($recipient['recipient'])) {
+            if ($recipient['recipient']) {
+
+                $letterData['recipientName'] = $recipient['recipient'];
+            }
+        }
+
+
+        $letterText = '';
+        foreach ($fields as $field) {
+            if ($field && $field['code']) {
+                if (
+                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
+
+                ) {
+                    if ($field['description']) {
+                        $letterText = $field['description'];
+                    }
+                }
+            }
+        }
+        $letterData['text'] = $letterText;
+        // $parts = preg_split('/<color>|<\/color>/', $letterText);
+
+        // $textRun = $section->addTextRun();
+
+        // $inHighlight = false;
+        // foreach ($parts as $part) {
+        //     // Разбиваем часть на подстроки по символам переноса строки
+        //     $subparts = preg_split("/\r\n|\n|\r/", $part);
+        //     // foreach ($subparts as $subpart) {
+        //     //     if ($inHighlight) {
+        //     //         // Добавление выделенного текста
+        //     //         // $textRun->addText($subpart, $corporateletterTextStyle, $styles['paragraphs']['align']['both']);
+        //     //     } else {
+        //     //         // Добавление обычного текста
+        //     //         // $textRun->addText($subpart, $letterTextStyle, $styles['paragraphs']['align']['both']);
+        //     //     }
+        //     //     // Добавление разрыва строки после каждой подстроки, кроме последней
+        //     //     // if ($subpart !== end($subparts)) {
+        //     //     //     $textRun->addTextBreak(1);
+        //     //     // }
+        //     // }
+        //     $inHighlight = !$inHighlight;
+        // }
+
+
+
+        return $letterData;
     }
 }
