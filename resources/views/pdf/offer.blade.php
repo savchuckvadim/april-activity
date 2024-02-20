@@ -27,7 +27,7 @@
 
         .rq-wrapper {
 
-            width: 500px;
+            width: 50%;
         }
 
         .logo {
@@ -52,7 +52,7 @@
         }
 
         p {
-            font-size: 5px;
+            font-size: 10px;
         }
     </style>
 </head>
