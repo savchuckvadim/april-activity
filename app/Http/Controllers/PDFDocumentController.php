@@ -125,14 +125,15 @@ class PDFDocumentController extends Controller
 
 
             if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos']) && count($providerRq['logos']) > 1) {
-
-                $headerData['logo_2'] =  $providerRq['logos'][1];
+                $fullPath2 = storage_path('app/' .  $providerRq['logos'][1]['path']);
+                $headerData['logo_2'] = $fullPath2;
             }
         }
 
 
         if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos'])) {
-            $headerData['logo_1'] =  $providerRq['logos'][0];
+            $fullPath1 = storage_path('app/' .  $providerRq['logos'][0]['path']);
+            $headerData['logo_1'] =  $fullPath1;
         }
         $headerData['rq'] = $rq;
         return $headerData;
