@@ -19,6 +19,7 @@
         }
 
         .row {
+            width: 100%;
             display: table;
         }
 
