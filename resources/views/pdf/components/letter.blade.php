@@ -1,5 +1,5 @@
 <div class="letter">
-    <div class="letter-rq">
+    <div class="row letter-rq">
         <div class="rowItem letter-rq-left">
             <p class="text-small">
                 {{$letterData['documentNumber']}}
