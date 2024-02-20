@@ -39,11 +39,15 @@ class PDFDocumentController extends Controller
                 //price
                 $price = $data['price'];
                 $comePrices = $price['cells'];
+              
+              
+              
+              
                 //SORT CELLS
-                $sortActivePrices = $this->getSortActivePrices($comePrices);
-                $allPrices =  $sortActivePrices;
-                $general = $allPrices['general'];
-                $alternative = $allPrices['alternative'];
+                // $sortActivePrices = $this->getSortActivePrices($comePrices);
+                // $allPrices =  $sortActivePrices;
+                // $general = $allPrices['general'];
+                // $alternative = $allPrices['alternative'];
 
 
                 //manager
