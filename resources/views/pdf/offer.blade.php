@@ -19,16 +19,16 @@
         }
 
         .rowItem {
-            margin: 0;
-            padding: 0;
+            margin: 0px;
+            padding: 0px;
             display: table-cell;
             width: 1%;
             /* white-space: nowrap; */
         }
 
         .rq-wrapper {
-            margin: 0;
-            padding: 0;
+            margin: 0px;
+            padding: 0px;
             width: 340px;
         }
 
@@ -54,6 +54,7 @@
         }
 
         p {
+            margin-top: 0px;
             font-size: 10px;
         }
     </style>
