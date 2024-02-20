@@ -13,21 +13,16 @@
             left: 0px;
             right: 0px;
             height: 50px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+            display: table;
 
         }
 
-        .header-conteiner {
-            width: 100%;
-            display: table;
+        .rowItem{
+            display: table-cell; vertical-align: middle
         }
 
         .logo {
-            display: block;
-            width: 100px;
+            width: 200px;
             height: auto;
         }
 
@@ -54,19 +49,19 @@
 
         @if ($headerData['isTwoLogo'])
         <!-- Если isTwoLogo истинно, отображаем изображения -->
-        <div>
+        <div class="rowItem">
             <img class="logo" src="{{ $headerData['logo_2'] }}" alt="Logo">
         </div>
 
 
         @else
         <!-- Если isTwoLogo ложно, отображаем текст -->
-        <div>
+        <div class="rowItem">
             <p>Текст вместо логотипа</p>
         </div>
 
         @endif
-        <div>
+        <div class="rowItem">
             <img class="logo" src="{{ $headerData['logo_1'] }}" alt="Logo">
         </div>
 
