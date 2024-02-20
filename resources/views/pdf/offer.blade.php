@@ -19,7 +19,14 @@
             align-items: center;
 
         }
-        .logo{
+
+        .header-conteiner {
+            width: 100%;
+            display: table;
+        }
+
+        .logo {
+            display: block;
             width: 100px;
             height: auto;
         }
@@ -44,17 +51,26 @@
 
 <body>
     <header>
-  
-            @if ($headerData['isTwoLogo'])
-            <!-- Если isTwoLogo истинно, отображаем изображения -->
+
+        @if ($headerData['isTwoLogo'])
+        <!-- Если isTwoLogo истинно, отображаем изображения -->
+        <div>
             <img class="logo" src="{{ $headerData['logo_2'] }}" alt="Logo">
+        </div>
 
-            @else
-            <!-- Если isTwoLogo ложно, отображаем текст -->
+
+        @else
+        <!-- Если isTwoLogo ложно, отображаем текст -->
+        <div>
             <p>Текст вместо логотипа</p>
-            @endif
+        </div>
 
+        @endif
+        <div>
             <img class="logo" src="{{ $headerData['logo_1'] }}" alt="Logo">
+        </div>
+
+
 
 
     </header>
