@@ -33,10 +33,11 @@ class PDFDocumentController extends Controller
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
 
+                $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
 
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
-                $pdf = Pdf::loadView('pdf.offer', ['domain' => $domain]);
+                $pdf = Pdf::loadView('pdf.offer', ['headerData' =>  $headerData]);
 
 
 
@@ -91,5 +92,49 @@ class PDFDocumentController extends Controller
                 ]);
             }
         }
+    }
+
+
+    protected function getHeaderData($providerRq, $isTwoLogo)
+    {
+
+        $headerData = [
+            'isTwoLogo' => $isTwoLogo,
+            'rq' => '',
+            'logo_1' => null,
+            'logo_2' => null,
+        ];
+        $rq = '';
+        if (!$isTwoLogo) {
+            $rq = $providerRq['fullname'];
+            if ($providerRq['inn']) {
+                $rq = $rq . ', ИНН: ' . $providerRq['inn'] . ', ';
+            }
+            if ($providerRq['kpp']) {
+                $rq = $rq . ', КПП: ' . $providerRq['kpp'] . ', ';
+            }
+
+            $rq = $rq . ', ' . $providerRq['primaryAdresss'];
+            if ($providerRq['phone']) {
+                $rq = $rq . ', ' . $providerRq['phone'];
+            }
+            if ($providerRq['email']) {
+                $rq = $rq . ', ' . $providerRq['email'];
+            }
+        } else {
+
+
+            if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos']) && count($providerRq['logos']) > 1) {
+
+                $headerData['logo_2'] =  $providerRq['logos'][1];
+            }
+        }
+
+
+        if (isset($providerRq['logos']) && is_array($providerRq['logos']) && !empty($providerRq['logos'])) {
+            $headerData['logo_1'] =  $providerRq['logos'][0];
+        }
+        $headerData['rq'] = $rq;
+        return $headerData;
     }
 }
