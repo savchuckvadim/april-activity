@@ -94,7 +94,11 @@
     </footer>
 
     <main>
-        <div class="letter"> </div>
+        <div class="letter">
+            @component('pdf.components.letter')
+
+            @endcomponent
+        </div>
         <div class="page-break"></div>
         <div class="infoblocks"> </div>
         <div class="page-break"></div>
