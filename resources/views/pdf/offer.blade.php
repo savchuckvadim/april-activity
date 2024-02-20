@@ -19,15 +19,15 @@
         }
 
         .rowItem {
-     
+
             display: table-cell;
             width: 1%;
             /* white-space: nowrap; */
         }
 
         .rq-wrapper {
-            
-            width: 200px;
+
+            width: 30%;
         }
 
         .logo {
@@ -51,6 +51,9 @@
             font-family: DejaVu Sans, sans-serif;
         }
 
+        p {
+            font-size: 20px;
+        }
     </style>
 </head>
 
