@@ -107,7 +107,7 @@
 
     <main>
         <div class="letter">
-            @component('pdf.components.letter', $letterData)
+            @component('pdf.components.letter', ['letterData' => $letterData])
 
             @endcomponent
         </div>
