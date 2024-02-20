@@ -12,6 +12,7 @@
         "anton-zaharov/bitrix24api": "^1.0",
         "creativeorange/gravatar": "~1.0",
         "doctrine/dbal": "^3.7",
+        "dompdf/dompdf": "*",
         "fruitcake/laravel-cors": "^2.0",
         "google/apiclient": "^2.14",
         "guzzlehttp/guzzle": "^7.0.1",

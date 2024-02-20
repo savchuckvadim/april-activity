@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Counter;
 use App\Models\Infoblock;
+use Dompdf\Dompdf;
 use Ramsey\Uuid\Uuid;
 use PhpOffice\PhpWord\Shared\Converter;
 use Illuminate\Http\Request;
@@ -795,10 +796,39 @@ class DocumentController extends Controller
                     if (!is_writable($resultPath)) {
                         throw new \Exception("Невозможно записать в каталог: $resultPath");
                     }
-                    $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
-                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+                    // $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
+                    // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
-                    $objWriter->save($resultPath . '/' . $resultFileName);
+                    // $objWriter->save($resultPath . '/' . $resultFileName);
+
+
+
+                    //PDF
+
+                    // Сохранение документа Word как временного HTML файла
+                    $tmpFileName = tempnam(sys_get_temp_dir(), 'phpword2pdf') . '.html';
+                    $htmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'HTML');
+                    $htmlWriter->save($tmpFileName);
+
+                    // Чтение HTML файла
+                    $htmlContent = file_get_contents($tmpFileName);
+
+                    // Создание экземпляра Dompdf
+                    $dompdf = new Dompdf();
+                    $dompdf->loadHtml($htmlContent);
+
+                    // Установка размера бумаги и ориентации
+                    $dompdf->setPaper('A4', 'portrait');
+
+                    // Рендеринг HTML как PDF
+                    $dompdf->render();
+
+                    // Сохранение PDF в файл
+                    $pdfFileName = $resultPath . '/' . $documentNumber . '_' . $shortUid . '.pdf';
+                    file_put_contents($pdfFileName, $dompdf->output());
+                    $resultFileName = $pdfFileName;
+                    // Удаление временного HTML файла
+                    unlink($tmpFileName);
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
