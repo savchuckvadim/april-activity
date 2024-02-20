@@ -60,7 +60,7 @@
         @else
         <!-- Если isTwoLogo ложно, отображаем текст -->
         <div class="rowItem">
-            <p>Текст вместо логотипа</p>
+            <p>{{ $headerData['rq'] }}</p>
         </div>
 
         @endif
