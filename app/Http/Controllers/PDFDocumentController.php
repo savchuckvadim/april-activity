@@ -66,8 +66,8 @@ class PDFDocumentController extends Controller
 
                 // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-                // $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
-                $link = $pdf->download($resultFileName);
+                $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                // $link = $pdf->download($resultFileName);
                 // return APIController::getSuccess([
                 //     'price' => $price,
                 //     'link' => $link,
