@@ -67,12 +67,17 @@
 
         }
 
+        /* text */
         .text-small {
             font-size: 10px;
         }
 
         .text-normal {
             font-size: 15px;
+        }
+
+        .color {
+            color: rgb(138, 34, 10);
         }
 
 
