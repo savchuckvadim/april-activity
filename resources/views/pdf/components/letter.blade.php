@@ -46,8 +46,7 @@
         <div class="letter-text-wrapper">
             @php
             $letterText = $letterData['text'];
-            $parts = preg_split('/<color>|<\/color>/', $letterText);
-
+            $parts = preg_split('/<color>|<\ /color>/', $letterText);
                     $inHighlight = false;
                     @endphp
 
@@ -58,11 +57,12 @@
                     @endphp
 
                     @foreach ($subparts as $subpartIndex => $subpart)
-                    <p class="{{ $inHighlight ? 'color text-small' : 'text-small' }}">
+                    {{-- Использование span вместо p для инлайнового стиля --}}
+                    <span class="{{ $inHighlight ? 'color text-small' : 'text-small' }}">
                         {{ $subpart }}
-                    </p>
+                    </span>
 
-                    {{-- Убираем добавление разрыва строки для последней подстроки последней части --}}
+                    {{-- Добавление <br> после каждой подстроки, кроме последней --}}
                     @if (!($isLastPart && $subpartIndex === count($subparts) - 1))
                     <br>
                     @endif
@@ -73,9 +73,7 @@
                     @php $inHighlight = !$inHighlight @endphp
                     @endif
                     @endforeach
-                    <p class="text-small">
-                        {{$letterData['text']}}
-                    </p>
         </div>
+
     </div>
 </div>
