@@ -4,7 +4,7 @@
 <head>
     <style>
         @page {
-            margin: 100px 25px;
+            margin: 1px 25px;
         }
 
         header {
@@ -35,26 +35,33 @@
 
 <body>
     <header>
-        @if ($headerData['isTwoLogo'])
-        <!-- Если isTwoLogo истинно, отображаем изображения -->
-        <img src="{{ $headerData['logo_2'] }}" alt="Logo">
+        <div class="header-container">
+            @if ($headerData['isTwoLogo'])
+            <!-- Если isTwoLogo истинно, отображаем изображения -->
+            <img src="{{ $headerData['logo_2'] }}" alt="Logo">
 
-        @else
-        <!-- Если isTwoLogo ложно, отображаем текст -->
-        <p>Текст вместо логотипа</p>
-        @endif
+            @else
+            <!-- Если isTwoLogo ложно, отображаем текст -->
+            <p>Текст вместо логотипа</p>
+            @endif
 
-        <img src="{{ $headerData['logo_1'] }}" alt="Logo">
+            <img src="{{ $headerData['logo_1'] }}" alt="Logo">
+        </div>
+
     </header>
     <footer>
         Это футер документа.
     </footer>
 
     <main>
-        <div></div>
-        Основной контент документа.
+        <div class="letter"> </div>
         <div class="page-break"></div>
-        Следующая страница документа.
+        <div class="infoblocks"> </div>
+        <div class="page-break"></div>
+        <div class="prices"> </div>
+        <div class="page-break"></div>
+        <div class="invoice"> </div>
+        <div class="page-break"></div>
     </main>
 </body>
 
