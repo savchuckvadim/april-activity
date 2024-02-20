@@ -8,6 +8,7 @@
         }
 
         header {
+            width: 100%;
             position: fixed;
             /* top: -60px; */
             left: 0px;
@@ -17,8 +18,10 @@
 
         }
 
-        .rowItem{
-            display: table-cell; vertical-align: middle
+        .rowItem {
+            display: table-cell;
+            width: 1%;
+            white-space: nowrap;
         }
 
         .logo {
@@ -61,6 +64,7 @@
         </div>
 
         @endif
+        <div style="display: table-cell;"></div>
         <div class="rowItem">
             <img class="logo" src="{{ $headerData['logo_1'] }}" alt="Logo">
         </div>
