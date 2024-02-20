@@ -41,7 +41,7 @@
         @endif
 
         <div class="letter-text-wrapper">
-            <p class="text-normal">
+            <p class="text-small">
                 {{$letterData['text']}}
             </p>
         </div>
