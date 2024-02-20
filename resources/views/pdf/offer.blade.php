@@ -63,7 +63,7 @@
         }
 
         p {
-            margin-top: 0px;
+            margin: 1px;
 
         }
 
