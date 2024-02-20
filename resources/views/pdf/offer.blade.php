@@ -73,6 +73,12 @@
         .text-normal {
             font-size: 15px;
         }
+
+
+        /* letter */
+        .letter-rq-right {
+            text-align: right;
+        }
     </style>
 </head>
 
