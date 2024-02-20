@@ -63,7 +63,7 @@
         }
 
         p, span {
-            margin: 1px;
+            margin: 0px 1px;
 
         }
 
