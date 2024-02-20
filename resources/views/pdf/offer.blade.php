@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{ $domain }}</title>
+    <title>Заголовок</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -36,12 +36,7 @@
 <body>
 
 
-    <div>
-        <h2>
-            {{$domain}}
-        </h2>
-    </div>
-    <p>domain: {{ $domain }}</p>
+    <p>domain</p>
 
     <table>
         <thead>
