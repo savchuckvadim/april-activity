@@ -180,6 +180,7 @@ return [
 
         //Bitrix
         Bitrix24api\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
 
     ],
@@ -239,6 +240,7 @@ return [
 
         //Package
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
 
     ],
 

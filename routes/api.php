@@ -16,6 +16,7 @@ use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OfferMasterController;
+use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\PriceRowCellController;
 use App\Http\Controllers\RqController;
@@ -564,6 +565,39 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //     return TemplateController::initialTemplate($type);
     // });
 
+
+
+
+
+
+
+
+    //RESULT DOCUMENTS
+    Route::get('/pdf', [PDFDocumentController::class, 'generatePDF']);
+
+    Route::post('get/document', function (Request $request) {
+        $data  = $request->input('data');
+        $documentController = new PDFDocumentController;
+        $result = $documentController->getDocument($data);
+
+        return $result;
+    });
+    
+    // Route::post('get/document', function (Request $request) {
+    //     $data  = $request->input('data');
+    //     $documentController = new DocumentController;
+    //     $result = $documentController->getDocument($data);
+
+    //     return $result;
+    // });
+
+    // Route::post('get/document', function (Request $request) {
+    //     $data  = $request->input('data');
+    //     $documentController = new GoogleController;
+    //     $result = $documentController->documentCreate($data);
+
+    //     return $result;
+    // });
     Route::post('nameCase', function (Request $request) {
         $word  = $request->input('word');
         $wordCase  = $request->input('wordCase');
@@ -608,29 +642,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         }
     });
 
-
-
-
-
-
-
-    //RESULT DOCUMENTS
-
-    Route::post('get/document', function (Request $request) {
-        $data  = $request->input('data');
-        $documentController = new DocumentController;
-        $result = $documentController->getDocument($data);
-
-        return $result;
-    });
-
-    // Route::post('get/document', function (Request $request) {
-    //     $data  = $request->input('data');
-    //     $documentController = new GoogleController;
-    //     $result = $documentController->documentCreate($data);
-
-    //     return $result;
-    // });
 
 
     ///infoblocks for template 
@@ -861,10 +872,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             $data['responsibility'],
             $data['deadline'],
             $data['name'],
-            $crm ,
+            $crm,
             $data['type'],
-           
-    
+
+
         );
     });
 
