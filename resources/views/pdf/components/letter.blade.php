@@ -44,39 +44,27 @@
         @endif
 
         <div class="letter-text-wrapper">
-            <p>
-                @php
-                $letterText = $letterData['text'];
-                $parts = preg_split('/<color>|<\/color>/', $letterText);
-                        $inHighlight = false;
-                        @endphp
+            @php
+            $letterText = $letterData['text'];
+            $parts = preg_split('/<color>|<\/color>/', $letterText);
+            $inHighlight = false;
+            @endphp
 
-                        @foreach ($parts as $index => $part)
-                        @php
-                        $subparts = preg_split("/\r\n|\n|\r/", $part);
-                        $isLastPart = $index === count($parts) - 1;
-                        @endphp
+            @foreach ($parts as $index => $part)
+            @php
+            $isLastPart = $index === count($parts) - 1;
+            @endphp
 
-                        @foreach ($subparts as $subpartIndex => $subpart)
-                        {{-- Использование span вместо p для инлайнового стиля --}}
-                        <span class="{{ $inHighlight ? 'color text-small' : 'text-small' }}">
-                            {{ $subpart }}
-                        </span>
+            {{-- Замена \n на <br> и обертывание каждой части в span --}}
+            {!! $inHighlight ? '<span class="color text-small">' : '<span class="text-small">' !!}
+                    {!! nl2br(e($part)) !!}
+                </span>
 
-                        <!-- {{-- Добавление <br> после каждой подстроки, кроме последней --}}
-                        @if (!($isLastPart && $subpartIndex === count($subparts) - 1))
-                        <br>
-                        @endif -->
-                        @endforeach
-
-                        {{-- Переключаем флаг выделения для следующей итерации --}}
-                        @if (!$isLastPart)
-                        @php $inHighlight = !$inHighlight @endphp
-                        @endif
-                        @endforeach
-            </p>
-
+                {{-- Переключаем флаг выделения для следующей итерации --}}
+                @if (!$isLastPart)
+                @php $inHighlight = !$inHighlight @endphp
+                @endif
+                @endforeach
         </div>
-
     </div>
 </div>
