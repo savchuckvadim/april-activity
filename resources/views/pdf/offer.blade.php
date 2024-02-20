@@ -9,7 +9,7 @@
 
         header {
             position: fixed;
-            top: -60px;
+            /* top: -60px; */
             left: 0px;
             right: 0px;
             height: 50px;
@@ -26,7 +26,7 @@
 
         footer {
             position: fixed;
-            bottom: -60px;
+            /* bottom: -60px; */
             left: 0px;
             right: 0px;
             height: 50px;
