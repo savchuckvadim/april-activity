@@ -11,17 +11,17 @@
             <p>
                 {{$letterData['companyName']}}
             </p>
-
+            @endif
             @if ($headerData['inn'] !== null)
             <p>
                 {{$letterData['inn']}}
             </p>
-
+            @endif
             @if ($headerData['positionCase'] !== null)
             <p>
                 {{$letterData['positionCase']}}
             </p>
-
+            @endif
             @if ($headerData['recipientCase'] !== null)
             <p>
                 {{$letterData['recipientCase']}}
