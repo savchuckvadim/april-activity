@@ -48,7 +48,9 @@
         .page-break {
             page-break-after: always;
         }
-
+        main{
+            margin-top: 100px;
+        }
         body {
             font-family: DejaVu Sans, sans-serif;
         }
