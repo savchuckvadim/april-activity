@@ -62,7 +62,7 @@
             font-family: DejaVu Sans, sans-serif;
         }
 
-        p {
+        p, span {
             margin: 1px;
 
         }
