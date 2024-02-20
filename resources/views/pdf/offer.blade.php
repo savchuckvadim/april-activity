@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{ $title }}</title>
+    <title>{{ $custom }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
