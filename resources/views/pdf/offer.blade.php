@@ -22,10 +22,11 @@
      
             display: table-cell;
             width: 1%;
-            white-space: nowrap;
+            /* white-space: nowrap; */
         }
 
         .rq-wrapper {
+            
             width: 200px;
         }
 
@@ -48,6 +49,12 @@
 
         body {
             font-family: DejaVu Sans, sans-serif;
+        }
+
+
+        p{
+            font-family: sans-serif;
+            font-size: small;
         }
     </style>
 </head>
