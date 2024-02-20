@@ -8,22 +8,22 @@
 
         <div class="letter-rq-right">
             @if ($letterData['companyName'] !== null)
-            <p>
+            <p class="text-small">
                 {{$letterData['companyName']}}
             </p>
             @endif
             @if ($letterData['inn'] !== null)
-            <p>
+            <p class="text-small">
                 {{$letterData['inn']}}
             </p>
             @endif
             @if ($letterData['positionCase'] !== null)
-            <p>
+            <p class="text-small">
                 {{$letterData['positionCase']}}
             </p>
             @endif
             @if ($letterData['recipientCase'] !== null)
-            <p>
+            <p class="text-small">
                 {{$letterData['recipientCase']}}
             </p>
 
