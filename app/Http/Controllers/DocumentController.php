@@ -1452,7 +1452,7 @@ class DocumentController extends Controller
         $code = $priceCell['code'];
 
         $longWidth = 2700;
-        $without = 0;
+        $without = 0.5;
         if ($isHaveLongPrepayment) {
             $longWidth = 3300;
             $without = 3;
