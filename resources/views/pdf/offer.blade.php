@@ -10,7 +10,7 @@
         header {
             width: 100%;
             position: fixed;
-            /* top: -60px; */
+            top: 0px;
             left: 0px;
             right: 0px;
             height: 50px;
@@ -19,7 +19,8 @@
         }
 
         .rowItem {
-
+            margin: 0;
+            padding: 0;
             display: table-cell;
             width: 1%;
             /* white-space: nowrap; */
@@ -27,6 +28,7 @@
 
         .rq-wrapper {
             margin: 0;
+            padding: 0;
             width: 340px;
         }
 
