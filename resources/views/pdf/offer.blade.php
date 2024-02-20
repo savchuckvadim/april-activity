@@ -26,7 +26,7 @@
         }
 
         .rq-wrapper {
-
+            margin: 0;
             width: 340px;
         }
 
