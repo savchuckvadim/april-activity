@@ -46,7 +46,8 @@
         <div class="letter-text-wrapper">
             @php
             $letterText = $letterData['text'];
-            $parts = preg_split('/<color>|<\ /color>/', $letterText);
+            $parts = preg_split('/<color>|<\/color>/', $letterText);
+
                     $inHighlight = false;
                     @endphp
 
