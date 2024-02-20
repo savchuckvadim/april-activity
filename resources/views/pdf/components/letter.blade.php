@@ -1,9 +1,12 @@
 <div class="letter">
     <div class="row letter-rq">
         <div class="rowItem letter-rq-left">
-            <p class="text-small">
-                {{$letterData['documentNumber']}}
-            </p>
+            <div class="rq_wrapper">
+                <p class="text-small">
+                    {{$letterData['documentNumber']}}
+                </p>
+            </div>
+
         </div>
         <div style="display: table-cell;"></div>
         <div class="rowItem letter-rq-right">
