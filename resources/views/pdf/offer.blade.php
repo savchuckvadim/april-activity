@@ -77,7 +77,7 @@
         }
 
         .color {
-            color: rgb(138, 34, 10);
+            color: rgb(40, 104, 212);
         }
 
 
