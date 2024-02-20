@@ -19,6 +19,7 @@
         }
 
         .rowItem {
+            max-width: 30%;
             display: table-cell;
             width: 1%;
             white-space: nowrap;
