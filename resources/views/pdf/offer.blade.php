@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{ $custom }}</title>
+    <title>{{ $domain }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -40,10 +40,10 @@
 </div> -->
     <div>
         <h2>
-            {{$custom}}
+            {{$domain}}
         </h2>
     </div>
-    <p>Date: {{ $date }}</p>
+    <p>domain: {{ $domain }}</p>
 
     <table>
         <thead>

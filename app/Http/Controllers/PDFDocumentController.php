@@ -19,13 +19,30 @@ class PDFDocumentController extends Controller
                 $templateId = $template['id'];
                 $domain = $data['template']['portal'];
                 $dealId = $data['dealId'];
-
+                $providerRq = $data['provider']['rq'];
+                $isTwoLogo = false;
+                if ($providerRq) {
+                    if (isset($providerRq['logos'])) {
+                        if (count($providerRq['logos']) > 1) {
+                            $isTwoLogo = true;
+                        }
+                    }
+                }
 
 
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
 
-                $pdf = Pdf::loadView('pdf.offer', $data);
+
+
+                //ГЕНЕРАЦИЯ ДОКУМЕНТА
+                $pdf = Pdf::loadView('pdf.offer', ['domain' => $domain]);
+
+
+
+
+
+
 
                 // //СОХРАНЕНИЕ ДОКУМЕТА
                 $uid = Uuid::uuid4()->toString();
@@ -64,7 +81,7 @@ class PDFDocumentController extends Controller
                 // $this->setTimeline($domain, $dealId, $link, $documentNumber);
                 // $bitrixController = new BitrixController();
                 // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-                
+
                 return APIController::getSuccess([
                     // 'price' => $price,
                     'link' => $link,
