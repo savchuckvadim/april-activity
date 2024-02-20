@@ -19,10 +19,14 @@
         }
 
         .rowItem {
-            max-width: 30%;
+     
             display: table-cell;
             width: 1%;
             white-space: nowrap;
+        }
+
+        .rq-wrapper {
+            width: 200px;
         }
 
         .logo {
@@ -32,7 +36,7 @@
 
         footer {
             position: fixed;
-            /* bottom: -60px; */
+            bottom: 0px;
             left: 0px;
             right: 0px;
             height: 50px;
@@ -61,7 +65,10 @@
         @else
         <!-- Если isTwoLogo ложно, отображаем текст -->
         <div class="rowItem">
-            <p>{{ $headerData['rq'] }}</p>
+            <div class="rq-wrapper">
+                <p>{{ $headerData['rq'] }}</p>
+            </div>
+
         </div>
 
         @endif
