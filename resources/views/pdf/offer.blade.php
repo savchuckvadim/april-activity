@@ -77,6 +77,7 @@
         }
 
         .color {
+            font-weight: 500;
             color: rgb(40, 104, 212);
         }
 
