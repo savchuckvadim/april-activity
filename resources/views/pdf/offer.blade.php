@@ -73,7 +73,7 @@
         }
 
         .text-normal {
-            font-size: 15px;
+            font-size: 11px;
         }
 
         .color {
