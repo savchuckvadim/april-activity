@@ -27,7 +27,7 @@
 
         .rq-wrapper {
 
-            width: 50%;
+            width: 340px;
         }
 
         .logo {
