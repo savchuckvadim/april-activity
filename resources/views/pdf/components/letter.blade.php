@@ -7,22 +7,22 @@
         </div>
 
         <div class="letter-rq-right">
-            @if ($headerData['companyName'] !== null)
+            @if ($letterData['companyName'] !== null)
             <p>
                 {{$letterData['companyName']}}
             </p>
             @endif
-            @if ($headerData['inn'] !== null)
+            @if ($letterData['inn'] !== null)
             <p>
                 {{$letterData['inn']}}
             </p>
             @endif
-            @if ($headerData['positionCase'] !== null)
+            @if ($letterData['positionCase'] !== null)
             <p>
                 {{$letterData['positionCase']}}
             </p>
             @endif
-            @if ($headerData['recipientCase'] !== null)
+            @if ($letterData['recipientCase'] !== null)
             <p>
                 {{$letterData['recipientCase']}}
             </p>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="letter-text">
-            @if ($headerData['recipientCase'] !== null)
+            @if ($letterData['recipientCase'] !== null)
             <div class="letter-title-wrapper">
                 <h2>
                     {{$letterData['recipientName']}}
