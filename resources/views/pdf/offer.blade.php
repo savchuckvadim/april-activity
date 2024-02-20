@@ -51,11 +51,6 @@
             font-family: DejaVu Sans, sans-serif;
         }
 
-
-        p{
-            font-family: sans-serif;
-            font-size: small;
-        }
     </style>
 </head>
 
