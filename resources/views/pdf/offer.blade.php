@@ -4,7 +4,7 @@
 <head>
     <style>
         @page {
-            margin: 1px 25px;
+            margin: 25px 25px;
         }
 
         header {
@@ -13,6 +13,15 @@
             left: 0px;
             right: 0px;
             height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+        .logo{
+            width: 100px;
+            height: auto;
         }
 
         footer {
@@ -35,18 +44,18 @@
 
 <body>
     <header>
-        <div class="header-container">
+  
             @if ($headerData['isTwoLogo'])
             <!-- Если isTwoLogo истинно, отображаем изображения -->
-            <img src="{{ $headerData['logo_2'] }}" alt="Logo">
+            <img class="logo" src="{{ $headerData['logo_2'] }}" alt="Logo">
 
             @else
             <!-- Если isTwoLogo ложно, отображаем текст -->
             <p>Текст вместо логотипа</p>
             @endif
 
-            <img src="{{ $headerData['logo_1'] }}" alt="Logo">
-        </div>
+            <img class="logo" src="{{ $headerData['logo_1'] }}" alt="Logo">
+
 
     </header>
     <footer>
