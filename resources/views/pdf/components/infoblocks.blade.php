@@ -1,6 +1,8 @@
 <div class="infoblocks">
     <style>
-
+        .infoblocks-column {
+            width: 400px
+        }
     </style>
     <div class="infoblocks-wrapper">
         @if ($styleMode == 'list')
@@ -62,7 +64,7 @@
 
             <table>
                 <tr>
-                    <td> {{-- Левая колонка --}}
+                    <td class="infoblocks-column"> {{-- Левая колонка --}}
                         @foreach ($leftColumnItems as $item)
                             @if ($descriptionMode === 0)
                                 <p class="text-normal">{{ $item['name'] }}</p>
@@ -83,10 +85,25 @@
                             @endif
                         @endforeach
                     </td>
-                    <td> {{-- Правая колонка --}}
+                    <td class="infoblocks-column"> {{-- Правая колонка --}}
                         @foreach ($rightColumnItems as $item)
-                            <p class="text-normal">{{ $item['name'] }}</p>
-                            {{-- Дополнительный контент для правой колонки --}}
+                            @if ($descriptionMode === 0)
+                                <p class="text-normal">{{ $item['name'] }}</p>
+                            @elseif ($descriptionMode === 1)
+                                <p class="text-normal color">
+                                    {{ $item['name'] }}
+                                </p>
+                                <p class="text-small">
+                                    {{ $item['shortDescription'] }}
+                                </p>
+                            @else
+                                <p class="text-normal color">
+                                    {{ $item['name'] }}
+                                </p>
+                                <p class="text-small">
+                                    {{ $item['descriptionForSale'] }}
+                                </p>
+                            @endif
                         @endforeach
                     </td>
                 </tr>
