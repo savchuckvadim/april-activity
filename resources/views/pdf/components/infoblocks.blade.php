@@ -1,12 +1,14 @@
 <div class="infoblocks">
     <style>
+    
         .infoblocks-column {
             width: 50%
         }
 
         table,
         th,
-        td {
+        td,
+        .infoblocks-wrapper {
             vertical-align: top;
         }
     </style>
