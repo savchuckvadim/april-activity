@@ -4,14 +4,17 @@
             width: 250px;
         }
 
-   
+        .price-cell-short {
+            width: 25px;
+        }
+
 
         .price-cell-head {
             padding: 5px;
             vertical-align: center;
         }
     </style>
-    <h3>PRICES</h3>
+    <h3>Цена за комплект</h3>
     @if ($isTable)
 
         <table>
@@ -26,6 +29,12 @@
                         @case('name')
                             @php
                                 $classname = 'price-cell-head  price-cell-first';
+                            @endphp
+                        @break
+
+                        @case('quantity')
+                            @php
+                                $classname = 'price-cell-head  price-cell-short';
                             @endphp
                         @break
 
@@ -55,6 +64,12 @@
                                             @case('name')
                                                 @php
                                                     $classname = 'price-cell-first';
+                                                @endphp
+                                            @break
+
+                                            @case('quantity')
+                                                @php
+                                                    $classname = 'price-cell-short';
                                                 @endphp
                                             @break
 
