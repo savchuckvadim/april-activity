@@ -11,9 +11,12 @@
 
 
         @if ($descriptionMode === 0)
+        @if (!empty($infoblock['code']) && $currentInfoblock = $infoblocks->get($infoblock['code']))
         <p>
             {{$currentInfoblock['name']}}
         </p>
+        @endif
+
         @elseif ($descriptionMode === 1)
         <h2>
             {{$currentInfoblock['name']}}
