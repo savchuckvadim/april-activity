@@ -70,14 +70,14 @@
                                 <p class="text-normal color">
                                     {{ $item['name'] }}
                                 </p>
-                                <p class="text-normal">
+                                <p class="text-small">
                                     {{ $item['shortDescription'] }}
                                 </p>
                             @else
                                 <p class="text-normal color">
                                     {{ $item['name'] }}
                                 </p>
-                                <p>
+                                <p class="text-small">
                                     {{ $item['descriptionForSale'] }}
                                 </p>
                             @endif
