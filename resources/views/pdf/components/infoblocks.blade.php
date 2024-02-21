@@ -1,6 +1,6 @@
 <div class="infoblocks">
     <style>
-        .infoblocks-wrapper {
+        .infoblocks-wrapper, table, h3 {
             vertical-align: top;
             margin: 0px
         }
