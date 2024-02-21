@@ -276,28 +276,51 @@ class PDFDocumentController extends Controller
 
     protected function getInfoblocksData($infoblocksOptions, $complect)
     {
-
         $totalCount = $this->getInfoblocksCount($complect);
-
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
         $codes = collect($complect)->flatMap(function ($group) {
             return collect($group['value'])->pluck('code');
         })->unique()->all();
+
         $infoblocks = Infoblock::whereIn('code', $codes)->get()->keyBy('code');
 
+        $itemsPerPage = 20;
+        $pages = [];
+        $currentPage = [];
+        $currentItemCount = 0;
 
+        foreach ($complect as $group) {
+            foreach ($group['value'] as $infoblock) {
+                if (!array_key_exists('code', $infoblock) || !$infoblocks->has($infoblock['code'])) {
+                    continue;
+                }
+
+                $currentInfoblock = $infoblocks->get($infoblock['code']);
+                if ($currentItemCount >= $itemsPerPage) {
+                    $pages[] = $currentPage;
+                    $currentPage = [];
+                    $currentItemCount = 0;
+                }
+
+                $currentPage[] = $currentInfoblock;
+                $currentItemCount++;
+            }
+        }
+
+        // Добавляем оставшиеся элементы, если они есть
+        if (!empty($currentPage)) {
+            $pages[] = $currentPage;
+        }
 
         return [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
-            'complect' => $complect,
-            'infoblocks' => $infoblocks, 
+            'pages' => $pages, // Массив "страниц", каждая содержит до 20 элементов инфоблоков
             'totalCount' => $totalCount
         ];
     }
-
 
     protected function getInfoblocksCount($complect)
     {

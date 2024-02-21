@@ -46,35 +46,15 @@
                 $rightColumnItems = collect();
             @endphp
 
-            @foreach ($complect as $group)
-                @foreach ($group['value'] as $infoblock)
-                    @if (array_key_exists('code', $infoblock) && $infoblocks->has($infoblock['code']))
-                        @php
-                            $currentInfoblock = $infoblocks->get($infoblock['code']);
-                            // Распределение элементов по колонкам на основе счётчика
-                            if ($leftColumnItems->count() < $rightColumnItems->count()) {
-                                $leftColumnItems->push($currentInfoblock);
-                            } else {
-                                $rightColumnItems->push($currentInfoblock);
-                            }
-                        @endphp
-                    @endif
-                @endforeach
-            @endforeach
 
-            {{-- Вывод элементов по колонкам и страницам --}}
-            @foreach ([$leftColumnItems, $rightColumnItems] as $columnIndex => $columnItems)
-                @php
-                    $pageCount = ceil($columnItems->count() / $itemsPerColumn); // Вычисление количества страниц для колонки
-                @endphp
 
-                @for ($page = 0; $page < $pageCount; $page++)
-                    <div class="page-content">
-                        <table>
-                            <tr>
-                                <td class="infoblocks-column">
-                                    {{-- Определение диапазона элементов для текущей страницы --}}
-                                    @foreach ($columnItems->forPage($page + 1, $itemsPerColumn) as $item)
+            @foreach ($pages as $page)
+                <div class="page-content">
+                    <table>
+                        <tr>
+                            <td class="infoblocks-column">
+                                @foreach ($page as $index => $item)
+                                    @if ($index < count($page) / 2)
                                         <div
                                             class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
                                             {{ $item['name'] }}
@@ -84,15 +64,30 @@
                                         @elseif ($descriptionMode > 1)
                                             <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
-                                    @endforeach
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    @if ($page < $pageCount - 1)
-                        <div class="page-break"></div> {{-- Добавление разрыва страницы --}}
-                    @endif
-                @endfor
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="infoblocks-column">
+                                @foreach ($page as $index => $item)
+                                    @if ($index >= count($page) / 2)
+                                        <div
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            {{ $item['name'] }}
+                                        </div>
+                                        @if ($descriptionMode === 1)
+                                            <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                        @elseif ($descriptionMode > 1)
+                                            <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                @if (!$loop->last)
+                    <div class="page-break"></div>
+                @endif
             @endforeach
 
         @endif
