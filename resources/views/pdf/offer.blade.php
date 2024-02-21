@@ -63,6 +63,10 @@
             color: rgb(40, 104, 212);
         }
 
+        .bold {
+            font-weight: bold;
+
+        }
 
         /* letter */
         .letter-rq-left {
@@ -90,7 +94,7 @@
         </div>
         <div class="page-break"></div>
         <div class="infoblocks">
-           
+
             @component('pdf.components.infoblocks', $infoblocksData)
             @endcomponent
         </div>
