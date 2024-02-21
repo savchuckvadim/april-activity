@@ -49,7 +49,7 @@
                         @break
                     @endswitch
                     <td class={{ $classname }}>
-                        <p class="text-small bold">
+                        <p class="text-small">
                             {{ $priceCell['name'] }}
                         </p>
                     </td>
