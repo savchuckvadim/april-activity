@@ -64,8 +64,24 @@
                 <tr>
                     <td> {{-- Левая колонка --}}
                         @foreach ($leftColumnItems as $item)
+                            @if ($descriptionMode === 0)
+                                <p class="text-normal">{{ $item['name'] }}</p>
+                            @elseif ($descriptionMode === 1)
+                                <h2>
+                                    {{ $item['name'] }}
+                                </h2>
+                                <p>
+                                    {{ $item['shortDescription'] }}
+                                </p>
+                            @else
+                                <h2>
+                                    {{ $item['name'] }}
+                                </h2>
+                                <p>
+                                    {{ $item['descriptionForSale'] }}
+                                </p>
+                            @endif
                             <p class="text-normal">{{ $item['name'] }}</p>
-                            {{-- Дополнительный контент для левой колонки --}}
                         @endforeach
                     </td>
                     <td> {{-- Правая колонка --}}
