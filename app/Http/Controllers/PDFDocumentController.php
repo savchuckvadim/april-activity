@@ -291,6 +291,29 @@ class PDFDocumentController extends Controller
         $currentPage = [];
         $currentItemCount = 0;
 
+
+        if ($styleMode === 'list') {
+        } else if ($styleMode === 'table') {
+            if ($descriptionMode === 0) {
+                $itemsPerPage = 40;
+            } else if ($descriptionMode === 1) {
+                $itemsPerPage = 20;
+            } else {
+                $itemsPerPage = 10;
+            }
+        } else {
+            if ($descriptionMode === 0) {
+                $itemsPerPage = 60;
+            } else if ($descriptionMode === 1) {
+                $itemsPerPage = 30;
+            } else {
+                $itemsPerPage = 15;
+            }
+        }
+
+
+
+
         foreach ($complect as $group) {
             foreach ($group['value'] as $infoblock) {
                 if (!array_key_exists('code', $infoblock) || !$infoblocks->has($infoblock['code'])) {
