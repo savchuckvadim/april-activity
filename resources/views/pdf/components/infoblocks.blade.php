@@ -7,7 +7,7 @@
         }
 
         h3 {
-            margin-bottom: 30px
+            margin-bottom: 10px
         }
 
         .infoblocks-column {
