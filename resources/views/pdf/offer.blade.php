@@ -86,13 +86,12 @@
     <main>
         <div class="letter page-content">
             @component('pdf.components.letter', ['letterData' => $letterData])
-
             @endcomponent
         </div>
         <div class="page-break"></div>
         <div class="infoblocks page-content">
+            <h3>Информационное наполнение</h3>
             @component('pdf.components.infoblocks', $infoblocksData)
-
             @endcomponent
         </div>
         <div class="page-break"></div>
