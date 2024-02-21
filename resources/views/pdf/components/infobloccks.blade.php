@@ -5,7 +5,7 @@
         @foreach ($group['value'] as $infoblock)
         @if (array_key_exists('code', $infoblock))
         @php
-        $currentInfoblock =  $currentInfoblock = $infoblocks[$item['code']] ?? null;
+        $currentInfoblock = $currentInfoblock = $infoblocks[$item['code']] ?? null;
         @endphp
         @if ($currentInfoblock)
 
@@ -33,7 +33,7 @@
 
 
         @endif
-       
+
         @endif
         @endforeach
 
