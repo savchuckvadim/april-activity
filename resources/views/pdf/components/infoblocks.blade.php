@@ -69,45 +69,49 @@
                             @if ($descriptionMode === 0)
                                 <p class="text-normal">{{ $item['name'] }}</p>
                             @elseif ($descriptionMode === 1)
-                                <p class="text-normal color">
-                                    {{ $item['name'] }}
-                                </p>
-                                <p class="text-small">
-                                    {{ $item['shortDescription'] }}
-                                </p>
-                            @else
-                                <p class="text-normal color">
-                                    {{ $item['name'] }}
-                                </p>
-                                <p class="text-small">
-                                    {{ $item['descriptionForSale'] }}
-                                </p>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td class="infoblocks-column"> {{-- Правая колонка --}}
-                        @foreach ($rightColumnItems as $item)
-                            @if ($descriptionMode === 0)
-                                <p class="text-normal">{{ $item['name'] }}</p>
-                            @elseif ($descriptionMode === 1)
-                                <p class="text-normal color">
-                                    {{ $item['name'] }}
-                                </p>
-                                <p class="text-small">
-                                    {{ $item['shortDescription'] }}
-                                </p>
-                            @else
-                                <p class="text-normal color">
-                                    {{ $item['name'] }}
-                                </p>
-                                <p class="text-small">
-                                    {{ $item['descriptionForSale'] }}
-                                </p>
-                            @endif
-                        @endforeach
-                    </td>
-                </tr>
-            </table>
+                    <th>
+                        <p class="text-normal color">
+                            {{ $item['name'] }}
+                        </p>
+                        <p class="text-small">
+                            {{ $item['shortDescription'] }}
+                        </p>
+                    </th>
+                @else
+                    <th>
+                        <p class="text-normal color">
+                            {{ $item['name'] }}
+                        </p>
+                        <p class="text-small">
+                            {{ $item['descriptionForSale'] }}
+                        </p>
+                    </th>
+        @endif
+        @endforeach
+        </td>
+        <td class="infoblocks-column"> {{-- Правая колонка --}}
+            @foreach ($rightColumnItems as $item)
+                @if ($descriptionMode === 0)
+                    <p class="text-normal">{{ $item['name'] }}</p>
+                @elseif ($descriptionMode === 1)
+                    <p class="text-normal color">
+                        {{ $item['name'] }}
+                    </p>
+                    <p class="text-small">
+                        {{ $item['shortDescription'] }}
+                    </p>
+                @else
+                    <p class="text-normal color">
+                        {{ $item['name'] }}
+                    </p>
+                    <p class="text-small">
+                        {{ $item['descriptionForSale'] }}
+                    </p>
+                @endif
+            @endforeach
+        </td>
+        </tr>
+        </table>
 
         @endif
     </div>
