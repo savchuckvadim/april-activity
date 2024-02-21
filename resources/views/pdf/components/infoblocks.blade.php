@@ -57,18 +57,11 @@
                 @endforeach
             @endforeach
         @elseif ($styleMode == 'table')
-            @php
-                $itemsPerColumn = 10; // Количество элементов на странице
-                // Инициализация массивов для хранения элементов каждой колонки
-                $leftColumnItems = collect();
-                $rightColumnItems = collect();
-            @endphp
-
-
-
-            @foreach ($pages as $page)
+            @foreach ($pages as $index => $page)
                 <div class="page-content">
-                    <h3>Информационное наполнение</h3>
+                    @if ($index == 0)
+                        <h3>Информационное наполнение</h3>
+                    @endif
                     <table>
                         <tr>
                             <td class="infoblocks-column">
