@@ -40,8 +40,32 @@
             @endforeach
         @elseif ($styleMode == 'table')
             @php
-                $itemsPerColumn = 10; // Определение количества элементов на странице
+                $halfTotal = $totalCount['infoblocks'] / 2;
+                $count = 0;
+                $leftColumnItems = [];
+                $rightColumnItems = [];
+
+                $itemsPerColumn = 10; // Количество элементов на странице
+                $leftColumnCount = count($leftColumnItems);
+                $rightColumnCount = count($rightColumnItems);
             @endphp
+
+            @foreach ($complect as $group)
+                @foreach ($group['value'] as $infoblock)
+                    @if (array_key_exists('code', $infoblock) && $infoblocks->has($infoblock['code']))
+                        @php
+                            $currentInfoblock = $infoblocks->get($infoblock['code']);
+                            if ($count < $halfTotal) {
+                                $leftColumnItems[] = $currentInfoblock;
+                            } else {
+                                $rightColumnItems[] = $currentInfoblock;
+                            }
+                            $count++;
+                        @endphp
+                    @endif
+                @endforeach
+            @endforeach
+
 
             @foreach ([$leftColumnItems, $rightColumnItems] as $columnIndex => $columnItems)
                 {{-- Начало новой "страницы" для каждой колонки --}}
