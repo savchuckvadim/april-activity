@@ -282,9 +282,9 @@ class PDFDocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
 
-        $codes = array_unique(array_map(function ($infoblock) {
-            return $infoblock['code'];
-        }, $complect));
+        $codes = collect($complect)->flatMap(function ($group) {
+            return collect($group['value'])->pluck('code');
+        })->unique()->all();
         $infoblocks = Infoblock::whereIn('code', $codes)->get()->keyBy('code');
 
 
