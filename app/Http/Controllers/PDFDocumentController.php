@@ -6,6 +6,7 @@ use App\Models\Counter;
 use App\Models\Infoblock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use morphos\Russian\MoneySpeller;
 use Ramsey\Uuid\Uuid;
 
 class PDFDocumentController extends Controller
@@ -363,4 +364,130 @@ class PDFDocumentController extends Controller
         }
         return  $result;
     }
+
+    protected function getPricesData($price)
+    {
+        $isTable = $price['isTable'];
+        $comePrices = $price['cells'];
+
+        //SORT CELLS
+        $sortActivePrices = $this->getSortActivePrices($comePrices);
+        $allPrices =  $sortActivePrices;
+
+
+        //IS WITH TOTAL 
+        $withTotal = $this->getWithTotal($allPrices);
+
+
+        return [
+            // 'styleMode' => $styleMode,
+            // 'descriptionMode' => $descriptionMode,
+            // 'pages' => $pages, // Массив "страниц", каждая содержит до 20 элементов инфоблоков
+            // 'totalCount' => $totalCount
+        ];
+    }
+
+    protected function getSortActivePrices($allPrices)
+    {
+
+        $result = [
+            'general' => [],
+            'alternative' => [],
+            'total' => []
+        ];
+        foreach ($allPrices as $key => $target) {
+
+            if ($target) {
+
+                if (is_array($target) && !empty($target)) {
+                    $result[$key] = $target;
+                    foreach ($target as $index => $product) {
+
+                        if ($product) {
+
+
+                            if (
+
+                                is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
+                            ) {
+                               
+                                $filtredCells = array_filter($product['cells'], function ($prc) {
+                                    return $prc['isActive'] == true || $prc['code'] == 'measure';
+                                });
+
+                                usort($filtredCells, function ($a, $b) {
+                                    return $a['order'] - $b['order'];
+                                });
+                                $result[$key][$index]['cells']  = $filtredCells;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+    protected function getIsHaveLongPrepayment($allPrices)
+    {
+        $isHaveLongPrepayment = false;
+        foreach ($allPrices['general'][0]['cells'] as $prccll) {
+            if (($prccll['code'] == 'contractquantity' && $prccll['isActive']) ||
+                ($prccll['code'] == 'prepayment' && $prccll['isActive']) ||
+                ($prccll['code'] == 'contractsum' && $prccll['isActive']) ||
+                ($prccll['code'] == 'prepaymentsum' && $prccll['isActive'])
+            ) {
+
+                $isHaveLongPrepayment = true; // Установить в true, если условие выполнено
+                break; // Прекратить выполнение цикла, так как условие уже выполнено
+            }
+        }
+
+        return $isHaveLongPrepayment;
+    }
+
+    protected function getTotalPriceRow(
+        $allPrices,
+        $table,
+        $styles,
+        $contentWidth,
+        $isHaveLongPrepayment,
+        $numCells
+    ) {
+        $total = $allPrices['total'];
+
+        if ($total) {
+            if (is_array($total) && !empty($total)) {
+
+                $product = $total[0];
+                if ($product) {
+                    if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
+                        $table->addRow();
+                        foreach ($product['cells'] as $cell) {
+
+                            $this->getPriceCell(false, true, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
+                        }
+                    }
+                }
+            }
+        }
+        return $table;
+    }
+    protected function getWithTotal(
+        $allPrices,
+
+    ) {
+
+        $result = false;
+        $alternative =  $allPrices['alternative'];
+        $general =  $allPrices['general'];
+        if (is_array($alternative) && is_array($general)) {
+            if (empty($alternative) && count($general) > 1) {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+   
 }

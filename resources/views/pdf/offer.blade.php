@@ -99,7 +99,10 @@
             @endcomponent
         </div>
         <div class="page-break"></div>
-        <div class="prices page-content"> </div>
+        <div class="prices">
+            @component('pdf.components.prices', $infoblocksData)
+            @endcomponent
+        </div>
         <div class="page-break"></div>
         <div class="invoice page-content"> </div>
         <div class="page-break"></div>
