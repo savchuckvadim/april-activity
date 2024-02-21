@@ -10,6 +10,30 @@
             display: table;
 
         }
+
+        .row {
+            width: 100%;
+            display: table;
+        }
+
+        .rowItem {
+            margin: 0px;
+            padding: 0px;
+            display: table-cell;
+            width: 1%;
+            /* white-space: nowrap; */
+        }
+
+        .rq-wrapper {
+            margin: 0px;
+            padding: 0px;
+            width: 340px;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+        }
     </style>
     @if ($headerData['isTwoLogo'])
     <!-- Если isTwoLogo истинно, отображаем изображения -->

@@ -6,41 +6,7 @@
         @page {
             margin: 25px 25px;
         }
-
-        header {
-            width: 100%;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            right: 0px;
-            height: 50px;
-            display: table;
-
-        }
-
-        .row {
-            width: 100%;
-            display: table;
-        }
-
-        .rowItem {
-            margin: 0px;
-            padding: 0px;
-            display: table-cell;
-            width: 1%;
-            /* white-space: nowrap; */
-        }
-
-        .rq-wrapper {
-            margin: 0px;
-            padding: 0px;
-            width: 340px;
-        }
-
-        .logo {
-            width: 150px;
-            height: auto;
-        }
+      
 
         footer {
             position: fixed;
@@ -49,14 +15,14 @@
             right: 0px;
             height: 50px;
         }
-
+        .page-content {
+            margin-top: 100px;
+        }
         .page-break {
             page-break-after: always;
         }
 
-        main {
-            margin-top: 100px;
-        }
+       
 
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -103,21 +69,21 @@
     </footer>
 
     <main>
-        <div class="letter">
+        <div class="letter page-content">
             @component('pdf.components.letter', ['letterData' => $letterData])
 
             @endcomponent
         </div>
         <div class="page-break"></div>
-        <div class="infoblocks">
+        <div class="infoblocks page-content">
             @component('pdf.components.infoblocks', $infoblocksData)
 
             @endcomponent
         </div>
         <div class="page-break"></div>
-        <div class="prices"> </div>
+        <div class="prices page-content"> </div>
         <div class="page-break"></div>
-        <div class="invoice"> </div>
+        <div class="invoice page-content"> </div>
         <div class="page-break"></div>
     </main>
 </body>
