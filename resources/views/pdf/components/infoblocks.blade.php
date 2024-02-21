@@ -67,21 +67,20 @@
                             @if ($descriptionMode === 0)
                                 <p class="text-normal">{{ $item['name'] }}</p>
                             @elseif ($descriptionMode === 1)
-                                <h2>
+                                <p class="text-normal color">
                                     {{ $item['name'] }}
-                                </h2>
+                                </p>
                                 <p class="text-normal">
                                     {{ $item['shortDescription'] }}
                                 </p>
                             @else
-                                <h2>
+                                <p class="text-normal color">
                                     {{ $item['name'] }}
-                                </h2>
+                                </p>
                                 <p>
                                     {{ $item['descriptionForSale'] }}
                                 </p>
                             @endif
-                           
                         @endforeach
                     </td>
                     <td> {{-- Правая колонка --}}
