@@ -9,7 +9,7 @@
 
         header {
             width: 100%;
-            position: fixed;
+            /* position: fixed; */
             top: 0px;
             left: 0px;
             right: 0px;
@@ -59,7 +59,7 @@
         }
 
         body {
-            font-family: DejaVu Sans, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         p,

@@ -1,4 +1,7 @@
 <div class="infoblocks">
+    <style>
+
+    </style>
     <div class="infoblocks-wrapper">
         @if ($styleMode == 'list')
         @foreach ($complect as $group)
@@ -12,7 +15,7 @@
 
         @if ($descriptionMode === 0)
         @if (!empty($infoblock['code']) && $currentInfoblock = $infoblocks->get($infoblock['code']))
-        <p>
+        <p class="text-small">
             {{$currentInfoblock['name']}}
         </p>
         @endif
