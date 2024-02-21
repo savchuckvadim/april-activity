@@ -64,13 +64,13 @@
                 <tr>
                     <td> {{-- Левая колонка --}}
                         @foreach ($leftColumnItems as $item)
-                            <p class="text-small">{{ $item['name'] }}</p>
+                            <p class="text-normal">{{ $item['name'] }}</p>
                             {{-- Дополнительный контент для левой колонки --}}
                         @endforeach
                     </td>
                     <td> {{-- Правая колонка --}}
                         @foreach ($rightColumnItems as $item)
-                            <p class="text-small">{{ $item['name'] }}</p>
+                            <p class="text-normal">{{ $item['name'] }}</p>
                             {{-- Дополнительный контент для правой колонки --}}
                         @endforeach
                     </td>
