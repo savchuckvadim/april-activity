@@ -19,7 +19,7 @@
                         $classname = 'price-cell';
                     @endphp
 
-                    @switch($cell['code'])
+                    @switch($priceCell['code'])
                         @case('name')
                             @php
                                 $classname = 'price-cell-first';
