@@ -5,7 +5,7 @@
         @foreach ($group['value'] as $infoblock)
         @if (array_key_exists('code', $infoblock))
         @php
-        $currentInfoblock = Infoblock::where('code', $infoblock['code'])->first();
+        $currentInfoblock =  $currentInfoblock = $infoblocks[$item['code']] ?? null;
         @endphp
         @if ($currentInfoblock)
 
