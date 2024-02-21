@@ -116,19 +116,25 @@
                     @endif
                     <table>
                         <tr>
-                            <td class="infoblocks-column-big">
-                                @foreach ($page as $index => $item)
+
+                            @foreach ($page as $index => $item)
+                                <td class="infoblocks-column-big">
                                     <div
                                         class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
                                         {{ $item['name'] }}
                                     </div>
-                                    @if ($descriptionMode === 1)
+                                </td>
+                                @if ($descriptionMode === 1)
+                                    <td class="infoblocks-column-big">
                                         <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                    @elseif ($descriptionMode > 1)
+                                    </td>
+                                @elseif ($descriptionMode > 1)
+                                    <td class="infoblocks-column-big">
                                         <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                    @endif
-                                @endforeach
-                            </td>
+                                    </td>
+                                @endif
+                            @endforeach
+
 
                         </tr>
                     </table>
