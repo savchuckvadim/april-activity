@@ -1,10 +1,7 @@
 <div class="infoblocks">
     <style>
         .infoblocks-wrapper,
-        table {
-            vertical-align: top;
-            margin: 0px
-        }
+
 
         h3 {
             margin-bottom: 10px
@@ -14,11 +11,23 @@
             width: 50%
         }
 
-        table,
+        table {
+            vertical-align: top;
+            margin: 0pxж width: 100%;
+            /* Ширина таблицы на всю доступную ширину */
+            border-collapse: collapse;
+            /* Убирает двойные бордеры между ячейками */
+        }
+
         th,
-        td,
-        {
-        vertical-align: top;
+        td {
+            vertical-align: top;
+            border: 1px solid black;
+            /* Добавляет черный бордер толщиной в 1px */
+            padding: 8px;
+            /* Добавляет внутренние отступы для содержимого ячеек */
+            text-align: left;
+            /* Выравнивание текста в ячейках по левому краю */
         }
     </style>
     <div class="infoblocks-wrapper">
