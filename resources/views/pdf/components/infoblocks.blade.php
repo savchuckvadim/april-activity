@@ -3,6 +3,12 @@
         .infoblocks-column {
             width: 50%
         }
+
+        table,
+        th,
+        td {
+            vertical-align: top;
+        }
     </style>
     <div class="infoblocks-wrapper">
         @if ($styleMode == 'list')
