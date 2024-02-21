@@ -15,7 +15,7 @@
                 @if (is_array($target) && !empty($target))
                     @foreach ($target as $product)
                         @if ($product)
-                            @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
+                           
                                 <tr>
                                     @foreach ($product['cells'] as $cell)
                                         <td class="price-cell">
@@ -41,7 +41,7 @@
                                         </td>
                                     @endforeach
                                 </tr>
-                            @endif
+                           
                         @endif
                     @endforeach
                 @endif
