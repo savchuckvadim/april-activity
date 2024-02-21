@@ -89,8 +89,8 @@
             @endcomponent
         </div>
         <div class="page-break"></div>
-        <div class="infoblocks page-content">
-            <h3>Информационное наполнение</h3>
+        <div class="infoblocks">
+           
             @component('pdf.components.infoblocks', $infoblocksData)
             @endcomponent
         </div>

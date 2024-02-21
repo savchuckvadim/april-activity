@@ -17,6 +17,7 @@
         }
     </style>
     <div class="infoblocks-wrapper">
+
         @if ($styleMode == 'list')
             @foreach ($complect as $group)
                 @foreach ($group['value'] as $infoblock)
@@ -62,6 +63,7 @@
 
             @foreach ($pages as $page)
                 <div class="page-content">
+                    <h3>Информационное наполнение</h3>
                     <table>
                         <tr>
                             <td class="infoblocks-column">
