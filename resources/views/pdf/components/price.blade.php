@@ -4,9 +4,7 @@
             width: 250px;
         }
 
-        .price-cell-short {
-      
-        }
+        .price-cell-short {}
     </style>
     <h3>PRICES</h3>
     @if ($isTable)
@@ -26,30 +24,11 @@
                             @endphp
                         @break
 
-                        @case('quantity')
-                            @php
-                                $classname = 'price-cell-short';
-                            @endphp
-                        @break
-
-                        @case('measure')
-                            @php
-                                $classname = 'price-cell-short';
-                            @endphp
-                        @break
-
-                        @case('discountprecent')
-                            @php
-                                $classname = 'price-cell-short';
-
-                            @endphp
-                        @break
-
                         @default
                         @break
                     @endswitch
                     <td class={{ $classname }}>
-                        <p class="text-small">
+                        <p class="text-small bold">
                             {{ $priceCell['name'] }}
                         </p>
                     </td>
@@ -74,18 +53,6 @@
                                                 @endphp
                                             @break
 
-                                            @case('quantity')
-                                                @php
-                                                    $classname = 'price-cell-short';
-                                                @endphp
-                                            @break
-
-                                            @case('measure')
-                                                @php
-                                                    $classname = 'price-cell-short';
-                                                @endphp
-                                            @break
-
                                             @case('discountprecent')
                                                 @php
                                                     $classname = 'price-cell-short';
@@ -101,7 +68,7 @@
                                             @break
                                         @endswitch
                                         <td class={{ $classname }}>
-                                            <p class="text-small bold">
+                                            <p class="text-small">
                                                 {{ $value }}
                                             </p>
 
