@@ -14,7 +14,7 @@
         <p>
             {{$currentInfoblock['name']}}
         </p>
-        @else if ($descriptionMode === 1)
+        @elseif ($descriptionMode === 1)
         <h2>
             {{$currentInfoblock['name']}}
         </h2>
