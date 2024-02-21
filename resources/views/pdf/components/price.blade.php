@@ -14,7 +14,41 @@
         <table>
             <tr>
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
-                    <td class="price-cell-head">
+                    @php
+
+                        $classname = 'price-cell';
+                    @endphp
+
+                    @switch($cell['code'])
+                        @case('name')
+                            @php
+                                $classname = 'price-cell-first';
+                            @endphp
+                        @break
+
+                        @case('quantity')
+                            @php
+                                $classname = 'price-cell-short';
+                            @endphp
+                        @break
+
+                        @case('measure')
+                            @php
+                                $classname = 'price-cell-short';
+                            @endphp
+                        @break
+
+                        @case('discountprecent')
+                            @php
+                                $classname = 'price-cell-short';
+
+                            @endphp
+                        @break
+
+                        @default
+                        @break
+                    @endswitch
+                    <td class={{ $classname }}>
 
                         {{ $priceCell['name'] }}
                     </td>
