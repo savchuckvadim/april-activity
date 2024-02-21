@@ -40,7 +40,7 @@
             @endforeach
         @elseif ($styleMode == 'table')
             @php
-                $itemsPerColumn = 20; // Количество элементов на странице
+                $itemsPerColumn = 10; // Количество элементов на странице
                 // Инициализация массивов для хранения элементов каждой колонки
                 $leftColumnItems = collect();
                 $rightColumnItems = collect();
