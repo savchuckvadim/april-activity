@@ -40,14 +40,10 @@
             @endforeach
         @elseif ($styleMode == 'table')
             @php
-                $halfTotal = $totalCount['infoblocks'] / 2;
-                $count = 0;
-                $leftColumnItems = [];
-                $rightColumnItems = [];
-
-                $itemsPerColumn = 10; // Количество элементов на странице
-                $leftColumnCount = count($leftColumnItems);
-                $rightColumnCount = count($rightColumnItems);
+                $itemsPerColumn = 20; // Количество элементов на странице
+                // Инициализация массивов для хранения элементов каждой колонки
+                $leftColumnItems = collect();
+                $rightColumnItems = collect();
             @endphp
 
             @foreach ($complect as $group)
@@ -55,22 +51,21 @@
                     @if (array_key_exists('code', $infoblock) && $infoblocks->has($infoblock['code']))
                         @php
                             $currentInfoblock = $infoblocks->get($infoblock['code']);
-                            if ($count < $halfTotal) {
-                                $leftColumnItems[] = $currentInfoblock;
+                            // Распределение элементов по колонкам на основе счётчика
+                            if ($leftColumnItems->count() < $rightColumnItems->count()) {
+                                $leftColumnItems->push($currentInfoblock);
                             } else {
-                                $rightColumnItems[] = $currentInfoblock;
+                                $rightColumnItems->push($currentInfoblock);
                             }
-                            $count++;
                         @endphp
                     @endif
                 @endforeach
             @endforeach
 
-
+            {{-- Вывод элементов по колонкам и страницам --}}
             @foreach ([$leftColumnItems, $rightColumnItems] as $columnIndex => $columnItems)
-                {{-- Начало новой "страницы" для каждой колонки --}}
                 @php
-                    $pageCount = ceil(count($columnItems) / $itemsPerColumn); // Вычисляем количество "страниц"
+                    $pageCount = ceil($columnItems->count() / $itemsPerColumn); // Вычисление количества страниц для колонки
                 @endphp
 
                 @for ($page = 0; $page < $pageCount; $page++)
@@ -78,18 +73,16 @@
                         <table>
                             <tr>
                                 <td class="infoblocks-column">
-                                    @foreach ($columnItems as $index => $item)
-                                        @if ($index >= $page * $itemsPerColumn && $index < ($page + 1) * $itemsPerColumn)
-                                            {{-- Вывод элементов текущей "страницы" --}}
-                                            <div
-                                                class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
-                                                {{ $item['name'] }}
-                                            </div>
-                                            @if ($descriptionMode === 1)
-                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                            @elseif ($descriptionMode > 1)
-                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                            @endif
+                                    {{-- Определение диапазона элементов для текущей страницы --}}
+                                    @foreach ($columnItems->forPage($page + 1, $itemsPerColumn) as $item)
+                                        <div
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            {{ $item['name'] }}
+                                        </div>
+                                        @if ($descriptionMode === 1)
+                                            <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                        @elseif ($descriptionMode > 1)
+                                            <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
                                     @endforeach
                                 </td>
@@ -97,7 +90,7 @@
                         </table>
                     </div>
                     @if ($page < $pageCount - 1)
-                        <div class="page-break"></div> {{-- Добавляем разрыв страницы между "страницами" --}}
+                        <div class="page-break"></div> {{-- Добавление разрыва страницы --}}
                     @endif
                 @endfor
             @endforeach
