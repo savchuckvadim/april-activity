@@ -40,78 +40,43 @@
             @endforeach
         @elseif ($styleMode == 'table')
             @php
-                $halfTotal = $totalCount['infoblocks'] / 2;
-                $count = 0;
-                $leftColumnItems = [];
-                $rightColumnItems = [];
+                $itemsPerColumn = 10; // Определение количества элементов на странице
             @endphp
 
-            @foreach ($complect as $group)
-                @foreach ($group['value'] as $infoblock)
-                    @if (array_key_exists('code', $infoblock) && $infoblocks->has($infoblock['code']))
-                        @php
-                            $currentInfoblock = $infoblocks->get($infoblock['code']);
-                            if ($count < $halfTotal) {
-                                $leftColumnItems[] = $currentInfoblock;
-                            } else {
-                                $rightColumnItems[] = $currentInfoblock;
-                            }
-                            $count++;
-                        @endphp
-                    @endif
-                @endforeach
-            @endforeach
+            @foreach ([$leftColumnItems, $rightColumnItems] as $columnIndex => $columnItems)
+                {{-- Начало новой "страницы" для каждой колонки --}}
+                @php
+                    $pageCount = ceil(count($columnItems) / $itemsPerColumn); // Вычисляем количество "страниц"
+                @endphp
 
-            <table>
-                <tr>
-                    <td class="infoblocks-column"> {{-- Левая колонка --}}
-                        @foreach ($leftColumnItems as $item)
-                            @if ($descriptionMode === 0)
-                                <p class="text-normal">{{ $item['name'] }}</p>
-                            @elseif ($descriptionMode === 1)
-                    <th>
-                        <p class="text-normal color">
-                            {{ $item['name'] }}
-                        </p>
-                        <p class="text-small">
-                            {{ $item['shortDescription'] }}
-                        </p>
-                    </th>
-                @else
-                    <th>
-                        <p class="text-normal color">
-                            {{ $item['name'] }}
-                        </p>
-                        <p class="text-small">
-                            {{ $item['descriptionForSale'] }}
-                        </p>
-                    </th>
-        @endif
-        @endforeach
-        </td>
-        <td class="infoblocks-column"> {{-- Правая колонка --}}
-            @foreach ($rightColumnItems as $item)
-                @if ($descriptionMode === 0)
-                    <p class="text-normal">{{ $item['name'] }}</p>
-                @elseif ($descriptionMode === 1)
-                    <p class="text-normal color">
-                        {{ $item['name'] }}
-                    </p>
-                    <p class="text-small">
-                        {{ $item['shortDescription'] }}
-                    </p>
-                @else
-                    <p class="text-normal color">
-                        {{ $item['name'] }}
-                    </p>
-                    <p class="text-small">
-                        {{ $item['descriptionForSale'] }}
-                    </p>
-                @endif
+                @for ($page = 0; $page < $pageCount; $page++)
+                    <div class="page-content">
+                        <table>
+                            <tr>
+                                <td class="infoblocks-column">
+                                    @foreach ($columnItems as $index => $item)
+                                        @if ($index >= $page * $itemsPerColumn && $index < ($page + 1) * $itemsPerColumn)
+                                            {{-- Вывод элементов текущей "страницы" --}}
+                                            <div
+                                                class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                                {{ $item['name'] }}
+                                            </div>
+                                            @if ($descriptionMode === 1)
+                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                            @elseif ($descriptionMode > 1)
+                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    @if ($page < $pageCount - 1)
+                        <div class="page-break"></div> {{-- Добавляем разрыв страницы между "страницами" --}}
+                    @endif
+                @endfor
             @endforeach
-        </td>
-        </tr>
-        </table>
 
         @endif
     </div>
