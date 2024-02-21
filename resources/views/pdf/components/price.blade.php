@@ -1,11 +1,11 @@
 <div class="prices page-content">
     <style>
         .price-cell-first {
-            width: 300px;
+            width: 30px;
         }
 
         .price-cell-short {
-            width: 50px;
+            width: 350px;
         }
     </style>
     <h3>PRICES</h3>
