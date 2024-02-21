@@ -1,7 +1,7 @@
 <div class="infoblocks">
     <style>
         .infoblocks-column {
-            width: 400px
+            width: 300px
         }
     </style>
     <div class="infoblocks-wrapper">
