@@ -11,6 +11,10 @@
             width: 50%
         }
 
+        .infoblocks-column-big-title {
+            text-align: center;
+        }
+
         table {
             vertical-align: top;
             margin: 0px;
@@ -24,7 +28,7 @@
             vertical-align: top;
             border: 1px solid black;
             padding: 3px;
-            text-align: left;
+          
 
         }
     </style>
@@ -117,7 +121,7 @@
                     <table>
                         @foreach ($page as $index => $item)
                             <tr>
-                                <td class="infoblocks-column-big">
+                                <td class="infoblocks-column-big-title">
 
                                     <div
                                         class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
