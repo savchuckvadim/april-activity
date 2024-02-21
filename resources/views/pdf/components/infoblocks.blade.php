@@ -1,8 +1,13 @@
 <div class="infoblocks">
     <style>
-        .infoblocks-wrapper, table, h3 {
+        .infoblocks-wrapper,
+        table {
             vertical-align: top;
             margin: 0px
+        }
+
+        h3 {
+            margin-bottom: 30px
         }
 
         .infoblocks-column {

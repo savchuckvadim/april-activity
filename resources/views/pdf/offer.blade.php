@@ -29,7 +29,7 @@
         }
 
         .page-content {
-            margin-top: 60px;
+            margin-top: 80px;
             vertical-align: top;
         }
 
