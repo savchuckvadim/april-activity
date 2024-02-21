@@ -39,10 +39,10 @@ class PDFDocumentController extends Controller
                 //price
                 $price = $data['price'];
                 $comePrices = $price['cells'];
-              
-              
-              
-              
+
+
+
+
                 //SORT CELLS
                 // $sortActivePrices = $this->getSortActivePrices($comePrices);
                 // $allPrices =  $sortActivePrices;
@@ -66,9 +66,14 @@ class PDFDocumentController extends Controller
 
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
+                $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
-                $pdf = Pdf::loadView('pdf.offer', ['headerData' =>  $headerData, 'letterData' => $letterData]);
+                $pdf = Pdf::loadView('pdf.offer', [
+                    'headerData' =>  $headerData,
+                    'letterData' => $letterData,
+                    'infoblocksData' => $infoblocksData
+                ]);
 
 
 
@@ -266,4 +271,101 @@ class PDFDocumentController extends Controller
 
         return $letterData;
     }
+
+
+    protected function getInfoblocksData($infoblocksOptions, $complect)
+    {
+
+        $totalCount = $this->getInfoblocksCount($complect);
+
+        $descriptionMode = $infoblocksOptions['description']['id'];
+        $styleMode = $infoblocksOptions['style'];
+
+        return [
+            'styleMode' => $styleMode,
+            'descriptionMode' => $descriptionMode,
+            'complect' => $complect,
+            'totalCount' => $totalCount
+        ];
+    }
+
+    // protected function getIsHaveDescription($groupBlocks)
+    // {
+    //     $isBlockHaveInfoblockWithDescription = false;
+
+    //     foreach ($groupBlocks as $infblck) {
+    //         if (isset($infblck['code'])) {
+    //             $currentInfoblock = Infoblock::where('code', $infblck['code'])->first();
+
+    //             if ($currentInfoblock) {
+    //                 if (isset($currentInfoblock['description']) && isset($currentInfoblock['descriptionForSale']) && isset($currentInfoblock['shortDescription'])) {
+    //                     if ($currentInfoblock['description'] || $currentInfoblock['descriptionForSale'] || $currentInfoblock['shortDescription']) {
+    //                         $isBlockHaveInfoblockWithDescription = true;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return $isBlockHaveInfoblockWithDescription;
+    // }
+
+    protected function getInfoblocksCount($complect)
+    {
+        $result = [
+            'groups' => 0,
+            'infoblocks' => 0
+        ];
+
+
+        foreach ($complect as $group) {
+            $result['groups'] += 1;
+            if (isset($group['value'])) {
+                foreach ($group['value'] as $infoblock) {
+                    $result['infoblocks'] += 1;
+                }
+            }
+        }
+        return  $result;
+    }
+
+    // protected function addInfoblockToCell(
+    //     $tableType,
+    //     $cell,
+    //     $infoblock,
+    //     $descriptionMode,
+    //     $paragraphStyle,
+    //     $paragraphTitleStyle,
+    //     $textStyle,
+    //     $titleStyle
+    // ) {
+
+    //     //todo align depends from table style
+    //     switch ($descriptionMode) {
+    //         case 0:
+    //             $cell->addText($infoblock['name'], $textStyle, $paragraphStyle);
+    //             break;
+    //         case 1:
+    //             if ($infoblock['shortDescription'] && $infoblock['shortDescription']  !== '') {
+    //                 $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
+    //                 $cell->addText($infoblock['shortDescription'], $textStyle, $paragraphStyle);
+    //                 if ($tableType == 'table') {
+    //                     $cell->addText('', $textStyle, $paragraphStyle);
+    //                 }
+    //             }
+
+
+    //             break;
+    //         case 2:
+    //         case 3:
+    //             if ($infoblock['descriptionForSale'] && $infoblock['descriptionForSale']  !== '') {
+    //                 $cell->addText($infoblock['name'], $titleStyle, $paragraphStyle);
+    //                 $cell->addText($infoblock['descriptionForSale'], $textStyle, $paragraphStyle);
+    //                 if ($tableType == 'table') {
+    //                     $cell->addTextBreak(1);
+    //                 }
+    //             }
+
+    //             break;
+    //     }
+    // }
 }

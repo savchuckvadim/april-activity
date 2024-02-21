@@ -62,7 +62,8 @@
             font-family: DejaVu Sans, sans-serif;
         }
 
-        p, span {
+        p,
+        span {
             margin: 0px;
 
         }
@@ -83,9 +84,10 @@
 
 
         /* letter */
-        .letter-rq-left{
+        .letter-rq-left {
             width: 300px;
         }
+
         .letter-rq-right {
             width: 300px;
             text-align: right;
@@ -133,7 +135,11 @@
             @endcomponent
         </div>
         <div class="page-break"></div>
-        <div class="infoblocks"> </div>
+        <div class="infoblocks">
+            @component('pdf.components.infoblocks', $infoblocksData)
+
+            @endcomponent
+        </div>
         <div class="page-break"></div>
         <div class="prices"> </div>
         <div class="page-break"></div>
