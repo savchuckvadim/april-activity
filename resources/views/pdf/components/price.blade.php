@@ -15,33 +15,34 @@
                 @if (is_array($target) && !empty($target))
                     @foreach ($target as $product)
                         @if ($product)
-                           
+                            @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
                                 <tr>
                                     @foreach ($product['cells'] as $cell)
+                                        @php
+                                            $value = $cell['value'];
+                                        @endphp
+
+                                        @switch($cell['code'])
+                                            @case('discountprecent')
+                                                @php
+                                                    $cellValue = $cell['value'];
+                                                    $variableFloat = floatval($cellValue);
+                                                    $result = 100 - 100 * $variableFloat;
+                                                    $value = round($result, 2);
+
+                                                @endphp
+                                            @break
+
+                                            @default
+                                            @break
+                                        @endswitch
                                         <td class="price-cell">
-                                            @php
-                                                $value = $priceCell['value'];
-                                            @endphp
-
-                                            @switch($cell['code'])
-                                                @case('discountprecent')
-                                                    @php
-                                                        $cellValue = $priceCell['value'];
-                                                        $variableFloat = floatval($cellValue);
-                                                        $result = 100 - 100 * $variableFloat;
-                                                        $value = round($result, 2);
-
-                                                    @endphp
-                                                @break
-
-                                                @default
-                                                @break
-                                            @endswitch
+                                            {{ $value }}
 
                                         </td>
                                     @endforeach
                                 </tr>
-                           
+                            @endif
                         @endif
                     @endforeach
                 @endif
