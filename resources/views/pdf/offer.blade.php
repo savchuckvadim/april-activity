@@ -30,6 +30,7 @@
 
         .page-content {
             margin-top: 100px;
+            vertical-align: top;
         }
 
         .page-break {
