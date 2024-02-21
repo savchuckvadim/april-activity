@@ -5,7 +5,7 @@
         @foreach ($group['value'] as $infoblock)
         @if (array_key_exists('code', $infoblock))
         @php
-        $currentInfoblock = $currentInfoblock = $infoblocks[$item['code']] ?? null;
+        $currentInfoblock = $infoblocks->get($infoblock['code']);
         @endphp
         @if ($currentInfoblock)
 
