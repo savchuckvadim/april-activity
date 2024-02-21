@@ -4,7 +4,12 @@
             width: 250px;
         }
 
-        .price-cell-short {}
+   
+
+        .price-cell-head {
+            padding: 5px;
+            vertical-align: center;
+        }
     </style>
     <h3>PRICES</h3>
     @if ($isTable)
@@ -14,13 +19,13 @@
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
 
-                        $classname = 'price-cell';
+                        $classname = 'price-cell-head';
                     @endphp
 
                     @switch($priceCell['code'])
                         @case('name')
                             @php
-                                $classname = 'price-cell-first';
+                                $classname = 'price-cell-head  price-cell-first';
                             @endphp
                         @break
 
