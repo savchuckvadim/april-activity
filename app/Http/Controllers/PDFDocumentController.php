@@ -380,10 +380,10 @@ class PDFDocumentController extends Controller
 
 
         return [
-            // 'styleMode' => $styleMode,
-            // 'descriptionMode' => $descriptionMode,
-            // 'pages' => $pages, // Массив "страниц", каждая содержит до 20 элементов инфоблоков
-            // 'totalCount' => $totalCount
+            'isTable' => $isTable,
+            'allPrices' => $allPrices,
+            'withTotal' => $withTotal
+
         ];
     }
 
@@ -410,7 +410,7 @@ class PDFDocumentController extends Controller
 
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
-                               
+
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true || $prc['code'] == 'measure';
                                 });
@@ -489,5 +489,4 @@ class PDFDocumentController extends Controller
 
         return $result;
     }
-   
 }
