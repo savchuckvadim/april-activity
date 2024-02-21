@@ -5,7 +5,7 @@
         }
 
         .price-cell-short {
-            width: 110px;
+            width: 50px;
         }
     </style>
     <h3>PRICES</h3>
