@@ -101,6 +101,37 @@
                     <div class="page-break"></div>
                 @endif
             @endforeach
+        @elseif ($styleMode == 'tableWithGroup')
+            @foreach ($pages as $index => $page)
+                <div class="page-content">
+                    @if ($index == 0)
+                        <h3>Информационное наполнение</h3>
+                    @endif
+                    <table>
+                        <tr>
+                            <td class="infoblocks-column-big">
+                                @foreach ($page as $index => $item)
+                                    <div
+                                        class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                        {{ $item['name'] }}
+                                    </div>
+                                    @if ($descriptionMode === 1)
+                                        <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                    @elseif ($descriptionMode > 1)
+                                        <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                    @endif
+                                @endforeach
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                @if (!$loop->last)
+                    <div class="page-break"></div>
+                @endif
+            @endforeach
+
+
 
         @endif
     </div>
