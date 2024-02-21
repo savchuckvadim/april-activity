@@ -70,7 +70,7 @@
                                 <h2>
                                     {{ $item['name'] }}
                                 </h2>
-                                <p>
+                                <p class="text-normal">
                                     {{ $item['shortDescription'] }}
                                 </p>
                             @else
@@ -81,7 +81,7 @@
                                     {{ $item['descriptionForSale'] }}
                                 </p>
                             @endif
-                            <p class="text-normal">{{ $item['name'] }}</p>
+                           
                         @endforeach
                     </td>
                     <td> {{-- Правая колонка --}}
