@@ -65,7 +65,7 @@
                                             @default
                                             @break
                                         @endswitch
-                                        <td class=$classname>
+                                        <td class={{ $classname }}>
                                             {{ $value }}
 
                                         </td>
