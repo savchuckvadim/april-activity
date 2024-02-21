@@ -6,7 +6,19 @@
         @page {
             margin: 25px 25px;
         }
-      
+
+        .row {
+            width: 100%;
+            display: table;
+        }
+
+        .rowItem {
+            margin: 0px;
+            padding: 0px;
+            display: table-cell;
+            width: 1%;
+            /* white-space: nowrap; */
+        }
 
         footer {
             position: fixed;
@@ -15,14 +27,16 @@
             right: 0px;
             height: 50px;
         }
+
         .page-content {
             margin-top: 100px;
         }
+
         .page-break {
             page-break-after: always;
         }
 
-       
+
 
         body {
             font-family: DejaVu Sans, sans-serif;

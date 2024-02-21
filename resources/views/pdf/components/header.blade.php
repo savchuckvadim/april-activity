@@ -11,18 +11,7 @@
 
         }
 
-        .row {
-            width: 100%;
-            display: table;
-        }
-
-        .rowItem {
-            margin: 0px;
-            padding: 0px;
-            display: table-cell;
-            width: 1%;
-            /* white-space: nowrap; */
-        }
+       
 
         .rq-wrapper {
             margin: 0px;
