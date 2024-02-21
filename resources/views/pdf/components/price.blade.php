@@ -5,7 +5,7 @@
         }
 
         .price-cell-short {
-            width: 25px;
+      
         }
     </style>
     <h3>PRICES</h3>
@@ -49,8 +49,9 @@
                         @break
                     @endswitch
                     <td class={{ $classname }}>
-
-                        {{ $priceCell['name'] }}
+                        <p class="text-small bold">
+                            {{ $priceCell['name'] }}
+                        </p>
                     </td>
                 @endforeach
             </tr>
@@ -100,7 +101,10 @@
                                             @break
                                         @endswitch
                                         <td class={{ $classname }}>
-                                            {{ $value }}
+                                            <p class="text-small bold">
+                                                {{ $value }}
+                                            </p>
+
 
                                         </td>
                                     @endforeach
