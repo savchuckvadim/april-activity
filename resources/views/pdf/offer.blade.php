@@ -96,7 +96,7 @@
 </head>
 
 <body>
-    @component('pdf.components.header')
+    @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
     <footer>
         Это футер документа.
