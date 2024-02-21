@@ -100,7 +100,7 @@
         </div>
         <div class="page-break"></div>
         <div class="prices">
-            @component('pdf.components.prices', $infoblocksData)
+            @component('pdf.components.price', $infoblocksData)
             @endcomponent
         </div>
 
