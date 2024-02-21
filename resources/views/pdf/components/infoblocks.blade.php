@@ -41,12 +41,12 @@
         @endforeach
 
 
-        @else if ($styleMode == 'table')
+        @elseif ($styleMode == 'table')
 
 
 
 
-        @else if ($styleMode == 'tableWithGroup')
+        @elseif ($styleMode == 'tableWithGroup')
 
         @endif
 
