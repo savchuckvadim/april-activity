@@ -40,10 +40,6 @@ class PDFDocumentController extends Controller
 
                 //price
                 $price = $data['price'];
-                $comePrices = $price['cells'];
-
-
-
 
                 //SORT CELLS
                 // $sortActivePrices = $this->getSortActivePrices($comePrices);
@@ -70,11 +66,14 @@ class PDFDocumentController extends Controller
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
 
+                $pricesData  =   $this->getPricesData($price);
+
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
                     'headerData' =>  $headerData,
                     'letterData' => $letterData,
-                    'infoblocksData' => $infoblocksData
+                    'infoblocksData' => $infoblocksData,
+                    'pricesData' => $pricesData
                 ]);
 
 
