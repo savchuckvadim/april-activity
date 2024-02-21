@@ -1,4 +1,9 @@
 <div class="prices page-content">
+    <style>
+        .price-cell-first {
+            width: 300px;
+        }
+    </style>
     <h3>PRICES</h3>
     @if ($isTable)
 
@@ -20,9 +25,16 @@
                                     @foreach ($product['cells'] as $cell)
                                         @php
                                             $value = $cell['value'];
+                                            $classname = 'price-cell';
                                         @endphp
 
                                         @switch($cell['code'])
+                                            @case('name')
+                                                @php
+                                                    $classname = 'price-cell-first';
+                                                @endphp
+                                            @break
+
                                             @case('discountprecent')
                                                 @php
                                                     $cellValue = $cell['value'];
@@ -36,7 +48,7 @@
                                             @default
                                             @break
                                         @endswitch
-                                        <td class="price-cell">
+                                        <td class=$classname>
                                             {{ $value }}
 
                                         </td>
