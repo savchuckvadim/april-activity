@@ -1,6 +1,10 @@
 <div class="infoblocks">
     <style>
-    
+        .infoblocks-wrapper {
+            vertical-align: top;
+            margin: 0px
+        }
+
         .infoblocks-column {
             width: 50%
         }
@@ -8,8 +12,8 @@
         table,
         th,
         td,
-        .infoblocks-wrapper {
-            vertical-align: top;
+        {
+        vertical-align: top;
         }
     </style>
     <div class="infoblocks-wrapper">
