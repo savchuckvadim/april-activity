@@ -123,15 +123,27 @@
                                         class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
                                         {{ $item['name'] }}
                                     </div>
-                                    @if ($descriptionMode === 1)
-                                        <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                    @elseif ($descriptionMode > 1)
-                                        <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                    @endif
+
 
                                 </td>
 
                             </tr>
+
+                            @if ($descriptionMode === 1)
+                                <tr>
+                                    <td class="infoblocks-column-big">
+                                        <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                    </td>
+
+                                </tr>
+                            @elseif ($descriptionMode > 1)
+                                <tr>
+                                    <td class="infoblocks-column-big">
+                                        <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                    </td>
+
+                                </tr>
+                            @endif
                         @endforeach
                     </table>
                 </div>
