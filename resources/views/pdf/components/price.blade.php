@@ -3,6 +3,10 @@
         .price-cell-first {
             width: 300px;
         }
+
+        .price-cell-short {
+            width: 110px;
+        }
     </style>
     <h3>PRICES</h3>
     @if ($isTable)
@@ -35,8 +39,21 @@
                                                 @endphp
                                             @break
 
+                                            @case('quantity')
+                                                @php
+                                                    $classname = 'price-cell-short';
+                                                @endphp
+                                            @break
+
+                                            @case('measure')
+                                                @php
+                                                    $classname = 'price-cell-short';
+                                                @endphp
+                                            @break
+
                                             @case('discountprecent')
                                                 @php
+                                                    $classname = 'price-cell-short';
                                                     $cellValue = $cell['value'];
                                                     $variableFloat = floatval($cellValue);
                                                     $result = 100 - 100 * $variableFloat;
