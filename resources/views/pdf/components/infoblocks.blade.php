@@ -115,28 +115,24 @@
                         <h3>Информационное наполнение</h3>
                     @endif
                     <table>
-                        <tr>
-
-                            @foreach ($page as $index => $item)
+                        @foreach ($page as $index => $item)
+                            <tr>
                                 <td class="infoblocks-column-big">
+
                                     <div
                                         class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
                                         {{ $item['name'] }}
                                     </div>
-                                </td>
-                                @if ($descriptionMode === 1)
-                                    <td class="infoblocks-column-big">
+                                    @if ($descriptionMode === 1)
                                         <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                    </td>
-                                @elseif ($descriptionMode > 1)
-                                    <td class="infoblocks-column-big">
+                                    @elseif ($descriptionMode > 1)
                                         <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                    </td>
-                                @endif
-                            @endforeach
+                                    @endif
 
+                                </td>
 
-                        </tr>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
                 @if (!$loop->last)
