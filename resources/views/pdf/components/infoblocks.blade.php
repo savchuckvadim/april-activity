@@ -13,8 +13,8 @@
 
         table {
             vertical-align: top;
-            margin: 0pxж width: 100%;
-            /* Ширина таблицы на всю доступную ширину */
+            margin: 0px;
+            width: 100%;
             border-collapse: collapse;
             /* Убирает двойные бордеры между ячейками */
         }
@@ -23,11 +23,9 @@
         td {
             vertical-align: top;
             border: 1px solid black;
-            /* Добавляет черный бордер толщиной в 1px */
-            padding: 8px;
-            /* Добавляет внутренние отступы для содержимого ячеек */
+            padding: 3px;
             text-align: left;
-            /* Выравнивание текста в ячейках по левому краю */
+
         }
     </style>
     <div class="infoblocks-wrapper">
