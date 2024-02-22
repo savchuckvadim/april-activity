@@ -5,6 +5,10 @@
         text-align: left;
 
     }
+    .table-container tr{
+       height:200px
+
+    }
 
     .signature-container {
         position: relative;
@@ -27,7 +31,7 @@
 
     .text-cell {
         width: 300px;
-        height: 200px
+
         vertical-align: middle;
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
