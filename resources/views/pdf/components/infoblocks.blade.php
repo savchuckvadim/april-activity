@@ -158,9 +158,7 @@
                                 <tr>
                                     <td class="infoblocks-column-big-title">
                                         <div
-                                            class="{{ $descriptionMode !== 0
-                                                ? 'text-large infoblock-list-group-title  bold'
-                                                : 'text-normal infoblock-table-big-single' }}">
+                                            class="{{ $descriptionMode !== 0 ? 'text-large infoblock-list-group-title bold' : 'text-normal infoblock-table-big-single' }}">
                                             {{ $group['name'] }}
                                         </div>
                                     </td>
@@ -203,13 +201,13 @@
                                     @endif
                                 @endif
                             @endforeach
+                        @endforeach
                     </table>
                 </div>
                 @if (!$loop->last)
                     <div class="page-break"></div>
                 @endif
             @endforeach
-        @endforeach
 
 
         @endif
