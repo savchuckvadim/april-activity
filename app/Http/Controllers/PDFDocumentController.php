@@ -410,10 +410,12 @@ class PDFDocumentController extends Controller
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
 
+                                // $filtredCells = array_filter($product['cells'], function ($prc) {
+                                //     return $prc['isActive'] == true || $prc['code'] == 'measure';
+                                // });
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
-                                    return $prc['isActive'] == true || $prc['code'] == 'measure';
+                                    return $prc['isActive'] == true;
                                 });
-
                                 usort($filtredCells, function ($a, $b) {
                                     return $a['order'] - $b['order'];
                                 });
