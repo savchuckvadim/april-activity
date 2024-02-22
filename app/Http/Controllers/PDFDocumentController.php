@@ -7,8 +7,13 @@ use App\Models\Infoblock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use morphos\Cases;
 use morphos\Russian\MoneySpeller;
 use Ramsey\Uuid\Uuid;
+use morphos\Russian\Cases as RussianCases;
+use function morphos\Russian\pluralize;
+
+
 
 class PDFDocumentController extends Controller
 {
@@ -493,17 +498,17 @@ class PDFDocumentController extends Controller
                 }
 
                 if ($cell['code'] === 'quantity' && $cell['value']) {
-                    $quantityString = $cell['value'];
+                    $quantityString = pluralize($cell['value'], 'месяцев', false, Cases::GENITIVE); // => 10 машин ;
                 }
 
                 if ($cell['code'] === 'measure' && $cell['value']) {
                     if ($cell['isActive']) {
-                        foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
-                            if ($contractCell['code'] === 'contract') {
-                                $measureString = $contractCell['value']['measureFullName'];
-                            }
-                        }
-                      
+                        // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+                        //     if ($contractCell['code'] === 'contract') {
+                        //         $measureString = $contractCell['value']['measureFullName'];
+                        //     }
+                        // }
+
                     }
                 }
             }
@@ -539,6 +544,7 @@ class PDFDocumentController extends Controller
 
         ];
     }
+
 
     protected function getSortActivePrices($allPrices)
     {
