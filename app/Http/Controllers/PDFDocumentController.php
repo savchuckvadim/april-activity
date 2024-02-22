@@ -518,7 +518,7 @@ class PDFDocumentController extends Controller
             $text = ' (' . $firstChar . $restOfText . ') без НДС';
             $textTotalSum = $text;
 
-            $fullTotalstring = $total . ' ' . $textTotalSum;
+            $fullTotalstring = $total . ' ' . $textTotalSum . ' ' . $quantityMeasureString;
         }
 
         return [
