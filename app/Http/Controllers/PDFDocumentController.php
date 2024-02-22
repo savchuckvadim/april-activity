@@ -285,7 +285,7 @@ class PDFDocumentController extends Controller
         $pages = [];
         $currentPage = ['groups' => []];
         $currentPageItemsCount = 0;
-
+        $tablePages = [];
         foreach ($complect as $group) {
             $groupItems = [];
             foreach ($group['value'] as $infoblock) {
@@ -331,6 +331,7 @@ class PDFDocumentController extends Controller
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
+            'tablePages' => $tablePages,
         ];
     }
 
