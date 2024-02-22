@@ -111,7 +111,7 @@
 
                                             @case('measure')
                                                 @php
-                                                    $classname = $classname . 'price-cell-short';
+                                                    $classname = $classname . ' price-cell-short';
                                                 @endphp
                                             @break
 
