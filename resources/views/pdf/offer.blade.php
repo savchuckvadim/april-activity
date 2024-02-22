@@ -58,7 +58,7 @@
             font-size: 11px;
         }
 
-        .text-large{
+        .text-large {
             font-size: 12px;
         }
 
@@ -102,7 +102,10 @@
             @component('pdf.components.infoblocks', $infoblocksData)
             @endcomponent
         </div>
-        <div class="page-break"></div>
+        @if (!$infoblocksData['withPrice'])
+            <div class="page-break"></div>
+        @endif
+
         <div class="prices">
             @component('pdf.components.price', $pricesData)
             @endcomponent

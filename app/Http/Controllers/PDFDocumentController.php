@@ -281,7 +281,8 @@ class PDFDocumentController extends Controller
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
         $itemsPerPage = $this->determineItemsPerPage($descriptionMode, $styleMode);
-
+       
+        $withPrice = false;
         $pages = [];
         $currentPage = [
             'groups' => [],
@@ -335,12 +336,13 @@ class PDFDocumentController extends Controller
         if (!empty($currentPage['groups'])) {
             $pages[] = $currentPage;
         }
-
+        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode);
         return [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
-           
+            'withPrice' => $withPrice
+
         ];
     }
 
@@ -377,108 +379,67 @@ class PDFDocumentController extends Controller
 
         return $itemsPerPage;
     }
-    // protected function getInfoblocksData($infoblocksOptions, $complect)
-    // {
-    //     $totalCount = $this->getInfoblocksCount($complect);
-    //     $descriptionMode = $infoblocksOptions['description']['id'];
-    //     $styleMode = $infoblocksOptions['style'];
 
-    //     $withGroups = [
-    //         [
-    //             'groups' => [['id' => 0, 'name' => 'НПА'], ['id' => 1, 'name' => 'Консултационные материалы']],
-    //             'items' => [
-    //                 [
-    //                     [
-    //                         'number',
-    //                         'name',
-    //                         'code',
-    //                         'title',
-    //                         'description',
-    //                         'descriptionForSale',
-    //                         'shortDescription',
-    //                         'weight',
-    //                         'inGroupId',
-    //                         'groupId',
-    //                         'isLa',
-    //                         'isFree',
-    //                         'isShowing',
-    //                         'isSet',
-    //                     ]
-    //                 ],
-    //                 []
-    //             ]
-    //         ]
-    //     ];
-    //     foreach ($complect as $group) {
-    //         $groupCodes = collect($group['value'])->pluck('code')->all();
-    //         // $codes = array_merge($codes, $groupCodes);
-
-    //         $infoblocks = Infoblock::whereIn('code', $groupCodes)->get()->keyBy('code');
-    //     }
-    //     $codes = collect($complect)->flatMap(function ($group) {
-    //         return collect($group['value'])->pluck('code');
-    //     })->unique()->all();
-
-    //     $infoblocks = Infoblock::whereIn('code', $codes)->get()->keyBy('code');
-
-    //     $itemsPerPage = 20;
-    //     $pages = [];
-    //     $currentPage = [];
-    //     $currentItemCount = 0;
+    protected function getWithPrice($pages, $descriptionMode, $styleMode)
+    {
+        $isWithPrice = false;
+        $lastPageItemsCount = 0;
+        $lastPage = end($pages);
+        if (is_array($lastPage) && isset($lastPage['items']) && is_array($lastPage['items'])) {
+            // Получаем длину массива 'items'
+            $lastPageItemsCount = count($lastPage['items']);
+        }
 
 
-    //     if ($styleMode === 'list') {
-    //     } else if ($styleMode === 'table') {
-    //         if ($descriptionMode === 0) {
-    //             $itemsPerPage = 40;
-    //         } else if ($descriptionMode === 1) {
-    //             $itemsPerPage = 16;
-    //         } else {
-    //             $itemsPerPage = 8;
-    //         }
-    //     } else {
-    //         if ($descriptionMode === 0) {
-    //             $itemsPerPage = 60;
-    //         } else if ($descriptionMode === 1) {
-    //             $itemsPerPage = 20;
-    //         } else {
-    //             $itemsPerPage = 10;
-    //         }
-    //     }
+        if ($styleMode === 'list') {
 
+            if ($descriptionMode === 0) {
+                if ($lastPageItemsCount < 20) {
+                    $isWithPrice = true;
+                }
+            } else if ($descriptionMode === 1) {
+                if ($lastPageItemsCount < 8) {
+                    $isWithPrice = true;
+                }
+            } else {
 
+                if ($lastPageItemsCount < 4) {
+                    $isWithPrice = true;
+                }
+            }
+        } else if ($styleMode === 'table') {
+            if ($descriptionMode === 0) {
+                $isWithPrice = true;
+            } else if ($descriptionMode === 1) {
+                if ($lastPageItemsCount < 11) {
+                    $isWithPrice = true;
+                }
+            } else {
 
+                if ($lastPageItemsCount < 7) {
+                    $isWithPrice = true;
+                }
+            }
+        } else {
+            if ($descriptionMode === 0) {
+                if ($lastPageItemsCount < 20) {
+                    $isWithPrice = true;
+                }
+            } else if ($descriptionMode === 1) {
+                if ($lastPageItemsCount < 8) {
+                    $isWithPrice = true;
+                }
+            } else {
 
-    //     foreach ($complect as $group) {
-    //         foreach ($group['value'] as $infoblock) {
-    //             if (!array_key_exists('code', $infoblock) || !$infoblocks->has($infoblock['code'])) {
-    //                 continue;
-    //             }
+                if ($lastPageItemsCount < 4) {
+                    $isWithPrice = true;
+                }
+            }
+        }
 
-    //             $currentInfoblock = $infoblocks->get($infoblock['code']);
-    //             if ($currentItemCount >= $itemsPerPage) {
-    //                 $pages[] = $currentPage;
-    //                 $currentPage = [];
-    //                 $currentItemCount = 0;
-    //             }
+        return $isWithPrice;
+    }
 
-    //             $currentPage[] = $currentInfoblock;
-    //             $currentItemCount++;
-    //         }
-    //     }
-
-    //     // Добавляем оставшиеся элементы, если они есть
-    //     if (!empty($currentPage)) {
-    //         $pages[] = $currentPage;
-    //     }
-
-    //     return [
-    //         'styleMode' => $styleMode,
-    //         'descriptionMode' => $descriptionMode,
-    //         'pages' => $pages, // Массив "страниц", каждая содержит до 20 элементов инфоблоков
-    //         'totalCount' => $totalCount
-    //     ];
-    // }
 
     protected function getInfoblocksCount($complect)
     {
