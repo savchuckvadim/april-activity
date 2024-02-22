@@ -60,7 +60,7 @@
     <div class="letter-text">
         @if ($letterData['recipientCase'] !== null)
             <div class="letter-title-wrapper">
-                <p class='text-normal bold recipientName'>
+                <p class='text-large bold recipientName'>
                     {{ $letterData['recipientName'] }}
                 </p>
             </div>

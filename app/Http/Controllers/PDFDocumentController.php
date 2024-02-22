@@ -376,9 +376,9 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $itemsPerPage = 24;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 11;
+                $itemsPerPage = 9;
             } else {
-                $itemsPerPage = 8;
+                $itemsPerPage = 6;
             }
         }
 
@@ -431,12 +431,12 @@ class PDFDocumentController extends Controller
                     $isWithPrice = true;
                 }
             } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 8) {
+                if ($lastPageItemsCount < 5) {
                     $isWithPrice = true;
                 }
             } else {
 
-                if ($lastPageItemsCount < 4) {
+                if ($lastPageItemsCount < 3) {
                     $isWithPrice = true;
                 }
             }

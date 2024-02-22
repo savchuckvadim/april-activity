@@ -44,6 +44,12 @@
                             @endphp
                         @break
 
+                        @case('measure')
+                            @php
+                                $classname = 'price-cell-head  price-cell-short';
+                            @endphp
+                        @break
+
                         @default
                         @break
                     @endswitch
@@ -74,6 +80,12 @@
                                             @break
 
                                             @case('quantity')
+                                                @php
+                                                    $classname = 'price-cell-short';
+                                                @endphp
+                                            @break
+
+                                            @case('measure')
                                                 @php
                                                     $classname = 'price-cell-short';
                                                 @endphp
