@@ -22,8 +22,13 @@
         vertical-align: center;
     }
 
+    .total-area {
+        margin-top: 15px;
+        width: 100%
+    }
+
     .total {
-        margin-top: 10px;
+      
         text-align: end;
     }
 </style>
@@ -132,8 +137,8 @@
         </table>
 
         @if ($withTotal)
-            <div class='total'>
-                <p class="text-large">
+            <div class='total-area'>
+                <p class="text-large total">
                     {{ $total }}
                 </p>
             </div>
