@@ -153,8 +153,26 @@
                         <h3>Информационное наполнение</h3>
                     @endif
                     <table>
-                        @foreach ($page as $index => $item)
-                            @if ($item['shortDescription'])
+                        @foreach ($page['groups'] as $group)
+                            @if ($group['name'] !== $lastGroupName)
+                                <tr>
+                                    <td class="infoblocks-column-big-title">
+                                        <div
+                                            class="{{ $descriptionMode !== 0
+                                                ? 'text-large infoblock-list-group-title  bold'
+                                                : 'text-normal infoblock-table-big-single' }}">
+                                            {{ $group['name'] }}
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                @php
+                                    $lastGroupName = $group['name'];
+                                @endphp
+                            @endif
+
+
+                            @foreach ($group['items'] as $index => $item)
                                 <tr>
                                     <td class="infoblocks-column-big-title">
 
@@ -167,31 +185,31 @@
                                     </td>
 
                                 </tr>
+                                @if ($item['shortDescription'])
+                                    @if ($descriptionMode === 1)
+                                        <tr>
+                                            <td class="infoblocks-column-big">
+                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                            </td>
 
-                                @if ($descriptionMode === 1)
-                                    <tr>
-                                        <td class="infoblocks-column-big">
-                                            <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                        </td>
+                                        </tr>
+                                    @elseif ($descriptionMode > 1)
+                                        <tr>
+                                            <td class="infoblocks-column-big">
+                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                            </td>
 
-                                    </tr>
-                                @elseif ($descriptionMode > 1)
-                                    <tr>
-                                        <td class="infoblocks-column-big">
-                                            <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                        </td>
-
-                                    </tr>
+                                        </tr>
+                                    @endif
                                 @endif
-                            @endif
-                        @endforeach
+                            @endforeach
                     </table>
                 </div>
                 @if (!$loop->last)
                     <div class="page-break"></div>
                 @endif
             @endforeach
-
+        @endforeach
 
 
         @endif
