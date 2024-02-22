@@ -109,6 +109,10 @@
         <div class="prices">
             @component('pdf.components.price', $pricesData)
             @endcomponent
+            <div class="stamp">
+                @component('pdf.components.stamp', $stampsData)
+                @endcomponent
+            </div>
         </div>
 
     </main>

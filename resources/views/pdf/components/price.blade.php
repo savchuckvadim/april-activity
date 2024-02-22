@@ -105,7 +105,4 @@
 
     @endif
 </div>
-<div class="stamp">
-    @component('pdf.components.stamp', $stampsData)
-    @endcomponent
-</div>
+
