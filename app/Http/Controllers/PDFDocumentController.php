@@ -498,7 +498,7 @@ class PDFDocumentController extends Controller
                 }
 
                 if ($cell['code'] === 'quantity' && $cell['value']) {
-                    $quantityString = pluralize($cell['value'], 'месяц', false, Cases::GENITIVE); // => 10 машин ;
+                    $quantityString = pluralize($cell['value'], 'месяц', false, Cases::ACCUSATIVE); // => 10 машин ;
                 }
 
                 if ($cell['code'] === 'measure' && $cell['value']) {
