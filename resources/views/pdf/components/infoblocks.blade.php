@@ -39,37 +39,29 @@
     <div class="infoblocks-wrapper">
 
         @if ($styleMode == 'list')
-            @foreach ($complect as $group)
-                @foreach ($group['value'] as $infoblock)
-                    @if (array_key_exists('code', $infoblock))
-                        @php
-                            $currentInfoblock = $infoblocks->get($infoblock['code']);
-                        @endphp
-                        @if ($currentInfoblock)
-                            @if ($descriptionMode === 0)
-                                @if (!empty($infoblock['code']) && ($currentInfoblock = $infoblocks->get($infoblock['code'])))
-                                    <p class="text-small">
-                                        {{ $currentInfoblock['name'] }}
-                                    </p>
-                                @endif
-                            @elseif ($descriptionMode === 1)
-                                <h2>
-                                    {{ $currentInfoblock['name'] }}
-                                </h2>
-                                <p>
-                                    {{ $currentInfoblock['shortDescription'] }}
-                                </p>
-                            @else
-                                <h2>
-                                    {{ $currentInfoblock['name'] }}
-                                </h2>
-                                <p>
-                                    {{ $currentInfoblock['descriptionForSale'] }}
-                                </p>
-                            @endif
+            @foreach ($pages as $page)
+                @foreach ($page['groups'] as $group)
+                    <h4>{{ $group['name'] }}</h4>
+                    @foreach ($group['items'] as $infoblock)
+                        <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
+                            {{ $infoblock['name'] }}
+                        </p>
+
+                        @if ($descriptionMode === 1)
+                            <p class="text-normal small">
+                                {{ $currentInfoblock['shortDescription'] }}
+                            </p>
+                        @elseif ($descriptionMode === 2 || $descriptionMode === 3)
+                            <p class="text-normal small">
+                                {{ $currentInfoblock['descriptionForSale'] }}
+                            </p>
                         @endif
-                    @endif
+                    @endforeach
                 @endforeach
+
+                @if (!$loop->last)
+                    <div class="page-break"></div>
+                @endif
             @endforeach
         @elseif ($styleMode == 'table')
             @foreach ($pages as $index => $page)
