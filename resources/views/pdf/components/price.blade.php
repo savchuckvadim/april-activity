@@ -1,3 +1,9 @@
+<style>
+    .prices {
+        margin-bottom: 100px;
+    }
+</style>
+
 <div class="prices page-content">
     <style>
         .price-cell-first {
