@@ -3,7 +3,7 @@
         margin-bottom: 100px;
     }
 
-    .price-row {
+    .price-row, .price-cell {
         height: 200px;
     }
 
@@ -19,6 +19,7 @@
     .price-cell-short,
     .price-cell-head {
         text-align: center;
+        vertical-align: center;
     }
 
     .price-cell-head {
@@ -43,7 +44,7 @@
     <h3>Цена за комплект</h3>
     @if ($isTable)
 
-        <table>
+        <table class="price-table">
             <tr>
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
@@ -125,7 +126,7 @@
                                             @default
                                             @break
                                         @endswitch
-                                        <td class={{ $classname }}>
+                                        <td class={{ 'price-cell ' . $classname }}>
                                             <p class="text-small">
                                                 {{ $value }}
                                             </p>
