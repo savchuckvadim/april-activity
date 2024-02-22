@@ -43,7 +43,7 @@
         }
 
         .infoblock-big-group-title {
-            margin: 3px;
+          
             text-align: center
         }
 
