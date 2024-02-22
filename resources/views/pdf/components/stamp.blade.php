@@ -5,9 +5,10 @@
         text-align: left;
 
     }
-    .table-container tr{
-       height:200px
 
+    tr,
+    td {
+        height: 300px
     }
 
     .signature-container {
@@ -36,8 +37,6 @@
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
     }
-
-    
 </style>
 
 <table class="table-container">
