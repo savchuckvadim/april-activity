@@ -474,6 +474,7 @@ class PDFDocumentController extends Controller
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
         $total = 'ИТОГО';
+        $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
         $sortActivePrices = $this->getSortActivePrices($comePrices);
         $allPrices =  $sortActivePrices;
@@ -481,25 +482,50 @@ class PDFDocumentController extends Controller
 
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($allPrices);
-
+        $quantityMeasureString = '';
         if ($withTotal) {
             $foundCell = null;
             foreach ($price['cells']['total'][0]['cells'] as $cell) {
-              if($cell['code'] === 'prepaymentsum'){
-                $foundCell = $cell;
-              }
+                if ($cell['code'] === 'prepaymentsum') {
+                    $foundCell = $cell;
+                }
+
+                if ($cell['code'] === 'quantity' && $cell['value']) {
+                    $quantityMeasureString = $cell['value'];
+                }
+
+                if ($cell['code'] === 'measure' && $cell['value']) {
+                    if ($cell['isActive']) {
+
+                        $quantityMeasureString = $quantityMeasureString . '' . $cell['value'];
+                    }
+                }
             }
             if ($foundCell) {
                 $totalSum = $foundCell['value'];
-                $total = $total . '' . $totalSum;
+                $total = $total . ': ' . $totalSum;
             }
+
+            $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
+            $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
+            $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+
+
+
+
+
+
+            $text = ' (' . $firstChar . $restOfText . ') без НДС';
+            $textTotalSum = $text;
+
+            $fullTotalstring = $total . ' ' . $textTotalSum;
         }
 
         return [
             'isTable' => $isTable,
             'allPrices' => $allPrices,
             'withTotal' => $withTotal,
-            'total' => $total
+            'total' => $fullTotalstring
 
         ];
     }

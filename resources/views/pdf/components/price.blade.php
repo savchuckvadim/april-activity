@@ -127,7 +127,7 @@
         </table>
 
         @if ($withTotal)
-            <p class="text-lrge bold">
+            <p class="text-large">
                 {{ $total }}
             </p>
         @endif
