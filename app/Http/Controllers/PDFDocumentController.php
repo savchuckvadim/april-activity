@@ -363,7 +363,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 16;
             } else {
-                $itemsPerPage = 6;
+                $itemsPerPage = 8;
             }
         } else {
             if ($descriptionMode === 0) {
