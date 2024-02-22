@@ -611,10 +611,10 @@ class PDFDocumentController extends Controller
         $signatures = $providerRq['signatures'];
 
         if (!empty($stamps)) {
-            $stampsData['stamp'] = storage_path('app/public/' . $stamps[0]['path']);
+            $stampsData['stamp'] = storage_path('app/' . $stamps[0]['path']);
         }
         if (!empty($signatures)) {
-            $stampsData['signature'] = storage_path('app/public/' . $signatures[0]['path']);
+            $stampsData['signature'] = storage_path('app/' . $signatures[0]['path']);
         }
 
 
