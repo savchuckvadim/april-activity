@@ -44,28 +44,31 @@
 
         @if ($styleMode == 'list')
             @foreach ($pages as $page)
-                @foreach ($page['groups'] as $group)
-                    <p class="text-normal infoblock-list-group-title bold">{{ $group['name'] }}</p>
-                    @foreach ($group['items'] as $infoblock)
-                        <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
-                            {{ $infoblock['name'] }}
-                        </p>
+                <div class="page-content">
+                    @foreach ($page['groups'] as $group)
+                        <p class="text-normal infoblock-list-group-title bold">{{ $group['name'] }}</p>
+                        @foreach ($group['items'] as $infoblock)
+                            <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
+                                {{ $infoblock['name'] }}
+                            </p>
 
-                        @if ($descriptionMode === 1)
-                            <p class="text-normal small">
-                                {{ $currentInfoblock['shortDescription'] }}
-                            </p>
-                        @elseif ($descriptionMode === 2 || $descriptionMode === 3)
-                            <p class="text-normal small">
-                                {{ $currentInfoblock['descriptionForSale'] }}
-                            </p>
-                        @endif
+                            @if ($descriptionMode === 1)
+                                <p class="text-normal small">
+                                    {{ $currentInfoblock['shortDescription'] }}
+                                </p>
+                            @elseif ($descriptionMode === 2 || $descriptionMode === 3)
+                                <p class="text-normal small">
+                                    {{ $currentInfoblock['descriptionForSale'] }}
+                                </p>
+                            @endif
+                        @endforeach
                     @endforeach
-                @endforeach
 
-                @if (!$loop->last)
-                    <div class="page-break"></div>
-                @endif
+                    @if (!$loop->last)
+                        <div class="page-break"></div>
+                    @endif
+
+                </div>
             @endforeach
         @elseif ($styleMode == 'table')
             @foreach ($pages as $index => $page)
