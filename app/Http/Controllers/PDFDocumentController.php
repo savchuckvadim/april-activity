@@ -410,9 +410,11 @@ class PDFDocumentController extends Controller
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
 
+                                //TODO for invoice - measure
                                 // $filtredCells = array_filter($product['cells'], function ($prc) {
                                 //     return $prc['isActive'] == true || $prc['code'] == 'measure';
                                 // });
+
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true;
                                 });
