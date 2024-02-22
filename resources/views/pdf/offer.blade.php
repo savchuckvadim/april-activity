@@ -95,6 +95,10 @@
         <div class="letter page-content">
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
+            <div class="stamp">
+                @component('pdf.components.stamp', $stampsData)
+                @endcomponent
+            </div>
         </div>
         <div class="page-break"></div>
         <div class="infoblocks">
