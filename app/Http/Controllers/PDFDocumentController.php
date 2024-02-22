@@ -283,9 +283,13 @@ class PDFDocumentController extends Controller
         $itemsPerPage = $this->determineItemsPerPage($descriptionMode, $styleMode);
 
         $pages = [];
-        $currentPage = ['groups' => []];
+        $currentPage = [
+            'groups' => [],
+            'items' => []
+
+        ];
         $currentPageItemsCount = 0;
-        $tablePages = [];
+
         foreach ($complect as $group) {
             $groupItems = [];
             foreach ($group['value'] as $infoblock) {
@@ -296,6 +300,7 @@ class PDFDocumentController extends Controller
                 $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
                 if ($infoblockData) {
                     $groupItems[] = $infoblockData;
+                    array_push($currentPage['items'], $infoblockData);
                 }
             }
 
@@ -305,7 +310,11 @@ class PDFDocumentController extends Controller
                 if ($spaceLeft == 0) {
                     // Если на текущей странице нет места, переходим к следующей
                     $pages[] = $currentPage;
-                    $currentPage = ['groups' => []];
+                    $currentPage = [
+                        'groups' => [],
+                        'items' => []
+
+                    ];
                     $currentPageItemsCount = 0;
                     $spaceLeft = $itemsPerPage;
                 }
@@ -331,7 +340,7 @@ class PDFDocumentController extends Controller
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
-            'tablePages' => $tablePages,
+           
         ];
     }
 

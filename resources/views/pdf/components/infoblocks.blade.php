@@ -107,38 +107,37 @@
                     <table>
                         <tr>
                             <td class="infoblocks-column">
-                                @foreach ($page['groups'] as $group)
-                                    @foreach ($group['items'] as $index => $item)
-                                        @if ($index < count($group['items']) / 2)
-                                            <div
-                                                class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
-                                                {{ $item['name'] }}
-                                            </div>
-                                            @if ($descriptionMode === 1)
-                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                            @elseif ($descriptionMode > 1)
-                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                            @endif
+
+                                @foreach ($page['items'] as $index => $item)
+                                    @if ($index < count($page['items']) / 2)
+                                        <div
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            {{ $item['name'] }}
+                                        </div>
+                                        @if ($descriptionMode === 1)
+                                            <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                        @elseif ($descriptionMode > 1)
+                                            <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
-                                    @endforeach
+                                    @endif
                                 @endforeach
                             </td>
                             <td class="infoblocks-column">
-                                @foreach ($page['groups'] as $group)
-                                    @foreach ($group['items'] as $index => $item)
-                                        @if ($index >= count($group['items']) / 2)
-                                            <div
-                                                class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
-                                                {{ $item['name'] }}
-                                            </div>
-                                            @if ($descriptionMode === 1)
-                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                            @elseif ($descriptionMode > 1)
-                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                            @endif
+
+                                @foreach ($page['items'] as $index => $item)
+                                    @if ($index >= count($page['items']) / 2)
+                                        <div
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            {{ $item['name'] }}
+                                        </div>
+                                        @if ($descriptionMode === 1)
+                                            <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                        @elseif ($descriptionMode > 1)
+                                            <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
-                                    @endforeach
+                                    @endif
                                 @endforeach
+
                             </td>
                         </tr>
                     </table>
