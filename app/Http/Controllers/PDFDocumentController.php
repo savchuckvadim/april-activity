@@ -502,7 +502,7 @@ class PDFDocumentController extends Controller
                         $quantityString = '1' . ' месяц';
                     } else {
 
-                        $quantityString = pluralize($cell['value'], 'месяц', false, Cases::ACCUSATIVE); // => 10 машин ;
+                        $quantityString = pluralize($cell['value'], 'месяц', false, Cases::NOMINATIVE); // => 10 машин ;
 
                     }
                 }
