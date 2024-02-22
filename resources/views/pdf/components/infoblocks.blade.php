@@ -38,7 +38,13 @@
 
         .infoblock-list-group-title {
             margin-top: 20px;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
+            text-align: center
+        }
+
+        .infoblock--title {
+            margin-top: 10px;
+            margin-bottom: 5px;
             text-align: center
         }
     </style>
@@ -68,7 +74,7 @@
 
 
                         @foreach ($group['items'] as $infoblock)
-                            <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
+                            <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock--title bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
                             </p>
 
