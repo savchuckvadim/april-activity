@@ -4,7 +4,7 @@
     }
 
     .letter-text {
-        margin-top: 150px;
+        margin-top: 30px;
     }
 </style>
 
