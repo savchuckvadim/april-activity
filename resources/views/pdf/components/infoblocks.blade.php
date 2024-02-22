@@ -35,13 +35,17 @@
         .infoblock-table-big-single {
             text-align: left
         }
+
+        .infoblock-list-group-title {
+            text-align: center
+        }
     </style>
     <div class="infoblocks-wrapper">
 
         @if ($styleMode == 'list')
             @foreach ($pages as $page)
                 @foreach ($page['groups'] as $group)
-                    <h4>{{ $group['name'] }}</h4>
+                    <p class="text-normal infoblock-list-group-title bold">{{ $group['name'] }}</p>
                     @foreach ($group['items'] as $infoblock)
                         <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
                             {{ $infoblock['name'] }}
