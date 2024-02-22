@@ -343,9 +343,9 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $itemsPerPage = 40;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 10;
+                $itemsPerPage = 11;
             } else {
-                $itemsPerPage = 7;
+                $itemsPerPage = 4;
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {
