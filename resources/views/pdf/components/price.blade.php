@@ -3,11 +3,14 @@
         margin-bottom: 100px;
     }
 
-    .price-row, .price-cell {
-        height: 50px;
+    .price-row,
+    .price-cell {
+        height: 30px;
     }
 
     .price-cell-first {
+        text-align: start;
+        vertical-align: middle;
         width: 250px;
     }
 
@@ -102,13 +105,13 @@
 
                                             @case('quantity')
                                                 @php
-                                                    $classname = 'price-cell-short';
+                                                    $classname = $classname . ' price-cell-short';
                                                 @endphp
                                             @break
 
                                             @case('measure')
                                                 @php
-                                                    $classname = 'price-cell-short';
+                                                    $classname = $classname . 'price-cell-short';
                                                 @endphp
                                             @break
 
@@ -126,7 +129,7 @@
                                             @default
                                             @break
                                         @endswitch
-                                        <td class={{ 'price-cell ' . $classname }}>
+                                        <td class={{ $classname }}>
                                             <p class="text-small">
                                                 {{ $value }}
                                             </p>
