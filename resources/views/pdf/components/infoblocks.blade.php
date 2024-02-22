@@ -43,7 +43,7 @@
         }
 
         .infoblock-big-group-title {
-          
+
             text-align: center
         }
 
@@ -179,7 +179,7 @@
 
                             @foreach ($group['items'] as $index => $item)
                                 <tr>
-                                    <td class="infoblocks-column-big-title">
+                                    <td class="infoblock-table-big-single">
 
                                         <div
                                             class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal infoblock-table-big-single' }}">
