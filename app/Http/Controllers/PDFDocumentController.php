@@ -611,10 +611,10 @@ class PDFDocumentController extends Controller
         $signatures = $providerRq['signatures'];
 
         if (!empty($stamps)) {
-            $stampsData['stamp'] = $stamps[0]['path'];
+            $stampsData['stamp'] = storage_path('app/public/' . $stamps[0]['path']);
         }
         if (!empty($signatures)) {
-            $stampsData['signature']  = $signatures[0]['path'];
+            $stampsData['signature'] = storage_path('app/public/' . $signatures[0]['path']);
         }
 
 
@@ -624,8 +624,8 @@ class PDFDocumentController extends Controller
             $stampsData['position'] = $providerRq['fullname'];
         }
 
-        
-      
+
+
         if ($providerRq['type'] == 'org') {
             $stampsData['director']  = $providerRq['director'];
         }

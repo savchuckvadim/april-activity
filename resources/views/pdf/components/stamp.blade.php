@@ -23,7 +23,7 @@
 <table class="table-container">
     <tr>
 
-        <td class="text-cell">{{ $position }}</td>
+        <td class="text-cell text-normal bold">{{ $position }}</td>
 
 
         <td class="signature-container">
@@ -31,6 +31,6 @@
             <img src={{ $stamp }} alt="Печать" height="100">
         </td>
 
-        <td class="text-cell">{{ $director }}</td>
+        <td class="text-cell text-normal bold">{{ $director }}</td>
     </tr>
 </table>
