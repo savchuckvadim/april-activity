@@ -49,7 +49,7 @@
                         <h3>Информационное наполнение</h3>
                     @endif
                     @foreach ($page['groups'] as $group)
-                        <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title bold' : 'text-normal color' }}">{{ $group['name'] }}</p>
+                        <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title color' : 'text-normal color' }}">{{ $group['name'] }}</p>
                         @foreach ($group['items'] as $infoblock)
                             <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
