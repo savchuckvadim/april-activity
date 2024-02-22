@@ -6,6 +6,7 @@ use App\Models\Counter;
 use App\Models\Infoblock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use morphos\Russian\MoneySpeller;
 use Ramsey\Uuid\Uuid;
 
@@ -282,11 +283,8 @@ class PDFDocumentController extends Controller
         $itemsPerPage = $this->determineItemsPerPage($descriptionMode, $styleMode);
 
         $pages = [];
+        $currentPage = ['groups' => []];
         $currentPageItemsCount = 0;
-        $currentPage = [
-            'groups' => [],
-
-        ];
 
         foreach ($complect as $group) {
             $groupItems = [];
@@ -298,23 +296,35 @@ class PDFDocumentController extends Controller
                 $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
                 if ($infoblockData) {
                     $groupItems[] = $infoblockData;
-                    $currentPageItemsCount++;
-
-                    if ($currentPageItemsCount >= $itemsPerPage) {
-                        $pages[] = $currentPage; // Save current page
-                        $currentPage = ['groups' => [], 'items' => []]; // Reset for next page
-                        $currentPageItemsCount = 0;
-                    }
                 }
             }
 
-            if (!empty($groupItems)) {
-                $currentPage['groups'][] = ['name' => $group['groupsName'], 'items' => $groupItems];
+            // Распределение элементов группы по страницам
+            while (!empty($groupItems)) {
+                $spaceLeft = $itemsPerPage - $currentPageItemsCount; // Сколько элементов помещается на страницу
+                if ($spaceLeft == 0) {
+                    // Если на текущей странице нет места, переходим к следующей
+                    $pages[] = $currentPage;
+                    $currentPage = ['groups' => []];
+                    $currentPageItemsCount = 0;
+                    $spaceLeft = $itemsPerPage;
+                }
+
+                $itemsToAdd = array_splice($groupItems, 0, $spaceLeft); // Элементы, которые поместятся на страницу
+                if (!empty($itemsToAdd)) {
+                    // Добавляем часть группы на текущую страницу
+                    $currentPage['groups'][] = [
+                        'name' => $group['groupsName'],
+                        'items' => $itemsToAdd
+                    ];
+                    $currentPageItemsCount += count($itemsToAdd);
+                }
             }
         }
 
+        // Добавляем последнюю страницу, если она содержит элементы
         if (!empty($currentPage['groups'])) {
-            $pages[] = $currentPage; // Add last page if it has any items
+            $pages[] = $currentPage;
         }
 
         return [
@@ -337,7 +347,6 @@ class PDFDocumentController extends Controller
             } else {
                 $itemsPerPage = 8;
             }
-
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {
                 $itemsPerPage = 30;
