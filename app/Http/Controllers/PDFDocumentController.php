@@ -487,7 +487,7 @@ class PDFDocumentController extends Controller
                 return $cell['code'] === 'prepaymentsum';
             });
             if ($foundCells) {
-                $totalSum = $foundCells['value'];
+                $totalSum = $foundCells[0]['value'];
                 $total = $total . '' . $totalSum;
             }
         }
