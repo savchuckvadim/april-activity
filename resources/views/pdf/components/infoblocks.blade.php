@@ -57,11 +57,11 @@
 
                             @if ($descriptionMode === 1)
                                 <p class="text-normal small">
-                                    {{ $currentInfoblock['shortDescription'] }}
+                                    {{ $infoblock['shortDescription'] }}
                                 </p>
                             @elseif ($descriptionMode === 2 || $descriptionMode === 3)
                                 <p class="text-normal small">
-                                    {{ $currentInfoblock['descriptionForSale'] }}
+                                    {{ $infoblock['descriptionForSale'] }}
                                 </p>
                             @endif
                         @endforeach
