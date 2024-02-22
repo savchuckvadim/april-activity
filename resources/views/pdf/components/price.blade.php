@@ -24,11 +24,12 @@
 
     .total-area {
         margin-top: 15px;
-        width: 100%
+        width: 100%;
+        text-align: end;
     }
 
     .total {
-      
+
         text-align: end;
     }
 </style>
