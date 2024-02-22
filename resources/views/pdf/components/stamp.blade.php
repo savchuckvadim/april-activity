@@ -42,7 +42,8 @@
     }
 
     .signature-container img.stamp {
-        width: 100px;
+        width: 150px;
+        height: auto;
         z-index: 1;
         /* Печать будет под подписью */
         top: 5px;
