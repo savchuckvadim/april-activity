@@ -3,6 +3,10 @@
         margin-bottom: 100px;
     }
 
+    .price-row {
+        height: 200px;
+    }
+
     .price-cell-first {
         width: 250px;
     }
@@ -81,7 +85,7 @@
                     @foreach ($target as $product)
                         @if ($product)
                             @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
-                                <tr>
+                                <tr class="price-row">
                                     @foreach ($product['cells'] as $cell)
                                         @php
                                             $value = $cell['value'];
