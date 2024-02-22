@@ -11,14 +11,14 @@
     .signature-container {
         position: relative;
         text-align: center;
-        /* Выравнивание содержимого по центру */
-    }
+        
+        }
+
 
     .signature-container img {
         position: absolute;
         left: 50%;
         top: 20px;
-        /* Центрируем изображение по горизонтали */
         transform: translateX(-50%);
 
     }
@@ -26,7 +26,7 @@
     /* Если нужно, чтобы печать была больше по размеру */
     .signature-container img.stamp {
         height: 120px;
-        /* Пример увеличения размера печати */
+ 
     }
 
     .text-cell {
@@ -40,14 +40,14 @@
     .signature-container img.signature {
         z-index: 2;
         /* Подпись будет над печатью */
-        top: 50px;
+        top: 15px;
         /* Смещение от верха контейнера */
     }
 
     .signature-container img.stamp {
         z-index: 1;
         /* Печать будет под подписью */
-        top: 150px;
+        top: 5px;
         /* Смещение от верха контейнера */
     }
 </style>
