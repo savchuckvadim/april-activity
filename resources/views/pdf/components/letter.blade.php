@@ -3,6 +3,19 @@
         margin-top: 50px;
     }
 
+    .letter-rq-left {
+        width: 300px;
+    }
+
+    .letter-rq-right {
+        width: 300px;
+        text-align: right;
+    }
+
+    .recipientName {
+        text-align: center
+    }
+
     .letter-text {
         margin-top: 30px;
     }
@@ -47,9 +60,9 @@
     <div class="letter-text">
         @if ($letterData['recipientCase'] !== null)
             <div class="letter-title-wrapper">
-                <h2>
+                <p class='text-normal bold recipientName'>
                     {{ $letterData['recipientName'] }}
-                </h2>
+                </p>
             </div>
         @endif
 

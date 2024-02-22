@@ -72,15 +72,6 @@
 
         }
 
-        /* letter */
-        .letter-rq-left {
-            width: 300px;
-        }
-
-        .letter-rq-right {
-            width: 300px;
-            text-align: right;
-        }
     </style>
 </head>
 
