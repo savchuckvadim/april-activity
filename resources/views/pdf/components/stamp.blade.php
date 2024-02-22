@@ -5,18 +5,31 @@
         text-align: center;
     }
 
-    .signature-container img {
-        display: block;
-        margin: 0 auto;
-        /* Выравнивание изображений по центру */
+    .signature-container {
+        text-align: center;
+        /* Выравнивание содержимого по центру */
     }
 
-    .text-cell,
-    .signature-container {
+    .signature-container img {
+        display: block;
+        /* Изображения отображаются как блочные элементы */
+        margin: 0 auto;
+        /* Отступы автоматические, для выравнивания по центру */
+        padding-bottom: 10px;
+        /* Небольшой отступ снизу для подписи */
+    }
+
+    /* Если нужно, чтобы печать была больше по размеру */
+    .signature-container img.stamp {
+        height: 120px;
+        /* Пример увеличения размера печати */
+    }
+
+    .text-cell {
+        width: 300px;
         vertical-align: middle;
-        /* Выравнивание содержимого ячеек по вертикали */
-        padding: 15px;
-        /* Отступы вокруг содержимого */
+        /* Выравнивание текста по вертикали в середине */
+        font-weight: bold;
     }
 </style>
 
