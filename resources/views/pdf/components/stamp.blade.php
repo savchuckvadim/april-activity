@@ -2,23 +2,21 @@
     .table-container {
         margin-top: 100px;
         width: 100%;
-        text-align: center;
-        border-collapse: collapse;
-        border: none;
+        text-align: left;
+
     }
 
     .signature-container {
+        position: relative;
         text-align: center;
         /* Выравнивание содержимого по центру */
     }
 
     .signature-container img {
-        display: block;
-        /* Изображения отображаются как блочные элементы */
-        margin: 0 auto;
-        /* Отступы автоматические, для выравнивания по центру */
-        padding-bottom: 10px;
-        /* Небольшой отступ снизу для подписи */
+        position: absolute;
+        left: 50%;
+        /* Центрируем изображение по горизонтали */
+        transform: translateX(-50%);
     }
 
     /* Если нужно, чтобы печать была больше по размеру */
@@ -32,6 +30,13 @@
         vertical-align: middle;
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
+    }
+
+    .table-container,
+    .table-container tr,
+    .table-container td,
+    .table-container th {
+        border: none;
     }
 </style>
 
