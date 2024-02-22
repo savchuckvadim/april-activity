@@ -498,7 +498,11 @@ class PDFDocumentController extends Controller
 
                 if ($cell['code'] === 'measure' && $cell['value']) {
                     if ($cell['isActive']) {
-
+                        foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+                            if ($contractCell['code'] === 'contract') {
+                                $measureString = $contractCell['value']['measureFullName'];
+                            }
+                        }
                         $measureString = $cell['value'];
                     }
                 }
