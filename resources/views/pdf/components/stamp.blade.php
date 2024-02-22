@@ -36,6 +36,20 @@
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
     }
+
+    .signature-container img.signature {
+        z-index: 2;
+        /* Подпись будет над печатью */
+        top: 50px;
+        /* Смещение от верха контейнера */
+    }
+
+    .signature-container img.stamp {
+        z-index: 1;
+        /* Печать будет под подписью */
+        top: 150px;
+        /* Смещение от верха контейнера */
+    }
 </style>
 
 <table class="table-container">
