@@ -503,7 +503,7 @@ class PDFDocumentController extends Controller
                                 $measureString = $contractCell['value']['measureFullName'];
                             }
                         }
-                        $measureString = $cell['value'];
+                      
                     }
                 }
             }
