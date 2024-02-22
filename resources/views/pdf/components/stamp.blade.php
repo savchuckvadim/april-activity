@@ -3,6 +3,8 @@
         margin-top: 100px;
         width: 100%;
         text-align: center;
+        border-collapse: collapse;
+        border: none;
     }
 
     .signature-container {
@@ -40,8 +42,8 @@
 
 
         <td class="signature-container">
-            <img src={{ $signature }} alt="Подпись" height="100">
-            <img src={{ $stamp }} alt="Печать" height="100">
+            <img src={{ $signature }} class="signature" alt="Подпись" height="100">
+            <img src={{ $stamp }} class="stamp" alt="Печать" height="100">
         </td>
 
         <td class="text-cell text-normal bold">{{ $director }}</td>
