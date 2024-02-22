@@ -21,7 +21,6 @@ class DocumentController extends Controller
 
         $colors = [
             'general' => '120D21',
-
             'corporate' =>  '005fa8',
             'oficial' => '1A1138',
             'second' =>  '000000',

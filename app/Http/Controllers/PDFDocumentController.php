@@ -68,13 +68,16 @@ class PDFDocumentController extends Controller
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
 
                 $pricesData  =   $this->getPricesData($price);
+                $stampsData  =   $this->getStampsData($providerRq);
+
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
                     'headerData' =>  $headerData,
                     'letterData' => $letterData,
                     'infoblocksData' => $infoblocksData,
-                    'pricesData' => $pricesData
+                    'pricesData' => $pricesData,
+                    'stampsData' => $stampsData,
                 ]);
 
 
@@ -276,12 +279,14 @@ class PDFDocumentController extends Controller
 
 
 
+
+
     protected function getInfoblocksData($infoblocksOptions, $complect)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
         $itemsPerPage = $this->determineItemsPerPage($descriptionMode, $styleMode);
-       
+
         $withPrice = false;
         $pages = [];
         $currentPage = [
@@ -460,6 +465,10 @@ class PDFDocumentController extends Controller
         return  $result;
     }
 
+
+
+
+
     protected function getPricesData($price)
     {
         $isTable = $price['isTable'];
@@ -587,5 +596,40 @@ class PDFDocumentController extends Controller
         }
 
         return $result;
+    }
+
+
+    protected function getStampsData($providerRq)
+    {
+        $stampsData = [
+            'position' => '',
+            'stamp' => '',
+            'signature' => '',
+            'director' => ''
+        ];
+        $stamps = $providerRq['stamps'];
+        $signatures = $providerRq['signatures'];
+
+        if (!empty($stamps)) {
+            $stampsData['stamp'] = $stamps[0]['path'];
+        }
+        if (!empty($signatures)) {
+            $stampsData['signature']  = $signatures[0]['path'];
+        }
+
+
+
+        $stampsData['position'] = $providerRq['position'] . ' ' . $providerRq['fullname'];
+        if ($providerRq['type'] == 'ip') {
+            $stampsData['position'] = $providerRq['fullname'];
+        }
+
+        
+      
+        if ($providerRq['type'] == 'org') {
+            $stampsData['director']  = $providerRq['director'];
+        }
+
+        return $stampsData;
     }
 }
