@@ -17,10 +17,10 @@
     .signature-container img {
         position: absolute;
         left: 50%;
-        top: 50%;
+      
         /* Центрируем изображение по горизонтали */
         transform: translateX(-50%);
-        transform: translateY(-50%);
+    
     }
 
     /* Если нужно, чтобы печать была больше по размеру */
