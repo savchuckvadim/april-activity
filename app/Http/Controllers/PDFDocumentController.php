@@ -483,11 +483,14 @@ class PDFDocumentController extends Controller
         $withTotal = $this->getWithTotal($allPrices);
 
         if ($withTotal) {
-            $foundCells = array_filter($allPrices['total'][0]['cells'], function ($cell) {
-                return $cell['code'] === 'prepaymentsum';
-            });
-            if (!empty($foundCells)) {
-                $totalSum = $foundCells[0]['value'];
+            $foundCell = null;
+            foreach ($price['cells']['total'][0]['cells'] as $cell) {
+              if($cell['code'] === 'prepaymentsum'){
+                $foundCell = $cell;
+              }
+            }
+            if ($foundCell) {
+                $totalSum = $foundCell['value'];
                 $total = $total . '' . $totalSum;
             }
         }
