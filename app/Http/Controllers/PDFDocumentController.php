@@ -11,6 +11,8 @@ use morphos\Cases;
 use morphos\Russian\MoneySpeller;
 use Ramsey\Uuid\Uuid;
 use morphos\Russian\Cases as RussianCases;
+use morphos\Russian\TimeSpeller;
+
 use function morphos\Russian\pluralize;
 
 
@@ -502,7 +504,7 @@ class PDFDocumentController extends Controller
                         $quantityString = '1' . ' месяц';
                     } else {
 
-                        $quantityString = pluralize($cell['value'], 'месяц', false, Cases::NOMINATIVE); // => 10 машин ;
+                        $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH); 
 
                     }
                 }
