@@ -32,12 +32,7 @@
         font-weight: bold;
     }
 
-    .table-container,
-    .table-container tr,
-    .table-container td,
-    .table-container th {
-        border: none;
-    }
+    
 </style>
 
 <table class="table-container">
