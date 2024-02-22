@@ -61,7 +61,7 @@
                     @foreach ($page['groups'] as $group)
                         @if ($group['name'] !== $lastGroupName)
                             <p
-                                class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title color' : 'text-normal color' }}">
+                                class="{{ $descriptionMode !== 0 ? 'text-large infoblock-list-group-title color' : 'text-normal color' }}">
                                 {{ $group['name'] }}
                             </p>
                             @php

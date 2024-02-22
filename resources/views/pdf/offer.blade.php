@@ -58,6 +58,10 @@
             font-size: 11px;
         }
 
+        .text-large{
+            font-size: 13px;
+        }
+
         .color {
             font-weight: bold;
             color: rgb(40, 104, 212);
