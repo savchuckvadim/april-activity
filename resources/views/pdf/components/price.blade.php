@@ -2,29 +2,34 @@
     .prices {
         margin-bottom: 100px;
     }
+
+    .price-cell-first {
+        width: 250px;
+    }
+
+    .price-cell-short {
+        width: 25px;
+    }
+
+    .price-cell,
+    .price-cell-short,
+    .price-cell-head {
+        text-align: center;
+    }
+
+    .price-cell-head {
+        padding: 5px;
+        vertical-align: center;
+    }
+
+    .total {
+        margin-top: 10px;
+        text-align: end;
+    }
 </style>
 
 <div class="prices page-content">
-    <style>
-        .price-cell-first {
-            width: 250px;
-        }
 
-        .price-cell-short {
-            width: 25px;
-        }
-
-        .price-cell,
-        .price-cell-short,
-        .price-cell-head {
-            text-align: center;
-        }
-
-        .price-cell-head {
-            padding: 5px;
-            vertical-align: center;
-        }
-    </style>
     <h3>Цена за комплект</h3>
     @if ($isTable)
 
@@ -127,9 +132,11 @@
         </table>
 
         @if ($withTotal)
-            <p class="text-large">
-                {{ $total }}
-            </p>
+            <div class='total'>
+                <p class="text-large">
+                    {{ $total }}
+                </p>
+            </div>
         @endif
     @endif
 </div>
