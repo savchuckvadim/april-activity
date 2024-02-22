@@ -29,7 +29,7 @@
 
     .text-cell {
         width: 300px;
-        height: 300px;
+        height: 130px;
         vertical-align: middle;
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
