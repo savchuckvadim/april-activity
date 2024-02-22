@@ -149,10 +149,10 @@ class PDFDocumentController extends Controller
         if (!$isTwoLogo) {
             $rq = $providerRq['fullname'];
             if ($providerRq['inn']) {
-                $rq = $rq . ', ИНН: ' . $providerRq['inn'] . ', ';
+                $rq = $rq . ', ИНН: ' . $providerRq['inn'];
             }
             if ($providerRq['kpp']) {
-                $rq = $rq . ', КПП: ' . $providerRq['kpp'] . ', ';
+                $rq = $rq . ', КПП: ' . $providerRq['kpp'];
             }
 
             $rq = $rq . ', ' . $providerRq['primaryAdresss'];
