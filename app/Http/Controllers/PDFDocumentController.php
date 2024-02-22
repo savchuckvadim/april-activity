@@ -492,6 +492,12 @@ class PDFDocumentController extends Controller
         $quantityMeasureString = '';
         $quantityString = '';
         $measureString = '';
+        $contract = null;
+        foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+            if ($contractCell['code'] === 'contract') {
+                $contract = $contractCell['value'];
+            }
+        }
         if ($withTotal) {
             $foundCell = null;
             foreach ($price['cells']['total'][0]['cells'] as $cell) {
@@ -500,12 +506,11 @@ class PDFDocumentController extends Controller
                 }
 
                 if ($cell['code'] === 'quantity' && $cell['value']) {
-                    if ($cell['value'] == 1) {
-                        $quantityString = '1' . ' месяц';
+                    if ($contract['shortName'] !== 'internet' || $contract['shortName'] !== 'proxima') {
+                        $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
                     } else {
 
-                        $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH); 
-
+                        $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH);
                     }
                 }
 
