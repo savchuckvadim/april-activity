@@ -43,8 +43,11 @@
     <div class="infoblocks-wrapper">
 
         @if ($styleMode == 'list')
-            @foreach ($pages as $page)
+            @foreach ($pages as $index => $page)
                 <div class="page-content">
+                    @if ($index == 0)
+                        <h3>Информационное наполнение</h3>
+                    @endif
                     @foreach ($page['groups'] as $group)
                         <p class="text-normal infoblock-list-group-title bold">{{ $group['name'] }}</p>
                         @foreach ($group['items'] as $infoblock)
