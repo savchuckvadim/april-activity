@@ -486,7 +486,7 @@ class PDFDocumentController extends Controller
             $foundCells = array_filter($allPrices['total'][0]['cells'], function ($cell) {
                 return $cell['code'] === 'prepaymentsum';
             });
-            if ($foundCells) {
+            if (!empty($foundCells)) {
                 $totalSum = $foundCells[0]['value'];
                 $total = $total . '' . $totalSum;
             }
