@@ -36,7 +36,9 @@
             text-align: left
         }
 
-   
+        .infoblock-list-group-title {
+            text-align: center
+        }
     </style>
     <div class="infoblocks-wrapper">
 
@@ -47,7 +49,7 @@
                         <h3>Информационное наполнение</h3>
                     @endif
                     @foreach ($page['groups'] as $group)
-                        <p class="text-normal  bold">{{ $group['name'] }}</p>
+                        <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title bold' : 'text-normal color' }}">{{ $group['name'] }}</p>
                         @foreach ($group['items'] as $infoblock)
                             <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
@@ -55,11 +57,11 @@
 
                             @if ($descriptionMode === 1)
                                 <p class="text-normal small">
-                                    {{ $infoblock['shortDescription'] }}
+                                    {{ $currentInfoblock['shortDescription'] }}
                                 </p>
                             @elseif ($descriptionMode === 2 || $descriptionMode === 3)
                                 <p class="text-normal small">
-                                    {{ $infoblock['descriptionForSale'] }}
+                                    {{ $currentInfoblock['descriptionForSale'] }}
                                 </p>
                             @endif
                         @endforeach
