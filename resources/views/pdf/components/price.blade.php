@@ -14,6 +14,11 @@
             width: 25px;
         }
 
+        .price-cell,
+        .price-cell-short,
+        .price-cell-head {
+            text-align: center;
+        }
 
         .price-cell-head {
             padding: 5px;
