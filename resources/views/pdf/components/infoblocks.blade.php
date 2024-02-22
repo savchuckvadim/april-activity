@@ -158,7 +158,9 @@
                                 <tr>
                                     <td class="infoblocks-column-big-title">
                                         <div
-                                            class="{{ $descriptionMode !== 0 ? 'text-large infoblock-list-group-title bold' : 'text-normal infoblock-table-big-single' }}">
+                                            class="{{ $descriptionMode === 0 
+                                            ? 'text-large infoblock-list-group-title bold' 
+                                            : 'text-large infoblock-list-group-title color' }}">
                                             {{ $group['name'] }}
                                         </div>
                                     </td>
