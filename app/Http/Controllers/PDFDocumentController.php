@@ -483,6 +483,8 @@ class PDFDocumentController extends Controller
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($allPrices);
         $quantityMeasureString = '';
+        $quantityString = '';
+        $measureString = '';
         if ($withTotal) {
             $foundCell = null;
             foreach ($price['cells']['total'][0]['cells'] as $cell) {
@@ -491,16 +493,20 @@ class PDFDocumentController extends Controller
                 }
 
                 if ($cell['code'] === 'quantity' && $cell['value']) {
-                    $quantityMeasureString = $cell['value'];
+                    $quantityString = $cell['value'];
                 }
 
                 if ($cell['code'] === 'measure' && $cell['value']) {
                     if ($cell['isActive']) {
 
-                        $quantityMeasureString = $quantityMeasureString . '' . $cell['value'];
+                        $measureString = $cell['value'];
                     }
                 }
             }
+
+            $quantityMeasureString = ' за ' .  $quantityString . ' ' . $measureString;
+
+
             if ($foundCell) {
                 $totalSum = $foundCell['value'];
                 $total = $total . ': ' . $totalSum;
@@ -518,7 +524,7 @@ class PDFDocumentController extends Controller
             $text = ' (' . $firstChar . $restOfText . ') без НДС';
             $textTotalSum = $text;
 
-            $fullTotalstring = $total . ' ' . $textTotalSum . ' за ' . $quantityMeasureString;
+            $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
         }
 
         return [
