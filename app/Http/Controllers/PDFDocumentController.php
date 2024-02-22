@@ -597,12 +597,7 @@ class PDFDocumentController extends Controller
 
         return $result;
     }
-    // .table-container,
-    // .table-container tr,
-    // .table-container td,
-    // .table-container th {
-    //     border: none;
-    // }
+ 
 
     protected function getStampsData($providerRq)
     {

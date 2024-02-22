@@ -3,16 +3,13 @@
         margin-top: 100px;
         width: 100%;
         text-align: left;
-
     }
-
 
 
     .signature-container {
         position: relative;
         text-align: center;
-        
-        }
+    }
 
 
     .signature-container img {
@@ -26,7 +23,7 @@
     /* Если нужно, чтобы печать была больше по размеру */
     .signature-container img.stamp {
         height: 120px;
- 
+
     }
 
     .text-cell {
@@ -49,6 +46,13 @@
         /* Печать будет под подписью */
         top: 5px;
         /* Смещение от верха контейнера */
+    }
+
+    .table-container,
+    .table-container tr,
+    .table-container td,
+    .table-container th {
+        border: none;
     }
 </style>
 
