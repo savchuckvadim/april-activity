@@ -182,7 +182,7 @@
                                     <td class="infoblock-table-big-single">
 
                                         <div
-                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal infoblock-table-big-single' }}">
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
 
@@ -194,7 +194,7 @@
                                     @if ($descriptionMode === 1)
                                         <tr>
                                             <td class="infoblocks-column-big">
-                                                <div class="text-small">{{ $item['shortDescription'] }}</div>
+                                                <div class="text-normal">{{ $item['shortDescription'] }}</div>
                                             </td>
 
                                         </tr>
