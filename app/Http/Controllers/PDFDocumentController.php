@@ -473,8 +473,8 @@ class PDFDocumentController extends Controller
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
-
-        //SORT CELLS
+        $total = 'ИТОГО';
+        $totalSum = 0;        //SORT CELLS
         $sortActivePrices = $this->getSortActivePrices($comePrices);
         $allPrices =  $sortActivePrices;
 
@@ -482,11 +482,20 @@ class PDFDocumentController extends Controller
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($allPrices);
 
+        if ($withTotal) {
+            $foundCells = array_filter($allPrices['total'][0]['cells'], function ($cell) {
+                return $cell['code'] === 'sum';
+            });
+            $totalSum = $foundCells['value'];
+
+            $total = $total . '' . $totalSum;
+        }
 
         return [
             'isTable' => $isTable,
             'allPrices' => $allPrices,
-            'withTotal' => $withTotal
+            'withTotal' => $withTotal,
+            'total' => $total
 
         ];
     }
@@ -597,7 +606,7 @@ class PDFDocumentController extends Controller
 
         return $result;
     }
- 
+
 
     protected function getStampsData($providerRq)
     {

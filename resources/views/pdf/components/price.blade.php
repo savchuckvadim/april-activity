@@ -126,5 +126,10 @@
             @endforeach
         </table>
 
+        @if ($withTotal)
+            <p class="text-lrge bold">
+                {{ $total }}
+            </p>
+        @endif
     @endif
 </div>
