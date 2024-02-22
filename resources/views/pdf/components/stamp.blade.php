@@ -27,7 +27,7 @@
     }
 
     .text-cell {
-        width: 300px;
+        width: 250px;
         height: 130px;
         vertical-align: middle;
         /* Выравнивание текста по вертикали в середине */
@@ -42,6 +42,7 @@
     }
 
     .signature-container img.stamp {
+        width: 100px;
         z-index: 1;
         /* Печать будет под подписью */
         top: 5px;
