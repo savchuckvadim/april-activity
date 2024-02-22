@@ -37,6 +37,8 @@
         }
 
         .infoblock-list-group-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
             text-align: center
         }
     </style>
@@ -46,10 +48,12 @@
             @foreach ($pages as $index => $page)
                 <div class="page-content">
                     @if ($index == 0)
-                        <h3 >Информационное наполнение</h3>
+                        <h3>Информационное наполнение</h3>
                     @endif
                     @foreach ($page['groups'] as $group)
-                        <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title color' : 'text-normal color' }}">{{ $group['name'] }}</p>
+                        <p
+                            class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title color' : 'text-normal color' }}">
+                            {{ $group['name'] }}</p>
                         @foreach ($group['items'] as $infoblock)
                             <p class="{{ $descriptionMode !== 0 ? 'text-normal bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
