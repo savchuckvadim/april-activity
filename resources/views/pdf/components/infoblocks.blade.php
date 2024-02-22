@@ -46,7 +46,7 @@
             @foreach ($pages as $index => $page)
                 <div class="page-content">
                     @if ($index == 0)
-                        <h3>Информационное наполнение</h3>
+                        <h3 >Информационное наполнение</h3>
                     @endif
                     @foreach ($page['groups'] as $group)
                         <p class="{{ $descriptionMode !== 0 ? 'text-normal infoblock-list-group-title color' : 'text-normal color' }}">{{ $group['name'] }}</p>
