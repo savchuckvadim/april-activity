@@ -111,7 +111,7 @@
                                 @foreach ($page['items'] as $index => $item)
                                     @if ($index < count($page['items']) / 2)
                                         <div
-                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            class="{{ $descriptionMode !== 0 ? 'text-normal infoblock--title color' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
                                         @if ($descriptionMode === 1)
