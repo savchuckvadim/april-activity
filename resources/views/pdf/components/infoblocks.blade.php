@@ -42,6 +42,11 @@
             text-align: center
         }
 
+        .infoblock-big-group-title {
+            margin: 3px;
+            text-align: center
+        }
+
         .infoblock--title {
             margin-top: 5px;
             margin-bottom: 5px;
@@ -158,9 +163,9 @@
                                 <tr>
                                     <td class="infoblocks-column-big-title">
                                         <div
-                                            class="{{ $descriptionMode === 0 
-                                            ? 'text-large infoblock-list-group-title bold' 
-                                            : 'text-large infoblock-list-group-title color' }}">
+                                            class="{{ $descriptionMode === 0
+                                                ? 'text-large infoblock-big-group-title bold'
+                                                : 'text-large infoblock-big-group-title color' }}">
                                             {{ $group['name'] }}
                                         </div>
                                     </td>
