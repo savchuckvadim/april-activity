@@ -4,7 +4,7 @@
     }
 
     .price-row, .price-cell {
-        height: 200px;
+        height: 50px;
     }
 
     .price-cell-first {
@@ -19,12 +19,12 @@
     .price-cell-short,
     .price-cell-head {
         text-align: center;
-        vertical-align: center;
+        vertical-align: middle;
     }
 
     .price-cell-head {
         padding: 5px;
-        vertical-align: center;
+        vertical-align: middle;
     }
 
     .total-area {
