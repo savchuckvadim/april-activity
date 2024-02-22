@@ -31,6 +31,10 @@
 
 
         }
+
+        .infoblock-table-big-single {
+            text-align: left
+        }
     </style>
     <div class="infoblocks-wrapper">
 
@@ -125,7 +129,7 @@
                                     <td class="infoblocks-column-big-title">
 
                                         <div
-                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal' }}">
+                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal infoblock-table-big-single' }}">
                                             {{ $item['name'] }}
                                         </div>
 
