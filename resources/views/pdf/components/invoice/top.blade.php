@@ -33,7 +33,7 @@
                     </tr>
                 </table>
             </td>
-            <td style="vertical-align: center; height: 10mm; width: 25mm;">
+            <td style="vertical-align: center; height:5mm; width: 25mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
@@ -42,7 +42,7 @@
                     </tr>
                 </table>
             </td>
-            <td rowspan="2" style="vertical-align: top;  height: 20mm; width: 60mm;">
+            <td rowspan="2" style="vertical-align: top;  height: 5mm; width: 60mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
