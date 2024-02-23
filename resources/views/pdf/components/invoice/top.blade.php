@@ -49,7 +49,8 @@
                     <tr class="innertable">
                         <td class="innertable">
                             <p class="text-large">
-                                044030555</p>
+                                {{ $bik }}
+                            </p>
                         </td>
                     </tr>
                     <tr class="innertable">
