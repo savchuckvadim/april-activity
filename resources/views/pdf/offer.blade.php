@@ -75,7 +75,7 @@
 
         .red {
             font-weight: bold;
-            color: rgb(204, 54, 58);
+            color: rgb(193, 34, 39);
         }
 
         .bold {
@@ -84,7 +84,7 @@
         }
 
         .italic {
-            font-style: italic
+            font-style: italic;
         }
     </style>
 </head>
