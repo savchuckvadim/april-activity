@@ -66,7 +66,7 @@
 
         .color {
             font-weight: bold;
-            color: rgb(40, 104, 212);
+            color: rgb(48, 115, 230);
             /* color: rgb(58, 102, 172);  garant */
 
 
@@ -80,7 +80,7 @@
 
         .red {
             font-weight: bold;
-            color: rgb(226, 21, 28);
+            color: rgb(204, 21, 27);
         }
 
         .bold {
