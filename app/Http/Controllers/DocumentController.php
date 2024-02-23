@@ -604,10 +604,6 @@ class DocumentController extends Controller
 
                     // Затем удаляем нежелательные символы в конце строки, если они не являются цифрами
                     $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
-                    // preg_replace('/\W+$/u', '', $step1);
-
-
-
 
 
                     //Data

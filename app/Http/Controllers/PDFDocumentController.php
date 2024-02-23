@@ -79,6 +79,11 @@ class PDFDocumentController extends Controller
                 //document number
                 $documentNumber = CounterController::getCount($templateId);
 
+
+
+                //invoice
+                $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
+
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $footerData  = $this->getFooterData($manager);
@@ -87,7 +92,7 @@ class PDFDocumentController extends Controller
 
                 $pricesData  =   $this->getPricesData($price);
                 $stampsData  =   $this->getStampsData($providerRq);
-
+                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $stampsData, $pricesData);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
@@ -294,21 +299,25 @@ class PDFDocumentController extends Controller
     }
     protected function getLetterData($documentNumber, $fields, $recipient)
     {
+        $date = $this->getToday();
         $letterData = [
             'documentNumber' => null,
+
             'companyName' => null,
             'inn' => null,
             'positionCase' => null,
             'recipientCase' => null,
             'recipientName' => null,
-            'text' => null
+            'text' => null,
+
         ];
+
 
 
 
         if ($documentNumber) {
 
-            $letterData['documentNumber'] = 'Исх. № ' . $documentNumber;
+            $letterData['documentNumber'] = 'Исх. № ' . $documentNumber . ' от ' . $date;
         }
 
 
@@ -802,5 +811,57 @@ class PDFDocumentController extends Controller
         }
 
         return $stampsData;
+    }
+
+
+    protected function getInvoiceData(
+        $invoiceBaseNumber,
+        $providerRq,
+        $recipient,
+        $stampsData,
+        $pricesData
+    ) {
+      
+        $date = $this->getToday();
+        $invoiceNumber = 'Счет на оплату N ' . $invoiceBaseNumber . ' от '.  $date;
+        $invoiceData = [
+            'stampsData' => $stampsData,
+            'rq' => $providerRq,
+            'pricesData' => $pricesData,
+
+            'recipient' => $recipient,
+            'number' => $invoiceNumber,
+         
+            'pricesData' => $pricesData,
+
+        ];
+
+        return $invoiceData;
+    }
+
+    protected function getToday()
+    {
+        $months = [
+            1 => 'января',
+            2 => 'февраля',
+            3 => 'марта',
+            4 => 'апреля',
+            5 => 'мая',
+            6 => 'июня',
+            7 => 'июля',
+            8 => 'августа',
+            9 => 'сентября',
+            10 => 'октября',
+            11 => 'ноября',
+            12 => 'декабря'
+        ];
+
+        // Получаем текущую дату
+        $currentDate = getdate();
+
+        // Форматируем дату
+        $formattedDate = $currentDate['mday'] . ' ' . $months[$currentDate['mon']] . ' ' . $currentDate['year'];
+
+        return $formattedDate;
     }
 }
