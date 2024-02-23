@@ -73,8 +73,8 @@
         }
 
         .shadow {
-            font-weight: bold;
-            color: rgba(40, 103, 212, 0.36);
+            /* font-weight: bold; */
+            color: rgba(40, 103, 212, 0.656);
 
         }
 
