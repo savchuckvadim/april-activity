@@ -669,33 +669,7 @@ class PDFDocumentController extends Controller
         return $isHaveLongPrepayment;
     }
 
-    protected function getTotalPriceRow(
-        $allPrices,
-        $table,
-        $styles,
-        $contentWidth,
-        $isHaveLongPrepayment,
-        $numCells
-    ) {
-        $total = $allPrices['total'];
 
-        if ($total) {
-            if (is_array($total) && !empty($total)) {
-
-                $product = $total[0];
-                if ($product) {
-                    if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])) {
-                        $table->addRow();
-                        foreach ($product['cells'] as $cell) {
-
-                            $this->getPriceCell(false, true, $table, $styles, $cell, $contentWidth, $isHaveLongPrepayment, $numCells);
-                        }
-                    }
-                }
-            }
-        }
-        return $table;
-    }
     protected function getWithTotal(
         $allPrices,
 
@@ -704,9 +678,31 @@ class PDFDocumentController extends Controller
         $result = false;
         $alternative =  $allPrices['alternative'];
         $general =  $allPrices['general'];
+
+
+
         if (is_array($alternative) && is_array($general)) {
-            if (empty($alternative) && count($general) > 1) {
-                $result = true;
+
+            if (empty($alternative)) { // если нет товаров для сравнения
+
+
+                if (count($general) > 1) {  //если больше одного основного товара
+                    $result = true;
+                }
+
+                foreach ($general[0]['cells'] as $key => $cell) {
+                    if ($cell['code'] === 'quantity') {            //если есть количество
+                        if ($cell['value'] > 1) {
+                            $result = true;
+                        }
+                    }
+
+                    if ($cell['code'] === 'contact') {              //если какой-нибудь навороченный контракт
+                        if ($cell['value']['shortName'] !== 'internet' && $cell['value']['shortName'] !== 'proxima') {
+                            $result = true;
+                        }
+                    }
+                }
             }
         }
 
