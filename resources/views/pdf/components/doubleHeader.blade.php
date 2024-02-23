@@ -6,10 +6,13 @@
         /* height: 50px; */
         display: table;
     }
-    .double-rq-wrapper, .double-rq-right{
+
+    .double-rq-left,
+    .double-rq-right {
         display: table-cell;
     }
-    .double-rq-wrapper {
+
+    .double-rq-left {
         margin: 0px;
         padding: 0px;
         width: 300px;
@@ -25,16 +28,12 @@
 
 <div class="header-double">
     <div class="rowItem">
-        <div class="double-rq-wrapper">
+        <div class="double-rq-left">
             <p class="text-small">
                 {{ $doubleHeaderData['first'] }}
             </p>
         </div>
-
-    </div>
-
-    <div style="display: table-cell;"></div>
-    <div class="rowItem">
+        <div style="display: table-cell;"></div>
         <div class="double-rq-right">
             <p class="text-small">
                 {{ $doubleHeaderData['second'] }}
