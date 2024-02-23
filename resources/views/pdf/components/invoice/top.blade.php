@@ -21,7 +21,7 @@
 <div class="invoice-top">
     <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%;" cellpadding="2" cellspacing="2">
         <tr style="">
-            <td colspan="2" rowspan="2" style="min-height:35mm; width: 105mm;">
+            <td colspan="2" rowspan="2" style="height:35mm; width: 105mm;">
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
@@ -54,7 +54,7 @@
                     </tr>
                     <tr class="innertable">
                         <td class="innertable cellBottom" style="height: 20px;">
-                            <p class="text-large" style="margin-top: 18px; line-height: 15mm; vertical-align: middle;">
+                            <p class="text-large" style="margin-top: 25px; line-height: 15mm; vertical-align: middle;">
                                 30101810000000000555
                             </p>
                         </td>
