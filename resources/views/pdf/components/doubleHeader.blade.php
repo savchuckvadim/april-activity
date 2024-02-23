@@ -1,11 +1,7 @@
 <style>
     .header-double {
-        margin-top: 50px;
+        margin-top: 70px;
         width: 100%;
-        /* position: fixed; */
-        /* top: 0px;
-            left: 0px;
-            right: 0px; */
         height: 50px;
         display: table;
     }
