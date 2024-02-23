@@ -103,6 +103,7 @@ class PDFDocumentController extends Controller
                     'infoblocksData' => $infoblocksData,
                     'pricesData' => $pricesData,
                     'stampsData' => $stampsData,
+                    'invoiceData' => $invoiceData,
                 ]);
 
 
@@ -825,9 +826,8 @@ class PDFDocumentController extends Controller
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату N ' . $invoiceBaseNumber . ' от '.  $date;
         $invoiceData = [
-            'stampsData' => $stampsData,
+            // 'stampsData' => $stampsData,
             'rq' => $providerRq,
-            'pricesData' => $pricesData,
 
             'recipient' => $recipient,
             'number' => $invoiceNumber,
