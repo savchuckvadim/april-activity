@@ -578,7 +578,7 @@ class PDFDocumentController extends Controller
 
             if ($foundCell) {
                 $totalSum = $foundCell['value'];
-                $total = $total . ': ' . $totalSum;
+                $total =  $totalSum;
             }
 
             $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
