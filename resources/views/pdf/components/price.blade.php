@@ -147,6 +147,7 @@
 
         @if ($withTotal)
             <div class='total-area'>
+                <p class="text large bold total">Итого: </p>
                 <p class="text-large total">
                     {{ $total }}
                 </p>

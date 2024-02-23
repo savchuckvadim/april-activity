@@ -527,7 +527,7 @@ class PDFDocumentController extends Controller
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
-        $total = 'ИТОГО';
+        $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
         $sortActivePrices = $this->getSortActivePrices($comePrices);
