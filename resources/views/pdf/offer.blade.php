@@ -28,7 +28,7 @@
             /* white-space: nowrap; */
         }
 
-      
+
 
         .page-content {
             margin-top: 80px;
@@ -66,13 +66,18 @@
 
         .color {
             font-weight: bold;
-            /* color: rgb(40, 104, 212);  bitrix*/
+            color: rgb(40, 104, 212);
             /* color: rgb(58, 102, 172);  garant */
-            /* april */
-            color: rgb(35, 144, 213);
+
 
         }
+        .shadow {
+            font-weight: bold;
+            color: rgba(40, 103, 212, 0.587);
+            /* color: rgb(58, 102, 172);  garant */
 
+
+        }
         .red {
             font-weight: bold;
             color: rgb(193, 34, 39);

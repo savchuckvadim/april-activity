@@ -8,8 +8,8 @@
     }
 </style>
 <footer>
-    <p class="text-small color">{{ $managerPosition }}</p>
-    <p class="text-small color">{{ $name }}</p>
-    <p class="text-small color">{{ $email }}</p>
-    <p class="text-small color">{{ $phone }}</p>
+    <p class="text-small shadow">{{ $managerPosition }}</p>
+    <p class="text-small shadow">{{ $name }}</p>
+    <p class="text-small shadow">{{ $email }}</p>
+    <p class="text-small shadow">{{ $phone }}</p>
 </footer>
