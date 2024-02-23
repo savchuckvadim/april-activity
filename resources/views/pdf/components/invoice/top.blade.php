@@ -44,7 +44,7 @@
                     </tr>
                 </table>
             </td>
-            <td rowspan="2" style="vertical-align: top;  height: 40px; width: 60mm;">
+            <td rowspan="2" style="vertical-align: top;  height: 30px; width: 60mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
@@ -53,8 +53,8 @@
                         </td>
                     </tr>
                     <tr class="innertable">
-                        <td class="innertable cellBottom" style="height: 30px;">
-                            <p class="text-large" style="margin-top: 25px; line-height: 15mm; vertical-align: middle;">
+                        <td class="innertable cellBottom" style="height: 20px;">
+                            <p class="text-large" style="margin-top: 18px; line-height: 15mm; vertical-align: middle;">
                                 30101810000000000555
                             </p>
                         </td>
