@@ -1,27 +1,28 @@
-<header>
-    <style>
-        .header-double {
-            width: 100%;
-            position: fixed;
-            top: 0px;
+<style>
+    .header-double {
+        margin-top: 50px;
+        width: 100%;
+        /* position: fixed; */
+        /* top: 0px;
             left: 0px;
-            right: 0px;
-            height: 50px;
-            display: table;
-        }
+            right: 0px; */
+        height: 50px;
+        display: table;
+    }
 
-        .rq-wrapper {
-            margin: 0px;
-            padding: 0px;
-            width: 340px;
-        }
+    .rq-wrapper {
+        margin: 0px;
+        padding: 0px;
+        width: 340px;
+    }
 
-        .logo {
-            width: 150px;
-            height: auto;
-        }
-    </style>
+    .logo {
+        width: 150px;
+        height: auto;
+    }
+</style>
 
+<div class="header-double">
     <div class="rowItem">
         <div class="rq-wrapper">
             <p class="text-small">
@@ -39,8 +40,4 @@
             </p>
         </div>
     </div>
-
-
-
-
-</header>
+</div>
