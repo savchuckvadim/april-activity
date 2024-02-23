@@ -44,8 +44,14 @@ class PDFDocumentController extends Controller
                     'style' => $data['infoblocks']['style']['current']['code'],
                 ];
                 $complect = $data['complect'];
+                $complectName = $data['price']['total'][0]['name'];
+               
+                foreach ($data['price']['total'][0]['cells'] as $cell) {
 
-
+                    if ($cell['code'] === 'name') {
+                        $complectName = $cell['value'];
+                    }
+                }
                 //price
                 $price = $data['price'];
 
@@ -74,7 +80,7 @@ class PDFDocumentController extends Controller
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $footerData  = $this->getFooterData($manager);
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
-                $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
+                $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName);
 
                 $pricesData  =   $this->getPricesData($price);
                 $stampsData  =   $this->getStampsData($providerRq);
@@ -383,7 +389,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getInfoblocksData($infoblocksOptions, $complect)
+    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
@@ -448,7 +454,8 @@ class PDFDocumentController extends Controller
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
-            'withPrice' => $withPrice
+            'withPrice' => $withPrice,
+            'complectName' => $complectName
 
         ];
     }

@@ -105,13 +105,13 @@
 
                                             @case('quantity')
                                                 @php
-                                                    $classname = $classname . ' price-cell-short';
+                                                    $classname = 'price-cell price-cell-short';
                                                 @endphp
                                             @break
 
                                             @case('measure')
                                                 @php
-                                                    $classname = $classname . ' price-cell-short';
+                                                    $classname = 'price-cell price-cell-short';
                                                 @endphp
                                             @break
 

@@ -1,58 +1,60 @@
+<style>
+    .infoblocks-wrapper,
+
+
+    h3 {
+        margin-bottom: 10px
+    }
+
+    .infoblocks-column {
+        width: 50%
+    }
+
+    .infoblocks-column-big-title {
+        text-align: center;
+    }
+
+    table {
+        vertical-align: top;
+        margin: 0px;
+        width: 100%;
+        border-collapse: collapse;
+        /* Убирает двойные бордеры между ячейками */
+    }
+
+    th,
+    td {
+        vertical-align: top;
+        border: 1px solid black;
+        padding: 3px;
+
+
+    }
+
+    .infoblock-table-big-single {
+        text-align: left
+    }
+
+    .infoblock-list-group-title {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        text-align: center
+    }
+
+    .infoblock-big-group-title {
+
+        text-align: center
+    }
+
+    .infoblock--title {
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+    }
+</style>
+
 <div class="infoblocks">
-    <style>
-        .infoblocks-wrapper,
 
-
-        h3 {
-            margin-bottom: 10px
-        }
-
-        .infoblocks-column {
-            width: 50%
-        }
-
-        .infoblocks-column-big-title {
-            text-align: center;
-        }
-
-        table {
-            vertical-align: top;
-            margin: 0px;
-            width: 100%;
-            border-collapse: collapse;
-            /* Убирает двойные бордеры между ячейками */
-        }
-
-        th,
-        td {
-            vertical-align: top;
-            border: 1px solid black;
-            padding: 3px;
-
-
-        }
-
-        .infoblock-table-big-single {
-            text-align: left
-        }
-
-        .infoblock-list-group-title {
-            margin-top: 20px;
-            margin-bottom: 5px;
-            text-align: center
-        }
-
-        .infoblock-big-group-title {
-
-            text-align: center
-        }
-
-        .infoblock--title {
-            margin-top: 5px;
-            margin-bottom: 5px;
-
-        }
-    </style>
     <div class="infoblocks-wrapper">
         @php
             $lastGroupName = null;
@@ -61,7 +63,7 @@
             @foreach ($pages as $index => $page)
                 <div class="page-content">
                     @if ($index == 0)
-                        <h3>Информационное наполнение</h3>
+                        <h3>Информационное наполнение {{ $complectName }}</h3>
                     @endif
                     @foreach ($page['groups'] as $group)
                         @if ($group['name'] !== $lastGroupName)
@@ -106,7 +108,7 @@
             @foreach ($pages as $index => $page)
                 <div class="page-content">
                     @if ($index == 0)
-                        <h3>Информационное наполнение</h3>
+                        <h3>Информационное наполнение {{ $complectName }}</h3>
                     @endif
 
                     <table>
@@ -155,7 +157,7 @@
             @foreach ($pages as $index => $page)
                 <div class="page-content">
                     @if ($index == 0)
-                        <h3>Информационное наполнение</h3>
+                        <h3>Информационное наполнение {{ $complectName }}</h3>
                     @endif
                     <table>
                         @foreach ($page['groups'] as $group)
