@@ -72,6 +72,7 @@ class PDFDocumentController extends Controller
 
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
+                $footerData  = $this->getFooterData($manager);
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
 
@@ -83,6 +84,7 @@ class PDFDocumentController extends Controller
                 $pdf = Pdf::loadView('pdf.offer', [
                     'headerData' =>  $headerData,
                     'doubleHeaderData' =>  $doubleHeaderData,
+                    'footerData' =>  $footerData,
                     'letterData' => $letterData,
                     'infoblocksData' => $infoblocksData,
                     'pricesData' => $pricesData,
@@ -234,7 +236,51 @@ class PDFDocumentController extends Controller
 
         return $headerData;
     }
+    protected function getFooterData($manager)
+    {
+        $footerData = [
+            'managerPosition' => '',
+            'name' => '',
+            'email' => '',
+            'phone' => '',
 
+        ];
+        $managerPosition = 'Ваш персональный менеджер';
+
+        if (isset($manager['WORK_POSITION'])) {
+            if ($manager['WORK_POSITION']) {
+                $managerPosition = $manager['WORK_POSITION'];
+            }
+        }
+        $managerName = $manager['NAME'];
+        $managerLastName = $manager['LAST_NAME'];
+        $name =  $managerName . ' ' . $managerLastName;
+
+        $managerEmail = $manager['EMAIL'];
+        $email = null;
+        if ($managerEmail) {
+            $email = 'e-mail: ' . $managerEmail;
+        }
+
+        $workPhone = $manager['WORK_PHONE'];
+        $mobilePhone = $manager['PERSONAL_MOBILE'];
+        $phone = $workPhone;
+        if (!$phone) {
+            $phone = $mobilePhone;
+        }
+        if ($phone) {
+            $phone = 'телелефон: ' . $phone;
+        }
+        $footerData = [
+            'managerPosition' =>  $managerPosition,
+            'name' =>  $name,
+            'email' =>  $email,
+            'phone' =>  $managerPosition,
+
+        ];
+
+        return $footerData;
+    }
     protected function getLetterData($documentNumber, $fields, $recipient)
     {
         $letterData = [
