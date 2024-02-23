@@ -71,7 +71,6 @@
             font-weight: bold;
 
         }
-
     </style>
 </head>
 
@@ -79,16 +78,18 @@
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
     @if ($headerData['isTwoLogo'])
-    @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
-    @endcomponent
-
+        @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
+        @endcomponent
     @endif
+
+
     <footer>
         Это футер документа.
     </footer>
 
     <main>
-        <div class="letter page-content">
+        <div class={{ !$headerData['isTwoLogo'] ? 'letter page-content' : 'letter' }}>
+
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
             <div class="stamp">
