@@ -704,7 +704,7 @@ class PDFDocumentController extends Controller
                                     usort($filtredCells, function ($a, $b) {
                                         return $a['order'] - $b['order'];
                                     });
-                                    $result[$key][$index]['cells']  = $filtredCells;
+                                    
                                 } else {
                                     $filtredCells = [];
                                     foreach ($product['cells'] as $key => $cell) {
@@ -728,7 +728,7 @@ class PDFDocumentController extends Controller
                                         }
 
                                         if($searchingCell){
-                                            array_push($filtredCells, $cell);
+                                            array_push($filtredCells, $searchingCell);
 
                                         }
                                         
@@ -737,6 +737,7 @@ class PDFDocumentController extends Controller
                                     //     return $prc['isActive'] == true || $prc['code'] == 'measure';
                                     // });
                                 }
+                                $result[$key][$index]['cells']  = $filtredCells;
                             }
                         }
                     }
