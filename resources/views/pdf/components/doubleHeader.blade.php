@@ -10,7 +10,7 @@
     .rq-wrapper {
         margin: 0px;
         padding: 0px;
-        width: 270px;
+        width: 300px;
     }
 
     .logo {
