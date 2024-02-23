@@ -19,7 +19,6 @@
             width: 1%;
             /* white-space: nowrap; */
         }
-
         .cellItem {
             margin: 0px;
             padding: 0px;
@@ -27,7 +26,6 @@
             width: 1%;
             /* white-space: nowrap; */
         }
-
         footer {
             position: fixed;
             bottom: 0px;
@@ -74,15 +72,19 @@
             font-weight: bold;
             color: rgb(40, 104, 212);
         }
-
+        .red {
+            font-weight: bold;
+            color: rgb(202, 27, 68);
+        }
         .bold {
             font-weight: bold;
 
         }
-
         .italic {
             font-style: italic
+
         }
+        
     </style>
 </head>
 

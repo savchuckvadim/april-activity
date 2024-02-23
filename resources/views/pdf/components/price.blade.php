@@ -164,7 +164,7 @@
                         @endphp
 
                         {{-- Замена \n на <br> и обертывание каждой части в span --}}
-                        {!! $inHighlight ? '<span class="color text-normal">' : '<span class="text-normal">' !!}
+                        {!! $inHighlight ? '<span class="red text-normal">' : '<span class="text-normal">' !!}
                         {!! nl2br(e($part)) !!}
                         </span>
 
