@@ -825,7 +825,7 @@ class PDFDocumentController extends Controller
     ) {
 
         $date = $this->getToday();
-        $invoiceNumber = 'Счет на оплату N ' . $invoiceBaseNumber . ' от ' .  $date;
+        $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
         $invoiceData = [
             // 'stampsData' => $stampsData,
             'rq' => $providerRq,
