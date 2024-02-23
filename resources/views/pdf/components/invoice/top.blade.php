@@ -27,7 +27,7 @@
                     </tr>
                 </table>
             </td>
-            <td style="align:middle;height:auto; width: 25mm;">
+            <td style="align:center; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
