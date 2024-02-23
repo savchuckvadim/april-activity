@@ -1,8 +1,9 @@
 <style>
     .header-double {
         margin-top: 60px;
+        margin-bottom: 0px;
         width: 100%;
-        height: 50px;
+        /* height: 50px; */
         display: table;
     }
 
