@@ -573,7 +573,7 @@ class PDFDocumentController extends Controller
                 }
             }
 
-            $quantityMeasureString = ' за ' . '<color>' . $quantityString . '</color>' . ' ' . $measureString;
+            $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>' . ' ' . $measureString;
 
 
             if ($foundCell) {

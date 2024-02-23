@@ -33,12 +33,12 @@
     .total-area {
         margin-top: 15px;
         width: 100%;
-        text-align: end;
+        text-align: right;
     }
 
     .total {
 
-        text-align: end;
+        text-align: right;
     }
 </style>
 
