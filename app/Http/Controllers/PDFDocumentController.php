@@ -709,6 +709,8 @@ class PDFDocumentController extends Controller
                                     $filtredCells = [];
                                     foreach ($product['cells'] as $cell) {
                                         $searchingCell = null;
+
+                                        
                                         if ($cell['code'] === 'current') {
                                             $searchingCell = $cell;
                                         }
