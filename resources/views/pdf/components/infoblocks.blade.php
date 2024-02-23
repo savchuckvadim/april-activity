@@ -1,10 +1,9 @@
 <style>
     .infoblocks-wrapper,
-
-
-    h3 {
-        margin-bottom: 10px
+    h3, .info-complectName {
+        margin-bottom: 12px
     }
+
 
     .infoblocks-column {
         width: 50%
@@ -160,7 +159,7 @@
                 <div class="page-content">
                     @if ($index == 0)
                         <h3>Информационное наполнение </h3>
-                        <p class="text-normal info-complectName color">{{ $complectName }}</p>
+                        <p class="text-large info-complectName bold">{{ $complectName }}</p>
                     @endif
                     <table>
                         @foreach ($page['groups'] as $group)
