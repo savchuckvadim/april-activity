@@ -72,8 +72,11 @@
 
         .color {
             font-weight: bold;
-            /* color: rgb(40, 104, 212); */
-            color: rgb(58, 102, 172);
+            /* color: rgb(40, 104, 212);  bitrix*/
+            /* color: rgb(58, 102, 172);  garant */
+            /* april */
+            color:rgb(69,193,238); 
+            
         }
 
         .red {
