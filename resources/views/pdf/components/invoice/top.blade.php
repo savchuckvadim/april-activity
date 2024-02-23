@@ -21,11 +21,14 @@
 <div class="invoice-top">
     <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%;" cellpadding="2" cellspacing="2">
         <tr style="">
-            <td colspan="2" rowspan="2" style="height:35mm; width: 105mm;">
+            <td colspan="2" rowspan="2" style="min-height:45mm; width: 105mm;">
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
-                            <p class="text-normal bold">СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</p>
+                            <p class="text-normal bold">
+                                {{ $bank }}
+                                <br>{{ $bankAdress }}
+                            </p>
                         </td>
                     </tr>
                     <tr class="innertable" style="min-height:23mm;">
@@ -49,14 +52,13 @@
                     <tr class="innertable">
                         <td class="innertable">
                             <p class="text-large">
-                                {{ $bik }}
-                            </p>
+                                {{ $bik }}</p>
                         </td>
                     </tr>
                     <tr class="innertable">
-                        <td class="innertable cellBottom" style="height: 20px;">
+                        <td class="innertable cellBottom" style="height: 30px;">
                             <p class="text-large" style="margin-top: 25px; line-height: 15mm; vertical-align: middle;">
-                                30101810000000000555
+                                {{ $ks }}
                             </p>
                         </td>
                     </tr>
@@ -78,10 +80,10 @@
         </tr>
         <tr>
             <td style="min-height:6mm; height:auto; width: 50mm;">
-                <p class="text-large">ИНН </p>
+                <p class="text-large">ИНН {{ $inn }}</p>
             </td>
             <td style="min-height:6mm; height:auto; width: 55mm;">
-                <p class="text-large">КПП </p>
+                <p class="text-large">КПП {{ $kpp }} </p>
             </td>
             <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 25mm;">
                 <table class="innertable">
@@ -97,7 +99,7 @@
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large">40702810306000008712</p>
+                            <p class="text-large">{{ $rs }}</p>
                         </td>
                     </tr>
                 </table>
@@ -110,7 +112,7 @@
                 <table class="innertable" cellpadding="0" cellspacing="0" style="height: 23mm; width: 105mm;">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
-                            <p class="text-large">ООО ""</p>
+                            <p class="text-large">{{ $fullname }}</p>
                         </td>
                     </tr>
                     <tr class="innertable">
