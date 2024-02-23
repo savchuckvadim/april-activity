@@ -54,7 +54,7 @@ class PDFDocumentController extends Controller
                 }
 
 
-                
+
                 //price
                 $price = $data['price'];
 
@@ -631,7 +631,7 @@ class PDFDocumentController extends Controller
                 }
             }
 
-            $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>' . ' ' . $measureString;
+            $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>';
 
 
             if ($foundCell) {
