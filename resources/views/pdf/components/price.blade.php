@@ -1,6 +1,6 @@
 <style>
     .prices {
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
 
     .price-row,
