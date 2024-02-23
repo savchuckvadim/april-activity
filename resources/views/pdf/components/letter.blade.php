@@ -1,6 +1,6 @@
 <style>
     .letter {
-        margin-top: 7px;
+        margin-top: 12px;
         margin-bottom: 20px;
         vertical-align: top;
     }
