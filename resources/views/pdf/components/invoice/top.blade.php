@@ -30,11 +30,11 @@
                     </tr>
                 </table>
             </td>
-            <td style="vertical-align: middle;  width: 25mm;">
+            <td style="vertical-align: middle; height: 2mm; width: 25mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large">БИK</p>
+                            <p class="text-large ">БИK</p>
                         </td>
                     </tr>
                 </table>
