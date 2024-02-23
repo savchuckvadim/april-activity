@@ -14,11 +14,12 @@
     }
 
     .recipientName {
+        margin-bottom: 5px;
         text-align: center
     }
 
     .letter-text {
-        margin-top: 30px;
+        margin-top: 20px;
     }
 </style>
 
@@ -65,7 +66,7 @@
         @if ($letterData['recipientCase'] !== null)
             <div class="letter-title-wrapper">
                 <p class='text-large bold recipientName'>
-                    {{ $letterData['recipientName'] }}
+                    {{ $letterData['recipientName'] }} !
                 </p>
             </div>
         @endif
