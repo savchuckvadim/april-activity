@@ -73,7 +73,7 @@
         }
 
         .shadow {
-            font-weight: bold;
+            /* font-weight: bold; */
             color: rgb(224, 222, 218);
 
         }
