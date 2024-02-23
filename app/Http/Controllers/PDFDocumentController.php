@@ -44,14 +44,17 @@ class PDFDocumentController extends Controller
                     'style' => $data['infoblocks']['style']['current']['code'],
                 ];
                 $complect = $data['complect'];
-                $complectName = $data['price']['total'][0]['name'];
-               
+                $complectName = '';
+
                 foreach ($data['price']['cells']['total'][0]['cells'] as $cell) {
 
                     if ($cell['code'] === 'name') {
                         $complectName = $cell['value'];
                     }
                 }
+
+
+                
                 //price
                 $price = $data['price'];
 
