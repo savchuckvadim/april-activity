@@ -134,7 +134,7 @@ class PDFDocumentController extends Controller
                 // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
 
                 return APIController::getSuccess([
-                    // 'price' => $price,
+                    'pricesData' => $pricesData,
                     'link' => $link,
                     // 'documentNumber' => $documentNumber,
                     // 'counter' => $counter,
