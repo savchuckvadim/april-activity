@@ -90,9 +90,9 @@ class PDFDocumentController extends Controller
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName);
 
-                $pricesData  =   $this->getPricesData($price);
+                $pricesData  =   $this->getPricesData($price, false);
                 $stampsData  =   $this->getStampsData($providerRq);
-                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $stampsData, $pricesData);
+                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
@@ -591,14 +591,14 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getPricesData($price)
+    protected function getPricesData($price, $isInvoice = null)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
-        $sortActivePrices = $this->getSortActivePrices($comePrices);
+        $sortActivePrices = $this->getSortActivePrices($comePrices, $isInvoice);
         $allPrices =  $sortActivePrices;
 
 
@@ -667,6 +667,7 @@ class PDFDocumentController extends Controller
 
         return [
             'isTable' => $isTable,
+            'isInvoice' => $isInvoice,
             'allPrices' => $allPrices,
             'withTotal' => $withTotal,
             'total' => $fullTotalstring
@@ -675,7 +676,7 @@ class PDFDocumentController extends Controller
     }
 
 
-    protected function getSortActivePrices($allPrices)
+    protected function getSortActivePrices($allPrices,  $isInvoice)
     {
 
         $result = [
@@ -693,24 +694,49 @@ class PDFDocumentController extends Controller
 
                         if ($product) {
 
-
                             if (
-
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
+                                if (!$isInvoice) {
+                                    $filtredCells = array_filter($product['cells'], function ($prc) {
+                                        return $prc['isActive'] == true;
+                                    });
+                                    usort($filtredCells, function ($a, $b) {
+                                        return $a['order'] - $b['order'];
+                                    });
+                                    $result[$key][$index]['cells']  = $filtredCells;
+                                } else {
+                                    $filtredCells = [];
+                                    foreach ($product['cells'] as $key => $cell) {
+                                        $searchingCell = null;
+                                        if ($cell['code'] === 'current') {
+                                            $searchingCell = $cell;
+                                        }
+                                        if ($cell['code'] === 'quantity') {
+                                            $cell['name'] = 'Кол-во';
+                                            if (preg_match('/\d+/', (string)$cell['value'], $matches)) {
+                                                $cell['value'] = $matches[0];
+                                            }
+                                            $searchingCell = $cell;
+                                        }
+                                        if ($cell['code'] === 'measure') {
+                                            $searchingCell = $cell;
+                                        }
+                                        if ($cell['code'] === 'prepaymentsum') {
+                                            $cell['name'] = 'Сумма';
+                                            $searchingCell = $cell;
+                                        }
 
-                                //TODO for invoice - measure
-                                // $filtredCells = array_filter($product['cells'], function ($prc) {
-                                //     return $prc['isActive'] == true || $prc['code'] == 'measure';
-                                // });
+                                        if($searchingCell){
+                                            array_push($filtredCells, $cell);
 
-                                $filtredCells = array_filter($product['cells'], function ($prc) {
-                                    return $prc['isActive'] == true;
-                                });
-                                usort($filtredCells, function ($a, $b) {
-                                    return $a['order'] - $b['order'];
-                                });
-                                $result[$key][$index]['cells']  = $filtredCells;
+                                        }
+                                        
+                                    }
+                                    // $filtredCells = array_filter($product['cells'], function ($prc) {
+                                    //     return $prc['isActive'] == true || $prc['code'] == 'measure';
+                                    // });
+                                }
                             }
                         }
                     }
@@ -820,10 +846,10 @@ class PDFDocumentController extends Controller
         $invoiceBaseNumber,
         $providerRq,
         $recipient,
-        $stampsData,
-        $pricesData
-    ) {
+        $price,
 
+    ) {
+        $pricesData  =   $this->getPricesData($price, true);
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
         $invoiceData = [
