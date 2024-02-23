@@ -7,21 +7,23 @@
         display: table;
     }
 
-    .rq-wrapper {
+    .double-rq-wrapper {
         margin: 0px;
         padding: 0px;
         width: 300px;
     }
 
     .double-rq-right {
-        
+        margin: 0px;
+        padding: 0px;
+        width: 400px;
         text-align: end
     }
 </style>
 
 <div class="header-double">
     <div class="rowItem">
-        <div class="rq-wrapper">
+        <div class="double-rq-wrapper">
             <p class="text-small">
                 {{ $doubleHeaderData['first'] }}
             </p>
@@ -31,7 +33,7 @@
 
     <div style="display: table-cell;"></div>
     <div class="rowItem">
-        <div class="rq-wrapper double-rq-right">
+        <div class="double-rq-right">
             <p class="text-small">
                 {{ $doubleHeaderData['second'] }}
             </p>
