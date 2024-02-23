@@ -6,6 +6,7 @@
 
     .innertable {
         margin: 1px;
+        padding: 0;
         vertical-align: middle;
         border-collapse: collapse;
         border: 0px;
