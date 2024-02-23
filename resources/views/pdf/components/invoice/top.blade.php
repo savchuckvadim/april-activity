@@ -27,13 +27,25 @@
                     </tr>
                 </table>
             </td>
-            <td style="align:middle; min-height:7mm;height:auto; width: 25mm;">
+            <td class="innertable" style="align:middle; min-height:7mm;height:auto; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
-                <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
-                <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;"></p>
-                <p class="text-large">30101810000000000555</p>
+                <table class="innertable">
+                    <tr class="innertable">
+                        <td class="innertable">
+                            <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">
+                                044030555</p>
+                        </td>
+                    </tr>
+                    <tr class="innertable">
+                        <td class="innertable">
+                            <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">
+                                30101810000000000555</p>
+                        </td>
+                    </tr>
+                </table>
+
             </td>
         </tr>
         <tr>
