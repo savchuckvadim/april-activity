@@ -2,6 +2,7 @@
     table {
         vertical-align: top;
         margin: 0px;
+        padding: 0px;
         width: 100%;
         border-collapse: collapse;
         /* Убирает двойные бордеры между ячейками */
@@ -11,7 +12,7 @@
     td {
         vertical-align: top;
         border: 1px solid black;
-        padding: 3px;
+        /* padding: 3px; */
 
 
     }
@@ -22,7 +23,7 @@
 </style>
 
 <div class="invoice-top">
-    <table width="100%" border="2" style="border-collapse: collapse; width: 100%; font-family: Arial;" cellpadding="2" cellspacing="2">
+    <table width="100%" border="2" style="border-collapse: collapse; width: 100%; " cellpadding="2" cellspacing="2">
         <tr style="">
             <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 13mm;">
