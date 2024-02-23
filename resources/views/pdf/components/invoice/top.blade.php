@@ -32,18 +32,10 @@
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large" style="height: 7mm; line-height: 7mm; vertical-align: middle;">
-                                БИK</p>
-                        </td>
-                    </tr>
-                    <tr class="innertable">
-                        <td class="innertable">
-                            <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">
-                                Сч. №</p>
+                            <p class="text-large">БИK</p>
                         </td>
                     </tr>
                 </table>
-                
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
                 <table class="innertable">
@@ -63,11 +55,11 @@
 
             </td>
         </tr>
-        {{-- <tr>
+        <tr>
             <td style="width: 25mm;">
                 <p class="text-large">Сч. №</p>
             </td>
-        </tr> --}}
+        </tr>
         <tr>
             <td style="min-height:6mm; height:auto; width: 50mm;">
                 <p class="text-large">ИНН </p>
