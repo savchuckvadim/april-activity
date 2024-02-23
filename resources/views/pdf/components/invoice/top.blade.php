@@ -28,30 +28,30 @@
                 </table>
             </td>
             <td style="min-height:7mm;height:auto; width: 25mm;">
-                <p class="text-normal">БИK</p>
+                <p class="text-large">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
-                <p class="text-normal" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
-                <p class="text-normal">30101810000000000555</p>
+                <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
+                <p class="text-large">30101810000000000555</p>
             </td>
         </tr>
         <tr>
             <td style="width: 25mm;">
-                <p class="text-normal">Сч. №</p>
+                <p class="text-large">Сч. №</p>
             </td>
         </tr>
         <tr>
             <td style="min-height:6mm; height:auto; width: 50mm;">
-                <p class="text-normal">ИНН </p>
+                <p class="text-large">ИНН </p>
             </td>
             <td style="min-height:6mm; height:auto; width: 55mm;">
-                <p class="text-normal">КПП </p>
+                <p class="text-large">КПП </p>
             </td>
             <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 25mm;">
-                <p class="text-normal">Сч. №</p>
+                <p class="text-large">Сч. №</p>
             </td>
             <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 60mm;">
-                <p class="text-normal">40702810306000008712</p>
+                <p class="text-large">40702810306000008712</p>
             </td>
         </tr>
         <tr>
@@ -60,12 +60,12 @@
                 <table class="innertable" cellpadding="0" cellspacing="0" style="height: 23mm; width: 105mm;">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
-                            <div>ООО ""</div>
+                            <p class="text-large">ООО ""</p>
                         </td>
                     </tr>
                     <tr class="innertable">
                         <td class="innertable" valign="bottom" style="height: 3mm;">
-                            <div style="font-size: 10pt;">Получатель</div>
+                            <p class="text-large">Получатель</p>
                         </td>
                     </tr>
                 </table>
