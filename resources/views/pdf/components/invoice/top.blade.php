@@ -11,8 +11,7 @@
 </style>
 
 <div class="invoice-top">
-    <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%; " cellpadding="2"
-        cellspacing="2">
+    <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%;" cellpadding="2" cellspacing="2">
         <tr style="">
             <td colspan="2" rowspan="2" style="min-height:23mm; width: 105mm;">
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
@@ -21,38 +20,38 @@
                             <p class="text-normal bold">СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</p>
                         </td>
                     </tr>
-                    <tr class="innertable">
+                    <tr class="innertable" style="min-height:23mm;">
                         <td class="innertable" valign="bottom" style="height: 3mm;">
-                            <p class="text-small">Банк получателя</p>
+                            <p class="text-normal">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
             </td>
             <td style="min-height:7mm;height:auto; width: 25mm;">
-                <p class="text-small">БИK</p>
+                <p class="text-normal">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
-                <p class="text-small" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
-                <p class="text-small">30101810000000000555</p>
+                <p class="text-normal" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
+                <p class="text-normal">30101810000000000555</p>
             </td>
         </tr>
         <tr>
             <td style="width: 25mm;">
-                <div>Сч. №</div>
+                <p class="text-normal">Сч. №</p>
             </td>
         </tr>
         <tr>
             <td style="min-height:6mm; height:auto; width: 50mm;">
-                <p class="text-small">ИНН </p>
+                <p class="text-normal">ИНН </p>
             </td>
             <td style="min-height:6mm; height:auto; width: 55mm;">
-                <p class="text-small">КПП </p>
+                <p class="text-normal">КПП </p>
             </td>
             <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 25mm;">
-                <p class="text-small">Сч. №</p>
+                <p class="text-normal">Сч. №</p>
             </td>
             <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 60mm;">
-                <p class="text-small">40702810306000008712</p>
+                <p class="text-normal">40702810306000008712</p>
             </td>
         </tr>
         <tr>
