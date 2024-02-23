@@ -1,5 +1,6 @@
 <style>
     .innertable {
+        border-collapse: collapse;
         border: 0px;
     }
 </style>
@@ -9,14 +10,14 @@
         <tr style="">
             <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
-                    <tr border="0">
-                        <td border="0" valign="top">
+                    <tr class="innertable">
+                        <td class="innertable" valign="top">
                             <div>СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</div>
                         </td>
                     </tr>
-                    <tr border="0">
-                        <td border="0" valign="bottom" style="height: 3mm;">
-                            <div style="font-size:10pt;">Банк получателя</div>
+                    <tr class="innertable">
+                        <td class="innertable" valign="bottom" style="height: 3mm;">
+                            <div >Банк получателя</div>
                         </td>
                     </tr>
                 </table>
