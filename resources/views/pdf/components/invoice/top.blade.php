@@ -32,6 +32,7 @@
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
                 <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044030555</p>
+                <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;"></p>
                 <p class="text-large">30101810000000000555</p>
             </td>
         </tr>
