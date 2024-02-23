@@ -535,7 +535,7 @@ class PDFDocumentController extends Controller
 
 
         //IS WITH TOTAL 
-        $withTotal = $this->getWithTotal($allPrices);
+        $withTotal = $this->getWithTotal($comePrices);
         $quantityMeasureString = '';
         $quantityString = '';
         $measureString = '';
