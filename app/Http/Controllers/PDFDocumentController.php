@@ -276,7 +276,7 @@ class PDFDocumentController extends Controller
                 'managerPosition' =>  $managerPosition,
                 'name' =>  $name,
                 'email' =>  $email,
-                'phone' =>  $managerPosition,
+                'phone' =>  $phone,
 
             ];
         }
