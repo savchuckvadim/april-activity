@@ -135,14 +135,14 @@
 
 
         <div class="page-break"></div>
-        <div class="invoice page-content">
-            @component('pdf.components.invoice.invoice', $invoiceData)
+
+        @component('pdf.components.invoice.invoice', $invoiceData)
+        @endcomponent
+        <div class="stamp">
+            @component('pdf.components.stamp', $stampsData)
             @endcomponent
-            <div class="stamp">
-                @component('pdf.components.stamp', $stampsData)
-                @endcomponent
-            </div>
         </div>
+
 
     </main>
 </body>
