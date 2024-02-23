@@ -530,9 +530,9 @@ class PDFDocumentController extends Controller
                 }
             } else {
 
-                if ($lastPageItemsCount < 3) {
-                    $isWithPrice = true;
-                }
+                // if ($lastPageItemsCount < 3) {
+                //     $isWithPrice = true;
+                // }
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {

@@ -133,6 +133,8 @@
             </div>
         </div>
 
+
+        <div class="page-break"></div>
         <div class="invoice page-content">
             @component('pdf.components.invoice.invoice', $invoiceData)
             @endcomponent
