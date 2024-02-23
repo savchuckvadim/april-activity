@@ -13,9 +13,9 @@
         width: 300px;
     }
 
-    .logo {
-        width: 150px;
-        height: auto;
+    .double-rq-right {
+        
+        text-align: end
     }
 </style>
 
@@ -31,7 +31,7 @@
 
     <div style="display: table-cell;"></div>
     <div class="rowItem">
-        <div class="rq-wrapper">
+        <div class="rq-wrapper double-rq-right">
             <p class="text-small">
                 {{ $doubleHeaderData['second'] }}
             </p>
