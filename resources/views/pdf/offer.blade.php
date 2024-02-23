@@ -88,7 +88,7 @@
     </footer>
 
     <main>
-        <div class="{{ $headerData['isTwoLogo'] ? 'letter' : 'letter page-content' }}">
+        <div class="{{ !$headerData['isTwoLogo'] ? 'letter page-content' : 'letter' }}">
 
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
