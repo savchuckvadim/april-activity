@@ -1,19 +1,19 @@
 <style>
-   
+
 </style>
 
 <div class="invoice-top">
     <table width="100%" border="2" style="border-collapse: collapse; width: 100%; " cellpadding="2" cellspacing="2">
         <tr style="">
             <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
-                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 13mm;">
-                    <tr>
-                        <td valign="top">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                    <tr border="0">
+                        <td border="0" valign="top">
                             <div>СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td valign="bottom" style="height: 3mm;">
+                    <tr border="0">
+                        <td border="0" valign="bottom" style="height: 3mm;">
                             <div style="font-size:10pt;">Банк получателя</div>
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td colspan="2" style="min-height:13mm; height:auto;">
-    
+
                 <table border="0" cellpadding="0" cellspacing="0" style="height: 13mm; width: 105mm;">
                     <tr>
                         <td valign="top">
@@ -61,7 +61,7 @@
                         </td>
                     </tr>
                 </table>
-    
+
             </td>
         </tr>
     </table>
