@@ -44,7 +44,7 @@
                     </tr>
                 </table>
             </td>
-            <td rowspan="2" style="vertical-align: top;  height: 40px; width: 60mm;">
+            <td rowspan="2" style="vertical-align: top;  height: 20px; width: 60mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
