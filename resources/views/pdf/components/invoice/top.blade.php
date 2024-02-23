@@ -37,7 +37,7 @@
                     </tr>
                 </table>
             </td>
-            <td rowspan="2" style="vertical-align: top;  height: 7mm; width: 60mm;">
+            <td rowspan="2" style="vertical-align: top;  height: 4mm; width: 60mm;">
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
@@ -47,7 +47,7 @@
                     </tr>
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large" style=" height: 12mm; line-height: 7mm; vertical-align: middle;">
+                            <p class="text-large" style="line-height: 3mm; vertical-align: middle;">
                                 30101810000000000555</p>
                         </td>
                     </tr>
