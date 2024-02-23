@@ -80,7 +80,7 @@
 
         .red {
             font-weight: bold;
-            color: rgb(193, 34, 39);
+            color: rgb(204, 54, 58);
         }
 
         .bold {
