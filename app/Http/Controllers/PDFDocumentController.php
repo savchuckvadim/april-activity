@@ -219,12 +219,13 @@ class PDFDocumentController extends Controller
 
         if ($providerRq['phone']) {
             $phone = $providerRq['phone'];
+            $second = $phone;
         }
 
         if ($providerRq['email']) {
-            $email = 'e-mail:' . $providerRq['email'];
+            $email = 'e-mail: ' . $providerRq['email'];
         }
-        $second = $phone . ' ' . $email;
+        $second = $second . ' ' . $email;
         $headerData = [
             'first' => $first,
             'second' => $second,
