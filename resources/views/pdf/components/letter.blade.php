@@ -1,6 +1,6 @@
 <style>
     .letter {
-        /* margin-top: 30px; */
+        margin-top: 10px;
     }
 
     .letter-rq-left {
