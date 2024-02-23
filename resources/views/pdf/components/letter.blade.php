@@ -74,21 +74,22 @@
         <div class="letter-text-wrapper">
             @php
                 $letterText = $letterData['text'];
+                // Заменяем строковые литералы "\n" на реальные символы переноса строки
+                $letterText = str_replace("\\n", "\n", $letterText);
                 $parts = preg_split('/<color>|<\/color>/', $letterText);
                 $inHighlight = false;
             @endphp
-
+        
             @foreach ($parts as $index => $part)
                 @php
                     $isLastPart = $index === count($parts) - 1;
                 @endphp
-
+        
                 {{-- Замена \n на <br> и обертывание каждой части в span --}}
                 {!! $inHighlight ? '<span class="color text-normal">' : '<span class="text-normal">' !!}
                 {!! nl2br(e($part)) !!}
                 </span>
-
-                {{-- Переключаем флаг выделения для следующей итерации --}}
+        
                 @if (!$isLastPart)
                     @php $inHighlight = !$inHighlight @endphp
                 @endif
