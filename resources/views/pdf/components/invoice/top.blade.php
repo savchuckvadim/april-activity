@@ -32,7 +32,7 @@
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large" style="height: 7mm; line-height: 7mm; vertical-align: middle;">БИK</p>
+                            <p class="text-large">БИK</p>
                         </td>
                     </tr>
                 </table>
@@ -41,7 +41,7 @@
                 <table class="innertable">
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large" style="height: 7mm; line-height: 7mm; vertical-align: middle;">
+                            <p class="text-large">
                                 044030555</p>
                         </td>
                     </tr>
