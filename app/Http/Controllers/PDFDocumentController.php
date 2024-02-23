@@ -697,9 +697,11 @@ class PDFDocumentController extends Controller
                         }
                     }
 
-                    if ($cell['code'] === 'contact') {              //если какой-нибудь навороченный контракт
-                        if ($cell['value']['shortName'] !== 'internet' && $cell['value']['shortName'] !== 'proxima') {
-                            $result = true;
+                    if ($cell['code'] === 'contract') {              //если какой-нибудь навороченный контракт
+                        if (isset($cell['value']) && isset($cell['value']['shortName'])) {
+                            if ($cell['value']['shortName'] !== 'internet' && $cell['value']['shortName'] !== 'proxima') {
+                                $result = true;
+                            }
                         }
                     }
                 }
