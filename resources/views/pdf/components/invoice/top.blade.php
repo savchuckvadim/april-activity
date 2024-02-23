@@ -47,7 +47,7 @@
                     </tr>
                     <tr class="innertable">
                         <td class="innertable">
-                            <p class="text-large" style=" height: 7mm; line-height: 7mm; vertical-align: middle;">
+                            <p class="text-large">
                                 30101810000000000555</p>
                         </td>
                     </tr>
