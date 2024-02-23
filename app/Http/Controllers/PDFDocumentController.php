@@ -518,12 +518,12 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $isWithPrice = true;
             } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 11) {
+                if ($lastPageItemsCount < 8) {
                     $isWithPrice = true;
                 }
             } else {
 
-                if ($lastPageItemsCount < 7) {
+                if ($lastPageItemsCount < 6) {
                     $isWithPrice = true;
                 }
             }
