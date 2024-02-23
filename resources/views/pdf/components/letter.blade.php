@@ -1,6 +1,7 @@
 <style>
     .letter {
         margin-top: 1px;
+        vertical-align: top;
     }
 
     .letter-rq-left {
