@@ -11,6 +11,9 @@
         border-collapse: collapse;
         border: 0px;
     }
+    .cellBottom{
+        vertical-align: bottom;
+    }
 </style>
 
 <div class="invoice-top">
@@ -24,7 +27,7 @@
                         </td>
                     </tr>
                     <tr class="innertable" style="min-height:23mm;">
-                        <td class="innertable" valign="bottom" style="height: 3mm;">
+                        <td class="innertable cellBottom" valign="bottom" style="height: 10mm;">
                             <p class="text-normal">Банк получателя</p>
                         </td>
                     </tr>
