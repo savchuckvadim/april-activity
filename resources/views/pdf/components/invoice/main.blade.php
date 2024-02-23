@@ -1,6 +1,6 @@
 <style>
     .invoice-main {
-        margin-top: 20px;
+        margin-top: 35px;
     }
 
     .invoice-title {
