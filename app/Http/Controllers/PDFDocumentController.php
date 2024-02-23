@@ -46,7 +46,7 @@ class PDFDocumentController extends Controller
                 $complect = $data['complect'];
                 $complectName = $data['price']['total'][0]['name'];
                
-                foreach ($data['price']['total'][0]['cells'] as $cell) {
+                foreach ($data['price']['cells']['total'][0]['cells'] as $cell) {
 
                     if ($cell['code'] === 'name') {
                         $complectName = $cell['value'];
