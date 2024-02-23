@@ -19,6 +19,7 @@
             width: 1%;
             /* white-space: nowrap; */
         }
+
         .cellItem {
             margin: 0px;
             padding: 0px;
@@ -26,6 +27,7 @@
             width: 1%;
             /* white-space: nowrap; */
         }
+
         footer {
             position: fixed;
             bottom: 0px;
@@ -76,6 +78,10 @@
         .bold {
             font-weight: bold;
 
+        }
+
+        .italic {
+            font-style: italic
         }
     </style>
 </head>
