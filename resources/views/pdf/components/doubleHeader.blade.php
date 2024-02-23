@@ -1,6 +1,6 @@
 <style>
     .header-double {
-        margin-top: 70px;
+        margin-top: 60px;
         width: 100%;
         height: 50px;
         display: table;
