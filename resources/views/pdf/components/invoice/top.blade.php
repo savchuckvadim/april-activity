@@ -14,7 +14,7 @@
     <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%; " cellpadding="2"
         cellspacing="2">
         <tr style="">
-            <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
+            <td colspan="2" rowspan="2" style="min-height:23mm; width: 105mm;">
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
