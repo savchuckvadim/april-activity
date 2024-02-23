@@ -51,9 +51,9 @@
                                 044030555</p>
                         </td>
                     </tr>
-                    <tr class="innertable">
+                    <tr class="innertable" style="margin-top: 15px;">
                         <td class="innertable">
-                            <p class="text-large" style="margin-top: 15px; line-height: 15mm; vertical-align: middle;">
+                            <p class="text-large" style="line-height: 15mm; vertical-align: middle;">
                                 30101810000000000555</p>
                         </td>
                     </tr>
