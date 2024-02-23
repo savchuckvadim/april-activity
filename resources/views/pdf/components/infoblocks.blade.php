@@ -64,7 +64,7 @@
                 <div class="page-content">
                     @if ($index == 0)
                         <h3>Информационное наполнение </h3>
-                        <p class="text-normal color">{{ $complectName }}</p>
+                        <p class="text-normal info-complectName color">{{ $complectName }}</p>
                     @endif
                     @foreach ($page['groups'] as $group)
                         @if ($group['name'] !== $lastGroupName)
@@ -110,7 +110,7 @@
                 <div class="page-content">
                     @if ($index == 0)
                         <h3>Информационное наполнение </h3>
-                        <p class="text-normal color">{{ $complectName }}</p>
+                        <p class="text-normal info-complectName color">{{ $complectName }}</p>
                     @endif
 
                     <table>
@@ -160,7 +160,7 @@
                 <div class="page-content">
                     @if ($index == 0)
                         <h3>Информационное наполнение </h3>
-                        <p class="text-normal color">{{ $complectName }}</p>
+                        <p class="text-normal info-complectName color">{{ $complectName }}</p>
                     @endif
                     <table>
                         @foreach ($page['groups'] as $group)

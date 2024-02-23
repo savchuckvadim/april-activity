@@ -64,13 +64,13 @@
 
                         @case('quantity')
                             @php
-                                $classname = 'price-cell-head  price-cell-short';
+                                $classname = 'price-cell-short';
                             @endphp
                         @break
 
                         @case('measure')
                             @php
-                                $classname = 'price-cell-head  price-cell-short';
+                                $classname = 'price-cell-short';
                             @endphp
                         @break
 
@@ -105,13 +105,13 @@
 
                                             @case('quantity')
                                                 @php
-                                                    $classname = 'price-cell price-cell-short';
+                                                    $classname = 'price-cell-short';
                                                 @endphp
                                             @break
 
                                             @case('measure')
                                                 @php
-                                                    $classname = 'price-cell price-cell-short';
+                                                    $classname = 'price-cell-short';
                                                 @endphp
                                             @break
 
@@ -164,7 +164,7 @@
                         @endphp
 
                         {{-- Замена \n на <br> и обертывание каждой части в span --}}
-                        {!! $inHighlight ? '<span class="red text-normal">' : '<span class="text-normal">' !!}
+                        {!! $inHighlight ? '<span class="red text-normal">' : '<span class="text-normal italic">' !!}
                         {!! nl2br(e($part)) !!}
                         </span>
 
