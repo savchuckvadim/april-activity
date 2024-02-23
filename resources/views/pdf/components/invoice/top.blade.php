@@ -27,7 +27,7 @@
                     </tr>
                 </table>
             </td>
-            <td style="min-height:7mm;height:auto; width: 25mm;">
+            <td style="align:middle; min-height:7mm;height:auto; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
@@ -73,7 +73,4 @@
             </td>
         </tr>
     </table>
-
-    <h3>Верхняя таблица</h3>
-
 </div>
