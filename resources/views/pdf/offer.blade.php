@@ -71,14 +71,13 @@
 
 
         }
+
         .shadow {
             font-weight: bold;
-            color: rgb(179, 190, 208);
-            opacity: 0.5;
-            /* color: rgb(58, 102, 172);  garant */
-
+            color: rgb(224, 222, 218);
 
         }
+
         .red {
             font-weight: bold;
             color: rgb(193, 34, 39);
