@@ -5,6 +5,7 @@
     }
 
     .innertable {
+        vertical-align: middle;
         border-collapse: collapse;
         border: 0px;
     }
@@ -27,7 +28,7 @@
                     </tr>
                 </table>
             </td>
-            <td style="align:center; height: 7mm; width: 25mm;">
+            <td style="vertical-align: center; height: 7mm; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
             <td rowspan="2" style="vertical-align: top; width: 60mm;">
