@@ -28,13 +28,7 @@
             /* white-space: nowrap; */
         }
 
-        footer {
-            position: fixed;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-            height: 50px;
-        }
+      
 
         .page-content {
             margin-top: 80px;
@@ -75,8 +69,8 @@
             /* color: rgb(40, 104, 212);  bitrix*/
             /* color: rgb(58, 102, 172);  garant */
             /* april */
-            color:rgb(35, 144, 213); 
-            
+            color: rgb(35, 144, 213);
+
         }
 
         .red {
@@ -98,6 +92,8 @@
 <body>
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
+    @component('pdf.components.footer', $footerData)
+    @endcomponent
     @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
@@ -105,7 +101,10 @@
 
 
     <footer>
-        Это футер документа.
+        <p class="text-small color">{{ $footerData['managerPosition'] }}</p>
+        <p class="text-small color">{{ $footerData['name'] }}</p>
+        <p class="text-small color">{{ $footerData['email'] }}</p>
+        <p class="text-small color">{{ $footerData['phone'] }}</p>
     </footer>
 
     <main>
