@@ -245,39 +245,41 @@ class PDFDocumentController extends Controller
             'phone' => '',
 
         ];
-        $managerPosition = 'Ваш персональный менеджер';
+        if ($manager) {
+            $managerPosition = 'Ваш персональный менеджер';
 
-        if (isset($manager['WORK_POSITION'])) {
-            if ($manager['WORK_POSITION']) {
-                $managerPosition = $manager['WORK_POSITION'];
+            if (isset($manager['WORK_POSITION'])) {
+                if ($manager['WORK_POSITION']) {
+                    $managerPosition = $manager['WORK_POSITION'];
+                }
             }
-        }
-        $managerName = $manager['NAME'];
-        $managerLastName = $manager['LAST_NAME'];
-        $name =  $managerName . ' ' . $managerLastName;
+            $managerName = $manager['NAME'];
+            $managerLastName = $manager['LAST_NAME'];
+            $name =  $managerName . ' ' . $managerLastName;
 
-        $managerEmail = $manager['EMAIL'];
-        $email = null;
-        if ($managerEmail) {
-            $email = 'e-mail: ' . $managerEmail;
-        }
+            $managerEmail = $manager['EMAIL'];
+            $email = null;
+            if ($managerEmail) {
+                $email = 'e-mail: ' . $managerEmail;
+            }
 
-        $workPhone = $manager['WORK_PHONE'];
-        $mobilePhone = $manager['PERSONAL_MOBILE'];
-        $phone = $workPhone;
-        if (!$phone) {
-            $phone = $mobilePhone;
-        }
-        if ($phone) {
-            $phone = 'телелефон: ' . $phone;
-        }
-        $footerData = [
-            'managerPosition' =>  $managerPosition,
-            'name' =>  $name,
-            'email' =>  $email,
-            'phone' =>  $managerPosition,
+            $workPhone = $manager['WORK_PHONE'];
+            $mobilePhone = $manager['PERSONAL_MOBILE'];
+            $phone = $workPhone;
+            if (!$phone) {
+                $phone = $mobilePhone;
+            }
+            if ($phone) {
+                $phone = 'телелефон: ' . $phone;
+            }
+            $footerData = [
+                'managerPosition' =>  $managerPosition,
+                'name' =>  $name,
+                'email' =>  $email,
+                'phone' =>  $managerPosition,
 
-        ];
+            ];
+        }
 
         return $footerData;
     }
