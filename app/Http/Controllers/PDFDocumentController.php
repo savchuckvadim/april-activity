@@ -71,6 +71,7 @@ class PDFDocumentController extends Controller
                 $documentNumber = CounterController::getCount($templateId);
 
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
+                $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect);
 
@@ -81,6 +82,7 @@ class PDFDocumentController extends Controller
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
                     'headerData' =>  $headerData,
+                    'doubleHeaderData' =>  $doubleHeaderData,
                     'letterData' => $letterData,
                     'infoblocksData' => $infoblocksData,
                     'pricesData' => $pricesData,
@@ -187,6 +189,38 @@ class PDFDocumentController extends Controller
         return $headerData;
     }
 
+    protected function getDoubleHeaderData($providerRq)
+    {
+        $headerData = [
+            'first' => '',
+            'second' => '',
+
+        ];
+        $rq = '';
+
+        $first = $providerRq['fullname'];
+        if ($providerRq['inn']) {
+            $first = $first . ', ИНН: ' . $providerRq['inn'];
+        }
+        if ($providerRq['kpp']) {
+            $first = $first . ', КПП: ' . $providerRq['kpp'];
+        }
+        if ($providerRq['primaryAdresss']) {
+            $first = $first . ', ' . $providerRq['primaryAdresss'];
+        }
+        if ($providerRq['rs']) {
+            $first = $first . ', р/c: ' . $providerRq['rs'];
+        }
+
+        $second = $providerRq['primaryAdresss'];
+        $headerData = [
+            'first' => $first,
+            'second' => $second,
+
+        ];
+
+        return $headerData;
+    }
 
     protected function getLetterData($documentNumber, $fields, $recipient)
     {

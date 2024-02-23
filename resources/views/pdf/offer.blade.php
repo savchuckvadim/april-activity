@@ -78,6 +78,11 @@
 <body>
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
+    @if ($headerData['isTwoLogo'])
+    @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
+    @endcomponent
+
+    @endif
     <footer>
         Это футер документа.
     </footer>
