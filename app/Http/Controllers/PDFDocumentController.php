@@ -573,12 +573,12 @@ class PDFDocumentController extends Controller
                 }
             }
 
-            $quantityMeasureString = ' за ' .  $quantityString . ' ' . $measureString;
+            $quantityMeasureString = ' за ' . '<color>' . $quantityString . '/<color>' . ' ' . $measureString;
 
 
             if ($foundCell) {
                 $totalSum = $foundCell['value'];
-                $total =  $totalSum;
+                $total = '<color>' . $totalSum . '/<color>';
             }
 
             $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);

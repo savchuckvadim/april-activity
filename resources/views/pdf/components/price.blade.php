@@ -146,11 +146,32 @@
         </table>
 
         @if ($withTotal)
+            @php
+                $totalText = $total;
+                // Заменяем строковые литералы "\n" на реальные символы переноса строки
+                $totalText = str_replace("\\n", "\n", $totalText);
+                $parts = preg_split('/<color>|<\/color>/', $totalText);
+                $inHighlight = false;
+            @endphp
             <div class='total-area'>
 
                 <p class="text-large total">
                     <span class="bold">Итого: </span> {{ $total }}
                 </p>
+                @foreach ($parts as $index => $part)
+                    @php
+                        $isLastPart = $index === count($parts) - 1;
+                    @endphp
+
+                    {{-- Замена \n на <br> и обертывание каждой части в span --}}
+                    {!! $inHighlight ? '<span class="color text-normal">' : '<span class="text-normal">' !!}
+                    {!! nl2br(e($part)) !!}
+                    </span>
+
+                    @if (!$isLastPart)
+                        @php $inHighlight = !$inHighlight @endphp
+                    @endif
+                @endforeach
             </div>
         @endif
     @endif
