@@ -6,7 +6,9 @@
         /* height: 50px; */
         display: table;
     }
-
+    .double-rq-wrapper, .double-rq-right{
+        display: table-cell;
+    }
     .double-rq-wrapper {
         margin: 0px;
         padding: 0px;
@@ -17,7 +19,7 @@
         margin: 0px;
         padding: 0px;
         width: 400px;
-        text-align: end;
+        text-align: right;
     }
 </style>
 

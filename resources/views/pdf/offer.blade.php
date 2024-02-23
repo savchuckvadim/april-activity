@@ -15,7 +15,7 @@
         .rowItem {
             margin: 0px;
             padding: 0px;
-            display: table-cell;
+            display: table-row;
             width: 1%;
             /* white-space: nowrap; */
         }
