@@ -15,7 +15,7 @@
     <table width="100%" class="outertable" style="border-collapse: collapse; width: 100%;" cellpadding="2" cellspacing="2">
         <tr style="">
             <td colspan="2" rowspan="2" style="min-height:45mm; width: 105mm;">
-                <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
+                <table style="height:23mm;" width="100%" class="innertable" cellpadding="0" cellspacing="0">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
                             <p class="text-normal bold">СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</p>
