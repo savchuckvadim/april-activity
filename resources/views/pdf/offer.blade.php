@@ -73,8 +73,8 @@
         }
 
         .shadow {
-            /* font-weight: bold; */
-            color: rgb(224, 222, 218);
+            font-weight: bold;
+            color: rgba(61, 55, 152, 0.281);
 
         }
 
@@ -103,14 +103,6 @@
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
     @endif
-
-
-    <footer>
-        <p class="text-small color">{{ $footerData['managerPosition'] }}</p>
-        <p class="text-small color">{{ $footerData['name'] }}</p>
-        <p class="text-small color">{{ $footerData['email'] }}</p>
-        <p class="text-small color">{{ $footerData['phone'] }}</p>
-    </footer>
 
     <main>
         <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
