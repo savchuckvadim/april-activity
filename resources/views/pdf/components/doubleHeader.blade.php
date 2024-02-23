@@ -17,7 +17,7 @@
         margin: 0px;
         padding: 0px;
         width: 400px;
-        text-align: end
+        text-align: end;
     }
 </style>
 
