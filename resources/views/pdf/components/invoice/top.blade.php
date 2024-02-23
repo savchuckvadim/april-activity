@@ -12,12 +12,12 @@
                 <table width="100%" class="innertable" cellpadding="0" cellspacing="0">
                     <tr class="innertable">
                         <td class="innertable" valign="top">
-                            <div>СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</div>
+                            <p class="text-normal bold">СТ-ПЕТЕРБУРГСКИЙ филиал ПАО "ПРОМСВЯЗЬБАНК"<br>Г.</p>
                         </td>
                     </tr>
                     <tr class="innertable">
                         <td class="innertable" valign="bottom" style="height: 3mm;">
-                            <div >Банк получателя</div>
+                            <div>Банк получателя</div>
                         </td>
                     </tr>
                 </table>
@@ -52,14 +52,14 @@
         <tr>
             <td colspan="2" style="min-height:13mm; height:auto;">
 
-                <table class="innertable" cellpadding="0" cellspacing="0" style="height: 13mm; width: 105mm;">
-                    <tr>
-                        <td valign="top">
+                <table class="innertable" cellpadding="0" cellspacing="0" style="height: 23mm; width: 105mm;">
+                    <tr class="innertable">
+                        <td class="innertable" valign="top">
                             <div>ООО ""</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td valign="bottom" style="height: 3mm;">
+                    <tr class="innertable">
+                        <td class="innertable" valign="bottom" style="height: 3mm;">
                             <div style="font-size: 10pt;">Получатель</div>
                         </td>
                     </tr>
