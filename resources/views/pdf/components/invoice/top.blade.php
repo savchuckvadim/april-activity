@@ -19,7 +19,7 @@
 
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
-        margin-top: 3px;
+        margin-top: 5px;
         padding-top: 10px;
         
     }
@@ -28,7 +28,7 @@
 <div class="invoice-top">
     <table class="outertable" cellpadding="2" cellspacing="2">
         <tr>
-            <td colspan="2" rowspan="2" style="height:50px; width: 105mm;">
+            <td colspan="2" rowspan="2" style="height:47px; width: 105mm;">
                 <table  width="100%" class="innertable">
                     <tr>
                         <td valign="top">
