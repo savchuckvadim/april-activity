@@ -1,11 +1,13 @@
 <style>
-   .outertable, .qr-table {
+    .outertable,
+    .qr-table {
         border-collapse: collapse;
         width: 100%;
     }
 
     .qr-table {
-        padding-left: 20px; /* Отступ от основной таблицы */
+        padding-left: 20px;
+        /* Отступ от основной таблицы */
     }
 
     .innertable,
@@ -117,8 +119,11 @@
         </td>
         <td>
             <!-- Замените 'src' на путь к вашему QR-коду -->
-            {{-- <img src="path_to_your_qr_code.png" alt="QR Code" style="max-width:100%; height:auto;"> --}}
-            <p class="text-large bold">qr</p>
+            <img 
+            style="background-image: url('{{ asset('imgs/background.jpg') }}');
+             max-width:55px; height:auto;" 
+             src=alt="QR Code">
+            {{-- <p class="text-large bold">qr</p> --}}
         </td>
     </tr>
 </table>
