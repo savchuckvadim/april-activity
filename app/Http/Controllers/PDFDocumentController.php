@@ -710,6 +710,9 @@ class PDFDocumentController extends Controller
                                     foreach ($product['cells'] as $cell) {
                                         $searchingCell = null;
 
+                                        if ($cell['code'] === 'name') {
+                                            $searchingCell = $cell;
+                                        }
                                         
                                         if ($cell['code'] === 'current') {
                                             $searchingCell = $cell;

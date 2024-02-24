@@ -98,4 +98,8 @@
             </td>
         </tr>
     </table>
+    <div style="width: 65px;" class="qr-code">
+        <!-- Замените 'src' на путь к вашему QR-коду -->
+        <p class="text-large bold">qr</p>
+    </div>
 </div>

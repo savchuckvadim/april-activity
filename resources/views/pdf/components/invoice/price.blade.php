@@ -44,11 +44,17 @@
 
 <div class="prices page-content">
 
-    <h3>Цена за комплект</h3>
+ 
     @if ($isTable)
 
         <table class="price-table">
             <tr>
+                <td class="price-cell-number">
+                    <p class="text-small bold">
+                        №
+                    </p>
+
+                </td>
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
 
@@ -86,10 +92,17 @@
             </tr>
             @foreach ([$allPrices['general'], $allPrices['alternative']] as $target)
                 @if (is_array($target) && !empty($target))
-                    @foreach ($target as $product)
+                    @foreach ($target as $index => $product)
                         @if ($product)
                             @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
                                 <tr class="price-row">
+                                    <td class="price-cell-number">
+                                        <p class="text-small bold">
+                                            {{ $index + 1 }}.
+                                        </p>
+
+
+                                    </td>
                                     @foreach ($product['cells'] as $cell)
                                         @php
                                             $value = $cell['value'];
