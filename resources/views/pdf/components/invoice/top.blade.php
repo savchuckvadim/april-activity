@@ -83,15 +83,15 @@
         </tr>
         <tr>
             <td colspan="2">
-                <table class="innertable" style="width: 105mm;">
+                <table class="innertable" style="height:50px; width: 105mm;">
                     <tr>
                         <td valign="top">
                             <p class="text-large">{{ $fullname }}</p>
                         </td>
                     </tr>
                     <tr>
-                        <td class="cellBottom" style="margin-top:10px; height: 3mm;">
-                            <p class="text-small">Получатель</p>
+                        <td class="cellBottom" style="height: 25px;">
+                            <p style="margin-top:10px;" class="text-small">Получатель</p>
                         </td>
                     </tr>
                 </table>
