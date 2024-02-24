@@ -19,7 +19,7 @@
 
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
-        margin-top: 5px;
+        /* margin-top: 5px; */
         padding-top: 10px;
         
     }
