@@ -1,8 +1,12 @@
 <style>
-    .outertable,
+   
     .qr-table {
         border-collapse: collapse;
         width: 100%;
+    }
+    .outertable{
+        border-collapse: collapse;
+        width: 75%;
     }
 
     .qr-table {
