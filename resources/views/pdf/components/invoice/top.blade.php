@@ -45,7 +45,7 @@
             <td style="vertical-align: center; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
-            <td rowspan="2" style="height:150px; vertical-align: top; width: 60mm;">
+            <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
                 <table class="innertable">
                     <tr>
                         <td>
@@ -53,8 +53,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="cellBottom padding-top">
-                            <p class="text-large">{{ $ks }}</p>
+                        <td class="cellBottom ">
+                            <p class="text-large padding-top">{{ $ks }}</p>
                         </td>
                     </tr>
                 </table>
