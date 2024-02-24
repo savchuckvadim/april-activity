@@ -19,8 +19,8 @@
 
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
-        margin-top: 20px;
-        padding-top: 20px;
+        margin-top: 5px;
+        padding-top: 10px;
         
     }
 </style>
@@ -53,7 +53,7 @@
                             <p class="text-large">{{ $bik }}</p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr >
                         <td class="cellBottom ">
                             <p class="text-large padding-top">{{ $ks }}</p>
                         </td>
