@@ -28,7 +28,7 @@
 <div class="invoice-top">
     <table class="outertable" cellpadding="2" cellspacing="2">
         <tr>
-            <td colspan="2" rowspan="2" style="min-height:45mm; width: 105mm;">
+            <td colspan="2" rowspan="2" style="height:50px; width: 105mm;">
                 <table  width="100%" class="innertable">
                     <tr>
                         <td valign="top">
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td class="cellBottom">
-                            <p class="text-normal cellBottom">Банк получателя</p>
+                            <p class="text-normal padding-top cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
