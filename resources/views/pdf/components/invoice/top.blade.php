@@ -37,8 +37,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="cellBottom">
-                            <p style="margin-top:8px; height: 25px;" class="text-small cellBottom">Банк получателя</p>
+                        <td style="height: 25px;" class="cellBottom">
+                            <p style="margin-top:8px;" class="text-small cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
