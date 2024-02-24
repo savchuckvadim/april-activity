@@ -5,7 +5,6 @@
     <style>
         @page {
             margin: 25px 25px;
-            background-image: url({{ asset('imgs/background.jpg') }});
         }
 
         .row {
@@ -95,7 +94,9 @@
     </style>
 </head>
 
-<body>
+<body
+ {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
+ >
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
     @component('pdf.components.footer', $footerData)

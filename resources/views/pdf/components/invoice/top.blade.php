@@ -66,7 +66,7 @@
 
             </td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td style="width: 25mm;">
                 <table class="innertable">
                     <tr class="innertable">
@@ -77,7 +77,7 @@
                 </table>
 
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <td style="min-height:6mm; height:auto; width: 50mm;">
                 <p class="text-large">ИНН {{ $inn }}</p>
