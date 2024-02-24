@@ -6,7 +6,7 @@
     }
     .outertable{
         border-collapse: collapse;
-        width: 75%;
+        width: 500px;
     }
 
     .qr-table {
