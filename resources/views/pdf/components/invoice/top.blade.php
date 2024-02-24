@@ -44,6 +44,14 @@
             </td>
             <td style="vertical-align: center; width: 25mm;">
                 <p class="text-large">БИK</p>
+                <table  width="100%" class="outertable">
+                    <tr>
+                        <td  class="outertable" valign="bottom">
+                            <p class="text-normal">Cч №</p>
+                        </td>
+                    </tr>
+                
+                </table>
             </td>
             <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
                 <table class="innertable">
