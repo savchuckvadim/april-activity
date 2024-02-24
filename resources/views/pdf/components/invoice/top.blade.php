@@ -25,81 +25,96 @@
     }
 </style>
 
-<div class="invoice-top">
-    <table class="outertable" cellpadding="2" cellspacing="2">
-        <tr>
-            <td colspan="2" rowspan="2" style="height:49px; width: 105mm;">
-                <table width="100%" class="innertable">
-                    <tr>
-                        <td valign="top">
-                            <p class="text-normal"><span
-                                    class="bold">{{ $bank }}</span><br>{{ $bankAdress }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height: 25px;" class="cellBottom">
-                            <p style="margin-top:12px;" class="text-small">Банк получателя</p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td style="vertical-align: center; width: 25mm;">
-                <p class="text-large">БИK</p>
 
-            </td>
-            <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
-                <table class="innertable">
+
+<table class="qr-table" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>
+            <div class="invoice-top">
+
+
+                <table class="outertable" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td colspan="2" rowspan="2" style="height:49px; width: 105mm;">
+                            <table width="100%" class="innertable">
+                                <tr>
+                                    <td valign="top">
+                                        <p class="text-normal"><span
+                                                class="bold">{{ $bank }}</span><br>{{ $bankAdress }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height: 25px;" class="cellBottom">
+                                        <p style="margin-top:12px;" class="text-small">Банк получателя</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="vertical-align: center; width: 25mm;">
+                            <p class="text-large">БИK</p>
+
+                        </td>
+                        <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
+                            <table class="innertable">
+                                <tr>
+                                    <td>
+                                        <p class="text-large">{{ $bik }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cellBottom ">
+                                        <p class="text-large padding-top">{{ $ks }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
-                            <p class="text-large">{{ $bik }}</p>
+                            <p class="text-large">Сч. №</p>
                         </td>
                     </tr>
                     <tr>
-                        <td class="cellBottom ">
-                            <p class="text-large padding-top">{{ $ks }}</p>
+                        <td style="width: 50mm;">
+                            <p class="text-large">ИНН {{ $inn }}</p>
+                        </td>
+                        <td style="width: 55mm;">
+                            <p class="text-large">КПП {{ $kpp }}</p>
+                        </td>
+                        <td rowspan="2" style="vertical-align: top; width: 25mm;">
+                            <p class="text-large">Сч. №</p>
+                        </td>
+                        <td rowspan="2" style="vertical-align: top; width: 60mm;">
+                            <p class="text-large">{{ $rs }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table class="innertable" style="height:50px; width: 105mm;">
+                                <tr>
+                                    <td valign="top">
+                                        <p class="text-large">{{ $fullname }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cellBottom" style="height: 25px;">
+                                        <p style="margin-top:10px;" class="text-small">Получатель</p>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p class="text-large">Сч. №</p>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 50mm;">
-                <p class="text-large">ИНН {{ $inn }}</p>
-            </td>
-            <td style="width: 55mm;">
-                <p class="text-large">КПП {{ $kpp }}</p>
-            </td>
-            <td rowspan="2" style="vertical-align: top; width: 25mm;">
-                <p class="text-large">Сч. №</p>
-            </td>
-            <td rowspan="2" style="vertical-align: top; width: 60mm;">
-                <p class="text-large">{{ $rs }}</p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <table class="innertable" style="height:50px; width: 105mm;">
-                    <tr>
-                        <td valign="top">
-                            <p class="text-large">{{ $fullname }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cellBottom" style="height: 25px;">
-                            <p style="margin-top:10px;" class="text-small">Получатель</p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <div style="width: 65px;" class="qr-code">
-        <!-- Замените 'src' на путь к вашему QR-коду -->
-        <p class="text-large bold">qr</p>
-    </div>
-</div>
+
+
+
+
+            </div>
+        </td>
+        <td>
+            <!-- Замените 'src' на путь к вашему QR-коду -->
+            {{-- <img src="path_to_your_qr_code.png" alt="QR Code" style="max-width:100%; height:auto;"> --}}
+            <p class="text-large bold">qr</p>
+        </td>
+    </tr>
+</table>
