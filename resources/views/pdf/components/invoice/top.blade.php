@@ -4,7 +4,8 @@
         width: 100%;
     }
 
-    .innertable, .innertable td {
+    .innertable,
+    .innertable td {
         border: none;
         padding: 0;
         margin: 0;
@@ -15,11 +16,12 @@
         vertical-align: bottom;
     }
 
- 
+
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
         margin-top: 20px;
-        padding-top: 20px;;
+        padding-top: 20px;
+        ;
     }
 </style>
 
@@ -27,8 +29,8 @@
     <table class="outertable" cellpadding="2" cellspacing="2">
         <tr>
             <td colspan="2" rowspan="2" style="min-height:45mm; width: 105mm;">
-                <table width="100%" class="innertable">
-                    <tr>
+                <table style="min-height:45mm;" width="100%" class="innertable">
+                    <tr style="min-height:25mm;">
                         <td valign="top">
                             <p class="text-normal">{{ $bank }}<br>{{ $bankAdress }}</p>
                         </td>
