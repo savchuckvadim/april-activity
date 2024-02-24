@@ -21,7 +21,7 @@
     .padding-top {
         margin-top: 7px;
         padding-top: 10px;
-        
+
     }
 </style>
 
@@ -29,7 +29,7 @@
     <table class="outertable" cellpadding="2" cellspacing="2">
         <tr>
             <td colspan="2" rowspan="2" style="height:47px; width: 105mm;">
-                <table  width="100%" class="innertable">
+                <table width="100%" class="innertable">
                     <tr>
                         <td valign="top">
                             <p class="text-normal">{{ $bank }}<br>{{ $bankAdress }}</p>
@@ -37,14 +37,14 @@
                     </tr>
                     <tr>
                         <td class="cellBottom">
-                            <p class="text-normal cellBottom">Банк получателя</p>
+                            <p style="margin-top:5px;" class="text-normal cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
             </td>
             <td style="vertical-align: center; width: 25mm;">
                 <p class="text-large">БИK</p>
-             
+
             </td>
             <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
                 <table class="innertable">
@@ -53,7 +53,7 @@
                             <p class="text-large">{{ $bik }}</p>
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td class="cellBottom ">
                             <p class="text-large padding-top">{{ $ks }}</p>
                         </td>
