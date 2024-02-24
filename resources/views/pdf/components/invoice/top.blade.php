@@ -32,12 +32,13 @@
                 <table width="100%" class="innertable">
                     <tr>
                         <td valign="top">
-                            <p class="text-normal">{{ $bank }}<br>{{ $bankAdress }}</p>
+                            <p class="text-normal"><span
+                                    class="bold">{{ $bank }}</span><br>{{ $bankAdress }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="cellBottom">
-                            <p style="margin-top:8px;" class="text-normal cellBottom">Банк получателя</p>
+                            <p style="margin-top:8px;" class="text-small cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
@@ -89,8 +90,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="cellBottom" style="height: 3mm;">
-                            <p class="text-large">Получатель</p>
+                        <td class="cellBottom" style="margin-top:10px; height: 3mm;">
+                            <p class="text-small">Получатель</p>
                         </td>
                     </tr>
                 </table>
