@@ -43,7 +43,7 @@
             <td style="vertical-align: center; width: 25mm;">
                 <p class="text-large">БИK</p>
             </td>
-            <td rowspan="2" style="vertical-align: top; width: 60mm;">
+            <td rowspan="2" style="height:150px; vertical-align: top; width: 60mm;">
                 <table class="innertable">
                     <tr>
                         <td>
