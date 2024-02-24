@@ -15,15 +15,7 @@
         vertical-align: bottom;
     }
 
-    .text-large {
-        font-size: 16px; /* Пример размера шрифта */
-    }
-
-    .text-normal {
-        font-size: 14px; /* Пример размера шрифта */
-        font-weight: bold;
-    }
-
+ 
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
         padding-top: 10mm;
