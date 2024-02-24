@@ -19,7 +19,7 @@
 
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
-        margin-top: 5px;
+        margin-top: 7px;
         padding-top: 10px;
         
     }
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td class="cellBottom">
-                            <p class="text-normal padding-top cellBottom">Банк получателя</p>
+                            <p class="text-normal cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
