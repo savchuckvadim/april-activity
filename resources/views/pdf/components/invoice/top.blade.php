@@ -21,7 +21,7 @@
     .padding-top {
         margin-top: 20px;
         padding-top: 20px;
-        ;
+        
     }
 </style>
 
@@ -29,15 +29,15 @@
     <table class="outertable" cellpadding="2" cellspacing="2">
         <tr>
             <td colspan="2" rowspan="2" style="min-height:45mm; width: 105mm;">
-                <table style="min-height:45mm;" width="100%" class="innertable">
-                    <tr style="min-height:25mm;">
+                <table  width="100%" class="innertable">
+                    <tr>
                         <td valign="top">
                             <p class="text-normal">{{ $bank }}<br>{{ $bankAdress }}</p>
                         </td>
                     </tr>
-                    <tr style="min-height:23mm;">
+                    <tr>
                         <td class="cellBottom">
-                            <p class="text-normal">Банк получателя</p>
+                            <p class="text-normal cellBottom">Банк получателя</p>
                         </td>
                     </tr>
                 </table>
