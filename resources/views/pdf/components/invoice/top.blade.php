@@ -18,7 +18,8 @@
  
     /* Добавление отступов для более аккуратного выравнивания */
     .padding-top {
-        padding-top: 10mm;
+        margin-top: 20px;
+        padding-top: 20px;;
     }
 </style>
 
