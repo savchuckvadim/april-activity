@@ -1,7 +1,11 @@
 <style>
-    .outertable {
+   .outertable, .qr-table {
         border-collapse: collapse;
         width: 100%;
+    }
+
+    .qr-table {
+        padding-left: 20px; /* Отступ от основной таблицы */
     }
 
     .innertable,
