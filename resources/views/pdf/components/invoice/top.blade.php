@@ -72,7 +72,7 @@
 
 
 <table class="qr-table" cellpadding="0" cellspacing="0">
-    <tr class="innertable">
+    <tr>
         <td>
             <div class="invoice-top">
 
