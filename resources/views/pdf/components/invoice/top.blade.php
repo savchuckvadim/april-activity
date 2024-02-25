@@ -1,10 +1,10 @@
 <style>
-   
     .qr-table {
         border-collapse: collapse;
         width: 100%;
     }
-    .outertable{
+
+    .outertable {
         border-collapse: collapse;
         width: 500px;
     }
@@ -22,12 +22,39 @@
         vertical-align: top;
     }
 
+
+    .cell-large {
+        width: 105mm;
+    }
+
+    .cell-small {
+        width: 25mm;
+    }
+
+    .cell-medium {
+        width: 60mm;
+    }
+
+    .cell-xsmall {
+        width: 20mm;
+    }
+
+    /* Предположим, что это для QR-кода */
+    .cell-inn {
+        width: 50mm;
+    }
+
+    .cell-kpp {
+        width: 55mm;
+    }
+
+
     .cellBottom {
         vertical-align: bottom;
     }
 
 
-   
+
     .padding-top {
         margin-top: 8px;
         padding-top: 11px;
@@ -45,7 +72,7 @@
 
                 <table class="outertable" cellpadding="2" cellspacing="2">
                     <tr>
-                        <td colspan="2" rowspan="2" style="height:49px; width: 105mm;">
+                        <td class="cell-large" colspan="2" rowspan="2" style="height:49px;">
                             <table width="100%" class="innertable">
                                 <tr>
                                     <td valign="top">
@@ -60,11 +87,11 @@
                                 </tr>
                             </table>
                         </td>
-                        <td style="vertical-align: center; width: 25mm;">
+                        <td class="cell-small" style="vertical-align: center;">
                             <p class="text-large">БИK</p>
 
                         </td>
-                        <td rowspan="2" style="height:50px; vertical-align: top; width: 60mm;">
+                        <td class="cell-medium" rowspan="2" style="height:50px; vertical-align: top;">
                             <table class="innertable">
                                 <tr>
                                     <td>
@@ -85,22 +112,22 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 50mm;">
+                        <td class="cell-inn">
                             <p class="text-large">ИНН {{ $inn }}</p>
                         </td>
-                        <td style="width: 55mm;">
+                        <td class="cell-kpp">
                             <p class="text-large">КПП {{ $kpp }}</p>
                         </td>
-                        <td rowspan="2" style="vertical-align: top; width: 25mm;">
+                        <td class="cell-small" rowspan="2" style="vertical-align: top;">
                             <p class="text-large">Сч. №</p>
                         </td>
-                        <td rowspan="2" style="vertical-align: top; width: 60mm;">
+                        <td class="cell-medium" rowspan="2" style="vertical-align: top;">
                             <p class="text-large">{{ $rs }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <table class="innertable" style="height:50px; width: 105mm;">
+                            <table class="cell-large" class="innertable" style="height:50px;">
                                 <tr>
                                     <td valign="top">
                                         <p class="text-large">{{ $fullname }}</p>
@@ -123,10 +150,9 @@
         </td>
         <td>
             <!-- Замените 'src' на путь к вашему QR-коду -->
-            <img 
-            style="background-image: url('{{ asset('imgs/background.jpg') }}');
-             max-width:55px; height:auto;" 
-             src=alt="QR Code">
+            <img style="background-image: url('{{ asset('imgs/background.jpg') }}');
+             max-width:55px; height:auto;"
+                src=alt="QR Code">
             {{-- <p class="text-large bold">qr</p> --}}
         </td>
     </tr>
