@@ -76,6 +76,11 @@
         padding-top: 11px;
 
     }
+    .qr-img{
+        width: 75px;
+        height: auto;
+        margin-left: 4px;
+    }
 </style>
 
 
