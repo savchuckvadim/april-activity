@@ -34,7 +34,7 @@
 
     .cell-large {
         /* width: 105mm;/ */
-        width: 50px;
+        width: 35px;
     }
 
     .cell-small {
@@ -44,7 +44,7 @@
 
     .cell-medium {
         /* width: 60mm; */
-        width: 20px;
+        width: 10px;
     }
 
     /* .cell-xsmall {
