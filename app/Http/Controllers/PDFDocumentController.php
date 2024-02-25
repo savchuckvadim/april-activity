@@ -488,11 +488,11 @@ class PDFDocumentController extends Controller
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {
-                $itemsPerPage = 60;
+                $itemsPerPage = 30;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 16;
             } else {
-                $itemsPerPage = 8;
+                $itemsPerPage = 4;
             }
         } else {
             if ($descriptionMode === 0) {
