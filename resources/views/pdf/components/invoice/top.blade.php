@@ -22,7 +22,9 @@
         /* Отступ от основной таблицы */
     }
 
-    .innertable {
+    .innertable,
+    .innercell,
+    .innertable td {
         border: none;
         padding: 0;
         margin: 0;
@@ -78,7 +80,7 @@
 
 <table  cellpadding="0" cellspacing="0">
     <tr>
-        <td class="innertable">
+        <td class="innercell">
             <div class="invoice-top">
 
 
@@ -160,7 +162,7 @@
 
             </div>
         </td>
-        <td class="innertable">
+        <td class="innercell">
             <!-- Замените 'src' на путь к вашему QR-коду -->
             <img style="background-image: url('{{ asset('imgs/background.jpg') }}');
              max-width:55px; height:auto;"
