@@ -5,7 +5,12 @@
         border: 0px;
     }
 
+    .cell-inn,
+    .cell-kpp,
+    .cell-large,
     .outertable,
+    .cell-small,
+    .cell-medium,
     .outertable td {
         border: 2px;
         border-collapse: collapse;
