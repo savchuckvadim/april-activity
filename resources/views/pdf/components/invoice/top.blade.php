@@ -2,7 +2,7 @@
     .qr-table {
         border-collapse: collapse;
         width: 100%;
-        border: 0px;
+        /* border: 0px; */
     }
 
     .cell-inn,
@@ -18,7 +18,7 @@
     }
 
     .qr-table {
-        padding-left: 20px;
+        /* padding-left: 20px; */
         /* Отступ от основной таблицы */
     }
 
