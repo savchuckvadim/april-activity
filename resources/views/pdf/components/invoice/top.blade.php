@@ -22,8 +22,7 @@
         /* Отступ от основной таблицы */
     }
 
-    .innertable,
-    .innertable td {
+    .innertable {
         border: none;
         padding: 0;
         margin: 0;
