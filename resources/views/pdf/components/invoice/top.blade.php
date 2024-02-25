@@ -2,6 +2,7 @@
     .qr-table {
         border-collapse: collapse;
         width: 100%;
+        border: 0px;
     }
 
     .outertable {
@@ -25,7 +26,7 @@
 
     .cell-large {
         /* width: 105mm; */
-        width: 35px;
+        width: 42px;
     }
 
     .cell-small {
@@ -153,7 +154,7 @@
 
             </div>
         </td>
-        <td>
+        <td class="innertable">
             <!-- Замените 'src' на путь к вашему QR-коду -->
             <img style="background-image: url('{{ asset('imgs/background.jpg') }}');
              max-width:55px; height:auto;"
