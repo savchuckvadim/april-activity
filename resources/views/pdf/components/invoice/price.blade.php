@@ -15,10 +15,12 @@
     }
 
     .price-cell-short {
-        width: 25px;
+        width: 45px;
     }
 
+
     .price-cell,
+    .price-cell-number,
     .price-cell-short,
     .price-cell-head {
         text-align: center;
@@ -28,6 +30,10 @@
     .price-cell-head {
         padding: 5px;
         vertical-align: middle;
+    }
+
+    .price-cell-number {
+        width: 25px;
     }
 
     .total-area {
@@ -44,12 +50,12 @@
 
 <div class="prices page-content">
 
- 
+
     @if ($isTable)
 
         <table class="price-table">
             <tr>
-                <td class="price-cell-number">
+                <td class="price-cell-head price-cell-number">
                     <p class="text-small bold">
                         №
                     </p>
