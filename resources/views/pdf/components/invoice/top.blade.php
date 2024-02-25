@@ -2,7 +2,7 @@
     .qr-table {
         border-collapse: collapse;
         width: 100%;
-        /* border: 0px; */
+        border: 1px solid;
     }
 
     .cell-inn,
@@ -12,7 +12,7 @@
     .cell-small,
     .cell-medium,
     .outertable td {
-        border: 2px;
+        border: 1px solid;
         border-collapse: collapse;
         /* width: 500px; */
     }
@@ -77,7 +77,7 @@
 
 
 
-<table class="qr-table" cellpadding="0" cellspacing="0">
+<table  cellpadding="0" cellspacing="0">
     <tr>
         <td>
             <div class="invoice-top">
