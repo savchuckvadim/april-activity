@@ -15,14 +15,14 @@
     }
 
     .price-cell-short {
-        width: 45px;
+        width: 65px;
     }
 
 
     .price-cell,
     .price-cell-number,
     .price-cell-short,
-    .price-cell-head {
+    .price-cell-head, {
         text-align: center;
         vertical-align: middle;
     }
@@ -64,7 +64,7 @@
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
 
-                        $classname = 'price-cell-head';
+                        $classname = 'price-cell-normal price-cell-head';
                     @endphp
 
                     @switch($priceCell['code'])

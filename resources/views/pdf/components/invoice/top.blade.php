@@ -171,8 +171,7 @@
         </td>
         <td class="innercell">
             <!-- Замените 'src' на путь к вашему QR-коду -->
-            <img style="background-image: url('{{ asset('imgs/background.jpg') }}');
-             max-width:55px; height:auto;"
+            <img class="qr-img" style="background-image: url('{{ asset('imgs/background.jpg') }}');"
                 src=alt="QR Code">
             {{-- <p class="text-large bold">qr</p> --}}
         </td>
