@@ -6,6 +6,7 @@
     }
 
     .outertable {
+        border: 2px;
         border-collapse: collapse;
         /* width: 500px; */
     }
