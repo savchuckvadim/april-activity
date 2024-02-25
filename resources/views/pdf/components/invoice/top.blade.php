@@ -5,7 +5,8 @@
         border: 0px;
     }
 
-    .outertable {
+    .outertable,
+    .outertable td {
         border: 2px;
         border-collapse: collapse;
         /* width: 500px; */
