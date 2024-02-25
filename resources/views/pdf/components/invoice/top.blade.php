@@ -64,13 +64,14 @@
 
 
     .cellBottom {
+        min-height: 35px;
         vertical-align: bottom;
     }
 
 
 
     .padding-top {
-        height: 35px;
+
         margin-top: 8px;
         padding-top: 11px;
 
@@ -79,7 +80,7 @@
 
 
 
-<table  cellpadding="0" cellspacing="0">
+<table cellpadding="0" cellspacing="0">
     <tr>
         <td class="innercell">
             <div class="invoice-top">
