@@ -7,7 +7,7 @@
 
     .outertable {
         border-collapse: collapse;
-        width: 500px;
+        /* width: 500px; */
     }
 
     .qr-table {
@@ -71,8 +71,8 @@
 
 
 <table class="qr-table" cellpadding="0" cellspacing="0">
-    <tr>
-        <td>
+    <tr class="innertable">
+        <td class="innertable">
             <div class="invoice-top">
 
 
