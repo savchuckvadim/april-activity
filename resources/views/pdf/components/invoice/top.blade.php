@@ -32,8 +32,8 @@
 
 
     .cell-large {
-        width: 105mm;
-        /* width: 42px; */
+        /* width: 105mm;/ */
+        width: 50px;
     }
 
     .cell-small {
@@ -53,12 +53,12 @@
     /* Предположим, что это для QR-кода */
     .cell-inn {
         /* width: 50mm; */
-        width: 16px;
+        width: 40px;
     }
 
     .cell-kpp {
         /* width: 55mm; */
-        width: 18px;
+        width: 40px;
     }
 
 
@@ -79,7 +79,7 @@
 
 <table  cellpadding="0" cellspacing="0">
     <tr>
-        <td>
+        <td class="innertable">
             <div class="invoice-top">
 
 
