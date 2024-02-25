@@ -24,28 +24,33 @@
 
 
     .cell-large {
-        width: 105mm;
+        /* width: 105mm; */
+        width: 35px;
     }
 
     .cell-small {
-        width: 25mm;
+        /* width: 25mm; */
+        width: 9px;
     }
 
     .cell-medium {
-        width: 60mm;
+        /* width: 60mm; */
+        width: 20px;
     }
 
-    .cell-xsmall {
+    /* .cell-xsmall {
         width: 20mm;
-    }
+    } */
 
     /* Предположим, что это для QR-кода */
     .cell-inn {
-        width: 50mm;
+        /* width: 50mm; */
+        width: 16px;
     }
 
     .cell-kpp {
-        width: 55mm;
+        /* width: 55mm; */
+        width: 18px;
     }
 
 
