@@ -25,8 +25,8 @@
 
 
     .cell-large {
-        /* width: 105mm; */
-        width: 42px;
+        width: 105mm;
+        /* width: 42px; */
     }
 
     .cell-small {
@@ -72,7 +72,7 @@
 
 <table class="qr-table" cellpadding="0" cellspacing="0">
     <tr class="innertable">
-        <td class="innertable">
+        <td>
             <div class="invoice-top">
 
 
