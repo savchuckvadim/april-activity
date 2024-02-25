@@ -70,6 +70,7 @@
 
 
     .padding-top {
+        height: 35px;
         margin-top: 8px;
         padding-top: 11px;
 
