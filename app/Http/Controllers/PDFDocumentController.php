@@ -613,7 +613,7 @@ class PDFDocumentController extends Controller
                 $contract = $contractCell['value'];
             }
         }
-        if ($withTotal) {
+        // if ($withTotal) {
             $foundCell = null;
             foreach ($price['cells']['total'][0]['cells'] as $cell) {
                 if ($cell['code'] === 'prepaymentsum') {
@@ -663,7 +663,7 @@ class PDFDocumentController extends Controller
             $textTotalSum = $text;
 
             $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
-        }
+        // }
 
         return [
             'isTable' => $isTable,
