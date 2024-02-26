@@ -100,7 +100,7 @@ class PDFDocumentController extends Controller
 
                 $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
                 $stampsData  =   $this->getStampsData($providerRq);
-                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
+                // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА
                 $pdf = Pdf::loadView('pdf.offer', [
@@ -111,11 +111,11 @@ class PDFDocumentController extends Controller
                     'infoblocksData' => $infoblocksData,
                     'pricesData' => $pricesData,
                     'stampsData' => $stampsData,
-                    'invoiceData' => $invoiceData,
+                    // 'invoiceData' => $invoiceData,
                 ]);
 
 
-
+               
 
 
 
@@ -165,6 +165,91 @@ class PDFDocumentController extends Controller
                     // 'counter' => $counter,
 
                 ]);
+            }
+        }
+    }
+    public function getInvoice($data, $isTwoLogo,  $documentNumber, $index)
+    {
+        if ($data &&  isset($data['template'])) {
+            $template = $data['template'];
+            if ($template && isset($template['id'])) {
+
+
+                $templateId = $template['id'];
+                $domain = $data['template']['portal'];
+                $dealId = $data['dealId'];
+                $providerRq = $data['provider']['rq'];
+
+
+
+                //price
+                $price = $data['price'];
+
+                //SORT CELLS
+                // $sortActivePrices = $this->getSortActivePrices($comePrices);
+                // $allPrices =  $sortActivePrices;
+                // $general = $allPrices['general'];
+                // $alternative = $allPrices['alternative'];
+
+
+                //manager
+                // $manager = $data['manager'];
+                //UF_DEPARTMENT
+                //SECOND_NAME
+
+
+                //recipient
+
+                $recipient = $data['recipient'];
+
+
+                //invoice
+                $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
+                $invoiceBaseNumber = $invoiceBaseNumber . '-' . $index;
+
+                //general
+                $comePrices = $price['cells'];
+                $productsCount = $this->getProductsCount($comePrices);
+
+
+
+                //document data
+                $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
+                $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
+                $stampsData  =   $this->getStampsData($providerRq);
+                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
+
+                //ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
+                $pdf = Pdf::loadView('pdf.invoice', [
+                    'headerData' =>  $headerData,
+                    'doubleHeaderData' =>  $doubleHeaderData,
+                    'stampsData' => $stampsData,
+                    'invoiceData' => $invoiceData,
+                ]);
+
+
+
+                // //СОХРАНЕНИЕ ДОКУМЕТА
+                $uid = Uuid::uuid4()->toString();
+                $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+                $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+
+
+                if (!file_exists($resultPath)) {
+                    mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                }
+
+                // Проверить доступность каталога для записи
+                if (!is_writable($resultPath)) {
+                    throw new \Exception("Невозможно записать в каталог: $resultPath");
+                }
+                $resultFileName = 'Счет_' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
+                $pdf->save($resultPath . '/' . $resultFileName);
+                $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/invoice/' . $resultFileName);
+
+
+                return $link;
             }
         }
     }
@@ -699,7 +784,6 @@ class PDFDocumentController extends Controller
             }
         }
 
-        echo $lastPageItemsCount;
 
         return $isWithPrice;
     }

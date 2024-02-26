@@ -94,56 +94,23 @@
     </style>
 </head>
 
-<body
-    {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
- >
+<body>
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
-    @component('pdf.components.footer', $footerData)
-    @endcomponent
+
     @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
     @endif
 
     <main>
-        <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
-
-            @component('pdf.components.letter', ['letterData' => $letterData])
-            @endcomponent
-            <div class="stamp">
-                @component('pdf.components.stamp', $stampsData)
-                @endcomponent
-            </div>
-        </div>
-        <div class="page-break"></div>
-        <div class="infoblocks">
-
-            @component('pdf.components.infoblocks', $infoblocksData)
-            @endcomponent
-        </div>
-        @if (!$infoblocksData['withPrice'])
-            <div class="page-break"></div>
-        @endif
-
-        <div class="prices">
-            @component('pdf.components.price', $pricesData)
-            @endcomponent
-            <div class="stamp">
-                @component('pdf.components.stamp', $stampsData)
-                @endcomponent
-            </div>
-        </div>
-
-
-        {{-- <div class="page-break"></div>
 
         @component('pdf.components.invoice.invoice', $invoiceData)
         @endcomponent
         <div class="stamp">
             @component('pdf.components.stamp', $stampsData)
             @endcomponent
-        </div> --}}
+        </div>
 
 
     </main>
