@@ -181,9 +181,9 @@ class PDFDocumentController extends Controller
 
                     //BITRIX
 
-                    $bitrixController = new BitrixController();
-                    $this->setTimeline($domain, $dealId, $links, $documentNumber);
-                    $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
+                    // $bitrixController = new BitrixController();
+                    // $this->setTimeline($domain, $dealId, $links, $documentNumber);
+                    // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
 
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
