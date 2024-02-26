@@ -53,13 +53,13 @@
 
     /* Предположим, что это для QR-кода */
     .cell-inn {
-        width: 50mm;
-        /* width: 40px; */
+        /* width: 50mm; */
+        width: 40px;
     }
 
     .cell-kpp {
-        width: 55mm;
-        /* width: 40px; */
+        /* width: 55mm; */
+        width: 40px;
     }
 
 
