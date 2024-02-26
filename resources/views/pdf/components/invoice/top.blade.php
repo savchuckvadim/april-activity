@@ -34,7 +34,7 @@
 
     .cell-large {
         /* width: 105mm; */
-        width: 52px;
+        /* width: 80px; */
     }
 
     .cell-small {
@@ -54,12 +54,12 @@
     /* Предположим, что это для QR-кода */
     .cell-inn {
         /* width: 50mm; */
-        width: 40px;
+        width: 45px;
     }
 
     .cell-kpp {
         /* width: 55mm; */
-        width: 40px;
+        width: 45px;
     }
 
 
@@ -76,7 +76,8 @@
         padding-top: 11px;
 
     }
-    .qr-img{
+
+    .qr-img {
         width: 130px;
         max-height: 250px;
         height: auto;
@@ -172,8 +173,7 @@
         </td>
         <td class="innercell">
             <!-- Замените 'src' на путь к вашему QR-коду -->
-            <img class="qr-img" 
-               src="{{ asset('imgs/background.jpg') }}" alt="QR Code">
+            <img class="qr-img" src="{{ asset('imgs/background.jpg') }}" alt="QR Code">
             {{-- <p class="text-large bold">qr</p> --}}
         </td>
     </tr>
