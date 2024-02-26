@@ -4,7 +4,7 @@
     }
 
     .price-content {
-        margin-top: 10px;
+        margin-top: 40px;
         vertical-align: top;
     }
 
