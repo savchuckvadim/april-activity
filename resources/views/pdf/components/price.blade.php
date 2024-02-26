@@ -9,17 +9,17 @@
     }
 
     .price-cell-first {
-        padding: 1px;
+        padding: 2px;
         text-align: start;
         vertical-align: middle;
         width: 200px;
     }
 
     .price-cell-price {
-        padding: 1px;
+        padding: 2px;
         text-align: center;
         vertical-align: middle;
-        width: 34px;
+        width: 55px;
     }
 
     .price-cell-short {
@@ -39,7 +39,7 @@
     }
 
     .price-cell-head {
-        padding: 1px;
+        padding: 2px;
         vertical-align: middle;
     }
 
