@@ -24,7 +24,7 @@
         padding: 2px;
         text-align: center;
         vertical-align: middle;
-        width: 75px;
+        width: 55px;
     }
 
     .price-cell-short {
@@ -93,7 +93,7 @@
                             @endphp
                         @break
 
-                        {{-- @case('defaultmonth')
+                        @case('defaultmonth')
                             @php
                                 $classname = 'price-cell-price';
                             @endphp
@@ -105,7 +105,7 @@
                             @endphp
                         @break
 
-                        @case('current')
+                        {{-- @case('current')
                             @php
                                 $classname = 'price-cell-price';
                             @endphp
@@ -151,7 +151,7 @@
                                                 @php
                                                     $classname = 'price-cell-price';
                                                 @endphp
-                                            @break
+                                            @break --}}
 
                                             @case('defaultmonth')
                                                 @php
@@ -163,7 +163,7 @@
                                                 @php
                                                     $classname = 'price-cell-price';
                                                 @endphp
-                                            @break --}}
+                                            @break
 
                                             @case('quantity')
                                                 @php
