@@ -640,7 +640,7 @@ class PDFDocumentController extends Controller
             $lastPageGroups = $lastPage['groups'];
             foreach ($lastPageGroups as  $lastPageGroup) {
                 if (isset($lastPageGroup['items']) && is_array($lastPageGroup['items'])) {
-                    $currentGrupItems = $lastPage['items'];
+                    $currentGrupItems = $lastPageGroup['items'];
                     $currentGrupItemsCount = count($currentGrupItems);
                     $lastPageItemsCount = $lastPageItemsCount + $currentGrupItemsCount;
                 }
