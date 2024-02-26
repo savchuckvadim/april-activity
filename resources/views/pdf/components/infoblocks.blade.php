@@ -114,10 +114,20 @@
                     @endif
 
                     <table>
+                        @php
+                            $pageItems = [];
+                        @endphp
+                        @foreach ($page['groups'] as $group)
+                            @foreach ($group['items'] as $infoblock)
+                                @php
+                                    array_push($pageItems, $item);
+                                @endphp
+                            @endforeach
+                        @endforeach
                         <tr>
                             <td class="infoblocks-column">
 
-                                @foreach ($page['items'] as $index => $item)
+                                @foreach ($pageItems as $index => $item)
                                     @if ($index < count($page['items']) / 2)
                                         <div
                                             class="{{ $descriptionMode !== 0 ? 'text-normal infoblock--title color' : 'text-normal' }}">
@@ -132,17 +142,8 @@
                                 @endforeach
                             </td>
                             <td class="infoblocks-column">
-                                @php
-                                    $pageItems = [];
-                                @endphp
-                                @foreach ($page['groups'] as $group)
-                                    @foreach ($group['items'] as $infoblock)
-                                        @php
-                                            array_push($pageItems, $item);
-                                        @endphp
-                                    @endforeach
-                                @endforeach
-                                @foreach ($group['items'] as $index => $item)
+
+                                @foreach ($pageItems as $index => $item)
                                     @if ($index >= count($page['items']) / 2)
                                         <div
                                             class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">

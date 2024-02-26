@@ -23,7 +23,7 @@
     }
 
     .price-cell-short {
-        width: 25px;
+        width: 20px;
     }
 
     .price-cell-long-quantity {
