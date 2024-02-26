@@ -93,7 +93,7 @@
                             @endphp
                         @break
 
-                        @case('defaultmonth')
+                        {{-- @case('defaultmonth')
                             @php
                                 $classname = 'price-cell-price';
                             @endphp
@@ -109,7 +109,7 @@
                             @php
                                 $classname = 'price-cell-price';
                             @endphp
-                        @break
+                        @break --}}
 
                         @case('measure')
                             @php
@@ -147,7 +147,7 @@
                                                 @endphp
                                             @break
 
-                                            @case('current')
+                                            {{-- @case('current')
                                                 @php
                                                     $classname = 'price-cell-price';
                                                 @endphp
@@ -163,7 +163,7 @@
                                                 @php
                                                     $classname = 'price-cell-price';
                                                 @endphp
-                                            @break
+                                            @break --}}
 
                                             @case('quantity')
                                                 @php
