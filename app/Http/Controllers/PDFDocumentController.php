@@ -155,7 +155,7 @@ class PDFDocumentController extends Controller
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
                     $links = [];
-                    $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                    $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
                     //     'price' => $price,
@@ -164,7 +164,7 @@ class PDFDocumentController extends Controller
                     //     'counter' => $counter,
 
                     // ]);
-                    array_push($links, $link);
+                    array_push($links, $offerLink);
                     if ($isGeneralInvoice) {
                         $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
                         array_push($invoices, $generalInvoice);
@@ -188,7 +188,7 @@ class PDFDocumentController extends Controller
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
                         // 'link' => $link,
-                        'link' => $generalInvoice,
+                        'link' => $offerLink,
                         'links' => $links,
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
