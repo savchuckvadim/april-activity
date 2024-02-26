@@ -68,7 +68,7 @@
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
 
-                        $classname = 'price-cell-normal price-cell-head';
+                        $classname = 'price-cell-head price-cell-head';
                     @endphp
 
                     @switch($priceCell['code'])
@@ -190,7 +190,7 @@
             {{-- @endif --}}
         </table>
 
-        @if ($withTotal)
+        {{-- @if ($withTotal) --}}
             @php
                 $totalText = $total;
                 // Заменяем строковые литералы "\n" на реальные символы переноса строки
@@ -219,6 +219,6 @@
                     @endforeach
                 </p>
             </div>
-        @endif
+        {{-- @endif --}}
     @endif
 </div>
