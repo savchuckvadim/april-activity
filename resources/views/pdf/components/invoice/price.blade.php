@@ -186,7 +186,7 @@
                 @php
                     $totalValue = 0;
                 @endphp
-                {{-- @foreach ($allPrices as $totalProduct)
+                @foreach ($allPrices as $totalProduct)
                     @foreach ($totalProduct['cells'] as $totalCell)
                         @if (isset($totalCell['code']))
                             @if ($totalCell['code'] === 'prepaymentsum')
@@ -196,7 +196,7 @@
                             @endif
                         @endif
                     @endforeach
-                @endforeach --}}
+                @endforeach
                 <td class="total-cell">
                     <p class="text-small bold">
                         $totalValue

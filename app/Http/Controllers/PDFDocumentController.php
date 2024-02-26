@@ -256,13 +256,13 @@ class PDFDocumentController extends Controller
                 $stampsData  =   $this->getStampsData($providerRq);
                 $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral, $alternativeSetId);
 
-                //ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
-                // $pdf = Pdf::loadView('pdf.invoice', [
-                //     'headerData' =>  $headerData,
-                //     'doubleHeaderData' =>  $doubleHeaderData,
-                //     'stampsData' => $stampsData,
-                //     'invoiceData' => $invoiceData,
-                // ]);
+                // ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
+                $pdf = Pdf::loadView('pdf.invoice', [
+                    'headerData' =>  $headerData,
+                    'doubleHeaderData' =>  $doubleHeaderData,
+                    'stampsData' => $stampsData,
+                    'invoiceData' => $invoiceData,
+                ]);
 
 
 
@@ -846,7 +846,7 @@ class PDFDocumentController extends Controller
             }
             $targetProducts = $sortActivePrices['alternative'];
             $totalCells = $price['cells']['alternative'][$alternativeSetId]['cells'];
-            $allPrices = [[$sortActivePrices['alternative'][$alternativeSetId]]];
+            $allPrices = [$sortActivePrices['alternative'][$alternativeSetId]];
         }
 
 
