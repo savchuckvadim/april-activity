@@ -170,10 +170,11 @@
             @endphp
             <!-- Добавляем новый ряд с одной ячейкой, аналогичной последней в предыдущем ряду -->
             <tr class="price-row">
+                <td colspan="5"></td> {{-- Пропускаем первые 5 столбцов --}}
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
                         @if ($totalCell['code'] === 'prepaymentsum')
-                            <td colspan="6" class="price-cell">
+                            <td class="price-cell">
                                 <p class="text-small bold">
                                     {{ $totalCell['value'] }}
                                 </p>
