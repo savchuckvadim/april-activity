@@ -86,6 +86,12 @@
                             @endphp
                         @break
 
+                        @case('defaultmonth')
+                            @php
+                                $classname = 'price-cell-price';
+                            @endphp
+                        @break
+
                         @case('default')
                             @php
                                 $classname = 'price-cell-price';
@@ -134,6 +140,12 @@
                                             @break
 
                                             @case('current')
+                                                @php
+                                                    $classname = 'price-cell-price';
+                                                @endphp
+                                            @break
+
+                                            @case('defaultmonth')
                                                 @php
                                                     $classname = 'price-cell-price';
                                                 @endphp

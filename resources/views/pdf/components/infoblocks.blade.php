@@ -1,6 +1,7 @@
 <style>
     .infoblocks-wrapper,
-    h3, .info-complectName {
+    h3,
+    .info-complectName {
         margin-bottom: 12px
     }
 
@@ -131,8 +132,17 @@
                                 @endforeach
                             </td>
                             <td class="infoblocks-column">
-
-                                @foreach ($page['items'] as $index => $item)
+                                @php
+                                    $pageItems = [];
+                                @endphp
+                                @foreach ($page['groups'] as $group)
+                                    @foreach ($group['items'] as $infoblock)
+                                        @php
+                                            array_push($pageItems, $item);
+                                        @endphp
+                                    @endforeach
+                                @endforeach
+                                @foreach ($group['items'] as $index => $item)
                                     @if ($index >= count($page['items']) / 2)
                                         <div
                                             class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
@@ -219,7 +229,5 @@
                     <div class="page-break"></div>
                 @endif
             @endforeach
-
-
         @endif
     </div>
