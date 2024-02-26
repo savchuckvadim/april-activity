@@ -38,13 +38,13 @@
     }
 
     .cell-small {
-        /* width: 25mm; */
+        width: 25mm;
         width: 9px;
     }
 
     .cell-medium {
-        /* width: 60mm; */
-        width: 10px;
+        width: 60mm;
+        /* width: 10px; */
     }
 
     /* .cell-xsmall {
