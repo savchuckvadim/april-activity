@@ -110,6 +110,12 @@
                                 $classname = 'price-cell-price';
                             @endphp
                         @break --}}
+                        @case('discountprecent')
+                            @php
+                                $classname = 'price-cell-short';
+
+                            @endphp
+                        @break
 
                         @case('measure')
                             @php
@@ -152,7 +158,6 @@
                                                     $classname = 'price-cell-price';
                                                 @endphp
                                             @break --}}
-
                                             @case('defaultmonth')
                                                 @php
                                                     $classname = 'price-cell-price';
@@ -184,7 +189,7 @@
 
                                             @case('discountprecent')
                                                 @php
-                                                    // $classname = 'price-cell-short';
+                                                    $classname = 'price-cell-short';
                                                     $cellValue = $cell['value'];
                                                     $variableFloat = floatval($cellValue);
                                                     $result = 100 - 100 * $variableFloat;
