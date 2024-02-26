@@ -32,7 +32,7 @@
     }
 
     .price-cell-long-quantity {
-        width: 120px;
+        width: 85px;
     }
 
     .price-cell,
@@ -60,7 +60,7 @@
     }
 </style>
 
-<div class="{{ $withPrice ? 'prices price-content' : 'prices page-contente' }}" class="prices page-content">
+<div class="{{ $withPrice ? 'prices price-content' : 'prices page-content' }}">
 
     <h3>Цена за комплект</h3>
     @if ($isTable)
