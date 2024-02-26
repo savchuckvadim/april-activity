@@ -18,6 +18,10 @@
         width: 25px;
     }
 
+    .price-cell-long-quantity {
+        width: 60px;
+    }
+
     .price-cell,
     .price-cell-short,
     .price-cell-head {
@@ -64,7 +68,12 @@
 
                         @case('quantity')
                             @php
-                                $classname = 'price-cell-short';
+                                if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
+                                    $classname = 'price-cell-long-quantity';
+                                } else {
+                                    $classname = 'price-cell-short';
+                                }
+
                             @endphp
                         @break
 
@@ -105,7 +114,12 @@
 
                                             @case('quantity')
                                                 @php
-                                                    $classname = 'price-cell-short';
+                                                    if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
+                                                        $classname = 'price-cell-long-quantity';
+                                                    } else {
+                                                        $classname = 'price-cell-short';
+                                                    }
+
                                                 @endphp
                                             @break
 
