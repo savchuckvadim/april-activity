@@ -488,9 +488,9 @@ class PDFDocumentController extends Controller
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {
-                $itemsPerPage = 40;
+                $itemsPerPage = 60;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 16;
+                $itemsPerPage = 20;
             } else {
                 $itemsPerPage = 12;
             }
@@ -538,12 +538,12 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $isWithPrice = true;
             } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 8) {
+                if ($lastPageItemsCount < 6) {
                     $isWithPrice = true;
                 }
             } else {
 
-                if ($lastPageItemsCount < 6) {
+                if ($lastPageItemsCount < 4) {
                     $isWithPrice = true;
                 }
             }
