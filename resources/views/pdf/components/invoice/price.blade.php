@@ -8,6 +8,10 @@
         height: 30px;
     }
 
+    .total-cell {
+        height: 20px;
+    }
+
     .price-cell-first {
         text-align: start;
         vertical-align: middle;
@@ -49,6 +53,7 @@
     }
 
     .total-first-cell {
+        height: 20px;
         border: 0px;
     }
 </style>
@@ -178,7 +183,7 @@
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
                         @if ($totalCell['code'] === 'prepaymentsum')
-                            <td class="price-cell">
+                            <td class="total-cell">
                                 <p class="text-small bold">
                                     {{ $totalCell['value'] }}
                                 </p>
