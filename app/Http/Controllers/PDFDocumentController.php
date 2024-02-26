@@ -851,7 +851,7 @@ class PDFDocumentController extends Controller
             if (count($general) > 1) {  //если больше одного основного товара
                 $result += count($general);
             }
-            if (count($alternative) > 1) {  //если больше одного основного товара
+            if (count($alternative) > 1) {  //если больше одного  товара
                 $result += count($alternative);
             }
         }
