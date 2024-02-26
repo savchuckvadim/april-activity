@@ -189,6 +189,7 @@ class PDFDocumentController extends Controller
                         'infoblocksData' => $infoblocksData,
                         // 'link' => $link,
                         'link' => $generalInvoice,
+                        'links' => $links,
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
 
@@ -256,36 +257,41 @@ class PDFDocumentController extends Controller
                 $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral, $alternativeSetId);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
-                $pdf = Pdf::loadView('pdf.invoice', [
+                // $pdf = Pdf::loadView('pdf.invoice', [
+                //     'headerData' =>  $headerData,
+                //     'doubleHeaderData' =>  $doubleHeaderData,
+                //     'stampsData' => $stampsData,
+                //     'invoiceData' => $invoiceData,
+                // ]);
+
+
+
+                // // //СОХРАНЕНИЕ ДОКУМЕТА
+                // $uid = Uuid::uuid4()->toString();
+                // $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+                // $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+                // $invoicePath = $resultPath . '/invoice';
+
+                // if (!file_exists($invoicePath)) {
+                //     mkdir($invoicePath, 0775, true); // Создать каталог с правами доступа
+                // }
+
+                // // Проверить доступность каталога для записи
+                // if (!is_writable($invoicePath)) {
+                //     throw new \Exception("Невозможно записать в каталог: $invoicePath");
+                // }
+                // $resultFileName = 'Счет-' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
+                // $pdf->save($invoicePath . '/' . $resultFileName);
+                // $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/invoice/' . $resultFileName);
+
+
+                return [
                     'headerData' =>  $headerData,
                     'doubleHeaderData' =>  $doubleHeaderData,
                     'stampsData' => $stampsData,
                     'invoiceData' => $invoiceData,
-                ]);
-
-
-
-                // //СОХРАНЕНИЕ ДОКУМЕТА
-                $uid = Uuid::uuid4()->toString();
-                $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-
-                $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-                $invoicePath = $resultPath . '/invoice';
-
-                if (!file_exists($invoicePath)) {
-                    mkdir($invoicePath, 0775, true); // Создать каталог с правами доступа
-                }
-
-                // Проверить доступность каталога для записи
-                if (!is_writable($invoicePath)) {
-                    throw new \Exception("Невозможно записать в каталог: $invoicePath");
-                }
-                $resultFileName = 'Счет-' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
-                $pdf->save($invoicePath . '/' . $resultFileName);
-                $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/invoice/' . $resultFileName);
-
-
-                return $link;
+                ];
             }
         }
     }
