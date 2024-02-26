@@ -299,18 +299,17 @@ class PDFDocumentController extends Controller
         // $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
 
         $resultText = '';
+        $currentCommentText = $commentText;
         foreach ($links as $key => $commentLink) {
-            if (!$key) {
-                $commentText = $commentText;
-            } else {
+            if ($key) {
                 if ($key == 1) {
-                    $commentText = 'СЧЕТ-' . $commentText;
+                    $currentCommentText = 'СЧЕТ-' . $commentText;
                 } else {
                     $numb = $key  - 1;
-                    $commentText = 'СЧЕТ-' . $commentText . '-' . $numb;
+                    $currentCommentText = 'СЧЕТ-' . $commentText . '-' . $numb;
                 }
             }
-            $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a> \n";
+            $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($currentCommentText) . "</a> \n";
         }
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
