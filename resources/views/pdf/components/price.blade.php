@@ -17,7 +17,7 @@
         padding: 2px;
         text-align: start;
         vertical-align: middle;
-        width: 200px;
+        width: 180px;
     }
 
     .price-cell-price {
