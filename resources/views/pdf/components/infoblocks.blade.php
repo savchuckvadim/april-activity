@@ -120,7 +120,7 @@
                         @foreach ($page['groups'] as $group)
                             @foreach ($group['items'] as $infoblock)
                                 @php
-                                    array_push($pageItems, $item);
+                                    array_push($pageItems, $infoblock);
                                 @endphp
                             @endforeach
                         @endforeach
