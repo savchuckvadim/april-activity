@@ -32,7 +32,7 @@
     }
 
     .price-cell-long-quantity {
-        width: 65px;
+        width: 79px;
     }
 
     .price-cell,
