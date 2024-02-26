@@ -17,7 +17,7 @@
         padding: 2px;
         text-align: start;
         vertical-align: middle;
-        width: 180px;
+        width: 130px;
     }
 
     .price-cell-price {
@@ -28,11 +28,11 @@
     }
 
     .price-cell-short {
-        width: 20px;
+        width: 15px;
     }
 
     .price-cell-long-quantity {
-        width: 85px;
+        width: 65px;
     }
 
     .price-cell,
