@@ -15,6 +15,13 @@
         width: 200px;
     }
 
+    .price-cell-price {
+        padding: 1px;
+        text-align: center;
+        vertical-align: middle;
+        width: 100px;
+    }
+
     .price-cell-short {
         width: 25px;
     }
@@ -79,6 +86,12 @@
                             @endphp
                         @break
 
+                        @case('current')
+                            @php
+                                $classname = 'price-cell-price';
+                            @endphp
+                        @break
+
                         @case('measure')
                             @php
                                 $classname = 'price-cell-short';
@@ -111,6 +124,12 @@
                                             @case('name')
                                                 @php
                                                     $classname = 'price-cell-first';
+                                                @endphp
+                                            @break
+
+                                            @case('current')
+                                                @php
+                                                    $classname = 'price-cell-price';
                                                 @endphp
                                             @break
 
