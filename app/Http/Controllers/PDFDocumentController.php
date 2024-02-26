@@ -263,18 +263,18 @@ class PDFDocumentController extends Controller
                 $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
                 $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+                $invoicePath = $resultPath . '/invoice';
 
-
-                if (!file_exists($resultPath)) {
-                    mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                if (!file_exists($invoicePath)) {
+                    mkdir($invoicePath, 0775, true); // Создать каталог с правами доступа
                 }
 
                 // Проверить доступность каталога для записи
-                if (!is_writable($resultPath)) {
-                    throw new \Exception("Невозможно записать в каталог: $resultPath");
+                if (!is_writable($invoicePath)) {
+                    throw new \Exception("Невозможно записать в каталог: $invoicePath");
                 }
-                $resultFileName = 'Счет_' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
-                $pdf->save($resultPath . '/' . $resultFileName);
+                $resultFileName = 'Счет-' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
+                $pdf->save($invoicePath . '/' . $resultFileName);
                 $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/invoice/' . $resultFileName);
 
 
