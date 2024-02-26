@@ -84,11 +84,19 @@ class PDFDocumentController extends Controller
                 //invoice
                 $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
 
+
+                //general
+                $comePrices = $price['cells'];
+                $productsCount = $this->getProductsCount($comePrices);
+
+
+
+                //document data
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $footerData  = $this->getFooterData($manager);
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
-                $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName);
+                $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
 
                 $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
                 $stampsData  =   $this->getStampsData($providerRq);
@@ -402,7 +410,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName)
+    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
@@ -462,7 +470,7 @@ class PDFDocumentController extends Controller
         if (!empty($currentPage['groups'])) {
             $pages[] = $currentPage;
         }
-        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode);
+        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount);
         return [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
@@ -473,6 +481,26 @@ class PDFDocumentController extends Controller
         ];
     }
 
+
+
+    protected function getInfoblocksCount($complect)
+    {
+        $result = [
+            'groups' => 0,
+            'infoblocks' => 0
+        ];
+
+
+        foreach ($complect as $group) {
+            $result['groups'] += 1;
+            if (isset($group['value'])) {
+                foreach ($group['value'] as $infoblock) {
+                    $result['infoblocks'] += 1;
+                }
+            }
+        }
+        return  $result;
+    }
     protected function determineItemsPerPage($descriptionMode, $styleMode)
     {
         $itemsPerPage = 20;
@@ -507,90 +535,6 @@ class PDFDocumentController extends Controller
         return $itemsPerPage;
     }
 
-    protected function getWithPrice($pages, $descriptionMode, $styleMode)
-    {
-        $isWithPrice = false;
-        $lastPageItemsCount = 0;
-        $lastPage = end($pages);
-        if (is_array($lastPage) && isset($lastPage['items']) && is_array($lastPage['items'])) {
-            // Получаем длину массива 'items'
-            $lastPageItemsCount = count($lastPage['items']);
-        }
-
-
-        if ($styleMode === 'list') {
-
-            if ($descriptionMode === 0) {
-                if ($lastPageItemsCount < 20) {
-                    $isWithPrice = true;
-                }
-            } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 4) {
-                    $isWithPrice = true;
-                }
-            } else {
-
-                // if ($lastPageItemsCount < 3) {
-                //     $isWithPrice = true;
-                // }
-            }
-        } else if ($styleMode === 'table') {
-
-            if ($descriptionMode === 0) {
-                if ($lastPageItemsCount < 38) {
-                    $isWithPrice = true;
-                }
-            } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 9) {
-                    $isWithPrice = true;
-                }
-            } else {
-
-                if ($lastPageItemsCount < 7) {
-                    $isWithPrice = true;
-                }
-            }
-        } else {
-            if ($descriptionMode === 0) {
-                if ($lastPageItemsCount < 20) {
-                    $isWithPrice = true;
-                }
-            } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 5) {
-                    $isWithPrice = true;
-                }
-            } else {
-
-                if ($lastPageItemsCount < 3) {
-                    $isWithPrice = true;
-                }
-            }
-        }
-
-        return $isWithPrice;
-    }
-
-
-    protected function getInfoblocksCount($complect)
-    {
-        $result = [
-            'groups' => 0,
-            'infoblocks' => 0
-        ];
-
-
-        foreach ($complect as $group) {
-            $result['groups'] += 1;
-            if (isset($group['value'])) {
-                foreach ($group['value'] as $infoblock) {
-                    $result['infoblocks'] += 1;
-                }
-            }
-        }
-        return  $result;
-    }
-
-
 
 
 
@@ -607,6 +551,7 @@ class PDFDocumentController extends Controller
 
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($comePrices);
+        
         $quantityMeasureString = '';
         $quantityString = '';
         $measureString = '';
@@ -680,6 +625,77 @@ class PDFDocumentController extends Controller
             'total' => $fullTotalstring
 
         ];
+    }
+  
+
+    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount)
+    {
+        $isWithPrice = false;
+       
+        $lastPageItemsCount = 0;
+        $lastPage = end($pages);
+        if (is_array($lastPage) && isset($lastPage['items']) && is_array($lastPage['items'])) {
+            // Получаем длину массива 'items'
+            $lastPageItemsCount = count($lastPage['items']);
+        }
+
+        if($productsCount < 4){
+
+            if ($styleMode === 'list') {
+
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 20) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 4) {
+                        $isWithPrice = true;
+                    }
+                } else {
+    
+                    // if ($lastPageItemsCount < 3) {
+                    //     $isWithPrice = true;
+                    // }
+                }
+            } else if ($styleMode === 'table') {
+    
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 38) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 9) {
+                        $isWithPrice = true;
+                    }
+                } else {
+    
+                    if ($lastPageItemsCount < 7) {
+                        $isWithPrice = true;
+                    }
+                }
+            } else {
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 20) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 5) {
+                        $isWithPrice = true;
+                    }
+                } else {
+    
+                    if ($lastPageItemsCount < 3) {
+                        $isWithPrice = true;
+                    }
+                }
+            }
+
+
+        }
+
+   
+
+        return $isWithPrice;
     }
 
 
@@ -819,6 +835,29 @@ class PDFDocumentController extends Controller
         return $result;
     }
 
+    protected function getProductsCount(
+        $allPrices,
+
+    ) {
+
+        $result = 0;
+        $alternative =  $allPrices['alternative'];
+        $general =  $allPrices['general'];
+
+
+
+        if (is_array($alternative) && is_array($general)) {
+
+            if (count($general) > 1) {  //если больше одного основного товара
+                $result += count($general);
+            }
+            if (count($alternative) > 1) {  //если больше одного основного товара
+                $result += count($alternative);
+            }
+        }
+
+        return $result;
+    }
 
     protected function getStampsData($providerRq)
     {
