@@ -696,7 +696,7 @@ class PDFDocumentController extends Controller
             }
         }
 
-
+        echo $lastPageItemsCount;
 
         return $isWithPrice;
     }
