@@ -3091,7 +3091,7 @@ class DocumentController extends Controller
 
     //SET IN BITRIX
 
-    protected function setTimeline($domain, $dealId, $commentLink, $commentText)
+    public function setTimeline($domain, $dealId, $commentLink, $commentText)
     {
         $method = '/crm.timeline.comment.add';
         // $bitrixController = new BitrixController();

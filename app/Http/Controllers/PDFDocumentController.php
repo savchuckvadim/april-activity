@@ -6,6 +6,7 @@ use App\Models\Counter;
 use App\Models\Infoblock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use morphos\Cases;
 use morphos\Russian\MoneySpeller;
@@ -153,7 +154,7 @@ class PDFDocumentController extends Controller
                     // $objWriter->save($resultPath . '/' . $resultFileName);
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-
+                    $links = [];
                     $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
@@ -163,22 +164,26 @@ class PDFDocumentController extends Controller
                     //     'counter' => $counter,
 
                     // ]);
-
+                    array_push($links, $link);
                     if ($isGeneralInvoice) {
-                        $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, 1, true);
+                        $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
                         array_push($invoices, $generalInvoice);
+                        array_push($links, $link);
                     }
                     if ($isAlternativeInvoices) {
-                        // foreach ($data['price']['cells']['alternative'] as $product) {
-                        //     # code...
-                        // }
-                        // $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, 1, true);
+                        foreach ($data['price']['cells']['alternative'] as $key => $product) {
+
+                            $alternativeInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, false, $key);
+                            array_push($invoices, $alternativeInvoice);
+                            array_push($links, $link);
+                        }
                     }
 
                     //BITRIX
-                    // $this->setTimeline($domain, $dealId, $link, $documentNumber);
-                    // $bitrixController = new BitrixController();
-                    // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
+
+                    $bitrixController = new BitrixController();
+                    $this->setTimeline($domain, $dealId, $links, $documentNumber);
+                    $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
 
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
@@ -194,7 +199,7 @@ class PDFDocumentController extends Controller
             return APIController::getError($th->getMessage(), $data);
         }
     }
-    public function getInvoice($data, $isTwoLogo,  $documentNumber, $index, $isGeneral)
+    public function getInvoice($data, $isTwoLogo,  $documentNumber, $isGeneral = true, $alternativeSetId = 0)
     {
         if ($data &&  isset($data['template'])) {
             $template = $data['template'];
@@ -233,7 +238,10 @@ class PDFDocumentController extends Controller
 
                 //invoice
                 $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
-                $invoiceBaseNumber = $invoiceBaseNumber . '-' . $index;
+                if (!$isGeneral) {
+                    $invoiceBaseNumber = $invoiceBaseNumber . '-' . $alternativeSetId + 1;
+                }
+
 
                 //general
                 $comePrices = $price['cells'];
@@ -245,7 +253,7 @@ class PDFDocumentController extends Controller
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $stampsData  =   $this->getStampsData($providerRq);
-                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral);
+                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral, $alternativeSetId);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
                 $pdf = Pdf::loadView('pdf.invoice', [
@@ -281,6 +289,56 @@ class PDFDocumentController extends Controller
             }
         }
     }
+
+
+    public function setTimeline($domain, $dealId, $links, $commentText)
+    {
+        $method = '/crm.timeline.comment.add';
+        // $bitrixController = new BitrixController();
+        // $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
+
+        $resultText = '';
+        foreach ($links as $key => $commentLink) {
+            if (!$key) {
+                $commentText = 'КП-' . $commentText;
+            } else {
+                if ($key == 1) {
+                    $commentText = 'СЧЕТ-' . $commentText;
+                } else {
+                    $numb = $key  - 1;
+                    $commentText = 'СЧЕТ-' . $commentText . '-' . $numb;
+                }
+            }
+            $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a><br>";
+        }
+        try {
+            $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
+
+
+            $url = $hook . $method;
+            $fields = [
+                "ENTITY_ID" => $dealId,
+                "ENTITY_TYPE" => "deal",
+                "COMMENT" => $resultText
+            ];
+            $data = [
+                'fields' => $fields
+            ];
+            $response = Http::get($url, $data);
+            if ($response) {
+                if (isset($response['result'])) {
+                    return $response['result'];
+                } else {
+                    if (isset($response['error_description'])) {
+                        return $response['result'];
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
+        }
+    }
+
 
 
     protected function getHeaderData($providerRq, $isTwoLogo)
@@ -741,7 +799,120 @@ class PDFDocumentController extends Controller
 
         ];
     }
+    protected function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId)
+    {
+        $isTable = $price['isTable'];
+        $comePrices = $price['cells'];
+        $total = '';
+        $fullTotalstring = '';
+        $totalSum = 0;        //SORT CELLS
+        $sortActivePrices = $this->getSortActivePrices($comePrices, true);
+        $allPrices =  $sortActivePrices;
 
+
+
+        $quantityMeasureString = '';
+        $quantityString = '';
+        $measureString = '';
+        $contract = null;
+
+
+        foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+            if ($contractCell['code'] === 'contract') {
+                $contract = $contractCell['value'];
+            }
+        }
+
+        $foundCell = null;
+
+        foreach ($price['cells']['total'][0]['cells'] as $cell) {
+            if ($cell['code'] === 'prepaymentsum') {
+                $foundCell = $cell;
+            }
+        }
+        $targetProducts = $allPrices['general'];
+        $totalCells = $price['cells']['total'][0]['cells'];
+        if (!$isGeneral) {
+
+            $targetProducts = $allPrices['alternative'];
+            $totalCells = $price['cells']['alternative'][$alternativeSetId]['cells'];
+        }
+
+
+        $allProductForInvoice = [];
+        foreach ($targetProducts as $productKey => $product) {
+            if ($isGeneral) {
+                array_push($allProductForInvoice, $product);
+            } else {
+                if ($productKey == $alternativeSetId) {
+                    array_push($allProductForInvoice, $product);
+                }
+            }
+        }
+
+
+
+
+        foreach ($totalCells  as $cell) {
+
+            if ($cell['code'] === 'quantity' && $cell['value']) {
+                if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
+                    $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
+                } else {
+                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
+
+                    // Преобразуем результат в число
+                    $quantity = intval($numberString);
+                    $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                }
+            }
+
+            if ($cell['code'] === 'measure' && $cell['value']) {
+                if ($cell['isActive']) {
+                    // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+                    //     if ($contractCell['code'] === 'contract') {
+                    //         $measureString = $contractCell['value']['measureFullName'];
+                    //     }
+                    // }
+
+                }
+            }
+        }
+
+        $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>';
+
+
+        if ($foundCell) {
+            $totalSum = $foundCell['value'];
+            $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+            $total = '<color>' . $totalSum . '</color> ';
+        }
+
+        $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
+        $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
+        $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+
+
+
+
+
+
+        $text = ' (' . $firstChar . $restOfText . ') без НДС';
+        $textTotalSum = $text;
+
+        $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
+
+
+        return [
+            'isTable' => $isTable,
+            // 'isInvoice' => $isInvoice,
+            'allPrices' => $allPrices,
+            // 'withPrice' => $withPrice,
+            'withTotal' => true,
+            'total' => $fullTotalstring
+
+        ];
+    }
 
     protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount)
     {
@@ -1018,9 +1189,10 @@ class PDFDocumentController extends Controller
         $recipient,
         $price,
         $isGeneral,
+        $alternativeSetId,
 
     ) {
-        $pricesData  =   $this->getPricesData($price, false, true);
+        $pricesData  =   $this->getInvoicePricesData($price, $isGeneral, $alternativeSetId);
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
         $invoiceData = [
