@@ -69,7 +69,7 @@
             <tr>
                 @foreach ($allPrices['general'][0]['cells'] as $priceCell)
                     @php
-
+                        $headValue = $priceCell['name'];
                         $classname = 'price-cell-head';
                     @endphp
 
@@ -82,9 +82,11 @@
 
                         @case('quantity')
                             @php
+
                                 if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
                                     $classname = 'price-cell-long-quantity';
                                 } else {
+                                    $headValue = 'Кол-во';
                                     $classname = 'price-cell-short';
                                 }
 
@@ -111,6 +113,7 @@
 
                         @case('measure')
                             @php
+                                $headValue = 'Ед.';
                                 $classname = 'price-cell-short';
                             @endphp
                         @break
@@ -120,7 +123,7 @@
                     @endswitch
                     <td class={{ $classname }}>
                         <p class="text-small bold">
-                            {{ $priceCell['name'] }}
+                            {{ $headValue }}
                         </p>
                     </td>
                 @endforeach
