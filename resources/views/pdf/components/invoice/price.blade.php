@@ -22,9 +22,10 @@
     .price-cell,
     .price-cell-number,
     .price-cell-short,
-    .price-cell-head, {
-        text-align: center;
-        vertical-align: middle;
+    .price-cell-head,
+    {
+    text-align: center;
+    vertical-align: middle;
     }
 
     .price-cell-head {
@@ -162,6 +163,27 @@
                     @endforeach
                 @endif
             @endforeach
+            {{-- @if ($withTotal) --}}
+            @php
+                $lastCellClassname = $classname;
+                $lastCellValue = $value;
+            @endphp
+            <!-- Добавляем новый ряд с одной ячейкой, аналогичной последней в предыдущем ряду -->
+            <tr class="price-row">
+                @foreach ($allPrices['total'][0]['cells'] as $totalCell)
+                    @if (isset($totalCell['code']))
+                        @if ($totalCell['code'] === 'prepaymentsum')
+                            <td colspan="5" class="{{ $lastCellClassname }}">
+                                <p class="text-small">
+                                    {{ $totalCell['value'] }}
+                                </p>
+                            </td>
+                        @endif
+                    @endif
+                @endforeach
+
+            </tr>
+            {{-- @endif --}}
         </table>
 
         @if ($withTotal)
