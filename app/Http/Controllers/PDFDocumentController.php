@@ -471,7 +471,7 @@ class PDFDocumentController extends Controller
             $pages[] = $currentPage;
         }
         $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount);
-        return [
+        $result = [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
@@ -479,6 +479,8 @@ class PDFDocumentController extends Controller
             'complectName' => $complectName
 
         ];
+        echo $result;
+        return $result;
     }
 
 
@@ -683,7 +685,7 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else {
-                    echo $lastPageItemsCount;
+
                     if ($lastPageItemsCount > 1 && $lastPageItemsCount < 4) {
                         $isWithPrice = true;
                     }
