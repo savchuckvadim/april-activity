@@ -15,6 +15,7 @@
     }
 
     .price-cell-first {
+        padding: 5px;
         text-align: start;
         vertical-align: middle;
         width: 350px;
@@ -82,7 +83,7 @@
                     @switch($priceCell['code'])
                         @case('name')
                             @php
-                                $classname = 'price-cell-head  price-cell-first';
+                                $classname = 'price-cell-first';
                             @endphp
                         @break
 

@@ -614,55 +614,55 @@ class PDFDocumentController extends Controller
             }
         }
         // if ($withTotal) {
-            $foundCell = null;
-            foreach ($price['cells']['total'][0]['cells'] as $cell) {
-                if ($cell['code'] === 'prepaymentsum') {
-                    $foundCell = $cell;
-                }
+        $foundCell = null;
+        foreach ($price['cells']['total'][0]['cells'] as $cell) {
+            if ($cell['code'] === 'prepaymentsum') {
+                $foundCell = $cell;
+            }
 
-                if ($cell['code'] === 'quantity' && $cell['value']) {
-                    if ($contract['shortName'] !== 'internet' || $contract['shortName'] !== 'proxima') {
-                        $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
-                    } else {
+            if ($cell['code'] === 'quantity' && $cell['value']) {
+                if ($contract['shortName'] !== 'internet' || $contract['shortName'] !== 'proxima') {
+                    $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
+                } else {
 
-                        $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH);
-                    }
-                }
-
-                if ($cell['code'] === 'measure' && $cell['value']) {
-                    if ($cell['isActive']) {
-                        // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
-                        //     if ($contractCell['code'] === 'contract') {
-                        //         $measureString = $contractCell['value']['measureFullName'];
-                        //     }
-                        // }
-
-                    }
+                    $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH);
                 }
             }
 
-            $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>';
+            if ($cell['code'] === 'measure' && $cell['value']) {
+                if ($cell['isActive']) {
+                    // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+                    //     if ($contractCell['code'] === 'contract') {
+                    //         $measureString = $contractCell['value']['measureFullName'];
+                    //     }
+                    // }
 
-
-            if ($foundCell) {
-                $totalSum = $foundCell['value'];
-                $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
-                $total = '<color>' . $totalSum . '</color> руб.';
+                }
             }
+        }
 
-            $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
-            $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
-            $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
-
+        $quantityMeasureString = '\n За ' . '<color>' . $quantityString . '</color>';
 
 
+        if ($foundCell) {
+            $totalSum = $foundCell['value'];
+            $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+            $total = '<color>' . $totalSum . '</color> ';
+        }
+
+        $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
+        $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
+        $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
 
 
 
-            $text = ' (' . $firstChar . $restOfText . ') без НДС';
-            $textTotalSum = $text;
 
-            $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
+
+
+        $text = ' (' . $firstChar . $restOfText . ') без НДС';
+        $textTotalSum = $text;
+
+        $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
         // }
 
         return [
@@ -704,16 +704,18 @@ class PDFDocumentController extends Controller
                                     usort($filtredCells, function ($a, $b) {
                                         return $a['order'] - $b['order'];
                                     });
-                                    
                                 } else {
                                     $filtredCells = [];
+                                    usort($product['cells'], function ($a, $b) {
+                                        return $a['order'] - $b['order'];
+                                    });
                                     foreach ($product['cells'] as $cell) {
                                         $searchingCell = null;
 
                                         if ($cell['code'] === 'name') {
                                             $searchingCell = $cell;
                                         }
-                                        
+
                                         if ($cell['code'] === 'current') {
                                             $searchingCell = $cell;
                                         }
@@ -732,11 +734,9 @@ class PDFDocumentController extends Controller
                                             $searchingCell = $cell;
                                         }
 
-                                        if($searchingCell){
+                                        if ($searchingCell) {
                                             array_push($filtredCells, $searchingCell);
-
                                         }
-                                        
                                     }
                                     // $filtredCells = array_filter($product['cells'], function ($prc) {
                                     //     return $prc['isActive'] == true || $prc['code'] == 'measure';
