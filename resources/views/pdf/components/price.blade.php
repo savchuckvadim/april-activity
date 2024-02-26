@@ -28,7 +28,7 @@
     }
 
     .price-cell-short {
-        width: 1px;
+        width: 20px;
     }
 
     .price-cell-long-quantity {
