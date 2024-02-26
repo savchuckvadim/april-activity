@@ -95,7 +95,7 @@
 </head>
 
 <body
- {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
+    {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
  >
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent

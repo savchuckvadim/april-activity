@@ -90,7 +90,7 @@ class PDFDocumentController extends Controller
                 $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                 $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName);
 
-                $pricesData  =   $this->getPricesData($price, false);
+                $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
                 $stampsData  =   $this->getStampsData($providerRq);
                 $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
@@ -541,12 +541,12 @@ class PDFDocumentController extends Controller
                     $isWithPrice = true;
                 }
             } else if ($descriptionMode === 1) {
-                if ($lastPageItemsCount < 6) {
+                if ($lastPageItemsCount < 9) {
                     $isWithPrice = true;
                 }
             } else {
 
-                if ($lastPageItemsCount < 4) {
+                if ($lastPageItemsCount < 7) {
                     $isWithPrice = true;
                 }
             }
@@ -594,7 +594,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getPricesData($price, $isInvoice = null)
+    protected function getPricesData($price, $withPrice = false,  $isInvoice = null)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
@@ -675,6 +675,7 @@ class PDFDocumentController extends Controller
             'isTable' => $isTable,
             'isInvoice' => $isInvoice,
             'allPrices' => $allPrices,
+            'withPrice' => $withPrice,
             'withTotal' => $withTotal,
             'total' => $fullTotalstring
 
@@ -861,7 +862,7 @@ class PDFDocumentController extends Controller
         $price,
 
     ) {
-        $pricesData  =   $this->getPricesData($price, true);
+        $pricesData  =   $this->getPricesData($price, false, true);
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
         $invoiceData = [

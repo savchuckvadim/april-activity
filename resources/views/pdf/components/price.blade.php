@@ -3,6 +3,11 @@
         margin-bottom: 0px;
     }
 
+    .price-content {
+        margin-top: 40px;
+        vertical-align: top;
+    }
+
     .price-row,
     .price-cell {
         height: 30px;
@@ -55,7 +60,7 @@
     }
 </style>
 
-<div class="prices page-content">
+<div class="{{ $withPrice ? 'prices price-content' : 'prices page-contente' }}" class="prices page-content">
 
     <h3>Цена за комплект</h3>
     @if ($isTable)
