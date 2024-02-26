@@ -9,6 +9,8 @@
     }
 
     .total-cell {
+        text-align: center;
+        vertical-align: middle;
         height: 20px;
     }
 
