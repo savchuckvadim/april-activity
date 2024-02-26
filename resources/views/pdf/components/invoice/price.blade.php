@@ -11,7 +11,7 @@
     .price-cell-first {
         text-align: start;
         vertical-align: middle;
-        width: 250px;
+        width: 350px;
     }
 
     .price-cell-short {
