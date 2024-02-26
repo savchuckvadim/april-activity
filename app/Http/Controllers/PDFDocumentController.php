@@ -479,7 +479,7 @@ class PDFDocumentController extends Controller
             'complectName' => $complectName
 
         ];
-        echo $result;
+        print_r($result);
         return $result;
     }
 
