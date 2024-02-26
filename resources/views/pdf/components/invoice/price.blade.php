@@ -47,7 +47,8 @@
 
         text-align: right;
     }
-    .total-first-cell{
+
+    .total-first-cell {
         border: 0px;
     }
 </style>
@@ -172,7 +173,7 @@
                 $lastCellValue = $value;
             @endphp
             <!-- Добавляем новый ряд с одной ячейкой, аналогичной последней в предыдущем ряду -->
-            <tr class="price-row">
+            <tr class="price-row" style="height:20px;">
                 <td class="total-first-cell" colspan="5"></td> {{-- Пропускаем первые 5 столбцов --}}
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
@@ -191,34 +192,34 @@
         </table>
 
         {{-- @if ($withTotal) --}}
-            @php
-                $totalText = $total;
-                // Заменяем строковые литералы "\n" на реальные символы переноса строки
-                $totalText = str_replace("\\n", "\n", $totalText);
-                $parts = preg_split('/<color>|<\/color>/', $totalText);
-                $inHighlight = false;
-            @endphp
-            <div class='total-area'>
+        @php
+            $totalText = $total;
+            // Заменяем строковые литералы "\n" на реальные символы переноса строки
+            $totalText = str_replace("\\n", "\n", $totalText);
+            $parts = preg_split('/<color>|<\/color>/', $totalText);
+            $inHighlight = false;
+        @endphp
+        <div class='total-area'>
 
-                <p class="text-large total">
-                    <span class="bold">Итого: </span>
+            <p class="text-large total">
+                <span class="bold">Итого: </span>
 
-                    @foreach ($parts as $index => $part)
-                        @php
-                            $isLastPart = $index === count($parts) - 1;
-                        @endphp
+                @foreach ($parts as $index => $part)
+                    @php
+                        $isLastPart = $index === count($parts) - 1;
+                    @endphp
 
-                        {{-- Замена \n на <br> и обертывание каждой части в span --}}
-                        {!! $inHighlight ? '<span class="bold  text-normal">' : '<span class="text-normal italic">' !!}
-                        {!! nl2br(e($part)) !!}
-                        </span>
+                    {{-- Замена \n на <br> и обертывание каждой части в span --}}
+                    {!! $inHighlight ? '<span class="bold  text-normal">' : '<span class="text-normal italic">' !!}
+                    {!! nl2br(e($part)) !!}
+                    </span>
 
-                        @if (!$isLastPart)
-                            @php $inHighlight = !$inHighlight @endphp
-                        @endif
-                    @endforeach
-                </p>
-            </div>
+                    @if (!$isLastPart)
+                        @php $inHighlight = !$inHighlight @endphp
+                    @endif
+                @endforeach
+            </p>
+        </div>
         {{-- @endif --}}
     @endif
 </div>
