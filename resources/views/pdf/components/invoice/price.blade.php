@@ -186,14 +186,16 @@
                 @php
                     $totalValue = 0;
                 @endphp
-                @foreach ($allPrices['total'][0]['cells'] as $totalCell)
-                    @if (isset($totalCell['code']))
-                        @if ($totalCell['code'] === 'prepaymentsum')
-                            @php
-                                $totalValue = $totalValue + $totalCell['value'];
-                            @endphp
+                @foreach ($allPrices as $totalProduct)
+                    @foreach ($totalProduct['cells'] as $totalCell)
+                        @if (isset($totalCell['code']))
+                            @if ($totalCell['code'] === 'prepaymentsum')
+                                @php
+                                    $totalValue = $totalValue + $totalCell['value'];
+                                @endphp
+                            @endif
                         @endif
-                    @endif
+                    @endforeach
                 @endforeach
                 <td class="total-cell">
                     <p class="text-small bold">
