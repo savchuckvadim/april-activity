@@ -87,7 +87,7 @@
                                     $classname = 'price-cell-long-quantity';
                                 } else {
                                     $headValue = 'Кол-во';
-                                    $classname = 'price-cell-short';
+                                    // $classname = 'price-cell-short';
                                 }
 
                             @endphp
@@ -114,7 +114,7 @@
                         @case('measure')
                             @php
                                 $headValue = 'Ед.';
-                                $classname = 'price-cell-short';
+                                // $classname = 'price-cell-short';
                             @endphp
                         @break
 
@@ -170,7 +170,7 @@
                                                     if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
                                                         $classname = 'price-cell-long-quantity';
                                                     } else {
-                                                        $classname = 'price-cell-short';
+                                                        // $classname = 'price-cell-short';
                                                     }
 
                                                 @endphp
@@ -178,13 +178,13 @@
 
                                             @case('measure')
                                                 @php
-                                                    $classname = 'price-cell-short';
+                                                    // $classname = 'price-cell-short';
                                                 @endphp
                                             @break
 
                                             @case('discountprecent')
                                                 @php
-                                                    $classname = 'price-cell-short';
+                                                    // $classname = 'price-cell-short';
                                                     $cellValue = $cell['value'];
                                                     $variableFloat = floatval($cellValue);
                                                     $result = 100 - 100 * $variableFloat;
