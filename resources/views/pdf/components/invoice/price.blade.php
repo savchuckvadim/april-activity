@@ -74,7 +74,7 @@
                     </p>
 
                 </td>
-                @foreach ($allPrices['general'][0]['cells'] as $priceCell)
+                @foreach ($allPrices[0]['cells'] as $priceCell)
                     @php
 
                         $classname = 'price-cell-head price-cell-head';
@@ -109,72 +109,72 @@
                     </td>
                 @endforeach
             </tr>
-            @foreach ([$allPrices['general'], $allPrices['alternative']] as $target)
-                @if (is_array($target) && !empty($target))
-                    @foreach ($target as $index => $product)
-                        @if ($product)
-                            @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
-                                <tr class="price-row">
-                                    <td class="price-cell-number">
-                                        <p class="text-small bold">
-                                            {{ $index + 1 }}.
-                                        </p>
+            {{-- @foreach ([$allPrices['general'], $allPrices['alternative']] as $target)
+                @if (is_array($target) && !empty($target)) --}}
+            @foreach ($allPrices as $index => $product)
+                @if ($product)
+                    @if (is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells']))
+                        <tr class="price-row">
+                            <td class="price-cell-number">
+                                <p class="text-small bold">
+                                    {{ $index + 1 }}.
+                                </p>
 
 
-                                    </td>
-                                    @foreach ($product['cells'] as $cell)
+                            </td>
+                            @foreach ($product['cells'] as $cell)
+                                @php
+                                    $value = $cell['value'];
+                                    $classname = 'price-cell';
+                                @endphp
+
+                                @switch($cell['code'])
+                                    @case('name')
                                         @php
-                                            $value = $cell['value'];
-                                            $classname = 'price-cell';
+                                            $classname = 'price-cell-first';
                                         @endphp
+                                    @break
 
-                                        @switch($cell['code'])
-                                            @case('name')
-                                                @php
-                                                    $classname = 'price-cell-first';
-                                                @endphp
-                                            @break
+                                    @case('quantity')
+                                        @php
+                                            $classname = 'price-cell-short';
+                                        @endphp
+                                    @break
 
-                                            @case('quantity')
-                                                @php
-                                                    $classname = 'price-cell-short';
-                                                @endphp
-                                            @break
+                                    @case('measure')
+                                        @php
+                                            $classname = 'price-cell-short';
+                                        @endphp
+                                    @break
 
-                                            @case('measure')
-                                                @php
-                                                    $classname = 'price-cell-short';
-                                                @endphp
-                                            @break
+                                    @case('discountprecent')
+                                        @php
+                                            $classname = 'price-cell-short';
+                                            $cellValue = $cell['value'];
+                                            $variableFloat = floatval($cellValue);
+                                            $result = 100 - 100 * $variableFloat;
+                                            $value = round($result, 2);
 
-                                            @case('discountprecent')
-                                                @php
-                                                    $classname = 'price-cell-short';
-                                                    $cellValue = $cell['value'];
-                                                    $variableFloat = floatval($cellValue);
-                                                    $result = 100 - 100 * $variableFloat;
-                                                    $value = round($result, 2);
+                                        @endphp
+                                    @break
 
-                                                @endphp
-                                            @break
-
-                                            @default
-                                            @break
-                                        @endswitch
-                                        <td class={{ $classname }}>
-                                            <p class="text-small">
-                                                {{ $value }}
-                                            </p>
+                                    @default
+                                    @break
+                                @endswitch
+                                <td class={{ $classname }}>
+                                    <p class="text-small">
+                                        {{ $value }}
+                                    </p>
 
 
-                                        </td>
-                                    @endforeach
-                                </tr>
-                            @endif
-                        @endif
-                    @endforeach
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endif
                 @endif
             @endforeach
+            {{-- @endif
+            @endforeach --}}
             {{-- @if ($withTotal) --}}
             @php
                 $lastCellClassname = $classname;
@@ -183,17 +183,23 @@
             <!-- Добавляем новый ряд с одной ячейкой, аналогичной последней в предыдущем ряду -->
             <tr class="price-row" style="height:20px;">
                 <td class="total-first-cell" colspan="5"></td> {{-- Пропускаем первые 5 столбцов --}}
+                @php
+                    $totalValue = 0;
+                @endphp
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
                         @if ($totalCell['code'] === 'prepaymentsum')
-                            <td class="total-cell">
-                                <p class="text-small bold">
-                                    {{ $totalCell['value'] }}
-                                </p>
-                            </td>
+                            @php
+                                $totalValue = $totalValue + $totalCell['value'];
+                            @endphp
                         @endif
                     @endif
                 @endforeach
+                <td class="total-cell">
+                    <p class="text-small bold">
+                        $totalValue
+                    </p>
+                </td>
 
             </tr>
             {{-- @endif --}}

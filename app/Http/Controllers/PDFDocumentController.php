@@ -807,7 +807,7 @@ class PDFDocumentController extends Controller
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
         $sortActivePrices = $this->getSortActivePrices($comePrices, true);
-        $allPrices =  [$sortActivePrices['general']];
+        $allPrices =  $sortActivePrices['general'];
 
 
 
@@ -830,7 +830,7 @@ class PDFDocumentController extends Controller
                 $foundCell = $cell;
             }
         }
-        $targetProducts = $allPrices['general'];
+        $targetProducts = $sortActivePrices['general'];
         $totalCells = $price['cells']['total'][0]['cells'];
         if (!$isGeneral) {
             foreach ($price['cells']['alternative'][0]['cells'] as $contractCell) {
@@ -838,9 +838,9 @@ class PDFDocumentController extends Controller
                     $contract = $contractCell['value'];
                 }
             }
-            $targetProducts = $allPrices['alternative'];
+            $targetProducts = $sortActivePrices['alternative'];
             $totalCells = $price['cells']['alternative'][$alternativeSetId]['cells'];
-            $allPrices =  [$sortActivePrices['alternative'][$alternativeSetId]];
+            $allPrices = [[$sortActivePrices['alternative'][$alternativeSetId]]];
         }
 
 
