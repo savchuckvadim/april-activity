@@ -624,8 +624,11 @@ class PDFDocumentController extends Controller
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
                     $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
                 } else {
+                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
 
-                    $quantityString = TimeSpeller::spellUnit($cell['value'], TimeSpeller::MONTH);
+                    // Преобразуем результат в число
+                    $quantity = intval($numberString);
+                    $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
                 }
             }
 
