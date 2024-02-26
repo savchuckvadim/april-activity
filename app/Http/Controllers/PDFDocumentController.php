@@ -964,12 +964,12 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 7) {
+                    if ($lastPageItemsCount < 5) {
                         $isWithPrice = true;
                     }
                 } else {
 
-                    if ($lastPageItemsCount < 3) {
+                    if ($lastPageItemsCount < 5) {
                         $isWithPrice = true;
                     }
                 }
