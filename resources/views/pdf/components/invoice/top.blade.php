@@ -33,8 +33,8 @@
 
 
     .cell-large {
-        width: 105mm;/
-        /* width: 35px; */
+        /* width: 105mm; */
+        width: 52px;
     }
 
     .cell-small {
