@@ -159,7 +159,7 @@ class PDFDocumentController extends Controller
                 // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
 
                 return APIController::getSuccess([
-                    'pricesData' => $pricesData,
+                    'infoblocksData' => $infoblocksData,
                     'link' => $link,
                     // 'documentNumber' => $documentNumber,
                     // 'counter' => $counter,
@@ -479,7 +479,7 @@ class PDFDocumentController extends Controller
             'complectName' => $complectName
 
         ];
-        print_r($result);
+       
         return $result;
     }
 
