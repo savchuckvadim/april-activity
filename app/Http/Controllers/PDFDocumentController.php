@@ -479,7 +479,7 @@ class PDFDocumentController extends Controller
             'complectName' => $complectName
 
         ];
-       
+
         return $result;
     }
 
@@ -636,9 +636,12 @@ class PDFDocumentController extends Controller
 
         $lastPageItemsCount = 0;
         $lastPage = end($pages);
-        if (is_array($lastPage) && isset($lastPage['items']) && is_array($lastPage['items'])) {
-            // Получаем длину массива 'items'
-            $lastPageItemsCount = count($lastPage['items']);
+        if (is_array($lastPage) && isset($lastPage['groups']) && is_array($lastPage['groups'])) {
+            if (isset($lastPage['group']['items']) && is_array($lastPage['group']['items'])) {
+                $currentGrupItems = $lastPage['group']['items'];
+                $currentGrupItemsCount = count($currentGrupItems);
+                $lastPageItemsCount = $lastPageItemsCount + $currentGrupItemsCount;
+            }
         }
 
         if ($productsCount < 4) {
@@ -655,7 +658,7 @@ class PDFDocumentController extends Controller
                     }
                 } else {
 
-                    if ($lastPageItemsCount > 1 && $lastPageItemsCount < 3) {
+                    if ($lastPageItemsCount < 3) {
                         $isWithPrice = true;
                     }
                 }
@@ -686,7 +689,7 @@ class PDFDocumentController extends Controller
                     }
                 } else {
 
-                    if ($lastPageItemsCount > 1 && $lastPageItemsCount < 4) {
+                    if ($lastPageItemsCount < 4) {
                         $isWithPrice = true;
                     }
                 }
