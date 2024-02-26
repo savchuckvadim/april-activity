@@ -47,6 +47,9 @@
 
         text-align: right;
     }
+    .total-first-cell{
+        border: 0px;
+    }
 </style>
 
 <div class="prices page-content">
@@ -170,7 +173,7 @@
             @endphp
             <!-- Добавляем новый ряд с одной ячейкой, аналогичной последней в предыдущем ряду -->
             <tr class="price-row">
-                <td colspan="5"></td> {{-- Пропускаем первые 5 столбцов --}}
+                <td class="total-first-cell" colspan="5"></td> {{-- Пропускаем первые 5 столбцов --}}
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
                         @if ($totalCell['code'] === 'prepaymentsum')
