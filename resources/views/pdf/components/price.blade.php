@@ -19,7 +19,7 @@
         padding: 1px;
         text-align: center;
         vertical-align: middle;
-        width: 100px;
+        width: 34px;
     }
 
     .price-cell-short {
