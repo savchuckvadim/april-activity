@@ -82,7 +82,18 @@ class PDFDocumentController extends Controller
 
 
                 //invoice
+                $invoices = [];
                 $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
+                $invoiceData = $data['invoice'];
+
+                $isGeneralInvoice = false;
+                $isAlternativeInvoices = false;
+
+                if (isset($invoiceData['one']) && isset($invoiceData['many'])) {
+                    $isGeneralInvoice = $invoiceData['one']['isActive'] && $invoiceData['one']['value'];
+                    $isAlternativeInvoices = $invoiceData['many']['isActive'] && $invoiceData['many']['value'];
+                }
+
 
 
                 //general
@@ -115,7 +126,7 @@ class PDFDocumentController extends Controller
                 ]);
 
 
-               
+
 
 
 
@@ -152,6 +163,16 @@ class PDFDocumentController extends Controller
 
                 // ]);
 
+                if ($isGeneralInvoice) {
+                    $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, 1, true);
+                    array_push($invoices, $generalInvoice);
+                }
+                if ($isAlternativeInvoices) {
+                    foreach ($data['price']['cells']['alternative'] as $product) {
+                        # code...
+                    }
+                    $generalInvoice = $this->getInvoice($data, [$product], $isTwoLogo,  $documentNumber, 1, true);
+                }
 
                 //BITRIX
                 // $this->setTimeline($domain, $dealId, $link, $documentNumber);
@@ -160,7 +181,8 @@ class PDFDocumentController extends Controller
 
                 return APIController::getSuccess([
                     'infoblocksData' => $infoblocksData,
-                    'link' => $link,
+                    // 'link' => $link,
+                    'link' => $generalInvoice,
                     // 'documentNumber' => $documentNumber,
                     // 'counter' => $counter,
 
@@ -168,7 +190,7 @@ class PDFDocumentController extends Controller
             }
         }
     }
-    public function getInvoice($data, $isTwoLogo,  $documentNumber, $index)
+    public function getInvoice($data, $isTwoLogo,  $documentNumber, $index, $isGeneral)
     {
         if ($data &&  isset($data['template'])) {
             $template = $data['template'];
@@ -179,6 +201,8 @@ class PDFDocumentController extends Controller
                 $domain = $data['template']['portal'];
                 $dealId = $data['dealId'];
                 $providerRq = $data['provider']['rq'];
+
+
 
 
 
@@ -217,7 +241,7 @@ class PDFDocumentController extends Controller
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                 $stampsData  =   $this->getStampsData($providerRq);
-                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
+                $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral);
 
                 //ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
                 $pdf = Pdf::loadView('pdf.invoice', [
@@ -989,6 +1013,7 @@ class PDFDocumentController extends Controller
         $providerRq,
         $recipient,
         $price,
+        $isGeneral,
 
     ) {
         $pricesData  =   $this->getPricesData($price, false, true);
