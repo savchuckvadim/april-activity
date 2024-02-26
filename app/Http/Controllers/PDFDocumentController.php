@@ -846,10 +846,10 @@ class PDFDocumentController extends Controller
 
         if (is_array($alternative) && is_array($general)) {
 
-            if (count($general) > 1) {  //если больше одного основного товара
+            if (count($general) > 0) {  //если больше одного основного товара
                 $result = $result + count($general);
             }
-            if (count($alternative) > 1) {  //если больше одного  товара
+            if (count($alternative) > 0) {  //если больше одного  товара
                 $result = $result + count($alternative);
             }
         }
