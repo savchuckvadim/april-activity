@@ -78,6 +78,7 @@
     }
     .qr-img{
         width: 130px;
+        max-height: 250px;
         height: auto;
         margin-left: 4px;
     }
