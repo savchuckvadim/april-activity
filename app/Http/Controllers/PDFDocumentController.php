@@ -831,8 +831,12 @@ class PDFDocumentController extends Controller
                 $foundCell = $cell;
             }
         }
+
+
         $targetProducts = $sortActivePrices['general'];
         $totalCells = $price['cells']['total'][0]['cells'];
+
+
         if (!$isGeneral) {
             foreach ($price['cells']['alternative'][0]['cells'] as $contractCell) {
                 if ($contractCell['code'] === 'contract') {
@@ -842,6 +846,21 @@ class PDFDocumentController extends Controller
             $targetProducts = $sortActivePrices['alternative'];
             $totalCells = $price['cells']['alternative'][$alternativeSetId]['cells'];
             $allPrices = [$sortActivePrices['alternative'][$alternativeSetId]];
+
+
+            foreach ($price['cells']['alternative'][$alternativeSetId]['cells'] as $contractCell) {
+                if ($contractCell['code'] === 'contract') {
+                    $contract = $contractCell['value'];
+                }
+            }
+
+            $foundCell = null;
+
+            foreach ($price['cells']['alternative'][$alternativeSetId]['cells'] as $cell) {
+                if ($cell['code'] === 'prepaymentsum') {
+                    $foundCell = $cell;
+                }
+            }
         }
 
 
