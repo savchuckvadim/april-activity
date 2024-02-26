@@ -856,7 +856,7 @@ class PDFDocumentController extends Controller
             }
         }
 
-        return $result;
+        return 4;
     }
 
     protected function getStampsData($providerRq)
