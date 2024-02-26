@@ -4,7 +4,7 @@
     }
 
     .price-content {
-        margin-top: 40px;
+        margin-top: 10px;
         vertical-align: top;
     }
 
@@ -28,7 +28,7 @@
     }
 
     .price-cell-short {
-        width: 15px;
+        width: 1px;
     }
 
     .price-cell-long-quantity {
