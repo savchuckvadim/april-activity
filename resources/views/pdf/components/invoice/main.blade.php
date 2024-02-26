@@ -10,6 +10,6 @@
 
 <div class="invoice-main">
 
-    <h3>{{ $number }}</h3>
+    <h3 class="invoice-title">{{ $number }}</h3>
 
 </div>
