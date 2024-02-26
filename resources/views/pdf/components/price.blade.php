@@ -9,9 +9,10 @@
     }
 
     .price-cell-first {
+        padding: 1px;
         text-align: start;
         vertical-align: middle;
-        width: 250px;
+        width: 200px;
     }
 
     .price-cell-short {
@@ -19,18 +20,19 @@
     }
 
     .price-cell-long-quantity {
-        width: 60px;
+        width: 120px;
     }
 
     .price-cell,
     .price-cell-short,
-    .price-cell-head {
+    .price-cell-head,
+    .price-cell-long-quantity {
         text-align: center;
         vertical-align: middle;
     }
 
     .price-cell-head {
-        padding: 5px;
+        padding: 1px;
         vertical-align: middle;
     }
 
@@ -62,7 +64,7 @@
                     @switch($priceCell['code'])
                         @case('name')
                             @php
-                                $classname = 'price-cell-head  price-cell-first';
+                                $classname = 'price-cell-first';
                             @endphp
                         @break
 
