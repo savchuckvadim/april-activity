@@ -7,6 +7,23 @@
             margin: 25px 25px;
         }
 
+        table {
+            vertical-align: top;
+            margin: 0px;
+            width: 100%;
+            border-collapse: collapse;
+            /* Убирает двойные бордеры между ячейками */
+        }
+
+        th,
+        td {
+            vertical-align: top;
+            border: 1px solid black;
+            padding: 3px;
+
+
+        }
+
         .row {
             width: 100%;
             display: table;
