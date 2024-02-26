@@ -86,7 +86,9 @@
 </style>
 
 
-
+@php
+    $withQr = false;
+@endphp
 <table cellpadding="0" cellspacing="0">
     <tr>
         <td class="innercell">
@@ -171,10 +173,13 @@
 
             </div>
         </td>
-        <td class="innercell">
-            <!-- Замените 'src' на путь к вашему QR-коду -->
-            <img class="qr-img" src="{{ asset('imgs/background.jpg') }}" alt="QR Code">
-            {{-- <p class="text-large bold">qr</p> --}}
-        </td>
+        @if ($withQr)
+            <td class="innercell">
+                <!-- Замените 'src' на путь к вашему QR-коду -->
+                <img class="qr-img" src="{{ asset('imgs/background.jpg') }}" alt="QR Code">
+                {{-- <p class="text-large bold">qr</p> --}}
+            </td>
+        @endif
+
     </tr>
 </table>
