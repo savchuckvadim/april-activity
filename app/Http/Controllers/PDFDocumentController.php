@@ -25,8 +25,8 @@ class PDFDocumentController extends Controller
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
-    
-    
+
+
                     $templateId = $template['id'];
                     $domain = $data['template']['portal'];
                     $dealId = $data['dealId'];
@@ -46,74 +46,74 @@ class PDFDocumentController extends Controller
                     ];
                     $complect = $data['complect'];
                     $complectName = '';
-    
+
                     foreach ($data['price']['cells']['total'][0]['cells'] as $cell) {
-    
+
                         if ($cell['code'] === 'name') {
                             $complectName = $cell['value'];
                         }
                     }
-    
-    
-    
+
+
+
                     //price
                     $price = $data['price'];
-    
+
                     //SORT CELLS
                     // $sortActivePrices = $this->getSortActivePrices($comePrices);
                     // $allPrices =  $sortActivePrices;
                     // $general = $allPrices['general'];
                     // $alternative = $allPrices['alternative'];
-    
-    
+
+
                     //manager
                     $manager = $data['manager'];
                     //UF_DEPARTMENT
                     //SECOND_NAME
-    
-    
+
+
                     //fields
                     $fields = $data['template']['fields'];
                     $recipient = $data['recipient'];
-    
-    
+
+
                     //document number
                     $documentNumber = CounterController::getCount($templateId);
-    
-    
-    
+
+
+
                     //invoice
                     $invoices = [];
                     $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
                     $invoiceData = $data['invoice'];
-    
+
                     $isGeneralInvoice = false;
                     $isAlternativeInvoices = false;
-    
+
                     if (isset($invoiceData['one']) && isset($invoiceData['many'])) {
                         $isGeneralInvoice = $invoiceData['one']['isActive'] && $invoiceData['one']['value'];
                         $isAlternativeInvoices = $invoiceData['many']['isActive'] && $invoiceData['many']['value'];
                     }
-    
-    
-    
+
+
+
                     //general
                     $comePrices = $price['cells'];
                     $productsCount = $this->getProductsCount($comePrices);
-    
-    
-    
+
+
+
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                     $footerData  = $this->getFooterData($manager);
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
-    
+
                     $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
                     $stampsData  =   $this->getStampsData($providerRq);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
-    
+
                     //ГЕНЕРАЦИЯ ДОКУМЕНТА
                     $pdf = Pdf::loadView('pdf.offer', [
                         'headerData' =>  $headerData,
@@ -125,35 +125,35 @@ class PDFDocumentController extends Controller
                         'stampsData' => $stampsData,
                         // 'invoiceData' => $invoiceData,
                     ]);
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
                     // //СОХРАНЕНИЕ ДОКУМЕТА
                     $uid = Uuid::uuid4()->toString();
                     $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-    
+
                     $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-    
-    
+
+
                     if (!file_exists($resultPath)) {
                         mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
                     }
-    
+
                     // Проверить доступность каталога для записи
                     if (!is_writable($resultPath)) {
                         throw new \Exception("Невозможно записать в каталог: $resultPath");
                     }
                     $resultFileName = $documentNumber . '_' . $shortUid . '.pdf';
                     $pdf->save($resultPath . '/' . $resultFileName);
-    
+
                     // $objWriter->save($resultPath . '/' . $resultFileName);
-    
+
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-    
+
                     $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
@@ -161,39 +161,38 @@ class PDFDocumentController extends Controller
                     //     'link' => $link,
                     //     'documentNumber' => $documentNumber,
                     //     'counter' => $counter,
-    
+
                     // ]);
-    
+
                     if ($isGeneralInvoice) {
                         $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, 1, true);
                         array_push($invoices, $generalInvoice);
                     }
                     if ($isAlternativeInvoices) {
-                        foreach ($data['price']['cells']['alternative'] as $product) {
-                            # code...
-                        }
-                        $generalInvoice = $this->getInvoice($data, [$product], $isTwoLogo,  $documentNumber, 1, true);
+                        // foreach ($data['price']['cells']['alternative'] as $product) {
+                        //     # code...
+                        // }
+                        // $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, 1, true);
                     }
-    
+
                     //BITRIX
                     // $this->setTimeline($domain, $dealId, $link, $documentNumber);
                     // $bitrixController = new BitrixController();
                     // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-    
+
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
                         // 'link' => $link,
                         'link' => $generalInvoice,
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
-    
+
                     ]);
                 }
             }
-        }  catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), $data);
         }
-  
     }
     public function getInvoice($data, $isTwoLogo,  $documentNumber, $index, $isGeneral)
     {

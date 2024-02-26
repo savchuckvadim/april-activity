@@ -7,6 +7,16 @@
             margin: 25px 25px;
         }
 
+        body {
+            font-family: DejaVu Sans, sans-serif;
+        }
+
+        p,
+        span {
+            margin: 0px;
+
+        }
+
         table {
             vertical-align: top;
             margin: 0px;
@@ -58,15 +68,7 @@
 
 
 
-        body {
-            font-family: DejaVu Sans, sans-serif;
-        }
 
-        p,
-        span {
-            margin: 0px;
-
-        }
 
         /* text */
         .text-small {
