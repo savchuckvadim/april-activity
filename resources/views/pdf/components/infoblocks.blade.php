@@ -7,7 +7,7 @@
 
 
     .infoblocks-column {
-        padding: 5px;
+        padding: 3px;
         width: 50%
     }
 
