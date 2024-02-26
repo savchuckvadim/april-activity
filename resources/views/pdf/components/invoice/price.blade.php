@@ -199,7 +199,7 @@
                 @endforeach
                 <td class="total-cell">
                     <p class="text-small bold">
-                       {{ $totalValue}}
+                        {{ $totalValue }}
                     </p>
                 </td>
 
