@@ -168,14 +168,14 @@ class PDFDocumentController extends Controller
                     if ($isGeneralInvoice) {
                         $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
                         array_push($invoices, $generalInvoice);
-                        array_push($links, $link);
+                        array_push($links, $generalInvoice);
                     }
                     if ($isAlternativeInvoices) {
                         foreach ($data['price']['cells']['alternative'] as $key => $product) {
 
                             $alternativeInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, false, $key);
                             array_push($invoices, $alternativeInvoice);
-                            array_push($links, $link);
+                            array_push($links, $alternativeInvoice);
                         }
                     }
 
@@ -300,7 +300,7 @@ class PDFDocumentController extends Controller
         $resultText = '';
         foreach ($links as $key => $commentLink) {
             if (!$key) {
-                $commentText = 'КП-' . $commentText;
+                $commentText = $commentText;
             } else {
                 if ($key == 1) {
                     $commentText = 'СЧЕТ-' . $commentText;
@@ -701,7 +701,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 12;
             } else {
-                $itemsPerPage = 10;
+                $itemsPerPage = 8;
             }
         }
 
