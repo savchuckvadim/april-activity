@@ -309,7 +309,7 @@ class PDFDocumentController extends Controller
                     $commentText = 'СЧЕТ-' . $commentText . '-' . $numb;
                 }
             }
-            $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a><br>";
+            $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($commentText) . "</a> \n";
         }
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
