@@ -853,8 +853,7 @@ class PDFDocumentController extends Controller
                 $result = $result + count($alternative);
             }
         }
-        echo '$result';
-        echo $result;
+
         return $result;
     }
 
