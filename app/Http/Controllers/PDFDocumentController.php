@@ -551,7 +551,7 @@ class PDFDocumentController extends Controller
 
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($comePrices);
-        
+
         $quantityMeasureString = '';
         $quantityString = '';
         $measureString = '';
@@ -626,12 +626,12 @@ class PDFDocumentController extends Controller
 
         ];
     }
-  
+
 
     protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount)
     {
         $isWithPrice = false;
-       
+
         $lastPageItemsCount = 0;
         $lastPage = end($pages);
         if (is_array($lastPage) && isset($lastPage['items']) && is_array($lastPage['items'])) {
@@ -639,7 +639,7 @@ class PDFDocumentController extends Controller
             $lastPageItemsCount = count($lastPage['items']);
         }
 
-        if($productsCount < 4){
+        if ($productsCount < 4) {
 
             if ($styleMode === 'list') {
 
@@ -652,13 +652,13 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else {
-    
+
                     // if ($lastPageItemsCount < 3) {
                     //     $isWithPrice = true;
                     // }
                 }
             } else if ($styleMode === 'table') {
-    
+
                 if ($descriptionMode === 0) {
                     if ($lastPageItemsCount < 38) {
                         $isWithPrice = true;
@@ -668,7 +668,7 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else {
-    
+
                     if ($lastPageItemsCount < 7) {
                         $isWithPrice = true;
                     }
@@ -683,17 +683,15 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else {
-    
+
                     if ($lastPageItemsCount < 3) {
                         $isWithPrice = true;
                     }
                 }
             }
-
-
         }
 
-   
+
 
         return $isWithPrice;
     }
@@ -849,14 +847,15 @@ class PDFDocumentController extends Controller
         if (is_array($alternative) && is_array($general)) {
 
             if (count($general) > 1) {  //если больше одного основного товара
-                $result += count($general);
+                $result = $result + count($general);
             }
             if (count($alternative) > 1) {  //если больше одного  товара
-                $result += count($alternative);
+                $result = $result + count($alternative);
             }
         }
-
-        return 4;
+        echo '$result';
+        echo $result;
+        return $result;
     }
 
     protected function getStampsData($providerRq)
