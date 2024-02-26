@@ -173,8 +173,8 @@
                 @foreach ($allPrices['total'][0]['cells'] as $totalCell)
                     @if (isset($totalCell['code']))
                         @if ($totalCell['code'] === 'prepaymentsum')
-                            <td colspan="6" class="{{ $lastCellClassname }}">
-                                <p class="text-small">
+                            <td colspan="6" class="price-cell">
+                                <p class="text-small bold">
                                     {{ $totalCell['value'] }}
                                 </p>
                             </td>
