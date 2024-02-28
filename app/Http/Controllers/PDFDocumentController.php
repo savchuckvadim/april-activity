@@ -691,15 +691,15 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $itemsPerPage = 60;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 18;
+                $itemsPerPage = 16;
             } else {
-                $itemsPerPage = 12;
+                $itemsPerPage = 10;
             }
         } else {
             if ($descriptionMode === 0) {
                 $itemsPerPage = 27;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 12;
+                $itemsPerPage = 10;
             } else {
                 $itemsPerPage = 8;
             }
