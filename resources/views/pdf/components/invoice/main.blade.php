@@ -1,7 +1,7 @@
 <style>
     .invoice-main {
         margin-top: 55px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .invoice-title {
@@ -16,7 +16,7 @@
         border: 0px;
     }
     .invoice-main-table{
-        margin-top: 20px;
+        margin-top: 30px;
     }
 </style>
 
