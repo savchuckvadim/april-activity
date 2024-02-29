@@ -61,7 +61,7 @@
     }
 </style>
 
-<div class="prices page-content">
+<div class="prices price-content">
 
 
     @if ($isTable)
