@@ -7,7 +7,7 @@
         text-align: center;
     }
 
-    .invoice-main-table {
+    .invoice-main-table table tr td {
         border-collapse: collapse;
         width: 100%;
         border: none;
@@ -44,7 +44,7 @@
             @endphp
             <tr>
                 <td>
-                    <p class="text-small"><span class="bold">>Покупатель:</span>
+                    <p class="text-small"><span class="bold">Покупатель:</span>
                         {{ $recipient['companyName'] }}{{ $inn }} </p>
                 </td>
             </tr>
