@@ -110,8 +110,9 @@ class BaseController extends Controller
                 case 'departament':
                     return DepartamentController::set($request);
                     break;
-
-
+                case 'rq':
+                    return DepartamentController::set($request);
+                    break;
                 case 'item':
                 default:
                     return APIController::getError(
@@ -152,6 +153,11 @@ class BaseController extends Controller
                     break;
                 case 'field':
                     // return FieldController::getInitialField();
+                    break;
+
+                case 'rq':
+                    $fileController = new FileController;
+                    return $fileController->updateFile($entityType, $entityId, $request);
                     break;
                 case 'item':
                 default:

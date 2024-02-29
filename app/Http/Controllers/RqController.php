@@ -78,6 +78,76 @@ class RqController extends Controller
         ]);
     }
 
+
+    public function update($entityType, $entityId, Request $request)
+    {
+
+        $rqData = [
+            'number' => $request['number'],
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'fullname' => $request['fullname'],
+            'shortname' => $request['shortname'],
+            'director' => $request['director'],
+            'position' => $request['position'],
+            'accountant' => $request['accountant'],
+            'based' => $request['based'],
+            'inn' => $request['inn'],
+            'kpp' => $request['kpp'],
+            'ogrn' => $request['ogrn'],
+            'ogrnip' => $request['ogrnip'],
+            'personName' => $request['personName'],
+            'document' => $request['document'],
+
+            'docSer' => $request['docSer'],
+            'docNum' => $request['docNum'],
+            'docDate' => $request['docDate'],
+            'docIssuedBy' => $request['docIssuedBy'],
+            'docDepCode' => $request['docDepCode'],
+            'registredAdress' => $request['registredAdress'],
+
+            'registredAdress' => $request['registredAdress'],
+            'primaryAdresss' => $request['primaryAdresss'],
+            'email' => $request['email'],
+            'garantEmail' => $request['garantEmail'],
+            'phone' => $request['phone'],
+            'assigned' => $request['assigned'],
+            'assignedPhone' => $request['assignedPhone'],
+            'other' => $request['other'],
+            'bank' => $request['bank'],
+            'bik' => $request['bik'],
+            'rs' => $request['rs'],
+            'ks' => $request['ks'],
+            'bankAdress' => $request['bankAdress'],
+            'bankOther' => $request['bankOther'],
+
+
+        ];
+
+
+
+
+
+
+        $rqModel = Rq::find($entityId);
+        if ($rqModel) {
+            $rqModel->update($request->only([
+                'number', 'name', 'type', 'fullname', 'shortname',
+                'director', 'position', 'accountant', 'based', 'inn',
+                'kpp', 'ogrn', 'ogrnip', 'personName', 'document',
+                'docSer', 'docNum', 'docDate', 'docIssuedBy', 'docDepCode',
+                'registredAdress', 'primaryAdresss', 'email', 'garantEmail',
+                'phone', 'assigned', 'assignedPhone', 'other', 'bank',
+                'bik', 'rs', 'ks', 'bankAdress', 'bankOther'
+            ]));
+            return APIController::getSuccess([
+                $entityType => $rqModel
+            ]);
+        } else {
+            return APIController::getError($entityType . 'not found for update', $rqModel);
+        }
+    }
+
     public static function deleteRq($rqId)
     {
         try {
@@ -102,6 +172,9 @@ class RqController extends Controller
             );
         }
     }
+
+
+
 
     public static function getFiles($rqId, $childrenName)
     {
