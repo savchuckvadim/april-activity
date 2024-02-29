@@ -1,6 +1,7 @@
 <style>
     .invoice-main {
         margin-top: 55px;
+        margin-bottom: 40px;
     }
 
     .invoice-title {
@@ -47,8 +48,8 @@
                 }
 
             @endphp
-            <tr>
-                <td>
+            <tr class="invoice-main-row">
+                <td class="invoice-main-cell">
                     <p class="text-normal"><span class="bold">Покупатель:</span>
                         {{ $recipient['companyName'] }}{{ $inn }} </p>
                 </td>
