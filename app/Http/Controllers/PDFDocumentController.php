@@ -187,8 +187,8 @@ class PDFDocumentController extends Controller
 
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
-                        // 'link' => $link,
-                        'link' => $offerLink,
+                        'link' => $links[0],
+                        // 'link' => $offerLink,
                         'links' => $links,
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
@@ -1224,6 +1224,7 @@ class PDFDocumentController extends Controller
             'rq' => $providerRq,
 
             'main' => [
+                'rq' => $providerRq,
                 'recipient' => $recipient,
                 'number' => $invoiceNumber,
             ],
