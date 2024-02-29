@@ -187,7 +187,7 @@ class PDFDocumentController extends Controller
 
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
-                        'link' => $links[0],
+                        'link' => $links[1],
                         // 'link' => $offerLink,
                         'links' => $links,
                         // 'documentNumber' => $documentNumber,
