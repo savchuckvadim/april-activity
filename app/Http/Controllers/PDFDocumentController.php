@@ -881,7 +881,10 @@ class PDFDocumentController extends Controller
 
             if ($cell['code'] === 'quantity' && $cell['value']) {
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
-                    $quantityString =  TimeSpeller::spellUnit($contract['prepayment'], TimeSpeller::MONTH);
+
+                    $qcount = $contract['prepayment'] * $cell['value'];
+
+                    $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 } else {
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
 
