@@ -124,22 +124,19 @@ class RqController extends Controller
 
         ];
 
+        // Функция для замены 'null' строк на null значения
+        $processData = function ($item) {
+            return $item === 'null' ? null : $item;
+        };
 
-
+        // Обрабатываем каждый элемент массива
+        $processedData = array_map($processData, $rqData);
 
 
 
         $rqModel = Rq::find($entityId);
         if ($rqModel) {
-            $rqModel->update($request->only([
-                'number', 'name', 'type', 'fullname', 'shortname',
-                'director', 'position', 'accountant', 'based', 'inn',
-                'kpp', 'ogrn', 'ogrnip', 'personName', 'document',
-                'docSer', 'docNum', 'docDate', 'docIssuedBy', 'docDepCode',
-                'registredAdress', 'primaryAdresss', 'email', 'garantEmail',
-                'phone', 'assigned', 'assignedPhone', 'other', 'bank',
-                'bik', 'rs', 'ks', 'bankAdress', 'bankOther'
-            ]));
+            $rqModel->update($processedData);
             return APIController::getSuccess([
                 $entityType => $rqModel
             ]);
