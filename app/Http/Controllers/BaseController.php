@@ -156,8 +156,8 @@ class BaseController extends Controller
                     break;
 
                 case 'rq':
-                    $fileController = new FileController;
-                    return $fileController->updateFile($entityType, $entityId, $request);
+                    $qrController = new RqController;
+                    return $qrController->update($entityType, $entityId, $request);
                     break;
                 case 'item':
                 default:
