@@ -7,10 +7,12 @@
         text-align: center;
     }
 
-    .invoice-main-table table tr td {
+    .invoice-main-table,
+    .invoice-main-row,
+    .invoice-main-cell {
         border-collapse: collapse;
         width: 100%;
-        border: none;
+        border: 0px;
     }
 </style>
 
@@ -27,9 +29,9 @@
     <h3 class="invoice-title">{{ $number }}</h3>
 
     <table class="invoice-main-table">
-        <tr>
-            <td>
-                <p class="text-small"><span class="bold">Поставщик:</span> {{ $rq['fullname'] }}, ИНН:
+        <tr class="invoice-main-row">
+            <td class="invoice-main-cell">
+                <p class="text-normal"><span class="bold">Поставщик:</span> {{ $rq['fullname'] }}, ИНН:
                     {{ $rq['inn'] }}, {{ $rq['registredAdress'] }},
                     {{ $rq['phone'] }}</p>
             </td>
@@ -44,7 +46,7 @@
             @endphp
             <tr>
                 <td>
-                    <p class="text-small"><span class="bold">Покупатель:</span>
+                    <p class="text-normal"><span class="bold">Покупатель:</span>
                         {{ $recipient['companyName'] }}{{ $inn }} </p>
                 </td>
             </tr>
