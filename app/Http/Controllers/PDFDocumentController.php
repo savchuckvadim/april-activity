@@ -169,8 +169,8 @@ class PDFDocumentController extends Controller
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
                     $links = [];
-                    // $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
-                    $offerLink = asset('storage/clients/' . 'april-dev.bitrix24.ru' . '/documents/' . '13' . '/' . $resultFileName);
+                    $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                    // $offerLink = asset('storage/clients/' . 'april-dev.bitrix24.ru' . '/documents/' . '13' . '/' . $resultFileName);
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
                     //     'price' => $price,
