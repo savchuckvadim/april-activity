@@ -151,8 +151,8 @@ class PDFDocumentController extends Controller
                     $uid = Uuid::uuid4()->toString();
                     $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
-                    $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-
+                    // $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+                    $resultPath = storage_path('app/public/clients/' . 'april-dev.bitrix24.ru' . '/documents/' . '13');
 
                     if (!file_exists($resultPath)) {
                         mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
@@ -169,8 +169,8 @@ class PDFDocumentController extends Controller
 
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
                     $links = [];
-                    $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
-                    // $offerLink = asset('storage/clients/' . 'april-dev.bitrix24.ru' . '/documents/' . '13' . '/' . $resultFileName);
+                    // $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                    $offerLink = asset('storage/clients/' . 'april-dev.bitrix24.ru' . '/documents/' . '13' . '/' . $resultFileName);
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
                     //     'price' => $price,
