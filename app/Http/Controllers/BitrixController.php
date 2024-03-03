@@ -1219,6 +1219,14 @@ class BitrixController extends Controller
         $type
     ) {
 
+
+        //TODO
+        //  $createdId, нету то надо ставить БОС
+        // или если не холодный то просто менять поля в карточке компании чтоб отуда уже создавалось
+
+
+
+
         try {
             // $portal = $portal['data'];
 
