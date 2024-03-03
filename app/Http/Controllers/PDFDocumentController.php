@@ -117,13 +117,13 @@ class PDFDocumentController extends Controller
 
                     //ГЕНЕРАЦИЯ ДОКУМЕНТА
                     $pdf = Pdf::loadView('pdf.offer', [
-                        // 'headerData' =>  $headerData,
-                        // 'doubleHeaderData' =>  $doubleHeaderData,
+                        'headerData' =>  $headerData,
+                        'doubleHeaderData' =>  $doubleHeaderData,
                         'footerData' =>  $footerData,
-                        // 'letterData' => $letterData,
-                        // 'infoblocksData' => $infoblocksData,
-                        // 'pricesData' => $pricesData,
-                        // 'stampsData' => $stampsData,
+                        'letterData' => $letterData,
+                        'infoblocksData' => $infoblocksData,
+                        'pricesData' => $pricesData,
+                        'stampsData' => $stampsData,
                         // 'invoiceData' => $invoiceData,
                     ]);
 
@@ -191,6 +191,13 @@ class PDFDocumentController extends Controller
                         // 'link' => $links[1],
                         'link' => $offerLink,
                         'links' => $links,
+                        'headerData' =>  $headerData,
+                        'doubleHeaderData' =>  $doubleHeaderData,
+                        'footerData' =>  $footerData,
+                        'letterData' => $letterData,
+                        'infoblocksData' => $infoblocksData,
+                        'pricesData' => $pricesData,
+                        'stampsData' => $stampsData,
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
 
