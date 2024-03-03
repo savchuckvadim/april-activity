@@ -85,7 +85,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     /////DEALS
-    Log::info('in_middle', ['in_middle' => true]);
+  
 
     Route::post('/deal', function (Request $request) {
         return DealController::addDeal($request);
@@ -422,10 +422,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // $fieldIds  = $request->input('fieldIds');
         // $file = $request->file('file');
 
-        Log::info('in_middle', ['in_middle' => $request->all()]);
+    
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
-        Log::info('relationsArray', ['relationsArray' => $relationsArray]);
+    
 
 
         //RELATIONS
