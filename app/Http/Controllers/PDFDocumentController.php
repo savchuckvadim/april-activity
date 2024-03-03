@@ -22,6 +22,7 @@ class PDFDocumentController extends Controller
 {
     public function getDocument($data)
     {
+        $pdfData = [];
         try {
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
@@ -115,6 +116,19 @@ class PDFDocumentController extends Controller
                     $stampsData  =   $this->getStampsData($providerRq);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
+
+
+                    $pdfData = [
+                        'headerData' =>  $headerData,
+                        'doubleHeaderData' =>  $doubleHeaderData,
+                        'footerData' =>  $footerData,
+                        'letterData' => $letterData,
+                        'infoblocksData' => $infoblocksData,
+                        'pricesData' => $pricesData,
+                        'stampsData' => $stampsData,
+                    ];
+
+
                     //ГЕНЕРАЦИЯ ДОКУМЕНТА
                     $pdf = Pdf::loadView('pdf.offer', [
                         'headerData' =>  $headerData,
@@ -191,13 +205,7 @@ class PDFDocumentController extends Controller
                         // 'link' => $links[1],
                         'link' => $offerLink,
                         'links' => $links,
-                        'headerData' =>  $headerData,
-                        'doubleHeaderData' =>  $doubleHeaderData,
-                        'footerData' =>  $footerData,
-                        'letterData' => $letterData,
-                        'infoblocksData' => $infoblocksData,
-                        'pricesData' => $pricesData,
-                        'stampsData' => $stampsData,
+                        'pdf' => $pdfData
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
 
@@ -205,7 +213,8 @@ class PDFDocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            return APIController::getError($th->getMessage(), $data);
+
+            return APIController::getError($th->getMessage(), ['come' => $data, 'pdf' => $pdfData]);
         }
     }
     public function getInvoice($data, $isTwoLogo,  $documentNumber, $isGeneral = true, $alternativeSetId = 0)
