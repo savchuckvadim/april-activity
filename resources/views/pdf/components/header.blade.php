@@ -16,8 +16,10 @@
     }
 
     .logo {
-        width: 150px;
-        height: auto;
+        /* width: 150px;
+        height: auto; */
+        width: auto;
+        height: 45px;
     }
 </style>
 <header>

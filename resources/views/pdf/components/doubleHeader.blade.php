@@ -36,7 +36,10 @@
         <div style="display: table-cell;"></div>
         <div class="double-rq-right">
             <p class="text-small">
-                {{ $doubleHeaderData['second'] }}
+                {{ $doubleHeaderData['phone'] }}
+            </p>
+            <p class="text-small">
+                {{ $doubleHeaderData['email'] }}
             </p>
         </div>
     </div>

@@ -411,7 +411,8 @@ class PDFDocumentController extends Controller
 
         ];
         $rq = '';
-
+        $phone = null;
+        $email = null;
         $first = $providerRq['fullname'];
         if ($providerRq['inn']) {
             $first = $first . ', ИНН: ' . $providerRq['inn'];
@@ -439,10 +440,12 @@ class PDFDocumentController extends Controller
         if ($providerRq['email']) {
             $email = 'e-mail: ' . $providerRq['email'];
         }
-        $second = $second . '\n ' . $email;
+        $second = $second . '' . $email;
         $headerData = [
             'first' => $first,
             'second' => $second,
+            'phone' =>  $phone,
+            'email' =>  $email,
 
         ];
 
