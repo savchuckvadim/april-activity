@@ -97,17 +97,17 @@
 <body
     {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
  >
-    @component('pdf.components.header', ['headerData' => $headerData])
-    @endcomponent
+    {{-- @component('pdf.components.header', ['headerData' => $headerData])
+    @endcomponent --}}
     @component('pdf.components.footer', $footerData)
     @endcomponent
-    @if ($headerData['isTwoLogo'])
+    {{-- @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
-    @endif
+    @endif --}}
 
     <main>
-        <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
+        {{-- <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
 
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
@@ -133,7 +133,7 @@
                 @component('pdf.components.stamp', $stampsData)
                 @endcomponent
             </div>
-        </div>
+        </div> --}}
 
 
         {{-- <div class="page-break"></div>
