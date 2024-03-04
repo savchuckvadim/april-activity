@@ -179,7 +179,7 @@ class CounterController extends Controller
         if (!$count) {
             $day = date('d');
             $month = date('m');
-            $count  = mt_rand(1, 999) . $month . '-' . mt_rand(1, 99) . '/' . $day;
+            $count  = mt_rand(1, 999) . $month . '-' . mt_rand(1, 99) . '' . $day;
         }
         return $count;
     }
