@@ -99,14 +99,15 @@
  >
     {{-- @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent --}}
-    @component('pdf.components.footer', $footerData)
-    @endcomponent
+    {{-- @component('pdf.components.footer', $footerData)
+    @endcomponent --}}
     {{-- @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
     @endif --}}
 
     <main>
+        <div>test</div>
         {{-- <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
 
             @component('pdf.components.letter', ['letterData' => $letterData])
