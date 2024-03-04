@@ -152,7 +152,7 @@ class PDFDocumentController extends Controller
                     $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
                     $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
-                  
+
 
                     if (!file_exists($resultPath)) {
                         mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
@@ -170,7 +170,7 @@ class PDFDocumentController extends Controller
                     // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
                     $links = [];
                     $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
-         
+
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
                     //     'price' => $price,
@@ -500,7 +500,7 @@ class PDFDocumentController extends Controller
         $date = $this->getToday();
         $letterData = [
             'documentNumber' => null,
-
+            'documentDate' => null,
             'companyName' => null,
             'inn' => null,
             'positionCase' => null,
@@ -514,8 +514,8 @@ class PDFDocumentController extends Controller
 
 
         if ($documentNumber) {
-
-            $letterData['documentNumber'] = 'Исх. № ' . $documentNumber . ' от ' . $date;
+            $letterData['documentNumber'] = 'Исх. № ' . $documentNumber;
+            $letterData['documentDate'] = ' от ' . $date;
         }
 
 

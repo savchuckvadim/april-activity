@@ -33,6 +33,9 @@
                     <p class="text-small">
                         {{ $letterData['documentNumber'] }}
                     </p>
+                    <p class="text-small">
+                        {{ $letterData['documentDate'] }}
+                    </p>
                 </div>
 
             </div>
