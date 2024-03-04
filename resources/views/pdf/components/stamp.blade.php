@@ -65,8 +65,14 @@
 
 
         <td class="signature-container">
-            <img src={{ $signature }} class="signature" alt="Подпись" height="100">
-            <img src={{ $stamp }} class="stamp" alt="Печать" height="100">
+            @if ($signature)
+                <img src={{ $signature }} class="signature" alt="Подпись" height="100">
+            @endif
+            @if ($stamp)
+                <img src={{ $stamp }} class="stamp" alt="Печать" height="100">
+            @endif
+
+
         </td>
 
         <td class="text-cell text-normal bold">{{ $director }}</td>
