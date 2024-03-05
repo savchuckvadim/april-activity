@@ -453,10 +453,10 @@ class BitrixController extends Controller
                 // }
 
                 // $type['count'] = $response['total'];
-                if(isset($response['total'])){
+                if (isset($response['total'])) {
                     $resultUserReport['callings'][$key]['count'] = $response['total'];
                 }
-                
+
                 // } else { 
                 //     return APIController::getError(
                 //         'response total not found',
@@ -1321,7 +1321,7 @@ class BitrixController extends Controller
 
             $responseData = Http::get($url, $taskData);
             $task = null;
-            if(isset($responseData['result'])){
+            if (isset($responseData['result'])) {
                 $task = $responseData['result'];
             }
 
@@ -1342,13 +1342,24 @@ class BitrixController extends Controller
     {
         $method = '/crm.deal.update';
         // $bitrixController = new BitrixController();
+        $stage = "C6:PREPARATION";
+        if ($domain == 'alfacentr.bitrix24.ru') {
+            $stage = "C8:PREPARATION";
+        }
+
+        //TODO IF INVOICE
+        // C8:PREPAYMENT_INVOICE
+
+
+
+
 
         try {
             $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
 
             $url = $hook . $method;
             $fields = [
-                "STAGE_ID" => "C6:PREPARATION",
+                "STAGE_ID" => $stage,
                 // "PROBABILITY" => 70
             ];
             $data = [
