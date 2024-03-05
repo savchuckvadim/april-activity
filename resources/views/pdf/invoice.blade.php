@@ -117,10 +117,10 @@
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
 
-    @if ($headerData['isTwoLogo'])
+    {{-- @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
-    @endif
+    @endif --}}
 
     <main>
 
