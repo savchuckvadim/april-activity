@@ -704,9 +704,9 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0) {
                 $itemsPerPage = 40;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 7;
+                $itemsPerPage = 9;
             } else {
-                $itemsPerPage = 7;
+                $itemsPerPage = 6;
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0) {
@@ -714,7 +714,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 16;
             } else {
-                $itemsPerPage = 10;
+                $itemsPerPage = 8;
             }
         } else {
             if ($descriptionMode === 0) {
@@ -722,7 +722,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 10;
             } else {
-                $itemsPerPage = 8;
+                $itemsPerPage = 7;
             }
         }
 
