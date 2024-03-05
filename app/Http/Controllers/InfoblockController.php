@@ -106,6 +106,11 @@ class InfoblockController extends Controller
 
             if ($infoblock) {
                 $block = $request;
+                $title = $block['title'];
+                if($block['title'] === 'null'){
+                    $title = null;
+
+                }
                 $data = [
                     'number' => $block['number'],
                     'name' => $block['name'],
