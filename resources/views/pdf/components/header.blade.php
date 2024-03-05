@@ -19,7 +19,7 @@
         /* width: 150px;
         height: auto; */
         width: auto;
-        height: 45px;
+        height: 50px;
     }
 </style>
 <header>
