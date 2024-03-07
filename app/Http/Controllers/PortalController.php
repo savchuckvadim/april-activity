@@ -205,6 +205,7 @@ class PortalController extends Controller
                 'C_REST_CLIENT_ID' => $portal->getClientId(),
                 'C_REST_CLIENT_SECRET' => $portal->getSecret(),
                 'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+                'callingGroups' => $portal->callingGroups(),
             ]
 
         ];

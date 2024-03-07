@@ -41,6 +41,42 @@ class BitrixController extends Controller
             return $hook;
         }
     }
+
+
+    protected function getCallingGroupId($domain)
+    {
+        $callingGroupId = 28;
+        try {
+
+
+            $portalResponse = PortalController::innerGetPortal($domain);
+            if ($portalResponse) {
+                if (isset($portalResponse['resultCode'])) {
+                    if ($portalResponse['resultCode'] == 0) {
+                        if (isset($portalResponse['portal'])) {
+                            if ($portalResponse['portal']) {
+
+                                $portal = $portalResponse['portal'];
+                                $callingGroups = $portal['callingGroups'];
+                                foreach ($callingGroups as $group) {
+                                    if (isset($group['name']) && isset($group['bitrixId'])) {
+
+                                        if ($group['name'] === 'calling') {
+                                            $callingGroupId = $group['bitrixId'];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return  $callingGroupId;
+        } catch (\Throwable $th) {
+            return  $callingGroupId;
+        }
+    }
+
     public static function getHook($domain)
     {
         $hook = null;
@@ -1114,7 +1150,7 @@ class BitrixController extends Controller
 
 
 
-    ///CALING
+    ///CALLING
 
     public static function getCallingTasks(Request $request)
     {
@@ -1126,7 +1162,7 @@ class BitrixController extends Controller
             $method = '/tasks.task.list.json';
             $controller = new BitrixController;
             $hook = $controller->getHookUrl($domain);
-
+            $tasksGroupId = $controller->getCallingGroupId($domain);
 
 
             // Ваша исходная строка с датой
@@ -1155,7 +1191,8 @@ class BitrixController extends Controller
                     'filter' => [
                         '>DEADLINE' => $start,
                         '<DEADLINE' => $finish,
-                        'RESPONSIBLE_ID' => $userId
+                        'RESPONSIBLE_ID' => $userId,
+                        'GROUP_ID' => $tasksGroupId,
                     ]
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
