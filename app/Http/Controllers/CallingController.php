@@ -75,4 +75,27 @@ class CallingController extends Controller
 
         );
     }
+
+    public static function getCallingGroup($groupId)
+    {
+        try {
+            $callingGroup = Calling::find($groupId);
+            if ($callingGroup) {
+
+                return APIController::getSuccess(
+                    ['callingGroup' => $callingGroup]
+                );
+            } else {
+                return APIController::getError(
+                    'field was not found',
+                    ['callingGroup' => $callingGroup]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['callingGroup' => $callingGroup]
+            );
+        }
+    }
 }

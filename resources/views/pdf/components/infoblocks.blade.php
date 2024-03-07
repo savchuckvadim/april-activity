@@ -39,12 +39,12 @@
     .infoblock-list-group-title {
         margin-top: 20px;
         margin-bottom: 5px;
-        text-align: center
+        text-align: center;
     }
 
     .infoblock-big-group-title {
 
-        text-align: center
+        text-align: center;
     }
 
     .infoblock--title {

@@ -213,7 +213,7 @@ class BaseController extends Controller
 
                     case 'callingGroup':
 
-                        return CallingController::getInitial();
+                        return CallingController::getCallingGroup($modelId);
 
                     case 'provider':
                     case 'item':
