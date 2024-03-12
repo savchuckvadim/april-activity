@@ -503,7 +503,7 @@ class PDFDocumentController extends Controller
     {
         $isLargeLetterText = false;
 
-        if($domain == 'april-garant.bitrix24.ru'){
+        if ($domain == 'april-garant.bitrix24.ru') {
             $isLargeLetterText = true;
         }
 
@@ -678,7 +678,7 @@ class PDFDocumentController extends Controller
             'pages' => $pages,
             'withPrice' => $withPrice,
             'complectName' => $complectName,
-            
+
 
         ];
 
@@ -1212,7 +1212,9 @@ class PDFDocumentController extends Controller
             'position' => '',
             'stamp' => '',
             'signature' => '',
-            'director' => ''
+            'signature_accountant' => '',
+            'director' => '',
+            'accountant' => ''
         ];
         $stamps = $providerRq['stamps'];
         $signatures = $providerRq['signatures'];
@@ -1221,7 +1223,13 @@ class PDFDocumentController extends Controller
             $stampsData['stamp'] = storage_path('app/' . $stamps[0]['path']);
         }
         if (!empty($signatures)) {
-            $stampsData['signature'] = storage_path('app/' . $signatures[0]['path']);
+            foreach ($signatures as $key => $signature) {
+                if ($signature['code'] !== 'signature_accountant') {
+                    $stampsData['signature'] = storage_path('app/' . $signature['path']);
+                } else {
+                    $stampsData['signature_accountant'] = storage_path('app/' . $signature['path']);
+                }
+            }
         }
 
 
@@ -1236,6 +1244,12 @@ class PDFDocumentController extends Controller
         if ($providerRq['type'] == 'org') {
             $stampsData['director']  = $providerRq['director'];
         }
+
+
+        $stampsData['accountant'] = $providerRq['accountant'];
+
+
+
 
         return $stampsData;
     }
