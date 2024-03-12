@@ -191,7 +191,9 @@ class RqController extends Controller
                     case 'stamp':
                         return RqController::getStamps($rqId);
 
-
+                    case 'qrs':
+                    case 'qr':
+                        return RqController::getQrs($rqId);
 
                     default:
                         return APIController::getError(
