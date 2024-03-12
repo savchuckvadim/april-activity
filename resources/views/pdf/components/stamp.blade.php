@@ -36,7 +36,7 @@
 
     .signature-container img.signature {
         z-index: 2;
-        width: 130px;
+        width: 120px;
         height: auto;
         /* Подпись будет над печатью */
         top: 30px;
