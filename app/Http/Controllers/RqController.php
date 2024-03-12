@@ -274,4 +274,26 @@ class RqController extends Controller
             );
         }
     }
+    public static function getQrs($rqId)
+    {
+        try {
+
+
+            $rq = Rq::find($rqId);
+            if ($rq) {
+                $signatures = $rq->signatures;
+                return APIController::getSuccess(['signatures' => $signatures]);
+            } else {
+                return APIController::getError(
+                    'rq not found',
+                    null
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                null
+            );
+        }
+    }
 }

@@ -66,4 +66,9 @@ class Rq extends Model
     {
         return $this->morphMany(File::class, 'entity')->where('parent_type', 'signature');
     }
+
+    public function qrs()
+    {
+        return $this->morphMany(File::class, 'entity')->where('parent_type', 'qr');
+    }
 }
