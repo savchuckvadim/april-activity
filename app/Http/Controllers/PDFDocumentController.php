@@ -109,7 +109,7 @@ class PDFDocumentController extends Controller
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                     $footerData  = $this->getFooterData($manager);
-                    $letterData  = $this->getLetterData($documentNumber, $fields, $recipient);
+                    $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
 
                     $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
@@ -499,8 +499,15 @@ class PDFDocumentController extends Controller
 
         return $footerData;
     }
-    protected function getLetterData($documentNumber, $fields, $recipient)
+    protected function getLetterData($documentNumber, $fields, $recipient, $domain)
     {
+        $isLargeLetterText = false;
+
+        if($domain == 'april-garant.bitrix24.ru'){
+            $isLargeLetterText = true;
+        }
+
+
         $date = $this->getToday();
         $letterData = [
             'documentNumber' => null,
@@ -511,6 +518,7 @@ class PDFDocumentController extends Controller
             'recipientCase' => null,
             'recipientName' => null,
             'text' => null,
+            'isLargeLetterText' => $isLargeLetterText
 
         ];
 
@@ -669,7 +677,8 @@ class PDFDocumentController extends Controller
             'descriptionMode' => $descriptionMode,
             'pages' => $pages,
             'withPrice' => $withPrice,
-            'complectName' => $complectName
+            'complectName' => $complectName,
+            
 
         ];
 

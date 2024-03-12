@@ -78,25 +78,49 @@
         <div class="letter-text-wrapper">
             @php
                 $letterText = $letterData['text'];
-                // Заменяем строковые литералы "\n" на реальные символы переноса строки
+                $isLargeLetterText = $letterData['isLargeLetterText'];
+                $baseClass = 'text-normal';
+                if(!$isLargeLetterText){
+                    $baseClass = 'text-large';
+
+                }
                 $letterText = str_replace("\\n", "\n", $letterText);
-                $parts = preg_split('/<color>|<\/color>/', $letterText);
+                // Разбиваем по тегам, сохраняя их в результате
+                $parts = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
                 $inHighlight = false;
+                $inBold = false;
             @endphp
-        
-            @foreach ($parts as $index => $part)
+
+            @foreach ($parts as $part)
                 @php
-                    $isLastPart = $index === count($parts) - 1;
+                    if ($part == '<color>') {
+                        $inHighlight = true;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '</color>') {
+                        $inHighlight = false;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '<bold>') {
+                        $inBold = true;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '</bold>') {
+                        $inBold = false;
+                        continue; // Пропускаем сам тег
+                    }
+
+                    // Определяем классы для текущего фрагмента
+                    $class = $baseClass;
+                    if ($inHighlight) {
+                        $class = ' color';
+                    }
+                    if ($inBold) {
+                        $class .= ' bold'; // Добавляем класс для жирного текста
+                    }
                 @endphp
-        
-                {{-- Замена \n на <br> и обертывание каждой части в span --}}
-                {!! $inHighlight ? '<span class="color text-normal">' : '<span class="text-normal">' !!}
-                {!! nl2br(e($part)) !!}
+
+                {{-- Выводим содержимое $part с применением nl2br и экранированием --}}
+                <span class="{{ $class }}">
+                    {!! nl2br(e($part)) !!}
                 </span>
-        
-                @if (!$isLastPart)
-                    @php $inHighlight = !$inHighlight @endphp
-                @endif
             @endforeach
         </div>
     </div>
