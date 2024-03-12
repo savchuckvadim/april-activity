@@ -187,8 +187,9 @@ class PDFDocumentController extends Controller
                     }
                     if ($isAlternativeInvoices) {
                         foreach ($data['price']['cells']['alternative'] as $key => $product) {
-
+                            Log::error('product',  $product);
                             $alternativeInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, false, $key);
+                            Log::error('alternativeInvoice',  $alternativeInvoice);
                             array_push($invoices, $alternativeInvoice);
                             array_push($links, $alternativeInvoice);
                         }

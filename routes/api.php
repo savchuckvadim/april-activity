@@ -568,12 +568,9 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
-
-
-
-
     //RESULT DOCUMENTS
-    Route::get('/pdf', [PDFDocumentController::class, 'generatePDF']);
+    // Route::get('/pdf', [PDFDocumentController::class, 'generatePDF']);
+
 
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
@@ -583,6 +580,18 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return $result;
     });
     
+
+
+
+
+
+
+
+
+
+
+
+
     // Route::post('get/document', function (Request $request) {
     //     $data  = $request->input('data');
     //     $documentController = new DocumentController;
