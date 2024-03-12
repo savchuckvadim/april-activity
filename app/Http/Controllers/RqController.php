@@ -281,8 +281,8 @@ class RqController extends Controller
 
             $rq = Rq::find($rqId);
             if ($rq) {
-                $signatures = $rq->signatures;
-                return APIController::getSuccess(['signatures' => $signatures]);
+                $qrs = $rq->qrs;
+                return APIController::getSuccess(['qrs' => $qrs]);
             } else {
                 return APIController::getError(
                     'rq not found',
