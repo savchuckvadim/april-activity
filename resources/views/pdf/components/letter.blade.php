@@ -110,7 +110,7 @@
                     // Определяем классы для текущего фрагмента
                     $class = $baseClass;
                     if ($inHighlight) {
-                        $class = ' color';
+                        $class .= ' color';
                     }
                     if ($inBold) {
                         $class .= ' bold'; // Добавляем класс для жирного текста
