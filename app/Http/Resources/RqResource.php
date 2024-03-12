@@ -83,6 +83,16 @@ class RqResource extends JsonResource
                 ];
             }),
 
+            'qrs' => $this->qrs->map(function ($qr) {
+                return [
+                    'name' => $qr->name,
+                    'code' => $qr->code,
+                    'type' => $qr->type,
+                    'path' => $qr->path,
+                    // Добавьте другие поля из $fillable в модели 'File', которые вам нужны
+                ];
+            }),
+
             // 'agent' => $this->agent,
             'domain' => $domain,
             // Включите другие связанные данные по необходимости
