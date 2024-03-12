@@ -113,7 +113,7 @@ class PDFDocumentController extends Controller
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
 
                     $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
-                    $stampsData  =   $this->getStampsData($providerRq);
+                    $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
 
@@ -272,7 +272,7 @@ class PDFDocumentController extends Controller
                 //document data
                 $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                 $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
-                $stampsData  =   $this->getStampsData($providerRq);
+                $stampsData  =   $this->getStampsData($providerRq, true);
                 $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral, $alternativeSetId);
 
                 // ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
@@ -1206,7 +1206,7 @@ class PDFDocumentController extends Controller
         return $result;
     }
 
-    protected function getStampsData($providerRq)
+    protected function getStampsData($providerRq, $isInvoice)
     {
         $stampsData = [
             'position' => '',
@@ -1214,7 +1214,8 @@ class PDFDocumentController extends Controller
             'signature' => '',
             'signature_accountant' => '',
             'director' => '',
-            'accountant' => ''
+            'accountant' => '',
+            'isInvoice' => $isInvoice
         ];
         $stamps = $providerRq['stamps'];
         $signatures = $providerRq['signatures'];

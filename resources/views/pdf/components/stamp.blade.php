@@ -79,10 +79,10 @@
 
         <td class="text-cell text-normal bold">{{ $director }}</td>
     </tr>
-    @if ($accountant)
+    @if ($accountant && $isInvoice)
         <tr>
 
-            <td class="text-cell text-normal bold">{{ $position }}</td>
+            <td class="text-cell text-normal bold">{{ "Главный бухгалтер" }}</td>
 
 
             <td class="signature-container">
