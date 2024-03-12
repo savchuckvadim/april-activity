@@ -36,10 +36,10 @@
 
     .signature-container img.signature {
         z-index: 2;
-        width: 120px;
+        width: 140px;
         height: auto;
         /* Подпись будет над печатью */
-        top: 50px;
+        top: 60px;
         /* Смещение от верха контейнера */
     }
 
