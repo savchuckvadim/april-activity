@@ -22,7 +22,7 @@
 
     /* Если нужно, чтобы печать была больше по размеру */
     .signature-container img.stamp {
-        height: 120px;
+        height: 130px;
 
     }
 
