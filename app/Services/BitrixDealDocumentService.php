@@ -457,11 +457,12 @@ class BitrixDealDocumentService
                     // $qcount =    (float)$cell['value'];
                     // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
                     // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
-                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
+                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT); //чистое количество
 
                     // Преобразуем результат в число
-                    $quantity = intval($numberString);
-                    $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                    $quantity = intval($numberString);                                          //преобразует строку в число
+                    $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
+                    $quantityString = TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 // }
             }
 
