@@ -151,25 +151,25 @@ class PDFDocumentController extends Controller
                     $uid = Uuid::uuid4()->toString();
                     $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
-                    $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+                    // $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
 
 
-                    if (!file_exists($resultPath)) {
-                        mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-                    }
+                    // if (!file_exists($resultPath)) {
+                    //     mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                    // }
 
-                    // Проверить доступность каталога для записи
-                    if (!is_writable($resultPath)) {
-                        throw new \Exception("Невозможно записать в каталог: $resultPath");
-                    }
-                    $resultFileName = $documentNumber . '_' . $shortUid . '.pdf';
-                    $pdf->save($resultPath . '/' . $resultFileName);
+                    // // Проверить доступность каталога для записи
+                    // if (!is_writable($resultPath)) {
+                    //     throw new \Exception("Невозможно записать в каталог: $resultPath");
+                    // }
+                    // $resultFileName = $documentNumber . '_' . $shortUid . '.pdf';
+                    // $pdf->save($resultPath . '/' . $resultFileName);
 
-                    // $objWriter->save($resultPath . '/' . $resultFileName);
+                    // // $objWriter->save($resultPath . '/' . $resultFileName);
 
-                    // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-                    $links = [];
-                    $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                    // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+                    // $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
@@ -179,7 +179,9 @@ class PDFDocumentController extends Controller
                     //     'counter' => $counter,
 
                     // ]);
-                    array_push($links, $offerLink);
+
+                    $links = [];
+                    // array_push($links, $offerLink);
                     if ($isGeneralInvoice) {
                         $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
                         array_push($invoices, $generalInvoice);
@@ -197,15 +199,16 @@ class PDFDocumentController extends Controller
 
                     //BITRIX
 
-                    $bitrixController = new BitrixController();
-                    $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-                    $this->setTimeline($domain, $dealId, $links, $documentNumber);
+                    // $bitrixController = new BitrixController();
+                    // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
+                    // $this->setTimeline($domain, $dealId, $links, $documentNumber);
 
 
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
                         // 'link' => $links[1],
-                        'link' => $offerLink,
+                        // 'link' => $offerLink,
+                        'link' => $links[0],
                         'links' => $links,
                         'pdf' => $pdfData
                         // 'documentNumber' => $documentNumber,
@@ -1268,9 +1271,26 @@ class PDFDocumentController extends Controller
         $pricesData  =   $this->getInvoicePricesData($price, $isGeneral, $alternativeSetId);
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
+        $withQr = false;
+        $qr = null;
+        if (isset($providerRq['qrs'])) {
+            if (count($providerRq['qrs'])) {
+                if (isset($providerRq['qrs'][0])) {
+
+                    if (isset($providerRq['qrs'][0]['path'])) {
+
+                        $withQr = true;
+                        $qr = $providerRq['qrs'][0]['path'];
+                    }
+                }
+            }
+        }
+        $req = $providerRq;
+        $req['withQr'] = $withQr;
+        $req['qr'] = $qr;
         $invoiceData = [
             // 'stampsData' => $stampsData,
-            'rq' => $providerRq,
+            'rq' => $req,
 
             'main' => [
                 'rq' => $providerRq,

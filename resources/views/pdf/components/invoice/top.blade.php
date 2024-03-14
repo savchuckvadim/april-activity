@@ -1,7 +1,7 @@
 <style>
     .qr-table {
         border-collapse: collapse;
-        width: 100%;
+        width: 50%;
         border: 1px solid;
     }
 
@@ -34,7 +34,8 @@
 
     .cell-large {
         /* width: 105mm; */
-        width: 60mm;
+        /* width: 60mm; */
+        width: 20mm;
     }
 
     .cell-small {
@@ -43,8 +44,9 @@
     }
 
     .cell-medium {
-        width: 60mm;
-        /* width: 10px; */
+        /* width: 60mm; */
+        width: 20mm;
+
     }
 
     /* .cell-xsmall {
@@ -54,12 +56,21 @@
     /* Предположим, что это для QR-кода */
     .cell-inn {
         /* width: 50mm; */
-        width: 45mm;
+        /* width: 45mm; */
+        width: 35mm;
+
+    }
+
+    .cell-qr {
+        /* width: 50mm; */
+        /* width: 45mm; */
+        width: 35mm;
     }
 
     .cell-kpp {
         /* width: 55mm; */
-        width: 45mm;
+        /* width: 45mm; */
+        width: 35mm;
     }
 
 
@@ -78,7 +89,7 @@
     }
 
     .qr-img {
-        width: 130px;
+        /* width: 130px; */
         max-height: 250px;
         height: auto;
         margin-left: 4px;
@@ -87,7 +98,7 @@
 
 
 @php
-    $withQr = false;
+
 @endphp
 <table cellpadding="0" cellspacing="0">
     <tr>
@@ -132,7 +143,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="cell-small">
                             <p class="text-large">Сч. №</p>
                         </td>
                     </tr>
@@ -174,9 +185,10 @@
             </div>
         </td>
         @if ($withQr)
-            <td class="innercell">
+            <td class="innercell cell-qr">
                 <!-- Замените 'src' на путь к вашему QR-коду -->
-                <img class="qr-img" src="{{ asset('imgs/background.jpg') }}" alt="QR Code">
+                <img class="qr-img" src="{{ $qr }}" alt="QR Code">
+                {{-- <p>Yo</p> --}}
                 {{-- <p class="text-large bold">qr</p> --}}
             </td>
         @endif
