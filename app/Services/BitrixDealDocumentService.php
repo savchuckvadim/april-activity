@@ -103,7 +103,7 @@ class BitrixDealDocumentService
             'invoiceLinks' => $invoices,
             'links' => $links,
             'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
-            'qr_path' => $data['provider']['rq']['qrs'][0]['path']
+            // 'qr_path' => $data['provider']['rq']['qrs'][0]['path']
         ];
 
         return  $result;
@@ -280,7 +280,8 @@ class BitrixDealDocumentService
                     if (isset($providerRq['qrs'][0]['path'])) {
 
                         $withQr = true;
-                        $qr = $providerRq['qrs'][0]['path'];
+                     
+                        $qr = storage_path('app/' .  $providerRq['qrs'][0]['path']);;
                     }
                 }
             }
