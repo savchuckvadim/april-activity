@@ -480,7 +480,8 @@ class BitrixDealDocumentService
 
         if ($foundCell) {
             $totalSum = $foundCell['value'];
-            $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+            $totalCount =    (float)$contract['prepayment'] * (float)$cell['value'];
+            $totalSum = MoneySpeller::spell($totalCount, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
             $total = '<color>' . $totalSum . '</color> ';
         }
 
