@@ -52,7 +52,7 @@
         }
 
         /* text */
-        .text-x-small {
+        .text-xsmall {
             font-size: 8px;
         }
         .text-small {
