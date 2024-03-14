@@ -72,7 +72,7 @@
 
         /* text */
         .text-xsmall {
-            font-size: 8px;
+            font-size: 7px;
         }
 
         .text-small {
