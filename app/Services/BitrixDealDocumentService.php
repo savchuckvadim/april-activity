@@ -455,7 +455,7 @@ class BitrixDealDocumentService
                 //     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 // } else {
                     // $qcount =    (float)$cell['value'];
-                    $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
+                    // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
                     // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
 
