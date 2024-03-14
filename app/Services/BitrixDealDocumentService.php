@@ -439,25 +439,28 @@ class BitrixDealDocumentService
         foreach ($totalCells  as $cell) {
 
             if ($cell['code'] === 'quantity' && $cell) {
-                if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
+                // if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
 
-                    // $qcount = $contract['prepayment'] * $cell['value'];
-                    Log::error('CONTRACT: ', ['contract' => $contract]);
-                    Log::error('CONTRACT: ', ['contract-prepayment' => $contract['prepayment']]);
+                //     // $qcount = $contract['prepayment'] * $cell['value'];
+                //     Log::error('CONTRACT: ', ['contract' => $contract]);
+                //     Log::error('CONTRACT: ', ['contract-prepayment' => $contract['prepayment']]);
 
-                    Log::error('cell: ', ['cell' => $cell]);
-                    Log::error('cell-value: ', ['cell-value' => $cell['value']]);
+                //     Log::error('cell: ', ['cell' => $cell]);
+                //     Log::error('cell-value: ', ['cell-value' => $cell['value']]);
 
 
-                    $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
-                    $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
-                } else {
+                //     // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
+                //     $qcount =    (float)$cell['value'];
+
+                //     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
+                // } else {
+                    // $qcount =    (float)$cell['value'];
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
-
+                    
                     // Преобразуем результат в число
                     $quantity = intval($numberString);
                     $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
-                }
+                // }
             }
 
             if ($cell['code'] === 'measure' && $cell['value']) {
