@@ -438,10 +438,17 @@ class BitrixDealDocumentService
 
         foreach ($totalCells  as $cell) {
 
-            if ($cell['code'] === 'quantity' && $cell['value']) {
+            if ($cell['code'] === 'quantity' && $cell) {
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
 
                     // $qcount = $contract['prepayment'] * $cell['value'];
+                    Log::error('CONTRACT: ', ['contract' => $contract]);
+                    Log::error('CONTRACT: ', ['contract-prepayment' => $contract['prepayment']]);
+
+                    Log::error('cell: ', ['cell' => $cell]);
+                    Log::error('cell-value: ', ['cell-value' => $cell['value']]);
+
+
                     $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
                     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 } else {
