@@ -53,7 +53,7 @@
 
         /* text */
         .text-xsmall {
-            font-size: 8px;
+            font-size: 9px;
         }
         .text-small {
             font-size: 10px;

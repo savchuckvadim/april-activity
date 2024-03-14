@@ -71,6 +71,10 @@
 
 
         /* text */
+        .text-xsmall {
+            font-size: 8px;
+        }
+
         .text-small {
             font-size: 10px;
         }
