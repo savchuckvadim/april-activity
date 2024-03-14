@@ -280,7 +280,7 @@ class BitrixDealDocumentService
                     if (isset($providerRq['qrs'][0]['path'])) {
 
                         $withQr = true;
-                     
+
                         $qr = storage_path('app/' .  $providerRq['qrs'][0]['path']);;
                     }
                 }
@@ -396,7 +396,7 @@ class BitrixDealDocumentService
 
 
         if (!$isGeneral) {
-            foreach ($price['cells']['alternative'][0]['cells'] as $contractCell) {
+            foreach ($price['cells']['alternative'][$alternativeSetId]['cells'] as $contractCell) {
                 if ($contractCell['code'] === 'contract') {
                     $contract = $contractCell['value'];
                 }
@@ -441,8 +441,8 @@ class BitrixDealDocumentService
             if ($cell['code'] === 'quantity' && $cell['value']) {
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
 
-                    $qcount = $contract['prepayment'] * $cell['value'];
-
+                    // $qcount = $contract['prepayment'] * $cell['value'];
+                    $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
                     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 } else {
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
