@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Counter;
 use App\Models\Infoblock;
+use App\Services\BitrixDealDocumentService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -118,38 +119,38 @@ class PDFDocumentController extends Controller
 
 
 
-                    $pdfData = [
-                        'headerData' =>  $headerData,
-                        'doubleHeaderData' =>  $doubleHeaderData,
-                        'footerData' =>  $footerData,
-                        'letterData' => $letterData,
-                        'infoblocksData' => $infoblocksData,
-                        'pricesData' => $pricesData,
-                        'stampsData' => $stampsData,
-                    ];
+                    // $pdfData = [
+                    //     'headerData' =>  $headerData,
+                    //     'doubleHeaderData' =>  $doubleHeaderData,
+                    //     'footerData' =>  $footerData,
+                    //     'letterData' => $letterData,
+                    //     'infoblocksData' => $infoblocksData,
+                    //     'pricesData' => $pricesData,
+                    //     'stampsData' => $stampsData,
+                    // ];
 
 
-                    //ГЕНЕРАЦИЯ ДОКУМЕНТА
-                    $pdf = Pdf::loadView('pdf.offer', [
-                        'headerData' =>  $headerData,
-                        'doubleHeaderData' =>  $doubleHeaderData,
-                        'footerData' =>  $footerData,
-                        'letterData' => $letterData,
-                        'infoblocksData' => $infoblocksData,
-                        'pricesData' => $pricesData,
-                        'stampsData' => $stampsData,
-                        // 'invoiceData' => $invoiceData,
-                    ]);
-
-
-
+                    // //ГЕНЕРАЦИЯ ДОКУМЕНТА
+                    // $pdf = Pdf::loadView('pdf.offer', [
+                    //     'headerData' =>  $headerData,
+                    //     'doubleHeaderData' =>  $doubleHeaderData,
+                    //     'footerData' =>  $footerData,
+                    //     'letterData' => $letterData,
+                    //     'infoblocksData' => $infoblocksData,
+                    //     'pricesData' => $pricesData,
+                    //     'stampsData' => $stampsData,
+                    //     // 'invoiceData' => $invoiceData,
+                    // ]);
 
 
 
 
-                    // //СОХРАНЕНИЕ ДОКУМЕТА
-                    $uid = Uuid::uuid4()->toString();
-                    $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+
+
+                    // // //СОХРАНЕНИЕ ДОКУМЕТА
+                    // $uid = Uuid::uuid4()->toString();
+                    // $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
                     // $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
 
@@ -165,12 +166,28 @@ class PDFDocumentController extends Controller
                     // $resultFileName = $documentNumber . '_' . $shortUid . '.pdf';
                     // $pdf->save($resultPath . '/' . $resultFileName);
 
-                    // // $objWriter->save($resultPath . '/' . $resultFileName);
+                    // $objWriter->save($resultPath . '/' . $resultFileName);
 
-                    // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+                    // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
                     // $offerLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
-
+                    $documentService = new BitrixDealDocumentService(
+                        $domain,
+                        $documentNumber,
+                        $data,
+                        $headerData,
+                        $doubleHeaderData,
+                        $footerData,
+                        $letterData,
+                        $infoblocksData,
+                        $pricesData,
+                        $stampsData,
+                        $isTwoLogo,
+                        $isGeneralInvoice,
+                        $isAlternativeInvoices,
+                        $dealId
+                    );
+                    $documents = $documentService->getDocuments();
                     // $link = $pdf->download($resultFileName);
                     // return APIController::getSuccess([
                     //     'price' => $price,
@@ -180,13 +197,13 @@ class PDFDocumentController extends Controller
 
                     // ]);
 
-                    $links = [];
+                    // $links = [];
                     // array_push($links, $offerLink);
-                    if ($isGeneralInvoice) {
-                        $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
-                        array_push($invoices, $generalInvoice);
-                        array_push($links, $generalInvoice);
-                    }
+                    // if ($isGeneralInvoice) {
+                    //     $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
+                    //     array_push($invoices, $generalInvoice);
+                    //     array_push($links, $generalInvoice);
+                    // }
                     // if ($isAlternativeInvoices) {
                     //     foreach ($data['price']['cells']['alternative'] as $key => $product) {
                     //         Log::error('product',  ['product' => $product]);
@@ -207,10 +224,11 @@ class PDFDocumentController extends Controller
                     return APIController::getSuccess([
                         'infoblocksData' => $infoblocksData,
                         // 'link' => $links[1],
-                        // 'link' => $offerLink,
-                        'link' => $links[0],
-                        'links' => $links,
-                        'pdf' => $pdfData
+                        'link' => $documents['offerLink'],
+                        'invoices' => $documents['invoiceLinks'],
+                        'links' => $documents['links'],
+                        'pdf' => $pdfData,
+                        $documents
                         // 'documentNumber' => $documentNumber,
                         // 'counter' => $counter,
 

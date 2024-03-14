@@ -128,57 +128,57 @@ class CounterController extends Controller
         $template = Template::find($templateId);
         $counter = null;
         $count = 0;
-        if ($template) {
-            $templateCounters = $template->counters;
-            if ($templateCounters && count($templateCounters) > 0) {
+        // if ($template) {
+        //     $templateCounters = $template->counters;
+        //     if ($templateCounters && count($templateCounters) > 0) {
 
-                $counterId =   $templateCounters[0]['id'];
-                $counter = $templateCounters[0];
+        //         $counterId =   $templateCounters[0]['id'];
+        //         $counter = $templateCounters[0];
 
-                if ($counter && isset($counter['pivot'])) {
-                    $counter = $counter['pivot'];
-                    $baseCount = '';
-                    if (isset($counter['count']) && isset($counter['size'])) {
-                        $size = 1;
-                        $currentCount = 0;
-                        if ($counter['size']) {
-                            $size = $counter['size'];
-                        }
-                        if ($counter['count']) {
-                            $currentCount = $counter['count'] + 1;
-                        }
-                        $counter['count'] =  $currentCount;
-                        $template->counters()->updateExistingPivot($counterId, ['count' => $currentCount]);
-                        $baseCount = $currentCount + ($currentCount *  $size);
-                    }
+        //         if ($counter && isset($counter['pivot'])) {
+        //             $counter = $counter['pivot'];
+        //             $baseCount = '';
+        //             if (isset($counter['count']) && isset($counter['size'])) {
+        //                 $size = 1;
+        //                 $currentCount = 0;
+        //                 if ($counter['size']) {
+        //                     $size = $counter['size'];
+        //                 }
+        //                 if ($counter['count']) {
+        //                     $currentCount = $counter['count'] + 1;
+        //                 }
+        //                 $counter['count'] =  $currentCount;
+        //                 $template->counters()->updateExistingPivot($counterId, ['count' => $currentCount]);
+        //                 $baseCount = $currentCount + ($currentCount *  $size);
+        //             }
 
-                    if (isset($counter['prefix']) && $counter['prefix']) {
-                        $count = $counter['prefix'] . '-' . $baseCount;
-                    }
+        //             if (isset($counter['prefix']) && $counter['prefix']) {
+        //                 $count = $counter['prefix'] . '-' . $baseCount;
+        //             }
 
-                    if (isset($counter['day']) && $counter['day']) {
-                        $day = date('d');
-                        $count = $count . '-' . $day;
-                    }
+        //             if (isset($counter['day']) && $counter['day']) {
+        //                 $day = date('d');
+        //                 $count = $count . '-' . $day;
+        //             }
 
-                    if (isset($counter['month']) && $counter['month']) {
-                        $month = date('m');
-                        $count = $count . '-' . $month;
-                    }
+        //             if (isset($counter['month']) && $counter['month']) {
+        //                 $month = date('m');
+        //                 $count = $count . '-' . $month;
+        //             }
 
-                    if (isset($counter['year']) && $counter['year']) {
-                        $year = date('y');
-                        $count = $count . '-' . $year;
-                    }
-                }
-            }
-        }
+        //             if (isset($counter['year']) && $counter['year']) {
+        //                 $year = date('y');
+        //                 $count = $count . '-' . $year;
+        //             }
+        //         }
+        //     }
+        // }
 
 
         if (!$count) {
             $day = date('d');
             $month = date('m');
-            $count  = mt_rand(1, 999) . $month . '-' . $day;
+            $count  = $templateId . mt_rand(1, 99) . $month . '-' . $day;
         }
         return $count;
     }
