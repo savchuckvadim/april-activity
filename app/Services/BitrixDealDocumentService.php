@@ -454,12 +454,15 @@ class BitrixDealDocumentService
 
                 //     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
                 // } else {
-                    // $qcount =    (float)$cell['value'];
-                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
-                    
-                    // Преобразуем результат в число
-                    $quantity = intval($numberString);
-                    $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                // $qcount =    (float)$cell['value'];
+                $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
+                Log::error('qcount: ', ['qcount' => $qcount]);
+                // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
+                $numberString = filter_var($qcount, FILTER_SANITIZE_NUMBER_INT);
+                Log::error('numberString: ', ['numberString' => $numberString]);
+                // Преобразуем результат в число
+                $quantity = intval($numberString);
+                $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
                 // }
             }
 
@@ -480,8 +483,7 @@ class BitrixDealDocumentService
 
         if ($foundCell) {
             $totalSum = $foundCell['value'];
-            $totalCount =    (float)$contract['prepayment'] * (float)$cell['value'];
-            $totalSum = MoneySpeller::spell($totalCount, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+            $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
             $total = '<color>' . $totalSum . '</color> ';
         }
 
