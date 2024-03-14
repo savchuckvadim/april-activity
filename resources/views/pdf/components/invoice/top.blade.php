@@ -89,10 +89,10 @@
     }
 
     .qr-img {
-        width: 150px;
+        width: 120px;
         /* max-height: 250px; */
         height: auto;
-        margin-left: 4px;
+        margin-left: 10px;
     }
 </style>
 
