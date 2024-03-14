@@ -1,7 +1,7 @@
 <style>
     .qr-table {
         border-collapse: collapse;
-        width: 50%;
+        /* width: 50%; */
         border: 1px solid;
     }
 
@@ -89,8 +89,8 @@
     }
 
     .qr-img {
-        /* width: 130px; */
-        max-height: 250px;
+        width: 150px;
+        /* max-height: 250px; */
         height: auto;
         margin-left: 4px;
     }
