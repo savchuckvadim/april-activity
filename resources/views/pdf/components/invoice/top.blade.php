@@ -95,6 +95,11 @@
         margin-left: 15px;
         margin-top: 2px;
     }
+
+    .qr-phrase{
+        margin-left: 15px;
+        margin-top: 2px;
+    }
 </style>
 
 
@@ -189,7 +194,7 @@
             <td class="innercell cell-qr">
                 <!-- Замените 'src' на путь к вашему QR-коду -->
                 <img class="qr-img" src="{{ $qr }}" alt="QR Code">
-                <p class="text-small">Для оплаты через QR код
+                <p class="text-x-small qr-phrase">Для оплаты через QR код
                     Откройте банковское приложение,
                     выберите раздел оплата по QR коду,
                     наведите на QR код на счете

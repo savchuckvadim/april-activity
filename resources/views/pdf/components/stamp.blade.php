@@ -21,10 +21,10 @@
     }
 
     /* Если нужно, чтобы печать была больше по размеру */
-    .signature-container img.stamp {
+    /* .signature-container img.stamp {
         height: 130px;
 
-    }
+    } */
 
     .text-cell {
         width: 250px;
@@ -44,7 +44,7 @@
     }
 
     .signature-container img.stamp {
-        width: 150px;
+        width: 170px;
         height: auto;
         z-index: 1;
         /* Печать будет под подписью */

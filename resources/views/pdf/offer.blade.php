@@ -52,6 +52,9 @@
         }
 
         /* text */
+        .text-x-small {
+            font-size: 8px;
+        }
         .text-small {
             font-size: 10px;
         }
