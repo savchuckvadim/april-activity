@@ -102,7 +102,8 @@ class BitrixDealDocumentService
             'offerLink' => $offerLink,
             'invoiceLinks' => $invoices,
             'links' => $links,
-            'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse
+            'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
+            'qr_path' => $data['provider']['rq']['qrs'][0]['path']
         ];
 
         return  $result;
@@ -624,7 +625,7 @@ class BitrixDealDocumentService
                 $responseChangeDeal = $bitrixController->changeDealStage($this->domain, $this->dealId, "invoice");
             }
 
-            
+
             $responseTimeLine = $this->setTimeline($links);
             return [
                 'responseChangeDeal' => $responseChangeDeal,
