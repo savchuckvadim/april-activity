@@ -15,7 +15,8 @@
         width: 100%;
         border: 0px;
     }
-    .invoice-main-table{
+
+    .invoice-main-table {
         margin-top: 30px;
     }
 </style>
@@ -43,8 +44,10 @@
         @if ($recipient['companyName'])
             @php
                 $inn = null;
-                if ($recipient['inn']) {
-                    $inn = ', ИНН: ' . $recipient['inn'];
+                if (isset($recipient['inn'])) {
+                    if ($recipient['inn']) {
+                        $inn = ', ИНН: ' . $recipient['inn'];
+                    }
                 }
 
             @endphp
