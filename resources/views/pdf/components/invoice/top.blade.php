@@ -89,11 +89,11 @@
     }
 
     .qr-img {
-        width: 100px;
+        width: 90px;
         /* max-height: 250px; */
         height: auto;
         margin-left: 15px;
-        /* margin-top: 2px; */
+        margin-top: 5px;
     }
 
     .qr-phrase{
