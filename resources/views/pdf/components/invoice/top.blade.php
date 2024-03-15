@@ -98,7 +98,7 @@
 
     .qr-phrase{
         margin-left: 15px;
-        margin-top: 4px;
+        margin-top: 6px;
     }
 </style>
 
