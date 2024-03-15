@@ -46,10 +46,12 @@
                         {{ $letterData['companyName'] }}
                     </p>
                 @endif
-                @if ($letterData['inn'] !== null)
-                    <p class="text-small">
-                        {{ $letterData['inn'] }}
-                    </p>
+                @if (isset($letterData['inn']))
+                    @if ($letterData['inn'] !== null)
+                        <p class="text-small">
+                            {{ $letterData['inn'] }}
+                        </p>
+                    @endif
                 @endif
                 @if ($letterData['positionCase'] !== null)
                     <p class="text-small">
@@ -80,9 +82,8 @@
                 $letterText = $letterData['text'];
                 $isLargeLetterText = $letterData['isLargeLetterText'];
                 $baseClass = 'text-normal';
-                if(!$isLargeLetterText){
+                if (!$isLargeLetterText) {
                     $baseClass = 'text-large';
-
                 }
                 $letterText = str_replace("\\n", "\n", $letterText);
                 // Разбиваем по тегам, сохраняя их в результате
