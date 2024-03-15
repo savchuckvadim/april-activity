@@ -501,14 +501,14 @@ class PDFDocumentController extends Controller
 
         $date = $this->getToday();
         $letterData = [
-            'documentNumber' => '',
-            'documentDate' => '',
-            'companyName' => '',
-            'inn' => '',
-            'positionCase' => '',
-            'recipientCase' => '',
-            'recipientName' => '',
-            'text' => '',
+            'documentNumber' => null,
+            'documentDate' => null,
+            'companyName' => null,
+            'inn' => null,
+            'positionCase' => null,
+            'recipientCase' => null,
+            'recipientName' => null,
+            'text' => null,
             'isLargeLetterText' => $isLargeLetterText
 
         ];
