@@ -92,13 +92,13 @@
         width: 90px;
         /* max-height: 250px; */
         height: auto;
-        margin-left: 15px;
-        margin-top: 5px;
+        margin-left: 20px;
+        /* margin-top: 5px; */
     }
 
     .qr-phrase{
         margin-left: 15px;
-        margin-top: 6px;
+        margin-top: 10px;
     }
 </style>
 
