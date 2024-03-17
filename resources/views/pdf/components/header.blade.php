@@ -23,7 +23,9 @@
     }
 </style>
 <header>
-    <div class="rowItem">
+    <div
+    
+    class="rowItem">
         @if ($headerData['isTwoLogo'])
             <!-- Если isTwoLogo истинно, отображаем изображения -->
             <div class="cellItem">

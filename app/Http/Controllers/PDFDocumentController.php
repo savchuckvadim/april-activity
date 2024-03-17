@@ -119,42 +119,44 @@ class PDFDocumentController extends Controller
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
 
-                    // $documentService = new BitrixDealDocumentService(
-                    // $domain,
-                    // $documentNumber,
-                    // $data,
-                    // $headerData,
-                    // $doubleHeaderData,
-                    // $footerData,
-                    // $letterData,
-                    // $infoblocksData,
-                    // $pricesData,
-                    // $stampsData,
-                    // $isTwoLogo,
-                    // $isGeneralInvoice,
-                    // $isAlternativeInvoices,
-                    // $dealId
-                    // );
-                    // $documents = $documentService->getDocuments();
+                    $documentService = new BitrixDealDocumentService(
+                    $domain,
+                    $documentNumber,
+                    $data,
+                    $headerData,
+                    $doubleHeaderData,
+                    $footerData,
+                    $letterData,
+                    $infoblocksData,
+                    $pricesData,
+                    $stampsData,
+                    $isTwoLogo,
+                    $isGeneralInvoice,
+                    $isAlternativeInvoices,
+                    $dealId
+                    );
+                    $documents = $documentService->getDocuments();
 
-                    dispatch(new BitrixDealDocumentJob(
-                        $domain,
-                        $documentNumber,
-                        $data,
-                        $headerData,
-                        $doubleHeaderData,
-                        $footerData,
-                        $letterData,
-                        $infoblocksData,
-                        $pricesData,
-                        $stampsData,
-                        $isTwoLogo,
-                        $isGeneralInvoice,
-                        $isAlternativeInvoices,
-                        $dealId
-                    ));
+                    // dispatch(new BitrixDealDocumentJob(
+                    //     $domain,
+                    //     $documentNumber,
+                    //     $data,
+                    //     $headerData,
+                    //     $doubleHeaderData,
+                    //     $footerData,
+                    //     $letterData,
+                    //     $infoblocksData,
+                    //     $pricesData,
+                    //     $stampsData,
+                    //     $isTwoLogo,
+                    //     $isGeneralInvoice,
+                    //     $isAlternativeInvoices,
+                    //     $dealId
+                    // ));
 
-                    return APIController::getSuccess(['job' => 'get it !']);
+                    return APIController::getSuccess(
+                        $documents
+                    );
 
 
 

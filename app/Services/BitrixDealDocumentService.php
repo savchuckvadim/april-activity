@@ -72,6 +72,7 @@ class BitrixDealDocumentService
         $data = $this->data;
         $result = [
             'offerLink' => '',
+            'link' => '',
             'invoiceLinks' => [],
             'links' => [],
         ];
@@ -100,6 +101,7 @@ class BitrixDealDocumentService
         $bitrixDealUpdateResponse = $this->updateDeal($links);
         $result = [
             'offerLink' => $offerLink,
+            'link' => $offerLink,
             'invoiceLinks' => $invoices,
             'links' => $links,
             'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
@@ -108,6 +110,9 @@ class BitrixDealDocumentService
 
         return  $result;
     }
+
+
+    
     protected function createDocumentOffer()
     {
 
