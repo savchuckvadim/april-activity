@@ -47,8 +47,8 @@ class BitrixDealUpdateService
     public function dealProccess()
     {
         if (!$this->dealId) {
-            $newDealId = $this->setDeal();
-            $this->dealId = $newDealId;
+            $newDeal = $this->setDeal();
+            $this->dealId = $newDeal['id'];
         }
         $updatedDeal = $this->updateDeal();
 
@@ -77,6 +77,14 @@ class BitrixDealUpdateService
         $method = '/crm.deal.update.json';
         $url = $this->hook . $method;
         $this->updateDealData['ID'] = $this->dealId;
+        Log::info('error', [
+            'UPDATE_DEAL' => [
+                'domain' => $this->domain,
+                'data' =>  $this->updateDealData,
+             
+            ]
+
+        ]);
         $response = Http::get($url, $this->updateDealData);
         return $this->getBitrixRespone($response);
     }
