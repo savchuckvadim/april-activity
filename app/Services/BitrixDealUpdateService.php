@@ -97,7 +97,9 @@ class BitrixDealUpdateService
         });
         $responseContract = Http::get($url, [
             'id' => $this->dealId,
-            'fields' => $filteredData
+            'fields' => [
+                'UF_CRM_1684145200' => 'Гарант-Бухгалтер госсектора',
+            ]
         ]);
 
         // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
