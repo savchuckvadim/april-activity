@@ -54,6 +54,7 @@ class BitrixDealUpdateService
             $newDeal = $this->setDeal();
             $this->dealId = $newDeal;
         }
+        sleep(3);
         $updatedDeal = $this->updateDeal();
 
         $result = [
@@ -90,7 +91,7 @@ class BitrixDealUpdateService
 
 
         $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
-        sleep(5);
+        sleep(3);
 
         $responseContract = Http::get($url, $this->updateDealContractData);
 
