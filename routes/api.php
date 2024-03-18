@@ -862,7 +862,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         );
         $data = $service->dealProccess();
-        return APIController::getSuccess($data);
+        return $data;
     });
 
 
