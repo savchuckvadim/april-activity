@@ -90,15 +90,15 @@ class BitrixDealUpdateService
         $this->updateDealContractData['ID'] = $this->dealId;
 
 
-        $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
-        sleep(3);
+        // $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
+        // sleep(3);
 
         $responseContract = Http::get($url, $this->updateDealContractData);
 
-        $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
+        // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
         $contractResponse =  $this->getBitrixRespone($responseContract);
         return [
-            'infoblocksResponse' => $infoblocksResponse,
+            // 'infoblocksResponse' => $infoblocksResponse,
             'contractResponse' => $contractResponse,
         ];
     }
