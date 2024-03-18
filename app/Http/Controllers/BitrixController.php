@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\BitrixDealUpdate;
 use App\Models\Portal;
 use App\Services\BitrixDealUpdateService;
 use Carbon\Carbon;
@@ -1172,18 +1173,18 @@ class BitrixController extends Controller
             $dealId =  $this->getBitrixRespone($response);
         }
 
-        $service = new BitrixDealUpdateService(
+        dispatch(new BitrixDealUpdate(
             $domain,
             $dealId,
-            // $setDealData,
+
             $updateDealInfoblocksData,
             $updateDealContractData,
             $setProductRowsData,
             $updateProductRowsData
 
-        );
-        $data = $service->dealProccess();
-        return $data;
+        ));
+       
+        return APIController::getSuccess(['dealId' => $dealId]);
     }
 
 

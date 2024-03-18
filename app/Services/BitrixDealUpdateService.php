@@ -12,7 +12,6 @@ class BitrixDealUpdateService
     protected $domain;
     protected $dealId;
     protected $hook;
-    protected $setDealData;
     protected $updateDealInfoblocksData;
     protected $updateDealContractData;
     protected $setProductRowsData;
@@ -22,7 +21,7 @@ class BitrixDealUpdateService
     public function __construct(
         $domain,
         $dealId,
-        // $setDealData,
+
         $updateDealInfoblocksData,
         $updateDealContractData,
         $setProductRowsData,
@@ -68,15 +67,15 @@ class BitrixDealUpdateService
     }
 
 
-    protected function setDeal()
-    {
-        $method = '/crm.deal.add.json';
-        $url = $this->hook . $method;
+    // protected function setDeal()
+    // {
+    //     $method = '/crm.deal.add.json';
+    //     $url = $this->hook . $method;
 
 
-        $response = Http::get($url, $this->setDealData);
-        return $this->getBitrixRespone($response);
-    }
+    //     $response = Http::get($url, $this->setDealData);
+    //     return $this->getBitrixRespone($response);
+    // }
 
 
     protected function updateDeal()
