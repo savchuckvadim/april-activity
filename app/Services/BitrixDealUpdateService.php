@@ -92,10 +92,13 @@ class BitrixDealUpdateService
 
         // $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
         // sleep(3);
-        $filteredData = array_filter($this->updateDealContractData, function ($value) {
+        $filteredData = array_filter($this->updateDealContractData['fields'], function ($value) {
             return ($value !== null && $value !== '');
         });
-        $responseContract = Http::get($url, $filteredData);
+        $responseContract = Http::get($url, [
+            'id' => $this->dealId,
+            'fields' => $filteredData
+        ]);
 
         // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
         $contractResponse =  $this->getBitrixRespone($responseContract);
