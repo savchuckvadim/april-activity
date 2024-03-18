@@ -22,7 +22,7 @@ class BitrixDealUpdateService
     public function __construct(
         $domain,
         $dealId,
-        $setDealData,
+        // $setDealData,
         $updateDealInfoblocksData,
         $updateDealContractData,
         $setProductRowsData,
@@ -37,7 +37,7 @@ class BitrixDealUpdateService
         $hook = BitrixController::getHook($domain);
         $this->hook =  $hook;
 
-        $this->setDealData =  $setDealData;
+        // $this->setDealData =  $setDealData;
         $this->updateDealInfoblocksData =  $updateDealInfoblocksData;
         $this->updateDealContractData =  $updateDealContractData;
 
@@ -49,16 +49,16 @@ class BitrixDealUpdateService
 
     public function dealProccess()
     {
-        $newDeal = null;
-        if (!$this->dealId) {
-            $newDeal = $this->setDeal();
-            $this->dealId = $newDeal;
-        }
+        // $newDeal = null;
+        // if (!$this->dealId) {
+        //     $newDeal = $this->setDeal();
+        //     $this->dealId = $newDeal;
+        // }
        
         $updatedDeal = $this->updateDeal();
         $setProductRows = $this->productsSet();
         $result = [
-            '$newDeal' => $newDeal,
+            // '$newDeal' => $newDeal,
             'newDealId' => $this->dealId,
             'updatedDeal' => $updatedDeal,
             'setProductRows' => $setProductRows
@@ -137,6 +137,8 @@ class BitrixDealUpdateService
 
 
         $response = Http::get($url, $this->setProductRowsData);
+
+        
         return $this->getBitrixRespone($response);
     }
 

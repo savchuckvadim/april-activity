@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Portal;
+use App\Services\BitrixDealUpdateService;
 use Carbon\Carbon;
 use CRest;
 use DateTime;
@@ -1148,6 +1149,72 @@ class BitrixController extends Controller
         }
     }
 
+
+    //KONSTRUCTOR
+
+
+    public function konstructBitrixDealUpdate(
+        $domain,
+        $dealId,
+        $setDealData,
+        $updateDealInfoblocksData,
+        $updateDealContractData,
+        $setProductRowsData,
+        $updateProductRowsData
+    ) {
+        if (!$dealId) {
+            $hook = $this->getHook($domain);
+            $method = '/crm.deal.add.json';
+            $url = $hook . $method;
+    
+    
+            $response = Http::get($url, $setDealData);
+            $dealId =  $this->getBitrixRespone($response);
+        }
+
+        $service = new BitrixDealUpdateService(
+            $domain,
+            $dealId,
+            // $setDealData,
+            $updateDealInfoblocksData,
+            $updateDealContractData,
+            $setProductRowsData,
+            $updateProductRowsData
+
+        );
+        $data = $service->dealProccess();
+        return $data;
+    }
+
+
+    protected function getBitrixRespone($bitrixResponse)
+    {
+        $response =  $bitrixResponse->json();
+        if ($response) {
+            if (isset($response['result'])) {
+
+                Log::info('success btrx response', [
+                    'BTRX_RESPONSE_SUCCESS' => [
+                        'result' => $response['result'],
+
+                    ]
+
+                ]);
+                return $response['result'];
+            } else {
+                if (isset($response['error_description'])) {
+                    Log::info('error', [
+                        'SET_DEAL' => [
+                            'btrx error' => $response['error'],
+                            'btrx response' => $response['error_description']
+                        ]
+
+                    ]);
+                    return null;
+                }
+            }
+        }
+    }
 
 
     ///CALLING

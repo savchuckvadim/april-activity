@@ -848,9 +848,21 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $updateDealContractData    = $request->input('updateDealContractData');
         $setProductRowsData = $request->input('setProductRowsData');
         $updateProductRowsData = $request->input('updateProductRowsData');
-        
-        
-        $service = new BitrixDealUpdateService(
+
+
+        // $service = new BitrixDealUpdateService(
+        //     $domain,
+        //     $dealId,
+        //     $setDealData,
+        //     $updateDealInfoblocksData,
+        //     $updateDealContractData,
+        //     $setProductRowsData,
+        //     $updateProductRowsData
+
+        // );
+        $controller = new BitrixController;
+
+        $data = $controller->konstructBitrixDealUpdate(
             $domain,
             $dealId,
             $setDealData,
@@ -858,9 +870,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             $updateDealContractData,
             $setProductRowsData,
             $updateProductRowsData
-
         );
-        $data = $service->dealProccess();
         return $data;
     });
 
