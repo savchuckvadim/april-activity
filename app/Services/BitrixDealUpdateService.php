@@ -80,7 +80,7 @@ class BitrixDealUpdateService
 
     protected function updateDeal()
     {
-        $method = '/rest/batch';
+        $method = '/batch';
         $url = $this->hook . $method;
 
 
