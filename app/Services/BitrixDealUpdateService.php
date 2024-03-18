@@ -80,7 +80,7 @@ class BitrixDealUpdateService
 
     protected function updateDeal()
     {
-        $method = '/crm.deal.update.json';
+        $method = '/rest/batch.json';
         $url = $this->hook . $method;
 
 
@@ -90,25 +90,38 @@ class BitrixDealUpdateService
         $this->updateDealContractData['ID'] = $this->dealId;
 
 
-        // $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
-        // sleep(3);
-        $filteredData = array_filter($this->updateDealContractData['fields'], function ($value) {
-            return ($value !== null && $value !== '');
-        });
-        $responseContract = Http::get($url, [
-            'id' => $this->dealId,
-            'fields' => [
-                'UF_CRM_1684145200' => 'Гарант-Бухгалтер госсектора',
-                'UF_CRM_1687965646' => '
-                Для работы с комплектом Справочника в электронном виде по каналам связи посредством телекоммуникационной сети Исполнитель предоставляет Заказчику в электронном виде на адрес электронной почты, указанный Заказчиком в настоящем Приложении, информацию об административной учетной записи, с помощью которой Заказчиком заводятся логины и пароли Пользователей.  Администрирование логинов и паролей  осуществляется Заказчиком самостоятельно. Если в течение 5 (пяти) дней с даты подписания Сторонами настоящего Приложения Заказчик не получил информацию об административной учетной записи, то Заказчик не позднее шестого дня с даты подписания Сторонами настоящего Приложения  обязан в письменной форме сообщить Исполнителю об отсутствии информации об административной учетной записи.  Услуги считаются оказываемыми с даты направления Исполнителем Заказчику в электронном виде на адрес электронной почты, указанный Заказчиком в настоящем Приложении, информации об административной учетной записи.'
+        $batchData = [
+            'halt' => 0, // Продолжать выполнение даже если один из запросов вернет ошибку
+            'cmd' => [
+                // Здесь указываются команды для выполнения. Ключи - это идентификаторы команд.
             ]
-        ]);
+        ];
+        
+        foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
+            // Закодируем параметры для URL
+            $queryParams = http_build_query([
+                'id' => $this->dealId,
+                'fields' => [$fieldKey => $fieldValue]
+            ]);
+            $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
+        }
+        foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
+            // Закодируем параметры для URL
+            $queryParams = http_build_query([
+                'id' => $this->dealId,
+                'fields' => [$fieldKey => $fieldValue]
+            ]);
+            $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
+        }
+        $response = Http::post($url, $batchData);
 
+        // Обработка ответа
+        $batchResponse = $response->json();
         // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
-        $contractResponse =  $this->getBitrixRespone($responseContract);
+        $batchResponse =  $this->getBitrixRespone($batchResponse);
         return [
             // 'infoblocksResponse' => $infoblocksResponse,
-            'contractResponse' => $contractResponse,
+            'batchResponse' => $batchResponse,
         ];
     }
 
