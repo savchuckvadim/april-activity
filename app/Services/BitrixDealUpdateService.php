@@ -78,7 +78,7 @@ class BitrixDealUpdateService
     {
         $method = '/crm.deal.update.json';
         $url = $this->hook . $method;
-        $this->updateDealData['ID'] = $this->dealId;
+        $this->updateDealData['id'] = $this->dealId;
 
         $response = Http::get($url, $this->updateDealData);
         $responseData = $response->json();
