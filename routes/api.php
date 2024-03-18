@@ -855,7 +855,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
             $dealId,
             $setDealData,
             $updateDealInfoblocksData,
-            $updateDealContractData  ,
+            $updateDealContractData,
             $setProductRowsData,
             $updateProductRowsData
 

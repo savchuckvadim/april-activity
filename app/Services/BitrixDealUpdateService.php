@@ -85,7 +85,8 @@ class BitrixDealUpdateService
 
         $this->updateDealInfoblocksData['id'] = $this->dealId;
         $this->updateDealContractData['id'] = $this->dealId;
-
+        $this->updateDealInfoblocksData['ID'] = $this->dealId;
+        $this->updateDealContractData['ID'] = $this->dealId;
 
 
         $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
