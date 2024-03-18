@@ -119,92 +119,45 @@ class PDFDocumentController extends Controller
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
 
-                    $documentService = new BitrixDealDocumentService(
-                    $domain,
-                    $documentNumber,
-                    $data,
-                    $headerData,
-                    $doubleHeaderData,
-                    $footerData,
-                    $letterData,
-                    $infoblocksData,
-                    $pricesData,
-                    $stampsData,
-                    $isTwoLogo,
-                    $isGeneralInvoice,
-                    $isAlternativeInvoices,
-                    $dealId
-                    );
-                    $documents = $documentService->getDocuments();
-
-                    // dispatch(new BitrixDealDocumentJob(
-                    //     $domain,
-                    //     $documentNumber,
-                    //     $data,
-                    //     $headerData,
-                    //     $doubleHeaderData,
-                    //     $footerData,
-                    //     $letterData,
-                    //     $infoblocksData,
-                    //     $pricesData,
-                    //     $stampsData,
-                    //     $isTwoLogo,
-                    //     $isGeneralInvoice,
-                    //     $isAlternativeInvoices,
-                    //     $dealId
-                    // ));
-
-                    return APIController::getSuccess(
-                        $documents
-                    );
-
-
-
-                    // $link = $pdf->download($resultFileName);
-                    // return APIController::getSuccess([
-                    //     'price' => $price,
-                    //     'link' => $link,
-                    //     'documentNumber' => $documentNumber,
-                    //     'counter' => $counter,
-
-                    // ]);
-
-                    // $links = [];
-                    // array_push($links, $offerLink);
-                    // if ($isGeneralInvoice) {
-                    //     $generalInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber);
-                    //     array_push($invoices, $generalInvoice);
-                    //     array_push($links, $generalInvoice);
-                    // }
-                    // if ($isAlternativeInvoices) {
-                    //     foreach ($data['price']['cells']['alternative'] as $key => $product) {
-                    //         Log::error('product',  ['product' => $product]);
-                    //         $alternativeInvoice = $this->getInvoice($data, $isTwoLogo,  $documentNumber, false, $key);
-                    //         Log::error('alternativeInvoice', ['invoice' => $alternativeInvoice]);
-                    //         array_push($invoices, $alternativeInvoice);
-                    //         array_push($links, $alternativeInvoice);
-                    //     }
-                    // }
-
-                    //BITRIX
-
-                    // $bitrixController = new BitrixController();
-                    // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-                    // $this->setTimeline($domain, $dealId, $links, $documentNumber);
-
-
-                    // return APIController::getSuccess([
-                    //     'infoblocksData' => $infoblocksData,
-                    //     // 'link' => $links[1],
-                    //     'link' => $documents['offerLink'],
-                    //     'invoices' => $documents['invoiceLinks'],
-                    //     'links' => $documents['links'],
-                    //     'pdf' => $pdfData,
+                    // $documentService = new BitrixDealDocumentService(
+                    // $domain,
+                    // $documentNumber,
+                    // $data,
+                    // $headerData,
+                    // $doubleHeaderData,
+                    // $footerData,
+                    // $letterData,
+                    // $infoblocksData,
+                    // $pricesData,
+                    // $stampsData,
+                    // $isTwoLogo,
+                    // $isGeneralInvoice,
+                    // $isAlternativeInvoices,
+                    // $dealId
+                    // );
+                    // $documents = $documentService->getDocuments();
+                    // return APIController::getSuccess(
                     //     $documents
-                    //     // 'documentNumber' => $documentNumber,
-                    //     // 'counter' => $counter,
+                    // );
+                    dispatch(new BitrixDealDocumentJob(
+                        $domain,
+                        $documentNumber,
+                        $data,
+                        $headerData,
+                        $doubleHeaderData,
+                        $footerData,
+                        $letterData,
+                        $infoblocksData,
+                        $pricesData,
+                        $stampsData,
+                        $isTwoLogo,
+                        $isGeneralInvoice,
+                        $isAlternativeInvoices,
+                        $dealId
+                    ));
 
-                    // ]);
+                    return APIController::getSuccess(['job' => 'get it !']);
+
                 }
             }
         } catch (\Throwable $th) {

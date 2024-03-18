@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Models\User;
-
+use App\Services\BitrixDealUpdateService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -85,7 +85,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     /////DEALS
-  
+
 
     Route::post('/deal', function (Request $request) {
         return DealController::addDeal($request);
@@ -422,10 +422,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         // $fieldIds  = $request->input('fieldIds');
         // $file = $request->file('file');
 
-    
+
         $relationsData = $request->input('relations');
         $relationsArray = json_decode($relationsData, true);
-    
+
 
 
         //RELATIONS
@@ -579,7 +579,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
         return $result;
     });
-    
+
 
 
 
@@ -840,10 +840,38 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         return BitrixController::getCompany($request);
     });
 
+    Route::post('konstructor/bitrix/deal/update', function (Request $request) {
+        $domain = $request->input('domain');
+        $dealId = $request->input('dealId');
+        $setDealData = $request->input('setDealData');
+        $updateDealData = $request->input('updateDealData');
+        $setProductRowsData = $request->input('setProductRowsData');
+        $updateProductRowsData = $request->input('updateProductRowsData');
+        // Предполагаем, что APIController::getSuccess ожидает массив или объект
+        //    $data = [
+        //         'updateDealData' => $updateDealData,
+        //         'setProductRowsData' => $setProductRowsData,
+        //    ];
+        $service = new BitrixDealUpdateService(
+            $domain,
+            $dealId,
+            $setDealData,
+            $updateDealData,
+            $setProductRowsData,
+            $updateProductRowsData
+
+        );
+        $data = $service->dealProccess();
+        return APIController::getSuccess($data);
+    });
+
+
+
     Route::post('bitrixdeal', function (Request $request) {
 
         return BitrixController::getDeal($request);
     });
+
 
 
 
