@@ -90,6 +90,8 @@ class BitrixDealUpdateService
 
 
         $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
+        sleep(5);
+
         $responseContract = Http::get($url, $this->updateDealContractData);
 
         $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
