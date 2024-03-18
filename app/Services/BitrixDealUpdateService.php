@@ -118,7 +118,7 @@ class BitrixDealUpdateService
         // Обработка ответа
         $batchResponse = $response->json();
         // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
-        $batchResponse =  $this->getBitrixRespone($batchResponse);
+        // $batchResponse =  $this->getBitrixRespone($batchResponse);
         return [
             // 'infoblocksResponse' => $infoblocksResponse,
             'batchResponse' => $batchResponse,
