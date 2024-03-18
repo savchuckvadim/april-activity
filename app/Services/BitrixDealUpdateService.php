@@ -130,7 +130,7 @@ class BitrixDealUpdateService
     {
         $method = '/crm.item.productrow.set.json';
         $url = $this->hook . $method;
-        $this->setProductRowsData['ownerId'];
+        $this->setProductRowsData['ownerId'] = $this->dealId;
         foreach ($this->setProductRowsData['productRows'] as $product) {
             $product['ownerId'] = $this->dealId;
         }
