@@ -13,7 +13,8 @@ class BitrixDealUpdateService
     protected $dealId;
     protected $hook;
     protected $setDealData;
-    protected $updateDealData;
+    protected $updateDealInfoblocksData;
+    protected $updateDealContractData;
     protected $setProductRowsData;
     protected $updateProductRowsData;
 
@@ -22,7 +23,8 @@ class BitrixDealUpdateService
         $domain,
         $dealId,
         $setDealData,
-        $updateDealData,
+        $updateDealInfoblocksData,
+        $updateDealContractData,
         $setProductRowsData,
         $updateProductRowsData
 
@@ -36,7 +38,8 @@ class BitrixDealUpdateService
         $this->hook =  $hook;
 
         $this->setDealData =  $setDealData;
-        $this->updateDealData =  $updateDealData;
+        $this->updateDealInfoblocksData =  $updateDealInfoblocksData;
+        $this->updateDealContractData =  $updateDealContractData;
 
 
         $this->setProductRowsData =  $setProductRowsData;
@@ -78,20 +81,22 @@ class BitrixDealUpdateService
     {
         $method = '/crm.deal.update.json';
         $url = $this->hook . $method;
-        $this->updateDealData['id'] = $this->dealId;
 
-        $response = Http::get($url, $this->updateDealData);
-        $responseData = $response->json();
-        Log::info('error', [
-            'UPDATE_DEAL' => [
-                'domain' => $this->domain,
-                'data' =>  $this->updateDealData,
-                'responseData' =>  $responseData,
 
-            ]
+        $this->updateDealInfoblocksData['id'] = $this->dealId;
+        $this->updateDealContractData['id'] = $this->dealId;
 
-        ]);
-        return $this->getBitrixRespone($response);
+
+
+        $responseInfoblocks = Http::get($url, $this->updateDealInfoblocksData);
+        $responseContract = Http::get($url, $this->updateDealContractData);
+
+        $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
+        $contractResponse =  $this->getBitrixRespone($responseContract);
+        return [
+            'infoblocksResponse' => $infoblocksResponse,
+            'contractResponse' => $contractResponse,
+        ];
     }
 
     protected function productsSet()
@@ -125,7 +130,7 @@ class BitrixDealUpdateService
                     'BTRX_RESPONSE_SUCCESS' => [
                         'domain' => $this->domain,
                         'result' => $response['result'],
-                     
+
                     ]
 
                 ]);

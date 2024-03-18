@@ -844,19 +844,18 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
         $domain = $request->input('domain');
         $dealId = $request->input('dealId');
         $setDealData = $request->input('setDealData');
-        $updateDealData = $request->input('updateDealData');
+        $updateDealInfoblocksData = $request->input('updateDealInfoblocksData');
+        $updateDealContractData    = $request->input('updateDealContractData');
         $setProductRowsData = $request->input('setProductRowsData');
         $updateProductRowsData = $request->input('updateProductRowsData');
-        // Предполагаем, что APIController::getSuccess ожидает массив или объект
-        //    $data = [
-        //         'updateDealData' => $updateDealData,
-        //         'setProductRowsData' => $setProductRowsData,
-        //    ];
+        
+        
         $service = new BitrixDealUpdateService(
             $domain,
             $dealId,
             $setDealData,
-            $updateDealData,
+            $updateDealInfoblocksData,
+            $updateDealContractData  ,
             $setProductRowsData,
             $updateProductRowsData
 
