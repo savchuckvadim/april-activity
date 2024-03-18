@@ -103,7 +103,7 @@ class BitrixDealUpdateService
                 'id' => $this->dealId,
                 'fields' => [$fieldKey => $fieldValue]
             ]);
-            $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update.json?$queryParams";
+            $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
         }
         foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
             // Закодируем параметры для URL
@@ -111,7 +111,7 @@ class BitrixDealUpdateService
                 'id' => $this->dealId,
                 'fields' => [$fieldKey => $fieldValue]
             ]);
-            $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update.json?$queryParams";
+            $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
         }
         $response = Http::post($url, $batchData);
 
