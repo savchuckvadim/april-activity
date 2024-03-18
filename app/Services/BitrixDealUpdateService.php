@@ -54,7 +54,7 @@ class BitrixDealUpdateService
             $newDeal = $this->setDeal();
             $this->dealId = $newDeal;
         }
-        sleep(3);
+       
         $updatedDeal = $this->updateDeal();
         $setProductRows = $this->productsSet();
         $result = [
