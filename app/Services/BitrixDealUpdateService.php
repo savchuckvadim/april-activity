@@ -56,11 +56,12 @@ class BitrixDealUpdateService
         }
         sleep(3);
         $updatedDeal = $this->updateDeal();
-
+        $setProductRows = $this->productsSet();
         $result = [
             '$newDeal' => $newDeal,
             'newDealId' => $this->dealId,
-            'updatedDeal' => $updatedDeal
+            'updatedDeal' => $updatedDeal,
+            'setProductRows' => $setProductRows
         ];
 
         return APIController::getSuccess($result);
@@ -96,7 +97,7 @@ class BitrixDealUpdateService
                 // Здесь указываются команды для выполнения. Ключи - это идентификаторы команд.
             ]
         ];
-        
+
         foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
             // Закодируем параметры для URL
             $queryParams = http_build_query([
@@ -105,7 +106,7 @@ class BitrixDealUpdateService
             ]);
             $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
         }
-        foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
+        foreach ($this->updateDealContractData['fields'] as $fieldKey => $fieldValue) {
             // Закодируем параметры для URL
             $queryParams = http_build_query([
                 'id' => $this->dealId,
@@ -129,6 +130,12 @@ class BitrixDealUpdateService
     {
         $method = '/crm.item.productrow.set.json';
         $url = $this->hook . $method;
+        $this->setProductRowsData['ownerId'];
+        foreach ($this->setProductRowsData['productRows'] as $product) {
+            $product['ownerId'] = $this->dealId;
+        }
+
+
         $response = Http::get($url, $this->setProductRowsData);
         return $this->getBitrixRespone($response);
     }
