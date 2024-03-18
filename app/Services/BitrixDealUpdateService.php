@@ -46,13 +46,15 @@ class BitrixDealUpdateService
 
     public function dealProccess()
     {
+        $newDeal = null;
         if (!$this->dealId) {
             $newDeal = $this->setDeal();
-            $this->dealId = $newDeal['id'];
+            $this->dealId = $newDeal;
         }
         $updatedDeal = $this->updateDeal();
 
         $result = [
+            '$newDeal' => $newDeal,
             'newDealId' => $this->dealId,
             'updatedDeal' => $updatedDeal
         ];
