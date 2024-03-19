@@ -157,7 +157,6 @@ class PDFDocumentController extends Controller
                     ));
 
                     return APIController::getSuccess(['job' => 'get it !']);
-
                 }
             }
         } catch (\Throwable $th) {
@@ -420,7 +419,7 @@ class PDFDocumentController extends Controller
             $name =  $managerName . ' ' . $managerLastName;
 
 
-            if($domain == 'april-garant.bitrix24.ru'){
+            if ($domain == 'april-garant.bitrix24.ru') {
                 $name = '';
             }
 
@@ -705,7 +704,7 @@ class PDFDocumentController extends Controller
         $sortActivePrices = $this->getSortActivePrices($comePrices, $isInvoice);
         $allPrices =  $sortActivePrices;
 
-
+        Log::info('getPricesData:', ['price' => $price]);
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($comePrices);
 
@@ -772,7 +771,15 @@ class PDFDocumentController extends Controller
 
         $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
         // }
+        Log::info('getPricesData:', ['price' => [
+            'isTable' => $isTable,
+            'isInvoice' => $isInvoice,
+            'allPrices' => $allPrices,
+            'withPrice' => $withPrice,
+            'withTotal' => $withTotal,
+            'total' => $fullTotalstring
 
+        ]]);
         return [
             'isTable' => $isTable,
             'isInvoice' => $isInvoice,

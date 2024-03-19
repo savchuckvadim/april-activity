@@ -1110,7 +1110,7 @@ class BitrixController extends Controller
                                 ];
 
                                 $response = Http::get($url, $data);
-                                Log::info('GET DEAL', ['response' => $response]);
+                               
 
                                 if (isset($response['result'])) {
 
