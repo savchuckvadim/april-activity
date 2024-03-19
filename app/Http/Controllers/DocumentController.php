@@ -2014,7 +2014,7 @@ class DocumentController extends Controller
             $phone = $mobilePhone;
         }
         if ($phone) {
-            $phone = 'телелефон: ' . $phone;
+            $phone = 'телефон: ' . $phone;
         }
 
 

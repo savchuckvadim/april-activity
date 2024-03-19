@@ -110,7 +110,7 @@ class PDFDocumentController extends Controller
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
-                    $footerData  = $this->getFooterData($manager);
+                    $footerData  = $this->getFooterData($manager, $domain);
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
 
@@ -398,7 +398,7 @@ class PDFDocumentController extends Controller
 
         return $headerData;
     }
-    protected function getFooterData($manager)
+    protected function getFooterData($manager, $domain)
     {
         $footerData = [
             'managerPosition' => '',
@@ -419,6 +419,13 @@ class PDFDocumentController extends Controller
             $managerLastName = $manager['LAST_NAME'];
             $name =  $managerName . ' ' . $managerLastName;
 
+
+            if($domain == 'april-garant.bitrix24.ru'){
+                $name = '';
+            }
+
+
+
             $managerEmail = $manager['EMAIL'];
             $email = null;
             if ($managerEmail) {
@@ -432,7 +439,7 @@ class PDFDocumentController extends Controller
                 $phone = $mobilePhone;
             }
             if ($phone) {
-                $phone = 'телелефон: ' . $phone;
+                $phone = 'телефон: ' . $phone;
             }
             $footerData = [
                 'managerPosition' =>  $managerPosition,
