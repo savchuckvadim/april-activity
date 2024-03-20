@@ -59,7 +59,7 @@
         text-align: right;
     }
     .sale-phrase-wrapper{
-        margin-bottom: 15px;
+        margin-bottom: 45px;
     }
 </style>
 
@@ -258,7 +258,7 @@
         @endif
 
         <div class="sale-phrase-wrapper">
-            <p class="text-normal">{{ $salePhrase }}</p>
+            <p class="text-big">{{ $salePhrase }}</p>
         </div>
 
     @endif
