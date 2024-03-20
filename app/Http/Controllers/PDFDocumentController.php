@@ -141,26 +141,26 @@ class PDFDocumentController extends Controller
                                 $documents
                             );
                         }
-                    } else {
-                        dispatch(new BitrixDealDocumentJob(
-                            $domain,
-                            $documentNumber,
-                            $data,
-                            $headerData,
-                            $doubleHeaderData,
-                            $footerData,
-                            $letterData,
-                            $infoblocksData,
-                            $pricesData,
-                            $stampsData,
-                            $isTwoLogo,
-                            $isGeneralInvoice,
-                            $isAlternativeInvoices,
-                            $dealId
-                        ));
-
-                        return APIController::getSuccess(['job' => 'get it !']);
                     }
+
+                    dispatch(new BitrixDealDocumentJob(
+                        $domain,
+                        $documentNumber,
+                        $data,
+                        $headerData,
+                        $doubleHeaderData,
+                        $footerData,
+                        $letterData,
+                        $infoblocksData,
+                        $pricesData,
+                        $stampsData,
+                        $isTwoLogo,
+                        $isGeneralInvoice,
+                        $isAlternativeInvoices,
+                        $dealId
+                    ));
+
+                    return APIController::getSuccess(['job' => 'get it !']);
                 }
             }
         } catch (\Throwable $th) {
