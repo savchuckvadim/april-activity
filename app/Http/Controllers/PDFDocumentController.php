@@ -93,6 +93,13 @@ class PDFDocumentController extends Controller
 
                     $isGeneralInvoice = false;
                     $isAlternativeInvoices = false;
+                    $salePhrase = '';
+
+                    if (isset($data['salePhrase'])) {
+                        $salePhrase = $data['salePhrase'];
+                    }
+
+
 
                     if (isset($invoiceData['one']) && isset($invoiceData['many'])) {
                         $isGeneralInvoice = $invoiceData['one']['isActive'] && $invoiceData['one']['value'];
@@ -114,7 +121,7 @@ class PDFDocumentController extends Controller
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
 
-                    $pricesData  =   $this->getPricesData($price, $infoblocksData['withPrice'], false);
+                    $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false);
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
 
@@ -134,7 +141,8 @@ class PDFDocumentController extends Controller
                                 $isTwoLogo,
                                 $isGeneralInvoice,
                                 $isAlternativeInvoices,
-                                $dealId
+                                $dealId,
+                                
                             );
                             $documents = $documentService->getDocuments();
                             return APIController::getSuccess(
@@ -698,7 +706,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getPricesData($price, $withPrice = false,  $isInvoice = null)
+    protected function getPricesData($price,  $salePhrase, $withPrice = false,  $isInvoice = null)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
@@ -775,22 +783,23 @@ class PDFDocumentController extends Controller
 
         $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
         // }
-        Log::info('getPricesData:', ['price' => [
-            'isTable' => $isTable,
-            'isInvoice' => $isInvoice,
-            'allPrices' => $allPrices,
-            'withPrice' => $withPrice,
-            'withTotal' => $withTotal,
-            'total' => $fullTotalstring
+        // Log::info('getPricesData:', ['price' => [
+        //     'isTable' => $isTable,
+        //     'isInvoice' => $isInvoice,
+        //     'allPrices' => $allPrices,
+        //     'withPrice' => $withPrice,
+        //     'withTotal' => $withTotal,
+        //     'total' => $fullTotalstring
 
-        ]]);
+        // ]]);
         return [
             'isTable' => $isTable,
             'isInvoice' => $isInvoice,
             'allPrices' => $allPrices,
             'withPrice' => $withPrice,
             'withTotal' => $withTotal,
-            'total' => $fullTotalstring
+            'total' => $fullTotalstring,
+            'salePhrase' => $salePhrase
 
         ];
     }

@@ -58,6 +58,9 @@
 
         text-align: right;
     }
+    .sale-phrase-wrapper{
+        margin-bottom: 15px;
+    }
 </style>
 
 <div class="{{ $withPrice ? 'prices price-content' : 'prices page-content' }}">
@@ -83,7 +86,10 @@
                         @case('quantity')
                             @php
 
-                                if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
+                                if (
+                                    $priceCell['name'] == 'При заключении договора от' ||
+                                    $priceCell['name'] == 'При внесении предоплаты от'
+                                ) {
                                     $classname = 'price-cell-long-quantity';
                                 } else {
                                     $headValue = 'Кол-во';
@@ -172,7 +178,10 @@
 
                                             @case('quantity')
                                                 @php
-                                                    if ($priceCell['name'] == 'При заключении договора от' || $priceCell['name'] == 'При внесении предоплаты от') {
+                                                    if (
+                                                        $priceCell['name'] == 'При заключении договора от' ||
+                                                        $priceCell['name'] == 'При внесении предоплаты от'
+                                                    ) {
                                                         $classname = 'price-cell-long-quantity';
                                                     } else {
                                                         // $classname = 'price-cell-short';
@@ -247,5 +256,10 @@
                 </p>
             </div>
         @endif
+
+        <div class="sale-phrase-wrapper">
+            <p class="text-normal">{{ $salePhrase }}</p>
+        </div>
+
     @endif
 </div>
