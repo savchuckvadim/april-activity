@@ -137,6 +137,7 @@
 
                                     @case('quantity')
                                         @php
+                                            $value = $cell['defaultValue'];
                                             $classname = 'price-cell-short';
                                         @endphp
                                     @break

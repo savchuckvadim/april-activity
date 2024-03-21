@@ -102,6 +102,7 @@ class BitrixDealDocumentService
         $result = [
             'offerLink' => $offerLink,
             'link' => $offerLink,
+            // 'link' => $invoices[0],  invoice testing
             'invoiceLinks' => $invoices,
             'links' => $links,
             'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
@@ -444,31 +445,26 @@ class BitrixDealDocumentService
         foreach ($totalCells  as $cell) {
 
             if ($cell['code'] === 'quantity' && $cell) {
-                // if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
+                if ($cell['code'] === 'quantity' && $cell['value']) {
+                    if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
 
-                //     // $qcount = $contract['prepayment'] * $cell['value'];
-                //     Log::error('CONTRACT: ', ['contract' => $contract]);
-                //     Log::error('CONTRACT: ', ['contract-prepayment' => $contract['prepayment']]);
+                        $qcount =  (float)$contract['prepayment'] * (float)$cell['defaultValue'];
+                        $quantity = intval($qcount);
+                        $quantityString =  TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                    } else {
+                        $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
+    
+                        // Преобразуем результат в число
+                        $quantity = intval($numberString);
+                        $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                    }
+                }
+                    // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT); //чистое количество
 
-                //     Log::error('cell: ', ['cell' => $cell]);
-                //     Log::error('cell-value: ', ['cell-value' => $cell['value']]);
-
-
-                //     // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
-                //     $qcount =    (float)$cell['value'];
-
-                //     $quantityString =  TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
-                // } else {
-                    // $qcount =    (float)$cell['value'];
+                    // $quantity = intval($numberString);                                          //преобразует строку в число
                     // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
-                    // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
-                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT); //чистое количество
+                    // $quantityString = TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
 
-                    // Преобразуем результат в число
-                    $quantity = intval($numberString);                                          //преобразует строку в число
-                    $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
-                    $quantityString = TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
-                // }
             }
 
             if ($cell['code'] === 'measure' && $cell['value']) {
