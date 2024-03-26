@@ -107,7 +107,7 @@ class BitrixDealDocumentService
         }
 
         //testing
-        // $bitrixDealUpdateResponse = $this->updateDeal($links);
+        $bitrixDealUpdateResponse = $this->updateDeal($links);
 
         $result = [
             'offerLink' => $offerLink,
