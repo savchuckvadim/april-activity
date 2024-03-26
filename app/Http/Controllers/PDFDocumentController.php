@@ -11,11 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use morphos\Cases;
+use morphos\Gender;
 use morphos\Russian\MoneySpeller;
 use Ramsey\Uuid\Uuid;
 use morphos\Russian\Cases as RussianCases;
 use morphos\Russian\TimeSpeller;
 
+use function morphos\Russian\detectGender;
 use function morphos\Russian\pluralize;
 
 
@@ -43,12 +45,20 @@ class PDFDocumentController extends Controller
                             }
                         }
                     }
+
+                    //TODO BIG DESCRIPTION
+
+
                     //infoblocks data
                     $infoblocksOptions = [
                         'description' => $data['infoblocks']['description']['current'],
+                        // 'description' => ['id' => 3],
                         'style' => $data['infoblocks']['style']['current']['code'],
                     ];
                     $complect = $data['complect'];
+
+                    $region = $data['region'];
+
                     $complectName = '';
 
                     foreach ($data['price']['cells']['total'][0]['cells'] as $cell) {
@@ -90,6 +100,12 @@ class PDFDocumentController extends Controller
                     $invoices = [];
                     $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
                     $invoiceData = $data['invoice'];
+                    $invoiceDate = '';
+
+                    if (isset($data['invoiceDate'])) {
+                        $invoiceDate = $data['invoiceDate'];
+                    }
+
 
                     $isGeneralInvoice = false;
                     $isAlternativeInvoices = false;
@@ -114,35 +130,42 @@ class PDFDocumentController extends Controller
 
 
 
+
+
+
+
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                     $footerData  = $this->getFooterData($manager, $domain);
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
-                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount);
-
+                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase);
+                    //testing       // $bigDescriptionData  = $this->getBigDescriptionData($complect, $complectName);
+                    $bigDescriptionData = [];
                     $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false);
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
-
+                    //testing
                     if (isset($data['isPublic'])) {
                         if ($data['isPublic']) {
                             $documentService = new BitrixDealDocumentService(
                                 $domain,
                                 $documentNumber,
                                 $data,
+                                $invoiceDate,
                                 $headerData,
                                 $doubleHeaderData,
                                 $footerData,
                                 $letterData,
                                 $infoblocksData,
+                                $bigDescriptionData,
                                 $pricesData,
                                 $stampsData,
                                 $isTwoLogo,
                                 $isGeneralInvoice,
                                 $isAlternativeInvoices,
                                 $dealId,
-                                
+
                             );
                             $documents = $documentService->getDocuments();
                             return APIController::getSuccess(
@@ -151,15 +174,19 @@ class PDFDocumentController extends Controller
                         }
                     }
 
+
+                    //testing todo props $bigDescriptionData
                     dispatch(new BitrixDealDocumentJob(
                         $domain,
                         $documentNumber,
                         $data,
+                        $invoiceDate,
                         $headerData,
                         $doubleHeaderData,
                         $footerData,
                         $letterData,
                         $infoblocksData,
+                        $bigDescriptionData,
                         $pricesData,
                         $stampsData,
                         $isTwoLogo,
@@ -328,7 +355,13 @@ class PDFDocumentController extends Controller
         ];
         $rq = '';
         if (!$isTwoLogo) {
-            $rq = $providerRq['fullname'];
+
+
+            $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+            $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
+            $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
+
+            $rq = $companyName;
             if ($providerRq['inn']) {
                 $rq = $rq . ', ИНН: ' . $providerRq['inn'];
             }
@@ -371,7 +404,12 @@ class PDFDocumentController extends Controller
         $rq = '';
         $phone = null;
         $email = null;
-        $first = $providerRq['fullname'];
+        $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+        $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
+        $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
+
+
+        $first = $companyName;
         if ($providerRq['inn']) {
             $first = $first . ', ИНН: ' . $providerRq['inn'];
         }
@@ -481,6 +519,7 @@ class PDFDocumentController extends Controller
             'positionCase' => null,
             'recipientCase' => null,
             'recipientName' => null,
+            'appeal' => null,
             'text' => null,
             'isLargeLetterText' => $isLargeLetterText
 
@@ -513,8 +552,12 @@ class PDFDocumentController extends Controller
                 }
             }
             if (isset($recipient['recipientCase'])) {
+
+
+
                 if ($recipient['recipientCase']) {
-                    $letterData['recipientCase'] = $recipient['recipientCase'];
+                    $this->shortenNameWithCase($recipient['recipientCase']);
+                    $letterData['recipientCase'] = $this->shortenNameWithCase($recipient['recipientCase']);
                 }
             }
         }
@@ -522,8 +565,9 @@ class PDFDocumentController extends Controller
         // $section->addTextBreak(1);
         if (isset($recipient['recipient'])) {
             if ($recipient['recipient']) {
-
-                $letterData['recipientName'] = $recipient['recipient'];
+                $name = $recipient['recipient'];
+                $letterData['appeal'] = $this->createGreeting($name);
+                $letterData['recipientName'] = $name;
             }
         }
 
@@ -571,11 +615,46 @@ class PDFDocumentController extends Controller
         return $letterData;
     }
 
+    protected function shortenNameWithCase($name)
+    {
+        $parts = explode(' ', $name);
+        switch (count($parts)) {
+            case 3:
+                return $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '. ' . mb_substr($parts[2], 0, 1) . '.';
+            case 2:
+                return $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '.';
+            case 1:
+                return $parts[0];
+            default:
+                return $name;
+        }
+    }
+
+    protected function createGreeting($name)
+    {
+        $greeting = null;
+        $parts = explode(' ', $name);
+
+        // Определение пола по отчеству, если оно есть
+        $gender = count($parts) === 3 ? detectGender($parts[2], 'ru') : null;
+        if ($gender) {
+            $greeting = $gender === Gender::MALE ? "Уважаемый " : "Уважаемая ";
+
+            // Формирование обращения
+            if (count($parts) >= 2) {
+                $greeting .= $parts[1] . (isset($parts[2]) ? " " . $parts[2] : "") . "!";
+            } else {
+                $greeting .= $parts[0] . "!";
+            }
+        }
+
+        return $greeting;
+    }
 
 
 
 
-    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount)
+    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
@@ -598,6 +677,16 @@ class PDFDocumentController extends Controller
                 }
 
                 $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
+                if ($infoblock['code'] == 'reg') {
+                    $infoblockData['name'] = $region['infoblock'];
+
+                    // Извлечение названия региона из заголовка
+                    $regionName = trim(str_replace("Законодательство", "", $region['infoblock']));
+
+                    // Замена в тексте
+                    $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
+                    $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
+                }
                 if ($infoblockData) {
                     $groupItems[] = $infoblockData;
                     array_push($currentPage['items'], $infoblockData);
@@ -635,7 +724,7 @@ class PDFDocumentController extends Controller
         if (!empty($currentPage['groups'])) {
             $pages[] = $currentPage;
         }
-        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount);
+        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase);
         $result = [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
@@ -647,6 +736,119 @@ class PDFDocumentController extends Controller
         ];
 
         return $result;
+    }
+
+    protected function getBigDescriptionData($complect, $complectName)
+    {
+
+
+
+        //     // $pages = [[
+        //     //     'previousDescription' => '',
+        //     //     'previousItems' => [
+        //     //         [
+        //     //             'name' => '',
+        //     //             'description' => ''
+        //     //         ],
+        //     //         [
+        //     //             'name' => '',
+        //     //             'description' => ''
+        //     //         ],
+        //     //         ...
+        //     //     ],
+        //     //     'groups' => [[
+        //     //         'name' => '',
+        //     //         'items' => [
+        //     //             [
+        //     //                 'name' => '',
+        //     //                 'description' => ''
+        //     //             ],
+        //     //             [
+        //     //                 'name' => '',
+        //     //                 'description' => ''
+        //     //             ],
+
+        //     //             ...
+
+        //     //         ],
+        //     //         ...
+        //     //         ]
+        //     //     ]],
+        //     // ];
+        $maxWordsPerPage = 500;
+        $pages = [];
+        $currentPage = ['groups' => []];
+        $currentPageWordsCount = 0;
+
+        foreach ($complect as $group) {
+            $currentGroup = ['name' => $group['groupsName'], 'items' => []];
+
+            if ($group['groupsName'] !== 'Пакет Энциклопедий решений') {
+
+                foreach ($group['value'] as $infoblock) {
+
+                    if (!array_key_exists('code', $infoblock)) {
+                        continue;
+                    }
+
+
+                    $item = Infoblock::where('code', $infoblock['code'])->first();
+
+
+
+                    if ($item && $item['description']) {
+                        $description = str_replace('\n', "\n", $item['description']);
+                        $words = explode(' ', $description);
+                        $itemDescriptionParts = [];
+                        $itemWordsCount = 0;
+
+                        foreach ($words as $word) {
+                            $newLinesCount = substr_count($word, "\n");
+
+                            // Если слово содержит переносы строки, прибавляем 20 за каждый такой символ, иначе просто увеличиваем счетчик на 1
+                            $additionalWords = $newLinesCount * 11;
+                            $itemWordsCount += 1 + $additionalWords;
+
+                            Log::channel('console')->info(($currentPageWordsCount + $itemWordsCount));
+                            if (($currentPageWordsCount + $itemWordsCount) <= $maxWordsPerPage) {
+                                $itemDescriptionParts[] = $word;
+                            } else {
+                                // Добавляем инфоблок на текущую страницу и начинаем новую
+                                $currentGroup['items'][] = ['name' => $item['name'], 'description' => implode(' ', $itemDescriptionParts)];
+                                $currentPage['groups'][] = $currentGroup;
+                                $pages[] = $currentPage;
+                                $currentPage = ['groups' => []]; // Начинаем новую страницу
+                                $currentPageWordsCount = 0; // Сбрасываем счётчик слов для новой страницы
+                                $currentGroup = ['name' => $group['groupsName'], 'items' => []]; // Начинаем новую группу
+                                $itemDescriptionParts = [$word]; // Начинаем описание с текущего слова
+                                $itemWordsCount = 1;
+                            }
+                        }
+
+                        if (!empty($itemDescriptionParts)) {
+                            // Добавляем оставшиеся слова инфоблока в текущую группу
+                            $currentGroup['items'][] = ['name' => $item['name'], 'description' => implode(' ', $itemDescriptionParts)];
+                            $currentPageWordsCount += $itemWordsCount;
+                        }
+                    }
+                }
+
+                if (!empty($currentGroup['items'])) {
+                    // Добавляем последнюю обработанную группу в текущую страницу
+                    $currentPage['groups'][] = $currentGroup;
+                }
+            }
+        }
+
+        if (!empty($currentPage['groups'])) {
+            // Добавляем последнюю страницу, если она содержит элементы
+            $pages[] = $currentPage;
+        }
+
+        return [
+            'pages' => $pages,
+            'complectName' => $complectName
+        ];
     }
 
 
@@ -675,27 +877,27 @@ class PDFDocumentController extends Controller
 
         if ($styleMode === 'list') {
 
-            if ($descriptionMode === 0) {
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 40;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 9;
-            } else {
+            } else if ($descriptionMode === 2) {
                 $itemsPerPage = 6;
             }
         } else if ($styleMode === 'table') {
-            if ($descriptionMode === 0) {
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 60;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 16;
-            } else {
-                $itemsPerPage = 8;
+                $itemsPerPage = 18;
+            } else  if ($descriptionMode === 2) {
+                $itemsPerPage = 12;
             }
         } else {
-            if ($descriptionMode === 0) {
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 24;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 10;
-            } else {
+            } else if ($descriptionMode === 2) {
                 $itemsPerPage = 7;
             }
         }
@@ -716,7 +918,7 @@ class PDFDocumentController extends Controller
         $sortActivePrices = $this->getSortActivePrices($comePrices, $isInvoice);
         $allPrices =  $sortActivePrices;
 
-        Log::info('getPricesData:', ['price' => $price]);
+
         //IS WITH TOTAL 
         $withTotal = $this->getWithTotal($comePrices);
 
@@ -945,10 +1147,10 @@ class PDFDocumentController extends Controller
         ];
     }
 
-    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount)
+    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase)
     {
         $isWithPrice = false;
-
+        $salePhraseLength = mb_strlen($salePhrase, "UTF-8");
         $lastPageItemsCount = 0;
         $lastPage = end($pages);
         if (is_array($lastPage) && isset($lastPage['groups']) && is_array($lastPage['groups'])) {
@@ -962,7 +1164,7 @@ class PDFDocumentController extends Controller
             }
         }
 
-        if ($productsCount < 4) {
+        if (($productsCount < 4 && $salePhraseLength < 150) || ($productsCount < 3 && $salePhraseLength < 200)) {
 
             if ($styleMode === 'list') {
 
@@ -987,7 +1189,7 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 9) {
+                    if ($lastPageItemsCount < 12) {
                         $isWithPrice = true;
                     }
                 } else {
@@ -1002,17 +1204,19 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 6) {
+                    if ($lastPageItemsCount < 8) {
                         $isWithPrice = true;
                     }
                 } else {
 
-                    if ($lastPageItemsCount < 4) {
+                    if ($lastPageItemsCount < 6) {
                         $isWithPrice = true;
                     }
                 }
             }
         }
+
+
 
 
         return $isWithPrice;
@@ -1206,9 +1410,12 @@ class PDFDocumentController extends Controller
             }
         }
 
+        $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+        $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
+        $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
 
 
-        $stampsData['position'] = $providerRq['position'] . ' ' . $providerRq['fullname'];
+        $stampsData['position'] = $providerRq['position'] . ' ' . $companyName;
         if ($providerRq['type'] == 'ip') {
             $stampsData['position'] = $providerRq['fullname'];
         }
@@ -1216,16 +1423,35 @@ class PDFDocumentController extends Controller
 
 
         if ($providerRq['type'] == 'org') {
-            $stampsData['director']  = $providerRq['director'];
+            $stampsData['director']  = $this->getShortName($providerRq['director']);
         }
 
 
-        $stampsData['accountant'] = $providerRq['accountant'];
+        $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
 
 
 
 
         return $stampsData;
+    }
+
+
+    protected function getShortName($fullName)
+    {
+        // $fullName = "Иванов Петр Сергеевич";
+
+        // Разделяем полное имя на части
+        $parts = explode(' ', $fullName);
+
+        // Проверяем, что имя содержит три части: фамилию, имя, отчество
+        if (count($parts) === 3) {
+            $shortName = $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '. ' . mb_substr($parts[2], 0, 1) . '. ';
+        } else {
+            // Если формат имени отличается, вернуть оригинальное имя или обработать иначе
+            $shortName = $fullName;
+        }
+
+        return $shortName; // Вывод: Иванов П.С.
     }
 
 

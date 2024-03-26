@@ -23,11 +23,13 @@ class BitrixDealDocumentJob implements ShouldQueue
     protected $domain;
     protected $documentNumber;
     protected $data;
+    protected $invoiceDate;
     protected $headerData;
     protected $doubleHeaderData;
     protected $footerData;
     protected $letterData;
     protected $infoblocksData;
+    protected $bigDescriptionData;
     protected $pricesData;
     protected $stampsData;
     protected $isTwoLogo;
@@ -40,11 +42,13 @@ class BitrixDealDocumentJob implements ShouldQueue
         $domain,
         $documentNumber,
         $data,
+        $invoiceDate,
         $headerData,
         $doubleHeaderData,
         $footerData,
         $letterData,
         $infoblocksData,
+        $bigDescriptionData,
         $pricesData,
         $stampsData,
         $isTwoLogo,
@@ -58,11 +62,14 @@ class BitrixDealDocumentJob implements ShouldQueue
         $this->domain =  $domain;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
+        $this->invoiceDate = $invoiceDate;
+        
         $this->headerData =  $headerData;
         $this->doubleHeaderData = $doubleHeaderData;
         $this->footerData = $footerData;
         $this->letterData =  $letterData;
         $this->infoblocksData =  $infoblocksData;
+        $this->bigDescriptionData =  $bigDescriptionData;
         $this->pricesData =  $pricesData;
         $this->stampsData =  $stampsData;
         $this->isTwoLogo =  $isTwoLogo;
@@ -82,11 +89,14 @@ class BitrixDealDocumentJob implements ShouldQueue
             $this->domain,
             $this->documentNumber,
             $this->data,
+            $this->invoiceDate,
             $this->headerData,
             $this->doubleHeaderData,
             $this->footerData,
             $this->letterData,
             $this->infoblocksData,
+            $this->bigDescriptionData,
+            
             $this->pricesData,
             $this->stampsData,
             $this->isTwoLogo,

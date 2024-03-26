@@ -69,10 +69,10 @@
 
     </div>
     <div class="letter-text">
-        @if ($letterData['recipientCase'] !== null)
+        @if ($letterData['appeal'] !== null)
             <div class="letter-title-wrapper">
                 <p class='text-large bold recipientName'>
-                    {{ $letterData['recipientName'] }} !
+                    {{ $letterData['appeal'] }} 
                 </p>
             </div>
         @endif

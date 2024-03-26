@@ -34,6 +34,14 @@
     <h3 class="invoice-title">{{ $number }}</h3>
 
     <table class="invoice-main-table">
+        @if ($invoiceDate)
+            <tr class="invoice-main-row">
+                <td class="invoice-main-cell">
+                    <p class="text-normal"><span class="bold">Срок оплаты: </span>{{ $invoiceDate }}</p>
+
+                </td>
+            </tr>
+        @endif
         <tr class="invoice-main-row">
             <td class="invoice-main-cell">
                 <p class="text-normal"><span class="bold">Поставщик:</span> {{ $rq['fullname'] }}, ИНН:

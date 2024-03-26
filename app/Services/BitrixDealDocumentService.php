@@ -16,11 +16,14 @@ class BitrixDealDocumentService
     protected $domain;
     protected $documentNumber;
     protected $data;
+    protected $invoiceDate;
+
     protected $headerData;
     protected $doubleHeaderData;
     protected $footerData;
     protected $letterData;
     protected $infoblocksData;
+    protected $bigDescriptionData;
     protected $pricesData;
     protected $stampsData;
     protected $isTwoLogo;
@@ -32,11 +35,13 @@ class BitrixDealDocumentService
         $domain,
         $documentNumber,
         $data,
+        $invoiceDate,
         $headerData,
         $doubleHeaderData,
         $footerData,
         $letterData,
         $infoblocksData,
+        $bigDescriptionData,
         $pricesData,
         $stampsData,
         $isTwoLogo,
@@ -50,11 +55,14 @@ class BitrixDealDocumentService
         $this->domain =  $domain;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
+        $this->invoiceDate = $invoiceDate;
+
         $this->headerData =  $headerData;
         $this->doubleHeaderData = $doubleHeaderData;
         $this->footerData = $footerData;
         $this->letterData =  $letterData;
         $this->infoblocksData =  $infoblocksData;
+        $this->bigDescriptionData =  $bigDescriptionData;
         $this->pricesData =  $pricesData;
         $this->stampsData =  $stampsData;
         $this->isTwoLogo =  $isTwoLogo;
@@ -98,14 +106,17 @@ class BitrixDealDocumentService
             }
         }
 
-        $bitrixDealUpdateResponse = $this->updateDeal($links);
+        //testing
+        // $bitrixDealUpdateResponse = $this->updateDeal($links);
+
         $result = [
             'offerLink' => $offerLink,
             'link' => $offerLink,
             // 'link' => $invoices[0],  invoice testing
             'invoiceLinks' => $invoices,
             'links' => $links,
-            'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
+            'bigDescriptionData' => $this->bigDescriptionData
+            // 'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
             // 'qr_path' => $data['provider']['rq']['qrs'][0]['path']
         ];
 
@@ -113,7 +124,7 @@ class BitrixDealDocumentService
     }
 
 
-    
+
     protected function createDocumentOffer()
     {
 
@@ -126,6 +137,7 @@ class BitrixDealDocumentService
                 'footerData' =>  $this->footerData,
                 'letterData' => $this->letterData,
                 'infoblocksData' => $this->infoblocksData,
+                'bigDescriptionData' => $this->bigDescriptionData,
                 'pricesData' => $this->pricesData,
                 'stampsData' => $this->stampsData,
                 // 'invoiceData' => $invoiceData,
@@ -225,6 +237,7 @@ class BitrixDealDocumentService
                         'doubleHeaderData' =>  $doubleHeaderData,
                         'stampsData' => $stampsData,
                         'invoiceData' => $invoiceData,
+
                     ]);
 
 
@@ -292,9 +305,26 @@ class BitrixDealDocumentService
                 }
             }
         }
+        $prettyDate = '';
+        if ($this->invoiceDate) {
+            $prettyDate = date("d.m.Y", strtotime($this->invoiceDate)) . ' г.';
+        }
         $req = $providerRq;
         $req['withQr'] = $withQr;
         $req['qr'] = $qr;
+
+        $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+        $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
+        $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
+
+
+
+
+
+
+        if ($providerRq['type'] == 'org') {
+            $req['fullname'] = $companyName;
+        }
         $invoiceData = [
             // 'stampsData' => $stampsData,
             'rq' => $req,
@@ -303,10 +333,12 @@ class BitrixDealDocumentService
                 'rq' => $providerRq,
                 'recipient' => $recipient,
                 'number' => $invoiceNumber,
+                'invoiceDate' => $prettyDate
             ],
 
 
             'pricesData' => $pricesData,
+
 
         ];
 
@@ -341,9 +373,15 @@ class BitrixDealDocumentService
             }
         }
 
+        $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+        $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
+        $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
 
 
-        $stampsData['position'] = $providerRq['position'] . ' ' . $providerRq['fullname'];
+
+        $stampsData['position'] = $providerRq['position'] . ' ' . $companyName;
+
+
         if ($providerRq['type'] == 'ip') {
             $stampsData['position'] = $providerRq['fullname'];
         }
@@ -351,11 +389,11 @@ class BitrixDealDocumentService
 
 
         if ($providerRq['type'] == 'org') {
-            $stampsData['director']  = $providerRq['director'];
+            $stampsData['director']  = $this->getShortName($providerRq['director']);
         }
 
 
-        $stampsData['accountant'] = $providerRq['accountant'];
+        $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
 
 
 
@@ -363,6 +401,24 @@ class BitrixDealDocumentService
         return $stampsData;
     }
 
+
+    protected function getShortName($fullName)
+    {
+        // $fullName = "Иванов Петр Сергеевич";
+
+        // Разделяем полное имя на части
+        $parts = explode(' ', $fullName);
+
+        // Проверяем, что имя содержит три части: фамилию, имя, отчество
+        if (count($parts) === 3) {
+            $shortName = $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '. ' . mb_substr($parts[2], 0, 1) . '. ';
+        } else {
+            // Если формат имени отличается, вернуть оригинальное имя или обработать иначе
+            $shortName = $fullName;
+        }
+
+        return $shortName; // Вывод: Иванов П.С.
+    }
 
     protected function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId)
     {
@@ -453,17 +509,17 @@ class BitrixDealDocumentService
                         $quantityString =  TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
                     } else {
                         $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
-    
+
                         // Преобразуем результат в число
                         $quantity = intval($numberString);
                         $quantityString = TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
                     }
                 }
-                    // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT); //чистое количество
+                // $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT); //чистое количество
 
-                    // $quantity = intval($numberString);                                          //преобразует строку в число
-                    // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
-                    // $quantityString = TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
+                // $quantity = intval($numberString);                                          //преобразует строку в число
+                // $qcount =    (float)$contract['prepayment'] * (float)$cell['value'];
+                // $quantityString = TimeSpeller::spellUnit($qcount, TimeSpeller::MONTH);
 
             }
 

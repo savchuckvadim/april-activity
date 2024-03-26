@@ -89,10 +89,10 @@
     }
 
     .qr-img {
-        width: 90px;
+        width: 80px;
         /* max-height: 250px; */
         height: auto;
-        margin-left: 20px;
+        margin-left: 25px;
         /* margin-top: 5px; */
     }
 
@@ -103,9 +103,7 @@
 </style>
 
 
-@php
 
-@endphp
 <table cellpadding="0" cellspacing="0">
     <tr>
         <td class="innercell">

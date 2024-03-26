@@ -54,34 +54,45 @@ use Vipblogger\LaravelBitrix24\Bitrix;
 
 use function morphos\Russian\inflectName;
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/users', function (Request $request) {
 
-        $itemsCount = $request->query('count');
-        $paginate = User::paginate($itemsCount);
-        $collection = new UserCollection($paginate);
-
-        return $collection;
-    });
-
-
-    Route::delete('/users/{userId}', function ($userId) {
-        return UserController::deleteUser($userId);
-    });
-
-    Route::post('/users/add', function (Request $request) {
-        return UserController::addUser($request);
-    });
-});
 
 // Route::middleware('auth_hook')->group(function () {
 //     Route::post('hooktest', function (Request $request) {
 //         return BitrixController::hooktest($request);
 //     });
 // });
+// Route::middleware(['api.key'])->group(function () {
+
+
+
+
+    Route::get('/sntm/test', function (Request $request) {
+        $apiKey = 'common';
+
+
+
+        return APIController::getSuccess(['yo' => $apiKey]);
+    });
+
+    
+
+
+
+
+// });
 
 
 Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(function () {
+
+    Route::post('get/document', function (Request $request) {
+        $data  = $request->input('data');
+        Log::channel('console')->info($data);
+        $documentController = new PDFDocumentController;
+        $result = $documentController->getDocument($data);
+
+        return $result;
+    });
+
 
 
     /////DEALS
@@ -101,7 +112,49 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
 
 
+    Route::get('template/{templateId}/fields', function ($templateId) {
+        return FieldController::getFields($templateId);
+    });
+    Route::get('template/{templateId}/providers', function ($templateId) {
+        return TemplateController::getProviders($templateId);
+    });
+    Route::get('template/{templateId}/counters', function ($templateId) {
+        return TemplateController::getCounters($templateId);
+    });
 
+
+    Route::get('field/{fieldId}/items', function ($fieldId) {
+        return FItemController::getFitems($fieldId);
+    });
+
+    Route::get('portal/{portalId}/providers', function ($portalId) {
+        return PortalController::getProviders($portalId);
+    });
+    Route::get('portal/{portalId}/templates', function ($portalId) {
+        return PortalController::getTemplates($portalId);
+    });
+    Route::get('portal/{portalId}/smarts', function ($portalId) {
+        return PortalController::getSmarts($portalId);
+    });
+    Route::get('portal/{portalId}/bitrixlists', function ($portalId) {
+        return PortalController::getBitrixlists($portalId);
+    });
+    Route::get('portal/{portalId}/departaments', function ($portalId) {
+        return PortalController::getDepartaments($portalId);
+    });
+    Route::get('portal/{portalId}/timezones', function ($portalId) {
+        return PortalController::getTimezones($portalId);
+    });
+    Route::get('portal/{portalId}/callingGroups', function ($portalId) {
+        return PortalController::getCallingGroups($portalId);
+    });
+
+
+
+
+    Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
+        return RqController::getFiles($rqId, $fileType);
+    });
 
     //////////////////////////////CLIENTS
     //////PORTAL
@@ -216,49 +269,6 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     //GET COLLECTIONS
     //// specific
-    Route::get('template/{templateId}/fields', function ($templateId) {
-        return FieldController::getFields($templateId);
-    });
-    Route::get('template/{templateId}/providers', function ($templateId) {
-        return TemplateController::getProviders($templateId);
-    });
-    Route::get('template/{templateId}/counters', function ($templateId) {
-        return TemplateController::getCounters($templateId);
-    });
-
-
-    Route::get('field/{fieldId}/items', function ($fieldId) {
-        return FItemController::getFitems($fieldId);
-    });
-
-    Route::get('portal/{portalId}/providers', function ($portalId) {
-        return PortalController::getProviders($portalId);
-    });
-    Route::get('portal/{portalId}/templates', function ($portalId) {
-        return PortalController::getTemplates($portalId);
-    });
-    Route::get('portal/{portalId}/smarts', function ($portalId) {
-        return PortalController::getSmarts($portalId);
-    });
-    Route::get('portal/{portalId}/bitrixlists', function ($portalId) {
-        return PortalController::getBitrixlists($portalId);
-    });
-    Route::get('portal/{portalId}/departaments', function ($portalId) {
-        return PortalController::getDepartaments($portalId);
-    });
-    Route::get('portal/{portalId}/timezones', function ($portalId) {
-        return PortalController::getTimezones($portalId);
-    });
-    Route::get('portal/{portalId}/callingGroups', function ($portalId) {
-        return PortalController::getCallingGroups($portalId);
-    });
-
-
-
-
-    Route::get('rq/{rqId}/{fileType}', function ($rqId, $fileType) {
-        return RqController::getFiles($rqId, $fileType);
-    });
 
 
 
@@ -572,16 +582,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     // Route::get('/pdf', [PDFDocumentController::class, 'generatePDF']);
 
 
-    Route::post('get/document', function (Request $request) {
-        $data  = $request->input('data');
-        $documentController = new PDFDocumentController;
-        $result = $documentController->getDocument($data);
-
-        return $result;
-    });
-
-
-
+ 
 
 
 
@@ -931,37 +932,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
 
-    ////////////////////////BASE CONTROLLER
-    Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+    ////////////////////////BASE CONTROLLER      ADMIN
 
-        return BaseController::initial($entityType, $parentType, $parentId);
-    });
 
-    Route::get('initial/{entityType}/', function ($entityType) {
-        return BaseController::initial($entityType);
-    });
 
-    Route::get('{model}/{modelId}', function ($model, $modelId) {
-        return BaseController::get($model, $modelId);
-    });
-    Route::get('{model}', function ($model) {
-        return BaseController::getCollection($model);
-    });
-    Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
-
-        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
-    });
-
-    Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
-        return BaseController::update($entityType, $entityId,  $request);
-    });
-    Route::post('{entityType}', function ($entityType, Request $request) {
-        return BaseController::setOrUpdate($entityType, null, null, $request);
-    });
-
-    Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
-        return BaseController::delete($entityType, $fileId);
-    });
 });
 
 
@@ -1138,3 +1112,34 @@ Route::post('/tokens/create', function (Request $request) {
 //     Error = 1,
 //     Success = 0
 // }
+
+Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+
+    return BaseController::initial($entityType, $parentType, $parentId);
+});
+
+Route::get('initial/{entityType}/', function ($entityType) {
+    return BaseController::initial($entityType);
+});
+
+Route::get('{model}/{modelId}', function ($model, $modelId) {
+    return BaseController::get($model, $modelId);
+});
+Route::get('{model}', function ($model) {
+    return BaseController::getCollection($model);
+});
+Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
+
+    return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+});
+
+Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
+    return BaseController::update($entityType, $entityId,  $request);
+});
+Route::post('{entityType}', function ($entityType, Request $request) {
+    return BaseController::setOrUpdate($entityType, null, null, $request);
+});
+
+Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
+    return BaseController::delete($entityType, $fileId);
+});

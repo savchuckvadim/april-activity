@@ -1638,7 +1638,7 @@ class DocumentController extends Controller
 
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
-                                log::info('getSort : product', ['product' => $product]);
+                                // log::info('getSort : product', ['product' => $product]);
                                 $filtredCells = array_filter($product['cells'], function ($prc) {
                                     return $prc['isActive'] == true || $prc['code'] == 'measure';
                                 });

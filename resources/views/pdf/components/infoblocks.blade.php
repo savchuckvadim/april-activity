@@ -70,7 +70,7 @@
                     @foreach ($page['groups'] as $group)
                         @if ($group['name'] !== $lastGroupName)
                             <p
-                                class="{{ $descriptionMode !== 0 ? 'text-large infoblock-list-group-title color' : 'text-normal color' }}">
+                                class="{{ $descriptionMode !== 0 && $descriptionMode !== 3 ? 'text-large infoblock-list-group-title color' : 'text-normal color' }}">
                                 {{ $group['name'] }}
                             </p>
                             @php
@@ -84,7 +84,7 @@
 
                         @foreach ($group['items'] as $infoblock)
                             <p
-                                class="{{ $descriptionMode !== 0 ? 'text-normal infoblock--title bold' : 'text-normal ' }}">
+                                class="{{ $descriptionMode !== 0 && $descriptionMode !== 3  ? 'text-normal infoblock--title bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
                             </p>
 
@@ -92,7 +92,7 @@
                                 <p class="text-normal small">
                                     {{ $infoblock['shortDescription'] }}
                                 </p>
-                            @elseif ($descriptionMode === 2 || $descriptionMode === 3)
+                            @elseif ($descriptionMode === 2)
                                 <p class="text-normal small">
                                     {{ $infoblock['descriptionForSale'] }}
                                 </p>
@@ -131,12 +131,12 @@
                                 @foreach ($pageItems as $index => $item)
                                     @if ($index < count($pageItems) / 2)
                                         <div
-                                            class="{{ $descriptionMode !== 0 ? 'text-normal infoblock--title color' : 'text-normal' }}">
+                                            class="{{ $descriptionMode === 1 || $descriptionMode === 2 ? 'text-normal infoblock--title color' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
                                         @if ($descriptionMode === 1)
                                             <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                        @elseif ($descriptionMode > 1)
+                                        @elseif ($descriptionMode == 2)
                                             <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
                                     @endif
@@ -147,12 +147,12 @@
                                 @foreach ($pageItems as $index => $item)
                                     @if ($index >= count($pageItems) / 2)
                                         <div
-                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal color' : 'text-normal' }}">
+                                            class="{{ $descriptionMode === 1 || $descriptionMode === 2 ? 'text-normal color' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
                                         @if ($descriptionMode === 1)
                                             <div class="text-small">{{ $item['shortDescription'] }}</div>
-                                        @elseif ($descriptionMode > 1)
+                                        @elseif ($descriptionMode === 2)
                                             <div class="text-small">{{ $item['descriptionForSale'] }}</div>
                                         @endif
                                     @endif
@@ -198,7 +198,7 @@
                                     <td class="infoblock-table-big-single">
 
                                         <div
-                                            class="{{ $descriptionMode === 1 || $descriptionMode > 1 ? 'text-normal bold' : 'text-normal' }}">
+                                            class="{{ $descriptionMode === 1 || $descriptionMode === 2 ? 'text-normal bold' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
 
@@ -214,7 +214,7 @@
                                             </td>
 
                                         </tr>
-                                    @elseif ($descriptionMode > 1)
+                                    @elseif ($descriptionMode === 2)
                                         <tr>
                                             <td class="infoblocks-column-big">
                                                 <div class="text-small">{{ $item['descriptionForSale'] }}</div>

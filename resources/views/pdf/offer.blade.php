@@ -55,6 +55,7 @@
         .text-xsmall {
             font-size: 9px;
         }
+
         .text-small {
             font-size: 10px;
         }
@@ -97,9 +98,7 @@
     </style>
 </head>
 
-<body
-    {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}
- >
+<body {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}>
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
     @component('pdf.components.footer', $footerData)
@@ -137,8 +136,14 @@
                 @endcomponent
             </div>
         </div>
+        {{-- @if ($infoblocksData['descriptionMode'] === 3)
+            <div class="page-break"></div>
+            <div class="infoblocks">
 
-
+                @component('pdf.components.description', $bigDescriptionData)
+                @endcomponent
+            </div>
+        @endif --}}
         {{-- <div class="page-break"></div>
 
         @component('pdf.components.invoice.invoice', $invoiceData)
