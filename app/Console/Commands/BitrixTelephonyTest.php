@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\BeelineController;
 use App\Http\Controllers\BitrixController;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -13,7 +14,7 @@ class BitrixTelephonyTest extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'beeline:subscribe';
 
     /**
      * The console command description.
@@ -39,16 +40,18 @@ class BitrixTelephonyTest extends Command
      */
     public function handle()
     {
-        $domain = 'april-garant.bitrix24.ru';
-        $method = '/crm.activity.configurable.add.json';
-        // $hook = env('TEST_HOOK');
-        $hook = BitrixController::getHook($domain);
-        $dealId = 12202;
-        $url = $hook . $method;
-        $data = null;
-        $response = Http::get($url, $data);
+        // $domain = 'april-garant.bitrix24.ru';
+        // $method = '/crm.activity.configurable.add.json';
+        // // $hook = env('TEST_HOOK');
+        // $hook = BitrixController::getHook($domain);
+        // $dealId = 12202;
+        // $url = $hook . $method;
+        // $data = null;
+        // $response = Http::get($url, $data);
 
+        $controller = new BeelineController();
+        $result = $controller->getSabcribe();
 
-        $this->line($response->json());
+        $this->line($result);
     }
 }
