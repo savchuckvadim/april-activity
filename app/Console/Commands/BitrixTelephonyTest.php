@@ -49,9 +49,9 @@ class BitrixTelephonyTest extends Command
         // $data = null;
         // $response = Http::get($url, $data);
 
-        $controller = new BeelineController();
-        $result = $controller->getSabcribe();
+        // $controller = new BeelineController();
+        // $result = $controller->getSabcribe();
 
-        $this->line($result);
+        // $this->line($result);
     }
 }
