@@ -13,13 +13,13 @@ class BitrixTelephony extends Controller
         $domain = 'april-garant.bitrix24.ru';
         $method = '/voximplant.statistic.get';
         // $hook = env('TEST_HOOK');
-        $requestData = $request->json();
+        // $requestData = $request->json();
         $hook = BitrixController::getHook($domain);
         // $data = [
         //     'filter' => [
         //         'CALL_ID' => $request['data']['CALL_ID']
         //     ]
         // ];
-        Log::info('Звонок: ', ['$request' => $requestData['data']]);
+        Log::info('Звонок: ', ['$request' => $request['data']]);
     }
 }
