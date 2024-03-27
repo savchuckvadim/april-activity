@@ -20,6 +20,7 @@ class BitrixTelephony extends Controller
         //         'CALL_ID' => $request['data']['CALL_ID']
         //     ]
         // ];
-        Log::info('Звонок: ', ['$request' => $request['data']]);
+        Log::info('Звонок: ', ['request->data' => $request['data']]);
+        Log::info('CALL_ID: ', ['CALL_ID' => $request['data']['CALL_ID']]);
     }
 }
