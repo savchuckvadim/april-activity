@@ -180,19 +180,12 @@ class BitrixTest extends Command
             
         ];
         $url = $hook . $method;
-        // $response = Http::withHeaders([
-        //     'Accept' => 'application/json',
-        //     'content-type' => 'application/json',
-        //     'X-Requested-With' => 'XMLHttpRequest'
-        // ])->get($url, $data);
+
         $response = Http::get($url, $data);
 
 
         $this->line($response->body());
 
-        // } else {
-        //     $this->error("Ошибка запроса! Статус: " . $response->status());
-        //     $this->line("Ответ: " . $response->body());
-        // }
+
     }
 }

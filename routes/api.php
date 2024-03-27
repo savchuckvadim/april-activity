@@ -4,6 +4,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\BitrixController;
+use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FieldController;
@@ -80,7 +81,13 @@ use function morphos\Russian\inflectName;
 
 
 // });
+Route::post('innerhook/call', function (Request $request) {
+    
+    $controller = new BitrixTelephony();
+    $result = $controller->statisticGet($request);
 
+    return $result;
+});
 
 Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(function () {
 
