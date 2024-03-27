@@ -32,23 +32,25 @@ class BitrixTelephony extends Controller
         // Пытаемся разобрать XML
         try {
             $xml = new SimpleXMLElement($content);
-
-            // Теперь $xml - это объект SimpleXMLElement, и вы можете обращаться к его элементам
-            // Например, чтобы получить eventID:
-            $eventID = (string) $xml->eventID;
-            $userId = (string) $xml->userId;
-            $extTrackingId = (string) $xml->extTrackingId;
-            $targetId = (string) $xml->targetId;
+            $ns = $xml->getNamespaces(true); // Получаем все пространства имен
             
-            Log::info('content: ', ['content' => $content]);
-            Log::info('xml: ', ['xml' => $xml]);
-            // Логируем полученный eventID
-            Log::info('Received eventID: ', ['eventID' => $eventID]);
-            Log::info('userId: ', ['userId' => $userId]);
-            Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
-            // Вы можете добавить дополнительную логику обработки данных здесь
-            // ...
-            // Log::info('ALL_CALL_DATA: ', ['request' => $request]);
+            // Проверяем, существует ли пространство имен xsi
+            if(isset($ns['xsi'])) {
+                $xsiChildren = $xml->children($ns['xsi']);
+                
+                // Теперь $xsiChildren содержит элементы в пространстве имен xsi
+                $eventID = (string) $xsiChildren->eventID;
+                $userId = (string) $xsiChildren->userId;
+                $extTrackingId = (string) $xsiChildren->extTrackingId;
+                $targetId = (string) $xsiChildren->targetId;
+                
+                Log::info('Received eventID: ', ['eventID' => $eventID]);
+                Log::info('userId: ', ['userId' => $userId]);
+                Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
+                Log::info('targetId: ', ['targetId' => $targetId]);
+            } else {
+                Log::error('Пространство имен xsi не найдено в XML');
+            }
         } catch (Exception $e) {
             Log::error('Ошибка разбора XML: ' . $e->getMessage());
             // Обработка ошибки разбора XML
