@@ -40,6 +40,8 @@ class BitrixTelephony extends Controller
             $extTrackingId = (string) $xml->extTrackingId;
             $targetId = (string) $xml->targetId;
             
+            Log::info('content: ', ['content' => $content]);
+            Log::info('xml: ', ['xml' => $xml]);
             // Логируем полученный eventID
             Log::info('Received eventID: ', ['eventID' => $eventID]);
             Log::info('userId: ', ['userId' => $userId]);
