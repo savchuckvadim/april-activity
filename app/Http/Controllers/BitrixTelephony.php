@@ -13,6 +13,6 @@ class BitrixTelephony extends Controller
         // $method = '/crm.activity.configurable.add.json';
         // $hook = env('TEST_HOOK');
         // $hook = BitrixController::getHook($domain);
-        Log::info('Звонок: ', ['$request' => $request->json()] );
+        Log::info('Звонок: ', ['$request' => $request->all()] );
     }
 }
