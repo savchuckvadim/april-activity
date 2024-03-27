@@ -66,7 +66,7 @@ class BitrixTest extends Command
         $response = Http::get($url, $data);
 
 
-        $this->line($response->body());
+        $this->line($hook);
 
         // } else {
         //     $this->error("Ошибка запроса! Статус: " . $response->status());
