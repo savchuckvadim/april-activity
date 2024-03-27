@@ -86,7 +86,7 @@ Route::post('innerhook/call', function (Request $request) {
     $controller = new BitrixTelephony();
     $result = $controller->statisticGet($request);
 
-    return $result;
+    return APIController::getSuccess($result);
 });
 
 Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(function () {
