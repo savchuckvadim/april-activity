@@ -34,7 +34,7 @@ class BitrixTelephony extends Controller
             $xml = new SimpleXMLElement($content);
             $ns = $xml->getNamespaces(true); // Получаем все пространства имен
               
-            Log::info('xml', ['xml' => $xml]);
+            Log::info('content', ['xml' => $content]);
             Log::info('ns: ', ['ns' => $ns]);
             // Проверяем, существует ли пространство имен xsi
             if(isset($ns['xsi'])) {
