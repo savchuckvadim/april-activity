@@ -52,11 +52,12 @@ class BitrixTelephony extends Controller
                 // Предполагая, что extTrackingId находится в eventData->call, вы можете попробовать следующее:
                 if ($xsiChildren->eventData->call->extTrackingId) {
                     $extTrackingId = (string) $xsiChildren->eventData->call->extTrackingId;
+                    Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
                 }
         
                 Log::info('Received eventID: ', ['eventID' => $eventID]);
                 Log::info('userId: ', ['userId' => $userId]);
-                Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
+                Log::info('subscriptionId: ', ['subscriptionId' => $subscriptionId]);
                 Log::info('targetId: ', ['targetId' => $targetId]);
             } else {
                 Log::error('Пространство имен xsi не найдено в XML');
