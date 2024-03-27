@@ -7,12 +7,19 @@ use Illuminate\Support\Facades\Log;
 
 class BitrixTelephony extends Controller
 {
-    public function statisticGet(Request $request){
+    public function statisticGet(Request $request)
+    {
 
         $domain = 'april-garant.bitrix24.ru';
-        // $method = '/crm.activity.configurable.add.json';
+        $method = '/voximplant.statistic.get';
         // $hook = env('TEST_HOOK');
-        // $hook = BitrixController::getHook($domain);
-        Log::info('Звонок: ', ['$request' => $request->all()] );
+        $requestData = $request->json();
+        $hook = BitrixController::getHook($domain);
+        // $data = [
+        //     'filter' => [
+        //         'CALL_ID' => $request['data']['CALL_ID']
+        //     ]
+        // ];
+        Log::info('Звонок: ', ['$request' => $requestData['data']]);
     }
 }
