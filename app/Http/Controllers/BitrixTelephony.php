@@ -36,10 +36,14 @@ class BitrixTelephony extends Controller
             // Теперь $xml - это объект SimpleXMLElement, и вы можете обращаться к его элементам
             // Например, чтобы получить eventID:
             $eventID = (string) $xml->eventID;
-
+            $userId = (string) $xml->userId;
+            $extTrackingId = (string) $xml->extTrackingId;
+            $targetId = (string) $xml->targetId;
+            
             // Логируем полученный eventID
             Log::info('Received eventID: ', ['eventID' => $eventID]);
-
+            Log::info('userId: ', ['userId' => $userId]);
+            Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
             // Вы можете добавить дополнительную логику обработки данных здесь
             // ...
             // Log::info('ALL_CALL_DATA: ', ['request' => $request]);
