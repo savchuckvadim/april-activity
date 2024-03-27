@@ -39,13 +39,21 @@ class BitrixTelephony extends Controller
             // Проверяем, существует ли пространство имен xsi
             if(isset($ns['xsi'])) {
                 $xsiChildren = $xml->children($ns['xsi']);
-                
-                // Теперь $xsiChildren содержит элементы в пространстве имен xsi
+          
+
+                // Доступ к элементам, используя пространство имен xsi
                 $eventID = (string) $xsiChildren->eventID;
                 $userId = (string) $xsiChildren->userId;
-                $extTrackingId = (string) $xsiChildren->extTrackingId;
+                $subscriptionId = (string) $xsiChildren->subscriptionId;
                 $targetId = (string) $xsiChildren->targetId;
-                
+        
+                // Пример получения extTrackingId из события
+                // Так как extTrackingId находится глубже в структуре, вам возможно придется обращаться к нему по-разному
+                // Предполагая, что extTrackingId находится в eventData->call, вы можете попробовать следующее:
+                if ($xsiChildren->eventData->call->extTrackingId) {
+                    $extTrackingId = (string) $xsiChildren->eventData->call->extTrackingId;
+                }
+        
                 Log::info('Received eventID: ', ['eventID' => $eventID]);
                 Log::info('userId: ', ['userId' => $userId]);
                 Log::info('extTrackingId: ', ['extTrackingId' => $extTrackingId]);
