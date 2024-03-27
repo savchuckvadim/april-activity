@@ -40,23 +40,145 @@ class BitrixTest extends Command
     public function handle()
     {
         $domain = 'april-garant.bitrix24.ru';
-        $method = '/crm.activity.add.json';
+        $method = '/crm.activity.configurable.add.json';
+        // $hook = env('TEST_HOOK');
         $hook = BitrixController::getHook($domain);
-        $dealId = 11758;
+        $dealId = 12202;
 
         $fields =
             [
-                "OWNER_TYPE_ID" => 2,
-                "OWNER_ID" => $dealId,
-                "PROVIDER_ID" => 'REST_APP',
-                "PROVIDER_TYPE_ID" => 'LINK',
-                "SUBJECT" => "Новое дело",
+               
+                "TYPE_ID" => 2, //из метода crm.enum.activitytype
+                "COMMUNICATIONS" => [
+                    [
+                        'VALUE' => "+79832322323",
+                        'ENTITY_ID' => $dealId,
+                        'ENTITY_TYPE_ID' => 2
+                    ]
+                ], //где 134 - id контакта, 3 - тип "контакт"
+                "SUBJECT" => "Новый звонок",
+                // "START_TIME"=> dateStr,
+                // "END_TIME"=> dateStr,
                 "COMPLETED" => "N",
+                "PRIORITY" => 3, //из метода crm.enum.activitypriority
                 "RESPONSIBLE_ID" => 1,
-                "DESCRIPTION" => "Описание нового дела"
+                "DESCRIPTION" => "Важный звонок",
+                "DESCRIPTION_TYPE" => 3, //из метода crm.enum.contenttype
+                "DIRECTION" => 2, // из метода crm.enum.activitydirection
+                "WEBDAV_ELEMENTS" =>
+                [
+                    'fileData' => 'https://april-online.ru/storage/clients/april-garant.bitrix24.ru/documents/194/271103-27_0324.pdf'
+                ],
+                // "FILES":
+                // [
+                //     { fileData: document.getElementById('file1') }
+                // ] //после установки модуля disk и конвертации данных из webdav можно будет указавать FILES вместо WEBDAV_ELEMENTS
             ];
+        $layout = [
+            "icon" => [
+                "code" => "call-completed"
+            ],
+            "header" => [
+                "title" => "Входящий звонок",
+                "tags" => [
+                    "status2" => [
+                        "type" => "warning",
+                        "title" => "не расшифрован"
+                    ]
+                ]
+            ],
+            "body" => [
+                "logo" => [
+                    "code" => "call-incoming",
+                    "action" => [
+                        "type" => "redirect",
+                        "uri" => "/crm/deal/details/123/"
+                    ]
+                ],
+                "blocks" => [
+                    "client" => [
+                        "type" => "withTitle",
+                        "properties" => [
+                            "title" => "Клиент",
+                            "inline" => true,
+                            "block" => [
+                                "type" => "text",
+                                "properties" => [
+                                    "value" => "ООО Рога и Копыта"
+                                ]
+                            ]
+                        ]
+                    ],
+                    "responsible" => [
+                        "type" => "lineOfBlocks",
+                        "properties" => [
+                            "blocks" => [
+                                "client" => [
+                                    "type" => "link",
+                                    "properties" => [
+                                        "text" => "Сергей Востриков",
+                                        "bold" => true,
+                                        "action" => [
+                                            "type" => "redirect",
+                                            "uri" => "/crm/lead/details/789/"
+                                        ]
+                                    ]
+                                ],
+                                "phone" => [
+                                    "type" => "text",
+                                    "properties" => [
+                                        "value" => "+7 999 888 7777"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            "footer" => [
+                "buttons" => [
+                    "startCall" => [
+                        "title" => "О клиенте",
+                        "action" => [
+                            "type" => "openRestApp",
+                            "actionParams" => [
+                                "clientId" => 456
+                            ]
+                        ],
+                        "type" => "primary"
+                    ]
+                ],
+                "menu" => [
+                    "showPostponeItem" => "false",
+                    "items" => [
+                        "confirm" => [
+                            "title" => "Подтвердить заявку",
+                            "action" => [
+                                "type" => "restEvent",
+                                "id" => "confirm",
+                                "animationType" => "loader"
+                            ]
+                        ],
+                        "decline" => [
+                            "title" => "Отклонить заявку",
+                            "action" => [
+                                "type" => "restEvent",
+                                "id" => "decline",
+                                "animationType" => "loader"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
-        $data = ['fields' => $fields];
+        $data = [
+            "ownerTypeId" => 2,
+            "ownerId" => $dealId,
+            'fields' => $fields,
+            'layout' => $layout,
+            
+        ];
         $url = $hook . $method;
         // $response = Http::withHeaders([
         //     'Accept' => 'application/json',
@@ -66,7 +188,7 @@ class BitrixTest extends Command
         $response = Http::get($url, $data);
 
 
-        $this->line($hook);
+        $this->line($response->body());
 
         // } else {
         //     $this->error("Ошибка запроса! Статус: " . $response->status());
