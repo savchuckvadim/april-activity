@@ -14,7 +14,7 @@ class BitrixTelephonyTest extends Command
      *
      * @var string
      */
-    protected $signature = 'beeline:subscribe';
+    protected $signature = 'btx:activity';
 
     /**
      * The console command description.
@@ -40,18 +40,72 @@ class BitrixTelephonyTest extends Command
      */
     public function handle()
     {
-        // $domain = 'april-garant.bitrix24.ru';
-        // $method = '/crm.activity.configurable.add.json';
-        // // $hook = env('TEST_HOOK');
+        $domain = 'april-garant.bitrix24.ru';
+        // $method = '/crm.activity.list.json';
+        $method = '/crm.activity.get.json';
+        $hook = env('TEST_HOOK');
         // $hook = BitrixController::getHook($domain);
-        // $dealId = 12202;
-        // $url = $hook . $method;
-        // $data = null;
-        // $response = Http::get($url, $data);
+        $dealId = 12202;
+        $fields =
+            [
+                'OWNER_TYPE_ID' => 2, // 2- deal 3 - company
+                'OWNER_ID' => 12198, // 2976,
+                "TYPE_ID" => 2 // Тип активности - Звонок
+            ];
 
-        $controller = new BeelineController();
-        $result = $controller->getSabcribe();
+        $url = $hook . $method;
+        $data = [
+            // "ownerTypeId" => 2,
+            // "ownerId" => $dealId,
+            'id' => 645286,
+            'filter' => $fields,
+            "order" => [
+                "START_TIME" => "ASC" // Например, сортировать по времени начала звонка
+            ]
 
-        $this->line($result);
+
+        ];
+
+        $response = Http::get($url, $data);
+        $responseData = $response->json();
+        if (!empty($responseData['result'])) {
+            $this->line(json_encode($responseData));
+            foreach ($responseData['result'] as $activity) {
+                $this->line(json_encode($activity));
+                if (isset($activity['FILES'])) {
+                   
+                    foreach ($activity['FILES'] as  $file) {
+                        $fileId = $file['id'];
+                        $fileUrl = $file['url'];
+                        $this->line(json_encode($file));
+                        // Здесь ваш код для обработки URL файла
+                        // $fileContent = Http::get($fileUrl);
+                        // if ($fileContent->successful()) {
+                        //     // Замените 'path/to/your/directory/' на путь к каталогу, где вы хотите сохранить файлы
+                        //     $fileName = $fileId;
+                        //     $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
+                        //     $directoryPath = dirname($path);
+                        //     if (!file_exists($directoryPath)) {
+                        //         mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
+                        //     }
+                        //     // Открытие файла для записи в бинарном режиме
+                        //     $fileHandle = fopen($path, 'wb');
+                        //     if ($fileHandle === false) {
+                        //         // Обработка ошибки открытия файла
+                        //         $this->line("Unable to open file for writing: " . $path);
+                        //         return;
+                        //     }
+
+                        //     // Запись содержимого в файл
+                        //     fwrite($fileHandle, $fileContent->body());
+                        //     fclose($fileHandle);
+                        //     $this->line("File saved: " . $fileUrl);
+                        // } else {
+                        //     $this->line("Failed to download file with ID: " . $fileId);
+                        // }
+                    }
+                }
+            }
+        }
     }
 }

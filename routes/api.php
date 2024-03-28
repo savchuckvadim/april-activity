@@ -62,7 +62,7 @@ use function morphos\Russian\inflectName;
 //         return BitrixController::hooktest($request);
 //     });
 // });
-// Route::middleware(['api.key'])->group(function () {
+Route::middleware(['api.key'])->group(function () {
 
 
 
@@ -76,11 +76,16 @@ use function morphos\Russian\inflectName;
     });
 
     
+    Route::post('getportal', function (Request $request) {
+        $domain  = $request->input('domain');
+        return PortalController::getPortal($domain);
+    });
 
 
 
 
-// });
+
+});
 Route::post('innerhook/call', function (Request $request) {
     
     $controller = new BitrixTelephony();
@@ -166,10 +171,10 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     //////////////////////////////CLIENTS
     //////PORTAL
 
-    Route::post('getportal', function (Request $request) {
-        $domain  = $request->input('domain');
-        return PortalController::getPortal($domain);
-    });
+
+  
+
+
     Route::get('portal/{portalId}', function ($portalId) {
         return PortalController::getPortalById($portalId);
     });
@@ -1120,33 +1125,33 @@ Route::post('/tokens/create', function (Request $request) {
 //     Success = 0
 // }
 
-Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+// Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
 
-    return BaseController::initial($entityType, $parentType, $parentId);
-});
+//     return BaseController::initial($entityType, $parentType, $parentId);
+// });
 
-Route::get('initial/{entityType}/', function ($entityType) {
-    return BaseController::initial($entityType);
-});
+// Route::get('initial/{entityType}/', function ($entityType) {
+//     return BaseController::initial($entityType);
+// });
 
-Route::get('{model}/{modelId}', function ($model, $modelId) {
-    return BaseController::get($model, $modelId);
-});
-Route::get('{model}', function ($model) {
-    return BaseController::getCollection($model);
-});
-Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
+// Route::get('{model}/{modelId}', function ($model, $modelId) {
+//     return BaseController::get($model, $modelId);
+// });
+// Route::get('{model}', function ($model) {
+//     return BaseController::getCollection($model);
+// });
+// Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
 
-    return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
-});
+//     return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+// });
 
-Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
-    return BaseController::update($entityType, $entityId,  $request);
-});
-Route::post('{entityType}', function ($entityType, Request $request) {
-    return BaseController::setOrUpdate($entityType, null, null, $request);
-});
+// Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
+//     return BaseController::update($entityType, $entityId,  $request);
+// });
+// Route::post('{entityType}', function ($entityType, Request $request) {
+//     return BaseController::setOrUpdate($entityType, null, null, $request);
+// });
 
-Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
-    return BaseController::delete($entityType, $fileId);
-});
+// Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
+//     return BaseController::delete($entityType, $fileId);
+// });
