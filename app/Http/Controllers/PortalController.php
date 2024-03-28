@@ -7,6 +7,7 @@ use App\Http\Resources\ProviderCollection;
 use App\Http\Resources\TemplateCollection;
 use App\Models\Portal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
 class PortalController extends Controller
@@ -71,7 +72,18 @@ class PortalController extends Controller
     public static function getPortal($domain)
     {
 
+        // Пытаемся получить данные из кеша
+        $cacheKey = 'portal_' . $domain;
+        $cachedPortal = Cache::get($cacheKey);
+
+        if (!is_null($cachedPortal)) {
+            // Возвращаем данные из кеша
+            return  $cachedPortal;
+        }
         $portal = Portal::where('domain', $domain)->first();
+
+
+
 
         if (!$portal) {
             return response([
@@ -80,9 +92,9 @@ class PortalController extends Controller
             ]);
         }
 
-     
 
-        return response([
+
+        $response = response([
             'resultCode' => 0,
             'portal' => [
                 'id' => $portal->id,
@@ -102,6 +114,8 @@ class PortalController extends Controller
             ]
 
         ]);
+        Cache::put($cacheKey, $response, now()->addMinutes(10)); // Кешируем на 10 минут
+        return  $response;
     }
     public static function getPortalById($portalId)
     {
@@ -210,7 +224,7 @@ class PortalController extends Controller
 
         ];
     }
-   
+
     public static function getProviders($portalId)
     {
         try {
