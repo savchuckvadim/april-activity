@@ -4,7 +4,6 @@ namespace App\Logging;
 
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\LogRecord;
 use Telegram\Bot\Api;
 
 class TelegramLogger extends AbstractProcessingHandler

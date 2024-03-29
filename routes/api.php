@@ -116,6 +116,13 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
     });
 
     Route::post('/getDeal', function (Request $request) {
+        Log::channel('telegram')->error('APRIL_TEST', [
+            'getDeal' => [
+              
+                $request
+
+            ]
+        ]);
         return DealController::getDeal($request);
     });
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d294d17be3d0df1fda4ecf44a17c2e22",
+    "content-hash": "9b88cafbe531a6e7e7267145323d01f1",
     "packages": [
         {
             "name": "anton-zaharov/bitrix24api",

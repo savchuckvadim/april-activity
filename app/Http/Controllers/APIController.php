@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Promise\Promise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -27,6 +28,7 @@ class APIController extends Controller
     }
     public static function getError($message, $data)
     {
+
         Log::channel('telegram')->error('APRIL_ONLINE', [
             'apiController' => [
                 'message' => $message,
