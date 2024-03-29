@@ -12,31 +12,30 @@
         "anton-zaharov/bitrix24api": "^1.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "creativeorange/gravatar": "~1.0",
-        "doctrine/dbal": "^3.7",
+        "doctrine/dbal": "^3.0",
         "dompdf/dompdf": "^2.0",
-        "fruitcake/laravel-cors": "^2.0",
         "google/apiclient": "^2.14",
         "guzzlehttp/guzzle": "^7.8",
         "guzzlehttp/promises": "^2.0",
         "irazasyed/telegram-bot-sdk": "^3.9",
         "laravel/fortify": "^1.13",
-        "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.15",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.5",
-        "league/flysystem-sftp": "~1.0",
+        "league/flysystem-sftp": "^3.0",
         "phpoffice/phpword": "^1.1",
         "ramsey/uuid": "^4.7",
         "tecnickcom/tcpdf": "^6.6",
         "wapmorgan/morphos": "^3.2"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+        "spatie/laravel-ignition": "^2.0",
         "fakerphp/faker": "^1.19",
         "laravel/sail": "^1.0.1",
         "laravel/telescope": "^5.0",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
