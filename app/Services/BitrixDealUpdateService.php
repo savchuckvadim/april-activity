@@ -138,7 +138,7 @@ class BitrixDealUpdateService
         $response = Http::get($url, $this->setProductRowsData);
 
         
-        return $this->getBitrixRespone($response);
+        return BitrixController::getBitrixRespone($response, 'productsSet');
     }
 
 
@@ -149,39 +149,39 @@ class BitrixDealUpdateService
         $response = Http::get($url, [
             //todo 
         ]);
-        return $this->getBitrixRespone($response);
+        return BitrixController::getBitrixRespone($response, 'productsUpdate');
     }
 
 
 
-    protected function getBitrixRespone($bitrixResponse)
-    {
-        $response =  $bitrixResponse->json();
-        if ($response) {
-            if (isset($response['result'])) {
+    // protected function getBitrixRespone($bitrixResponse)
+    // {
+    //     $response =  $bitrixResponse->json();
+    //     if ($response) {
+    //         if (isset($response['result'])) {
 
-                Log::info('success btrx response', [
-                    'BTRX_RESPONSE_SUCCESS' => [
-                        'domain' => $this->domain,
-                        'result' => $response['result'],
+    //             Log::info('success btrx response', [
+    //                 'BTRX_RESPONSE_SUCCESS' => [
+    //                     'domain' => $this->domain,
+    //                     'result' => $response['result'],
 
-                    ]
+    //                 ]
 
-                ]);
-                return $response['result'];
-            } else {
-                if (isset($response['error_description'])) {
-                    Log::info('error', [
-                        'SET_DEAL' => [
-                            'domain' => $this->domain,
-                            'btrx error' => $response['error'],
-                            'btrx response' => $response['error_description']
-                        ]
+    //             ]);
+    //             return $response['result'];
+    //         } else {
+    //             if (isset($response['error_description'])) {
+    //                 Log::info('error', [
+    //                     'SET_DEAL' => [
+    //                         'domain' => $this->domain,
+    //                         'btrx error' => $response['error'],
+    //                         'btrx response' => $response['error_description']
+    //                     ]
 
-                    ]);
-                    return null;
-                }
-            }
-        }
-    }
+    //                 ]);
+    //                 return null;
+    //             }
+    //         }
+    //     }
+    // }
 }

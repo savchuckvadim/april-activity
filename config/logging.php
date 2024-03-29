@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\TelegramLogger;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -119,6 +120,11 @@ return [
             'with' => [
                 'stream' => 'php://stdout',
             ],
+            'level' => 'debug',
+        ],
+        'telegram' => [
+            'driver' => 'monolog',
+            'handler' => TelegramLogger::class,
             'level' => 'debug',
         ],
 

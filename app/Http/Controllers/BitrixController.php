@@ -1170,7 +1170,7 @@ class BitrixController extends Controller
     
     
             $response = Http::get($url, $setDealData);
-            $dealId =  $this->getBitrixRespone($response);
+            $dealId =  $this->getBitrixRespone($response, 'konstructBitrixDealUpdate');
         }
 
         dispatch(new BitrixDealUpdate(
@@ -1188,22 +1188,22 @@ class BitrixController extends Controller
     }
 
 
-    protected function getBitrixRespone($bitrixResponse)
+    static function getBitrixRespone($bitrixResponse, $method)
     {
         $response =  $bitrixResponse->json();
         if ($response) {
             if (isset($response['result'])) {
 
-                Log::info('success btrx response', [
-                    'BTRX_RESPONSE_SUCCESS' => [
-                        'result' => $response['result'],
 
-                    ]
-
-                ]);
                 return $response['result'];
             } else {
                 if (isset($response['error_description'])) {
+                    Log::channel('telegram')->error('APRIL_ONLINE', [
+                        $method => [
+                            'btrx error' => $response['error'],
+                            'btrx response' => $response['error_description']
+                        ]
+                    ]);
                     Log::info('error', [
                         'SET_DEAL' => [
                             'btrx error' => $response['error'],

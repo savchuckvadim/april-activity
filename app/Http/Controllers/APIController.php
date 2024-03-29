@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class APIController extends Controller
 {
-    public static function getResponse($resultCode, $message, $data){
+    public static function getResponse($resultCode, $message, $data)
+    {
 
         return response([
             'resultCode' => $resultCode,
@@ -14,7 +16,8 @@ class APIController extends Controller
             'data' => $data
         ]);
     }
-    public static function getSuccess($data){
+    public static function getSuccess($data)
+    {
 
         return response([
             'resultCode' => 0,
@@ -22,8 +25,14 @@ class APIController extends Controller
             'data' => $data
         ]);
     }
-    public static function getError($message, $data){
+    public static function getError($message, $data)
+    {
+        Log::channel('telegram')->error('APRIL_ONLINE', [
+            'apiController' => [
+                'message' => $message,
 
+            ]
+        ]);
         return response([
             'resultCode' => 1,
             'message' => $message,
