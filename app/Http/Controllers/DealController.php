@@ -75,7 +75,13 @@ class DealController extends Controller
                 'searchingDeal' => $searchingDeal
             ]);
         } catch (\Throwable $th) {
-            Log::channel('telegram')->error('APRIL_ONLINE', [
+            // Log::channel('telegram')->error('APRIL_ONLINE', [
+            //     'DealController.addDeal' => [
+            //         'message' => $message,
+    
+            //     ]
+            // ]);
+            Log::error('APRIL_ONLINE', [
                 'DealController.addDeal' => [
                     'message' => $message,
     
