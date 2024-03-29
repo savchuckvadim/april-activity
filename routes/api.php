@@ -111,12 +111,7 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
 
     Route::post('/deal', function (Request $request) {
-        Log::channel('telegram')->error('APRIL_ONLINE', [
-            'addDeal' => [
-                'message' => $request->domain,
 
-            ]
-        ]);
         return DealController::addDeal($request);
     });
 
