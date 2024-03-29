@@ -727,22 +727,22 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     // ROUTE TESTING BITRIX PROVIDERS
 
-    Route::post('/april', function (Bitrix $bitrix) {
+    // Route::post('/april', function (Bitrix $bitrix) {
 
 
-        $portal = Portal::getPortal($bitrix);
+    //     $portal = Portal::getPortal($bitrix);
 
-        if ($portal) {
+    //     if ($portal) {
 
-            // $hook = $portal['C_REST_WEB_HOOK_URL'];
-            $response = BitrixController::connect($bitrix);
+    //         // $hook = $portal['C_REST_WEB_HOOK_URL'];
+    //         $response = BitrixController::connect($bitrix);
 
-            return response(['data' => $response]);
-        } else {
+    //         return response(['data' => $response]);
+    //     } else {
 
-            return response(['message' => 'no portal']);
-        }
-    });
+    //         return response(['message' => 'no portal']);
+    //     }
+    // });
 
 
 
@@ -777,12 +777,12 @@ Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(funct
 
     //TODO BITRIX HOOKS - CHANGE STAGES : ////////////////////////////////////
     // Route - хук работающий при смене стадии сделки на всех порталах (!) отдает general или client kp
-    Route::get('/stage/kp', function (Bitrix $bitrix) {
-        $fields = $bitrix->call('crm.deal.fields');
-        $profile =  $bitrix->call('profile');
-        // var_dump($result);
-        return response(['fields' => $fields,  'profile' => $profile]);
-    });
+    // Route::get('/stage/kp', function (Bitrix $bitrix) {
+    //     $fields = $bitrix->call('crm.deal.fields');
+    //     $profile =  $bitrix->call('profile');
+    //     // var_dump($result);
+    //     return response(['fields' => $fields,  'profile' => $profile]);
+    // });
 
 
 
@@ -983,12 +983,12 @@ Route::get('garavatar/{userId}', function ($userId) {
 
 //////////////////BITRIX
 
-Route::get('/profile', function (Bitrix $bitrix) {
+// Route::get('/profile', function (Bitrix $bitrix) {
 
-    $profile =  $bitrix->call('profile');
-    // var_dump($result);
-    return response(['profile' => $profile]);
-});
+//     $profile =  $bitrix->call('profile');
+//     // var_dump($result);
+//     return response(['profile' => $profile]);
+// });
 
 
 

@@ -26,7 +26,6 @@
         "phpoffice/phpword": "^1.1",
         "ramsey/uuid": "^4.7",
         "tecnickcom/tcpdf": "^6.6",
-        "vipblogger/laravel-bitrix24": "^1.0",
         "wapmorgan/morphos": "^3.2"
     },
     "require-dev": {

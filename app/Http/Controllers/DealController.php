@@ -88,6 +88,7 @@ class DealController extends Controller
     
                 ]
             ]);
+            
             Log::error('APRIL_ONLINE', [
                 'DealController.addDeal' => [
                     'message' => $message,
