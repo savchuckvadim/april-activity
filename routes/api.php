@@ -94,7 +94,7 @@ Route::post('innerhook/call', function (Request $request) {
     return APIController::getSuccess(['result' => 'success']);
 });
 
-Route::middleware([\Fruitcake\Cors\HandleCors::class, 'ajax.only'])->group(function () {
+Route::middleware(['ajax.only'])->group(function () {
 
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
