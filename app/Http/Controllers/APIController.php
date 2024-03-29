@@ -30,6 +30,7 @@ class APIController extends Controller
         Log::channel('telegram')->error('APRIL_ONLINE', [
             'apiController' => [
                 'message' => $message,
+                $data
 
             ]
         ]);

@@ -75,12 +75,19 @@ class DealController extends Controller
                 'searchingDeal' => $searchingDeal
             ]);
         } catch (\Throwable $th) {
-            // Log::channel('telegram')->error('APRIL_ONLINE', [
-            //     'DealController.addDeal' => [
-            //         'message' => $message,
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'DealController.addDeal' => [
+                    'message' => $message,
+                    $errorMessages
     
-            //     ]
-            // ]);
+                ]
+            ]);
             Log::error('APRIL_ONLINE', [
                 'DealController.addDeal' => [
                     'message' => $message,
