@@ -764,50 +764,60 @@ class BitrixController extends Controller
 
 
         try {
-            $domain = $request['domain'];
+            if (!empty($request['domain'])) {
 
-            $controller = new BitrixController;
-            $getPortalReportData = $controller->getPortalReportData($domain);
-            $departamentId = $getPortalReportData['departamentId'];
+                $domain = $request['domain'];
 
-            // $departamentId = 620;
-            $portalResponse = PortalController::innerGetPortal($domain);
-            if ($portalResponse) {
-                if (isset($portalResponse['resultCode'])) {
-                    if ($portalResponse['resultCode'] == 0) {
-                        if (isset($portalResponse['portal'])) {
-                            if ($portalResponse['portal']) {
+                $controller = new BitrixController;
+                $getPortalReportData = $controller->getPortalReportData($domain);
+                $departamentId = $getPortalReportData['departamentId'];
 
-                                $portal = $portalResponse['portal'];
+                // $departamentId = 620;
+                $portalResponse = PortalController::innerGetPortal($domain);
+                if ($portalResponse) {
+                    if (isset($portalResponse['resultCode'])) {
+                        if ($portalResponse['resultCode'] == 0) {
+                            if (isset($portalResponse['portal'])) {
+                                if ($portalResponse['portal']) {
 
-                                $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
-                                $hook = 'https://' . $domain  . '/' . $webhookRestKey;
-                                $actionUrl =  $method;
-                                $url = $hook . $actionUrl;
+                                    $portal = $portalResponse['portal'];
 
-                                $data =   [
-                                    "FILTER" => [
-                                        "UF_DEPARTMENT" => $departamentId,
-                                        'ACTIVE' => true
+                                    $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
+                                    $hook = 'https://' . $domain  . '/' . $webhookRestKey;
+                                    $actionUrl =  $method;
+                                    $url = $hook . $actionUrl;
 
-                                    ]
-                                ];
-                                $response = Http::get($url, $data);
-                                return APIController::getSuccess(
-                                    [
-                                        'response' => $response,
-                                        'departament' => $response['result']
-                                    ]
+                                    $data =   [
+                                        "FILTER" => [
+                                            "UF_DEPARTMENT" => $departamentId,
+                                            'ACTIVE' => true
+
+                                        ]
+                                    ];
+                                    $response = Http::get($url, $data);
+                                    return APIController::getSuccess(
+                                        [
+                                            'response' => $response,
+                                            'departament' => $response['result']
+                                        ]
+                                    );
+                                }
+
+
+                                return APIController::getError(
+                                    'portal not found',
+                                    null
                                 );
                             }
-
-
-                            return APIController::getError(
-                                'portal not found',
-                                null
-                            );
                         }
                     }
+                }else{
+
+                    return APIController::getError(
+                        'getDepartamentUsers portal not found',
+                        ['domain' => $domain]
+                    );
+
                 }
             }
         } catch (\Throwable $th) {
@@ -1110,7 +1120,7 @@ class BitrixController extends Controller
                                 ];
 
                                 $response = Http::get($url, $data);
-                               
+
 
                                 if (isset($response['result'])) {
 
@@ -1167,8 +1177,8 @@ class BitrixController extends Controller
             $hook = $this->getHook($domain);
             $method = '/crm.deal.add.json';
             $url = $hook . $method;
-    
-    
+
+
             $response = Http::get($url, $setDealData);
             $dealId =  $this->getBitrixRespone($response, 'konstructBitrixDealUpdate');
         }
@@ -1183,7 +1193,7 @@ class BitrixController extends Controller
             $updateProductRowsData
 
         ));
-       
+
         return APIController::getSuccess(['dealId' => $dealId]);
     }
 
