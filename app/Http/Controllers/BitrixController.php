@@ -815,7 +815,7 @@ class BitrixController extends Controller
             }
             return APIController::getError(
                 'getDepartamentUsers portal not found',
-                ['domain' => $domain]
+                ['domain' => $request['domain']]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
