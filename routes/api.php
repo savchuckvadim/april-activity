@@ -111,18 +111,19 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
     Route::post('/deal', function (Request $request) {
+        Log::channel('telegram')->error('APRIL_TEST', [
+            'getDeal' => [
+              
+                'domain' => $request['domain'],
+                'dealId' => $request['dealId'],
 
+            ]
+        ]);
         return DealController::addDeal($request);
     });
 
     Route::post('/getDeal', function (Request $request) {
-        Log::channel('telegram')->error('APRIL_TEST', [
-            'getDeal' => [
-              
-                $request
 
-            ]
-        ]);
         return DealController::getDeal($request);
     });
 
