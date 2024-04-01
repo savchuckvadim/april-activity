@@ -131,7 +131,7 @@ class CounterController extends Controller
     {
 
         $counters = Counter::with(['rqs' => function ($query) {
-            $query->select('rq.id', 'rq.name'); // Замените 'name' на нужное поле, если это название
+            $query->select('rqs.id', 'rqs.name'); // Замените 'name' на нужное поле, если это название
         }])->get();
 
 
