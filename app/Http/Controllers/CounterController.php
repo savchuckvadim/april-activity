@@ -54,7 +54,7 @@ class CounterController extends Controller
         ];
 
         $rq->counters()->attach($counter->id, $relationData);
-
+        $counter = $counter->load('rqs');
         return APIController::getSuccess(['counter' => new CounterResource($counter)]);
     }
 
