@@ -1238,14 +1238,7 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $hook = $controller->getHookUrl($domain);
             $tasksGroupId = $controller->getCallingGroupId($domain);
-            Log::channel('telegram')->error('ONLINE', [
-                'getCallingTasks' => [
-    
-                    'domain' => $domain,
-                    'hook' => $hook,
-    
-                ]
-            ]);
+
 
             // Ваша исходная строка с датой
             $dateString = $date;
@@ -1324,7 +1317,17 @@ class BitrixController extends Controller
                 );
             }
         } catch (\Throwable $th) {
-            //throw $th;
+            $errorData = [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError(
+                'getCallingTasks',
+                $errorData
+            );
         }
     }
     public function createTask(
