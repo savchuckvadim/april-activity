@@ -14,8 +14,9 @@ class RqController extends Controller
     public static function getRqs()
     {
         try {
+            $rqs = Rq::with('counters')->get();
 
-            $rqs = Rq::all();
+ 
             $rqsCollection = new RqCollection($rqs);
             return APIController::getSuccess(
                 $rqsCollection

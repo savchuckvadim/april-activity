@@ -92,6 +92,8 @@ class RqResource extends JsonResource
                     // Добавьте другие поля из $fillable в модели 'File', которые вам нужны
                 ];
             }),
+      
+            'counters' => CounterResource::collection($this->whenLoaded('counters')),
 
             // 'agent' => $this->agent,
             'domain' => $domain,
