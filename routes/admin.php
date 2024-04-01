@@ -63,9 +63,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //get
     //collection
-    Route::get('rq/{rqId}/counters', function () {
+    Route::get('rq/{rqId}/counters', function ($rqId) {
 
-        return CounterController::getAll();
+        return CounterController::getAll($rqId);
     });
 
     //item

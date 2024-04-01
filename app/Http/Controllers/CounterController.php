@@ -118,22 +118,18 @@ class CounterController extends Controller
     }
 
 
-    public static function getAll()
+    public static function getAll($rqId)
     {
 
-        $counters = Counter::with(['rqs' => function ($query) {
-            $query->select('rqs.id', 'rqs.name'); // Замените 'name' на нужное поле, если это название
-        }])->get();
+        $rq = Rq::with(['counters'])->find($rqId);
 
-
-        $data = [
-            'counters' => $counters
-        ];
-        if (!$counters) {
-            // Обработка случая, когда счетчик не найден
-            return APIController::getError('Counter not found', $data);
+        if (!$rq) {
+            return APIController::getError('Rq not found', []);
         }
 
+        $data = [
+            'counters' => CounterResource::collection($rq->counters)
+        ];
 
         return APIController::getSuccess($data);
     }
@@ -144,15 +140,15 @@ class CounterController extends Controller
         try {
             $counter = Counter::findOrFail($counterId);
 
-            // Отсоединяем все связанные шаблоны (Template)
-            $counter->templates()->detach();
+            // Отсоединяем все связанные шаблоны (Rq)
+            $counter->rqs()->detach();
 
             // Удаление самого счетчика
             $counter->delete();
 
-            return response()->json(['message' => 'Counter and its relations successfully deleted.']);
+            return APIController::getSuccess(['message' => 'Counter and its relations successfully deleted.']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete counter.'], 500);
+            return APIController::getError('Failed to delete counter.', []);
         }
     }
 
