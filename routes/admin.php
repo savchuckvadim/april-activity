@@ -60,7 +60,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
     //get
 
-    Route::get('counters', function () {
+    Route::get('rq/{rqId}/counters', function () {
 
         return CounterController::getAll();
     });
