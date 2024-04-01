@@ -117,64 +117,55 @@ class CounterController extends Controller
     }
 
 
-    public static function getCount($templateId)
+    public static function getCount($rqId, $type)
     {
 
-        $template = Template::find($templateId);
-        $counter = null;
-        $count = 0;
-        // if ($template) {
-        //     $templateCounters = $template->counters;
-        //     if ($templateCounters && count($templateCounters) > 0) {
+        // Попытка найти Rq и счетчик определенного типа
+        $rq = Rq::with(['counters' => function ($query) use ($type) {
+            $query->where('type', $type);
+        }])->find($rqId);
 
-        //         $counterId =   $templateCounters[0]['id'];
-        //         $counter = $templateCounters[0];
+        // Если Rq найден и имеет связанные счетчики
+        if ($rq && $rq->counters->isNotEmpty()) {
+            $counter = $rq->counters->first();
+            $pivot = $counter->pivot;
+            $currentCount = (int)$pivot->count + (int)$pivot->size;
 
-        //         if ($counter && isset($counter['pivot'])) {
-        //             $counter = $counter['pivot'];
-        //             $baseCount = '';
-        //             if (isset($counter['count']) && isset($counter['size'])) {
-        //                 $size = 1;
-        //                 $currentCount = 0;
-        //                 if ($counter['size']) {
-        //                     $size = $counter['size'];
-        //                 }
-        //                 if ($counter['count']) {
-        //                     $currentCount = $counter['count'] + 1;
-        //                 }
-        //                 $counter['count'] =  $currentCount;
-        //                 $template->counters()->updateExistingPivot($counterId, ['count' => $currentCount]);
-        //                 $baseCount = $currentCount + ($currentCount *  $size);
-        //             }
+            // Обновляем счётчик в pivot-таблице
+            $rq->counters()->updateExistingPivot($counter->id, ['count' => $currentCount]);
 
-        //             if (isset($counter['prefix']) && $counter['prefix']) {
-        //                 $count = $counter['prefix'] . '-' . $baseCount;
-        //             }
-
-        //             if (isset($counter['day']) && $counter['day']) {
-        //                 $day = date('d');
-        //                 $count = $count . '-' . $day;
-        //             }
-
-        //             if (isset($counter['month']) && $counter['month']) {
-        //                 $month = date('m');
-        //                 $count = $count . '-' . $month;
-        //             }
-
-        //             if (isset($counter['year']) && $counter['year']) {
-        //                 $year = date('y');
-        //                 $count = $count . '-' . $year;
-        //             }
-        //         }
-        //     }
-        // }
-
-
-        if (!$count) {
-            $day = date('d');
-            $month = date('m');
-            $count  = $templateId . mt_rand(1, 99) . $month . '-' . $day;
+            // Формируем и возвращаем номер документа с учетом pivot данных
+            return self::formatDocumentNumber($pivot, $currentCount);
         }
-        return $count;
+
+        // Логика для возврата номера документа, если Rq или Counter не найдены
+        $day = (int)date('d'); // Преобразует "03" в 3
+        $month = ltrim(date('m'), '0'); // Удаляет ведущие нули, превращая "09" в "9"
+        $randomNumber = mt_rand(1, 99);
+        return "{$rqId}-{$randomNumber}-{$month}-{$day}";
+    }
+
+    protected static function formatDocumentNumber($pivot, $currentCount)
+    {
+        $parts = [$currentCount]; // Начинаем с обновленного значения счетчика
+
+        if ($pivot->prefix) {
+            array_unshift($parts, $pivot->prefix); // Добавляем префикс в начало
+        }
+
+        if ($pivot->day) {
+            $parts[] = date('d');
+        }
+        if ($pivot->month) {
+            $parts[] = date('m');
+        }
+        if ($pivot->year) {
+            $parts[] = date('Y');
+        }
+        if ($pivot->postfix) {
+            $parts[] = $pivot->postfix; // Добавляем постфикс в конец
+        }
+
+        return implode('-', $parts);
     }
 }

@@ -589,7 +589,7 @@ class DocumentController extends Controller
                     //     $query->where('templates.id', $templateId);
                     // })->first();
 
-
+                    $providerRq = $data['provider']['rq'];
                     //document number
                     $documentNumber = CounterController::getCount($templateId);
 
@@ -611,7 +611,7 @@ class DocumentController extends Controller
 
 
                     //header-data
-                    $providerRq = $data['provider']['rq'];
+                    
                     $isTwoLogo = false;
                     if ($providerRq) {
                         if (isset($providerRq['logos'])) {

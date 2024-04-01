@@ -92,9 +92,7 @@ class PDFDocumentController extends Controller
 
 
                     //document number
-                    $documentNumber = CounterController::getCount($templateId);
-
-
+                    $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
 
                     //invoice
                     $invoices = [];
@@ -150,6 +148,7 @@ class PDFDocumentController extends Controller
                         if ($data['isPublic']) {
                             $documentService = new BitrixDealDocumentService(
                                 $domain,
+                                $providerRq,
                                 $documentNumber,
                                 $data,
                                 $invoiceDate,

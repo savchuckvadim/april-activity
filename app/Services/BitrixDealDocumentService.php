@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
+use App\Http\Controllers\CounterController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,10 @@ use Ramsey\Uuid\Uuid;
 class BitrixDealDocumentService
 {
     protected $domain;
+    protected $providerRq;
     protected $documentNumber;
+
+    protected $documentInvoiceNumber;
     protected $data;
     protected $invoiceDate;
 
@@ -33,6 +37,7 @@ class BitrixDealDocumentService
 
     public function __construct(
         $domain,
+        $providerRq,
         $documentNumber,
         $data,
         $invoiceDate,
@@ -53,6 +58,7 @@ class BitrixDealDocumentService
 
     ) {
         $this->domain =  $domain;
+        $this->providerRq =  $providerRq;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
         $this->invoiceDate = $invoiceDate;
@@ -92,6 +98,7 @@ class BitrixDealDocumentService
 
         array_push($links, $offerLink);
         if ($this->isGeneralInvoice) {
+            $this->documentInvoiceNumber = CounterController::getCount($this->providerRq['id'], 'invoice');
             $generalInvoice = $this->createDocumentInvoice();
             array_push($invoices, $generalInvoice);
             array_push($links, $generalInvoice);
@@ -192,7 +199,7 @@ class BitrixDealDocumentService
 
         try {
             $data = $this->data;
-            $documentNumber = $this->documentNumber;
+            $documentNumber = $this->documentInvoiceNumber;
             $headerData  = $this->headerData;
             $doubleHeaderData  = $this->doubleHeaderData;
             $stampsData  =   $this->getStampsData(true);
