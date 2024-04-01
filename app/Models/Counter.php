@@ -24,7 +24,7 @@ class Counter extends Model
     }
 
 
-    public static function getForm($rqId)
+    public static function getForm($rqId = null)
     {
 
         $rqSelect = RqController::getSelectRqs($rqId);

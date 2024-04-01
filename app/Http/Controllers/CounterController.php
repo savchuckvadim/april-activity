@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class CounterController extends Controller
 {
-    public static function getInitial($rqId)
+    public static function getInitial($rqId =  null)
     {
 
         $initialData = Counter::getForm($rqId);
@@ -128,12 +128,12 @@ class CounterController extends Controller
         $counters = Counter::with(['rqs' => function ($query) {
             $query->select('requisites.id', 'requisites.name'); // Замените 'name' на нужное поле, если это название
         }])->get();
-    
-   
+
+
         $data = [
             'counters' => $counters
         ];
-        if(!$counters) {
+        if (!$counters) {
             // Обработка случая, когда счетчик не найден
             return APIController::getError('Counter not found', $data);
         }

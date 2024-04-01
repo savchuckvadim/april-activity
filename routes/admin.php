@@ -47,11 +47,17 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //initial
+    //from rq - передается rq Id
     Route::get('initial/rq/{rqId}/counter', function ($rqId) {
 
         return CounterController::getInitial($rqId);
     });
 
+    //rq id не передается в initial формируется список всех rq для выбора
+    Route::get('initial/counter', function () {
+
+        return CounterController::getInitial();
+    });
     //get
 
     Route::get('counters', function () {

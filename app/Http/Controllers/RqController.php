@@ -300,7 +300,7 @@ class RqController extends Controller
     }
 
 
-    public static function getSelectRqs($rqId)
+    public static function getSelectRqs($rqId = null)
     {
         $allRqs = [];
         $rqsSelects = [];
