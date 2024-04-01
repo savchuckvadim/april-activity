@@ -139,7 +139,7 @@ class CounterController extends Controller
     }
 
 
-    public function delete($counterId)
+    public static function delete($counterId)
     {
         try {
             $counter = Counter::findOrFail($counterId);
