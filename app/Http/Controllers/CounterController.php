@@ -23,75 +23,39 @@ class CounterController extends Controller
 
     public static function set(Request $request)
     {
-        // Предполагая, что у вас уже есть экземпляр Template
-        $name = $request['name'];
-        $title = $request['title'];
-        $value = $request['value'];
-        $type = $request['type'];
-        $prefix = $request['prefix'];
-        $postfix = $request['postfix'];
-        $size = $request['size'];
-        $count = $request['count'];
-        $day = $request['day'];
-        $month = $request['month'];
-        $year = $request['year'];
-        // $template_id = $request['template_id'];
-        $rq_id = $request['rq_id'];
-        if (!$day || $day == 'false' || $day == 'null' || $day == '0'  || $day == '') {
-            $day = 0;
-        } else {
-            $day = 1;
-        }
-        if (!$month || $month == 'false' || $month == 'null' || $month == '0'  || $month == '') {
-            $month = 0;
-        } else {
-            $month = 1;
-        }
-        if (!$year || $year == 'false' || $year == 'null' || $year == '0' || $year == '') {
-            $year = 0;
-        } else {
-            $year = 1;
+        $rq = Rq::find($request->input('rq_id'));
+
+        if (!$rq) {
+            return APIController::getError('Rq not found', []);
         }
 
-        $rq = Rq::find($rq_id);
+        $counter = new Counter([
+            'name' => $request->input('name'),
+            'title' => $request->input('title'),
+            // Другие поля...
+        ]);
+        $counter->save();
 
-        if ($rq) {
-            // Создание нового Counter
-            $counter = new Counter;
-            if ($counter) {
+        // Преобразование строк 'false', 'null', '0' в булево false
+        $day = filter_var($request->input('day'), FILTER_VALIDATE_BOOLEAN);
+        $month = filter_var($request->input('month'), FILTER_VALIDATE_BOOLEAN);
+        $year = filter_var($request->input('year'), FILTER_VALIDATE_BOOLEAN);
 
-                $counter->name = $name;
-                $counter->title = $title;
-                $counter->save(); // Сохранение Counter в базе данных
+        $relationData = [
+            'value' => $request->input('value'),
+            'type' => $request->input('type'),
+            'prefix' => $request->input('prefix'),
+            'postfix' => $request->input('postfix'),
+            'day' => $day,
+            'year' => $year,
+            'month' => $month,
+            'count' => $request->input('count'),
+            'size' => $request->input('size'),
+        ];
 
+        $rq->counters()->attach($counter->id, $relationData);
 
-                $relationData = [
-                    'value' => $value,
-                    'type' => $type,
-                    'prefix' => $prefix,
-                    'postfix' => $postfix,
-                    'day' => $day, // или false
-                    'year' => $year, // или false
-                    'month' => $month, // или false
-                    'count' => $count,
-                    'size' => $size,
-                    // 'template_id' => $template_id,
-                    'rq_id' => $rq_id,
-
-                ];
-                // Установка связи с Template и добавление данных в сводную таблицу
-                $rq->counters()->attach($counter->id, $relationData);
-                return APIController::getSuccess(
-                    ['counter' => $counter, 'rq' => $rq]
-                );
-            }
-        }
-
-        return APIController::getError(
-            'rq or counter was not found',
-            ['rq' => $rq]
-
-        );
+        return APIController::getSuccess(['counter' => new CounterResource($counter)]);
     }
 
     public static function get($counterId)
