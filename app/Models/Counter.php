@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\RqController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,16 +14,23 @@ class Counter extends Model
     public function templates()
     {
         return $this->belongsToMany(Template::class, 'template_counter')
-            ->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
+            ->withPivot('value',  'prefix', 'day', 'year', 'month', 'count', 'size');
     }
 
-    public static function getForm($templateId)
+    public function rqs()
+    {
+        return $this->belongsToMany(Rq::class, 'rq_counter')
+            ->withPivot('value', 'type',  'prefix', 'postfix', 'day', 'year', 'month', 'count', 'size');
+    }
+
+
+    public static function getForm($rqId)
     {
 
-        $templatesSelect = TemplateController::getSelectTempates($templateId);
+        $rqSelect = RqController::getSelectRqs($rqId);
         $initialValue = null;
-        if ($templatesSelect && count($templatesSelect) > 0) {
-            $initialValue = $templatesSelect[0];
+        if ($rqSelect && count($rqSelect) > 0) {
+            $initialValue = $rqSelect[0];
         }
         return [
             'apiName' => 'counter',
@@ -51,9 +59,21 @@ class Counter extends Model
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
                         ],
-
                         [
                             'id' => 2,
+                            'title' => 'type',
+                            'name' => 'type',
+                            'apiName' => 'type',
+                            'type' =>  'string',
+                            'entityType' => 'counter',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                        ],
+
+                        [
+                            'id' => 3,
                             'title' => 'prefix',
                             'name' => 'prefix',
                             'apiName' => 'prefix',
@@ -66,7 +86,20 @@ class Counter extends Model
                         ],
 
                         [
-                            'id' => 3,
+                            'id' => 4,
+                            'title' => 'postfix',
+                            'name' => 'postfix',
+                            'apiName' => 'postfix',
+                            'type' =>  'string',
+                            'entityType' => 'counter',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                        ],
+
+                        [
+                            'id' => 5,
                             'title' => 'name',
                             'entityType' => 'counter',
                             'name' => 'name',
@@ -79,7 +112,7 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 4,
+                            'id' => 6,
                             'title' => 'Show Name (title)',
                             'entityType' => 'counter',
                             'name' => 'title',
@@ -93,7 +126,7 @@ class Counter extends Model
                         ],
 
                         [
-                            'id' => 5,
+                            'id' => 7,
                             'title' => 'size',
                             'entityType' => 'counter',
                             'name' => 'size',
@@ -106,7 +139,7 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 6,
+                            'id' => 8,
                             'title' => 'count',
                             'entityType' => 'counter',
                             'name' => 'count',
@@ -119,7 +152,7 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 7,
+                            'id' => 9,
                             'title' => 'day',
                             'entityType' => 'counter',
                             'name' => 'day',
@@ -132,7 +165,7 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 8,
+                            'id' => 10,
                             'title' => 'month',
                             'entityType' => 'counter',
                             'name' => 'month',
@@ -145,7 +178,7 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 9,
+                            'id' => 11,
                             'title' => 'year',
                             'entityType' => 'counter',
                             'name' => 'year',
@@ -158,15 +191,15 @@ class Counter extends Model
 
                         ],
                         [
-                            'id' => 10,
+                            'id' => 12,
                             'title' => 'Relation template_id',
                             'entityType' => 'counter',
-                            'name' => 'template_id',
-                            'apiName' => 'template_id',
+                            'name' => 'rq_id',
+                            'apiName' => 'rq_id',
                             'type' =>  'select',
                             'validation' => 'required',
                             'initialValue' => $initialValue,
-                            'items' => $templatesSelect,
+                            'items' => $rqSelect,
                             'isCanAddField' => false,
 
                         ],

@@ -34,7 +34,7 @@ class BaseController extends Controller
                 case 'bitrixlist':
                 case 'departament':
                 case 'timezone':
-                case 'counter':
+                // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
                     $controllerClass = "App\\Http\\Controllers\\" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 
@@ -92,7 +92,7 @@ class BaseController extends Controller
                 case 'smart':
                 case 'bitrixlist':
                 case 'timezone':
-                case 'counter':
+                // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
                     $controllerClass = "App\\Http\\Controllers\\" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 

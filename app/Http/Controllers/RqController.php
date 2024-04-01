@@ -298,4 +298,34 @@ class RqController extends Controller
             );
         }
     }
+
+
+    public static function getSelectRqs($rqId)
+    {
+        $allRqs = [];
+        $rqsSelects = [];
+
+        if ($rqId) {
+            $int = intval($rqId);
+            $findingRq = Rq::find($int);
+            if ($findingRq) {
+                $allRqs = [
+                    $findingRq
+                ];
+            }
+        } else {
+            $allRqs = Rq::all();
+        }
+
+
+        foreach ($allRqs  as $rq) {
+            array_push($rqsSelects, [
+                'id' => $rq->id,
+                'name' => $rq->name,
+                'title' => $rq->name,
+            ]);
+        };
+
+        return  $rqsSelects;
+    }
 }

@@ -71,4 +71,10 @@ class Rq extends Model
     {
         return $this->morphMany(File::class, 'entity')->where('parent_type', 'qr');
     }
+
+    public function counters()
+    {
+        return $this->belongsToMany(Counter::class, 'rq_counter')
+            ->withPivot('value', 'type',  'prefix', 'postfix', 'day', 'year', 'month', 'count', 'size');
+    }
 }

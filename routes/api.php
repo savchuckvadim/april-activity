@@ -5,6 +5,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\BitrixTelephony;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FieldController;
@@ -75,7 +76,7 @@ Route::middleware(['api.key'])->group(function () {
         return APIController::getSuccess(['yo' => $apiKey]);
     });
 
-    
+
     Route::post('getportal', function (Request $request) {
         $domain  = $request->input('domain');
         return PortalController::getPortal($domain);
@@ -83,11 +84,27 @@ Route::middleware(['api.key'])->group(function () {
 
 
 
+    //admin
+    //initial
+    Route::get('initial/rq/{rqId}/counter', function ($rqId) {
+
+        return CounterController::getInitial($rqId);
+    });
+
+    //get
 
 
+
+    //set
+    Route::post('counter', function ($rqId) {
+
+        return CounterController::set($rqId);
+    });
 });
+
+
 Route::post('innerhook/call', function (Request $request) {
-    
+
     $controller = new BitrixTelephony();
     $result = $controller->statisticGet($request);
 
@@ -113,7 +130,7 @@ Route::middleware(['ajax.only'])->group(function () {
     Route::post('/deal', function (Request $request) {
         Log::channel('telegram')->error('APRIL_TEST', [
             'Set Deal' => [
-              
+
                 'domain' => $request['domain'],
                 'dealId' => $request['dealId'],
 
@@ -181,7 +198,7 @@ Route::middleware(['ajax.only'])->group(function () {
     //////PORTAL
 
 
-  
+
 
 
     Route::get('portal/{portalId}', function ($portalId) {
@@ -603,7 +620,7 @@ Route::middleware(['ajax.only'])->group(function () {
     // Route::get('/pdf', [PDFDocumentController::class, 'generatePDF']);
 
 
- 
+
 
 
 

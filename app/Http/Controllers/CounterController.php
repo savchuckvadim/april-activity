@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Counter;
+use App\Models\Rq;
 use App\Models\Template;
 use Illuminate\Http\Request;
 
 class CounterController extends Controller
 {
-    public static function getInitial($templateId)
+    public static function getInitial($rqId)
     {
 
-        $initialData = Counter::getForm($templateId);
+        $initialData = Counter::getForm($rqId);
         $data = [
             'initial' => $initialData
         ];
@@ -30,8 +31,8 @@ class CounterController extends Controller
         $day = $request['day'];
         $month = $request['month'];
         $year = $request['year'];
-        $template_id = $request['template_id'];
-
+        // $template_id = $request['template_id'];
+        $rq_id = $request['rq_id'];
         if (!$day || $day == 'false' || $day == 'null' || $day == '0'  || $day == '') {
             $day = 0;
         } else {
@@ -48,9 +49,9 @@ class CounterController extends Controller
             $year = 1;
         }
 
-        $template = Template::find($template_id);
+        $rq = Rq::find($rq_id);
 
-        if ($template) {
+        if ($rq) {
             // Создание нового Counter
             $counter = new Counter;
             if ($counter) {
@@ -72,16 +73,16 @@ class CounterController extends Controller
 
                 ];
                 // Установка связи с Template и добавление данных в сводную таблицу
-                $template->counters()->attach($counter->id, $relationData);
+                $rq->counters()->attach($counter->id, $relationData);
                 return APIController::getSuccess(
-                    ['counter' => $counter, 'template' => $template]
+                    ['counter' => $counter, 'rq' => $rq]
                 );
             }
         }
 
         return APIController::getError(
-            'template or counter was not found',
-            ['template' => $template]
+            'rq or counter was not found',
+            ['rq' => $rq]
 
         );
     }
