@@ -1238,7 +1238,14 @@ class BitrixController extends Controller
             $controller = new BitrixController;
             $hook = $controller->getHookUrl($domain);
             $tasksGroupId = $controller->getCallingGroupId($domain);
-
+            Log::channel('telegram')->error('ONLINE', [
+                'getCallingTasks' => [
+    
+                    'domain' => $domain,
+                    'hook' => $hook,
+    
+                ]
+            ]);
 
             // Ваша исходная строка с датой
             $dateString = $date;
