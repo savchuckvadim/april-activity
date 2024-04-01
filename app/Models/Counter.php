@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 class Counter extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'title',
+   
+    ];
 
     public function templates()
     {
