@@ -25,7 +25,9 @@ class CounterController extends Controller
         $name = $request['name'];
         $title = $request['title'];
         $value = $request['value'];
+        $type = $request['type'];
         $prefix = $request['prefix'];
+        $postfix = $request['postfix'];
         $size = $request['size'];
         $count = $request['count'];
         $day = $request['day'];
@@ -63,13 +65,16 @@ class CounterController extends Controller
 
                 $relationData = [
                     'value' => $value,
+                    'type' => $type,
                     'prefix' => $prefix,
+                    'postfix' => $postfix,
                     'day' => $day, // или false
                     'year' => $year, // или false
                     'month' => $month, // или false
                     'count' => $count,
                     'size' => $size,
                     // 'template_id' => $template_id,
+                    'rq_id' => $rq_id,
 
                 ];
                 // Установка связи с Template и добавление данных в сводную таблицу
@@ -126,7 +131,7 @@ class CounterController extends Controller
     {
 
         $counters = Counter::with(['rqs' => function ($query) {
-            $query->select('requisites.id', 'requisites.name'); // Замените 'name' на нужное поле, если это название
+            $query->select('rq.id', 'rq.name'); // Замените 'name' на нужное поле, если это название
         }])->get();
 
 
