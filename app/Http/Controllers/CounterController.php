@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CounterResource;
 use App\Models\Counter;
 use App\Models\Rq;
 use App\Models\Template;
@@ -95,23 +96,26 @@ class CounterController extends Controller
     public static function get($counterId)
     {
 
-        $counter = Counter::with(['templates' => function ($query) {
-            $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
-        }])->find($counterId);
-        $pivot = $counter['templates'][0]['pivot'];
-        $counter = [
-            'id' => $counter['id'],
-            'name' => $counter['name'],
-            'title' => $counter['title'],
+        // $counter = Counter::with(['rqs' => function ($query) {
+        //     $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
+        // }])->find($counterId);
 
-            'count' => $pivot['count'],
-            'prefix' => $pivot['prefix'],
-            'day' => $pivot['day'],
-            'month' => $pivot['month'],
-            'size' => $pivot['size'],
-            'template_id' => $pivot['template_id'],
+        $counter = Counter::with('rqs')->find($counterId);
+      
+        // $pivot = $counter['templates'][0]['pivot'];
+        // $counter = [
+        //     'id' => $counter['id'],
+        //     'name' => $counter['name'],
+        //     'title' => $counter['title'],
 
-        ];
+        //     'count' => $pivot['count'],
+        //     'prefix' => $pivot['prefix'],
+        //     'day' => $pivot['day'],
+        //     'month' => $pivot['month'],
+        //     'size' => $pivot['size'],
+        //     'template_id' => $pivot['template_id'],
+
+        // ];
 
 
         $data = [
@@ -123,10 +127,17 @@ class CounterController extends Controller
             // Обработка случая, когда счетчик не найден
             return APIController::getSuccess('Counter not found', $data);
         }
+        $counterResource = new CounterResource($counter);
+        $data = [
+            'counter' => $counterResource
+
+        ];
 
 
         return APIController::getSuccess($data);
     }
+
+
     public static function getAll()
     {
 
