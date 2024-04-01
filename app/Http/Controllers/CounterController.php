@@ -142,7 +142,7 @@ class CounterController extends Controller
         $day = (int)date('d'); // Преобразует "03" в 3
         $month = ltrim(date('m'), '0'); // Удаляет ведущие нули, превращая "09" в "9"
         $randomNumber = mt_rand(1, 99);
-        return "{$rqId}-{$randomNumber}-{$month}-{$day}";
+        return "{$rqId}{$month}-{$randomNumber}{$day}";
     }
 
     protected static function formatDocumentNumber($pivot, $currentCount)
