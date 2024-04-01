@@ -42,15 +42,15 @@ class CounterController extends Controller
         $year = filter_var($request->input('year'), FILTER_VALIDATE_BOOLEAN);
 
         $relationData = [
-            'value' => $request->input('value'),
+            'value' => (int) $request->input('value', 0), // Приведение к integer, с предоставлением значения по умолчанию
             'type' => $request->input('type'),
             'prefix' => $request->input('prefix'),
             'postfix' => $request->input('postfix'),
             'day' => $day,
             'year' => $year,
             'month' => $month,
-            'count' => $request->input('count'),
-            'size' => $request->input('size'),
+            'count' => (int) $request->input('count', 0), // Аналогично
+            'size' => (int) $request->input('size', 1), // Аналогично
         ];
 
         $rq->counters()->attach($counter->id, $relationData);
