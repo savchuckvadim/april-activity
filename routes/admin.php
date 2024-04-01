@@ -74,7 +74,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return CounterController::get($counterId);
     });
 
-    
+
     //set
     Route::post('counter', function ($rqId) {
 
@@ -83,7 +83,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
+   Route::delete('counter/{counterId}/', function ($counterId) {
 
+        return CounterController::delete($counterId);
+    });
+
+    
 
 
 

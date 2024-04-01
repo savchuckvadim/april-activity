@@ -7,6 +7,7 @@ use App\Models\Counter;
 use App\Models\Rq;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CounterController extends Controller
 {
@@ -96,7 +97,7 @@ class CounterController extends Controller
     public static function get($counterId)
     {
         $counter = Counter::with('rqs')->find($counterId);
-      
+
         $data = [
             'counter' => $counter
 
@@ -136,6 +137,26 @@ class CounterController extends Controller
 
         return APIController::getSuccess($data);
     }
+
+
+    public function delete($counterId)
+    {
+        try {
+            $counter = Counter::findOrFail($counterId);
+
+            // Отсоединяем все связанные шаблоны (Template)
+            $counter->templates()->detach();
+
+            // Удаление самого счетчика
+            $counter->delete();
+
+            return response()->json(['message' => 'Counter and its relations successfully deleted.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete counter.'], 500);
+        }
+    }
+
+
     public static function getCount($templateId)
     {
 
