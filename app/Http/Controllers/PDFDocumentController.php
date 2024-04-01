@@ -183,6 +183,7 @@ class PDFDocumentController extends Controller
                     //testing todo props $bigDescriptionData
                     dispatch(new BitrixDealDocumentJob(
                         $domain,
+                        $providerRq,
                         $documentNumber,
                         $data,
                         $invoiceDate,
@@ -197,7 +198,8 @@ class PDFDocumentController extends Controller
                         $isTwoLogo,
                         $isGeneralInvoice,
                         $isAlternativeInvoices,
-                        $dealId
+                        $dealId,
+                        $withStamps
                     ));
 
                     return APIController::getSuccess(['job' => 'get it !']);

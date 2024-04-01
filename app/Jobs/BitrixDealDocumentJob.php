@@ -21,6 +21,7 @@ class BitrixDealDocumentJob implements ShouldQueue
      */
 
     protected $domain;
+    protected $providerRq;
     protected $documentNumber;
     protected $data;
     protected $invoiceDate;
@@ -36,10 +37,12 @@ class BitrixDealDocumentJob implements ShouldQueue
     protected $isGeneralInvoice;
     protected $isAlternativeInvoices;
     protected $dealId;
+    protected $withStamps;
 
 
     public function __construct(
         $domain,
+        $providerRq,
         $documentNumber,
         $data,
         $invoiceDate,
@@ -55,11 +58,13 @@ class BitrixDealDocumentJob implements ShouldQueue
         $isGeneralInvoice,
         $isAlternativeInvoices,
         $dealId,
+        $withStamps
 
 
 
     ) {
         $this->domain =  $domain;
+        $this->providerRq =  $providerRq;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
         $this->invoiceDate = $invoiceDate;
@@ -76,6 +81,7 @@ class BitrixDealDocumentJob implements ShouldQueue
         $this->isGeneralInvoice =  $isGeneralInvoice;
         $this->isAlternativeInvoices =  $isAlternativeInvoices;
         $this->dealId =  $dealId;
+        $this->withStamps = $withStamps;
     }
 
     /**
@@ -87,6 +93,7 @@ class BitrixDealDocumentJob implements ShouldQueue
     {
         $documentService = new BitrixDealDocumentService(
             $this->domain,
+            $this->providerRq,
             $this->documentNumber,
             $this->data,
             $this->invoiceDate,
@@ -102,7 +109,8 @@ class BitrixDealDocumentJob implements ShouldQueue
             $this->isTwoLogo,
             $this->isGeneralInvoice,
             $this->isAlternativeInvoices,
-            $this->dealId
+            $this->dealId,
+            $this->withStamps
         );
         $documents = $documentService->getDocuments();
     }
