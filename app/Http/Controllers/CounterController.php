@@ -122,7 +122,25 @@ class CounterController extends Controller
 
         return APIController::getSuccess($data);
     }
+    public static function getAll()
+    {
 
+        $counters = Counter::with(['requisites' => function ($query) {
+            $query->select('requisites.id', 'requisites.name'); // Замените 'name' на нужное поле, если это название
+        }])->get();
+    
+   
+        $data = [
+            'counters' => $counters
+        ];
+        if(!$counters) {
+            // Обработка случая, когда счетчик не найден
+            return APIController::getError('Counter not found', $data);
+        }
+
+
+        return APIController::getSuccess($data);
+    }
     public static function getCount($templateId)
     {
 

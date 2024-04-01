@@ -93,7 +93,10 @@ Route::middleware(['api.key'])->group(function () {
 
     //get
 
+    Route::get('counter', function ($rqId) {
 
+        return CounterController::set($rqId);
+    });
 
     //set
     Route::post('counter', function ($rqId) {
