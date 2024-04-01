@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RqResource;
+
 use App\Models\File;
 use App\Models\Rq;
-use App\Models\Template;
-use CRest;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;

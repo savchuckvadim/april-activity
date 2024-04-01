@@ -125,7 +125,7 @@ class CounterController extends Controller
     public static function getAll()
     {
 
-        $counters = Counter::with(['requisites' => function ($query) {
+        $counters = Counter::with(['rqs' => function ($query) {
             $query->select('requisites.id', 'requisites.name'); // Замените 'name' на нужное поле, если это название
         }])->get();
     

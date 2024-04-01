@@ -6,7 +6,6 @@ use App\Http\Resources\RqCollection;
 use App\Http\Resources\RqResource;
 use App\Models\Agent;
 use App\Models\Rq;
-use Bitrix24\Bizproc\Provider;
 use Illuminate\Http\Request;
 
 class RqController extends Controller
@@ -32,8 +31,8 @@ class RqController extends Controller
     {
         try {
 
-            $rq = Rq::find($rqId);
-
+            // $rq = Rq::find($rqId);
+            $rq = Rq::with('counters')->find($rqId);
 
             if (!$rq) {
 
