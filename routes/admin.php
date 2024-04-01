@@ -76,9 +76,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //set
-    Route::post('counter', function ($rqId) {
+    Route::post('rq/{rqId}/counter', function (Request $request) {
 
-        return CounterController::set($rqId);
+        return CounterController::set($request);
     });
 
 
