@@ -16,15 +16,15 @@ class CounterResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'value' => $this->pivot->value,
-            'type' => $this->pivot->type,
-            'prefix' => $this->pivot->prefix,
-            'postfix' => $this->pivot->postfix,
-            'day' => $this->pivot->day,
-            'year' => $this->pivot->year,
-            'month' => $this->pivot->month,
-            'count' => $this->pivot->count,
-            'size' => $this->pivot->size,
+            'value' => $this->pivot ? $this->pivot->value : null,
+            'type' => $this->pivot ? $this->pivot->type : null,
+            'prefix' => $this->pivot ? $this->pivot->prefix : null,
+            'postfix' => $this->pivot ? $this->pivot->postfix : null,
+            'day' => $this->pivot ? $this->pivot->day : null,
+            'year' => $this->pivot ? $this->pivot->year : null,
+            'month' => $this->pivot ? $this->pivot->month : null,
+            'count' => $this->pivot ? $this->pivot->count : null,
+            'size' => $this->pivot ? $this->pivot->size : null,
             // Добавьте другие поля, которые вам нужны
         ];
     }

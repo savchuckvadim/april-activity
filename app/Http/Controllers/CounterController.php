@@ -95,29 +95,8 @@ class CounterController extends Controller
 
     public static function get($counterId)
     {
-
-        // $counter = Counter::with(['rqs' => function ($query) {
-        //     $query->withPivot('value', 'prefix', 'day', 'year', 'month', 'count', 'size');
-        // }])->find($counterId);
-
         $counter = Counter::with('rqs')->find($counterId);
       
-        // $pivot = $counter['templates'][0]['pivot'];
-        // $counter = [
-        //     'id' => $counter['id'],
-        //     'name' => $counter['name'],
-        //     'title' => $counter['title'],
-
-        //     'count' => $pivot['count'],
-        //     'prefix' => $pivot['prefix'],
-        //     'day' => $pivot['day'],
-        //     'month' => $pivot['month'],
-        //     'size' => $pivot['size'],
-        //     'template_id' => $pivot['template_id'],
-
-        // ];
-
-
         $data = [
             'counter' => $counter
 
@@ -125,7 +104,7 @@ class CounterController extends Controller
 
         if (!$counter) {
             // Обработка случая, когда счетчик не найден
-            return APIController::getSuccess('Counter not found', $data);
+            return APIController::getError('Counter not found', $data);
         }
         $counterResource = new CounterResource($counter);
         $data = [
