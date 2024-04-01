@@ -125,8 +125,7 @@ class CounterController extends Controller
         $rq = Rq::with(['counters' => function ($query) use ($type) {
             $query->where('type', $type);
         }])->find($rqId);
-        Log::channel('telegram')->info($type);
-        Log::channel('telegram')->info($rq);
+  
         // Если Rq найден и имеет связанные счетчики
         if ($rq && $rq->counters->isNotEmpty()) {
             $counter = $rq->counters->first();

@@ -130,10 +130,13 @@
 
         @component('pdf.components.invoice.invoice', $invoiceData)
         @endcomponent
-        <div class="stamp">
-            @component('pdf.components.stamp', $stampsData)
-            @endcomponent
-        </div>
+        @if ($withStamps)
+            <div class="stamp">
+                @component('pdf.components.stamp', $stampsData)
+                @endcomponent
+            </div>
+        @endif
+
 
 
     </main>

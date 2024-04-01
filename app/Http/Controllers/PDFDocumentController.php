@@ -128,7 +128,12 @@ class PDFDocumentController extends Controller
 
 
 
+                    $withStamps = true;
 
+                    if(isset($data['withStamps'])){
+                        $withStamps = $data['withStamps'];
+
+                    }
 
 
 
@@ -164,6 +169,7 @@ class PDFDocumentController extends Controller
                                 $isGeneralInvoice,
                                 $isAlternativeInvoices,
                                 $dealId,
+                                $withStamps,
 
                             );
                             $documents = $documentService->getDocuments();

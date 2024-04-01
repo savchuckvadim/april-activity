@@ -34,6 +34,7 @@ class BitrixDealDocumentService
     protected $isGeneralInvoice;
     protected $isAlternativeInvoices;
     protected $dealId;
+    protected $withStamps;
 
     public function __construct(
         $domain,
@@ -53,6 +54,7 @@ class BitrixDealDocumentService
         $isGeneralInvoice,
         $isAlternativeInvoices,
         $dealId,
+        $withStamps
 
 
 
@@ -62,7 +64,7 @@ class BitrixDealDocumentService
         $this->documentNumber = $documentNumber;
         $this->data = $data;
         $this->invoiceDate = $invoiceDate;
-
+       
         $this->headerData =  $headerData;
         $this->doubleHeaderData = $doubleHeaderData;
         $this->footerData = $footerData;
@@ -77,6 +79,7 @@ class BitrixDealDocumentService
         $this->isAlternativeInvoices =  $isAlternativeInvoices;
 
         $this->dealId =  $dealId;
+        $this->withStamps = $withStamps;
     }
 
 
@@ -146,7 +149,8 @@ class BitrixDealDocumentService
                 'infoblocksData' => $this->infoblocksData,
                 'bigDescriptionData' => $this->bigDescriptionData,
                 'pricesData' => $this->pricesData,
-                'stampsData' => $this->stampsData,
+                'stampsData' =>  $this->stampsData,
+                'withStamps' =>   $this->withStamps 
                 // 'invoiceData' => $invoiceData,
             ]);
 
@@ -244,6 +248,8 @@ class BitrixDealDocumentService
                         'doubleHeaderData' =>  $doubleHeaderData,
                         'stampsData' => $stampsData,
                         'invoiceData' => $invoiceData,
+                        'withStamps' =>   $this->withStamps 
+                        
 
                     ]);
 
@@ -757,7 +763,9 @@ class BitrixDealDocumentService
         $currentCommentText = $commentText;
         foreach ($links as $key => $commentLink) {
             if ($key) {
+                $commentText = $this->documentInvoiceNumber;
                 if ($key == 1) {
+
                     $currentCommentText = 'СЧЕТ-' . $commentText;
                 } else {
                     $numb = $key  - 1;

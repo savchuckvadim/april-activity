@@ -113,10 +113,12 @@
 
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
-            <div class="stamp">
-                @component('pdf.components.stamp', $stampsData)
-                @endcomponent
-            </div>
+            @if ($withStamps)
+                <div class="stamp">
+                    @component('pdf.components.stamp', $stampsData)
+                    @endcomponent
+                </div>
+            @endif
         </div>
         <div class="page-break"></div>
         <div class="infoblocks">
@@ -131,10 +133,13 @@
         <div class="prices">
             @component('pdf.components.price', $pricesData)
             @endcomponent
-            <div class="stamp">
-                @component('pdf.components.stamp', $stampsData)
-                @endcomponent
-            </div>
+            @if ($withStamps)
+                <div class="stamp">
+                    @component('pdf.components.stamp', $stampsData)
+                    @endcomponent
+                </div>
+            @endif
+
         </div>
         {{-- @if ($infoblocksData['descriptionMode'] === 3)
             <div class="page-break"></div>
