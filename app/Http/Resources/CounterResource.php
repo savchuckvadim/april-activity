@@ -14,18 +14,19 @@ class CounterResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $rq = $this->rqs->first();
+
         return [
             'id' => $this->id,
-            'value' => $this->pivot ? $this->pivot->value : null,
-            'type' => $this->pivot ? $this->pivot->type : null,
-            'prefix' => $this->pivot ? $this->pivot->prefix : null,
-            'postfix' => $this->pivot ? $this->pivot->postfix : null,
-            'day' => $this->pivot ? $this->pivot->day : null,
-            'year' => $this->pivot ? $this->pivot->year : null,
-            'month' => $this->pivot ? $this->pivot->month : null,
-            'count' => $this->pivot ? $this->pivot->count : null,
-            'size' => $this->pivot ? $this->pivot->size : null,
-            // Добавьте другие поля, которые вам нужны
+            'value' => $rq ? $rq->pivot->value : null,
+            'type' => $rq ? $rq->pivot->type : null,
+            'prefix' => $rq ? $rq->pivot->prefix : null,
+            'postfix' => $rq ? $rq->pivot->postfix : null,
+            'day' => $rq ? $rq->pivot->day : null,
+            'year' => $rq ? $rq->pivot->year : null,
+            'month' => $rq ? $rq->pivot->month : null,
+            'count' => $rq ? $rq->pivot->count : null,
+            'size' => $rq ? $rq->pivot->size : null,
         ];
     }
 }
