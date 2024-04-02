@@ -75,7 +75,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
-      
+
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
 
@@ -127,7 +127,7 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
 
-  
+
 
 
 
@@ -346,6 +346,12 @@ Route::middleware(['ajax.only'])->group(function () {
             $crm = "D_" . $placementId;
         }
         // return APIController::getSuccess(['task' => $data]);
+        Log::channel('telegram')->error('ONLINE', [
+            'bitrix/callingtasks/create' => [
+                $data
+
+            ]
+        ]);
         return $controller->createTask(
             $data['domain'],
             $placementId,

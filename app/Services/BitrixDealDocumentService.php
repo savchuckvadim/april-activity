@@ -802,4 +802,8 @@ class BitrixDealDocumentService
             return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
         }
     }
+
+    protected function smartCreate($dealId){
+
+    }
 }
