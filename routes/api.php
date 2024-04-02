@@ -252,6 +252,13 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
     Route::post('bitrix/departament', function (Request $request) {
+        $data = $request->all();
+        Log::channel('telegram')->error('ONLINE', [
+            'bitrix/departament' => [
+                $data
+
+            ]
+        ]);
         return BitrixController::getDepartamentUsers($request);
     });
     Route::post('bitrix/list', function (Request $request) {
