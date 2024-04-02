@@ -760,7 +760,7 @@ class BitrixDealDocumentService
         // $resultTex = "<a href=\\" . $commentLink . "\>" . $commentText . "</a>";
 
         $resultText = '';
-        $currentCommentText = $commentText;
+        $currentCommentText = 'Коммерческое предложение-' . $commentText;
         foreach ($links as $key => $commentLink) {
             if ($key) {
                 $commentText = $this->documentInvoiceNumber;

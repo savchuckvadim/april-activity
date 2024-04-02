@@ -40,6 +40,21 @@ class BitrixController extends Controller
             }
             return $hook;
         } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixController Get Hook URL' => [
+                    'message' => 'error get hook',
+                    'domain' => $domain,
+                    'portalResponse' => $portalResponse,
+                    'messages' => $errorMessages
+
+                ]
+            ]);
             return $hook;
         }
     }
@@ -82,6 +97,7 @@ class BitrixController extends Controller
     public static function getHook($domain)
     {
         $hook = null;
+        $portalResponse = null;
         try {
 
 
@@ -103,6 +119,22 @@ class BitrixController extends Controller
             }
             return $hook;
         } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixController Get Hook URL' => [
+                    'message' => 'error get hook',
+                    'domain' => $domain,
+                    'portalResponse' => $portalResponse,
+                    'messages' => $errorMessages
+
+                ]
+            ]);
+
             return $hook;
         }
     }
