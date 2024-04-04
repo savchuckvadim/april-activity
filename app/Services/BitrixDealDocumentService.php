@@ -1061,7 +1061,7 @@ class BitrixDealDocumentService
             'fields: createSmartItem' => [
 
                 'data' => $data,
-                '$this->dealId' => $this->dealId,
+                'dealId' => $dealId,
 
 
             ]
@@ -1083,7 +1083,7 @@ class BitrixDealDocumentService
         $leadId  = $this->leadId;
         $responsibleId  = $this->userId;
         $smart  = $this->aprilSmartData;
-
+        $dealId  = $this->dealId;
 
         // $resulFields = [];
         $fieldsData = [];
@@ -1106,8 +1106,8 @@ class BitrixDealDocumentService
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
 
-        if ($this->dealId) {
-            $fieldsData['parent_id_2'] = $this->dealId;
+        if ($dealId) {
+            $fieldsData['parent_id_2'] = $dealId;
         }
 
 
@@ -1115,7 +1115,7 @@ class BitrixDealDocumentService
             Log::channel('telegram')->error('APRIL_TEST', [
                 'updateSmartItem' => [
 
-                    '$this->dealId' => $this->dealId,
+                    'dealId' => $dealId,
 
 
                 ]

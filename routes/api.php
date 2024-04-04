@@ -77,16 +77,16 @@ Route::middleware(['ajax.only'])->group(function () {
         $data  = $request->input('data');
 
 
-        if (isset($data['dealId'])) {
-            Log::channel('telegram')->error('APRIL_TEST', [
-                'Get Document' => [
+        // if (isset($data['dealId'])) {
+        //     Log::channel('telegram')->error('APRIL_TEST', [
+        //         'Get Document' => [
 
-                    'dealId' => $data['dealId'],
+        //             'dealId' => $data['dealId'],
 
 
-                ]
-            ]);
-        }
+        //         ]
+        //     ]);
+        // }
 
 
         $documentController = new PDFDocumentController;
