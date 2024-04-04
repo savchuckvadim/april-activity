@@ -1061,7 +1061,7 @@ class BitrixDealDocumentService
             'fields: createSmartItem' => [
 
                 'data' => $data,
-                'created smart' => $resultFields
+                '$this->dealId' => $this->dealId,
 
 
             ]
@@ -1110,6 +1110,17 @@ class BitrixDealDocumentService
             $fieldsData['parent_id_2'] = $this->dealId;
         }
 
+
+       
+            Log::channel('telegram')->error('APRIL_TEST', [
+                'updateSmartItem' => [
+
+                    '$this->dealId' => $this->dealId,
+
+
+                ]
+            ]);
+        
 
 
 
