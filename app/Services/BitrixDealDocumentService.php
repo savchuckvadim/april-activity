@@ -1040,12 +1040,12 @@ class BitrixDealDocumentService
             $fieldsData['company_id'] = $companyId;
         }
         if ($leadId) {
-            $fieldsData['parentId1'] = $leadId;
+            $fieldsData['parent_id_1'] = $leadId;
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
         if ($this->dealId) {
             $fieldsData['parentId2'] = $this->dealId;
-            $fieldsData['ufCrm7_1697129037'] = $leadId;
+            $fieldsData['parent_id_2'] = $this->dealId;
         }
 
 
@@ -1116,12 +1116,12 @@ class BitrixDealDocumentService
             $fieldsData['company_id'] = $companyId;
         }
         if ($leadId) {
-            $fieldsData['parentId1'] = $leadId;
+            $fieldsData['parent_id_1'] = $leadId;
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
 
         if ($this->dealId) {
-            $fieldsData['parentId2'] = $this->dealId;
+            $fieldsData['parent_id_2'] = $this->dealId;
            
         }
 
