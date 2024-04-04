@@ -99,7 +99,7 @@ Route::middleware(['ajax.only'])->group(function () {
                 'Get Document' => [
 
                     'userId' => $data['userId'],
-                    'companyId' => $data['companyId'],
+                  
 
                 ]
             ]);

@@ -910,18 +910,6 @@ class BitrixDealDocumentService
     {
         sleep(1);
         $currentSmart = $this->getSmartItem();
-
-        sleep(1);
-        if ($currentSmart) {
-            if (isset($currentSmart['id'])) {
-                $currentSmart = $this->updateSmartItem($currentSmart['id']);
-            }
-        } else {
-            $currentSmart = $this->createSmartItem();
-            // $currentSmart = $this->updateSmartItemCold($currentSmart['id']);
-        }
-
-
         Log::channel('telegram')->info('APRIL_ONLINE', [
             'BitrixDealDocumentService: ' => [
 
@@ -930,6 +918,34 @@ class BitrixDealDocumentService
 
             ]
         ]);
+        sleep(1);
+        if ($currentSmart) {
+            if (isset($currentSmart['id'])) {
+                $currentSmart = $this->updateSmartItem($currentSmart['id']);
+                Log::channel('telegram')->info('APRIL_ONLINE', [
+                    'BitrixDealDocumentService: ' => [
+        
+                        'currentSmart' => $currentSmart,
+        
+        
+                    ]
+                ]);
+            }
+        } else {
+            $currentSmart = $this->createSmartItem();
+            Log::channel('telegram')->info('APRIL_ONLINE', [
+                'BitrixDealDocumentService: ' => [
+    
+                    'currentSmart' => $currentSmart,
+    
+    
+                ]
+            ]);
+            // $currentSmart = $this->updateSmartItemCold($currentSmart['id']);
+        }
+
+
+   
     }
 
 
@@ -1034,7 +1050,14 @@ class BitrixDealDocumentService
             'entityTypeId' => $entityId,
             'fields' =>  $fieldsData
 
-        ];
+        ];     Log::channel('telegram')->info('APRIL_ONLINE', [
+            'BitrixDealDocumentService: createSmartItem' => [
+
+                'data' => $data,
+
+
+            ]
+        ]);
         // Log::info('create Smart Item Cold', [$data]);
         // Возвращение ответа клиенту в формате JSON
 
