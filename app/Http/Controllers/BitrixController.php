@@ -1195,6 +1195,7 @@ class BitrixController extends Controller
 
     public function konstructBitrixDealUpdate(
         $domain,
+        $placement,
         $dealId,
         $setDealData,
         $updateDealInfoblocksData,
@@ -1214,6 +1215,7 @@ class BitrixController extends Controller
 
         dispatch(new BitrixDealUpdate(
             $domain,
+            $placement,
             $dealId,
 
             $updateDealInfoblocksData,

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 class BitrixDealUpdateService
 {
     protected $domain;
+    protected $placement;
+
     protected $dealId;
     protected $hook;
     protected $updateDealInfoblocksData;
@@ -20,6 +22,7 @@ class BitrixDealUpdateService
 
     public function __construct(
         $domain,
+        $placement,
         $dealId,
 
         $updateDealInfoblocksData,
@@ -32,6 +35,7 @@ class BitrixDealUpdateService
 
     ) {
         $this->domain =  $domain;
+        $this->placement =  $placement;
         $this->dealId =  $dealId;
         $hook = BitrixController::getHook($domain);
         $this->hook =  $hook;

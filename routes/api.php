@@ -79,6 +79,18 @@ Route::middleware(['ajax.only'])->group(function () {
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
 
+        if(isset($data['placement'])){
+            Log::channel('telegram')->error('APRIL_TEST', [
+                'Get Document' => [
+    
+                    'placement' => $data['placement'],
+                   
+    
+                ]
+            ]);
+
+        }
+
         return $result;
     });
 
@@ -88,14 +100,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
     Route::post('/deal', function (Request $request) {
-        Log::channel('telegram')->error('APRIL_TEST', [
-            'Set Deal' => [
-
-                'domain' => $request['domain'],
-                'dealId' => $request['dealId'],
-
-            ]
-        ]);
+      
         return DealController::addDeal($request);
     });
 
@@ -252,7 +257,7 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
     Route::post('bitrix/departament', function (Request $request) {
- 
+
         return BitrixController::getDepartamentUsers($request);
     });
     Route::post('bitrix/list', function (Request $request) {
@@ -284,7 +289,7 @@ Route::middleware(['ajax.only'])->group(function () {
         $updateDealContractData    = $request->input('updateDealContractData');
         $setProductRowsData = $request->input('setProductRowsData');
         $updateProductRowsData = $request->input('updateProductRowsData');
-
+        $placement = $request->input('placement');
 
         // $service = new BitrixDealUpdateService(
         //     $domain,
@@ -300,6 +305,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
         $data = $controller->konstructBitrixDealUpdate(
             $domain,
+            $placement,
             $dealId,
             $setDealData,
             $updateDealInfoblocksData,

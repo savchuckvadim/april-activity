@@ -803,7 +803,7 @@ class BitrixDealDocumentService
         }
     }
 
-    protected function smartCreate($dealId){
+    protected function smartCreate($dealId, $companiId, $lidId){
 
     }
 }

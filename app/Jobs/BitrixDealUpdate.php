@@ -21,6 +21,8 @@ class BitrixDealUpdate implements ShouldQueue
      */
 
     protected $domain;
+    protected $placement;
+    
     protected $dealId;
     protected $updateDealInfoblocksData;
     protected $updateDealContractData;
@@ -28,6 +30,7 @@ class BitrixDealUpdate implements ShouldQueue
     protected $updateProductRowsData;
     public function __construct(
         $domain,
+        $placement,
         $dealId,
         $updateDealInfoblocksData,
         $updateDealContractData,
@@ -35,6 +38,7 @@ class BitrixDealUpdate implements ShouldQueue
         $updateProductRowsData
     ) {
         $this->domain =  $domain;
+        $this->placement =  $placement;
         $this->dealId =  $dealId;
         $this->updateDealInfoblocksData =  $updateDealInfoblocksData;
         $this->updateDealContractData =  $updateDealContractData;
@@ -53,6 +57,7 @@ class BitrixDealUpdate implements ShouldQueue
     {
         $service = new BitrixDealUpdateService(
             $this->domain,
+            $this->placement,
             $this->dealId,
             $this->updateDealInfoblocksData,
             $this->updateDealContractData,
