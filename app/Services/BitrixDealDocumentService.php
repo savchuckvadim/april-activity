@@ -1046,6 +1046,7 @@ class BitrixDealDocumentService
         if ($this->dealId) {
             $fieldsData['parentId2'] = $this->dealId;
             $fieldsData['parent_id_2'] = $this->dealId;
+            $fieldsData['deal_id'] = $this->dealId;
         }
 
 
