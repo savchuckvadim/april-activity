@@ -1,4 +1,4 @@
-"currentSmart" : {
+"currentSmart": {
     "item": {
         "id": 8258,
         "xmlId": "",
@@ -116,6 +116,21 @@
             "observers": [],
             "contactIds": [],
             "entityTypeId": 162
+        }
+    }
+}
+
+{
+    "BitrixDealDocumentService: createSmartItem": {
+        "data": {
+            "entityTypeId": 162,
+            "fields": {
+                "categoryId": 26,
+                "stageId": "DT162_26:UC_R7UBSZ",
+                "assigned_by_id": 1,
+                "ufCrm7_1698134405": "11708",
+                "company_id": "11708"
+            }
         }
     }
 }

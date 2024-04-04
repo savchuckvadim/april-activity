@@ -227,11 +227,10 @@ class BitrixDealDocumentService
         $bitrixDealUpdateResponse = $this->updateDeal($links);
 
         //smart
-        if($this->domain !== 'gsirsk.bitrix24.ru'){
+        if ($this->domain !== 'gsirsk.bitrix24.ru') {
             $this->smartProccess();
-
         }
-      
+
 
 
 
@@ -927,11 +926,10 @@ class BitrixDealDocumentService
                 $isSmartCanChangeStage = $this->getIsSmartCanChangeStage($currentSmartItemStage);
 
                 $currentSmart = $this->updateSmartItem($currentSmart['id'], $isSmartCanChangeStage);
-
             }
         } else {
             $currentSmart = $this->createSmartItem();
-           
+
             // $currentSmart = $this->updateSmartItemCold($currentSmart['id']);
         }
     }
@@ -1011,7 +1009,7 @@ class BitrixDealDocumentService
         $smart  = $this->aprilSmartData;
 
         $leadId  = $this->leadId;
-
+        $dealId = $this->dealId;
 
         $resulFields = [];
         $fieldsData = [];
@@ -1029,10 +1027,10 @@ class BitrixDealDocumentService
             $fieldsData['parent_id_1'] = $leadId;
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
-        if ($this->dealId) {
-            $fieldsData['parentId2'] = $this->dealId;
-            $fieldsData['parent_id_2'] = $this->dealId;
-            $fieldsData['deal_id'] = $this->dealId;
+        if ($dealId) {
+            $fieldsData['parentId2'] = $dealId;
+            $fieldsData['parent_id_2'] = $dealId;
+            $fieldsData['deal_id'] = $dealId;
         }
 
 
@@ -1090,7 +1088,7 @@ class BitrixDealDocumentService
         // $resulFields = [];
         $fieldsData = [];
 
-        if($isSmartCanChangeStage){
+        if ($isSmartCanChangeStage) {
             $fieldsData['categoryId'] = $this->categoryId;
             $fieldsData['stageId'] = $this->stageId;
         }
@@ -1110,7 +1108,6 @@ class BitrixDealDocumentService
 
         if ($this->dealId) {
             $fieldsData['parent_id_2'] = $this->dealId;
-           
         }
 
 
@@ -1138,7 +1135,7 @@ class BitrixDealDocumentService
     protected function getIsSmartCanChangeStage($stage)
     {
 
-        
+
         $stages = [
             //april
             'DT162_26:NEW', //Лид
