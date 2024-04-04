@@ -77,11 +77,11 @@ Route::middleware(['ajax.only'])->group(function () {
         $data  = $request->input('data');
 
 
-        if (isset($data)) {
+        if (isset($data['dealId'])) {
             Log::channel('telegram')->error('APRIL_TEST', [
                 'Get Document' => [
 
-                    'data' => $data,
+                    'dealId' => $data['dealId'],
 
 
                 ]
