@@ -179,10 +179,10 @@ class BitrixDealDocumentService
         if ($domain == 'alfacentr.bitrix24.ru') {
 
             $this->categoryId = 12;
-          
-            if($isGeneralInvoice){         //счет
+
+            if ($isGeneralInvoice) {         //счет
                 $this->stageId = 'DT156_12:UC_I0J7WW';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
-            }else{                            //кп
+            } else {                            //кп
                 $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
 
             }
@@ -225,7 +225,7 @@ class BitrixDealDocumentService
 
         //testing
         $bitrixDealUpdateResponse = $this->updateDeal($links);
-
+        $this->smartProccess();
         $result = [
             'offerLink' => $offerLink,
             'link' => $offerLink,
@@ -905,6 +905,34 @@ class BitrixDealDocumentService
         }
     }
 
+
+    protected function smartProccess()
+    {
+        sleep(1);
+        $currentSmart = $this->getSmartItem();
+
+        sleep(1);
+        if ($currentSmart) {
+            if (isset($currentSmart['id'])) {
+                $currentSmart = $this->updateSmartItem($currentSmart['id']);
+            }
+        } else {
+            $currentSmart = $this->createSmartItem();
+            // $currentSmart = $this->updateSmartItemCold($currentSmart['id']);
+        }
+
+
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'BitrixDealDocumentService: ' => [
+
+                'currentSmart' => $currentSmart,
+
+
+            ]
+        ]);
+    }
+
+
     protected function getSmartItem()
     {
         // lidIds UF_CRM_7_1697129081
@@ -998,7 +1026,7 @@ class BitrixDealDocumentService
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
 
-  
+
 
 
         $entityId = $smart['crmId'];
@@ -1026,7 +1054,7 @@ class BitrixDealDocumentService
         return $resultFields;
     }
 
-    protected function updateSmartItemCold($smartId)
+    protected function updateSmartItem($smartId)
     {
 
         $methodSmart = '/crm.item.update.json';
@@ -1061,7 +1089,7 @@ class BitrixDealDocumentService
         }
 
 
- 
+
 
 
 
