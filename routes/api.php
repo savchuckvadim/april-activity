@@ -76,20 +76,28 @@ Route::middleware(['ajax.only'])->group(function () {
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
 
+        Log::channel('telegram')->error('APRIL_TEST', [
+            'Get Document' => [
+
+                'all' => $data,
+
+
+            ]
+        ]);
+        if (isset($data['placement'])) {
+            Log::channel('telegram')->error('APRIL_TEST', [
+                'Get Document' => [
+
+                    'placement' => $data['placement'],
+
+
+                ]
+            ]);
+        }
+
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
 
-        if(isset($data['placement'])){
-            Log::channel('telegram')->error('APRIL_TEST', [
-                'Get Document' => [
-    
-                    'placement' => $data['placement'],
-                   
-    
-                ]
-            ]);
-
-        }
 
         return $result;
     });
@@ -100,7 +108,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
     Route::post('/deal', function (Request $request) {
-      
+
         return DealController::addDeal($request);
     });
 
