@@ -76,34 +76,18 @@ Route::middleware(['ajax.only'])->group(function () {
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
 
-        Log::channel('telegram')->error('APRIL_TEST', [
-            'Get Document' => [
 
-                'all' => $data,
+        // if (isset($data['placement']) && isset($data['companyId'])) {
+        //     Log::channel('telegram')->error('APRIL_TEST', [
+        //         'Get Document' => [
 
+        //             'placement' => $data['placement'],
+        //             'companyId' => $data['companyId'],
 
-            ]
-        ]);
-        if (isset($data['placement']) && isset($data['companyId'])) {
-            Log::channel('telegram')->error('APRIL_TEST', [
-                'Get Document' => [
+        //         ]
+        //     ]);
+        // }
 
-                    'placement' => $data['placement'],
-                    'companyId' => $data['companyId'],
-
-                ]
-            ]);
-        }
-        if (isset($data['userId'])) {
-            Log::channel('telegram')->error('APRIL_TEST', [
-                'Get Document' => [
-
-                    'userId' => $data['userId'],
-                  
-
-                ]
-            ]);
-        }
 
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
