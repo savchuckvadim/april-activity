@@ -924,10 +924,10 @@ class BitrixDealDocumentService
                 $currentSmart = $this->updateSmartItem($currentSmart['id']);
                 Log::channel('telegram')->info('APRIL_ONLINE', [
                     'BitrixDealDocumentService: ' => [
-        
+
                         'currentSmart' => $currentSmart,
-        
-        
+
+
                     ]
                 ]);
             }
@@ -935,17 +935,14 @@ class BitrixDealDocumentService
             $currentSmart = $this->createSmartItem();
             Log::channel('telegram')->info('APRIL_ONLINE', [
                 'BitrixDealDocumentService: ' => [
-    
+
                     'currentSmart' => $currentSmart,
-    
-    
+
+
                 ]
             ]);
             // $currentSmart = $this->updateSmartItemCold($currentSmart['id']);
         }
-
-
-   
     }
 
 
@@ -1041,7 +1038,10 @@ class BitrixDealDocumentService
             $fieldsData['parentId1'] = $leadId;
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
-
+        if ($this->dealId) {
+            $fieldsData['parentId2'] = $this->dealId;
+            $fieldsData['ufCrm7_1697129037'] = $leadId;
+        }
 
 
 
@@ -1050,7 +1050,8 @@ class BitrixDealDocumentService
             'entityTypeId' => $entityId,
             'fields' =>  $fieldsData
 
-        ];     Log::channel('telegram')->info('APRIL_ONLINE', [
+        ];
+        Log::channel('telegram')->info('APRIL_ONLINE', [
             'BitrixDealDocumentService: createSmartItem' => [
 
                 'data' => $data,
