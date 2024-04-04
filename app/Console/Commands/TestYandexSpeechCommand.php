@@ -59,7 +59,7 @@ class TestYandexSpeechCommand extends Command
         // $yaYrl = 'https://stt.api.cloud.yandex.net/speech/v1/stt:recognize'; //sync
         $yaYrl = 'https://transcribe.api.cloud.yandex.net/speech/stt/v2/longRunningRecognize'; //async
         $audioUri = 'https://cloudpbx.beeline.ru/api/downloadCallRecording/6ecf0c99f0c7b0795b57b05170b5066/record/f017f526fd75682f052907a0d8a48d1b'; // Путь к вашему аудиофайлу в Yandex Object Storage
-        $localFilePath = storage_path('app/public/audio/test_short.mp3');
+        $localFilePath = storage_path('app/public/audio/file.mp3');
         $fileUri = 'https://april-test.storage.yandexcloud.net/test/audio.mp3';
         // $s3Client = new S3Client([
         //     'version' => 'latest',

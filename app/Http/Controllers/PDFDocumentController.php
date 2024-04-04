@@ -48,6 +48,16 @@ class PDFDocumentController extends Controller
 
                     //TODO BIG DESCRIPTION
 
+                    $placement = null;
+                    if(isset($data['placement'])){
+                        $placement = $data['placement'];
+                    }
+
+                    $userId = null;
+                    if(isset($data['userId'])){
+                        $userId = $data['userId'];
+                    }
+
 
                     //infoblocks data
                     $infoblocksOptions = [
@@ -149,10 +159,14 @@ class PDFDocumentController extends Controller
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
                     //testing
+                  
+                  
                     if (isset($data['isPublic'])) {
                         if ($data['isPublic']) {
                             $documentService = new BitrixDealDocumentService(
                                 $domain,
+                                $placement,
+                                $userId,
                                 $providerRq,
                                 $documentNumber,
                                 $data,
@@ -183,6 +197,8 @@ class PDFDocumentController extends Controller
                     //testing todo props $bigDescriptionData
                     dispatch(new BitrixDealDocumentJob(
                         $domain,
+                        $placement,
+                        $userId,
                         $providerRq,
                         $documentNumber,
                         $data,

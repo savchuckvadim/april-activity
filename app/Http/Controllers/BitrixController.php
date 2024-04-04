@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Jobs\BitrixDealUpdate;
 use App\Models\Portal;
-use App\Services\BitrixDealUpdateService;
-use Carbon\Carbon;
-use CRest;
+
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Vipblogger\LaravelBitrix24\Bitrix;
+
 
 class BitrixController extends Controller
 {
@@ -37,6 +35,17 @@ class BitrixController extends Controller
                         }
                     }
                 }
+            }
+            if(!$hook){
+                Log::channel('telegram')->error('APRIL_ONLINE', [
+                    'BitrixController getHookUrl' => [
+                        
+                        'domain' => $domain,
+                        'portalResponse' => $portalResponse,
+                      
+    
+                    ]
+                ]);
             }
             return $hook;
         } catch (\Throwable $th) {

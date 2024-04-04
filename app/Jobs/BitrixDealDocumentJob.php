@@ -21,6 +21,7 @@ class BitrixDealDocumentJob implements ShouldQueue
      */
 
     protected $domain;
+    protected $placement;
     protected $providerRq;
     protected $documentNumber;
     protected $data;
@@ -39,9 +40,14 @@ class BitrixDealDocumentJob implements ShouldQueue
     protected $dealId;
     protected $withStamps;
 
+    protected $userId;
+
+
 
     public function __construct(
         $domain,
+        $placement,
+        $userId,
         $providerRq,
         $documentNumber,
         $data,
@@ -64,6 +70,8 @@ class BitrixDealDocumentJob implements ShouldQueue
 
     ) {
         $this->domain =  $domain;
+        $this->placement =  $placement;
+        $this->userId =  $userId;
         $this->providerRq =  $providerRq;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
@@ -93,6 +101,8 @@ class BitrixDealDocumentJob implements ShouldQueue
     {
         $documentService = new BitrixDealDocumentService(
             $this->domain,
+            $this->placement,
+            $this->userId,
             $this->providerRq,
             $this->documentNumber,
             $this->data,

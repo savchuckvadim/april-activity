@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\PortalController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +16,11 @@ use Ramsey\Uuid\Uuid;
 class BitrixDealDocumentService
 {
     protected $domain;
+    protected $placement;
+    protected $placementType;
+    protected $currentEntityId;
+
+    protected $hook;
     protected $providerRq;
     protected $documentNumber;
 
@@ -33,11 +39,26 @@ class BitrixDealDocumentService
     protected $isTwoLogo;
     protected $isGeneralInvoice;
     protected $isAlternativeInvoices;
-    protected $dealId;
+
+
     protected $withStamps;
+    protected $userId;
+    protected $aprilSmartData;
+
+
+    protected $categoryId = 26;           //целевая воронка смарт
+    protected $stageId = 'DT162_26:UC_R7UBSZ';         //целевая стадия offer april
+    protected $smartCrmId = 'T9c_';                      // из бд типа с 'T9c_'
+    protected $smartEntityTypeId;
+
+    protected $leadId;
+    protected $companyId;
+    protected $dealId;
 
     public function __construct(
         $domain,
+        $placement,
+        $userId,
         $providerRq,
         $documentNumber,
         $data,
@@ -60,11 +81,13 @@ class BitrixDealDocumentService
 
     ) {
         $this->domain =  $domain;
+        $this->placement =  $placement;
+        $this->userId =  $userId;
         $this->providerRq =  $providerRq;
         $this->documentNumber = $documentNumber;
         $this->data = $data;
         $this->invoiceDate = $invoiceDate;
-       
+
         $this->headerData =  $headerData;
         $this->doubleHeaderData = $doubleHeaderData;
         $this->footerData = $footerData;
@@ -80,6 +103,90 @@ class BitrixDealDocumentService
 
         $this->dealId =  $dealId;
         $this->withStamps = $withStamps;
+        $this->hook = BitrixController::getHook($domain);
+
+        $this->placementType = null;
+        $this->currentEntityId = null;
+
+
+        if ($placement && isset($placement['placement'])) {
+            // placement":{
+            //     "placement":"CRM_COMPANY_DETAIL_TAB",
+            //     "options":{"ID":"11708"}
+            // }
+            $str = $placement['placement'];
+
+            // Проверка на наличие подстроки LEAD
+            if (strpos($str, "LEAD") !== false) {
+                $this->placementType = "LEAD";
+                if (isset($placement['options'])) {
+                    $this->leadId  = $placement['options']['ID'];
+                }
+            } else if (strpos($str, "COMPANY") !== false) {
+
+                $this->placementType = "COMPANY";
+                if (isset($placement['options'])) {
+                    $this->companyId  = $placement['options']['ID'];
+                }
+            } else if (strpos($str, "DEAL") !== false) {
+
+                $this->placementType = "DEAL";
+                $deal = $this->getDeal($this->dealId);
+                if ($deal) {
+                    if (!empty($deal['COMPANY_ID'])) {
+
+                        $this->companyId = $deal['COMPANY_ID'];
+                    } else  if (!empty($deal['LEAD_ID'])) {
+                        $this->leadId  =  $deal['COMPANY_ID'];
+                    }
+                }
+            }
+
+            if (isset($placement['options'])) {
+                $this->currentEntityId = $placement['options']['ID'];
+            }
+        }
+
+
+
+
+
+
+        $portal = null;
+        $portalResponse = PortalController::innerGetPortal($domain);
+        if ($portalResponse && !empty($portalResponse['portal'])) {
+            $portal = $portalResponse['portal'];
+
+            if (!empty($portal['bitrixSmart'])) {
+                $this->aprilSmartData = $portal['bitrixSmart'];
+
+                $smartId = 'T9c_';
+                if (isset($portal['bitrixSmart']['crm'])) {
+                    $smartId =  $portal['bitrixSmart']['crm'] . '_';
+                }
+
+                $this->smartCrmId =  $smartId;
+            }
+        }
+
+
+
+        // DT162_26:UC_R7UBSZ	КП/Счет  april
+
+        //DT156_12:UC_FA778R	КП сформировано //alfacenter
+        //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
+
+        if ($domain == 'alfacentr.bitrix24.ru') {
+
+            $this->categoryId = 12;
+          
+            if($isGeneralInvoice){         //счет
+                $this->stageId = 'DT156_12:UC_I0J7WW';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
+            }else{                            //кп
+                $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
+
+            }
+        }
     }
 
 
@@ -126,8 +233,7 @@ class BitrixDealDocumentService
             'invoiceLinks' => $invoices,
             'links' => $links,
             'bigDescriptionData' => $this->bigDescriptionData
-            // 'bitrixDealUpdateResponse' => $bitrixDealUpdateResponse,
-            // 'qr_path' => $data['provider']['rq']['qrs'][0]['path']
+
         ];
 
         return  $result;
@@ -150,7 +256,7 @@ class BitrixDealDocumentService
                 'bigDescriptionData' => $this->bigDescriptionData,
                 'pricesData' => $this->pricesData,
                 'stampsData' =>  $this->stampsData,
-                'withStamps' =>   $this->withStamps 
+                'withStamps' =>   $this->withStamps
                 // 'invoiceData' => $invoiceData,
             ]);
 
@@ -248,8 +354,8 @@ class BitrixDealDocumentService
                         'doubleHeaderData' =>  $doubleHeaderData,
                         'stampsData' => $stampsData,
                         'invoiceData' => $invoiceData,
-                        'withStamps' =>   $this->withStamps 
-                        
+                        'withStamps' =>   $this->withStamps
+
 
                     ]);
 
@@ -689,10 +795,6 @@ class BitrixDealDocumentService
 
 
 
-
-
-
-
     public function updateDeal($links)
     {
 
@@ -775,7 +877,7 @@ class BitrixDealDocumentService
             $resultText = $resultText . "<a href=\"" . htmlspecialchars($commentLink) . "\">" . htmlspecialchars($currentCommentText) . "</a> \n";
         }
         try {
-            $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
+            $hook = $this->hook; // Предполагаем, что функция getHookUrl уже определена
 
 
             $url = $hook . $method;
@@ -803,7 +905,223 @@ class BitrixDealDocumentService
         }
     }
 
-    protected function smartCreate($dealId, $companiId, $lidId){
+    protected function getSmartItem()
+    {
+        // lidIds UF_CRM_7_1697129081
+        $leadId  = $this->leadId;
 
+        $companyId = $this->companyId;
+        $userId = $this->userId;
+        $smart = $this->aprilSmartData;
+
+
+        $currentSmart = null;
+
+        $method = '/crm.item.list.json';
+        $url = $this->hook . $method;
+        if ($companyId) {
+            $data =  [
+                'entityTypeId' => $smart['crmId'],
+                'filter' => [
+                    "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                    "=assignedById" => $userId,
+                    'COMPANY_ID' => $companyId,
+
+                ],
+                // 'select' => ["ID"],
+            ];
+        } else if ($leadId) {
+            $data =  [
+                'entityTypeId' => $smart['crmId'],
+                'filter' => [
+                    "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                    "=assignedById" => $userId,
+
+                    "=%ufCrm7_1697129081" => '%' . $leadId . '%',
+
+                ],
+                // 'select' => ["ID"],
+            ];
+        }
+
+
+
+        $response = Http::get($url, $data);
+        // $responseData = $response->json();
+        $responseData = BitrixController::getBitrixRespone($response, 'BitrixDealDocumentService: getSmartItem');
+        if (isset($responseData)) {
+            if (!empty($responseData['items'])) {
+                $currentSmart =  $responseData['items'][0];
+            }
+        }
+
+        return $currentSmart;
+    }
+
+
+
+
+
+
+    //smart
+    protected function createSmartItem()
+    {
+
+        $methodSmart = '/crm.item.add.json';
+        $url = $this->hook . $methodSmart;
+
+
+
+
+        // $hook = $this->hook;
+        $companyId  = $this->companyId;
+        $responsibleId  = $this->userId;
+        $smart  = $this->aprilSmartData;
+
+        $leadId  = $this->leadId;
+
+
+        $resulFields = [];
+        $fieldsData = [];
+        $fieldsData['categoryId'] = $this->categoryId;
+        $fieldsData['stageId'] = $this->stageId;
+        // $fieldsData['ufCrm7_1698134405'] = $companyId;
+        $fieldsData['assigned_by_id'] = $responsibleId;
+        // $fieldsData['companyId'] = $companyId;
+
+        if ($companyId) {
+            $fieldsData['ufCrm7_1698134405'] = $companyId;
+            $fieldsData['company_id'] = $companyId;
+        }
+        if ($leadId) {
+            $fieldsData['parentId1'] = $leadId;
+            $fieldsData['ufCrm7_1697129037'] = $leadId;
+        }
+
+  
+
+
+        $entityId = $smart['crmId'];
+        $data = [
+            'entityTypeId' => $entityId,
+            'fields' =>  $fieldsData
+
+        ];
+        // Log::info('create Smart Item Cold', [$data]);
+        // Возвращение ответа клиенту в формате JSON
+
+        $smartFieldsResponse = Http::get($url, $data);
+        // $bitrixResponse = $smartFieldsResponse->json();
+        $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'BitrixDealDocumentService: createSmartItem');
+        // Log::info('COLD createSmartItemCold', ['createSmartItemCold' => $responseData]);
+        // $resultFields = null;
+        // if (isset($responseData)) {
+        $resultFields = $responseData;
+        // }
+        // Log::channel('telegram')->error('APRIL_HOOK', [
+        //     'btrx createSmartItemCold' => $resultFields,
+
+        // ]);
+
+        return $resultFields;
+    }
+
+    protected function updateSmartItemCold($smartId)
+    {
+
+        $methodSmart = '/crm.item.update.json';
+        $url = $this->hook . $methodSmart;
+
+        //lead
+        //leadId UF_CRM_7_1697129037
+
+
+        $companyId  = $this->companyId;
+        $leadId  = $this->leadId;
+        $responsibleId  = $this->userId;
+        $smart  = $this->aprilSmartData;
+
+
+        // $resulFields = [];
+        $fieldsData = [];
+
+        $fieldsData['categoryId'] = $this->categoryId;
+        $fieldsData['stageId'] = $this->stageId;
+
+        // $fieldsData['ufCrm6_1702652862'] = $responsibleId; // alfacenter Ответственный ХО 
+        $fieldsData['assigned_by_id'] = $responsibleId;
+
+        if ($companyId) {
+            $fieldsData['ufCrm7_1698134405'] = $companyId;
+            $fieldsData['company_id'] = $companyId;
+        }
+        if ($leadId) {
+            $fieldsData['parentId1'] = $leadId;
+            $fieldsData['ufCrm7_1697129037'] = $leadId;
+        }
+
+
+ 
+
+
+
+
+        $entityId = $smart['crmId'];
+        $data = [
+            'id' => $smartId,
+            'entityTypeId' => $entityId,
+
+            'fields' =>  $fieldsData
+
+        ];
+
+
+        $smartFieldsResponse = Http::get($url, $data);
+        $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'cold: updateSmartItemCold');
+        $resultFields = $responseData;
+
+        return $resultFields;
+    }
+
+    protected function getDeal($dealId)
+    {
+        $resultDeal = null;
+        try {
+
+
+            $method = '/crm.deal.get.json';
+
+
+
+
+            $url = $this->hook . $method;
+            $data = [
+                'id' => $dealId
+            ];
+
+            $responseData = Http::get($url, $data);
+            $resultDeal = BitrixController::getBitrixRespone($responseData, 'BitrixDealDocumentService: getDeal');
+
+
+
+            return $resultDeal;
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixDealDocumentService getDeal' => [
+                    'message' => 'error get hook',
+                    'resultDeal' => $resultDeal,
+                    'responseData' => $responseData,
+                    'messages' => $errorMessages
+
+                ]
+            ]);
+            return $resultDeal;
+        }
     }
 }

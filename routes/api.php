@@ -84,12 +84,22 @@ Route::middleware(['ajax.only'])->group(function () {
 
             ]
         ]);
-        if (isset($data['placement'])) {
+        if (isset($data['placement']) && isset($data['companyId'])) {
             Log::channel('telegram')->error('APRIL_TEST', [
                 'Get Document' => [
 
                     'placement' => $data['placement'],
+                    'companyId' => $data['companyId'],
 
+                ]
+            ]);
+        }
+        if (isset($data['userId'])) {
+            Log::channel('telegram')->error('APRIL_TEST', [
+                'Get Document' => [
+
+                    'userId' => $data['userId'],
+                    'companyId' => $data['companyId'],
 
                 ]
             ]);
