@@ -910,18 +910,14 @@ class BitrixDealDocumentService
     {
         sleep(1);
         $currentSmart = $this->getSmartItem();
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'BitrixDealDocumentService: ' => [
 
-                'currentSmart' => $currentSmart,
-
-
-            ]
-        ]);
         sleep(1);
         if ($currentSmart) {
             if (isset($currentSmart['id'])) {
-                $currentSmart = $this->updateSmartItem($currentSmart['id']);
+                $currentSmartItemStage = $currentSmart['stageId'];
+                $isSmartCanChangeStage = $this->getIsSmartCanChangeStage($currentSmartItemStage);
+
+                $currentSmart = $this->updateSmartItem($currentSmart['id'], $isSmartCanChangeStage);
                 Log::channel('telegram')->info('APRIL_ONLINE', [
                     'BitrixDealDocumentService: ' => [
 
@@ -1078,7 +1074,7 @@ class BitrixDealDocumentService
         return $resultFields;
     }
 
-    protected function updateSmartItem($smartId)
+    protected function updateSmartItem($smartId, $isSmartCanChangeStage)
     {
 
         $methodSmart = '/crm.item.update.json';
@@ -1097,8 +1093,11 @@ class BitrixDealDocumentService
         // $resulFields = [];
         $fieldsData = [];
 
-        $fieldsData['categoryId'] = $this->categoryId;
-        $fieldsData['stageId'] = $this->stageId;
+        if($isSmartCanChangeStage){
+            $fieldsData['categoryId'] = $this->categoryId;
+            $fieldsData['stageId'] = $this->stageId;
+        }
+
 
         // $fieldsData['ufCrm6_1702652862'] = $responsibleId; // alfacenter Ответственный ХО 
         $fieldsData['assigned_by_id'] = $responsibleId;
@@ -1112,6 +1111,10 @@ class BitrixDealDocumentService
             $fieldsData['ufCrm7_1697129037'] = $leadId;
         }
 
+        if ($this->dealId) {
+            $fieldsData['parentId2'] = $this->dealId;
+           
+        }
 
 
 
@@ -1134,6 +1137,52 @@ class BitrixDealDocumentService
 
         return $resultFields;
     }
+
+    protected function getIsSmartCanChangeStage($stage)
+    {
+
+        
+        $stages = [
+            //april
+            'DT162_26:NEW', //Лид
+            'DT162_26:PREPARATION', //Компания
+            'DT162_26:UC_Q5V5H0', //Теплый прозвон
+            'DT162_26:UC_NFZKDU', //Презентация запланирована
+            'DT162_26:CLIENT', //Презентация проведена
+            'DT162_26:UC_R7UBSZ', //	КП/Счет
+            'DT162_26:FAIL', //	Провал
+            'DT162_28:NEW', //	Создан
+            'DT162_28:UC_J1ADFR', //	Запланирован звонок
+            'DT162_28:PREPARATION', //	Просрочен
+            'DT162_28:UC_BDM2F0', //	Совершен без результата
+            'DT162_28:SUCCESS', //	Успех           
+            'DT162_28:FAIL', //	Отказ
+
+
+            //alfacenter
+            'DT156_12:NEW', //	Создан Лид
+            'DT156_12:CLIENT', //	Создана Компания
+            'DT156_12:UC_LEWVV8', //	Звонок согласован
+            'DT156_12:UC_29HBRD', //	Презентация согласована
+            'DT156_12:UC_Y52JIL', //	Звонок просрочен
+            'DT156_12:UC_02ZP1T', //	Презентация просрочена
+            'DT156_12:UC_QZ3SL2', //	Звонок состоялся
+            'DT156_12:UC_DP0NEJ', //	Презентация состоялась
+            'DT156_12:UC_FA778R', // КП сформировано//
+            'DT156_12:FAIL',        //	Отказ
+            'DT156_14:NEW',        //	Создан
+            'DT156_14:UC_TS7I14', //	Запланирован
+            'DT156_14:UC_8Q85WS', //	Без оценки
+            'DT156_14:PREPARATION', //	Просрочен
+            'DT156_14:CLIENT', //	Недозвон
+            'DT156_14:SUCCESS', //	Успех
+            'DT156_14:FAIL', //	Провал
+            //    
+        ];
+
+        return in_array($stage, $stages);
+    }
+
 
     protected function getDeal($dealId)
     {
