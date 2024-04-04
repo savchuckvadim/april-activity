@@ -225,7 +225,16 @@ class BitrixDealDocumentService
 
         //testing
         $bitrixDealUpdateResponse = $this->updateDeal($links);
-        $this->smartProccess();
+
+        //smart
+        if($this->domain !== 'gsirsk.bitrix24.ru'){
+            $this->smartProccess();
+
+        }
+      
+
+
+
         $result = [
             'offerLink' => $offerLink,
             'link' => $offerLink,
