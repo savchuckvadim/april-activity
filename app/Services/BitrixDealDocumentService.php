@@ -918,7 +918,15 @@ class BitrixDealDocumentService
     {
         sleep(1);
         $currentSmart = $this->getSmartItem();
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'fields: getSmartItem' => [
 
+                'currentSmart' => $currentSmart,
+               
+
+
+            ]
+        ]);
         sleep(1);
         if ($currentSmart) {
             if (isset($currentSmart['id'])) {
@@ -1057,15 +1065,7 @@ class BitrixDealDocumentService
         //     'btrx createSmartItemCold' => $resultFields,
 
         // ]);
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'fields: createSmartItem' => [
-
-                'data' => $data,
-                'dealId' => $dealId,
-
-
-            ]
-        ]);
+  
         return $resultFields;
     }
 
