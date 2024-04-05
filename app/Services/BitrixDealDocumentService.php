@@ -171,8 +171,8 @@ class BitrixDealDocumentService
 
 
 
-        // DT162_26:UC_R7UBSZ	КП/Счет  april
-
+        // DT162_26:UC_R7UBSZ	КП  april
+        // DT162_26:UC_4REB8W Счет april
         //DT156_12:UC_FA778R	КП сформировано //alfacenter
         //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
 
@@ -184,6 +184,16 @@ class BitrixDealDocumentService
                 $this->stageId = 'DT156_12:UC_I0J7WW';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
             } else {                            //кп
                 $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
+
+            }
+        }else if($domain == 'alfacentr.bitrix24.ru'){
+            
+            $this->categoryId = 26;
+
+            if ($isGeneralInvoice) {         //счет
+                $this->stageId = 'DT162_26:UC_4REB8W';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
+            } else {                            //кп
+                $this->stageId = 'DT162_26:UC_R7UBSZ'; // КП сформировано //alfacenter
 
             }
         }
@@ -922,7 +932,7 @@ class BitrixDealDocumentService
             'fields: getSmartItem' => [
 
                 'currentSmart' => $currentSmart,
-               
+
 
 
             ]
@@ -1065,7 +1075,7 @@ class BitrixDealDocumentService
         //     'btrx createSmartItemCold' => $resultFields,
 
         // ]);
-  
+
         return $resultFields;
     }
 
@@ -1111,16 +1121,16 @@ class BitrixDealDocumentService
         }
 
 
-       
-            Log::channel('telegram')->error('APRIL_TEST', [
-                'updateSmartItem' => [
 
-                    'dealId' => $dealId,
+        Log::channel('telegram')->error('APRIL_TEST', [
+            'updateSmartItem' => [
+
+                'dealId' => $dealId,
 
 
-                ]
-            ]);
-        
+            ]
+        ]);
+
 
 
 
