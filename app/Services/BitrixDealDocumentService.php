@@ -186,7 +186,7 @@ class BitrixDealDocumentService
                 $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
 
             }
-        }else if($domain == 'alfacentr.bitrix24.ru'){
+        }else if($domain == 'april-garant.bitrix24.ru'){
             
             $this->categoryId = 26;
 
