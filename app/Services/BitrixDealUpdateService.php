@@ -58,7 +58,7 @@ class BitrixDealUpdateService
         //     $this->dealId = $newDeal;
         // }
        
-        $updatedDeal = $this->updateDeal();
+        $updatedDeal = $this->updateDealBitrixDealUpdate();
         $setProductRows = $this->productsSet();
         $result = [
             // '$newDeal' => $newDeal,
@@ -82,7 +82,7 @@ class BitrixDealUpdateService
     // }
 
 
-    protected function updateDeal()
+    protected function updateDealBitrixDealUpdate()
     {
         $method = '/batch';
         $url = $this->hook . $method;

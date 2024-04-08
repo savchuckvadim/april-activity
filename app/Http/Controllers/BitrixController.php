@@ -59,8 +59,8 @@ class BitrixController extends Controller
                 'BitrixController Get Hook URL' => [
                     'message' => 'error get hook',
                     'domain' => $domain,
-                    'portalResponse' => $portalResponse,
-                    'messages' => $errorMessages
+                    // 'portalResponse' => $portalResponse,
+                    // 'messages' => $errorMessages
 
                 ]
             ]);
@@ -138,8 +138,8 @@ class BitrixController extends Controller
                 'BitrixController Get Hook URL' => [
                     'message' => 'error get hook',
                     'domain' => $domain,
-                    'portalResponse' => $portalResponse,
-                    'messages' => $errorMessages
+                    // 'portalResponse' => $portalResponse,
+                    // 'messages' => $errorMessages
 
                 ]
             ]);

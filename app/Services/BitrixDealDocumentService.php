@@ -186,8 +186,8 @@ class BitrixDealDocumentService
                 $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
 
             }
-        }else if($domain == 'april-garant.bitrix24.ru'){
-            
+        } else if ($domain == 'april-garant.bitrix24.ru') {
+
             $this->categoryId = 26;
 
             if ($isGeneralInvoice) {         //счет
@@ -965,41 +965,45 @@ class BitrixDealDocumentService
 
         $currentSmart = null;
 
-        $method = '/crm.item.list.json';
-        $url = $this->hook . $method;
-        if ($companyId) {
-            $data =  [
-                'entityTypeId' => $smart['crmId'],
-                'filter' => [
-                    "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
-                    "=assignedById" => $userId,
-                    'COMPANY_ID' => $companyId,
+        if (isset($smart)) {
+            if (isset($smart['crmId'])) {
+                $method = '/crm.item.list.json';
+                $url = $this->hook . $method;
+                if ($companyId) {
+                    $data =  [
+                        'entityTypeId' => $smart['crmId'],
+                        'filter' => [
+                            "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                            "=assignedById" => $userId,
+                            'COMPANY_ID' => $companyId,
 
-                ],
-                // 'select' => ["ID"],
-            ];
-        } else if ($leadId) {
-            $data =  [
-                'entityTypeId' => $smart['crmId'],
-                'filter' => [
-                    "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
-                    "=assignedById" => $userId,
+                        ],
+                        // 'select' => ["ID"],
+                    ];
+                } else if ($leadId) {
+                    $data =  [
+                        'entityTypeId' => $smart['crmId'],
+                        'filter' => [
+                            "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                            "=assignedById" => $userId,
 
-                    "=%ufCrm7_1697129081" => '%' . $leadId . '%',
+                            "=%ufCrm7_1697129081" => '%' . $leadId . '%',
 
-                ],
-                // 'select' => ["ID"],
-            ];
-        }
+                        ],
+                        // 'select' => ["ID"],
+                    ];
+                }
 
 
 
-        $response = Http::get($url, $data);
-        // $responseData = $response->json();
-        $responseData = BitrixController::getBitrixRespone($response, 'BitrixDealDocumentService: getSmartItem');
-        if (isset($responseData)) {
-            if (!empty($responseData['items'])) {
-                $currentSmart =  $responseData['items'][0];
+                $response = Http::get($url, $data);
+                // $responseData = $response->json();
+                $responseData = BitrixController::getBitrixRespone($response, 'BitrixDealDocumentService: getSmartItem');
+                if (isset($responseData)) {
+                    if (!empty($responseData['items'])) {
+                        $currentSmart =  $responseData['items'][0];
+                    }
+                }
             }
         }
 
@@ -1188,7 +1192,7 @@ class BitrixDealDocumentService
             'DT156_12:UC_FA778R', // КП сформировано//
             'DT156_12:FAIL',        //	Отказ
 
-                //cold
+            //cold
             'DT156_14:NEW',        //	Создан
             'DT156_14:UC_TS7I14', //	Запланирован
             'DT156_14:UC_8Q85WS', //	Без оценки
@@ -1235,9 +1239,9 @@ class BitrixDealDocumentService
             Log::channel('telegram')->error('APRIL_ONLINE', [
                 'BitrixDealDocumentService getDeal' => [
                     'message' => 'error get hook',
-                    'resultDeal' => $resultDeal,
-                    'responseData' => $responseData,
-                    'messages' => $errorMessages
+                    // 'resultDeal' => $resultDeal,
+                    // 'responseData' => $responseData,
+                    // 'messages' => $errorMessages
 
                 ]
             ]);
