@@ -149,7 +149,20 @@ class BitrixDealDocumentService
 
 
 
+        Log::channel('telegram')->error('APRIL_ONLINE', [
+            'data' => [
+                'domain' => $this->domain,
+                'placement' => $this->placement,
+                'documentNumber' => $this->documentNumber,
+                'dealId' => $this->dealId,
 
+                'hook' => $this->hook,
+                'placementType' => $this->placementType,
+                'currentEntityId' => $this->currentEntityId,
+
+                
+            ]
+        ]);
 
 
         $portal = null;
@@ -307,7 +320,7 @@ class BitrixDealDocumentService
                 Log::channel('telegram')->error('APRIL_ONLINE', [
                     'resultPath' => $resultPath
                 ]);
-    
+
                 mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
             }
 
@@ -411,7 +424,7 @@ class BitrixDealDocumentService
 
                     // Проверить доступность каталога для записи
                     if (!is_writable($invoicePath)) {
-                  
+
                         throw new \Exception("Невозможно записать в каталог: $invoicePath");
                     }
                     $resultFileName = 'Счет-' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
