@@ -402,6 +402,12 @@ class BitrixDealDocumentService
 
                     // Проверить доступность каталога для записи
                     if (!is_writable($invoicePath)) {
+                        Log::channel('telegram')->error('APRIL_ONLINE', [
+                            'apiController' => [
+                                'message' =>"Невозможно записать в каталог: $invoicePath"
+                
+                            ]
+                        ]);
                         throw new \Exception("Невозможно записать в каталог: $invoicePath");
                     }
                     $resultFileName = 'Счет-' . $invoiceBaseNumber . '_' . $shortUid . '.pdf';
