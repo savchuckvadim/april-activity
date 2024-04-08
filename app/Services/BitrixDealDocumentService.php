@@ -236,12 +236,9 @@ class BitrixDealDocumentService
         //testing
         $bitrixDealUpdateResponse = $this->updateDeal($links);
 
-        //smart
-        if ($this->domain !== 'gsirk.bitrix24.ru') {
-            $this->smartProccess();
-        }
+
         Log::channel('telegram')->info('APRIL_ONLINE', [
-            'smartProccess' => [
+            'after smart create' => [
 
                 'domain' => $this->domain,
 
@@ -249,6 +246,11 @@ class BitrixDealDocumentService
 
             ]
         ]);
+        //smart
+        if ($this->domain !== 'gsirk.bitrix24.ru') {
+            $this->smartProccess();
+        }
+
 
 
 
