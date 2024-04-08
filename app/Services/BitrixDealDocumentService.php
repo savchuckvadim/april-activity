@@ -240,7 +240,15 @@ class BitrixDealDocumentService
         if ($this->domain !== 'gsirsk.bitrix24.ru') {
             $this->smartProccess();
         }
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'smartProccess' => [
 
+                'domain' => $this->domain,
+
+
+
+            ]
+        ]);
 
 
 
@@ -929,7 +937,7 @@ class BitrixDealDocumentService
         sleep(1);
         $currentSmart = $this->getSmartItem();
         Log::channel('telegram')->info('APRIL_ONLINE', [
-            'fields: getSmartItem' => [
+            'smartProccess' => [
 
                 'currentSmart' => $currentSmart,
 
@@ -938,7 +946,7 @@ class BitrixDealDocumentService
             ]
         ]);
         sleep(1);
-        if ($currentSmart) {
+        if (!empty($currentSmart)) {
             if (isset($currentSmart['id'])) {
                 $currentSmartItemStage = $currentSmart['stageId'];
                 $isSmartCanChangeStage = $this->getIsSmartCanChangeStage($currentSmartItemStage);
