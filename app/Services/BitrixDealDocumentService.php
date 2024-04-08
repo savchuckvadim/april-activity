@@ -1027,66 +1027,75 @@ class BitrixDealDocumentService
     protected function createSmartItem()
     {
 
-        $methodSmart = '/crm.item.add.json';
-        $url = $this->hook . $methodSmart;
-
-
-
-
-        // $hook = $this->hook;
-        $companyId  = $this->companyId;
-        $responsibleId  = $this->userId;
+        $resultFields = null;
         $smart  = $this->aprilSmartData;
+        if (!empty($smart)) {
 
-        $leadId  = $this->leadId;
-        $dealId = $this->dealId;
+            if (!empty($smart['crmId'])) {
+                $methodSmart = '/crm.item.add.json';
+                $url = $this->hook . $methodSmart;
 
-        $resulFields = [];
-        $fieldsData = [];
-        $fieldsData['categoryId'] = $this->categoryId;
-        $fieldsData['stageId'] = $this->stageId;
-        // $fieldsData['ufCrm7_1698134405'] = $companyId;
-        $fieldsData['assigned_by_id'] = $responsibleId;
-        // $fieldsData['companyId'] = $companyId;
 
-        if ($companyId) {
-            $fieldsData['ufCrm7_1698134405'] = $companyId;
-            $fieldsData['company_id'] = $companyId;
+
+
+                // $hook = $this->hook;
+                $companyId  = $this->companyId;
+                $responsibleId  = $this->userId;
+               
+
+                $leadId  = $this->leadId;
+                $dealId = $this->dealId;
+
+                $resulFields = [];
+                $fieldsData = [];
+                $fieldsData['categoryId'] = $this->categoryId;
+                $fieldsData['stageId'] = $this->stageId;
+                // $fieldsData['ufCrm7_1698134405'] = $companyId;
+                $fieldsData['assigned_by_id'] = $responsibleId;
+                // $fieldsData['companyId'] = $companyId;
+
+                if ($companyId) {
+                    $fieldsData['ufCrm7_1698134405'] = $companyId;
+                    $fieldsData['company_id'] = $companyId;
+                }
+                if ($leadId) {
+                    $fieldsData['parent_id_1'] = $leadId;
+                    $fieldsData['ufCrm7_1697129037'] = $leadId;
+                }
+                if ($dealId) {
+                    $fieldsData['parentId2'] = $dealId;
+                    $fieldsData['parent_id_2'] = $dealId;
+                    $fieldsData['deal_id'] = $dealId;
+                }
+
+
+
+                $entityId = $smart['crmId'];
+                $data = [
+                    'entityTypeId' => $entityId,
+                    'fields' =>  $fieldsData
+
+                ];
+
+                // Log::info('create Smart Item Cold', [$data]);
+                // Возвращение ответа клиенту в формате JSON
+
+                $smartFieldsResponse = Http::get($url, $data);
+                // $bitrixResponse = $smartFieldsResponse->json();
+                $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'BitrixDealDocumentService: createSmartItem');
+                // Log::info('COLD createSmartItemCold', ['createSmartItemCold' => $responseData]);
+                // $resultFields = null;
+                // if (isset($responseData)) {
+                $resultFields = $responseData;
+                // }
+                // Log::channel('telegram')->error('APRIL_HOOK', [
+                //     'btrx createSmartItemCold' => $resultFields,
+
+                // ]);
+
+            }
         }
-        if ($leadId) {
-            $fieldsData['parent_id_1'] = $leadId;
-            $fieldsData['ufCrm7_1697129037'] = $leadId;
-        }
-        if ($dealId) {
-            $fieldsData['parentId2'] = $dealId;
-            $fieldsData['parent_id_2'] = $dealId;
-            $fieldsData['deal_id'] = $dealId;
-        }
 
-
-
-        $entityId = $smart['crmId'];
-        $data = [
-            'entityTypeId' => $entityId,
-            'fields' =>  $fieldsData
-
-        ];
-
-        // Log::info('create Smart Item Cold', [$data]);
-        // Возвращение ответа клиенту в формате JSON
-
-        $smartFieldsResponse = Http::get($url, $data);
-        // $bitrixResponse = $smartFieldsResponse->json();
-        $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'BitrixDealDocumentService: createSmartItem');
-        // Log::info('COLD createSmartItemCold', ['createSmartItemCold' => $responseData]);
-        // $resultFields = null;
-        // if (isset($responseData)) {
-        $resultFields = $responseData;
-        // }
-        // Log::channel('telegram')->error('APRIL_HOOK', [
-        //     'btrx createSmartItemCold' => $resultFields,
-
-        // ]);
 
         return $resultFields;
     }
