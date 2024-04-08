@@ -591,19 +591,19 @@ class DocumentController extends Controller
 
                     $providerRq = $data['provider']['rq'];
                     //document number
-                    $documentNumber = CounterController::getCount($templateId);
+                    // $documentNumber = CounterController::getCount($templateId);
 
                     // /invoice base number
-                    $step1 = preg_replace_callback(
-                        '/([а-яА-Яa-zA-Z])\W+/u',
-                        function ($matches) {
-                            return $matches[1]; // Возвращает найденную букву без следующих за ней символов
-                        },
-                        $documentNumber
-                    );
+                    // $step1 = preg_replace_callback(
+                    //     '/([а-яА-Яa-zA-Z])\W+/u',
+                    //     function ($matches) {
+                    //         return $matches[1]; // Возвращает найденную букву без следующих за ней символов
+                    //     },
+                    //     $documentNumber
+                    // );
 
                     // Затем удаляем нежелательные символы в конце строки, если они не являются цифрами
-                    $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
+                    // $invoiceBaseNumber =  preg_replace('/\D/', '', $documentNumber);
 
 
                     //Data
@@ -709,65 +709,65 @@ class DocumentController extends Controller
                     // Переменная для отслеживания, находимся ли мы в выделенном блоке
                     $inHighlight = false;
 
-                    if ($withLetter) {
-                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
-                        if ($withStamps) {
-                            $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                        }
+                    // if ($withLetter) {
+                    //     $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                    //     if ($withStamps) {
+                    //         $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    //     }
 
-                        $section->addPageBreak();
-                    }
+                    //     $section->addPageBreak();
+                    // }
 
-                    $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+                    // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+                    // // if ($withStamps) {
+                    // //     $section->addTextBreak(1);
+                    // //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // // }
+                    // $section->addPageBreak();
+
+
+                    // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+                    // if ($withStamps) {
+                    //     $section->addTextBreak(2);
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
+                    // $section->addPageBreak();
+
+
+
+                    // //invoices
+                    // $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
                     // if ($withStamps) {
                     //     $section->addTextBreak(1);
                     //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     // }
-                    $section->addPageBreak();
 
+                    // if (isset($alternative)) {
 
-                    $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-                    if ($withStamps) {
-                        $section->addTextBreak(2);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    }
-                    $section->addPageBreak();
-
-
-
-                    //invoices
-                    $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
-                    if ($withStamps) {
-                        $section->addTextBreak(1);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    }
-
-                    if (isset($alternative)) {
-
-                        foreach ($alternative as $alternativeCell) {
-                            $target = 'alternative';
-                            $section->addPageBreak();
-                            $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
-                            if ($withStamps) {
-                                $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                            }
-                        }
-                    }
+                    //     foreach ($alternative as $alternativeCell) {
+                    //         $target = 'alternative';
+                    //         $section->addPageBreak();
+                    //         $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
+                    //         if ($withStamps) {
+                    //             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    //         }
+                    //     }
+                    // }
 
 
 
 
-                    // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // // $stampsSection = $this->getStamps($section, $styles,  $providerRq);
 
 
 
 
-                    //Footer
-                    if ($manager && $manager['NAME']) {
-                        //data
+                    // //Footer
+                    // if ($manager && $manager['NAME']) {
+                    //     //data
 
-                        $this->getFooter($section, $styles, $manager);
-                    }
+                    //     $this->getFooter($section, $styles, $manager);
+                    // }
 
 
 
@@ -775,48 +775,48 @@ class DocumentController extends Controller
 
 
 
-                    // //СОХРАНЕНИЕ ДОКУМЕТА
-                    $uid = Uuid::uuid4()->toString();
-                    $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+                    // // //СОХРАНЕНИЕ ДОКУМЕТА
+                    // $uid = Uuid::uuid4()->toString();
+                    // $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
-                    $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
+                    // $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/' . $data['userId']);
 
 
-                    if (!file_exists($resultPath)) {
-                        mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-                    }
+                    // if (!file_exists($resultPath)) {
+                    //     mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+                    // }
 
-                    // Проверить доступность каталога для записи
-                    if (!is_writable($resultPath)) {
-                        throw new \Exception("Невозможно записать в каталог: $resultPath");
-                    }
-                    $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
-                    $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+                    // // Проверить доступность каталога для записи
+                    // if (!is_writable($resultPath)) {
+                    //     throw new \Exception("Невозможно записать в каталог: $resultPath");
+                    // }
+                    // $resultFileName = $documentNumber . '_' . $shortUid . '.docx';
+                    // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
-                    $objWriter->save($resultPath . '/' . $resultFileName);
+                    // $objWriter->save($resultPath . '/' . $resultFileName);
 
-                    // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+                    // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-                    $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+                    // $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
+                    // // return APIController::getSuccess([
+                    // //     'price' => $price,
+                    // //     'link' => $link,
+                    // //     'documentNumber' => $documentNumber,
+                    // //     'counter' => $counter,
+
+                    // // ]);
+
+                    // $this->setTimeline($domain, $dealId, $link, $documentNumber);
+                    // $bitrixController = new BitrixController();
+                    // $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
                     // return APIController::getSuccess([
                     //     'price' => $price,
                     //     'link' => $link,
                     //     'documentNumber' => $documentNumber,
-                    //     'counter' => $counter,
+                    //     // 'counter' => $counter,
 
                     // ]);
-
-                    $this->setTimeline($domain, $dealId, $link, $documentNumber);
-                    $bitrixController = new BitrixController();
-                    $response = $bitrixController->changeDealStage($domain, $dealId, "PREPARATION");
-                    return APIController::getSuccess([
-                        'price' => $price,
-                        'link' => $link,
-                        'documentNumber' => $documentNumber,
-                        // 'counter' => $counter,
-
-                    ]);
                 }
             }
         } catch (\Throwable $th) {

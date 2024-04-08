@@ -49,12 +49,12 @@ class PDFDocumentController extends Controller
                     //TODO BIG DESCRIPTION
 
                     $placement = null;
-                    if(isset($data['placement'])){
+                    if (isset($data['placement'])) {
                         $placement = $data['placement'];
                     }
 
                     $userId = null;
-                    if(isset($data['userId'])){
+                    if (isset($data['userId'])) {
                         $userId = $data['userId'];
                     }
 
@@ -140,9 +140,8 @@ class PDFDocumentController extends Controller
 
                     $withStamps = true;
 
-                    if(isset($data['withStamps'])){
+                    if (isset($data['withStamps'])) {
                         $withStamps = $data['withStamps'];
-
                     }
 
 
@@ -159,8 +158,8 @@ class PDFDocumentController extends Controller
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
                     //testing
-                  
-                  
+
+
                     // if (isset($data['isPublic'])) {
                     //     if ($data['isPublic']) {
                     //         $documentService = new BitrixDealDocumentService(
@@ -481,14 +480,30 @@ class PDFDocumentController extends Controller
         ];
         if ($manager) {
             $managerPosition = 'Ваш персональный менеджер';
+            $workPhone = '';
+            $mobilePhone = '';
+            $managerName = '';
+            $managerLastName = '';
 
             if (isset($manager['WORK_POSITION'])) {
                 if ($manager['WORK_POSITION']) {
                     $managerPosition = $manager['WORK_POSITION'];
                 }
             }
-            $managerName = $manager['NAME'];
-            $managerLastName = $manager['LAST_NAME'];
+            if (isset($manager['NAME'])) {
+                if ($manager['NAME']) {
+                    $managerName = $manager['NAME'];
+                }
+            }
+            if (isset($manager['LAST_NAME'])) {
+                if ($manager['LAST_NAME']) {
+                    $managerLastName = $manager['LAST_NAME'];
+                }
+            }
+
+
+          
+        
             $name =  $managerName . ' ' . $managerLastName;
 
 
@@ -500,12 +515,24 @@ class PDFDocumentController extends Controller
 
             $managerEmail = $manager['EMAIL'];
             $email = null;
+
             if ($managerEmail) {
                 $email = 'e-mail: ' . $managerEmail;
             }
 
-            $workPhone = $manager['WORK_PHONE'];
-            $mobilePhone = $manager['PERSONAL_MOBILE'];
+            if (isset($manager['WORK_PHONE'])) {
+                if ($manager['WORK_PHONE']) {
+                    $workPhone = $manager['WORK_PHONE'];
+                }
+            }
+
+            if (isset($manager['PERSONAL_MOBILE'])) {
+                if ($manager['PERSONAL_MOBILE']) {
+                    $mobilePhone = $manager['PERSONAL_MOBILE'];
+                }
+            }
+
+
             $phone = $workPhone;
             if (!$phone) {
                 $phone = $mobilePhone;
