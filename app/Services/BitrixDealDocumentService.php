@@ -1043,7 +1043,7 @@ class BitrixDealDocumentService
                 // $hook = $this->hook;
                 $companyId  = $this->companyId;
                 $responsibleId  = $this->userId;
-               
+
 
                 $leadId  = $this->leadId;
                 $dealId = $this->dealId;
@@ -1104,74 +1104,81 @@ class BitrixDealDocumentService
 
     protected function updateSmartItem($smartId, $isSmartCanChangeStage)
     {
-
-        $methodSmart = '/crm.item.update.json';
-        $url = $this->hook . $methodSmart;
-
-        //lead
-        //leadId UF_CRM_7_1697129037
-
-
-        $companyId  = $this->companyId;
-        $leadId  = $this->leadId;
-        $responsibleId  = $this->userId;
         $smart  = $this->aprilSmartData;
-        $dealId  = $this->dealId;
+        $resultFields = null;
+        if (!empty($smart)) {
+            if (!empty($smart['crmId'])) {
 
-        // $resulFields = [];
-        $fieldsData = [];
+                $methodSmart = '/crm.item.update.json';
+                $url = $this->hook . $methodSmart;
 
-        if ($isSmartCanChangeStage) {
-            $fieldsData['categoryId'] = $this->categoryId;
-            $fieldsData['stageId'] = $this->stageId;
+                //lead
+                //leadId UF_CRM_7_1697129037
+
+
+                $companyId  = $this->companyId;
+                $leadId  = $this->leadId;
+                $responsibleId  = $this->userId;
+
+                $dealId  = $this->dealId;
+
+                // $resulFields = [];
+                $fieldsData = [];
+
+                if ($isSmartCanChangeStage) {
+                    $fieldsData['categoryId'] = $this->categoryId;
+                    $fieldsData['stageId'] = $this->stageId;
+                }
+
+
+                // $fieldsData['ufCrm6_1702652862'] = $responsibleId; // alfacenter Ответственный ХО 
+                $fieldsData['assigned_by_id'] = $responsibleId;
+
+                if ($companyId) {
+                    $fieldsData['ufCrm7_1698134405'] = $companyId;
+                    $fieldsData['company_id'] = $companyId;
+                }
+                if ($leadId) {
+                    $fieldsData['parent_id_1'] = $leadId;
+                    $fieldsData['ufCrm7_1697129037'] = $leadId;
+                }
+
+                if ($dealId) {
+                    $fieldsData['parent_id_2'] = $dealId;
+                }
+
+
+
+                Log::channel('telegram')->error('APRIL_TEST', [
+                    'updateSmartItem' => [
+
+                        'dealId' => $dealId,
+
+
+                    ]
+                ]);
+
+
+
+
+
+
+                $entityId = $smart['crmId'];
+                $data = [
+                    'id' => $smartId,
+                    'entityTypeId' => $entityId,
+
+                    'fields' =>  $fieldsData
+
+                ];
+
+
+                $smartFieldsResponse = Http::get($url, $data);
+                $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'cold: updateSmartItemCold');
+                $resultFields = $responseData;
+            }
         }
 
-
-        // $fieldsData['ufCrm6_1702652862'] = $responsibleId; // alfacenter Ответственный ХО 
-        $fieldsData['assigned_by_id'] = $responsibleId;
-
-        if ($companyId) {
-            $fieldsData['ufCrm7_1698134405'] = $companyId;
-            $fieldsData['company_id'] = $companyId;
-        }
-        if ($leadId) {
-            $fieldsData['parent_id_1'] = $leadId;
-            $fieldsData['ufCrm7_1697129037'] = $leadId;
-        }
-
-        if ($dealId) {
-            $fieldsData['parent_id_2'] = $dealId;
-        }
-
-
-
-        Log::channel('telegram')->error('APRIL_TEST', [
-            'updateSmartItem' => [
-
-                'dealId' => $dealId,
-
-
-            ]
-        ]);
-
-
-
-
-
-
-        $entityId = $smart['crmId'];
-        $data = [
-            'id' => $smartId,
-            'entityTypeId' => $entityId,
-
-            'fields' =>  $fieldsData
-
-        ];
-
-
-        $smartFieldsResponse = Http::get($url, $data);
-        $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'cold: updateSmartItemCold');
-        $resultFields = $responseData;
 
         return $resultFields;
     }
