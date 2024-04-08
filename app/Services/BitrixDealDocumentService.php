@@ -292,9 +292,9 @@ class BitrixDealDocumentService
             $data = $this->data;
             $domain = $this->domain;
             $documentNumber = $this->documentNumber;
-            Log::channel('telegram')->error('APRIL_ONLINE', [
-                'data' => $data
-            ]);
+            // Log::channel('telegram')->error('APRIL_ONLINE', [
+            //     'data' => $data
+            // ]);
 
             // //СОХРАНЕНИЕ ДОКУМЕТА
             $uid = Uuid::uuid4()->toString();
