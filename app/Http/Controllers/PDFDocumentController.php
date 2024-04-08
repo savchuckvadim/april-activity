@@ -161,37 +161,37 @@ class PDFDocumentController extends Controller
                     //testing
                   
                   
-                    if (isset($data['isPublic'])) {
-                        if ($data['isPublic']) {
-                            $documentService = new BitrixDealDocumentService(
-                                $domain,
-                                $placement,
-                                $userId,
-                                $providerRq,
-                                $documentNumber,
-                                $data,
-                                $invoiceDate,
-                                $headerData,
-                                $doubleHeaderData,
-                                $footerData,
-                                $letterData,
-                                $infoblocksData,
-                                $bigDescriptionData,
-                                $pricesData,
-                                $stampsData,
-                                $isTwoLogo,
-                                $isGeneralInvoice,
-                                $isAlternativeInvoices,
-                                $dealId,
-                                $withStamps,
+                    // if (isset($data['isPublic'])) {
+                    //     if ($data['isPublic']) {
+                    //         $documentService = new BitrixDealDocumentService(
+                    //             $domain,
+                    //             $placement,
+                    //             $userId,
+                    //             $providerRq,
+                    //             $documentNumber,
+                    //             $data,
+                    //             $invoiceDate,
+                    //             $headerData,
+                    //             $doubleHeaderData,
+                    //             $footerData,
+                    //             $letterData,
+                    //             $infoblocksData,
+                    //             $bigDescriptionData,
+                    //             $pricesData,
+                    //             $stampsData,
+                    //             $isTwoLogo,
+                    //             $isGeneralInvoice,
+                    //             $isAlternativeInvoices,
+                    //             $dealId,
+                    //             $withStamps,
 
-                            );
-                            $documents = $documentService->getDocuments();
-                            return APIController::getSuccess(
-                                $documents
-                            );
-                        }
-                    }
+                    //         );
+                    //         $documents = $documentService->getDocuments();
+                    //         return APIController::getSuccess(
+                    //             $documents
+                    //         );
+                    //     }
+                    // }
 
 
                     //testing todo props $bigDescriptionData
