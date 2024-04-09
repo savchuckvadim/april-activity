@@ -142,16 +142,17 @@ class BitrixDealUpdateService
             ]
         ];
 
-        $response = Http::post($url, $batchData);
+        // $response = Http::post($url, $batchData);
 
-        $batchResponse = $response->json(); // Обработка ответа
+        // $batchResponse = $response->json(); // Обработка ответа
 
-        return [
-            'batchResponse' => $batchResponse,
-        ];
+       
         try {
             $response = Http::post($url, $batchData);
             $batchResponse = $response->json(); // Обработка ответа
+            return [
+                'batchResponse' => $batchResponse,
+            ];
         } catch (\Illuminate\Http\Client\RequestException $e) {
             Log::channel('telegram')->error('APRIL_ONLINE', [
                 'updateDealBitrixDealUpdate' => [
