@@ -57,7 +57,7 @@ class BitrixDealUpdateService
         //     $newDeal = $this->setDeal();
         //     $this->dealId = $newDeal;
         // }
-       
+
         $updatedDeal = $this->updateDealBitrixDealUpdate();
         $setProductRows = $this->productsSet();
         $result = [
@@ -93,7 +93,7 @@ class BitrixDealUpdateService
         $this->updateDealInfoblocksData['ID'] = $this->dealId;
         $this->updateDealContractData['ID'] = $this->dealId;
 
-
+        $batchResponse = [];
         $batchData = [
             'halt' => 0, // Продолжать выполнение даже если один из запросов вернет ошибку
             'cmd' => [
@@ -117,14 +117,55 @@ class BitrixDealUpdateService
             ]);
             $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
         }
-        $response = Http::post($url, $batchData);
 
-        // Обработка ответа
-        $batchResponse = $response->json();
-        // $infoblocksResponse =  $this->getBitrixRespone($responseInfoblocks);
-        // $batchResponse =  $this->getBitrixRespone($batchResponse);
+        try {
+            $response = Http::post($url, $batchData);
+            $batchResponse = $response->json(); // Обработка ответа
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'updateDealBitrixDealUpdate' => [
+
+                    'RequestException' => $e->getMessage(),
+
+
+
+                ]
+            ]);
+
+
+            return [
+                'batchResponse' => $batchResponse,
+            ];
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'updateDealBitrixDealUpdate' => [
+
+                    'ConnectionException' => $e->getMessage(),
+
+
+
+                ]
+            ]);
+
+            return [
+                'batchResponse' => $batchResponse,
+            ];
+        } catch (\Exception $e) {
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'General Exception' => [
+
+                    'ConnectionException' => $e->getMessage(),
+
+
+
+                ]
+            ]);
+            return [
+                'batchResponse' => $batchResponse,
+            ];
+        }
+
         return [
-            // 'infoblocksResponse' => $infoblocksResponse,
             'batchResponse' => $batchResponse,
         ];
     }
@@ -138,11 +179,24 @@ class BitrixDealUpdateService
             $product['ownerId'] = $this->dealId;
         }
 
+        try {
+            $response = Http::get($url, $this->setProductRowsData);
 
-        $response = Http::get($url, $this->setProductRowsData);
 
-        
-        return BitrixController::getBitrixRespone($response, 'productsSet');
+            return BitrixController::getBitrixRespone($response, 'productsSet');
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixController Get Hook URL' => $errorMessages
+            ]);
+
+            return null;
+        }
     }
 
 

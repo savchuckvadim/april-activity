@@ -888,6 +888,7 @@ class BitrixDealDocumentService
 
 
         try {
+            
         } catch (\Throwable $th) {
             $errorMessages =  [
                 'message'   => $th->getMessage(),
