@@ -172,14 +172,15 @@ class BitrixDealUpdateService
 
     protected function productsSet()
     {
-        $method = '/crm.item.productrow.set.json';
-        $url = $this->hook . $method;
-        $this->setProductRowsData['ownerId'] = $this->dealId;
-        foreach ($this->setProductRowsData['productRows'] as $product) {
-            $product['ownerId'] = $this->dealId;
-        }
+     
 
         try {
+            $method = '/crm.item.productrow.set.json';
+            $url = $this->hook . $method;
+            $this->setProductRowsData['ownerId'] = $this->dealId;
+            foreach ($this->setProductRowsData['productRows'] as $product) {
+                $product['ownerId'] = $this->dealId;
+            }
             $response = Http::get($url, $this->setProductRowsData);
 
 
@@ -192,7 +193,7 @@ class BitrixDealUpdateService
                 'trace'     => $th->getTraceAsString(),
             ];
             Log::channel('telegram')->error('APRIL_ONLINE', [
-                'BitrixController Get Hook URL' => $errorMessages
+                'productsSet' => $errorMessages
             ]);
 
             return null;

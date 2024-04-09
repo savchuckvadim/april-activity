@@ -36,14 +36,14 @@ class BitrixController extends Controller
                     }
                 }
             }
-            if(!$hook){
+            if (!$hook) {
                 Log::channel('telegram')->error('APRIL_ONLINE', [
                     'BitrixController getHookUrl' => [
-                        
+
                         'domain' => $domain,
                         'portalResponse' => $portalResponse,
-                      
-    
+
+
                     ]
                 ]);
             }
