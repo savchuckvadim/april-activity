@@ -100,7 +100,7 @@ class BitrixDealUpdateService
                 // Здесь указываются команды для выполнения. Ключи - это идентификаторы команд.
             ]
         ];
-
+        $batchCommandsCount = 0;
         foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
             // Закодируем параметры для URL
             $queryParams = http_build_query([
@@ -108,6 +108,7 @@ class BitrixDealUpdateService
                 'fields' => [$fieldKey => $fieldValue]
             ]);
             $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
+            $batchCommandsCount = $batchCommandsCount  +1;
         }
         foreach ($this->updateDealContractData['fields'] as $fieldKey => $fieldValue) {
             // Закодируем параметры для URL
@@ -116,8 +117,17 @@ class BitrixDealUpdateService
                 'fields' => [$fieldKey => $fieldValue]
             ]);
             $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
+            $batchCommandsCount = $batchCommandsCount  +1;
         }
+        Log::channel('telegram')->error('APRIL_ONLINE', [
+            'updateDealBitrixDealUpdate' => [
 
+                'batchCommandsCount' => $batchCommandsCount,
+
+
+
+            ]
+        ]);
         try {
             $response = Http::post($url, $batchData);
             $batchResponse = $response->json(); // Обработка ответа
@@ -172,7 +182,7 @@ class BitrixDealUpdateService
 
     protected function productsSet()
     {
-     
+
 
         try {
             $method = '/crm.item.productrow.set.json';
