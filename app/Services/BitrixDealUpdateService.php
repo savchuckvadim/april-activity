@@ -88,46 +88,67 @@ class BitrixDealUpdateService
         $url = $this->hook . $method;
 
 
-        $this->updateDealInfoblocksData['id'] = $this->dealId;
-        $this->updateDealContractData['id'] = $this->dealId;
-        $this->updateDealInfoblocksData['ID'] = $this->dealId;
-        $this->updateDealContractData['ID'] = $this->dealId;
+        // $this->updateDealInfoblocksData['id'] = $this->dealId;
+        // $this->updateDealContractData['id'] = $this->dealId;
+        // $this->updateDealInfoblocksData['ID'] = $this->dealId;
+        // $this->updateDealContractData['ID'] = $this->dealId;
 
-        $batchResponse = [];
+        // $batchResponse = [];
+        // $batchData = [
+        //     'halt' => 0, // Продолжать выполнение даже если один из запросов вернет ошибку
+        //     'cmd' => [
+        //         // Здесь указываются команды для выполнения. Ключи - это идентификаторы команд.
+        //     ]
+        // ];
+        // $batchCommandsCount = 0;
+        // foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
+        //     // Закодируем параметры для URL
+        //     $queryParams = http_build_query([
+        //         'id' => $this->dealId,
+        //         'fields' => [$fieldKey => $fieldValue]
+        //     ]);
+        //     $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
+        //     $batchCommandsCount = $batchCommandsCount  +1;
+        // }
+        // foreach ($this->updateDealContractData['fields'] as $fieldKey => $fieldValue) {
+        //     // Закодируем параметры для URL
+        //     $queryParams = http_build_query([
+        //         'id' => $this->dealId,
+        //         'fields' => [$fieldKey => $fieldValue]
+        //     ]);
+        //     $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
+        //     $batchCommandsCount = $batchCommandsCount  +1;
+        // }
+        // Подготовка данных для первого запроса обновления сделки
+        $infoblocksUpdateFields = [
+            'id' => $this->dealId,
+            'ID' => $this->dealId,
+            'fields' => $this->updateDealInfoblocksData['fields']
+        ];
+
+        // Подготовка данных для второго запроса обновления сделки
+        $contractUpdateFields = [
+            'id' => $this->dealId,
+            'ID' => $this->dealId,
+            'fields' => $this->updateDealContractData['fields']
+        ];
+
+        // Инициализация данных batch-запроса
         $batchData = [
             'halt' => 0, // Продолжать выполнение даже если один из запросов вернет ошибку
             'cmd' => [
-                // Здесь указываются команды для выполнения. Ключи - это идентификаторы команд.
+                "update_infoblocks" => "crm.deal.update?" . http_build_query($infoblocksUpdateFields),
+                "update_contract" => "crm.deal.update?" . http_build_query($contractUpdateFields)
             ]
         ];
-        $batchCommandsCount = 0;
-        foreach ($this->updateDealInfoblocksData['fields'] as $fieldKey => $fieldValue) {
-            // Закодируем параметры для URL
-            $queryParams = http_build_query([
-                'id' => $this->dealId,
-                'fields' => [$fieldKey => $fieldValue]
-            ]);
-            $batchData['cmd']["update_iblocks_$fieldKey"] = "crm.deal.update?$queryParams";
-            $batchCommandsCount = $batchCommandsCount  +1;
-        }
-        foreach ($this->updateDealContractData['fields'] as $fieldKey => $fieldValue) {
-            // Закодируем параметры для URL
-            $queryParams = http_build_query([
-                'id' => $this->dealId,
-                'fields' => [$fieldKey => $fieldValue]
-            ]);
-            $batchData['cmd']["update_contract_$fieldKey"] = "crm.deal.update?$queryParams";
-            $batchCommandsCount = $batchCommandsCount  +1;
-        }
-        Log::channel('telegram')->error('APRIL_ONLINE', [
-            'updateDealBitrixDealUpdate' => [
 
-                'batchCommandsCount' => $batchCommandsCount,
+        $response = Http::post($url, $batchData);
 
+        $batchResponse = $response->json(); // Обработка ответа
 
-
-            ]
-        ]);
+        return [
+            'batchResponse' => $batchResponse,
+        ];
         try {
             $response = Http::post($url, $batchData);
             $batchResponse = $response->json(); // Обработка ответа

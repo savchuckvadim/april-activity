@@ -149,20 +149,20 @@ class BitrixDealDocumentService
 
 
 
-        Log::channel('telegram')->error('APRIL_ONLINE', [
-            'data' => [
-                'domain' => $this->domain,
-                'placement' => $this->placement,
-                'documentNumber' => $this->documentNumber,
-                'dealId' => $this->dealId,
+        // Log::channel('telegram')->error('APRIL_ONLINE', [
+        //     'data' => [
+        //         'domain' => $this->domain,
+        //         'placement' => $this->placement,
+        //         'documentNumber' => $this->documentNumber,
+        //         'dealId' => $this->dealId,
 
-                'hook' => $this->hook,
-                'placementType' => $this->placementType,
-                'currentEntityId' => $this->currentEntityId,
+        //         'hook' => $this->hook,
+        //         'placementType' => $this->placementType,
+        //         'currentEntityId' => $this->currentEntityId,
 
                 
-            ]
-        ]);
+        //     ]
+        // ]);
 
 
         $portal = null;
@@ -317,9 +317,9 @@ class BitrixDealDocumentService
 
 
             if (!file_exists($resultPath)) {
-                Log::channel('telegram')->error('APRIL_ONLINE', [
-                    'resultPath' => $resultPath
-                ]);
+                // Log::channel('telegram')->error('APRIL_ONLINE', [
+                //     'resultPath' => $resultPath
+                // ]);
 
                 mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
             }
@@ -962,15 +962,15 @@ class BitrixDealDocumentService
     {
         sleep(1);
         $currentSmart = $this->getSmartItem();
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'smartProccess' => [
+        // Log::channel('telegram')->info('APRIL_ONLINE', [
+        //     'smartProccess' => [
 
-                'currentSmart' => $currentSmart,
+        //         'currentSmart' => $currentSmart,
 
 
 
-            ]
-        ]);
+        //     ]
+        // ]);
         sleep(1);
         if (!empty($currentSmart)) {
             if (isset($currentSmart['id'])) {
