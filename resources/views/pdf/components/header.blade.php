@@ -35,7 +35,7 @@
             <!-- Если isTwoLogo ложно, отображаем текст -->
             <div class="cellItem">
                 <div class="rq-wrapper">
-                    <p class="text-small">{{ $headerData['rq'] }}</p>
+                    <p class="text-xsmall">{!! nl2br(e($headerData['rq'])) !!}</p>
                 </div>
 
             </div>
