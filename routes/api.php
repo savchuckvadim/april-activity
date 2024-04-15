@@ -90,7 +90,7 @@ Route::middleware(['ajax.only'])->group(function () {
         Log::channel('telegram')->info('APRIL_ONLINE', [
             'get/document domain' => $data['domain'],
             'get/document userId' => $data['userId'],
-            'get/document manager' => $data['manager'],
+            'get/document manager' => $data['manager']['NAME'],
         ]);
 
         $documentController = new PDFDocumentController;

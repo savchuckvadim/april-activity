@@ -160,7 +160,7 @@ class BitrixDealDocumentService
         //         'placementType' => $this->placementType,
         //         'currentEntityId' => $this->currentEntityId,
 
-                
+
         //     ]
         // ]);
 
@@ -210,6 +210,15 @@ class BitrixDealDocumentService
 
             }
         }
+
+
+        Log::channel('telegram')->info('APRIL_ONLINE Service constructor', [
+
+            'documentnumber' => $this->documentNumber,
+            'USER_ID' => $this->userId,
+
+            // 'PDFDocumentController' => $data,
+        ]);
     }
 
 
@@ -273,10 +282,10 @@ class BitrixDealDocumentService
             // 'link' => $invoices[0],  invoice testing
             'invoiceLinks' => $invoices,
             'links' => $links,
-            'bigDescriptionData' => $this->bigDescriptionData
+            // 'bigDescriptionData' => $this->bigDescriptionData
 
         ];
-
+        Log::channel('telegram')->info('APRIL_ONLINE Service result', $result);
         return  $result;
     }
 
@@ -888,7 +897,6 @@ class BitrixDealDocumentService
 
 
         try {
-            
         } catch (\Throwable $th) {
             $errorMessages =  [
                 'message'   => $th->getMessage(),

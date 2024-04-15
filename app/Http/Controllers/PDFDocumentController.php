@@ -53,7 +53,7 @@ class PDFDocumentController extends Controller
                         'DOMAIN' => $data['domain'],
                         'USER_ID' => $data['userId'],
 
-                        'PDFDocumentController' => $data,
+                        // 'PDFDocumentController' => $data,
                     ]);
                     //
 
@@ -236,7 +236,7 @@ class PDFDocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-
+            Log::channel('telegram')->info('APRIL_ONLINE Service result',[ 'error messages' => $th->getMessage()]);
             return APIController::getError($th->getMessage(), ['come' => $data, 'pdf' => $pdfData]);
         }
     }
