@@ -1173,14 +1173,14 @@ class BitrixDealDocumentService
 
 
 
-                Log::channel('telegram')->error('APRIL_TEST', [
-                    'updateSmartItem' => [
+                // Log::channel('telegram')->error('APRIL_TEST', [
+                //     'updateSmartItem' => [
 
-                        'dealId' => $dealId,
+                //         'dealId' => $dealId,
 
 
-                    ]
-                ]);
+                //     ]
+                // ]);
 
 
 
