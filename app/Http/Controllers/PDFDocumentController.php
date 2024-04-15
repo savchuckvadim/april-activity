@@ -733,7 +733,7 @@ class PDFDocumentController extends Controller
 
         ];
         $currentPageItemsCount = 0;
-        $erSubstring = "Пакет энциклопедий решений";
+        $erSubstring = "Пакет Энциклопедий решений";
 
         // Проверка наличия подстроки в строке без учета регистра
 
