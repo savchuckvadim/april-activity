@@ -46,6 +46,21 @@ class PDFDocumentController extends Controller
                         }
                     }
 
+
+                    //LOG
+                    Log::channel('telegram')->info('APRIL_TEST', [
+                        
+                        'DOMAIN' => $data['domain'],
+                        'USER_ID' => $data['userId'],
+                        'MANAGER' => $data['manager'],
+                        'PDFDocumentController' => $data,
+                    ]);
+                    //
+
+
+
+
+
                     //TODO BIG DESCRIPTION
 
                     $placement = null;
@@ -502,8 +517,8 @@ class PDFDocumentController extends Controller
             }
 
 
-          
-        
+
+
             $name =  $managerName . ' ' . $managerLastName;
 
 

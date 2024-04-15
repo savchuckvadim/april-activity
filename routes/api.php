@@ -87,9 +87,9 @@ Route::middleware(['ajax.only'])->group(function () {
         //         ]
         //     ]);
         // }
-        // Log::channel('telegram')->error('APRIL_TEST', [
-        //     'Get Document DATA' => $data
-        // ]);
+        Log::channel('telegram')->error('APRIL_TEST', [
+            'Get Document DATA' => $data
+        ]);
 
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
