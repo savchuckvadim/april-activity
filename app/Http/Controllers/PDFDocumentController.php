@@ -49,7 +49,7 @@ class PDFDocumentController extends Controller
 
                     //LOG
                     Log::channel('telegram')->info('APRIL_ONLINE', [
-                        
+
                         'DOMAIN' => $data['domain'],
                         'USER_ID' => $data['userId'],
 
@@ -236,7 +236,7 @@ class PDFDocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            Log::channel('telegram')->info('APRIL_ONLINE Service result',[ 'error messages' => $th->getMessage()]);
+            Log::channel('telegram')->info('APRIL_ONLINE Service result', ['error messages' => $th->getMessage()]);
             return APIController::getError($th->getMessage(), ['come' => $data, 'pdf' => $pdfData]);
         }
     }
@@ -733,54 +733,60 @@ class PDFDocumentController extends Controller
 
         ];
         $currentPageItemsCount = 0;
+        $erSubstring = "Пакет энциклопедий решений";
+
+        // Проверка наличия подстроки в строке без учета регистра
 
         foreach ($complect as $group) {
-            $groupItems = [];
-            foreach ($group['value'] as $infoblock) {
-                if (!array_key_exists('code', $infoblock)) {
-                    continue;
+
+            if (stripos($group['groupsName'], $erSubstring) === false) {
+                $groupItems = [];
+                foreach ($group['value'] as $infoblock) {
+                    if (!array_key_exists('code', $infoblock)) {
+                        continue;
+                    }
+
+                    $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
+                    if ($infoblock['code'] == 'reg') {
+                        $infoblockData['name'] = $region['infoblock'];
+
+                        // Извлечение названия региона из заголовка
+                        $regionName = trim(str_replace("Законодательство", "", $region['infoblock']));
+
+                        // Замена в тексте
+                        $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
+                        $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
+                    }
+                    if ($infoblockData) {
+                        $groupItems[] = $infoblockData;
+                        array_push($currentPage['items'], $infoblockData);
+                    }
                 }
 
-                $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
-                if ($infoblock['code'] == 'reg') {
-                    $infoblockData['name'] = $region['infoblock'];
+                // Распределение элементов группы по страницам
+                while (!empty($groupItems)) {
+                    $spaceLeft = $itemsPerPage - $currentPageItemsCount; // Сколько элементов помещается на страницу
+                    if ($spaceLeft == 0) {
+                        // Если на текущей странице нет места, переходим к следующей
+                        $pages[] = $currentPage;
+                        $currentPage = [
+                            'groups' => [],
+                            'items' => []
 
-                    // Извлечение названия региона из заголовка
-                    $regionName = trim(str_replace("Законодательство", "", $region['infoblock']));
+                        ];
+                        $currentPageItemsCount = 0;
+                        $spaceLeft = $itemsPerPage;
+                    }
 
-                    // Замена в тексте
-                    $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
-                    $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
-                }
-                if ($infoblockData) {
-                    $groupItems[] = $infoblockData;
-                    array_push($currentPage['items'], $infoblockData);
-                }
-            }
-
-            // Распределение элементов группы по страницам
-            while (!empty($groupItems)) {
-                $spaceLeft = $itemsPerPage - $currentPageItemsCount; // Сколько элементов помещается на страницу
-                if ($spaceLeft == 0) {
-                    // Если на текущей странице нет места, переходим к следующей
-                    $pages[] = $currentPage;
-                    $currentPage = [
-                        'groups' => [],
-                        'items' => []
-
-                    ];
-                    $currentPageItemsCount = 0;
-                    $spaceLeft = $itemsPerPage;
-                }
-
-                $itemsToAdd = array_splice($groupItems, 0, $spaceLeft); // Элементы, которые поместятся на страницу
-                if (!empty($itemsToAdd)) {
-                    // Добавляем часть группы на текущую страницу
-                    $currentPage['groups'][] = [
-                        'name' => $group['groupsName'],
-                        'items' => $itemsToAdd
-                    ];
-                    $currentPageItemsCount += count($itemsToAdd);
+                    $itemsToAdd = array_splice($groupItems, 0, $spaceLeft); // Элементы, которые поместятся на страницу
+                    if (!empty($itemsToAdd)) {
+                        // Добавляем часть группы на текущую страницу
+                        $currentPage['groups'][] = [
+                            'name' => $group['groupsName'],
+                            'items' => $itemsToAdd
+                        ];
+                        $currentPageItemsCount += count($itemsToAdd);
+                    }
                 }
             }
         }
@@ -943,7 +949,7 @@ class PDFDocumentController extends Controller
         if ($styleMode === 'list') {
 
             if ($descriptionMode === 0 || $descriptionMode === 3) {
-                $itemsPerPage = 40;
+                $itemsPerPage = 34;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 9;
             } else if ($descriptionMode === 2) {
@@ -951,7 +957,7 @@ class PDFDocumentController extends Controller
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0 || $descriptionMode === 3) {
-                $itemsPerPage = 60;
+                $itemsPerPage = 40;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 18;
             } else  if ($descriptionMode === 2) {

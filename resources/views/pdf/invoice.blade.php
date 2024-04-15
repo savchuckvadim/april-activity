@@ -91,8 +91,6 @@
             font-weight: bold;
             color: rgb(48, 115, 230);
             /* color: rgb(58, 102, 172);  garant */
-
-
         }
 
         .shadow {
