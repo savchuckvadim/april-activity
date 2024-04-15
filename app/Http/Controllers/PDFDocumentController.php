@@ -48,13 +48,13 @@ class PDFDocumentController extends Controller
 
 
                     //LOG
-                    Log::channel('telegram')->info('APRIL_ONLINE', [
+                    // Log::channel('telegram')->info('APRIL_ONLINE', [
                         
-                        'DOMAIN' => $data['domain'],
-                        'USER_ID' => $data['userId'],
-                        'MANAGER' => $data['manager'],
-                        'PDFDocumentController' => $data,
-                    ]);
+                    //     'DOMAIN' => $data['domain'],
+                    //     'USER_ID' => $data['userId'],
+                    //     'MANAGER' => $data['manager'],
+                    //     'PDFDocumentController' => $data,
+                    // ]);
                     //
 
 
