@@ -400,13 +400,13 @@ class PDFDocumentController extends Controller
 
             $rq = $companyName;
             if ($providerRq['inn']) {
-                $rq = $rq . ', \n ИНН: ' . $providerRq['inn'];
+                $rq = $rq . ', ИНН: ' . $providerRq['inn'];
             }
             if ($providerRq['kpp']) {
                 $rq = $rq . ', КПП: ' . $providerRq['kpp'];
-            } 
+            }
 
-            $rq = $rq . ', \n' . $providerRq['primaryAdresss'];
+            $rq = $rq . ', ' . $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
                 $rq = $rq . ', ' . $providerRq['phone'];
             }
