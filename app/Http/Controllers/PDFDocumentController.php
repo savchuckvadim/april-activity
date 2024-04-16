@@ -47,19 +47,8 @@ class PDFDocumentController extends Controller
                     }
 
 
-                    //LOG
-                    Log::channel('telegram')->info('APRIL_ONLINE', [
-
-                        'DOMAIN' => $data['domain'],
-                        'USER_ID' => $data['userId'],
-
-                        // 'PDFDocumentController' => $data,
-                    ]);
-                    //
-
-
-
-
+                    
+                 
 
                     //TODO BIG DESCRIPTION
 
