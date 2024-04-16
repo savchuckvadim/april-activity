@@ -39,7 +39,8 @@ class BitrixDealDocumentJob implements ShouldQueue
     protected $isAlternativeInvoices;
     protected $dealId;
     protected $withStamps;
-
+    protected $withManager;
+    
     protected $userId;
 
 
@@ -64,7 +65,8 @@ class BitrixDealDocumentJob implements ShouldQueue
         $isGeneralInvoice,
         $isAlternativeInvoices,
         $dealId,
-        $withStamps
+        $withStamps,
+        $withManager
 
 
 
@@ -90,6 +92,7 @@ class BitrixDealDocumentJob implements ShouldQueue
         $this->isAlternativeInvoices =  $isAlternativeInvoices;
         $this->dealId =  $dealId;
         $this->withStamps = $withStamps;
+        $this->withManager = $withManager;
     }
 
     /**
@@ -120,7 +123,8 @@ class BitrixDealDocumentJob implements ShouldQueue
             $this->isGeneralInvoice,
             $this->isAlternativeInvoices,
             $this->dealId,
-            $this->withStamps
+            $this->withStamps,
+            $this->withManager
         );
         $documents = $documentService->getDocuments();
     }
