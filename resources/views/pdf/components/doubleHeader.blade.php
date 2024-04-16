@@ -29,8 +29,12 @@
 <div class="header-double">
     <div class="rowItem">
         <div class="double-rq-left">
+            @php
+      
+            $headerRqText = str_replace("\\n", "\n", $doubleHeaderData['first']);
+            @endphp
             <p class="text-small">
-                {{ $doubleHeaderData['first'] }}
+                {!! nl2br(e($headerRqText)) !!}
             </p>
         </div>
         <div style="display: table-cell;"></div>

@@ -12,7 +12,7 @@
     .rq-wrapper {
         margin: 0px;
         padding: 0px;
-        width: 280px;
+        width: 310px;
     }
 
     .logo {
@@ -23,6 +23,7 @@
     }
 </style>
 <header>
+  
     <div
     
     class="rowItem">
@@ -33,9 +34,14 @@
             </div>
         @else
             <!-- Если isTwoLogo ложно, отображаем текст -->
+
+            @php
+      
+            $headerRqText = str_replace("\\n", "\n", $headerData['rq']);
+            @endphp
             <div class="cellItem">
                 <div class="rq-wrapper">
-                    <p class="text-small">{!! nl2br(e($headerData['rq'])) !!}</p>
+                    <p class="text-small">{!! nl2br(e($headerRqText)) !!}</p>
                 </div>
 
             </div>

@@ -31,7 +31,7 @@
 
 
         .page-content {
-            margin-top: 80px;
+            margin-top: 90px;
             vertical-align: top;
         }
 
@@ -86,7 +86,13 @@
             font-weight: bold;
             color: rgb(220, 26, 33);
         }
+        .blue {
+            font-weight: bold;
+            color: rgb(48, 115, 230);
+            /* color: rgb(58, 102, 172);  garant */
 
+
+        }
         .bold {
             font-weight: bold;
 
@@ -99,10 +105,14 @@
 </head>
 
 <body {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}>
+   
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
+    @if ($withManager)
     @component('pdf.components.footer', $footerData)
     @endcomponent
+    @endif
+    
     @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent

@@ -39,72 +39,11 @@ use function morphos\Russian\inflectName;
 //         return BitrixController::hooktest($request);
 //     });
 // });
-Route::middleware(['ajax.only'])->group(function () {
-    // Route::middleware(['api.key, ajax.only'])->group(function () {
+Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
 
 
-    Route::get('/sntm/test', function (Request $request) {
-        $apiKey = 'common';
-
-
-
-        return APIController::getSuccess(['yo' => $apiKey]);
-    });
-
-
-    Route::post('getportal', function (Request $request) {
-        $domain  = $request->input('domain');
-        return PortalController::getPortal($domain);
-    });
-
-
-
-
-
-
-    Route::post('innerhook/call', function (Request $request) {
-
-        $controller = new BitrixTelephony();
-        $result = $controller->statisticGet($request);
-
-        return APIController::getSuccess(['result' => 'success']);
-    });
-
-
-
-    Route::post('get/document', function (Request $request) {
-        $data  = $request->input('data');
-
-
-        // if (isset($data['dealId'])) {
-        //     Log::channel('telegram')->error('APRIL_TEST', [
-        //         'Get Document' => [
-
-        //             'dealId' => $data['dealId'],
-
-
-        //         ]
-        //     ]);
-        // }
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'get/document domain' => $data['domain'],
-            'get/document userId' => $data['userId'],
-            'get/document manager' => $data['manager']['NAME'],
-        ]);
-
-        $documentController = new PDFDocumentController;
-        $result = $documentController->getDocument($data);
-
-
-        return $result;
-    });
-
-
-
-    /////DEALS
-
-
+    ///KONSTRUKTOR OFFER API
     Route::post('/deal', function (Request $request) {
 
         return DealController::addDeal($request);
@@ -114,8 +53,6 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return DealController::getDeal($request);
     });
-
-
     Route::post('/getdeals', function (Request $request) {
         return DealController::getDeals($request->parameter, $request->value);
     });
@@ -124,25 +61,21 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
 
+    Route::post('get/document', function (Request $request) {
+        $data  = $request->input('data');
+
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'get/document domain' => $data['domain'],
+            'get/document userId' => $data['userId'],
+            // 'get/document manager' => $data['manager']['NAME'],
+        ]);
+
+        $documentController = new PDFDocumentController;
+        $result = $documentController->getDocument($data);
 
 
-
-
-    Route::get('portal/{portalId}', function ($portalId) {
-        return PortalController::getPortalById($portalId);
+        return $result;
     });
-
-
-    Route::get('portals', function () {
-        return PortalController::getPortals();
-    });
-
-
-
-
-
-
-
     Route::get('templates/{domain}', function ($domain) {
         return TemplateController::getTemplates($domain);
     });
@@ -193,6 +126,111 @@ Route::middleware(['ajax.only'])->group(function () {
             ]);
         }
     });
+
+
+    Route::post('konstructor/bitrix/deal/update', function (Request $request) {
+        $domain = $request->input('domain');
+        $dealId = $request->input('dealId');
+        $setDealData = $request->input('setDealData');
+        $updateDealInfoblocksData = $request->input('updateDealInfoblocksData');
+        $updateDealContractData    = $request->input('updateDealContractData');
+        $setProductRowsData = $request->input('setProductRowsData');
+        $updateProductRowsData = $request->input('updateProductRowsData');
+        $placement = $request->input('placement');
+
+        // $service = new BitrixDealUpdateService(
+        //     $domain,
+        //     $dealId,
+        //     $setDealData,
+        //     $updateDealInfoblocksData,
+        //     $updateDealContractData,
+        //     $setProductRowsData,
+        //     $updateProductRowsData
+
+        // );
+        $controller = new BitrixController;
+
+        $data = $controller->konstructBitrixDealUpdate(
+            $domain,
+            $placement,
+            $dealId,
+            $setDealData,
+            $updateDealInfoblocksData,
+            $updateDealContractData,
+            $setProductRowsData,
+            $updateProductRowsData
+        );
+        return $data;
+    });
+});
+
+
+
+Route::middleware(['api.key'])->group(function () {
+
+
+
+    Route::get('/sntm/test', function (Request $request) {
+        $apiKey = 'common';
+
+
+
+        return APIController::getSuccess(['yo' => $apiKey]);
+    });
+
+
+    Route::post('getportal', function (Request $request) {
+        $domain  = $request->input('domain');
+        return PortalController::getPortal($domain);
+    });
+
+
+
+
+
+
+    Route::post('innerhook/call', function (Request $request) {
+
+        $controller = new BitrixTelephony();
+        $result = $controller->statisticGet($request);
+
+        return APIController::getSuccess(['result' => 'success']);
+    });
+
+
+
+
+
+
+
+    /////DEALS
+
+
+
+
+
+
+
+
+
+
+
+
+    Route::get('portal/{portalId}', function ($portalId) {
+        return PortalController::getPortalById($portalId);
+    });
+
+
+    Route::get('portals', function () {
+        return PortalController::getPortals();
+    });
+
+
+
+
+
+
+
 
 
 
@@ -286,42 +324,6 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return BitrixController::getCompany($request);
     });
-
-    Route::post('konstructor/bitrix/deal/update', function (Request $request) {
-        $domain = $request->input('domain');
-        $dealId = $request->input('dealId');
-        $setDealData = $request->input('setDealData');
-        $updateDealInfoblocksData = $request->input('updateDealInfoblocksData');
-        $updateDealContractData    = $request->input('updateDealContractData');
-        $setProductRowsData = $request->input('setProductRowsData');
-        $updateProductRowsData = $request->input('updateProductRowsData');
-        $placement = $request->input('placement');
-
-        // $service = new BitrixDealUpdateService(
-        //     $domain,
-        //     $dealId,
-        //     $setDealData,
-        //     $updateDealInfoblocksData,
-        //     $updateDealContractData,
-        //     $setProductRowsData,
-        //     $updateProductRowsData
-
-        // );
-        $controller = new BitrixController;
-
-        $data = $controller->konstructBitrixDealUpdate(
-            $domain,
-            $placement,
-            $dealId,
-            $setDealData,
-            $updateDealInfoblocksData,
-            $updateDealContractData,
-            $setProductRowsData,
-            $updateProductRowsData
-        );
-        return $data;
-    });
-
 
 
     Route::post('bitrixdeal', function (Request $request) {

@@ -42,6 +42,8 @@ class BitrixDealDocumentService
 
 
     protected $withStamps;
+    protected $withManager;
+
     protected $userId;
     protected $aprilSmartData;
 
@@ -54,6 +56,9 @@ class BitrixDealDocumentService
     protected $leadId;
     protected $companyId;
     protected $dealId;
+
+
+
 
     public function __construct(
         $domain,
@@ -75,7 +80,8 @@ class BitrixDealDocumentService
         $isGeneralInvoice,
         $isAlternativeInvoices,
         $dealId,
-        $withStamps
+        $withStamps,
+        $withManager
 
 
 
@@ -103,6 +109,8 @@ class BitrixDealDocumentService
 
         $this->dealId =  $dealId;
         $this->withStamps = $withStamps;
+        $this->withManager = $withManager;
+
         $this->hook = BitrixController::getHook($domain);
 
         $this->placementType = null;
@@ -306,7 +314,9 @@ class BitrixDealDocumentService
                 'bigDescriptionData' => $this->bigDescriptionData,
                 'pricesData' => $this->pricesData,
                 'stampsData' =>  $this->stampsData,
-                'withStamps' =>   $this->withStamps
+                'withStamps' =>   $this->withStamps,
+                'withManager' =>   $this->withManager
+
                 // 'invoiceData' => $invoiceData,
             ]);
 
@@ -358,6 +368,9 @@ class BitrixDealDocumentService
             ];
             Log::error('ERROR: Exception caught',  $errorMessages);
             Log::info('error', ['error' => $th->getMessage()]);
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixDealDocumentService error' => $errorMessages
+            ]);
             return null;
         }
     }

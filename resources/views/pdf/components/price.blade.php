@@ -58,7 +58,8 @@
 
         text-align: right;
     }
-    .sale-phrase-wrapper{
+
+    .sale-phrase-wrapper {
         margin-top: 15px;
     }
 </style>
@@ -256,9 +257,52 @@
                 </p>
             </div>
         @endif
+        @php
+            $salePhraseText = str_replace("\\n", "\n", $salePhrase);
 
+            // Разбиение текста на части с сохранением разделителей
+            $parts = preg_split(
+                '/(<red>|<\/red>|<blue>|<\/blue>|<bold>|<\/bold>)/',
+                $salePhraseText,
+                -1,
+                PREG_SPLIT_DELIM_CAPTURE,
+            );
+
+            $formattedText = '';
+            $currentTags = [];
+
+            foreach ($parts as $part) {
+                switch ($part) {
+                    case '<red>':
+                    case '<blue>':
+                    case '<bold>':
+                        array_push($currentTags, trim($part, '<>'));
+                        break;
+                    case '</red>':
+                    case '</blue>':
+                    case '</bold>':
+                        array_pop($currentTags);
+                        break;
+                    default:
+                        // Обработка звездочек в начале строки и после переносов
+                        $part = preg_replace("/(^|\n)\*/m", "$1•", $part);
+                        if (!empty($currentTags)) {
+                            $class = implode(' ', $currentTags);
+                            $formattedText .= '<span class="' . $class . '">' . e($part) . '</span>';
+                        } else {
+                            $formattedText .= e($part);
+                        }
+                        break;
+                }
+            }
+
+            // Добавление переносов строк
+            $formattedText = nl2br($formattedText);
+        @endphp
         <div class="sale-phrase-wrapper">
-            <p class="text-normal">{{ $salePhrase }}</p>
+            <p class="text-large">
+                {!! $formattedText !!}
+            </p>
         </div>
 
     @endif

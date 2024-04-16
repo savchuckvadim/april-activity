@@ -28,7 +28,7 @@ class PDFDocumentController extends Controller
     {
         $pdfData = [];
         try {
-            if ($data &&  isset($data['template'])) {
+            if ($data &&  isset($data['template']) && isset($data['infoblocks'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
 
@@ -74,12 +74,56 @@ class PDFDocumentController extends Controller
                     }
 
 
+                    //DOCUMENT SETTINGS
                     //infoblocks data
                     $infoblocksOptions = [
                         'description' => $data['infoblocks']['description']['current'],
                         // 'description' => ['id' => 3],
                         'style' => $data['infoblocks']['style']['current']['code'],
                     ];
+
+                    $settings = $data['infoblocks'];
+                    $withStamps = true;
+                    $withManager = true;
+
+
+                    if (isset($settings['withStamps'])) {
+                        if (isset($settings['withStamps']['current'])) {
+                            if (isset($settings['withStamps']['current']['code'])) {
+                                if($settings['withStamps']['current']['code'] === 'yes'){
+                                    $withStamps = true;
+                                }else if($settings['withStamps']['current']['code'] === 'no'){
+                                    $withStamps = false;
+                                }
+                               
+                            }
+                        }
+                    } else {
+                        if (isset($data['withStamps'])) {
+                            $withStamps = $data['withStamps'];
+                        }
+                    }
+                    if (isset($settings['withManager'])) {
+                        if (isset($settings['withManager']['current'])) {
+                            if (isset($settings['withManager']['current']['code'])) {
+                                if($settings['withManager']['current']['code'] === 'yes'){
+                                    $withManager = true;
+                                }else if($settings['withManager']['current']['code'] === 'no'){
+                                    $withManager = false;
+                                }
+                               
+                            }
+                        }
+                    }
+                    $salePhrase = '';
+
+                    if (isset($data['salePhrase'])) {
+                        $salePhrase = $data['salePhrase'];
+                    }
+
+
+
+
                     $complect = $data['complect'];
 
                     $region = $data['region'];
@@ -132,12 +176,7 @@ class PDFDocumentController extends Controller
 
                     $isGeneralInvoice = false;
                     $isAlternativeInvoices = false;
-                    $salePhrase = '';
-
-                    if (isset($data['salePhrase'])) {
-                        $salePhrase = $data['salePhrase'];
-                    }
-
+              
 
 
                     if (isset($invoiceData['one']) && isset($invoiceData['many'])) {
@@ -153,11 +192,6 @@ class PDFDocumentController extends Controller
 
 
 
-                    $withStamps = true;
-
-                    if (isset($data['withStamps'])) {
-                        $withStamps = $data['withStamps'];
-                    }
 
 
 
@@ -166,7 +200,7 @@ class PDFDocumentController extends Controller
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                     $footerData  = $this->getFooterData($manager, $domain);
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
-                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase);
+                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps);
                     //testing       // $bigDescriptionData  = $this->getBigDescriptionData($complect, $complectName);
                     $bigDescriptionData = [];
                     $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false);
@@ -175,64 +209,70 @@ class PDFDocumentController extends Controller
                     //testing
 
 
-                    // if (isset($data['isPublic'])) {
-                    //     if ($data['isPublic']) {
-                    //         $documentService = new BitrixDealDocumentService(
-                    //             $domain,
-                    //             $placement,
-                    //             $userId,
-                    //             $providerRq,
-                    //             $documentNumber,
-                    //             $data,
-                    //             $invoiceDate,
-                    //             $headerData,
-                    //             $doubleHeaderData,
-                    //             $footerData,
-                    //             $letterData,
-                    //             $infoblocksData,
-                    //             $bigDescriptionData,
-                    //             $pricesData,
-                    //             $stampsData,
-                    //             $isTwoLogo,
-                    //             $isGeneralInvoice,
-                    //             $isAlternativeInvoices,
-                    //             $dealId,
-                    //             $withStamps,
+                    if (isset($data['isPublic'])) {
+                        if (!empty($data['isPublic'])) {
+                            $documentService = new BitrixDealDocumentService(
+                                $domain,
+                                $placement,
+                                $userId,
+                                $providerRq,
+                                $documentNumber,
+                                $data,
+                                $invoiceDate,
+                                $headerData,
+                                $doubleHeaderData,
+                                $footerData,
+                                $letterData,
+                                $infoblocksData,
+                                $bigDescriptionData,
+                                $pricesData,
+                                $stampsData,
+                                $isTwoLogo,
+                                $isGeneralInvoice,
+                                $isAlternativeInvoices,
+                                $dealId,
+                                $withStamps,
+                                $withManager
 
-                    //         );
-                    //         $documents = $documentService->getDocuments();
-                    //         return APIController::getSuccess(
-                    //             $documents
-                    //         );
-                    //     }
-                    // }
+                            );
+                            $documents = $documentService->getDocuments();
+                            return APIController::getSuccess(
+                                $documents
+
+                            );
+                        }
+                    } else {
+
+                        dispatch(new BitrixDealDocumentJob(
+                            $domain,
+                            $placement,
+                            $userId,
+                            $providerRq,
+                            $documentNumber,
+                            $data,
+                            $invoiceDate,
+                            $headerData,
+                            $doubleHeaderData,
+                            $footerData,
+                            $letterData,
+                            $infoblocksData,
+                            $bigDescriptionData,
+                            $pricesData,
+                            $stampsData,
+                            $isTwoLogo,
+                            $isGeneralInvoice,
+                            $isAlternativeInvoices,
+                            $dealId,
+                            $withStamps,
+                            $withManager
+                        ));
+
+                        return APIController::getSuccess(['job' => 'get it !']);
+                    }
 
 
                     //testing todo props $bigDescriptionData
-                    dispatch(new BitrixDealDocumentJob(
-                        $domain,
-                        $placement,
-                        $userId,
-                        $providerRq,
-                        $documentNumber,
-                        $data,
-                        $invoiceDate,
-                        $headerData,
-                        $doubleHeaderData,
-                        $footerData,
-                        $letterData,
-                        $infoblocksData,
-                        $bigDescriptionData,
-                        $pricesData,
-                        $stampsData,
-                        $isTwoLogo,
-                        $isGeneralInvoice,
-                        $isAlternativeInvoices,
-                        $dealId,
-                        $withStamps
-                    ));
 
-                    return APIController::getSuccess(['job' => 'get it !']);
                 }
             }
         } catch (\Throwable $th) {
@@ -395,8 +435,11 @@ class PDFDocumentController extends Controller
 
 
             $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+            $patternIp = "/индивидуальный\s+предприниматель/ui";
+
             $shortenedPhrase = preg_replace($pattern, "ООО", $providerRq['fullname']);
-            $companyName = preg_replace($pattern, "ООО", $providerRq['fullname']);
+            $companyName = preg_replace($patternIp, "ИП", $shortenedPhrase);
+
 
             $rq = $companyName;
             if ($providerRq['inn']) {
@@ -408,7 +451,12 @@ class PDFDocumentController extends Controller
 
             $rq = $rq . ', \n ' . $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
-                $rq = $rq . ', ' . $providerRq['phone'];
+                // Нормализация номера телефона
+                $normalizedPhone = preg_replace('/^8/', '7', $providerRq['phone']); // Заменяем первую цифру 8 на 7
+                $normalizedPhone = preg_replace('/^7/', '+7', $normalizedPhone); // Заменяем первую цифру 7 на +7
+                // $normalizedPhone = preg_replace('/[^\d+]/', '', $normalizedPhone); // Удаляем все недопустимые символы
+
+                $rq = $rq . ', \n' . $normalizedPhone;
             }
             if ($providerRq['email']) {
                 $rq = $rq . ', ' . $providerRq['email'];
@@ -448,16 +496,16 @@ class PDFDocumentController extends Controller
 
         $first = $companyName;
         if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn'];
+            $first = $first . ', \n  ИНН: ' . $providerRq['inn'];
         }
         if ($providerRq['kpp']) {
             $first = $first . ', КПП: ' . $providerRq['kpp'];
         }
         if ($providerRq['primaryAdresss']) {
-            $first = $first . ', ' . $providerRq['primaryAdresss'];
+            $first = $first . ', \n' . $providerRq['primaryAdresss'];
         }
         if ($providerRq['rs']) {
-            $first = $first . ', р/c: ' . $providerRq['rs'];
+            $first = $first . ', \n  р/c: ' . $providerRq['rs'];
         }
 
         $second = '';
@@ -719,7 +767,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase)
+    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
@@ -795,7 +843,7 @@ class PDFDocumentController extends Controller
         if (!empty($currentPage['groups'])) {
             $pages[] = $currentPage;
         }
-        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase);
+        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps);
         $result = [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
@@ -949,7 +997,7 @@ class PDFDocumentController extends Controller
         if ($styleMode === 'list') {
 
             if ($descriptionMode === 0 || $descriptionMode === 3) {
-                $itemsPerPage = 34;
+                $itemsPerPage = 32;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 9;
             } else if ($descriptionMode === 2) {
@@ -1218,10 +1266,13 @@ class PDFDocumentController extends Controller
         ];
     }
 
-    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase)
+    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps)
     {
         $isWithPrice = false;
         $salePhraseLength = mb_strlen($salePhrase, "UTF-8");
+        $entersCount = substr_count($salePhrase, "\n");
+
+
         $lastPageItemsCount = 0;
         $lastPage = end($pages);
         if (is_array($lastPage) && isset($lastPage['groups']) && is_array($lastPage['groups'])) {
@@ -1235,7 +1286,9 @@ class PDFDocumentController extends Controller
             }
         }
 
-        if (($productsCount < 4 && $salePhraseLength < 150) || ($productsCount < 3 && $salePhraseLength < 200)) {
+
+
+        if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4) || ($productsCount < 2)) {
 
             if ($styleMode === 'list') {
 
@@ -1265,7 +1318,7 @@ class PDFDocumentController extends Controller
                     }
                 } else {
 
-                    if ($lastPageItemsCount < 7) {
+                    if ($lastPageItemsCount < 9) {
                         $isWithPrice = true;
                     }
                 }
@@ -1275,12 +1328,63 @@ class PDFDocumentController extends Controller
                         $isWithPrice = true;
                     }
                 } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 8) {
+                    if ($lastPageItemsCount < 7) {
                         $isWithPrice = true;
                     }
                 } else {
 
                     if ($lastPageItemsCount < 6) {
+                        $isWithPrice = true;
+                    }
+                }
+            }
+        } else if ($productsCount < 5 && ($salePhraseLength < 500 || $entersCount < 4)) {    //если товаров больше или текст описания большой
+
+
+            if ($styleMode === 'list') {
+
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 10) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 3) {
+                        $isWithPrice = true;
+                    }
+                } else {
+
+                    if ($lastPageItemsCount < 2) {
+                        $isWithPrice = true;
+                    }
+                }
+            } else if ($styleMode === 'table') {
+
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 14) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 9) {
+                        $isWithPrice = true;
+                    }
+                } else {
+
+                    if ($lastPageItemsCount < 4) {
+                        $isWithPrice = true;
+                    }
+                }
+            } else {
+                if ($descriptionMode === 0) {
+                    if ($lastPageItemsCount < 7) {
+                        $isWithPrice = true;
+                    }
+                } else if ($descriptionMode === 1) {
+                    if ($lastPageItemsCount < 6) {
+                        $isWithPrice = true;
+                    }
+                } else {
+
+                    if ($lastPageItemsCount < 3) {
                         $isWithPrice = true;
                     }
                 }

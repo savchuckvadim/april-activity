@@ -33,7 +33,15 @@
         /* Выравнивание текста по вертикали в середине */
         font-weight: bold;
     }
-
+    .text-cell-signature {
+        width: 250px;
+        height: 130px;
+        vertical-align: middle;
+        /* margin-left: 20px; */
+        /* text-align: right; */
+        /* Выравнивание текста по вертикали в середине */
+        font-weight: bold;
+    }
     .signature-container img.signature {
         z-index: 2;
         width: 120px;
@@ -77,7 +85,7 @@
 
         </td>
 
-        <td class="text-cell text-normal bold">{{ $director }}</td>
+        <td class="text-cell-signature text-normal bold">{{ $director }}</td>
     </tr>
     @if ($accountant && $isInvoice && $signature_accountant)
         <tr>
@@ -96,7 +104,7 @@
 
             </td>
 
-            <td class="text-cell text-normal bold">{{ $accountant }}</td>
+            <td class="text-cell-signature text-normal bold">{{ $accountant }}</td>
         </tr>
     @endif
 </table>
