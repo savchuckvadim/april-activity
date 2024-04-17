@@ -158,6 +158,30 @@ class BitrixController extends Controller
         ];
     }
 
+
+    public static function getPlacement($placement)
+    {
+        $result = [
+            'type' => '',
+            'id' => null
+        ];
+        if (!empty($placement)) {
+            if (isset($placement['placement']) && isset($placement['options']['ID'])) {
+                $placementType = $placement['placement'];
+                $result['id'] = $placement['options']['ID'];
+
+                if (strpos($placementType, "LEAD") !== false) {
+                    $result['type'] = "LEAD";
+                } else if (strpos($placementType, "COMPANY") !== false) {
+
+                    $result['type'] = "COMPANY";
+                }
+            }
+        }
+        return $result;
+    }
+
+
     public static function hooktest()
     {
         return response(['hellou' => 'world']);
@@ -1219,7 +1243,7 @@ class BitrixController extends Controller
 
 
             $response = Http::get($url, $setDealData);
-            $dealId =  $this->getBitrixRespone($response, 'konstructBitrixDealUpdate');
+            $dealId =  $this->getBitrixResponse($response, 'konstructBitrixDealUpdate');
         }
 
         dispatch(new BitrixDealUpdate(
@@ -1238,7 +1262,7 @@ class BitrixController extends Controller
     }
 
 
-    static function getBitrixRespone($bitrixResponse, $method)
+    static function getBitrixResponse($bitrixResponse, $method)
     {
         $response =  $bitrixResponse->json();
         if ($response) {
@@ -1373,6 +1397,128 @@ class BitrixController extends Controller
             );
         }
     }
+
+    public static function getCallingTasksReport(Request $request)
+    {
+        $resultTasks = [];
+        try {
+            $domain = $request->domain;
+            $userId = $request->userId;
+            $placement = $request->placement;
+            $method = '/tasks.task.list.json';
+            $controller = new BitrixController;
+            $hook = $controller->getHookUrl($domain);
+            $tasksGroupId = $controller->getCallingGroupId($domain);
+            $crmItems = [];
+
+            // Ваша исходная строка с датой
+            // $dateString = $date;
+
+            // Создаем объект DateTime из вашей строки
+            // $date = new DateTime($dateString);
+
+            // Устанавливаем начало суток (00:00)
+            // $date->setTime(0, 0);
+
+            // Выводим дату с началом суток
+            // $start = $date->format('Y-m-d H:i:s'); // Выведет "2023-12-29 00:00:00"
+
+            // Устанавливаем конец суток (23:59)
+            // $date->setTime(23, 59);
+
+            // Выводим дату с концом суток
+            // $finish = $date->format('Y-m-d H:i:s'); // Выведет "2023-12-29 23:59:00"
+
+            if ($placement) {
+
+                $placamentData = BitrixController::getPlacement($placement);
+
+                if (!empty($placamentData['type']) && !empty($placamentData['id'])) {
+
+                    if ($placamentData['type'] === "LEAD") {
+                        $crmItems = ['L_' . $placamentData['id']];
+                    } else  if ($placamentData['type'] === "COMPANY") {
+                        $crmItems = ['CO_' . $placamentData['id']];
+                    }
+                }
+            }
+
+            if ($hook) {
+
+
+
+                $url = $hook . $method;
+                $data = [
+                    'filter' => [
+                        // '>DEADLINE' => $start,
+                        // '<DEADLINE' => $finish,
+                        'RESPONSIBLE_ID' => $userId,
+                        'GROUP_ID' => $tasksGroupId,
+                        '!=STATUS' => 5, // Исключаем задачи со статусом "завершена"
+                        'UF_CRM_TASK' => $crmItems,
+                    ]
+
+                    // 'RESPONSIBLE_LAST_NAME' => $userId,
+                    // 'GROUP_ID' => $date,
+                ];
+
+                $response = Http::get($url, $data);
+
+                $bitrixResult = BitrixController::getBitrixResponse($response, 'getCallingTasksReport');
+
+                if (!empty($bitrixResult)) {
+                    if (isset($bitrixResult['tasks'])) {
+                        $resultTasks = $response['result']['tasks'];
+                        return APIController::getSuccess(
+
+                            [
+                                'tasks' => $resultTasks,
+                                '$response' => $response,
+                                // 'date' => $date,
+                                'data' => $data,
+                                // 'RESPONSIBLE_ID' => $userId
+
+
+                            ]
+                        );
+                    }
+                }
+
+                return APIController::getError(
+                    $response['error_description'],
+                    [
+                        'response' => $response,
+                        // 'date' => $date,
+                        // 'data' => $data,
+                        'RESPONSIBLE_ID' => $userId
+
+                    ]
+
+                );
+            } else {
+                return APIController::getError(
+                    'hook not found',
+                    [
+                        'hook' => $hook
+                    ]
+                );
+            }
+        } catch (\Throwable $th) {
+            $errorData = [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError(
+                'getCallingTasks',
+                $errorData
+            );
+        }
+    }
+
+
     public function createTask(
         $domain,
         $placementId,

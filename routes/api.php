@@ -345,7 +345,15 @@ Route::middleware(['api.key'])->group(function () {
 
         return BitrixController::getCallingTasks($request);
     });
+    Route::post('bitrix/callingreport', function (Request $request) {
 
+        //userId
+        //domain
+        //date
+
+
+        return BitrixController::getCallingTasksReport($request);
+    });
     Route::post('bitrix/callingtasks/create', function (Request $request) {
 
         $data = $request->all();
@@ -380,6 +388,10 @@ Route::middleware(['api.key'])->group(function () {
 
         );
     });
+
+
+
+
 });
 
 

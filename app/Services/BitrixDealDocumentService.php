@@ -1053,7 +1053,7 @@ class BitrixDealDocumentService
 
                 $response = Http::get($url, $data);
                 // $responseData = $response->json();
-                $responseData = BitrixController::getBitrixRespone($response, 'BitrixDealDocumentService: getSmartItem');
+                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
                 if (isset($responseData)) {
                     if (!empty($responseData['items'])) {
                         $currentSmart =  $responseData['items'][0];
@@ -1129,7 +1129,7 @@ class BitrixDealDocumentService
 
                 $smartFieldsResponse = Http::get($url, $data);
                 // $bitrixResponse = $smartFieldsResponse->json();
-                $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'BitrixDealDocumentService: createSmartItem');
+                $responseData = BitrixController::getBitrixResponse($smartFieldsResponse, 'BitrixDealDocumentService: createSmartItem');
                 // Log::info('COLD createSmartItemCold', ['createSmartItemCold' => $responseData]);
                 // $resultFields = null;
                 // if (isset($responseData)) {
@@ -1219,7 +1219,7 @@ class BitrixDealDocumentService
 
 
                 $smartFieldsResponse = Http::get($url, $data);
-                $responseData = BitrixController::getBitrixRespone($smartFieldsResponse, 'cold: updateSmartItemCold');
+                $responseData = BitrixController::getBitrixResponse($smartFieldsResponse, 'cold: updateSmartItemCold');
                 $resultFields = $responseData;
             }
         }
@@ -1295,7 +1295,7 @@ class BitrixDealDocumentService
             ];
 
             $responseData = Http::get($url, $data);
-            $resultDeal = BitrixController::getBitrixRespone($responseData, 'BitrixDealDocumentService: getDeal');
+            $resultDeal = BitrixController::getBitrixResponse($responseData, 'BitrixDealDocumentService: getDeal');
 
 
 

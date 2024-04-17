@@ -78,7 +78,7 @@ class BitrixDealUpdateService
 
 
     //     $response = Http::get($url, $this->setDealData);
-    //     return $this->getBitrixRespone($response);
+    //     return $this->getBitrixResponse($response);
     // }
 
 
@@ -216,7 +216,7 @@ class BitrixDealUpdateService
             $response = Http::get($url, $this->setProductRowsData);
 
 
-            return BitrixController::getBitrixRespone($response, 'productsSet');
+            return BitrixController::getBitrixResponse($response, 'productsSet');
         } catch (\Throwable $th) {
             $errorMessages =  [
                 'message'   => $th->getMessage(),
@@ -240,12 +240,12 @@ class BitrixDealUpdateService
         $response = Http::get($url, [
             //todo 
         ]);
-        return BitrixController::getBitrixRespone($response, 'productsUpdate');
+        return BitrixController::getBitrixResponse($response, 'productsUpdate');
     }
 
 
 
-    // protected function getBitrixRespone($bitrixResponse)
+    // protected function getBitrixResponse($bitrixResponse)
     // {
     //     $response =  $bitrixResponse->json();
     //     if ($response) {
