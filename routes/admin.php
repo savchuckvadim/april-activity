@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CounterController;
 
 use App\Http\Controllers\FieldController;
@@ -550,35 +551,35 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-    // Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
+    Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {
 
-    //     return BaseController::initial($entityType, $parentType, $parentId);
-    // });
+        return BaseController::initial($entityType, $parentType, $parentId);
+    });
 
-    // Route::get('initial/{entityType}/', function ($entityType) {
-    //     return BaseController::initial($entityType);
-    // });
+    Route::get('initial/{entityType}/', function ($entityType) {
+        return BaseController::initial($entityType);
+    });
 
-    // Route::get('{model}/{modelId}', function ($model, $modelId) {
-    //     return BaseController::get($model, $modelId);
-    // });
-    // Route::get('{model}', function ($model) {
-    //     return BaseController::getCollection($model);
-    // });
-    // Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
+    Route::get('{model}/{modelId}', function ($model, $modelId) {
+        return BaseController::get($model, $modelId);
+    });
+    Route::get('{model}', function ($model) {
+        return BaseController::getCollection($model);
+    });
+    Route::post('{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType, Request $request) {
 
-    //     return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
-    // });
+        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+    });
 
-    // Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
-    //     return BaseController::update($entityType, $entityId,  $request);
-    // });
-    // Route::post('{entityType}', function ($entityType, Request $request) {
-    //     return BaseController::setOrUpdate($entityType, null, null, $request);
-    // });
+    Route::post('{entityType}/{entityId}', function ($entityType, $entityId, Request $request) {
+        return BaseController::update($entityType, $entityId,  $request);
+    });
+    Route::post('{entityType}', function ($entityType, Request $request) {
+        return BaseController::setOrUpdate($entityType, null, null, $request);
+    });
 
-    // Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
-    //     return BaseController::delete($entityType, $fileId);
-    // });
+    Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
+        return BaseController::delete($entityType, $fileId);
+    });
 
 });
