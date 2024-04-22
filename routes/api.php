@@ -287,31 +287,7 @@ Route::middleware(['api.key'])->group(function () {
 
 
 
-    /////////////////////////APRIL_HOOK CONNECT
-    //report
-    Route::post('bitrix/calling', function (Request $request) {
-        $domain = $request->domain;
-        $filters = $request->filters;
-        return BitrixController::getBitrixCallingStatistics($request);
-    });
-    Route::post('bitrix/report', function (Request $request) {
-        $domain = $request->domain;
-        $filters = $request->filters;
-        return BitrixController::getReport($request);
-    });
 
-    Route::post('bitrix/departament', function (Request $request) {
-
-        return BitrixController::getDepartamentUsers($request);
-    });
-    Route::post('bitrix/list', function (Request $request) {
-
-        return BitrixController::getList($request);
-    });
-    Route::post('bitrix/filter', function (Request $request) {
-
-        return BitrixController::getListFilter($request);
-    });
 
 
 
@@ -391,6 +367,31 @@ Route::middleware(['api.key'])->group(function () {
 
 
 
+       
+    //REPORT
+    Route::post('bitrix/calling', function (Request $request) {
+        $domain = $request->domain;
+        $filters = $request->filters;
+        return BitrixController::getBitrixCallingStatistics($request);
+    });
+    Route::post('bitrix/report', function (Request $request) {
+        $domain = $request->domain;
+        $filters = $request->filters;
+        return BitrixController::getReport($request);
+    });
+
+    Route::post('bitrix/departament', function (Request $request) {
+
+        return BitrixController::getDepartamentUsers($request);
+    });
+    Route::post('bitrix/list', function (Request $request) {
+
+        return BitrixController::getList($request);
+    });
+    Route::post('bitrix/filter', function (Request $request) {
+
+        return BitrixController::getListFilter($request);
+    });
 
 });
 
