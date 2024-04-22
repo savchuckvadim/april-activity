@@ -166,7 +166,7 @@ Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
 
 
-Route::middleware(['api.key'])->group(function () {
+Route::middleware(['ajax.only'])->group(function () {
 
 
 
