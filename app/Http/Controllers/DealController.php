@@ -48,8 +48,8 @@ class DealController extends Controller
                 ->first();
     
             if ($searchingDeal) {
-                // $searchingDeal->update($deal);
-                // $searchingDeal->save();
+                $searchingDeal->update($deal);
+                $searchingDeal->save();
                 $resultDeal =  $searchingDeal;
             } else {
                 //search portal
