@@ -559,9 +559,9 @@ class PDFDocumentController extends Controller
             $name =  $managerName . ' ' . $managerLastName;
 
 
-            if ($domain == 'april-garant.bitrix24.ru') {
-                $name = '';
-            }
+            // if ($domain == 'april-garant.bitrix24.ru') {
+            //     $name = '';
+            // }
 
 
 
