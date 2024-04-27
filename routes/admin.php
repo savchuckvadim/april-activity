@@ -569,7 +569,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixlistController::get($bitrixlistId);
     });
 
+    Route::get('bitrixlist/{bitrixlistId}/bitrixlistfields', function ($bitrixlistId) {
 
+        return BitrixlistController::getFields($bitrixlistId);
+    });
 
 
 

@@ -102,4 +102,29 @@ class BitrixlistController extends Controller
 
         );
     }
+
+
+    public static function getFields($bitrixlistId)
+    {
+        try {
+            $bitrixlist = Bitrixlist::find($bitrixlistId);
+            $bitrixlistfields = $bitrixlist->fields;
+            if ($bitrixlist) {
+
+                return APIController::getSuccess(
+                    ['bitrixlistfields' => $bitrixlistfields]
+                );
+            } else {
+                return APIController::getError(
+                    'bitrixlist was not found',
+                    ['bitrixlistfields' => $bitrixlistfields]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['bitrixlistId' => $bitrixlistId]
+            );
+        }
+    }
 }
