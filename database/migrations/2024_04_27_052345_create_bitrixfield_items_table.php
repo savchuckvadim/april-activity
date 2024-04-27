@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('bitrixfield_id');  // Ссылка на ID поля
             $table->string('name');  // имя в битрикс
-            $table->string('title');  // Отображаемый текст
+            $table->string('title');  // Отображаемое имя
             $table->string('code');  // для APP
             $table->integer('bitrixId');  // id в битриксе
 

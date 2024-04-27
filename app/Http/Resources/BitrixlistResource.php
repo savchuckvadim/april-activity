@@ -22,8 +22,8 @@ class BitrixlistResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'bitrixId' => $this->bitrixId,
-            // 'portal_id' => $this->portal_id,
-            // 'fields' => $this->fields,
+            'portal_id' => $this->portal_id,
+            'fields' => $this->fields,
 
         ];
     }
