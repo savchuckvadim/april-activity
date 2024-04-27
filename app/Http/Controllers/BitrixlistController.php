@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BitrixlistResource;
 use App\Models\Bitrixlist;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class BitrixlistController extends Controller
     {
         try {
             $bitrixlist = Bitrixlist::find($bitrixlistId);
+            $bitrixlist = new BitrixlistResource($bitrixlist);
             if ($bitrixlist) {
 
                 return APIController::getSuccess(
