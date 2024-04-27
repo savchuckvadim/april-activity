@@ -19,6 +19,31 @@ class BitrixlistController extends Controller
         return APIController::getSuccess($data);
     }
 
+
+    public static function get($bitrixlistId)
+    {
+        try {
+            $bitrixlist = Bitrixlist::find($bitrixlistId);
+            if ($bitrixlist) {
+
+                return APIController::getSuccess(
+                    ['bitrixlist' => $bitrixlist]
+                );
+            } else {
+                return APIController::getError(
+                    'bitrixlist was not found',
+                    ['bitrixlist' => $bitrixlist]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['bitrixlistId' => $bitrixlistId]
+            );
+        }
+    }
+
+
     public static function set(Request $request)
     {
         // Предполагая, что у вас уже есть экземпляр Template

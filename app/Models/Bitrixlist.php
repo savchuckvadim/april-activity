@@ -24,28 +24,7 @@ class Bitrixlist extends Model
 
     
 
-    public static function get($bitrixlistId)
-    {
-        try {
-            $bitrixlist = Bitrixlist::find($bitrixlistId);
-            if ($bitrixlist) {
 
-                return APIController::getSuccess(
-                    ['bitrixlist' => $bitrixlist]
-                );
-            } else {
-                return APIController::getError(
-                    'bitrixlist was not found',
-                    ['bitrixlist' => $bitrixlist]
-                );
-            }
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                $th->getMessage(),
-                ['bitrixlistId' => $bitrixlistId]
-            );
-        }
-    }
 
 
 
