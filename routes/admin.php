@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\BitrixlistController;
 use App\Http\Controllers\CounterController;
 
 use App\Http\Controllers\FieldController;
@@ -84,12 +85,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-   Route::delete('counter/{counterId}/', function ($counterId) {
+    Route::delete('counter/{counterId}/', function ($counterId) {
 
         return CounterController::delete($counterId);
     });
 
-    
+
 
 
 
@@ -551,10 +552,25 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //BITRIX IDS FOR CONNECTION AND HOOKS
 
-    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function ($parentType, $parentId, $entityType, Request $request) {
 
-        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+    //........................................................................BITRIX LIST
+    //....       'type',        sales | service | general | totalmonth |
+    // .......   'group',       kpi | history 
+    // .....     'name',        bitrixlist
+    // ........  'title',       Универсальные списки April
+    // ......    'bitrixId',    86
+    // ......    'portal_id'    7
+    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
+
+        return BitrixlistController::set($request);
     });
+    Route::get('bitrixlist/{bitrixlistId}', function ($bitrixlistId) {
+
+        return BitrixlistController::get($bitrixlistId);
+    });
+
+
+
 
 
 
@@ -588,5 +604,4 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
         return BaseController::delete($entityType, $fileId);
     });
-
 });
