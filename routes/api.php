@@ -345,12 +345,12 @@ Route::middleware(['ajax.only'])->group(function () {
             $crm = "D_" . $placementId;
         }
         // return APIController::getSuccess(['task' => $data]);
-        Log::channel('telegram')->error('ONLINE', [
-            'bitrix/callingtasks/create' => [
-                $data
+        // Log::channel('telegram')->error('ONLINE', [
+        //     'bitrix/callingtasks/create' => [
+        //         $data
 
-            ]
-        ]);
+        //     ]
+        // ]);
         return $controller->createTask(
             $data['domain'],
             $placementId,

@@ -549,6 +549,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
+    //BITRIX IDS FOR CONNECTION AND HOOKS
+
+    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function ($parentType, $parentId, $entityType, Request $request) {
+
+        return BaseController::setOrUpdate($entityType, $parentType, $parentId,  $request);
+    });
+
 
 
     Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {

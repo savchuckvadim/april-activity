@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,38 @@ class Bitrixlist extends Model
     {
         return $this->belongsTo(Portal::class);
     }
+    public function fields()
+    {
+        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'list');
+    }
+
+    
+
+    public static function get($bitrixlistId)
+    {
+        try {
+            $bitrixlist = Bitrixlist::find($bitrixlistId);
+            if ($bitrixlist) {
+
+                return APIController::getSuccess(
+                    ['bitrixlist' => $bitrixlist]
+                );
+            } else {
+                return APIController::getError(
+                    'bitrixlist was not found',
+                    ['bitrixlist' => $bitrixlist]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['bitrixlistId' => $bitrixlistId]
+            );
+        }
+    }
+
+
+
 
     public static function getForm($portalId = null)
     {
