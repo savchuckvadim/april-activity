@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\Controller;
 use App\Models\Timezone;
 use Illuminate\Http\Request;
 

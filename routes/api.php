@@ -1,15 +1,15 @@
 <?php
 
-
+use App\Http\Controllers\Admin\InfoblockController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\AppOffer\TemplateController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\InfoblockController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
-use App\Http\Controllers\TemplateController;
+
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

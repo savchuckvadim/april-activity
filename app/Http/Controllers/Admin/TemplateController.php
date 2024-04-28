@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FieldCollection;
 use App\Http\Resources\TemplateCollection;
 use App\Http\Resources\TemplateResource;
@@ -465,21 +467,4 @@ class TemplateController extends Controller
     }
 
 
-
-
-    //APRIL_KP
-    public static function getClientTemplate($code)
-    {
-        $templates = [];
-
-
-        $template = Template::where('code', $code)->first();
-        $templatesResource = new TemplateCollection($template);
-
-        return response([
-            'resultCode' => 0,
-            'templates' => $templatesResource,
-            'isCollection' => true,
-        ]);
-    }
 }
