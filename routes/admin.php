@@ -579,6 +579,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     // ........  'title',       отображаемое имя
     // ......    'bitrixId',    id в bitrix UF_CRM
     // ......    'bitrixCamelId'    id в bitrix ufCrm
+
+    //.................................... initial
+    // initial from parent
+    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfields', function ($portalId) {
+
+        return BitrixlistController::getInitial($portalId);
+    });
+
+
+    // .............................................GET
     Route::get('bitrixlist/{bitrixlistId}/bitrixlistfields', function ($bitrixlistId) {
 
         return BitrixlistController::getFields($bitrixlistId);

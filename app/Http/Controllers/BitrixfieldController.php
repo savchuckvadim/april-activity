@@ -2,10 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitrixfield;
 use Illuminate\Http\Request;
 
 class BitrixfieldController extends Controller
 {
+
+    public static function getInitial($parentId = null)
+    {
+
+        $initialData = Bitrixfield::getForm($parentId);
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
+    }
+
+    public function set(Request $request)
+    {
+        //entityType logo | stamp | последняя или единственная часть урл
+        // $parentType - может быть null тогда можно взять из formdata // вообще это название родительской модели из url
+        // parentId - id родительского элемента
+        $fieldData = [
+            'name' => $request['name'],
+            'code' => $request['code'],
+            'type' => $request['type'], //Тип файла (table | video | word | img)
+            // 'parent' => $request['parent'], //Родительская модель (rq)
+            'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp  // rq->morphMany(File::class, 'entity')->where('parent_type', 'logo'); //тоже системное поле по которому rq определяет что за связь - logo | stamp | signature по сути название типа файла
+            // 'availability' => $request['availability'], //Доступность public |  local
+            // '$entityType' => $entityType, // file->entity_type - системное поле для осуществления полиморфной связи с родительской моделью
+            // '$parentType' => $parentType,
+            // '$parentId' => $parentId,
+            // 'file' => $request['file'],
+
+        ];
+        $request->validate([
+            // 'entity_type' => 'required|string',
+            'entity_id' => 'required|integer',
+            'parent_type' => 'required|string',
+            'type' => 'required|string',
+            'title' => 'required|string',
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'bitrixId' => 'required|string',
+            'bitrixCamelId' => 'required|string'
+        ]);
+
+        $field = new Bitrixfield([
+            'entity_type' => $request->entity_type,
+            'entity_id' => $request->entity_id,
+            'parent_type' => $request->parent_type,
+            'type' => $request->type,
+            'title' => $request->title,
+            'name' => $request->name,
+            'code' => $request->code,
+            'bitrixId' => $request->bitrixId,
+            'bitrixCamelId' => $request->bitrixCamelId
+        ]);
+
+        $field->save();
+    }
     // public static function getInitial($portalId)
     // {
 

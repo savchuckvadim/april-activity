@@ -26,7 +26,7 @@ class Bitrixfield extends Model
     }
 
 
-    public static function getForm()
+    public static function getForm($parentId)
     {
 
         return [
@@ -80,22 +80,49 @@ class Bitrixfield extends Model
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
+                        // [
+                        //     'id' => 3,
+                        //     'title' => 'Родительская модель (bitrixlist)',
+                        //     'entityType' => 'bitrixlistfield',
+                        //     'name' => 'parent',
+                        //     'apiName' => 'parent',
+                        //     'type' =>  'string',
+                        //     'validation' => 'required|max:255',
+                        //     'initialValue' => 'bitrixlist',
+                        //     'isCanAddField' => false,
+                        //     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                        // ],
+                        // [ // это прям модель надо передавать - в контроллере
+                        //     'id' => 4,
+                        //     'title' => 'принадлежность филда к родительской модели list complectField ',
+                        //     'entityType' => 'bitrixlistfield',
+                        //     'name' => 'entity_type',
+                        //     'apiName' => 'entity_type',
+                        //     'type' =>  'string',
+                        //     'validation' => 'required|max:255',
+                        //     'initialValue' => 'logo',
+                        //     'isCanAddField' => false,
+                        //     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                        // ],
                         [
                             'id' => 3,
-                            'title' => 'Родительская модель (rq)',
+                            'title' => 'id сущности родителя, тип родителя определяется на сервере',
                             'entityType' => 'bitrixlistfield',
-                            'name' => 'parent',
-                            'apiName' => 'parent',
+                            'name' => 'entity_id',
+                            'apiName' => 'entity_id',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
-                            'initialValue' => 'rq',
+                            'initialValue' => $parentId,
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
+
                         [
                             'id' => 4,
-                            'title' => 'Название файла в родительской модели list complectField ',
+                            'title' => 'принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например',
                             'entityType' => 'bitrixlistfield',
                             'name' => 'parent_type',
                             'apiName' => 'parent_type',
@@ -106,6 +133,8 @@ class Bitrixfield extends Model
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
+
+
                         [
                             'id' => 5,
                             'title' => 'Код для ассоциаций должен совпадать с битрикс CODE поля',
@@ -115,9 +144,9 @@ class Bitrixfield extends Model
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
-    
+
                             'isCanAddField' => false,
-    
+
                         ],
                         [
                             'id' => 6,
@@ -128,9 +157,9 @@ class Bitrixfield extends Model
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
-    
+
                             'isCanAddField' => false,
-    
+
                         ],
                         [
                             'id' => 7,
@@ -141,13 +170,26 @@ class Bitrixfield extends Model
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
-    
+
                             'isCanAddField' => false,
-    
+
+                        ],
+                        [
+                            'id' => 8,
+                            'title' => 'тип родителя - чтобы контроллер от этого условия определил нужную модель родителя',
+                            'entityType' => 'bitrixlistfield',
+                            'name' => 'parent model short name',
+                            'apiName' => 'entityType',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => 'list | deal | company | lead | task | smart',
+
+                            'isCanAddField' => false,
+
                         ],
 
                     ],
-                   
+
                     'relations' => [],
 
                 ]
