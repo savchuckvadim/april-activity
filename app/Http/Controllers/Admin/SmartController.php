@@ -24,27 +24,50 @@ class SmartController extends Controller
 
     public static function store(Request $request)
     {
-        $type = $request['type'];
-        $group = $request['group'];
-        $name = $request['name'];
-        $title = $request['title'];
-        $bitrixId = $request['bitrixId'];
-        $entityTypeId = $request['entityTypeId'];
-        $forStageId = $request['forStageId'];
-        $forFilterId = $request['forFilterId'];
-        $crmId = $request['crmId'];
+        $id = null;
+        if (isset($request['id'])) {
+            $id = $request['id'];
+            $smart = Smart::find($id);
+        } else {
+            $portal_id = $request['portal_id'];
+            $portal = Portal::find($portal_id);
+            $smart = new Smart();
+        }
+        $validatedData = $request->validate([
+            'id' => 'sometimes|integer|exists:bitrixfields,id',
+            // 'entity_type' => 'required|string',
+            'type' => 'required|string',
+            'group' => 'required|string',
+            'name' => 'required|string',
+            'title' => 'required|string',
+            'entityTypeId' => 'required|string',
+            'code' => 'required|string',
+            'bitrixId' => 'required|string',
+            'forStageId' => 'required|string',
+            'forFilterId' => 'required|string',
+            'crmId' => 'required|string',
+            'forStage' => 'required|string',
+            'forFilter' => 'required|string',
+            'crm' => 'required|string',
+        ]);
+        $type = $validatedData['type'];
+        $group = $validatedData['group'];
+        $name = $validatedData['name'];
+        $title = $validatedData['title'];
+        $bitrixId = $validatedData['bitrixId'];
+        $entityTypeId = $validatedData['entityTypeId'];
+        $forStageId = $validatedData['forStageId'];
+        $forFilterId = $validatedData['forFilterId'];
+        $crmId = $validatedData['crmId'];
 
         $forStage = $request['forStage'];
-        $forFilter = $request['forFilter'];
-        $crm = $request['crm'];
-        $portal_id = $request['portal_id'];
+        $forFilter = $validatedData['forFilter'];
+        $crm = $validatedData['crm'];
 
-
-        $portal = Portal::find($portal_id);
 
         if ($portal) {
             // Создание нового Counter
-            $smart = new Smart();
+
 
             $smart->name = $name;
             $smart->title = $title;
