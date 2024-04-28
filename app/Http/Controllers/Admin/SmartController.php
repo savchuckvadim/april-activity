@@ -180,4 +180,30 @@ class SmartController extends Controller
 
         );
     }
+    public static function getCategories($smartId)
+    {
+
+        try {
+            $smart = Smart::find($smartId);
+
+            if ($smart) {
+                $categories = $smart->categories;
+                return APIController::getSuccess(
+                    ['categories' => $categories]
+                );
+            } else {
+                return APIController::getError(
+                    'smart was not found',
+                    ['smart' => $smart]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['smartId' => $smartId]
+            );
+        }
+    }
+
+
 }

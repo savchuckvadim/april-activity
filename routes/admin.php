@@ -773,9 +773,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  smart
-    Route::get('smart/{smartId}/categories', function ($portalId) {
+    Route::get('smart/{smartId}/categories', function ($smartId) {
 
-        return SmartController::getByPortal($portalId);
+        return SmartController::getCategories($smartId);
     });
 
     // Route::get('btxdeal/{btxdealId}/categories', function ($portalId) {
