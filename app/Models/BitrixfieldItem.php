@@ -33,7 +33,7 @@ class BitrixfieldItem extends Model
                     'fields' => [
                         [
                             'id' => 0,
-                            'title' => 'имя филда в битрикс',
+                            'title' => 'имя элемента филда в битрикс',
                             'entityType' => 'bitrixfielditem',
                             'name' => 'name',
                             'apiName' => 'name',
@@ -47,7 +47,7 @@ class BitrixfieldItem extends Model
 
                         [
                             'id' => 1,
-                            'title' => 'Отображаемое имя филда',
+                            'title' => 'Отображаемое имя элемента',
                             'entityType' => 'bitrixfielditem',
                             'name' => 'title',
                             'apiName' => 'title',
@@ -61,7 +61,7 @@ class BitrixfieldItem extends Model
 
                         [
                             'id' => 2,
-                            'title' => 'Код для ассоциаций должен совпадать с битрикс CODE поля',
+                            'title' => 'Код для ассоциаций должен совпадать с битрикс CODE элемента',
                             'entityType' => 'bitrixfielditem',
                             'name' => 'code',
                             'apiName' => 'code',
@@ -78,7 +78,7 @@ class BitrixfieldItem extends Model
 
                         [
                             'id' => 3,
-                            'title' => 'id сущности родителя - BtxField bitrixfield_id',
+                            'title' => 'id сущности родителя - филда  BtxField bitrixfield_id',
                             'entityType' => 'bitrixfielditem',
                             'name' => 'bitrixfield_id',
                             'apiName' => 'bitrixfield_id',
@@ -89,7 +89,7 @@ class BitrixfieldItem extends Model
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
                             'items' => [
-                                $bitrixFieldId
+                                $btxField
                             ]
 
                         ],
