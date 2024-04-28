@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\BitrixfieldController;
 use App\Http\Controllers\BitrixlistController;
 use App\Http\Controllers\CounterController;
 
@@ -582,9 +583,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfield', function ($portalId) {
+    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfield', function ($bitrixlistId) {
 
-        return BitrixlistController::getInitial($portalId);
+        return BitrixfieldController::getInitial($bitrixlistId);
     });
 
 
@@ -595,7 +596,17 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+    //...............................................SET
+    Route::post('bitrixlistfield', function (Request $request) {
 
+        return BitrixfieldController::set($request);
+    });
+
+
+    // ............................................DELETE
+    Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
+        return BitrixfieldController::delete($bitrixfieldId);
+    });
 
 
     // ......................................................................... SMARTS

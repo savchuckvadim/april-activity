@@ -19,9 +19,9 @@ class BitrixfieldController extends Controller
         return APIController::getSuccess($data);
     }
 
-    public function set(Request $request)
+    public static function set(Request $request)
     {
-       
+
         $parent = null;
         $fieldData = [
             'title' => $request['title'],
@@ -30,16 +30,15 @@ class BitrixfieldController extends Controller
             'type' => $request['type'], //Тип филда (select, date, string)
             'entityType' => $request['entityType'],  // тип родителя - чтобы контроллер от этого условия определил нужную модель родителя
             'entity_id' => (int)$request['entity_id'],  // id сущности родителя, тип родителя определяется на сервере 
-           
+
             'parent_type' => $request['parent_type'],   //принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например
-            'bitrixId' => $request['bitrixId'],  
-            'bitrixCamelId' => $request['bitrixCamelId'],  
+            'bitrixId' => $request['bitrixId'],
+            'bitrixCamelId' => $request['bitrixCamelId'],
         ];
 
 
-        if($fieldData['entityType'] == 'list'){
+        if ($fieldData['entityType'] == 'list') {
             $parent = Bitrixlist::class;
-
         }
 
         $field = new Bitrixfield([
@@ -55,6 +54,15 @@ class BitrixfieldController extends Controller
         ]);
 
         $field->save();
+    }
+
+    public static function delete($bitrixfieldId)
+    {
+
+        $btxField = BitrixField::find($bitrixfieldId);
+
+        $btxField->delete();
+        return APIController::getSuccess(['bitrixlistfield' => $btxField]);
     }
     // public static function getInitial($portalId)
     // {
@@ -78,7 +86,7 @@ class BitrixfieldController extends Controller
     //     $forStageId = $request['forStageId'];
     //     $forFilterId = $request['forFilterId'];
     //     $crmId = $request['crmId'];
-    
+
     //     $forStage = $request['forStage'];
     //     $forFilter = $request['forFilter'];
     //     $crm = $request['crm'];
