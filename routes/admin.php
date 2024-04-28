@@ -646,7 +646,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  list
-    Route::get('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditems', function ($bitrixFieldId) {
+    Route::get('bitrixlistfield/{bitrixFieldId}/bitrixfielditems', function ($bitrixFieldId) {
 
         return BitrixfieldItemController::getFromField($bitrixFieldId);
     });
