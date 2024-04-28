@@ -25,6 +25,7 @@ class SmartController extends Controller
     public static function store(Request $request)
     {
         $id = null;
+        $portal = null;
         if (isset($request['id'])) {
             $id = $request['id'];
             $smart = Smart::find($id);
