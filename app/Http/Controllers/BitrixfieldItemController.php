@@ -22,7 +22,7 @@ class BitrixfieldItemController extends Controller
     {
 
         $validatedData = $request->validate([
-            'id' => 'sometimes|string|exists:bitrixfield_item,id',
+            'id' => 'sometimes|string|exists:bitrixfield_items,id',
             'name' => 'required|string',
             'title' => 'required|string',
             'code' => 'required|string',
@@ -57,7 +57,7 @@ class BitrixfieldItemController extends Controller
         if ($item) {
             return APIController::getSuccess($responseData);
         }
-        return APIController::getError('btx field was not created', $responseData);
+        return APIController::getError('btx item was not created', $responseData);
     }
 
     public static function get($bitrixfieldId)
