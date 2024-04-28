@@ -39,7 +39,7 @@ class BitrixfieldController extends Controller
             'name' => $request['name'],
             'code' => $request['code'],
             'type' => $request['type'], //Тип филда (select, date, string)
-            'entityType' => $request['entityType'],  // тип родителя - чтобы контроллер от этого условия определил нужную модель родителя
+            // 'entityType' => $request['entityType'],  // тип родителя - чтобы контроллер от этого условия определил нужную модель родителя
             'entity_id' => (int)$request['entity_id'],  // id сущности родителя, тип родителя определяется на сервере 
 
             'parent_type' => $request['parent_type'],   //принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например

@@ -15,8 +15,9 @@ class Bitrixfield extends Model
         'type',
         'bitrixId',
         'bitrixCamelId',
-        'parent',
-        'parent_type', //название файла в родительской модели напр list или deal - к чему относится field
+        'entity_id',
+        'entity_type',
+        'parent_type', //название типа филда в родительской модели напр list или dealProduct dealComplect - к чему относится field
 
     ];
 
