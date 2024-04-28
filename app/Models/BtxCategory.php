@@ -20,17 +20,23 @@ class BtxCategory extends Model
     }
 
 
-    public static function getForm($parentId)
+    public static function getForm($parentId, $parentType)
     {
-        $btxListParent = Bitrixlist::find($parentId);
+        $btxParent = Bitrixlist::find($parentId);
+        $parentClass = null;
+        if ($parentType === 'smart') {
+            $parentClass = Smart::class;
+            $btxParent = Smart::find($parentId);
+        }
+
 
         return [
-            'apiName' => 'bitrixlistfield',
-            'title' => 'Загрузка файла',
+            'apiName' => 'btx_category',
+            'title' => 'Воронки',
             'entityType' => 'entity',
             'groups' => [
                 [
-                    'groupName' => 'Филды для Списков, Компаний',
+                    'groupName' => 'Воронки',
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
@@ -39,8 +45,8 @@ class BtxCategory extends Model
 
                         [
                             'id' => 0,
-                            'title' => 'Отображаемое имя филда',
-                            'entityType' => 'bitrixlistfield',
+                            'title' => 'Отображаемое Воронки',
+                            'entityType' => 'btx_category',
                             'name' => 'title',
                             'apiName' => 'title',
                             'type' =>  'string',
@@ -54,18 +60,26 @@ class BtxCategory extends Model
 
                         [
                             'id' => 1,
-                            'title' => 'Тип филда (select, date, string)',
+                            'title' => 'Тип Воронки (sales | service или cold | base)',
                             'name' => 'type',
                             'apiName' => 'type',
                             'type' =>  'string',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'btx_category',
 
                         ],
+                        [
+                            'id' => 2,
+                            'title' => 'Отдел (sales | service)',
+                            'name' => 'group',
+                            'apiName' => 'group',
+                            'type' =>  'string',
+                            'entityType' => 'btx_category',
 
+                        ],
                         [
                             'id' => 3,
                             'title' => 'имя филда в битрикс',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'btx_category',
                             'name' => 'name',
                             'apiName' => 'name',
                             'type' =>  'string',
@@ -79,7 +93,7 @@ class BtxCategory extends Model
                         [
                             'id' => 3,
                             'title' => 'id сущности родителя, тип родителя определяется на сервере',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'btx_category',
                             'name' => 'entity_id',
                             'apiName' => 'entity_id',
                             'type' =>  'select',
@@ -89,15 +103,15 @@ class BtxCategory extends Model
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
                             'items' => [
-                                $btxListParent
+                                $btxParent
                             ]
 
                         ],
 
                         [
                             'id' => 4,
-                            'title' => 'принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например',
-                            'entityType' => 'bitrixlistfield',
+                            'title' => 'принадлежность филда к родительской модели (sales | service или cold | base)',
+                            'entityType' => 'btx_category',
                             'name' => 'parent_type',
                             'apiName' => 'parent_type',
                             'type' =>  'string',
@@ -111,8 +125,8 @@ class BtxCategory extends Model
 
                         [
                             'id' => 5,
-                            'title' => 'Код для ассоциаций должен совпадать с битрикс CODE поля',
-                            'entityType' => 'bitrixlistfield',
+                            'title' => 'CODE кодовое название воронки',
+                            'entityType' => 'btx_category',
                             'name' => 'code',
                             'apiName' => 'code',
                             'type' =>  'string',
@@ -124,8 +138,8 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 6,
-                            'title' => 'bitrixId UF_CRM',
-                            'entityType' => 'bitrixlistfield',
+                            'title' => 'bitrixId',
+                            'entityType' => 'btx_category',
                             'name' => 'bitrixId',
                             'apiName' => 'bitrixId',
                             'type' =>  'string',
@@ -137,8 +151,8 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 7,
-                            'title' => 'bitrixCamelId ufCrm',
-                            'entityType' => 'bitrixlistfield',
+                            'title' => 'bitrixCamelId',
+                            'entityType' => 'btx_category',
                             'name' => 'bitrixCamelId',
                             'apiName' => 'bitrixCamelId',
                             'type' =>  'string',
@@ -150,13 +164,14 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'тип родителя - чтобы контроллер от этого условия определил нужную модель родителя list | deal | company | lead | task | smart',
-                            'entityType' => 'bitrixlistfield',
-                            'name' => 'parent model short name',
-                            'apiName' => 'entityType',
+                            'title' => 'Класс родителя - чтобы контроллер от этого условия определил нужную модель родителя | deal | company | lead | task | smart',
+                            'entityType' => 'btx_category',
+                            'name' => 'entity_type',
+                            'apiName' => 'entity_type',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
-                            'initialValue' => '',
+                            'initialValue' => $parentClass,
+                            'value' => $parentClass,
 
                             'isCanAddField' => false,
 

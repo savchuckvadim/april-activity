@@ -12,7 +12,7 @@ class BtxCategoryController extends Controller
     public static function getInitial($parentId = null, $parentType)
     {
 
-        $initialData = BtxCategory::getForm($parentType);
+        $initialData = BtxCategory::getForm($parentId, $parentType);
         $data = [
             'initial' => $initialData
         ];
