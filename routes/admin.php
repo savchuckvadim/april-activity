@@ -597,7 +597,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //...............................................SET
-    Route::post('bitrixlistfield', function (Request $request) {
+    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
 
         return BitrixfieldController::set($request);
     });
