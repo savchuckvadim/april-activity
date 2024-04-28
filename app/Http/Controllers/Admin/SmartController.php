@@ -35,22 +35,25 @@ class SmartController extends Controller
                 $portal_id = $request['portal_id'];
                 $portal = Portal::find($portal_id);
                 $smart = new Smart();
-
                 $smart->portal_id = $portal_id;
             }
         }
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:smarts,id',
+            // 'entity_type' => 'required|string',
             'type' => 'required|string',
             'group' => 'required|string',
             'name' => 'required|string',
             'title' => 'required|string',
             'entityTypeId' => 'required|string',
+            // 'code' => 'required|string',
             'bitrixId' => 'required|string',
             'forStageId' => 'required|string',
             'forFilterId' => 'required|string',
             'crmId' => 'required|string',
-
+            'forStage' => 'required|string',
+            'forFilter' => 'required|string',
+            'crm' => 'required|string',
         ]);
         $type = $validatedData['type'];
         $group = $validatedData['group'];
@@ -61,6 +64,10 @@ class SmartController extends Controller
         $forStageId = $validatedData['forStageId'];
         $forFilterId = $validatedData['forFilterId'];
         $crmId = $validatedData['crmId'];
+
+        $forStage = $request['forStage'];
+        $forFilter = $validatedData['forFilter'];
+        $crm = $validatedData['crm'];
 
 
         if ($smart) {
@@ -76,10 +83,10 @@ class SmartController extends Controller
             $smart->forStageId = $forStageId;
             $smart->forFilterId = $forFilterId;
             $smart->crmId = $crmId;
-            // $smart->forStage = $forStage;
-            // $smart->forFilter = $forFilter;
-            // $smart->crm = $crm;
-           
+            $smart->forStage = $forStage;
+            $smart->forFilter = $forFilter;
+            $smart->crm = $crm;
+
             $smart->save(); // Сохранение Counter в базе данных
 
             return APIController::getSuccess(
