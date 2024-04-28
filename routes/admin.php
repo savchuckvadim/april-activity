@@ -638,7 +638,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixlistfielditem', function ($bitrixFieldId) {
+    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixfielditem', function ($bitrixFieldId) {
 
         return BitrixfieldItemController::getInitial($bitrixFieldId);
     });
@@ -660,7 +660,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //...............................................SET 
     // .................................   set or update
     // ............................from parent
-    Route::post('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditem', function (Request $request) {
+    Route::post('bitrixlistfield/{bitrixFieldId}/bitrixfielditem', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldItemController::store($request);
     });
