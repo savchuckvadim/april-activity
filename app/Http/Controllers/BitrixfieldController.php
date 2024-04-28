@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BitrixFieldResource;
 use App\Models\Bitrixfield;
 use App\Models\Bitrixlist;
 use Illuminate\Http\Request;
@@ -92,11 +93,9 @@ class BitrixfieldController extends Controller
 
     public static function get($bitrixfieldId)
     {
-
         $btxField = BitrixField::find($bitrixfieldId);
-
-
-        return APIController::getSuccess(['bitrixlistfield' => $btxField]);
+        $resultBtxField = new BitrixFieldResource($btxField);
+        return APIController::getSuccess(['bitrixlistfield' => $resultBtxField]);
     }
 
     public static function delete($bitrixfieldId)

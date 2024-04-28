@@ -5,26 +5,26 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BitrixlistResource extends JsonResource
+class BitrixFieldResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray( $request): array
+    public function toArray($request): array
     {
-        // return parent::toArray($request);
         return [
             'id' => $this->id,
             'type' => $this->type,
-            'group' => $this->group,
+            'code' => $this->code,
             'name' => $this->name,
             'title' => $this->title,
             'bitrixId' => $this->bitrixId,
-            'portal_id' => $this->portal_id,
-            'bitrixlistfields' => $this->fields,
-
+            'bitrixCamelId' => $this->bitrixCamelId,
+            'entity_id' => $this->entity_id,
+            'bitrixlistfields' => $this->items,
+            'entity' => $this->entity,
         ];
     }
 }

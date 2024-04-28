@@ -26,6 +26,10 @@ class Bitrixfield extends Model
         return $this->morphTo();
     }
 
+    public function items()
+    {
+        return $this->hasMany(BitrixfieldItem::class);
+    }
 
     public static function getForm($parentId)
     {
