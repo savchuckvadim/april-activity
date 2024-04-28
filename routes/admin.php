@@ -650,10 +650,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
         return BitrixfieldItemController::getFromField($bitrixFieldId);
     });
-    //...............  get bitrix list field 
-    // Route::get('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
-    //     return BitrixfieldController::get($bitrixfieldId);
-    // });
+    // ...............  get bitrix list field 
+    Route::get('bitrixfielditem/{itemId}', function ($itemId) {
+        return BitrixfieldController::get($itemId);
+    });
 
 
 

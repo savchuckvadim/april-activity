@@ -66,7 +66,7 @@ class BitrixfieldItemController extends Controller
         $btxField = BitrixfieldItem::find($bitrixfieldId);
 
 
-        return APIController::getSuccess(['bitrixlistfield' => $btxField]);
+        return APIController::getSuccess(['bitrixfielditem' => $btxField]);
     }
 
     public static function delete($bitrixfieldId)
@@ -76,10 +76,10 @@ class BitrixfieldItemController extends Controller
 
         if ($btxField) {
             $btxField->delete();
-            return APIController::getSuccess(['bitrixlistfield' => $btxField]);
+            return APIController::getSuccess(['bitrixfielditem' => $btxField]);
         }
         return APIController::getError('btx field was not found and deleted', [
-            'bitrixlistfield' => $btxField,
+            'bitrixfielditem' => $btxField,
             // 'fieldData' => $fieldData
         ]);
     }
