@@ -24,7 +24,7 @@ class BitrixfieldController extends Controller
 
         $parent = null;
         $request->validate([
-            'entity_type' => 'required|string',
+            'entityType' => 'required|string',
             'entity_id' => 'required|integer',
             'parent_type' => 'required|string',
             'type' => 'required|string',
