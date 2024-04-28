@@ -35,7 +35,7 @@ class Bitrixfield extends Model
             'entityType' => 'entity',
             'groups' => [
                 [
-                    'groupName' => 'Филды для Списков, Компаний,',
+                    'groupName' => 'Филды для Списков, Компаний',
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
@@ -80,32 +80,7 @@ class Bitrixfield extends Model
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
                         ],
-                        // [
-                        //     'id' => 3,
-                        //     'title' => 'Родительская модель (bitrixlist)',
-                        //     'entityType' => 'bitrixlistfield',
-                        //     'name' => 'parent',
-                        //     'apiName' => 'parent',
-                        //     'type' =>  'string',
-                        //     'validation' => 'required|max:255',
-                        //     'initialValue' => 'bitrixlist',
-                        //     'isCanAddField' => false,
-                        //     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
-                        // ],
-                        // [ // это прям модель надо передавать - в контроллере
-                        //     'id' => 4,
-                        //     'title' => 'принадлежность филда к родительской модели list complectField ',
-                        //     'entityType' => 'bitrixlistfield',
-                        //     'name' => 'entity_type',
-                        //     'apiName' => 'entity_type',
-                        //     'type' =>  'string',
-                        //     'validation' => 'required|max:255',
-                        //     'initialValue' => 'logo',
-                        //     'isCanAddField' => false,
-                        //     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-
-                        // ],
                         [
                             'id' => 3,
                             'title' => 'id сущности родителя, тип родителя определяется на сервере',

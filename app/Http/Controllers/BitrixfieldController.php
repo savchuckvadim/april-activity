@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bitrixfield;
+use App\Models\Bitrixlist;
 use Illuminate\Http\Request;
 
 class BitrixfieldController extends Controller
@@ -20,36 +21,29 @@ class BitrixfieldController extends Controller
 
     public function set(Request $request)
     {
-        //entityType logo | stamp | последняя или единственная часть урл
-        // $parentType - может быть null тогда можно взять из formdata // вообще это название родительской модели из url
-        // parentId - id родительского элемента
+       
+        $parent = null;
         $fieldData = [
+            'title' => $request['title'],
             'name' => $request['name'],
             'code' => $request['code'],
-            'type' => $request['type'], //Тип файла (table | video | word | img)
-            // 'parent' => $request['parent'], //Родительская модель (rq)
-            'parent_type' => $request['parent_type'], //Название файла в родительской модели logo stamp  // rq->morphMany(File::class, 'entity')->where('parent_type', 'logo'); //тоже системное поле по которому rq определяет что за связь - logo | stamp | signature по сути название типа файла
-            // 'availability' => $request['availability'], //Доступность public |  local
-            // '$entityType' => $entityType, // file->entity_type - системное поле для осуществления полиморфной связи с родительской моделью
-            // '$parentType' => $parentType,
-            // '$parentId' => $parentId,
-            // 'file' => $request['file'],
-
+            'type' => $request['type'], //Тип филда (select, date, string)
+            'entityType' => $request['entityType'],  // тип родителя - чтобы контроллер от этого условия определил нужную модель родителя
+            'entity_id' => (int)$request['entity_id'],  // id сущности родителя, тип родителя определяется на сервере 
+           
+            'parent_type' => $request['parent_type'],   //принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например
+            'bitrixId' => $request['bitrixId'],  
+            'bitrixCamelId' => $request['bitrixCamelId'],  
         ];
-        $request->validate([
-            // 'entity_type' => 'required|string',
-            'entity_id' => 'required|integer',
-            'parent_type' => 'required|string',
-            'type' => 'required|string',
-            'title' => 'required|string',
-            'name' => 'required|string',
-            'code' => 'required|string',
-            'bitrixId' => 'required|string',
-            'bitrixCamelId' => 'required|string'
-        ]);
+
+
+        if($fieldData['entityType'] == 'list'){
+            $parent = Bitrixlist::class;
+
+        }
 
         $field = new Bitrixfield([
-            'entity_type' => $request->entity_type,
+            'entity_type' => $parent,
             'entity_id' => $request->entity_id,
             'parent_type' => $request->parent_type,
             'type' => $request->type,
