@@ -34,7 +34,7 @@ class SmartController extends Controller
             $smart = new Smart();
         }
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:bitrixfields,id',
+            'id' => 'sometimes|integer|exists:smarts,id',
             // 'entity_type' => 'required|string',
             'type' => 'required|string',
             'group' => 'required|string',
