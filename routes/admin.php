@@ -749,12 +749,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //.................................... initial
     //................. initial from parent
     //.....parent - smart
-    Route::get('initial/smart/{smartId}/categoris', function ($smartId) {
+    Route::get('initial/smart/{smartId}/categori', function ($smartId) {
 
         return BtxCategoryController::getInitial($smartId, 'smart');
     });
     //.....parent - deal
-    Route::get('initial/btxdeal/{btxdealId}/categoris', function ($btxdealId) {
+    Route::get('initial/btxdeal/{btxdealId}/categori', function ($btxdealId) {
 
         return BtxCategoryController::getInitial($btxdealId, 'deal');
     });
