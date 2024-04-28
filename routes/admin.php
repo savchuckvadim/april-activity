@@ -601,10 +601,11 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    //...............................................SET
+    //...............................................SET 
+    // .................................   set or update
     Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
-
-        return BitrixfieldController::set($request);
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
     });
 
 
