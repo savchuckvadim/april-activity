@@ -28,6 +28,7 @@ class Bitrixfield extends Model
 
     public static function getForm($parentId)
     {
+        $btxListParent = Bitrixlist::find($parentId);
 
         return [
             'apiName' => 'bitrixlistfield',
@@ -87,12 +88,15 @@ class Bitrixfield extends Model
                             'entityType' => 'bitrixlistfield',
                             'name' => 'entity_id',
                             'apiName' => 'entity_id',
-                            'type' =>  'string',
+                            'type' =>  'select',
                             'validation' => 'required|max:255',
                             'initialValue' => $parentId,
                             'value' => $parentId,
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+                            'items' => [
+                                $btxListParent
+                            ]
 
                         ],
 
