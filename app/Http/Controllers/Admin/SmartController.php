@@ -41,7 +41,7 @@ class SmartController extends Controller
             'name' => 'required|string',
             'title' => 'required|string',
             'entityTypeId' => 'required|string',
-            'code' => 'required|string',
+            // 'code' => 'required|string',
             'bitrixId' => 'required|string',
             'forStageId' => 'required|string',
             'forFilterId' => 'required|string',
