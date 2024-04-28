@@ -23,11 +23,11 @@ class BitrixfieldItemController extends Controller
 
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:bitrixfields,id',
-            'name' => 'required|integer',
+            'name' => 'required|string',
             'title' => 'required|string',
             'code' => 'required|string',
             'bitrixfield_id' => 'required|string',
-            'bitrixId' => 'required|string',
+            'bitrixId' => 'required|integer',
 
         ]);
 
