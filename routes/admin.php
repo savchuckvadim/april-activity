@@ -638,7 +638,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixfielditems', function ($bitrixFieldId) {
+    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixfielditem', function ($bitrixFieldId) {
 
         return BitrixfieldItemController::getInitial($bitrixFieldId);
     });
@@ -646,10 +646,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  list
-    // Route::get('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditems', function ($bitrixFieldId) {
+    Route::get('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditems', function ($bitrixFieldId) {
 
-    //     return BitrixfieldItemController::getFields($bitrixFieldId);
-    // });
+        return BitrixfieldItemController::getFromField($bitrixFieldId);
+    });
     //...............  get bitrix list field 
     // Route::get('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
     //     return BitrixfieldController::get($bitrixfieldId);
@@ -677,6 +677,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //......................................................................................................................
     //.................................................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

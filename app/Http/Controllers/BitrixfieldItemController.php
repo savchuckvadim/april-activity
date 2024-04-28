@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use Illuminate\Http\Request;
 
@@ -110,5 +111,14 @@ class BitrixfieldItemController extends Controller
             'bitrixlistfield' => $btxField,
             // 'fieldData' => $fieldData
         ]);
+    }
+
+    public static function getFromField($bitrixfieldId)
+    {
+
+        $btxField = Bitrixfield::find($bitrixfieldId);
+        $btxFieldItems = $btxField->items;
+
+        return APIController::getSuccess(['bitrixlistfield' => $btxFieldItems]);
     }
 }
