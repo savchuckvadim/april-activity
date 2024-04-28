@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('group'); //sales service  отдел
             $table->string('title'); //отображаемое имя
             $table->string('name'); //имя в битрикс
-            $table->integer('bitrixId'); //id в bitrix 23
+            $table->string('bitrixId'); //id в bitrix 23
             $table->string('bitrixCamelId'); //id в bitrix ufCrm
             $table->string('code'); //для доступа из app 
             $table->boolean('isActive');

@@ -19,15 +19,15 @@ return new class extends Migration
             $table->string('name');  // имя в битрикс
             $table->string('title');  // Отображаемое имя
             $table->string('code');  // для APP
-            $table->integer('bitrixId');  // id в битриксе
+            $table->string('bitrixId');  // id в битриксе
             $table->string('color');  // для APP
             $table->boolean('isActive');
 
             
 
-            $table->foreign('bitrixfield_id')
+            $table->foreign('btx_category_id')
                 ->references('id')
-                ->on('bitrixfields')
+                ->on('btx_categories')
                 ->onDelete('cascade');
             
         });
