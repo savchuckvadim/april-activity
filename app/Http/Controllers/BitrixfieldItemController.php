@@ -21,72 +21,43 @@ class BitrixfieldItemController extends Controller
     public static function store(Request $request)
     {
 
-        $parent = null;
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:bitrixfields,id',
-            // 'entity_type' => 'required|string',
-            'entity_id' => 'required|integer',
-            'parent_type' => 'required|string',
-            'type' => 'required|string',
+            'name' => 'required|integer',
             'title' => 'required|string',
-            'name' => 'required|string',
             'code' => 'required|string',
+            'bitrixfield_id' => 'required|string',
             'bitrixId' => 'required|string',
-            'bitrixCamelId' => 'required|string'
-        ]);
-        // $fieldData = [
-        //     'title' => $request['title'],
-        //     'name' => $request['name'],
-        //     'code' => $request['code'],
-        //     'type' => $request['type'], //Тип филда (select, date, string)
-        //     // 'entityType' => $request['entityType'],  // тип родителя - чтобы контроллер от этого условия определил нужную модель родителя
-        //     'entity_id' => (int)$request['entity_id'],  // id сущности родителя, тип родителя определяется на сервере 
 
-        //     'parent_type' => $request['parent_type'],   //принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например
-        //     'bitrixId' => $request['bitrixId'],
-        //     'bitrixCamelId' => $request['bitrixCamelId'],
-        // ];
+        ]);
 
         if (isset($validatedData['id'])) {
             // Попытка найти существующее поле
-            $field = BitrixfieldItem::find($validatedData['id']);
-            if (!$field) {
-                return APIController::getError('Bitrixfield not found', [], 404);
+            $item = BitrixfieldItem::find($validatedData['id']);
+            if (!$item) {
+                return APIController::getError('Bitrix field Item not found', [], 404);
             }
         } else {
             // Создание нового поля, если ID не предоставлен
-            $field = new BitrixfieldItem();
-            if ($request['entityType'] == 'list') {
-                $parent = BitrixfieldItem::class;
-            }
-
-            // Заполняем или обновляем поля модели если модель создается
-            $field->entity_type = $parent ?? null;
-            $field->entity_id = $validatedData['entity_id'];
+            $item = new BitrixfieldItem();
         }
 
 
         // Заполняем или обновляем поля модели
 
-        $field->parent_type = $validatedData['parent_type'];
-        $field->type = $validatedData['type'];
-        $field->title = $validatedData['title'];
-        $field->name = $validatedData['name'];
-        $field->code = $validatedData['code'];
-        $field->bitrixId = $validatedData['bitrixId'];
-        $field->bitrixCamelId = $validatedData['bitrixCamelId'];
+        $item->title = $validatedData['title'];
+        $item->name = $validatedData['name'];
+        $item->code = $validatedData['code'];
+        $item->bitrixId = $validatedData['bitrixId'];
+        $item->bitrixfield_id = $validatedData['bitrixfield_id'];
 
-        $field->save();
+        $item->save();
+        $responseData =   ['bitrixfielditem' => $item];
 
-        if ($field) {
-            return APIController::getSuccess([
-                'bitrixlistfield' => $field
-            ]);
+        if ($item) {
+            return APIController::getSuccess($responseData);
         }
-        return APIController::getError('btx field was not created', [
-            'bitrixlistfield' => $field,
-            // 'fieldData' => $fieldData
-        ]);
+        return APIController::getError('btx field was not created', $responseData);
     }
 
     public static function get($bitrixfieldId)
