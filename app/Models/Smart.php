@@ -202,7 +202,7 @@ class Smart extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'crm  // T9c_',
+                            'title' => 'crm  // T9c',
                             'entityType' => 'smart',
                             'name' => 'crm',
                             'apiName' => 'crm',
