@@ -25,7 +25,7 @@ class BitrixfieldController extends Controller
         $parent = null;
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:bitrixfields,id',
-            'entityType' => 'required|string',
+            // 'entity_type' => 'required|string',
             'entity_id' => 'required|integer',
             'parent_type' => 'required|string',
             'type' => 'required|string',
@@ -57,14 +57,18 @@ class BitrixfieldController extends Controller
         } else {
             // Создание нового поля, если ID не предоставлен
             $field = new Bitrixfield();
-        }
-        if ($request['entityType'] == 'list') {
-            $parent = Bitrixlist::class;
+            if ($request['entityType'] == 'list') {
+                $parent = Bitrixlist::class;
+            }
+
+            // Заполняем или обновляем поля модели если модель создается
+            $field->entity_type = $parent ?? null;
+            $field->entity_id = $validatedData['entity_id'];
         }
 
+
         // Заполняем или обновляем поля модели
-        $field->entity_type = $parent ?? null;
-        $field->entity_id = $validatedData['entity_id'];
+
         $field->parent_type = $validatedData['parent_type'];
         $field->type = $validatedData['type'];
         $field->title = $validatedData['title'];

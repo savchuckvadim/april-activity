@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bitrixfields', function (Blueprint $table) {
             $table->id();
-            $table->string('entity_type');  // тип сущности (например, BitrixList, BitrixSmart)
+            $table->string('entity_type');  // класс сущности родителя (например, BitrixList, BitrixSmart)
             $table->unsignedBigInteger('entity_id');  // ID сущности
             $table->string('parent_type');  // название  родительской сущности (list, deal) //надо указывать если есть какие-то разграничения внутри сущности типа как тип field например actions или comments так например File может быть и stamp и signature и доступ должен быть из родетельской модели
             //еще нужно при создании с фронта пользователь присылает parent_type и скрипт может понять 
