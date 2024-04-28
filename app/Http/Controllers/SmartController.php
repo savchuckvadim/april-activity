@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SmartController extends Controller
 {
-    public static function getInitial($portalId)
+    public static function getInitial($portalId = null)
     {
 
         $initialData = Smart::getForm($portalId);

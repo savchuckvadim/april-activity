@@ -15,6 +15,7 @@ use App\Http\Controllers\InfoGroupController;
 use App\Http\Controllers\PortalController;
 
 use App\Http\Controllers\RqController;
+use App\Http\Controllers\SmartController;
 use App\Http\Controllers\TemplateController;
 
 use App\Models\Infoblock;
@@ -584,6 +585,35 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+
+
+
+    // ......................................................................... SMARTS
+
+    //.................................... initial
+    // initial from parent
+    Route::get('initial/portal/{portalId}/smart', function ($portalId) {
+
+        return SmartController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/smart', function () {
+        return SmartController::getInitial();
+    });
+
+
+
+    Route::post('smart/{smartId}', function ($entityType, $entityId, Request $request) {
+        return BaseController::update($entityType, $entityId,  $request);
+    });
+
+
+
+
+
+
+
+    //GENERAL
 
 
     Route::get('initial/{parentType}/{parentId}/{entityType}', function ($parentType, $parentId, $entityType) {

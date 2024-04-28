@@ -37,7 +37,7 @@ class Smart extends Model
     public static function getForm($portalId)
     {
 
-        $portalsSelect = PortalController::getSelectPortals();
+        $portalsSelect = PortalController::getSelectPortals($portalId);
 
         return [
             'apiName' => 'smart',
@@ -222,7 +222,7 @@ class Smart extends Model
                             'apiName' => 'portal_id',
                             'type' =>  'select',
                             'validation' => 'required',
-                            'initialValue' => '',
+                            'initialValue' => $portalId,
                             'items' => $portalsSelect,
                             'isCanAddField' => false,
 

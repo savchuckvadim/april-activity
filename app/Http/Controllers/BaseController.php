@@ -30,7 +30,7 @@ class BaseController extends Controller
                     return FieldController::getInitialField();
                     break;
 
-                case 'smart':
+                // case 'smart':
                 case 'bitrixlist':
                 case 'departament':
                 case 'timezone':
