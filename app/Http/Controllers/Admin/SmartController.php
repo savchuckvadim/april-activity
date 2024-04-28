@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SmartResource;
 use App\Models\Portal;
 use App\Models\Smart;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class SmartController extends Controller
         $forStageId = $request['forStageId'];
         $forFilterId = $request['forFilterId'];
         $crmId = $request['crmId'];
-    
+
         $forStage = $request['forStage'];
         $forFilter = $request['forFilter'];
         $crm = $request['crm'];
@@ -75,10 +76,11 @@ class SmartController extends Controller
     {
         try {
             $smart = Smart::find($smartId);
-            if ($smart) {
 
+            if ($smart) {
+                $resultSmart = new SmartResource($smart);
                 return APIController::getSuccess(
-                    ['smart' => $smart]
+                    ['smart' => $resultSmart]
                 );
             } else {
                 return APIController::getError(
