@@ -665,14 +665,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixfieldItemController::store($request);
     });
     // ............................from self
-    Route::post('bitrixlistfield/{bitrixlistfieldId}', function (Request $request) {
+    Route::post('bitrixfielditem/{itemId}', function (Request $request) {
         //store = set or uppdate
-        return BitrixfieldController::store($request);
+        return BitrixfieldItemController::store($request);
     });
 
     // ............................................DELETE
-    Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
-        return BitrixfieldController::delete($bitrixfieldId);
+    Route::delete('bitrixfielditem/{itemId}', function ($itemId) {
+        return BitrixfieldItemController::delete($itemId);
     });
 
     //......................................................................................................................
