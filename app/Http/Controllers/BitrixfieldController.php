@@ -48,7 +48,7 @@ class BitrixfieldController extends Controller
         ];
 
 
-        if ($fieldData['entityType'] == 'list') {
+        if ($request['entityType'] == 'list') {
             $parent = Bitrixlist::class;
         }
 
