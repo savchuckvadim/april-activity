@@ -23,6 +23,17 @@ class BitrixfieldController extends Controller
     {
 
         $parent = null;
+        $request->validate([
+            'entity_type' => 'required|string',
+            'entity_id' => 'required|integer',
+            'parent_type' => 'required|string',
+            'type' => 'required|string',
+            'title' => 'required|string',
+            'name' => 'required|string',
+            'code' => 'required|string',
+            'bitrixId' => 'required|string',
+            'bitrixCamelId' => 'required|string'
+        ]);
         $fieldData = [
             'title' => $request['title'],
             'name' => $request['name'],
@@ -54,6 +65,16 @@ class BitrixfieldController extends Controller
         ]);
 
         $field->save();
+
+        if ($field) {
+            return APIController::getSuccess([
+                'bitrixlistfield' => $field
+            ]);
+        }
+        return APIController::getError('btx field was not created', [
+            'bitrixlistfield' => $field,
+            'fieldData' => $fieldData
+        ]);
     }
 
     public static function delete($bitrixfieldId)
