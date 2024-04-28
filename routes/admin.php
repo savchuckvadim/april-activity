@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\RqController;
 use App\Http\Controllers\Admin\SmartController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Admin\BtxCategoryController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
 // use App\Http\Controllers\BitrixfieldController;
@@ -29,7 +30,7 @@ use App\Http\Controllers\FileController;
 // use App\Http\Controllers\InfoGroupController;
 
 use App\Http\Controllers\PortalController;
-
+use App\Models\BtxCategory;
 // use App\Http\Controllers\RqController;
 // use App\Http\Controllers\SmartController;
 // use App\Http\Controllers\TemplateController;
@@ -736,6 +737,67 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::post('smart/{smartId}', function (Request $request) {
         return SmartController::store($request);
     });
+
+
+
+    // .......................................................................BTX CATEGORIES
+    // ...........................................................................................
+    // ......................................................................................................
+    // have parents Smart Deal Lead
+
+
+    //.................................... initial
+    //................. initial from parent
+    //.....parent - smart
+    Route::get('initial/smart/{smartId}/categories', function ($smartId) {
+
+        return BtxCategoryController::getInitial($smartId, 'smart');
+    });
+    //.....parent - deal
+    Route::get('initial/btxdeal/{btxdealId}/categories', function ($btxdealId) {
+
+        return BtxCategoryController::getInitial($btxdealId, 'deal');
+    });
+
+
+
+
+
+    // single initial
+    Route::get('initial/smart', function () {
+        return SmartController::getInitial();
+    });
+
+
+
+
+    // .............................................GET 
+    // all from parent  smart
+    Route::get('smart/{smartId}/categories', function ($portalId) {
+
+        return SmartController::getByPortal($portalId);
+    });
+
+    // Route::get('btxdeal/{btxdealId}/categories', function ($portalId) {
+
+    //     return SmartController::getByPortal($portalId);
+    // });
+
+
+    // Route::get('btxcompany/{btxcompanyId}/categories', function ($portalId) {
+
+    //     return SmartController::getByPortal($portalId);
+    // });
+
+    // Route::get('btxlead/{btxleadId}/categories', function ($portalId) {
+
+    //     return SmartController::getByPortal($portalId);
+    // });
+
+
+
+
+
 
 
 
