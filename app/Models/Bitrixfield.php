@@ -90,6 +90,7 @@ class Bitrixfield extends Model
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => $parentId,
+                            'value' => $parentId,
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
@@ -151,13 +152,13 @@ class Bitrixfield extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'тип родителя - чтобы контроллер от этого условия определил нужную модель родителя',
+                            'title' => 'тип родителя - чтобы контроллер от этого условия определил нужную модель родителя list | deal | company | lead | task | smart',
                             'entityType' => 'bitrixlistfield',
                             'name' => 'parent model short name',
                             'apiName' => 'entityType',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
-                            'initialValue' => 'list | deal | company | lead | task | smart',
+                            'initialValue' => '',
 
                             'isCanAddField' => false,
 
