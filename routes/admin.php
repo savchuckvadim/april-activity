@@ -603,11 +603,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //...............................................SET 
     // .................................   set or update
+    // ............................from parent
     Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
-
+    // ............................from self
+    Route::post('bitrixlistfield/{bitrixlistfieldId}', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
 
     // ............................................DELETE
     Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
