@@ -22,7 +22,7 @@ class SmartController extends Controller
     }
 
 
-    public static function set(Request $request)
+    public static function store(Request $request)
     {
         $type = $request['type'];
         $group = $request['group'];
@@ -130,5 +130,26 @@ class SmartController extends Controller
                 null
             );
         }
+    }
+
+    public static function getByPortal($portalId)
+    {
+
+        // Создание нового Counter
+        $portal = Portal::find($portalId);
+        $smarts = $portal->smarts;
+        if ($smarts) {
+
+            return APIController::getSuccess(
+                ['smarts' => $smarts]
+            );
+        }
+
+
+        return APIController::getError(
+            'smarts was not found',
+            ['portal id' => $portalId]
+
+        );
     }
 }

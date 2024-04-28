@@ -720,9 +720,21 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+    // .............................................GET 
+    // all from parent  smart
+    Route::get('portal/{portalId}/smarts', function ($portalId) {
 
-    Route::post('smart/{smartId}', function ($entityType, $entityId, Request $request) {
-        return BaseController::update($entityType, $entityId,  $request);
+        return SmartController::getByPortal($portalId);
+    });
+    // ...............  get smart
+    Route::get('smart/{smartId}', function ($smartId) {
+        return SmartController::get($smartId);
+    });
+
+
+
+    Route::post('smart/{smartId}', function (Request $request) {
+        return SmartController::store($request);
     });
 
 
