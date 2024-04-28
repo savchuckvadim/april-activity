@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\BitrixfieldController;
+use App\Http\Controllers\BitrixfieldItemController;
 use App\Http\Controllers\BitrixlistController;
 use App\Http\Controllers\CounterController;
 
@@ -575,11 +576,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //........................................................................BITRIX LIST FIELDS | BTX FIELDS
     // id и другие параметры полей из битрикс
     //....       'type',        select, date, string,
-    // .......   'code',        action | xoDate | presentationDone | presentationCount
+    // .......   'code',        action | xoDate | comment | presentationCount
     // .....     'name',        имя в битрикс
     // ........  'title',       отображаемое имя
     // ......    'bitrixId',    id в bitrix UF_CRM
     // ......    'bitrixCamelId'    id в bitrix ufCrm
+
+
+    //TODO: это поля которые могут быть првязаны к сущностям Битррикс 
+    // на данный момент реализована связь только со Списками - надо сделать со всеми сущностями
+
 
     //.................................... initial
     // initial from parent
@@ -618,6 +624,60 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
         return BitrixfieldController::delete($bitrixfieldId);
     });
+
+
+    //........................................................................BITRIX FIELDS ITEMS
+    // элементы полей Битрикс типа список например элементы поля Действие 
+
+
+    // .....     'name',        имя в битрикс
+    // ........  'title',       отображаемое имя
+    // .......   'code',        presentationPlan | xoDone | presentationDone 
+    // ......    'bitrixId',    id как правило number
+
+
+    //.................................... initial
+    // initial from parent
+    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixlistfielditem', function ($bitrixFieldId) {
+
+        return BitrixfieldItemController::getInitial($bitrixFieldId);
+    });
+
+
+    // .............................................GET 
+    // all from parent  list
+    // Route::get('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditems', function ($bitrixFieldId) {
+
+    //     return BitrixfieldItemController::getFields($bitrixFieldId);
+    // });
+    //...............  get bitrix list field 
+    // Route::get('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
+    //     return BitrixfieldController::get($bitrixfieldId);
+    // });
+
+
+
+    //...............................................SET 
+    // .................................   set or update
+    // ............................from parent
+    Route::post('bitrixlistfield/{bitrixFieldId}/bitrixlistfielditem', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldItemController::store($request);
+    });
+    // ............................from self
+    Route::post('bitrixlistfield/{bitrixlistfieldId}', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
+
+    // ............................................DELETE
+    Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
+        return BitrixfieldController::delete($bitrixfieldId);
+    });
+
+    //......................................................................................................................
+    //.................................................................................................................
+
 
 
     // ......................................................................... SMARTS
