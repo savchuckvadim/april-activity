@@ -23,7 +23,7 @@ class BitrixFieldResource extends JsonResource
             'bitrixId' => $this->bitrixId,
             'bitrixCamelId' => $this->bitrixCamelId,
             'entity_id' => $this->entity_id,
-            'bitrixlistfields' => $this->items,
+            'bitrixfielditems' => $this->items,
             'entity' => $this->entity,
         ];
     }
