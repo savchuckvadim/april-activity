@@ -773,7 +773,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  smart
-    Route::get('smart/{smartId}/categories', function ($smartId) {
+    Route::get('smart/{smartId}/category', function ($smartId) {
 
         return SmartController::getCategories($smartId);
     });
