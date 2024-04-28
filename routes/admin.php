@@ -582,7 +582,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfields', function ($portalId) {
+    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfield', function ($portalId) {
 
         return BitrixlistController::getInitial($portalId);
     });
