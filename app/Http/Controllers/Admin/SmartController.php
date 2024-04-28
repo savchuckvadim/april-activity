@@ -29,9 +29,12 @@ class SmartController extends Controller
             $id = $request['id'];
             $smart = Smart::find($id);
         } else {
-            $portal_id = $request['portal_id'];
-            $portal = Portal::find($portal_id);
-            $smart = new Smart();
+            if (isset($request['portal_id'])) {
+
+                $portal_id = $request['portal_id'];
+                $portal = Portal::find($portal_id);
+                $smart = new Smart();
+            }
         }
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:smarts,id',
@@ -46,9 +49,9 @@ class SmartController extends Controller
             'forStageId' => 'required|string',
             'forFilterId' => 'required|string',
             'crmId' => 'required|string',
-            'forStage' => 'required|string',
-            'forFilter' => 'required|string',
-            'crm' => 'required|string',
+            // 'forStage' => 'required|string',
+            // 'forFilter' => 'required|string',
+            // 'crm' => 'required|string',
         ]);
         $type = $validatedData['type'];
         $group = $validatedData['group'];
@@ -60,9 +63,9 @@ class SmartController extends Controller
         $forFilterId = $validatedData['forFilterId'];
         $crmId = $validatedData['crmId'];
 
-        $forStage = $request['forStage'];
-        $forFilter = $validatedData['forFilter'];
-        $crm = $validatedData['crm'];
+        // $forStage = $request['forStage'];
+        // $forFilter = $validatedData['forFilter'];
+        // $crm = $validatedData['crm'];
 
 
         if ($portal) {
@@ -78,9 +81,9 @@ class SmartController extends Controller
             $smart->forStageId = $forStageId;
             $smart->forFilterId = $forFilterId;
             $smart->crmId = $crmId;
-            $smart->forStage = $forStage;
-            $smart->forFilter = $forFilter;
-            $smart->crm = $crm;
+            // $smart->forStage = $forStage;
+            // $smart->forFilter = $forFilter;
+            // $smart->crm = $crm;
             $smart->portal_id = $portal_id;
             $smart->save(); // Сохранение Counter в базе данных
 
