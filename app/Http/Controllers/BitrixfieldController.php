@@ -77,6 +77,15 @@ class BitrixfieldController extends Controller
         ]);
     }
 
+    public static function get($bitrixfieldId)
+    {
+
+        $btxField = BitrixField::find($bitrixfieldId);
+
+    
+        return APIController::getSuccess(['bitrixlistfield' => $btxField]);
+    }
+
     public static function delete($bitrixfieldId)
     {
 
