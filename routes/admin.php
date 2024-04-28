@@ -569,6 +569,15 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixlistController::get($bitrixlistId);
     });
 
+
+    //........................................................................BITRIX LIST FIELDS | BTX FIELDS
+    // id и другие параметры полей из битрикс
+    //....       'type',        select, date, string,
+    // .......   'code',        action | xoDate | presentationDone | presentationCount
+    // .....     'name',        имя в битрикс
+    // ........  'title',       отображаемое имя
+    // ......    'bitrixId',    id в bitrix UF_CRM
+    // ......    'bitrixCamelId'    id в bitrix ufCrm
     Route::get('bitrixlist/{bitrixlistId}/bitrixlistfields', function ($bitrixlistId) {
 
         return BitrixlistController::getFields($bitrixlistId);

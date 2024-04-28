@@ -37,7 +37,7 @@ class Smart extends Model
     public static function getForm($portalId)
     {
 
-        $portalsSelect = PortalController::getSelectPortals($portalId);
+        $portalsSelect = PortalController::getSelectPortals();
 
         return [
             'apiName' => 'smart',
