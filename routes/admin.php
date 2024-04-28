@@ -749,12 +749,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //.................................... initial
     //................. initial from parent
     //.....parent - smart
-    Route::get('initial/smart/{smartId}/categories', function ($smartId) {
+    Route::get('initial/smart/{smartId}/category', function ($smartId) {
 
         return BtxCategoryController::getInitial($smartId, 'smart');
     });
     //.....parent - deal
-    Route::get('initial/btxdeal/{btxdealId}/categories', function ($btxdealId) {
+    Route::get('initial/btxdeal/{btxdealId}/category', function ($btxdealId) {
 
         return BtxCategoryController::getInitial($btxdealId, 'deal');
     });
@@ -773,7 +773,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  smart
-    Route::get('smart/{smartId}/category', function ($smartId) {
+    Route::get('smart/{smartId}/categories', function ($smartId) {
 
         return SmartController::getCategories($smartId);
     });
