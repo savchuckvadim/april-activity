@@ -106,7 +106,7 @@ class BtxStageController extends Controller
             return APIController::getSuccess($data);
         }
 
-        return APIController::getError('stage was not found', $data);
+        return APIController::getError('stage was not found', null);
     }
 
     public static function delete($stageId)
