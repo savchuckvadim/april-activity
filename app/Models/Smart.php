@@ -40,9 +40,12 @@ class Smart extends Model
 
     public function fields()
     {
-        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'smart');
+        return $this->morphMany(Bitrixfield::class, 'entity');
     }
-
+    // public function xoFields()
+    // {
+    //     return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'xo');
+    // }
 
 
 

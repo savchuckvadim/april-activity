@@ -107,7 +107,7 @@ class Bitrixfield extends Model
 
                         [
                             'id' => 3,
-                            'title' => 'id сущности родителя, тип родителя определяется на сервере',
+                            'title' => 'id сущности родителя, тип родителя определяется на сервере:',
                             'entityType' => 'bitrixfield',
                             'name' => 'entity_id',
                             'apiName' => 'entity_id',
