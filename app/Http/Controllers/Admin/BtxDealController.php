@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BtxDealResource;
 use App\Models\BtxDeal;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -55,9 +56,9 @@ class BtxDealController extends Controller
         
            
             $deal->save(); // Сохранение Counter в базе данных
-
+            $resultDeal = new BtxDealResource($deal);
             return APIController::getSuccess(
-                ['deal' => $deal, 'portal' => $portal]
+                ['deal' => $resultDeal, 'portal' => $portal]
             );
         }
 
@@ -73,9 +74,9 @@ class BtxDealController extends Controller
             $deal = BtxDeal::find($dealId);
 
             if ($deal) {
-                // $resultSmart = new SmartResource($dealId);
+                $resultDeal = new BtxDealResource($deal);
                 return APIController::getSuccess(
-                    ['deal' => $deal]
+                    ['deal' => $resultDeal]
                 );
             } else {
                 return APIController::getError(
