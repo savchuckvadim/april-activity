@@ -29,7 +29,7 @@ class BitrixfieldItemController extends Controller
             'title' => 'required|string',
             'code' => 'required|string',
             'bitrixfield_id' => 'required|string',
-            'bitrixId' => 'required|integer',
+            'bitrixId' => 'required|string',
 
         ]);
 
