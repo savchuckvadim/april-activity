@@ -16,6 +16,7 @@ class BtxDealResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'portal_id' => $this->portal_id,
             'code' => $this->code,
             'name' => $this->name,
             'title' => $this->title,
