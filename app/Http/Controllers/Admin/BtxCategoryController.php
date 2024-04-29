@@ -54,9 +54,9 @@ class BtxCategoryController extends Controller
         ]);
 
         if ($validatedData['isActive'] == 'true' || $validatedData['isActive'] == '1') {
-            $validatedData['isActive'] == true;
-        } else if ($validatedData['isActive'] == 'false' || $validatedData['isActive'] == '0') {
-            $validatedData['isActive'] == false;
+            $validatedData['isActive'] = true;
+        } else if ($validatedData['isActive'] == 'false' || $validatedData['isActive'] == '0' || $validatedData['isActive'] == '') {
+            $validatedData['isActive'] = false;
         }
 
         if ($validatedData['entity_type'] === 'smart') {
