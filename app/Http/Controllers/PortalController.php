@@ -82,7 +82,11 @@ class PortalController extends Controller
                 $cachedPortalData
 
             ]);
-            return APIController::getSuccess(['portal' => $cachedPortalData]); // Возвращаем данные в формате response
+            return APIController::getSuccess([
+                'data' => [
+                    'portal' => $cachedPortalData
+                ]
+            ]); // Возвращаем данные в формате response
         }
 
         $portal = Portal::where('domain', $domain)->first();
