@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SmartController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Admin\BtxCategoryController;
+use App\Http\Controllers\Admin\BtxStageController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
 // use App\Http\Controllers\BitrixfieldController;
@@ -827,8 +828,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
+    // .......................................................................... BTX STAGES
+    //..has one category
+   //................. initial from parent
+    //.....parent - category
+    Route::get('initial/category/{categoryId}/stage', function ($categoryId) {
 
-
+        return BtxStageController::getInitial($categoryId);
+    });
 
 
 
