@@ -32,6 +32,12 @@ class BtxCategory extends Model
         if ($parentType === 'smart') {
             $parentClass = Smart::class;
             $btxParent = Smart::find($parentId);
+        } else   if ($parentType === 'deal') {
+            $parentClass = BtxDeal::class;
+            $btxParent = BtxDeal::find($parentId);
+        } else   if ($parentType === 'lead') {
+            $parentClass = BtxLead::class;
+            $btxParent = BtxLead::find($parentId);
         }
 
 
