@@ -79,7 +79,7 @@ class PortalController extends Controller
         if (!is_null($cachedPortalData)) {
             Log::channel('telegram')->info('APRIL_ONLINE', [
                 'log from cache getPortal'   =>
-                'cachedPortal'
+                $cachedPortalData
 
             ]);
             return APIController::getSuccess(['portal' => $cachedPortalData]); // Возвращаем данные в формате response
