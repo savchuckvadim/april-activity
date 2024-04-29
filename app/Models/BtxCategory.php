@@ -19,6 +19,11 @@ class BtxCategory extends Model
         return $this->morphTo();
     }
 
+    public function stages()
+    {
+        return $this->hasMany(BtxStage::class);
+    }
+
 
     public static function getForm($parentId, $parentType)
     {
