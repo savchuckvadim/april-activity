@@ -588,6 +588,8 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+
+
     // .............................................GET  SMART
     // all from parent  smart
     Route::get('portal/{portalId}/smarts', function ($portalId) {
@@ -897,6 +899,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixfieldItemController::delete($itemId);
     });
 
+
     //......................................................................................................................
     //.................................................................................................................
 
@@ -935,6 +938,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCategoryController::getInitial($dealId, 'deal');
     });
 
+    //.....parent - lead
+    Route::get('initial/lead/{leadId}/category', function ($leadId) {
+
+        return BtxCategoryController::getInitial($leadId, 'lead');
+    });
+
+
 
     //...................................................SET  category
     // .................................   set or update
@@ -950,6 +960,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCategoryController::store($request);
     });
 
+    // ............................from parent lead
+    Route::post('lead/{leadId}/category', function (Request $request) {
+        //.........set                                                 store = set or uppdate
+        return BtxCategoryController::store($request);
+    });
+
+
 
     // ............................from self
     Route::post('category/{categoryId}', function (Request $request) {
@@ -959,19 +976,6 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-
-
-    // ............................................DELETE
-    Route::delete('bitrixfielditem/{itemId}', function ($itemId) {
-        return BitrixfieldItemController::delete($itemId);
-    });
-
-
-
-    // single initial
-    Route::get('initial/smart', function () {
-        return SmartController::getInitial();
-    });
 
 
 
@@ -990,7 +994,11 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
         return BtxDealController::getCategories($dealId);
     });
+    //  ........get categories -  all from parent  lead  
+    Route::get('lead/{leadId}/categories', function ($leadId) {
 
+        return BtxLeadController::getCategories($leadId);
+    });
 
 
 
@@ -1005,6 +1013,8 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::delete('category/{categoryId}', function ($categoryId) {
         return BtxCategoryController::delete($categoryId);
     });
+
+
 
 
 
