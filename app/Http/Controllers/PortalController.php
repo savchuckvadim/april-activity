@@ -76,18 +76,18 @@ class PortalController extends Controller
         $cacheKey = 'portal_' . $domain;
         $cachedPortalData = Cache::get($cacheKey);
 
-        if (!is_null($cachedPortalData)) {
-            Log::channel('telegram')->info('APRIL_ONLINE', [
-                'log from cache getPortal'   =>
-                $cachedPortalData
+        // if (!is_null($cachedPortalData)) {
+        //     Log::channel('telegram')->info('APRIL_ONLINE', [
+        //         'log from cache getPortal'   =>
+        //         $cachedPortalData
 
-            ]);
-            return APIController::getSuccess([
-                'data' => [
-                    'portal' => $cachedPortalData
-                ]
-            ]); // Возвращаем данные в формате response
-        }
+        //     ]);
+        //     return APIController::getSuccess([
+        //         'data' => [
+        //             'portal' => $cachedPortalData
+        //         ]
+        //     ]); // Возвращаем данные в формате response
+        // }
 
         $portal = Portal::where('domain', $domain)->first();
         if (!$portal) {
