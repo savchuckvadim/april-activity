@@ -709,7 +709,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // ......................................................................... SMARTS
 
-    //.................................... initial
+    //.................................... initial SMART
     // initial from parent
     Route::get('initial/portal/{portalId}/smart', function ($portalId) {
 
@@ -721,7 +721,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    // .............................................GET 
+    // .............................................GET  SMART
     // all from parent  smart
     Route::get('portal/{portalId}/smarts', function ($portalId) {
 
@@ -733,6 +733,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+    //...............................................SET SMART
+
+    Route::post('portal/{portalId}/smart', function (Request $request) {
+
+        return SmartController::store($request);
+    });
 
     Route::post('smart/{smartId}', function (Request $request) {
         return SmartController::store($request);
@@ -760,6 +766,23 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+    //...................................................SET  category
+    // .................................   set or update
+    // ............................from parent smart
+    Route::post('smart/{smartId}/category', function (Request $request) {
+        //.........set                                                 store = set or uppdate
+        return BtxCategoryController::store($request);
+    });
+    // ............................from self
+    Route::post('category/{categoryId}', function (Request $request) {
+        //.........uppdate                                              store = set or uppdate
+        return BtxCategoryController::store($request);
+    });
+
+    // ............................................DELETE
+    Route::delete('bitrixfielditem/{itemId}', function ($itemId) {
+        return BitrixfieldItemController::delete($itemId);
+    });
 
 
 
