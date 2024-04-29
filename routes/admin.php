@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SmartController;
 use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Admin\BtxCategoryController;
+use App\Http\Controllers\Admin\BtxDealController;
 use App\Http\Controllers\Admin\BtxStageController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
@@ -611,27 +612,27 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .........................................................................BTX DEALS
 
-    //.................................... initial SMART
+    //.................................... initial DEAL
     // initial from parent
     Route::get('initial/portal/{portalId}/deal', function ($portalId) {
 
-        return SmartController::getInitial($portalId);
+        return BtxDealController::getInitial($portalId);
     });
     // single initial
     Route::get('initial/deal', function () {
-        return SmartController::getInitial();
+        return BtxDealController::getInitial();
     });
 
 
     // .............................................GET  DEALS
     // all from parent  portal
-    Route::get('portal/{portalId}/smarts', function ($portalId) {
+    Route::get('portal/{portalId}/deals', function ($portalId) {
 
-        return SmartController::getByPortal($portalId);
+        return BtxDealController::getByPortal($portalId);
     });
     // ...............  get deal
-    Route::get('smart/{smartId}', function ($smartId) {
-        return SmartController::get($smartId);
+    Route::get('deal/{dealId}', function ($dealId) {
+        return BtxDealController::get($dealId);
     });
 
 
