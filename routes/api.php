@@ -43,7 +43,7 @@ Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
 
 
-    ///KONSTRUKTOR OFFER API
+    ///KONSTRUKTOR OFFER API   ...........................................................
     Route::post('/deal', function (Request $request) {
 
         return DealController::addDeal($request);
@@ -162,6 +162,20 @@ Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
         );
         return $data;
     });
+
+
+
+
+
+    //..................................APRIL HOOK APP ...............................
+    Route::post('getportal', function (Request $request) {
+
+        //hook server обращается к этому эндпоинту чтобы получить
+        // портал для работы хуков
+
+        $domain  = $request->input('domain');
+        return PortalController::getPortal($domain);
+    });
 });
 
 
@@ -179,10 +193,7 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
 
-    Route::post('getportal', function (Request $request) {
-        $domain  = $request->input('domain');
-        return PortalController::getPortal($domain);
-    });
+
 
 
 

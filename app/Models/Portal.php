@@ -51,6 +51,7 @@ class Portal extends Model
         return $this->hasMany(BtxDeal::class);
     }
 
+
     public function companies()
     {
         return $this->hasMany(BtxCompany::class);
@@ -79,8 +80,6 @@ class Portal extends Model
     // hasMany у списков должен быть type (kpi, fucks, invoices, conversions)
 
 
-
-
     public function getSalesCallingGroupId()
     {
         return $this->callingGroups()->first();
@@ -102,6 +101,19 @@ class Portal extends Model
         return $this->smarts()->first();
     }
 
+    // Метод для получения первой сделки
+    public function deal()
+    {
+        return  $this->deals()->oldest(); // или latest() в зависимости от того, какой элемент считается "первым"
+    }
+    public function company()
+    {
+        return  $this->companies()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
+    }
+    public function lead()
+    {
+        return  $this->leads()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
+    }
 
 
     //crypto
