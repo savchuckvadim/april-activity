@@ -17,6 +17,9 @@ class Bitrixlist extends Model
     {
         return $this->belongsTo(Portal::class);
     }
+
+
+    
     public function fields()
     {
         return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'list');

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BtxDeal extends Model
+class BtxLead extends Model
 {
     use HasFactory;
 
@@ -15,8 +15,6 @@ class BtxDeal extends Model
         return $this->belongsTo(Portal::class);
     }
 
-
-    
     public function categories()
     {
         return $this->morphMany(BtxCategory::class, 'entity');
@@ -27,13 +25,5 @@ class BtxDeal extends Model
         return $this->morphMany(Bitrixfield::class, 'entity');
     }
 
-    public function callingFields()
-    {
-        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'calling');
-    }
 
-    public function offerFields()
-    {
-        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'konstructor');
-    }
 }

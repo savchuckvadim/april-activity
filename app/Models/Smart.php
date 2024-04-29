@@ -32,10 +32,22 @@ class Smart extends Model
     {
         return $this->belongsTo(Portal::class);
     }
+
     public function categories()
     {
         return $this->morphMany(BtxCategory::class, 'entity');
     }
+
+    public function fields()
+    {
+        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'smart');
+    }
+
+
+
+
+
+
 
     public static function getForm($portalId)
     {

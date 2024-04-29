@@ -31,6 +31,9 @@ class Bitrixfield extends Model
         return $this->hasMany(BitrixfieldItem::class);
     }
 
+
+
+    
     public static function getForm($parentId)
     {
         $btxListParent = Bitrixlist::find($parentId);

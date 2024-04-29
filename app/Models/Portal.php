@@ -46,6 +46,22 @@ class Portal extends Model
     {
         return $this->hasMany(Bitrixlist::class);
     }
+    public function deals()
+    {
+        return $this->hasMany(BtxDeal::class);
+    }
+
+    public function companies()
+    {
+        return $this->hasMany(BtxDeal::class);
+    }
+    public function leads()
+    {
+        return $this->hasMany(BtxDeal::class);
+    }
+
+
+
     public function departaments()
     {
         return $this->hasMany(Departament::class);
