@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\BtxStage;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 
 class BtxStageController extends Controller
 {
@@ -48,7 +49,7 @@ class BtxStageController extends Controller
         $color = ' ';
         if (isset($validatedData['color'])) {
             $color = $validatedData['color'];
-            if (!$validatedData['color'] || $validatedData['color'] == '' || $validatedData['color'] == null) {
+            if (!$validatedData['color'] || $validatedData['color'] == '' || $validatedData['color'] == null || $validatedData['color'] == false) {
 
                 $color = '#00000';
             }
