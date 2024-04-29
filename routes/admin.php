@@ -805,21 +805,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return SmartController::getCategories($smartId);
     });
 
+    //  ........get categories -  all from parent  deal  
     // Route::get('btxdeal/{btxdealId}/categories', function ($portalId) {
 
     //     return SmartController::getByPortal($portalId);
     // });
 
-
-    // Route::get('btxcompany/{btxcompanyId}/categories', function ($portalId) {
-
-    //     return SmartController::getByPortal($portalId);
-    // });
-
-    // Route::get('btxlead/{btxleadId}/categories', function ($portalId) {
-
-    //     return SmartController::getByPortal($portalId);
-    // });
 
     // ...............  get category
        Route::get('category/{categoryId}', function ($categoryId) {
@@ -827,6 +818,11 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+     // .............................................DELETE   category
+    // ...............  delete category
+    Route::get('category/{categoryId}', function ($categoryId) {
+        return BtxCategoryController::delete($categoryId);
+    });
 
  
 

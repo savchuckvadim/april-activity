@@ -118,4 +118,20 @@ class BtxCategoryController extends Controller
 
         return APIController::getError('category was not found', $data);
     }
+
+    public static function delete($categoryId)
+    {
+
+        $category = BtxCategory::find($categoryId);
+
+        if ($category) {
+            $category->delete();
+            $data = [
+                'category' => $category
+            ];
+            return APIController::getSuccess($data);
+        }
+
+        return APIController::getError('category was not found', ['categoryId' => $categoryId]);
+    }
 }
