@@ -830,7 +830,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .......................................................................... BTX STAGES
     //..has one category
-   //................. initial from parent
+    //................. initial from parent
     //.....parent - category
     Route::get('initial/category/{categoryId}/stage', function ($categoryId) {
 
@@ -849,16 +849,29 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxStageController::store($request);
     });
 
-    // .............................................GET   STAGES
+
+
+
+    // ....................................................................GET   STAGES
     //  ........get categories -  all from parent  smart  
     Route::get('category/{categoryId}/stages', function ($categoryId) {
 
-        return BtxCategory::getCategories($categoryId);
+        return BtxCategoryController::getStages($categoryId);
+    });
+
+    // ...............  get stage
+    Route::get('stage/{stageId}', function ($stageId) {
+        return BtxStageController::get($stageId);
+    });
+
+    // .............................................DELETE   stage
+    // ...............  delete stage
+    Route::delete('stage/{stageId}', function ($stageId) {
+        return BtxStageController::delete($stageId);
     });
 
 
-
-
+    //........................................................................................................................
 
 
     //GENERAL
