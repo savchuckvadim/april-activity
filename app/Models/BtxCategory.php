@@ -176,6 +176,20 @@ class BtxCategory extends Model
                             'isCanAddField' => false,
 
                         ],
+                        [
+                            'id' => 8,
+                            'title' => 'isActive',
+                            'entityType' => 'btx_category',
+                            'name' => 'isActive',
+                            'apiName' => 'isActive',
+                            'type' =>  'boolean',
+                            'validation' => 'required|max:255',
+                            'initialValue' => 'true',
+                            'value' => 'true',
+
+                            'isCanAddField' => false,
+
+                        ],
 
                     ],
 

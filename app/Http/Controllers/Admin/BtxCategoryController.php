@@ -78,6 +78,9 @@ class BtxCategoryController extends Controller
             $currentCategory->entity_type = $validatedData['entity_type'];
             $currentCategory->parent_type = $validatedData['parent_type'];
 
+
+            $currentCategory->isActive = $validatedData['isActive'];
+
             $currentCategory->save(); // Сохранение Counter в базе данных
 
             return APIController::getSuccess(
