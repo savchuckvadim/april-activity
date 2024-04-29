@@ -110,8 +110,11 @@ class BitrixfieldController extends Controller
     public static function get($bitrixfieldId)
     {
         $btxField = BitrixField::find($bitrixfieldId);
-        $resultBtxField = new BitrixFieldResource($btxField);
-        return APIController::getSuccess(['bitrixfield' => $resultBtxField]);
+        if($btxField){
+            $resultBtxField = new BitrixFieldResource($btxField);
+            return APIController::getSuccess(['bitrixfield' => $resultBtxField]);
+        }
+        return APIController::getError('bitrixfield was not found', ['bitrixfieldId' => $bitrixfieldId]);
     }
 
     public static function delete($bitrixfieldId)
