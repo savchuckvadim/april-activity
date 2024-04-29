@@ -33,7 +33,7 @@ class BtxStageController extends Controller
             'bitrixId' => 'required|string',
             'isActive' => 'required|string',
             'btx_category_id' => 'required|string',
-            'color' => 'sometimes|string',
+            'color' => 'sometimes',
 
 
         ]);
@@ -48,11 +48,12 @@ class BtxStageController extends Controller
 
         $color = ' ';
         if (isset($validatedData['color'])) {
-            $color = '#isset';
+            $color = $validatedData['color'];
             if (!$validatedData['color'] || $validatedData['color'] == '' || $validatedData['color'] == null || $validatedData['color'] == 'null') {
-
                 $color = '#00000';
             }
+        } else {
+            $color = '#00000';
         }
 
 
