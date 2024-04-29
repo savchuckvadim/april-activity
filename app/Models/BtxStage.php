@@ -12,7 +12,10 @@ class BtxStage extends Model
     protected $table = 'btx_stages';
 
     protected $fillable = [
-        'title', 'name', 'code',
+        'title', 
+        'name', 
+        'code',
+        'color',
         'bitrixId',
         'isActive',
         'btx_category_id',
