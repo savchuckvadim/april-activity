@@ -78,7 +78,7 @@ class BtxStageController extends Controller
             $currentStage->save(); // Сохранение Counter в базе данных
 
             return APIController::getSuccess(
-                ['stage' => $currentStage]
+                ['stage' => $currentStage, '$validatedData' => $validatedData]
             );
         }
 
