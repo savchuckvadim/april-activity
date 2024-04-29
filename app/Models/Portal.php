@@ -80,7 +80,7 @@ class Portal extends Model
     // callings tasks - taskGroupId hasMany
     // report 
     // lists - универсальные списки id списка по идее списков может стать много kpi отказы звонки и тд
-    // hasMany у списков должен быть type (kpi, fucks, invoices, conversions)
+    // hasMany у списков должен быть type (kpi, invoices, conversions)
 
 
     public function getSalesCallingGroupId()
@@ -109,7 +109,7 @@ class Portal extends Model
     {
         $deal = $this->deals()->first();
         if ($deal) {
-            $deal = new BtxDealResource($deal);
+            // $deal = new BtxDealResource($deal);
         } else {
             $deal = null;
         }
@@ -121,7 +121,7 @@ class Portal extends Model
     {
         $company = $this->companies()->first();
         if ($company) {
-            $company = new BtxCompanyResource($company);
+            // $company = new BtxCompanyResource($company);
         } else {
             $company = null;
         }
@@ -134,7 +134,7 @@ class Portal extends Model
         $lead = $this->leads()->first();
 
         if ($lead) {
-            $lead = new BtxLeadResource($lead);
+            // $lead = new BtxLeadResource($lead);
         } else {
             $lead = null;
         }
