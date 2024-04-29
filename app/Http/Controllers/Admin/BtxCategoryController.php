@@ -99,4 +99,19 @@ class BtxCategoryController extends Controller
 
         );
     }
+
+    public static function get($categoryId)
+    {
+
+        $category = BtxCategory::find($categoryId);
+        $data = [
+            'category' => $category
+        ];
+        if ($category) {
+
+            return APIController::getSuccess($data);
+        }
+
+        return APIController::getError('category was not found', $data);
+    }
 }

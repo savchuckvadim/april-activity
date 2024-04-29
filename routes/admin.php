@@ -779,6 +779,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCategoryController::store($request);
     });
 
+
+
+
+
     // ............................................DELETE
     Route::delete('bitrixfielditem/{itemId}', function ($itemId) {
         return BitrixfieldItemController::delete($itemId);
@@ -794,8 +798,8 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-    // .............................................GET 
-    // all from parent  smart
+    // .............................................GET   category
+    //  ........get categories -  all from parent  smart  
     Route::get('smart/{smartId}/categories', function ($smartId) {
 
         return SmartController::getCategories($smartId);
@@ -817,8 +821,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //     return SmartController::getByPortal($portalId);
     // });
 
+    // ...............  get category
+       Route::get('category/{categoryId}', function ($categoryId) {
+        return BtxCategoryController::get($categoryId);
+    });
 
 
+
+ 
 
 
 
