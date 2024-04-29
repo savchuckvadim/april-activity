@@ -612,13 +612,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     // .............................................GET 
+    //................................................. get fields from parents
     // all from parent  list
     Route::get('bitrixlist/{bitrixlistId}/bitrixfields', function ($bitrixlistId) {
 
         return BitrixlistController::getFields($bitrixlistId);
     });
     // all from parent  smart
-    Route::get('bitrixlist/{smartId}/bitrixfields', function ($smartId) {
+    Route::get('smart/{smartId}/bitrixfields', function ($smartId) {
 
         return SmartController::getFields($smartId);
     });
