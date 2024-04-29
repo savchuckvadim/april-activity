@@ -570,7 +570,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //BITRIX IDS FOR CONNECTION AND HOOKS
-        // ......................................................................... SMARTS
+    // ......................................................................... SMARTS
 
     //.................................... initial SMART
     // initial from parent
@@ -609,7 +609,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-        // .........................................................................BTX DEALS
+    // .........................................................................BTX DEALS
 
     //.................................... initial SMART
     // initial from parent
@@ -618,18 +618,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return SmartController::getInitial($portalId);
     });
     // single initial
-    Route::get('initial/smart', function () {
+    Route::get('initial/deal', function () {
         return SmartController::getInitial();
     });
 
 
-    // .............................................GET  SMART
-    // all from parent  smart
+    // .............................................GET  DEALS
+    // all from parent  portal
     Route::get('portal/{portalId}/smarts', function ($portalId) {
 
         return SmartController::getByPortal($portalId);
     });
-    // ...............  get smart
+    // ...............  get deal
     Route::get('smart/{smartId}', function ($smartId) {
         return SmartController::get($smartId);
     });
