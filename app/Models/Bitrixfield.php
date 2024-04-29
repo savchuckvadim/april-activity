@@ -33,13 +33,28 @@ class Bitrixfield extends Model
 
 
 
-    
-    public static function getForm($parentId)
+
+    public static function getForm($parentId, $parentType)
     {
-        $btxListParent = Bitrixlist::find($parentId);
+        $parent = null;
+        if ($parentType == 'list') {
+            $parent = Bitrixlist::find($parentId);
+        } else      if ($parentType == 'smart') {
+            $parent = Smart::find($parentId);
+        } else      if ($parentType == 'deal') {
+            $parent = BtxDeal::find($parentId);
+        } else      if ($parentType == 'company') {
+            $parent = BtxCompany::find($parentId);
+        } else      if ($parentType == 'lead') {
+            $parent = BtxLead::find($parentId);
+        }
+
+
+
+
 
         return [
-            'apiName' => 'bitrixlistfield',
+            'apiName' => 'bitrixfield',
             'title' => 'Загрузка файла',
             'entityType' => 'entity',
             'groups' => [
@@ -54,7 +69,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 0,
                             'title' => 'Отображаемое имя филда',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'title',
                             'apiName' => 'title',
                             'type' =>  'string',
@@ -72,14 +87,14 @@ class Bitrixfield extends Model
                             'name' => 'type',
                             'apiName' => 'type',
                             'type' =>  'string',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
 
                         ],
 
                         [
                             'id' => 3,
                             'title' => 'имя филда в битрикс',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'name',
                             'apiName' => 'name',
                             'type' =>  'string',
@@ -93,7 +108,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 3,
                             'title' => 'id сущности родителя, тип родителя определяется на сервере',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'entity_id',
                             'apiName' => 'entity_id',
                             'type' =>  'select',
@@ -103,7 +118,7 @@ class Bitrixfield extends Model
                             'isCanAddField' => false,
                             'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
                             'items' => [
-                                $btxListParent
+                                $parent
                             ]
 
                         ],
@@ -111,7 +126,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 4,
                             'title' => 'принадлежность филда к родительской модели list complectField для доступа из родителя к определенного типа филдам в сделках - только для товаров например',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'parent_type',
                             'apiName' => 'parent_type',
                             'type' =>  'string',
@@ -126,7 +141,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 5,
                             'title' => 'Код для ассоциаций должен совпадать с битрикс CODE поля',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'code',
                             'apiName' => 'code',
                             'type' =>  'string',
@@ -139,7 +154,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 6,
                             'title' => 'bitrixId UF_CRM',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'bitrixId',
                             'apiName' => 'bitrixId',
                             'type' =>  'string',
@@ -152,7 +167,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 7,
                             'title' => 'bitrixCamelId ufCrm',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'bitrixCamelId',
                             'apiName' => 'bitrixCamelId',
                             'type' =>  'string',
@@ -165,7 +180,7 @@ class Bitrixfield extends Model
                         [
                             'id' => 8,
                             'title' => 'тип родителя - чтобы контроллер от этого условия определил нужную модель родителя list | deal | company | lead | task | smart',
-                            'entityType' => 'bitrixlistfield',
+                            'entityType' => 'bitrixfield',
                             'name' => 'parent model short name',
                             'apiName' => 'entityType',
                             'type' =>  'string',

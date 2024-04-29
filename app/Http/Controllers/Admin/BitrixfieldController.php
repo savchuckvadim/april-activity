@@ -7,15 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BitrixFieldResource;
 use App\Models\Bitrixfield;
 use App\Models\Bitrixlist;
+use App\Models\BtxCompany;
+use App\Models\BtxDeal;
+use App\Models\BtxLead;
+use App\Models\Smart;
 use Illuminate\Http\Request;
 
 class BitrixfieldController extends Controller
 {
 
-    public static function getInitial($parentId = null)
+    public static function getInitial($parentId = null, $parentType)
     {
 
-        $initialData = Bitrixfield::getForm($parentId);
+        $initialData = Bitrixfield::getForm($parentId, $parentType);
         $data = [
             'initial' => $initialData
         ];
@@ -62,6 +66,14 @@ class BitrixfieldController extends Controller
             $field = new Bitrixfield();
             if ($request['entityType'] == 'list') {
                 $parent = Bitrixlist::class;
+            } else   if ($request['entityType'] == 'smart') {
+                $parent = Smart::class;
+            } else   if ($request['entityType'] == 'deal') {
+                $parent = BtxDeal::class;
+            } else   if ($request['entityType'] == 'company') {
+                $parent = BtxCompany::class;
+            } else   if ($request['entityType'] == 'lead') {
+                $parent = BtxLead::class;
             }
 
             // Заполняем или обновляем поля модели если модель создается
@@ -84,11 +96,11 @@ class BitrixfieldController extends Controller
 
         if ($field) {
             return APIController::getSuccess([
-                'bitrixlistfield' => $field
+                'bitrixfield' => $field
             ]);
         }
         return APIController::getError('btx field was not created', [
-            'bitrixlistfield' => $field,
+            'bitrixfield' => $field,
             // 'fieldData' => $fieldData
         ]);
     }
@@ -97,7 +109,7 @@ class BitrixfieldController extends Controller
     {
         $btxField = BitrixField::find($bitrixfieldId);
         $resultBtxField = new BitrixFieldResource($btxField);
-        return APIController::getSuccess(['bitrixlistfield' => $resultBtxField]);
+        return APIController::getSuccess(['bitrixfield' => $resultBtxField]);
     }
 
     public static function delete($bitrixfieldId)
@@ -107,10 +119,10 @@ class BitrixfieldController extends Controller
 
         if ($btxField) {
             $btxField->delete();
-            return APIController::getSuccess(['bitrixlistfield' => $btxField]);
+            return APIController::getSuccess(['bitrixfield' => $btxField]);
         }
         return APIController::getError('btx field was not found and deleted', [
-            'bitrixlistfield' => $btxField,
+            'bitrixfield' => $btxField,
             // 'fieldData' => $fieldData
         ]);
     }

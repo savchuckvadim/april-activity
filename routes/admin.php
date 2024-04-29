@@ -604,10 +604,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //.................................... initial
-    // initial from parent
+    //........................ initial from parent
+    //.................... parent - list
     Route::get('initial/bitrixlist/{bitrixlistId}/bitrixfield', function ($bitrixlistId) {
 
-        return BitrixfieldController::getInitial($bitrixlistId);
+        return BitrixfieldController::getInitial($bitrixlistId, 'list');
+    });
+    //.................... parent - smart
+    Route::get('initial/smart/{smartId}/bitrixfield', function ($bitrixlistId) {
+
+        return BitrixfieldController::getInitial($bitrixlistId, 'smart');
     });
 
 
@@ -625,7 +631,8 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    //...............  get bitrix list field 
+    //............................................... get single field
+    //...............  get bitrix field 
     Route::get('bitrixfield/{bitrixfieldId}', function ($bitrixfieldId) {
         return BitrixfieldController::get($bitrixfieldId);
     });
@@ -638,18 +645,28 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //...............................................SET 
     // .................................   set or update
     // ............................from parent
-    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
+    // .................. parent - list
+    Route::post('bitrixlist/{bitrixlistId}/bitrixfield', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
-    // ............................from self
-    Route::post('bitrixlistfield/{bitrixlistfieldId}', function (Request $request) {
+
+    // .................. parent - smart
+    Route::post('smart/{smartId}/bitrixfield', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
+
+
+
+    // ............................   set or update  field from self
+    Route::post('bitrixfield/{bitrixfieldId}', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
 
     // ............................................DELETE
-    Route::delete('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
+    Route::delete('bitrixfield/{bitrixfieldId}', function ($bitrixfieldId) {
         return BitrixfieldController::delete($bitrixfieldId);
     });
 
@@ -666,7 +683,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlistfield/{bitrixFieldId}/bitrixfielditem', function ($bitrixFieldId) {
+    Route::get('initial/bitrixfield/{bitrixFieldId}/bitrixfielditem', function ($bitrixFieldId) {
 
         return BitrixfieldItemController::getInitial($bitrixFieldId);
     });
@@ -674,7 +691,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  list
-    Route::get('bitrixlistfield/{bitrixFieldId}/bitrixfielditems', function ($bitrixFieldId) {
+    Route::get('bitrixfield/{bitrixFieldId}/bitrixfielditems', function ($bitrixFieldId) {
 
         return BitrixfieldItemController::getFromField($bitrixFieldId);
     });
@@ -688,7 +705,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //...............................................SET 
     // .................................   set or update
     // ............................from parent
-    Route::post('bitrixlistfield/{bitrixFieldId}/bitrixfielditem', function (Request $request) {
+    Route::post('bitrixfield/{bitrixFieldId}/bitrixfielditem', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldItemController::store($request);
     });
