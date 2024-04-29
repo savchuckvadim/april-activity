@@ -92,6 +92,6 @@ class BitrixfieldItemController extends Controller
         $btxField = Bitrixfield::find($bitrixfieldId);
         $btxFieldItems = $btxField->items;
 
-        return APIController::getSuccess(['bitrixfield' => $btxFieldItems]);
+        return APIController::getSuccess(['bitrixfielditems' => $btxFieldItems]);
     }
 }
