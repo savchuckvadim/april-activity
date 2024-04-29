@@ -26,7 +26,7 @@ class BtxCategoryController extends Controller
 
 
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:categories,id',
+            'id' => 'sometimes|integer|exists:btx_categories,id',
             'type' => 'required|string',
             'group' => 'required|string',
             'name' => 'required|string',
