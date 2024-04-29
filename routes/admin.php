@@ -579,7 +579,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     // ........  'title',       Универсальные списки April
     // ......    'bitrixId',    86
     // ......    'portal_id'    7
-    Route::post('bitrixlist/{bitrixlistId}/bitrixlistfield', function (Request $request) {
+    Route::post('bitrixlist/{bitrixlistId}/bitrixfield', function (Request $request) {
 
         return BitrixlistController::set($request);
     });
@@ -605,7 +605,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     //.................................... initial
     // initial from parent
-    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixlistfield', function ($bitrixlistId) {
+    Route::get('initial/bitrixlist/{bitrixlistId}/bitrixfield', function ($bitrixlistId) {
 
         return BitrixfieldController::getInitial($bitrixlistId);
     });
@@ -613,14 +613,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .............................................GET 
     // all from parent  list
-    Route::get('bitrixlist/{bitrixlistId}/bitrixlistfields', function ($bitrixlistId) {
+    Route::get('bitrixlist/{bitrixlistId}/bitrixfields', function ($bitrixlistId) {
 
         return BitrixlistController::getFields($bitrixlistId);
     });
     //...............  get bitrix list field 
-    Route::get('bitrixlistfield/{bitrixfieldId}', function ($bitrixfieldId) {
+    Route::get('bitrixfield/{bitrixfieldId}', function ($bitrixfieldId) {
         return BitrixfieldController::get($bitrixfieldId);
     });
+
+
+
+
 
 
     //...............................................SET 
