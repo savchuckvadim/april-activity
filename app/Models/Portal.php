@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Resources\BtxCompanyResource;
+use App\Http\Resources\BtxDealResource;
+use App\Http\Resources\BtxLeadResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -104,15 +107,23 @@ class Portal extends Model
     // Метод для получения первой сделки
     public function deal()
     {
-        return  $this->deals()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
+        $deal = $this->deals()->first();
+        $deal = new BtxDealResource($deal);
+        return  $deal; // или latest() в зависимости от того, какой элемент считается "первым"
     }
+    
     public function company()
     {
-        return  $this->companies()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
+        $company = $this->companies()->first();
+        $company = new BtxCompanyResource($company);
+        return  $company;
     }
+
     public function lead()
     {
-        return  $this->leads()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
+        $lead = $this->leads()->first();
+        $lead = new BtxLeadResource($lead);
+        return  $lead;
     }
 
 

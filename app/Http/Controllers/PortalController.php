@@ -105,9 +105,9 @@ class PortalController extends Controller
             'bitrixList' => $portal->getSalesBitrixListId(),
             'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
             'bitrixSmart' => $portal->getSalesSmart(),
-            'deal' => $portal->deal()->id, // Убедитесь, что здесь нужны только ID или базовые данные
-            'company' => $portal->company()->id,
-            'lead' => $portal->lead()->id,
+            'deal' => $portal->deal(), // Убедитесь, что здесь нужны только ID или базовые данные
+            'company' => $portal->company(),
+            'lead' => $portal->lead(),
         ];
 
         Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
