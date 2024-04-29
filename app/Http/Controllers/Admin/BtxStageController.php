@@ -46,6 +46,14 @@ class BtxStageController extends Controller
         }
 
 
+        if(isset($validatedData['color'])){
+
+            if(!$validatedData['color']){
+
+                !$validatedData['color'] = '#00000';
+            }
+        }
+
 
         if ($validatedData['isActive'] == 'true' || $validatedData['isActive'] == '1') {
             $validatedData['isActive'] = true;
