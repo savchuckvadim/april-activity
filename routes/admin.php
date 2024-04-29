@@ -653,6 +653,52 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
+
+    //.......................................................................................
+    // .........................................................................BTX LEADS
+
+    //.................................... initial LEAD
+    // initial from parent
+    Route::get('initial/portal/{portalId}/lead', function ($portalId) {
+
+        return BtxLeadController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/lead', function () {
+        return BtxLeadController::getInitial();
+    });
+
+
+    // .............................................GET  LEADS
+    // all from parent  portal
+    Route::get('portal/{portalId}/leads', function ($portalId) {
+
+        return BtxLeadController::getByPortal($portalId);
+    });
+    // ...............  get deal
+    Route::get('lead/{leadId}', function ($leadId) {
+        return BtxLeadController::get($leadId);
+    });
+
+
+    // //...............................................SET LEAD
+
+    Route::post('portal/{portalId}/lead', function (Request $request) {
+
+        return BtxLeadController::store($request);
+    });
+
+    Route::post('lead/{leadId}', function (Request $request) {
+        return BtxLeadController::store($request);
+    });
+
+
+
+
+
+
+
+
     //........................................................................BITRIX LIST
     //....       'type',        sales | service | general | totalmonth |
     // .......   'group',       kpi | history 
