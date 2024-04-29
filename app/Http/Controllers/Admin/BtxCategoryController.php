@@ -24,21 +24,9 @@ class BtxCategoryController extends Controller
     {
         $id = null;
 
-        if (isset($request['id'])) {
-            $id = $request['id'];
-            $currentCategory = BtxCategory::find($id);
-        } else {
-            // if (isset($request['portal_id'])) {
-
-            //     $portal_id = $request['portal_id'];
-            //     $portal = Portal::find($portal_id);
-            //     $smart = new Smart();
-            //     $smart->portal_id = $portal_id;
-            // }
-            $currentCategory = new BtxCategory();
-        }
+ 
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:smarts,id',
+            'id' => 'sometimes|string|exists:smarts,id',
             'type' => 'required|string',
             'group' => 'required|string',
             'name' => 'required|string',
@@ -52,6 +40,22 @@ class BtxCategoryController extends Controller
             'isActive' => 'required|string',
 
         ]);
+
+        if (isset($validatedData['id'])) {
+            $id = $validatedData['id'];
+            $currentCategory = BtxCategory::find($id);
+        } else {
+            // if (isset($request['portal_id'])) {
+
+            //     $portal_id = $request['portal_id'];
+            //     $portal = Portal::find($portal_id);
+            //     $smart = new Smart();
+            //     $smart->portal_id = $portal_id;
+            // }
+            $currentCategory = new BtxCategory();
+        }
+
+
 
         if ($validatedData['isActive'] == 'true' || $validatedData['isActive'] == '1') {
             $validatedData['isActive'] = true;
