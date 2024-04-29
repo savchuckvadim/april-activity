@@ -24,9 +24,9 @@ class BtxCategoryController extends Controller
     {
         $id = null;
 
- 
+
         $validatedData = $request->validate([
-            'id' => 'sometimes|string|exists:smarts,id',
+            'id' => 'sometimes|integer|exists:categories,id',
             'type' => 'required|string',
             'group' => 'required|string',
             'name' => 'required|string',
@@ -37,7 +37,7 @@ class BtxCategoryController extends Controller
             'code' => 'required|string',
             'bitrixId' => 'required|string',
             'bitrixCamelId' => 'required|string',
-            'isActive' => 'required|string',
+            'isActive' => 'required|string|boolean',
 
         ]);
 
