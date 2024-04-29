@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BtxCategoryResource;
 use App\Models\BtxCategory;
 use App\Models\Smart;
 use Illuminate\Http\Request;
@@ -112,6 +113,10 @@ class BtxCategoryController extends Controller
             'category' => $category
         ];
         if ($category) {
+            $resultCategory = new BtxCategoryResource($category);
+            $data = [
+                'category' => $resultCategory
+            ];
 
             return APIController::getSuccess($data);
         }
