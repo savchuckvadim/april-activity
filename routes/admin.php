@@ -689,9 +689,15 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixfieldController::getInitial($bitrixlistId, 'list');
     });
     //.................... parent - smart
-    Route::get('initial/smart/{smartId}/bitrixfield', function ($bitrixlistId) {
+    Route::get('initial/smart/{smartId}/bitrixfield', function ($smartId) {
 
-        return BitrixfieldController::getInitial($bitrixlistId, 'smart');
+        return BitrixfieldController::getInitial($smartId, 'smart');
+    });
+
+    //.................... parent - deal
+    Route::get('initial/deal/{dealId}/bitrixfield', function ($dealId) {
+
+        return BitrixfieldController::getInitial($dealId, 'deal');
     });
 
 
@@ -738,6 +744,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // .................. parent - smart
     Route::post('smart/{smartId}/bitrixfield', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
+
+
+    // .................. parent - deal
+    Route::post('deal/{smartId}/bitrixfield', function (Request $request) {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
@@ -858,7 +871,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCategoryController::store($request);
     });
 
-    
+
     // ............................from self
     Route::post('category/{categoryId}', function (Request $request) {
         //.........uppdate                                              store = set or uppdate
