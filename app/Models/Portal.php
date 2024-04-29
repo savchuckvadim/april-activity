@@ -104,7 +104,7 @@ class Portal extends Model
     // Метод для получения первой сделки
     public function deal()
     {
-        return  $this->deals()->oldest(); // или latest() в зависимости от того, какой элемент считается "первым"
+        return  $this->deals()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
     }
     public function company()
     {
