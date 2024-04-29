@@ -33,7 +33,7 @@ class BtxStageController extends Controller
             'isActive' => 'required|string',
             'btx_category_id' => 'required|string',
             'color' => 'sometimes',
-           
+
 
         ]);
 
@@ -41,16 +41,16 @@ class BtxStageController extends Controller
             $id = $validatedData['id'];
             $currentStage = BtxStage::find($id);
         } else {
-       
+
             $currentStage = new BtxStage();
         }
 
+        $color = ' ';
+        if (isset($validatedData['color'])) {
+            $color = $validatedData['color'];
+            if (!$validatedData['color'] || $validatedData['color'] == '' || $validatedData['color'] == null) {
 
-        if(isset($validatedData['color'])){
-
-            if(!$validatedData['color'] || $validatedData['color'] == '' || $validatedData['color'] == null){
-
-                $validatedData['color'] = '#00000';
+                $color = '#00000';
             }
         }
 
@@ -67,10 +67,10 @@ class BtxStageController extends Controller
 
             $currentStage->title = $validatedData['title'];
             $currentStage->name = $validatedData['name'];
-            $currentStage->title = $validatedData['title'];
+
             $currentStage->code = $validatedData['code'];
             $currentStage->bitrixId = $validatedData['bitrixId'];
-            $currentStage->color = $validatedData['color'];
+            $currentStage->color = $color;
             $currentStage->btx_category_id = $validatedData['btx_category_id'];
             $currentStage->isActive = $validatedData['isActive'];
 
@@ -124,6 +124,4 @@ class BtxStageController extends Controller
 
         return APIController::getError('stage was not found', ['categoryId' => $stageId]);
     }
-
-
 }
