@@ -108,21 +108,38 @@ class Portal extends Model
     public function deal()
     {
         $deal = $this->deals()->first();
-        $deal = new BtxDealResource($deal);
+        if ($deal) {
+            $deal = new BtxDealResource($deal);
+        } else {
+            $deal = null;
+        }
+
         return  $deal; // или latest() в зависимости от того, какой элемент считается "первым"
     }
-    
+
     public function company()
     {
         $company = $this->companies()->first();
-        $company = new BtxCompanyResource($company);
+        if ($company) {
+            $company = new BtxCompanyResource($company);
+        } else {
+            $company = null;
+        }
+
         return  $company;
     }
 
     public function lead()
     {
         $lead = $this->leads()->first();
-        $lead = new BtxLeadResource($lead);
+
+        if ($lead) {
+            $lead = new BtxLeadResource($lead);
+        } else {
+            $lead = null;
+        }
+
+
         return  $lead;
     }
 
