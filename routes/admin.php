@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Admin\BtxCategoryController;
 use App\Http\Controllers\Admin\BtxDealController;
 use App\Http\Controllers\Admin\BtxStageController;
+use App\Http\Controllers\BtxCompanyController;
+use App\Http\Controllers\BtxLeadController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
 // use App\Http\Controllers\BitrixfieldController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\FileController;
 
 use App\Http\Controllers\PortalController;
 use App\Models\BtxCategory;
+use App\Models\BtxLead;
 // use App\Http\Controllers\RqController;
 // use App\Http\Controllers\SmartController;
 // use App\Http\Controllers\TemplateController;
@@ -700,6 +703,20 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixfieldController::getInitial($dealId, 'deal');
     });
 
+    //.................... parent - company
+    Route::get('initial/company/{companyId}/bitrixfield', function ($companyId) {
+
+        return BitrixfieldController::getInitial($companyId, 'company');
+    });
+
+    //.................... parent - lead
+    Route::get('initial/lead/{leadId}/bitrixfield', function ($leadId) {
+
+        return BitrixfieldController::getInitial($leadId, 'lead');
+    });
+
+
+
 
     // .............................................GET 
     //................................................. get fields from parents
@@ -720,6 +737,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxDealController::getFields($dealId);
     });
 
+    //   // all from parent  company
+    //   Route::get('company/{companyId}/bitrixfields', function ($companyId) {
+
+    //     return BtxCompanyController::getFields($companyId);
+    // });
+    // all from parent  lead
+    // Route::get('lead/{leadId}/bitrixfields', function ($leadId) {
+
+    //     return BtxLeadController::getFields($leadId);
+    // });
 
 
     //............................................... get single field
@@ -754,6 +781,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
+
+
+    //todo company lead
+
+
+
 
 
 
