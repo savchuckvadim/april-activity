@@ -791,10 +791,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     //     return BtxCompanyController::getFields($companyId);
     // });
     // all from parent  lead
-    // Route::get('lead/{leadId}/bitrixfields', function ($leadId) {
+    Route::get('lead/{leadId}/bitrixfields', function ($leadId) {
 
-    //     return BtxLeadController::getFields($leadId);
-    // });
+        return BtxLeadController::getFields($leadId);
+    });
 
 
     //............................................... get single field
@@ -831,7 +831,11 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    //todo company lead
+    // .................. parent - lead
+    Route::post('lead/{leadId}/bitrixfield', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
 
 
 
