@@ -32,7 +32,7 @@ class BtxStageController extends Controller
             'bitrixId' => 'required|string',
             'isActive' => 'required|string',
             'btx_category_id' => 'required|string',
-            'color' => 'sometimes|string',
+            'color' => 'sometimes',
            
 
         ]);
