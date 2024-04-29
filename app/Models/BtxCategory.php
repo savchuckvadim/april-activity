@@ -110,7 +110,7 @@ class BtxCategory extends Model
 
                         [
                             'id' => 4,
-                            'title' => 'принадлежность Воронки(Категории) к родительской модели (sales | service или cold | base)',
+                            'title' => 'принадлежность Воронки(Категории) к родительской модели (у сделок: sales | service или у смартов: cold | base)',
                             'entityType' => 'btx_category',
                             'name' => 'parent_type',
                             'apiName' => 'parent_type',
@@ -164,7 +164,7 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'Тип класса родителя - чтобы контроллер от этого условия определил нужную модель родителя | deal | company | lead | task | smart',
+                            'title' => 'Тип класса родителя - чтобы контроллер от этого условия определил нужную модель родителя | deal |  lead | task | smart',
                             'entityType' => 'btx_category',
                             'name' => 'entity_type',
                             'apiName' => 'entity_type',
