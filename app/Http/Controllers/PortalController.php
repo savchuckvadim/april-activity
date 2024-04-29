@@ -73,65 +73,45 @@ class PortalController extends Controller
     }
     public static function getPortal($domain)
     {
-
-        // Пытаемся получить данные из кеша
         $cacheKey = 'portal_' . $domain;
-        $cachedPortal = Cache::get($cacheKey);
+        $cachedPortalData = Cache::get($cacheKey);
 
-        if (!is_null($cachedPortal)) {
+        if (!is_null($cachedPortalData)) {
             Log::channel('telegram')->info('APRIL_ONLINE', [
                 'log from cache getPortal' => [
-                    'cachedPortal' => $cachedPortal,
+                    'cachedPortal' => $cachedPortalData,
                 ]
             ]);
-            return  $cachedPortal;
+            return APIController::getSuccess([ 'portal' => $cachedPortalData]); // Возвращаем данные в формате response
         }
+
         $portal = Portal::where('domain', $domain)->first();
-
-
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'Portal Controller getPortal' => [
-
-                'portal' => $portal,
-           
-
-
-            ]
-        ]);
-
         if (!$portal) {
             return response([
                 'resultCode' => 1,
                 'message' => 'portal does not exist!'
-            ]);
+            ], 404);
         }
 
+        $portalData = [
+            'id' => $portal->id,
+            'domain' => $domain,
+            'key' => $portal->getKey(),
+            'C_REST_CLIENT_ID' => $portal->getClientId(),
+            'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+            'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+            'timezone' => $portal->getSalesTimezone(),
+            'departament' => $portal->getSalesDepartamentId(),
+            'bitrixList' => $portal->getSalesBitrixListId(),
+            'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
+            'bitrixSmart' => $portal->getSalesSmart(),
+            'deal' => $portal->deal()->id, // Убедитесь, что здесь нужны только ID или базовые данные
+            'company' => $portal->company()->id,
+            'lead' => $portal->lead()->id,
+        ];
 
-
-        $response = response([
-            'resultCode' => 0,
-            'portal' => [
-                'id' => $portal->id,
-                'domain' => $portal->number,
-                'domain' => $domain,
-                'key' => $portal->getKey(),
-                'C_REST_CLIENT_ID' => $portal->getClientId(),
-                'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-                'C_REST_WEB_HOOK_URL' => $portal->getHook(),
-
-                'timezone' => $portal->getSalesTimezone(),
-                'departament' => $portal->getSalesDepartamentId(),
-                'bitrixList' => $portal->getSalesBitrixListId(),
-                'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
-                'bitrixSmart' => $portal->getSalesSmart(),
-                'deal' => $portal->deal(),
-                'company' => $portal->company(),
-                'lead' => $portal->lead(),
-            ]
-
-        ]);
-        Cache::put($cacheKey, $response, now()->addMinutes(10)); // Кешируем на 10 минут
-        return  $response;
+        Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
+        return response(['resultCode' => 0, 'portal' => $portalData]); // Возвращаем данные в формате response
     }
     public static function getPortalById($portalId)
     {
