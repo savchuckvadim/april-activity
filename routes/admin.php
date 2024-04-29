@@ -636,16 +636,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    // //...............................................SET SMART
+    // //...............................................SET DEAL
 
-    // Route::post('portal/{portalId}/smart', function (Request $request) {
+    Route::post('portal/{portalId}/deal', function (Request $request) {
 
-    //     return SmartController::store($request);
-    // });
+        return BtxDealController::store($request);
+    });
 
-    // Route::post('smart/{smartId}', function (Request $request) {
-    //     return SmartController::store($request);
-    // });
+    Route::post('deal/{dealId}', function (Request $request) {
+        return BtxDealController::store($request);
+    });
 
 
 
