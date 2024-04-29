@@ -205,5 +205,28 @@ class SmartController extends Controller
         }
     }
 
+    public static function getFields($smartId)
+    {
 
+        try {
+            $smart = Smart::find($smartId);
+
+            if ($smart) {
+                $bitrixfields = $smart->fields;
+                return APIController::getSuccess(
+                    ['bitrixfields' => $bitrixfields]
+                );
+            } else {
+                return APIController::getError(
+                    'smart was not found',
+                    ['smart' => $smart]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['smartId' => $smartId]
+            );
+        }
+    }
 }
