@@ -677,7 +677,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
         return BtxLeadController::getByPortal($portalId);
     });
-    // ...............  get deal
+    // ...............  get lead
     Route::get('lead/{leadId}', function ($leadId) {
         return BtxLeadController::get($leadId);
     });
@@ -694,6 +694,43 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxLeadController::store($request);
     });
 
+
+    // ........................................................................................... 
+    // .........................................................................BTX COMPANIES
+
+    //.................................... initial COMPANIES
+    // initial from parent
+    Route::get('initial/portal/{portalId}/company', function ($portalId) {
+
+        return BtxCompanyController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/company', function () {
+        return BtxCompanyController::getInitial();
+    });
+
+    // .............................................GET  COMPANIES
+    // all from parent  portal
+    Route::get('portal/{portalId}/companies', function ($portalId) {
+
+        return BtxCompanyController::getByPortal($portalId);
+    });
+    // ...............  get company
+    Route::get('company/{companyId}', function ($companyId) {
+        return BtxCompanyController::get($companyId);
+    });
+
+
+    // //...............................................SET COMPANY
+
+    Route::post('portal/{portalId}/company', function (Request $request) {
+
+        return BtxCompanyController::store($request);
+    });
+
+    Route::post('company/{companyId}', function (Request $request) {
+        return BtxCompanyController::store($request);
+    });
 
 
 
@@ -786,10 +823,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
     //   // all from parent  company
-    //   Route::get('company/{companyId}/bitrixfields', function ($companyId) {
+      Route::get('company/{companyId}/bitrixfields', function ($companyId) {
 
-    //     return BtxCompanyController::getFields($companyId);
-    // });
+        return BtxCompanyController::getFields($companyId);
+    });
     // all from parent  lead
     Route::get('lead/{leadId}/bitrixfields', function ($leadId) {
 
@@ -837,7 +874,11 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BitrixfieldController::store($request);
     });
 
-
+    // .................. parent - company
+    Route::post('company/{companyId}/bitrixfield', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
 
 
 
