@@ -838,9 +838,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCategoryController::getInitial($smartId, 'smart');
     });
     //.....parent - deal
-    Route::get('initial/btxdeal/{btxdealId}/category', function ($btxdealId) {
+    Route::get('initial/deal/{dealId}/category', function ($dealId) {
 
-        return BtxCategoryController::getInitial($btxdealId, 'deal');
+        return BtxCategoryController::getInitial($dealId, 'deal');
     });
 
 
