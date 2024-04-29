@@ -114,12 +114,12 @@ class BitrixlistController extends Controller
             if ($bitrixlist) {
 
                 return APIController::getSuccess(
-                    ['bitrixlistfields' => $bitrixlistfields]
+                    ['bitrixfields' => $bitrixlistfields]
                 );
             } else {
                 return APIController::getError(
                     'bitrixlist was not found',
-                    ['bitrixlistfields' => $bitrixlistfields]
+                    ['bitrixfields' => $bitrixlistfields]
                 );
             }
         } catch (\Throwable $th) {
