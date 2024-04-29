@@ -851,6 +851,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         //.........set                                                 store = set or uppdate
         return BtxCategoryController::store($request);
     });
+
+    // ............................from parent deal
+    Route::post('deal/{delId}/category', function (Request $request) {
+        //.........set                                                 store = set or uppdate
+        return BtxCategoryController::store($request);
+    });
+
+    
     // ............................from self
     Route::post('category/{categoryId}', function (Request $request) {
         //.........uppdate                                              store = set or uppdate

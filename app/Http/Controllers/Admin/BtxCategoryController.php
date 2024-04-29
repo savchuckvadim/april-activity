@@ -6,6 +6,8 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BtxCategoryResource;
 use App\Models\BtxCategory;
+use App\Models\BtxDeal;
+use App\Models\BtxLead;
 use App\Models\Smart;
 use Illuminate\Http\Request;
 
@@ -68,7 +70,9 @@ class BtxCategoryController extends Controller
 
             $validatedData['entity_type'] = Smart::class;
         } else if ($validatedData['entity_type'] === 'deal') {
+            $validatedData['entity_type'] = BtxDeal::class;
         } else if ($validatedData['entity_type'] === 'lead') {
+            $validatedData['entity_type'] = BtxLead::class;
         } else if ($validatedData['entity_type'] === 'task') {
         }
 
