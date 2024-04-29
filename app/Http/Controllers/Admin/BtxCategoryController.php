@@ -71,7 +71,7 @@ class BtxCategoryController extends Controller
         // $crm = $validatedData['crm'];
 
         if ($validatedData['entity_type'] === 'smart') {
-            $validatedData['entity_type'] = 200;
+            $validatedData['id'] = 200;
             $validatedData['entity_type'] = Smart::class;
         } else if ($validatedData['entity_type'] === 'deal') {
         }else if ($validatedData['entity_type'] === 'lead') {
