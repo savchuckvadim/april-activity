@@ -95,8 +95,10 @@ class BitrixfieldController extends Controller
         $field->save();
 
         if ($field) {
+            $resultBtxField = new BitrixFieldResource($field);
+
             return APIController::getSuccess([
-                'bitrixfield' => $field
+                'bitrixfield' => $resultBtxField
             ]);
         }
         return APIController::getError('btx field was not created', [
