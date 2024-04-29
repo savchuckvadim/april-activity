@@ -813,18 +813,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     // ...............  get category
-       Route::get('category/{categoryId}', function ($categoryId) {
+    Route::get('category/{categoryId}', function ($categoryId) {
         return BtxCategoryController::get($categoryId);
     });
 
 
-     // .............................................DELETE   category
+    // .............................................DELETE   category
     // ...............  delete category
-    Route::get('category/{categoryId}', function ($categoryId) {
+    Route::delete('category/{categoryId}', function ($categoryId) {
         return BtxCategoryController::delete($categoryId);
     });
 
- 
+
 
 
 
