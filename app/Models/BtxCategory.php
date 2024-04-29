@@ -69,7 +69,7 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 2,
-                            'title' => 'Отдел (sales | service)',
+                            'title' => 'group Отдел (sales | service)',
                             'name' => 'group',
                             'apiName' => 'group',
                             'type' =>  'string',
@@ -78,7 +78,7 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 3,
-                            'title' => 'имя филда в битрикс',
+                            'title' => 'имя Воронки(Категории) в битрикс',
                             'entityType' => 'btx_category',
                             'name' => 'name',
                             'apiName' => 'name',
@@ -110,7 +110,7 @@ class BtxCategory extends Model
 
                         [
                             'id' => 4,
-                            'title' => 'принадлежность филда к родительской модели (sales | service или cold | base)',
+                            'title' => 'принадлежность Воронки(Категории) к родительской модели (sales | service или cold | base)',
                             'entityType' => 'btx_category',
                             'name' => 'parent_type',
                             'apiName' => 'parent_type',
@@ -164,14 +164,14 @@ class BtxCategory extends Model
                         ],
                         [
                             'id' => 8,
-                            'title' => 'Класс родителя - чтобы контроллер от этого условия определил нужную модель родителя | deal | company | lead | task | smart',
+                            'title' => 'Тип класса родителя - чтобы контроллер от этого условия определил нужную модель родителя | deal | company | lead | task | smart',
                             'entityType' => 'btx_category',
                             'name' => 'entity_type',
                             'apiName' => 'entity_type',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
-                            'initialValue' => $parentClass,
-                            'value' => $parentClass,
+                            'initialValue' => '',
+                            'value' => '',
 
                             'isCanAddField' => false,
 
