@@ -570,6 +570,83 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //BITRIX IDS FOR CONNECTION AND HOOKS
+        // ......................................................................... SMARTS
+
+    //.................................... initial SMART
+    // initial from parent
+    Route::get('initial/portal/{portalId}/smart', function ($portalId) {
+
+        return SmartController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/smart', function () {
+        return SmartController::getInitial();
+    });
+
+
+    // .............................................GET  SMART
+    // all from parent  smart
+    Route::get('portal/{portalId}/smarts', function ($portalId) {
+
+        return SmartController::getByPortal($portalId);
+    });
+    // ...............  get smart
+    Route::get('smart/{smartId}', function ($smartId) {
+        return SmartController::get($smartId);
+    });
+
+
+    //...............................................SET SMART
+
+    Route::post('portal/{portalId}/smart', function (Request $request) {
+
+        return SmartController::store($request);
+    });
+
+    Route::post('smart/{smartId}', function (Request $request) {
+        return SmartController::store($request);
+    });
+
+
+
+        // .........................................................................BTX DEALS
+
+    //.................................... initial SMART
+    // initial from parent
+    Route::get('initial/portal/{portalId}/deal', function ($portalId) {
+
+        return SmartController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/smart', function () {
+        return SmartController::getInitial();
+    });
+
+
+    // .............................................GET  SMART
+    // all from parent  smart
+    Route::get('portal/{portalId}/smarts', function ($portalId) {
+
+        return SmartController::getByPortal($portalId);
+    });
+    // ...............  get smart
+    Route::get('smart/{smartId}', function ($smartId) {
+        return SmartController::get($smartId);
+    });
+
+
+    // //...............................................SET SMART
+
+    // Route::post('portal/{portalId}/smart', function (Request $request) {
+
+    //     return SmartController::store($request);
+    // });
+
+    // Route::post('smart/{smartId}', function (Request $request) {
+    //     return SmartController::store($request);
+    // });
+
+
 
 
     //........................................................................BITRIX LIST
@@ -736,43 +813,6 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-
-    // ......................................................................... SMARTS
-
-    //.................................... initial SMART
-    // initial from parent
-    Route::get('initial/portal/{portalId}/smart', function ($portalId) {
-
-        return SmartController::getInitial($portalId);
-    });
-    // single initial
-    Route::get('initial/smart', function () {
-        return SmartController::getInitial();
-    });
-
-
-    // .............................................GET  SMART
-    // all from parent  smart
-    Route::get('portal/{portalId}/smarts', function ($portalId) {
-
-        return SmartController::getByPortal($portalId);
-    });
-    // ...............  get smart
-    Route::get('smart/{smartId}', function ($smartId) {
-        return SmartController::get($smartId);
-    });
-
-
-    //...............................................SET SMART
-
-    Route::post('portal/{portalId}/smart', function (Request $request) {
-
-        return SmartController::store($request);
-    });
-
-    Route::post('smart/{smartId}', function (Request $request) {
-        return SmartController::store($request);
-    });
 
 
 
