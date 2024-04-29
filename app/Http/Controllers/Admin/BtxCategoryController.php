@@ -23,7 +23,7 @@ class BtxCategoryController extends Controller
     public static function store(Request $request)
     {
         $id = null;
-      
+
         if (isset($request['id'])) {
             $id = $request['id'];
             $currentCategory = BtxCategory::find($id);
@@ -53,14 +53,18 @@ class BtxCategoryController extends Controller
 
         ]);
 
-
+        if ($validatedData['isActive'] == 'true' || $validatedData['isActive'] == '1') {
+            $validatedData['isActive'] == true;
+        } else if ($validatedData['isActive'] == 'false' || $validatedData['isActive'] == '0') {
+            $validatedData['isActive'] == false;
+        }
 
         if ($validatedData['entity_type'] === 'smart') {
-        
+
             $validatedData['entity_type'] = Smart::class;
         } else if ($validatedData['entity_type'] === 'deal') {
-        }else if ($validatedData['entity_type'] === 'lead') {
-        }else if ($validatedData['entity_type'] === 'task') {
+        } else if ($validatedData['entity_type'] === 'lead') {
+        } else if ($validatedData['entity_type'] === 'task') {
         }
 
         if ($currentCategory) {
