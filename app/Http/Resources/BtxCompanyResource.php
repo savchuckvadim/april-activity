@@ -19,7 +19,6 @@ class BtxCompanyResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'title' => $this->title,
-            'categories' => $this->categories,
             'bitrixfields' => $this->fields,
             
         ];
