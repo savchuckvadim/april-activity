@@ -53,11 +53,11 @@ class Portal extends Model
 
     public function companies()
     {
-        return $this->hasMany(BtxDeal::class);
+        return $this->hasMany(BtxCompany::class);
     }
     public function leads()
     {
-        return $this->hasMany(BtxDeal::class);
+        return $this->hasMany(BtxLead::class);
     }
 
 
