@@ -49,6 +49,7 @@ class BtxCategoryController extends Controller
             'code' => 'required|string',
             'bitrixId' => 'required|string',
             'bitrixCamelId' => 'required|string',
+            'isActive' => 'required|boolean',
 
         ]);
 
