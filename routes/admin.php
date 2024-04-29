@@ -708,6 +708,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return SmartController::getFields($smartId);
     });
 
+    // all from parent  deal
+    Route::get('deal/{dealId}/bitrixfields', function ($dealId) {
+
+        return BtxDealController::getFields($dealId);
+    });
+
+
 
     //............................................... get single field
     //...............  get bitrix field 
@@ -869,7 +876,9 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
-    // .............................................GET   category
+    // ....................................................GET   category
+
+    //................................. .get categories from parent
     //  ........get categories -  all from parent  smart  
     Route::get('smart/{smartId}/categories', function ($smartId) {
 
@@ -877,10 +886,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
     //  ........get categories -  all from parent  deal  
-    // Route::get('btxdeal/{btxdealId}/categories', function ($portalId) {
+    Route::get('deal/{dealId}/categories', function ($dealId) {
 
-    //     return SmartController::getByPortal($portalId);
-    // });
+        return BtxDealController::getCategories($dealId);
+    });
+
+
 
 
     // ...............  get category
