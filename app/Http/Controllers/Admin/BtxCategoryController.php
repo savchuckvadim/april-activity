@@ -139,4 +139,22 @@ class BtxCategoryController extends Controller
 
         return APIController::getError('category was not found', ['categoryId' => $categoryId]);
     }
+
+
+    public static function getStages($categoryId)
+    {
+
+        $category = BtxCategory::find($categoryId);
+
+        if ($category) {
+            $stages = $category->stages;
+            $data = [
+                'stages' => $stages
+            ];
+
+            return APIController::getSuccess($data);
+        }
+
+        return APIController::getError('stages was not found', ['categoryId' => $categoryId]);
+    }
 }

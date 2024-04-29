@@ -836,6 +836,26 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
         return BtxStageController::getInitial($categoryId);
     });
+    //...................................................SET  STAGE
+    // .................................   set or update
+    // ............................from parent smart
+    Route::post('category/{categoryId}/stage', function (Request $request) {
+        //.........set                                                 store = set or uppdate
+        return BtxStageController::store($request);
+    });
+    // ............................from self
+    Route::post('stage/{stageId}', function (Request $request) {
+        //.........uppdate                                              store = set or uppdate
+        return BtxStageController::store($request);
+    });
+
+    // .............................................GET   STAGES
+    //  ........get categories -  all from parent  smart  
+    Route::get('category/{categoryId}/stages', function ($categoryId) {
+
+        return BtxCategory::getCategories($categoryId);
+    });
+
 
 
 
