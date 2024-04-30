@@ -108,6 +108,21 @@ class Portal extends Model
         return $smart;
     }
 
+
+        // Метод для получения первой сделки
+        public function smart()
+        {
+            $smart = $this->smarts()->first();
+            if ($smart) {
+                $smart = new SmartResource($smart);
+            } else {
+                $smart = null;
+            }
+    
+            return  $smart; // или latest() в зависимости от того, какой элемент считается "первым"
+        }
+
+
     // Метод для получения первой сделки
     public function deal()
     {
