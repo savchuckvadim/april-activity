@@ -119,27 +119,27 @@ class PortalController extends Controller
         if (isset($portalData['smarts'])) {
             if (isset($portalData['smarts'][0])) {
                 $categories = $portalData['smarts'][0]->categories; 
-                Log::info('smartData ', [
+                // Log::info('smartData ', [
 
-                    'categories' => $categories,
+                //     'categories' => $categories,
 
-                ]);
-                Log::info('portalData ', [
+                // ]);
+                // Log::info('portalData ', [
 
-                    'portalData' => $portalData,
+                //     'portalData' => $portalData,
 
-                ]);
-                Log::info('bitrixSmart ', [
+                // ]);
+                // Log::info('bitrixSmart ', [
 
-                    'bitrixSmart' => $portalData['bitrixSmart'],
+                //     'bitrixSmart' => $portalData['bitrixSmart'],
 
-                ]);
+                // ]);
 
-                Log::channel('telegram')->info('APRIL_ONLINE', [
-                    'portalData categories'   => $categories
+                // Log::channel('telegram')->info('APRIL_ONLINE', [
+                //     'portalData categories'   => $categories
                     
 
-                ]);
+                // ]);
                
             }
         }
