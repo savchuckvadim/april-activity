@@ -28,8 +28,8 @@ class SmartResource extends JsonResource
             'crm' => $this->crm,
             'forFilterId' => $this->forFilterId,
             'forFilter' => $this->forFilter,
-            'categories' =>  $this->categories, 
-            'bitrixfields' => $this->fields,
+            // 'categories' =>  $this->categories, 
+            // 'bitrixfields' => $this->fields,
 
             
         ];
