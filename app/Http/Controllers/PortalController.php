@@ -118,10 +118,10 @@ class PortalController extends Controller
 
         if (isset($portalData['smarts'])) {
             if (isset($portalData['smarts'][0])) {
-                $smartData = $portalData['smarts'][0]->toArray(); 
+                $categories = $portalData['smarts'][0]->categories; 
                 Log::info('smartData ', [
 
-                    'smartData' => $smartData,
+                    'categories' => $categories,
 
                 ]);
                 Log::info('portalData ', [
@@ -136,7 +136,7 @@ class PortalController extends Controller
                 ]);
 
                 Log::channel('telegram')->info('APRIL_ONLINE', [
-                    'portalData smarts'   => $smartData
+                    'portalData categories'   => $categories
                     
 
                 ]);
