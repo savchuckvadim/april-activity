@@ -49,9 +49,9 @@ class BaseController extends Controller
 
                     break;
 
-                case 'callingGroup':
+                // case 'callingGroup':
 
-                    return CallingController::getInitial();
+                    // return CallingController::getInitial();
 
                 case 'provider':
                 case 'item':
@@ -215,9 +215,9 @@ class BaseController extends Controller
 
                         break;
 
-                    case 'callingGroup':
+                    // case 'callingGroup':
 
-                        return CallingController::getCallingGroup($modelId);
+                    //     return CallingController::getCallingGroup($modelId);
 
                     case 'provider':
                     case 'item':

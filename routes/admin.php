@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\BtxDealController;
 use App\Http\Controllers\Admin\BtxStageController;
 use App\Http\Controllers\BtxCompanyController;
 use App\Http\Controllers\BtxLeadController;
+use App\Http\Controllers\CallingController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
 // use App\Http\Controllers\BitrixfieldController;
@@ -734,6 +735,44 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
+        // ........................................................................................... 
+    // .........................................................................BTX CALLING TASKS GROUP
+
+    //.................................... initial CALLING TASKS GROUP
+    // initial from parent
+    Route::get('initial/portal/{portalId}/callingGroup', function ($portalId) {
+
+        return CallingController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/callingGroup', function () {
+        return CallingController::getInitial();
+    });
+
+    // .............................................        GET CALLING TASKS GROUP
+    // all from parent  portal
+    Route::get('portal/{portalId}/callingGroups', function ($portalId) {
+
+        return CallingController::getByPortal($portalId);
+    });
+    // ...............  get calling tasks group
+    Route::get('callingGroup/{callingGroupId}', function ($callingGroupId) {
+        return CallingController::get($callingGroupId);
+    });
+
+
+    // //...............................................CALLING TASKS GROUP
+
+    Route::post('portal/{portalId}/company', function (Request $request) {
+
+        return BtxCompanyController::store($request);
+    });
+
+    Route::post('company/{companyId}', function (Request $request) {
+        return BtxCompanyController::store($request);
+    });
+
+
 
 
 
@@ -823,7 +862,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
     //   // all from parent  company
-      Route::get('company/{companyId}/bitrixfields', function ($companyId) {
+    Route::get('company/{companyId}/bitrixfields', function ($companyId) {
 
         return BtxCompanyController::getFields($companyId);
     });
@@ -839,6 +878,20 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::get('bitrixfield/{bitrixfieldId}', function ($bitrixfieldId) {
         return BitrixfieldController::get($bitrixfieldId);
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1108,6 +1161,12 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //........................................................................................................................
+
+
+
+
+
+
 
 
     //GENERAL
