@@ -115,16 +115,16 @@ class PortalController extends Controller
         //     'lead' => $portal->lead(),
         // ];
         $portalData = new PortalHookResource($portal);
-        Log::info('portalData ', [
+      
+        if(isset($portalData['smarts'])){
+            Log::channel('telegram')->info('APRIL_ONLINE', [
+                'portalData smarts'   =>
+                $portalData['smarts']
+    
+            ]);
 
-            'portalData' => $portalData,
-
-        ]);
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'portalData getPortal'   =>
-            $portalData
-
-        ]);
+        }
+       
         Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
         return response(['resultCode' => 0, 'portal' => $portalData]); // Возвращаем данные в формате response
     }
