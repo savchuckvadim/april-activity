@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Resources\BtxCompanyResource;
 use App\Http\Resources\BtxDealResource;
 use App\Http\Resources\BtxLeadResource;
+use App\Http\Resources\SmartResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -101,7 +102,9 @@ class Portal extends Model
     }
     public function getSalesSmart()
     {
-        return $this->smarts()->first();
+        $smart =  $this->smarts()->first();
+        $smart = new SmartResource($smart);
+        return $smart;
     }
 
     // Метод для получения первой сделки

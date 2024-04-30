@@ -15,8 +15,7 @@ class PortalHookResource extends JsonResource
     public function toArray($request): array
     
     {
-        $bitrixSmart = new SmartResource($this->getSalesSmart());
-        $bitrixDeal = new BtxDealResource($this->deal());
+
         return [
             'id' => $this->id,
             'domain' => $this->domain,
@@ -28,10 +27,10 @@ class PortalHookResource extends JsonResource
             'departament' => $this->getSalesDepartamentId(),
             'bitrixList' => $this->getSalesBitrixListId(),
             'bitrixCallingTasksGroup' => $this->getSalesCallingGroupId(),
-            'bitrixSmart' => $bitrixSmart,
-            'bitrixDeal' => $bitrixDeal,
-            'smarts' => SmartResource::collection($this->whenLoaded('smarts')), 
-            'deals' => BtxDealResource::collection($this->whenLoaded('deals')), 
+            'bitrixSmart' => $this->getSalesSmart(),
+            'bitrixDeal' => $this->deal(),
+            'smarts' => $this->smarts(),
+            'deals' => $this->deals(),
             'company' => $this->company(),
             'lead' => $this->lead(),
         ];

@@ -20,8 +20,8 @@ class BtxDealResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'title' => $this->title,
-            'categories' =>  BtxCategoryResource::collection($this->whenLoaded('categories')), 
-            'bitrixfields' => BtxCategoryResource::collection($this->whenLoaded('btxfields')),
+            'categories' =>  $this->categories, 
+            'bitrixfields' => $this->fields,
             
         ];
     }
