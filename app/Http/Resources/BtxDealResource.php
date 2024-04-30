@@ -21,7 +21,7 @@ class BtxDealResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'categories' =>  BtxCategoryResource::collection($this->whenLoaded('categories')), 
-            'bitrixfields' => BtxCategoryResource::collection($this->whenLoaded('fields')),
+            'bitrixfields' => BtxCategoryResource::collection($this->whenLoaded('btxfields')),
             
         ];
     }

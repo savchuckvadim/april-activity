@@ -29,7 +29,7 @@ class SmartResource extends JsonResource
             'forFilterId' => $this->forFilterId,
             'forFilter' => $this->forFilter,
             'categories' => BtxCategoryResource::collection($this->whenLoaded('categories')),       
-            'bitrixfields' => SmartResource::collection($this->whenLoaded('fields')), 
+            'bitrixfields' => BitrixFieldResource::collection($this->whenLoaded('fields')), 
 
             
         ];
