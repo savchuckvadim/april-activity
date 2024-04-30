@@ -103,7 +103,7 @@ class Portal extends Model
     public function getSalesSmart()
     {
         $smart =  $this->smarts()->first();
-        $smart = new SmartResource($smart);
+        // $smart = new SmartResource($smart);
         return $smart;
     }
 
