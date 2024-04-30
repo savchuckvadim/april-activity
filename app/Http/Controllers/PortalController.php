@@ -115,6 +115,11 @@ class PortalController extends Controller
         //     'lead' => $portal->lead(),
         // ];
         $portalData = new PortalHookResource($portal);
+        Log::info('portalData ', [
+
+            'portalData' => $portalData,
+
+        ]);
         Log::channel('telegram')->info('APRIL_ONLINE', [
             'portalData getPortal'   =>
             $portalData
