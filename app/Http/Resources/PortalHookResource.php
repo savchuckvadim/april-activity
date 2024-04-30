@@ -35,7 +35,7 @@ class PortalHookResource extends JsonResource
             'bitrixSmart' => $this->getSalesSmart(),
             'bitrixDeal' => $this->deal(),
             'smarts' => $resultsmarts,
-            'smart' => $this->getSalesSmart(),
+            // 'smart' => $this->getSalesSmart(),
             // 'deals' => $this->deals(),
             'company' => $this->company(),
             // 'lead' => $this->lead(),

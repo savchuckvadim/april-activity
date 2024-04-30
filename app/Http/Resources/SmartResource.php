@@ -41,7 +41,7 @@ class SmartResource extends JsonResource
             'forFilterId' => $this->forFilterId,
             'forFilter' => $this->forFilter,
             'categories' =>  $resultcategories, 
-            'bitrixfields' => $resultfields,
+            'bitrixfields' => $this->fields,
 
             
         ];

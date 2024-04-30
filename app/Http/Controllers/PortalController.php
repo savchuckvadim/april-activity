@@ -124,7 +124,16 @@ class PortalController extends Controller
                     'smartData' => $smartData,
 
                 ]);
+                Log::info('portalData ', [
 
+                    'portalData' => $portalData,
+
+                ]);
+                Log::info('bitrixSmart ', [
+
+                    'bitrixSmart' => $portalData['bitrixSmart'],
+
+                ]);
 
                 Log::channel('telegram')->info('APRIL_ONLINE', [
                     'portalData smarts'   => $smartData
