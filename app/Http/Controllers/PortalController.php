@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PortalHookResource;
 use App\Http\Resources\PortalResource;
 use App\Http\Resources\ProviderCollection;
 use App\Http\Resources\TemplateCollection;
@@ -97,23 +98,23 @@ class PortalController extends Controller
             ], 404);
         }
 
-        $portalData = [
-            'id' => $portal->id,
-            'domain' => $domain,
-            'key' => $portal->getKey(),
-            'C_REST_CLIENT_ID' => $portal->getClientId(),
-            'C_REST_CLIENT_SECRET' => $portal->getSecret(),
-            'C_REST_WEB_HOOK_URL' => $portal->getHook(),
-            'timezone' => $portal->getSalesTimezone(),
-            'departament' => $portal->getSalesDepartamentId(),
-            'bitrixList' => $portal->getSalesBitrixListId(),
-            'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
-            'bitrixSmart' => $portal->getSalesSmart(),
-            'deal' => $portal->deal(), // Убедитесь, что здесь нужны только ID или базовые данные
-            'company' => $portal->company(),
-            'lead' => $portal->lead(),
-        ];
-
+        // $portalData = [
+        //     'id' => $portal->id,
+        //     'domain' => $domain,
+        //     'key' => $portal->getKey(),
+        //     'C_REST_CLIENT_ID' => $portal->getClientId(),
+        //     'C_REST_CLIENT_SECRET' => $portal->getSecret(),
+        //     'C_REST_WEB_HOOK_URL' => $portal->getHook(),
+        //     'timezone' => $portal->getSalesTimezone(),
+        //     'departament' => $portal->getSalesDepartamentId(),
+        //     'bitrixList' => $portal->getSalesBitrixListId(),
+        //     'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
+        //     'bitrixSmart' => $portal->getSalesSmart(),
+        //     'deal' => $portal->deal(), // Убедитесь, что здесь нужны только ID или базовые данные
+        //     'company' => $portal->company(),
+        //     'lead' => $portal->lead(),
+        // ];
+        $portalData = new PortalHookResource($portal);
         Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
         return response(['resultCode' => 0, 'portal' => $portalData]); // Возвращаем данные в формате response
     }
