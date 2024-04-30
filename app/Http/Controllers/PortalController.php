@@ -118,15 +118,13 @@ class PortalController extends Controller
 
         if (isset($portalData['smarts'])) {
             if (isset($portalData['smarts'][0])) {
+                $smartData = $portalData['smarts'][0]->toArray(); 
                 Log::channel('telegram')->info('APRIL_ONLINE', [
-                    'portalData smarts'   =>
-                    $portalData['smarts'][0]
+                    'portalData smarts'   => $smartData
+                    
 
                 ]);
-                Log::channel('telegram')->info(
-                    'APRIL_ONLINE',
-                    $portalData['smarts'][0]
-                );
+               
             }
         }
 
