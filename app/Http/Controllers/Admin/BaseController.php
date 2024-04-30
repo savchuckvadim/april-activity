@@ -107,9 +107,9 @@ class BaseController extends Controller
 
                     break;
 
-                case 'callingGroup':
-                    return CallingController::set($request);
-                    break;
+                // case 'callingGroup':
+                //     return CallingController::set($request);
+                //     break;
 
                 case 'departament':
                     return DepartamentController::set($request);
@@ -264,8 +264,8 @@ class BaseController extends Controller
 
                     case 'items':
                         // return FItemController::getFitem($modelId);
-                    case 'callingGroups':
-                        return CallingController::getAll();
+                    // case 'callingGroups':
+                    //     return CallingController::getAll();
 
 
                     case 'departaments':

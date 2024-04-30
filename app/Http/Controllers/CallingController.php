@@ -18,44 +18,44 @@ class CallingController extends Controller
         return APIController::getSuccess($data);
     }
 
-    public static function set(Request $request)
-    {
-        // Предполагая, что у вас уже есть экземпляр Template
-        $type = $request['type'];
-        $group = $request['group'];
-        $name = $request['name'];
-        $title = $request['title'];
-        $bitrixId = $request['bitrixId'];
-        $portal_id = $request['portal_id'];
+    // public static function set(Request $request)
+    // {
+    //     // Предполагая, что у вас уже есть экземпляр Template
+    //     $type = $request['type'];
+    //     $group = $request['group'];
+    //     $name = $request['name'];
+    //     $title = $request['title'];
+    //     $bitrixId = $request['bitrixId'];
+    //     $portal_id = $request['portal_id'];
 
 
-        $portal = Portal::find($portal_id);
+    //     $portal = Portal::find($portal_id);
 
-        if ($portal) {
-            // Создание нового Counter
-            $callingGroup = new Calling;
-            if ($callingGroup) {
+    //     if ($portal) {
+    //         // Создание нового Counter
+    //         $callingGroup = new Calling;
+    //         if ($callingGroup) {
 
-                $callingGroup->name = $name;
-                $callingGroup->title = $title;
-                $callingGroup->type = $type;
-                $callingGroup->group = $group;
-                $callingGroup->bitrixId = $bitrixId;
-                $callingGroup->portal_id = $portal_id;
-                $callingGroup->save(); // Сохранение Counter в базе данных
+    //             $callingGroup->name = $name;
+    //             $callingGroup->title = $title;
+    //             $callingGroup->type = $type;
+    //             $callingGroup->group = $group;
+    //             $callingGroup->bitrixId = $bitrixId;
+    //             $callingGroup->portal_id = $portal_id;
+    //             $callingGroup->save(); // Сохранение Counter в базе данных
 
-                return APIController::getSuccess(
-                    ['callingGroup' => $callingGroup, 'portal' => $portal]
-                );
-            }
-        }
+    //             return APIController::getSuccess(
+    //                 ['callingGroup' => $callingGroup, 'portal' => $portal]
+    //             );
+    //         }
+    //     }
 
-        return APIController::getError(
-            'template or counter was not found',
-            ['portal' => $portal]
+    //     return APIController::getError(
+    //         'template or counter was not found',
+    //         ['portal' => $portal]
 
-        );
-    }
+    //     );
+    // }
     public static function store(Request $request)
     {
         $id = null;
@@ -63,13 +63,12 @@ class CallingController extends Controller
   
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:smarts,id',
-            // 'entity_type' => 'required|string',
+
             'type' => 'required|string',
             'group' => 'required|string',
             'name' => 'required|string',
             'title' => 'required|string',
-            // 'entityTypeId' => 'required|string',
-            // 'code' => 'required|string',
+
             'bitrixId' => 'required|string',
             'portal_id' => 'required|string',
             
@@ -87,7 +86,7 @@ class CallingController extends Controller
                 $callingGroup->portal_id = $portal_id;
             }
         }
-        
+
         $type = $validatedData['type'];
         $group = $validatedData['group'];
         $name = $validatedData['name'];
@@ -181,5 +180,20 @@ class CallingController extends Controller
             ['portal id' => $portalId]
 
         );
+    }
+
+    public static function delete($callingGroupId)
+    {
+
+        $callingGroup = Calling::find($callingGroupId);
+
+        if ($callingGroup) {
+            $callingGroup->delete();
+            return APIController::getSuccess(['callingGroup' => $callingGroup]);
+        }
+        return APIController::getError('calling group was not found and deleted', [
+            'callingGroupId' => $callingGroupId,
+            // 'fieldData' => $fieldData
+        ]);
     }
 }

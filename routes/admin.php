@@ -614,7 +614,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return SmartController::store($request);
     });
 
-
+    // ............................................DELETE
+    Route::delete('smart/{smartId', function ($smartId) {
+        return SmartController::delete($smartId);
+    });
 
     // .........................................................................BTX DEALS
 
@@ -653,7 +656,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxDealController::store($request);
     });
 
-
+    // ............................................DELETE
+    Route::delete('deal/{dealId', function ($dealId) {
+        return BtxDealController::delete($dealId);
+    });
 
 
 
@@ -694,6 +700,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::post('lead/{leadId}', function (Request $request) {
         return BtxLeadController::store($request);
     });
+    // ............................................DELETE
+    Route::delete('lead/{leadId', function ($leadId) {
+        return BtxLeadController::delete($leadId);
+    });
 
 
     // ........................................................................................... 
@@ -733,9 +743,14 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxCompanyController::store($request);
     });
 
+    // ............................................DELETE
+    Route::delete('company/{companyId', function ($companyId) {
+        return BtxCompanyController::delete($companyId);
+    });
 
 
-        // ........................................................................................... 
+
+    // ........................................................................................... 
     // .........................................................................BTX CALLING TASKS GROUP
 
     //.................................... initial CALLING TASKS GROUP
@@ -761,17 +776,21 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    // //...............................................CALLING TASKS GROUP
+    // //............................................... SET OR UPDATE CALLING TASKS GROUP
 
-    Route::post('portal/{portalId}/company', function (Request $request) {
+    Route::post('portal/{portalId}/callingGroup', function (Request $request) {
 
-        return BtxCompanyController::store($request);
+        return CallingController::store($request);
     });
 
-    Route::post('company/{companyId}', function (Request $request) {
-        return BtxCompanyController::store($request);
+    Route::post('callingGroup/{callingGroupId}', function (Request $request) {
+        return CallingController::store($request);
     });
 
+    // ............................................DELETE
+    Route::delete('callingGroup/{callingGroupId}', function ($callingGroupId) {
+        return CallingController::delete($callingGroupId);
+    });
 
 
 
