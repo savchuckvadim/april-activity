@@ -62,7 +62,7 @@ class CallingController extends Controller
         $portal = null;
   
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:smarts,id',
+            'id' => 'sometimes|integer|exists:callings,id',
 
             'type' => 'required|string',
             'group' => 'required|string',
