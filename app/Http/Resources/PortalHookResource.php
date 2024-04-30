@@ -16,7 +16,7 @@ class PortalHookResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'domain' => $this,
+            'domain' => $this->domain,
             'key' => $this->getKey(),
             'C_REST_CLIENT_ID' => $this->getClientId(),
             'C_REST_CLIENT_SECRET' => $this->getSecret(),
@@ -26,7 +26,7 @@ class PortalHookResource extends JsonResource
             'bitrixList' => $this->getSalesBitrixListId(),
             'bitrixCallingTasksGroup' => $this->getSalesCallingGroupId(),
             'bitrixSmart' => $this->getSalesSmart(),
-            'dealы' => BtxDealResource::collection($this->whenLoaded('deals')), 
+            'deals' => BtxDealResource::collection($this->whenLoaded('deals')), 
             'company' => $this->company(),
             'lead' => $this->lead(),
         ];
