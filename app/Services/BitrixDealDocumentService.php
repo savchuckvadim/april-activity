@@ -245,7 +245,7 @@ class BitrixDealDocumentService
         if (isset($data['isWord'])) {
             if ($data['isWord'] == true) {
                 $documentDocsController = new DocumentController();
-                $offerLink = $documentDocsController->getDocument($data);
+                $offerLink = $documentDocsController->getDocument($this->data);
             } else {
                 $isNeedPdfOffer = true;
             }
@@ -1034,50 +1034,54 @@ class BitrixDealDocumentService
 
 
         $currentSmart = null;
+        try {
+            if (isset($smart)) {
+                if (isset($smart['crmId'])) {
+                    $method = '/crm.item.list.json';
+                    $url = $this->hook . $method;
+                    $data = [];
+                    if ($companyId) {
+                        $data =  [
+                            'entityTypeId' => $smart['crmId'],
+                            'filter' => [
+                                "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                                "=assignedById" => $userId,
+                                'COMPANY_ID' => $companyId,
 
-        if (isset($smart)) {
-            if (isset($smart['crmId'])) {
-                $method = '/crm.item.list.json';
-                $url = $this->hook . $method;
-                if ($companyId) {
-                    $data =  [
-                        'entityTypeId' => $smart['crmId'],
-                        'filter' => [
-                            "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
-                            "=assignedById" => $userId,
-                            'COMPANY_ID' => $companyId,
+                            ],
+                            // 'select' => ["ID"],
+                        ];
+                    } else if ($leadId) {
+                        $data =  [
+                            'entityTypeId' => $smart['crmId'],
+                            'filter' => [
+                                "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
+                                "=assignedById" => $userId,
 
-                        ],
-                        // 'select' => ["ID"],
-                    ];
-                } else if ($leadId) {
-                    $data =  [
-                        'entityTypeId' => $smart['crmId'],
-                        'filter' => [
-                            "!=stage_id" => ["DT162_26:SUCCESS", "DT156_12:SUCCESS"],
-                            "=assignedById" => $userId,
+                                "=%ufCrm7_1697129081" => '%' . $leadId . '%',
 
-                            "=%ufCrm7_1697129081" => '%' . $leadId . '%',
-
-                        ],
-                        // 'select' => ["ID"],
-                    ];
-                }
+                            ],
+                            // 'select' => ["ID"],
+                        ];
+                    }
 
 
 
-                $response = Http::get($url, $data);
-                // $responseData = $response->json();
-                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
-                if (isset($responseData)) {
-                    if (!empty($responseData['items'])) {
-                        $currentSmart =  $responseData['items'][0];
+                    $response = Http::get($url, $data);
+                    // $responseData = $response->json();
+                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                    if (isset($responseData)) {
+                        if (!empty($responseData['items'])) {
+                            $currentSmart =  $responseData['items'][0];
+                        }
                     }
                 }
             }
-        }
 
-        return $currentSmart;
+            return $currentSmart;
+        } catch (\Throwable $th) {
+            return $currentSmart;
+        }
     }
 
 
