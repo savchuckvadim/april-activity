@@ -670,15 +670,15 @@ class DocumentController extends Controller
 
                     //stamps
                     $withStamps = false;
-                    if (count($providerRq['stamps'])) {
-                        foreach ($providerRq['stamps'] as $stamp) {
-                            if (isset($stamp['path'])) {
-                                if ($stamp['path']) {
-                                    $withStamps = true;
-                                }
-                            }
-                        }
-                    }
+                    // if (count($providerRq['stamps'])) {
+                    //     foreach ($providerRq['stamps'] as $stamp) {
+                    //         if (isset($stamp['path'])) {
+                    //             if ($stamp['path']) {
+                    //                 $withStamps = true;
+                    //             }
+                    //         }
+                    //     }
+                    // }
 
                     // STYLES
                     $styles = $this->documentStyle;
