@@ -64,11 +64,11 @@ Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
     Route::post('get/document', function (Request $request) {
         $data  = $request->input('data');
 
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'get/document domain' => $data['domain'],
-            'get/document userId' => $data['userId'],
-            'get/document manager' => $data['manager']['NAME'],
-        ]);
+        // Log::channel('telegram')->info('APRIL_ONLINE', [
+        //     'get/document domain' => $data['domain'],
+        //     'get/document userId' => $data['userId'],
+        //     'get/document manager' => $data['manager']['NAME'],
+        // ]);
 
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
