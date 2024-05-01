@@ -849,6 +849,7 @@ class DocumentController extends Controller
 
         $section->addTextBreak(1);
         $section->addText('Информационное наполнение', $fonts['h2']);
+        $section->addTextBreak(1);
         // $section->addTextBreak(1);
 
 
@@ -1834,19 +1835,19 @@ class DocumentController extends Controller
 
         if (!$isTwoLogo) {
             $shortCompanyName = $this->getShortCompanyName($providerRq['fullname']);
-            $shortCompanyName;
+            $shortCompanyName = $shortCompanyName . ', ';
             if ($providerRq['inn']) {
-                $first = ' , ИНН: ' . $providerRq['inn'] . ', ';
+                $first = 'ИНН: ' . $providerRq['inn'] . ', ';
             }
             if ($providerRq['kpp']) {
                 $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
             }
             $second = $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
-                $second = $second . ', ' . $providerRq['phone'];
+                $third = 'Тел.: +' . $providerRq['phone'];
             }
             if ($providerRq['email']) {
-                $second = $second . ', ' . $providerRq['email'];
+                $third = $third . ', e-mail: ' . $providerRq['email'];
             }
 
             $rqTable = $cell->addTable();
@@ -1864,6 +1865,11 @@ class DocumentController extends Controller
                 $rqTable->addRow();
                 $rqCell = $rqTable->addCell($headerRqWidth);
                 $rqCell->addText($second, $headerTextStyle, $headerRqParagraf);
+            }
+            if ($third) {
+                $rqTable->addRow();
+                $rqCell = $rqTable->addCell($headerRqWidth);
+                $rqCell->addText($third, $headerTextStyle, $headerRqParagraf);
             }
         } else {
 
@@ -2223,9 +2229,10 @@ class DocumentController extends Controller
         // $section->addTextBreak(1);
         if (isset($recipient['recipient'])) {
             if ($recipient['recipient']) {
+                $section->addTextBreak(1);
                 $recipientName = $recipient['recipient'];
-                $appeal = $this->createGreeting($recipientName);
-                $nameWithAppeal = $appeal . ' ' . $recipientName;
+                $nameWithAppeal = $this->createGreeting($recipientName);
+                // $nameWithAppeal = $appeal . ' ' . $recipientName;
                 $section->addText($nameWithAppeal, $titleTextStyle, $styles['paragraphs']['align']['center']);
             } else {
                 $section->addTextBreak(1);
@@ -2251,7 +2258,8 @@ class DocumentController extends Controller
                 }
             }
         }
-        $parts = preg_split('/<color>|<\/color>/', $letterText);
+        $parts = preg_split('/(<color>|<\/color>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+
 
         $textRun = $section->addTextRun();
 
@@ -2267,7 +2275,7 @@ class DocumentController extends Controller
                 $currentStyle = $letterTextStyle; // возвращаем стиль к обычному тексту
                 continue; // пропускаем сам тег
             }
-        
+
             // Разбиваем часть на подстроки по символам переноса строки
             $subparts = preg_split("/\r\n|\n|\r/", $part);
             foreach ($subparts as $subpart) {
