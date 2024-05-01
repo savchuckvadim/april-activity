@@ -196,8 +196,8 @@ class PDFDocumentController extends Controller
                     //testing
 
 
-                    if (isset($data['isPublic'])) {
-                        if (!empty($data['isPublic'])) {
+                    // if (isset($data['isPublic'])) {
+                    //     if (!empty($data['isPublic'])) {
                             // $documentService = new BitrixDealDocumentService(
                             //     $domain,
                             //     $placement,
@@ -223,14 +223,18 @@ class PDFDocumentController extends Controller
 
                             // );
                             // $documents = $documentService->getDocuments();
-                            $documentController = new DocumentController();
-                            return $documentController->getDocument($data);
+
+                            // $documentController = new DocumentController();
+                            // return $documentController->getDocument($data);
+
+
+
                             // return APIController::getSuccess(
                             //     $documents
 
                             // );
-                        }
-                    } else {
+                        // }
+                    // } else {
 
                         dispatch(new BitrixDealDocumentJob(
                             $domain,
@@ -257,7 +261,7 @@ class PDFDocumentController extends Controller
                         ));
 
                         return APIController::getSuccess(['job' => 'get it !']);
-                    }
+                    // }
 
 
                     //testing todo props $bigDescriptionData

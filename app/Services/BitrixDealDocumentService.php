@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PortalController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
@@ -220,13 +221,13 @@ class BitrixDealDocumentService
         }
 
 
-        Log::channel('telegram')->info('APRIL_ONLINE Service constructor', [
+        // Log::channel('telegram')->info('APRIL_ONLINE Service constructor', [
 
-            'documentnumber' => $this->documentNumber,
-            'USER_ID' => $this->userId,
+        //     'documentnumber' => $this->documentNumber,
+        //     'USER_ID' => $this->userId,
 
-            // 'PDFDocumentController' => $data,
-        ]);
+        //     // 'PDFDocumentController' => $data,
+        // ]);
     }
 
 
@@ -240,8 +241,22 @@ class BitrixDealDocumentService
             'invoiceLinks' => [],
             'links' => [],
         ];
+        $isNeedPdfOffer = false;
+        if (isset($data['isWord'])) {
+            if ($data['isWord'] == true) {
+                $documentDocsController = new DocumentController();
+                $offerLink = $documentDocsController->getDocument($data);
+            } else {
+                $isNeedPdfOffer = true;
+            }
+        } else {
+            $isNeedPdfOffer = true;
+        }
 
-        $offerLink = $this->createDocumentOffer();
+        if ($isNeedPdfOffer) {
+            $offerLink = $this->createDocumentOffer();
+        }
+
         $links = [];
         $invoices = [];
 

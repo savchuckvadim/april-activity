@@ -574,12 +574,14 @@ class DocumentController extends Controller
 
     public function getDocument($data)
     {
+        $link = null;
+        $manager = null;
         try {
 
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
-
+                    
 
                     $templateId = $template['id'];
                     $domain = $data['template']['portal'];
@@ -644,7 +646,10 @@ class DocumentController extends Controller
 
 
                     //manager
-                    $manager = $data['manager'];
+                   
+                    if(isset($data['manager'])){
+                        $manager = $data['manager'];
+                    }
                     //UF_DEPARTMENT
                     //SECOND_NAME
 
@@ -737,25 +742,25 @@ class DocumentController extends Controller
                     // $section->addPageBreak();
 
 
-
+                    // ......... TODO INVOICES 
                     // //invoices
-                    $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
-                    if ($withStamps) {
-                        $section->addTextBreak(1);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    }
+                    // $invoice = $this->getInvoice($section, $styles, $general, $providerRq, $recipient, $target, $invoiceBaseNumber);
+                    // if ($withStamps) {
+                    //     $section->addTextBreak(1);
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
 
-                    if (isset($alternative)) {
+                    // if (isset($alternative)) {
 
-                        foreach ($alternative as $alternativeCell) {
-                            $target = 'alternative';
-                            $section->addPageBreak();
-                            $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
-                            if ($withStamps) {
-                                $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                            }
-                        }
-                    }
+                    //     foreach ($alternative as $alternativeCell) {
+                    //         $target = 'alternative';
+                    //         $section->addPageBreak();
+                    //         $invoice = $this->getInvoice($section, $styles, [$alternativeCell], $providerRq, $recipient, $target, $invoiceBaseNumber);
+                    //         if ($withStamps) {
+                    //             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    //         }
+                    //     }
+                    // }
 
 
 
@@ -802,13 +807,16 @@ class DocumentController extends Controller
 
                     $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
 
-                    return APIController::getSuccess([
-                        'price' => $price,
-                        'link' => $link,
-                        'documentNumber' => $documentNumber,
-                        // 'counter' => $counter,
+                    // return APIController::getSuccess([
+                    //     'price' => $price,
+                    //     'link' => $link,
+                    //     'documentNumber' => $documentNumber,
+                    //     // 'counter' => $counter,
 
-                    ]);
+                    // ]);
+
+
+                    return $link;
 
                     // $this->setTimeline($domain, $dealId, $link, $documentNumber);
                     // $bitrixController = new BitrixController();
@@ -823,14 +831,33 @@ class DocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            return APIController::getError(
-                'something wrong ' . $th->getMessage(),
-                [
-                    'data' => $data,
+            // return APIController::getError(
+            //     'something wrong ' . $th->getMessage(),
+            //     [
+            //         'data' => $data,
+
+
+            //     ]
+            // );
+            $domain = null;
+            if(isset($data['domain'])){
+                $domain =  $data['domain'];
+            }
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'Document Word Controller getDocument' => [
+
+                    'domain' => $domain,
+                    'manager' => $manager,
+                    
+                    'message' => 'document docx was not created :'. $th->getMessage(),
 
 
                 ]
-            );
+            ]);
+            
+            return $link;
+
+
         }
     }
 
