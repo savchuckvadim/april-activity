@@ -47,8 +47,8 @@ class PDFDocumentController extends Controller
                     }
 
 
-                    
-                 
+
+
 
                     //TODO BIG DESCRIPTION
 
@@ -79,12 +79,11 @@ class PDFDocumentController extends Controller
                     if (isset($settings['withStamps'])) {
                         if (isset($settings['withStamps']['current'])) {
                             if (isset($settings['withStamps']['current']['code'])) {
-                                if($settings['withStamps']['current']['code'] === 'yes'){
+                                if ($settings['withStamps']['current']['code'] === 'yes') {
                                     $withStamps = true;
-                                }else if($settings['withStamps']['current']['code'] === 'no'){
+                                } else if ($settings['withStamps']['current']['code'] === 'no') {
                                     $withStamps = false;
                                 }
-                               
                             }
                         }
                     } else {
@@ -95,12 +94,11 @@ class PDFDocumentController extends Controller
                     if (isset($settings['withManager'])) {
                         if (isset($settings['withManager']['current'])) {
                             if (isset($settings['withManager']['current']['code'])) {
-                                if($settings['withManager']['current']['code'] === 'yes'){
+                                if ($settings['withManager']['current']['code'] === 'yes') {
                                     $withManager = true;
-                                }else if($settings['withManager']['current']['code'] === 'no'){
+                                } else if ($settings['withManager']['current']['code'] === 'no') {
                                     $withManager = false;
                                 }
-                               
                             }
                         }
                     }
@@ -165,7 +163,7 @@ class PDFDocumentController extends Controller
 
                     $isGeneralInvoice = false;
                     $isAlternativeInvoices = false;
-              
+
 
 
                     if (isset($invoiceData['one']) && isset($invoiceData['many'])) {
@@ -640,6 +638,15 @@ class PDFDocumentController extends Controller
 
 
         if ($recipient) {
+            if (isset($recipient['recipientCase'])) {
+
+
+
+                if ($recipient['recipientCase']) {
+                    $this->shortenNameWithCase($recipient['recipientCase']);
+                    $letterData['recipientCase'] = $this->shortenNameWithCase($recipient['recipientCase']);
+                }
+            }
             if (isset($recipient['companyName'])) {
                 if ($recipient['companyName']) {
                     $letterData['companyName'] = $recipient['companyName'];
@@ -653,15 +660,6 @@ class PDFDocumentController extends Controller
             if (isset($recipient['positionCase'])) {
                 if ($recipient['positionCase']) {
                     $letterData['positionCase']  = $recipient['positionCase'];
-                }
-            }
-            if (isset($recipient['recipientCase'])) {
-
-
-
-                if ($recipient['recipientCase']) {
-                    $this->shortenNameWithCase($recipient['recipientCase']);
-                    $letterData['recipientCase'] = $this->shortenNameWithCase($recipient['recipientCase']);
                 }
             }
         }
@@ -1598,7 +1596,7 @@ class PDFDocumentController extends Controller
         Log::channel('telegram')->info('APRIL_ONLINE test', [
             'getStampsData' => [
                 'stampsData' => $stampsData,
-          
+
 
             ]
         ]);

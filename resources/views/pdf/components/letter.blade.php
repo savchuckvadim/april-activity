@@ -41,6 +41,11 @@
             </div>
             <div class="cellItem"></div>
             <div class="cellItem letter-rq-right">
+                @if ($letterData['recipientCase'] !== null)
+                <p class="text-small">
+                    {{ $letterData['recipientCase'] }}
+                </p>
+            @endif
                 @if ($letterData['companyName'] !== null)
                     <p class="text-small">
                         {{ $letterData['companyName'] }}
@@ -58,11 +63,7 @@
                         {{ $letterData['positionCase'] }}
                     </p>
                 @endif
-                @if ($letterData['recipientCase'] !== null)
-                    <p class="text-small">
-                        {{ $letterData['recipientCase'] }}
-                    </p>
-                @endif
+              
             </div>
         </div>
 

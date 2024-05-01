@@ -10,7 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Mockery\Undefined;
+use morphos\Gender;
 use morphos\Russian\MoneySpeller;
+
+use function morphos\Russian\detectGender;
 
 class DocumentController extends Controller
 {
@@ -611,7 +614,7 @@ class DocumentController extends Controller
 
 
                     //header-data
-                    
+
                     $isTwoLogo = false;
                     if ($providerRq) {
                         if (isset($providerRq['logos'])) {
@@ -710,12 +713,12 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     // if ($withLetter) {
-                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
-                        // if ($withStamps) {
-                        //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                        // }
-                        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-                        $section->addPageBreak();
+                    $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                    // if ($withStamps) {
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
+                    $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+                    $section->addPageBreak();
                     // }
 
                     $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
@@ -1830,9 +1833,10 @@ class DocumentController extends Controller
         $cell = $tableHeader->addCell($headerRqWidth);
 
         if (!$isTwoLogo) {
-            $first = $providerRq['fullname'];
+            $shortCompanyName = $this->getShortCompanyName($providerRq['fullname']);
+            $first = $shortCompanyName;
             if ($providerRq['inn']) {
-                $first = $first . ', ИНН: ' . $providerRq['inn'] . ', ';
+                $first = $first . ' \n ' . ' , ИНН: ' . $providerRq['inn'] . ', ';
             }
             if ($providerRq['kpp']) {
                 $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
@@ -1935,10 +1939,11 @@ class DocumentController extends Controller
         $alignEnd = $styles['alignment']['end'];
         $cell = $tableHeader->addCell($headerRqWidth);
 
+        $shortCompanyName = $this->getShortCompanyName($providerRq['fullname']);
+        $first = $shortCompanyName;
 
-        $first = $providerRq['fullname'];
         if ($providerRq['inn']) {
-            $first = $first . ', ИНН: ' . $providerRq['inn'];
+            $first = $first . '\n , ИНН: ' . $providerRq['inn'];
         }
         if ($providerRq['kpp']) {
             $first = $first . ', КПП: ' . $providerRq['kpp'];
@@ -2183,6 +2188,13 @@ class DocumentController extends Controller
         $positionCase = '';
         $recipientNameCase = '';
         if ($recipient) {
+            if (isset($recipient['positionCase'])) {
+                if ($recipient['positionCase']) {
+                    $positionCase = $recipient['positionCase'];
+                    $letterRecipientell->addText($positionCase, $recipientTextStyle, $rightAlign);
+                }
+            }
+
             if (isset($recipient['companyName'])) {
                 if ($recipient['companyName']) {
                     $companyName = $recipient['companyName'];
@@ -2195,12 +2207,7 @@ class DocumentController extends Controller
                     $letterRecipientell->addText($inn, $recipientTextStyle, $rightAlign);
                 }
             }
-            if (isset($recipient['positionCase'])) {
-                if ($recipient['positionCase']) {
-                    $positionCase = $recipient['positionCase'];
-                    $letterRecipientell->addText($positionCase, $recipientTextStyle, $rightAlign);
-                }
-            }
+
             if (isset($recipient['recipientCase'])) {
                 if ($recipient['recipientCase']) {
                     $recipientCase = $recipient['recipientCase'];
@@ -2213,7 +2220,9 @@ class DocumentController extends Controller
         if (isset($recipient['recipient'])) {
             if ($recipient['recipient']) {
                 $recipientName = $recipient['recipient'];
-                $section->addText($recipientName, $titleTextStyle, $styles['paragraphs']['align']['center']);
+                $appeal = $this->createGreeting($recipientName);
+                $nameWithAppeal = $appeal . ' ' . $recipientName;
+                $section->addText($nameWithAppeal, $titleTextStyle, $styles['paragraphs']['align']['center']);
             } else {
                 $section->addTextBreak(1);
             }
@@ -2243,7 +2252,7 @@ class DocumentController extends Controller
         $inHighlight = false;
         foreach ($parts as $part) {
             // Разбиваем часть на подстроки по символам переноса строки
-            $subparts = preg_split("/\r\n|\n|\r/", $part);
+            $subparts = preg_split("/\r\n|\n|\\n|\r/", $part);
             foreach ($subparts as $subpart) {
                 if ($inHighlight) {
                     // Добавление выделенного текста
@@ -3124,5 +3133,56 @@ class DocumentController extends Controller
         } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId, $commentLink, $commentText]]);
         }
+    }
+
+
+
+    //UTILS
+
+    public function getShortCompanyName($companyName)
+    {
+        $pattern = "/общество\s+с\s+ограниченной\s+ответственностью/ui";
+        $patternIp = "/индивидуальный\s+предприниматель/ui";
+
+        $shortenedPhrase = preg_replace($pattern, "ООО", $companyName);
+        $shortCompanyName = preg_replace($patternIp, "ИП", $shortenedPhrase);
+
+        return $shortCompanyName;
+    }
+
+    protected function shortenNameWithCase($name)
+    {
+        $parts = explode(' ', $name);
+        switch (count($parts)) {
+            case 3:
+                return $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '. ' . mb_substr($parts[2], 0, 1) . '.';
+            case 2:
+                return $parts[0] . ' ' . mb_substr($parts[1], 0, 1) . '.';
+            case 1:
+                return $parts[0];
+            default:
+                return $name;
+        }
+    }
+
+    protected function createGreeting($name)
+    {
+        $greeting = null;
+        $parts = explode(' ', $name);
+
+        // Определение пола по отчеству, если оно есть
+        $gender = count($parts) === 3 ? detectGender($parts[2], 'ru') : null;
+        if ($gender) {
+            $greeting = $gender === Gender::MALE ? "Уважаемый " : "Уважаемая ";
+
+            // Формирование обращения
+            if (count($parts) >= 2) {
+                $greeting .= $parts[1] . (isset($parts[2]) ? " " . $parts[2] : "") . "!";
+            } else {
+                $greeting .= $parts[0] . "!";
+            }
+        }
+
+        return $greeting;
     }
 }
