@@ -198,39 +198,41 @@ class PDFDocumentController extends Controller
                     //testing
 
 
-                    // if (isset($data['isPublic'])) {
-                    //     if (!empty($data['isPublic'])) {
-                    //         $documentService = new BitrixDealDocumentService(
-                    //             $domain,
-                    //             $placement,
-                    //             $userId,
-                    //             $providerRq,
-                    //             $documentNumber,
-                    //             $data,
-                    //             $invoiceDate,
-                    //             $headerData,
-                    //             $doubleHeaderData,
-                    //             $footerData,
-                    //             $letterData,
-                    //             $infoblocksData,
-                    //             $bigDescriptionData,
-                    //             $pricesData,
-                    //             $stampsData,
-                    //             $isTwoLogo,
-                    //             $isGeneralInvoice,
-                    //             $isAlternativeInvoices,
-                    //             $dealId,
-                    //             $withStamps,
-                    //             $withManager
+                    if (isset($data['isPublic'])) {
+                        if (!empty($data['isPublic'])) {
+                            // $documentService = new BitrixDealDocumentService(
+                            //     $domain,
+                            //     $placement,
+                            //     $userId,
+                            //     $providerRq,
+                            //     $documentNumber,
+                            //     $data,
+                            //     $invoiceDate,
+                            //     $headerData,
+                            //     $doubleHeaderData,
+                            //     $footerData,
+                            //     $letterData,
+                            //     $infoblocksData,
+                            //     $bigDescriptionData,
+                            //     $pricesData,
+                            //     $stampsData,
+                            //     $isTwoLogo,
+                            //     $isGeneralInvoice,
+                            //     $isAlternativeInvoices,
+                            //     $dealId,
+                            //     $withStamps,
+                            //     $withManager
 
-                    //         );
-                    //         $documents = $documentService->getDocuments();
-                    //         return APIController::getSuccess(
-                    //             $documents
+                            // );
+                            // $documents = $documentService->getDocuments();
+                            $documentController = new DocumentController();
+                            $documents = $documentController->getDocument($data);
+                            return APIController::getSuccess(
+                                $documents
 
-                    //         );
-                    //     }
-                    // } else {
+                            );
+                        }
+                    } else {
 
                         dispatch(new BitrixDealDocumentJob(
                             $domain,
@@ -257,7 +259,7 @@ class PDFDocumentController extends Controller
                         ));
 
                         return APIController::getSuccess(['job' => 'get it !']);
-                    // }
+                    }
 
 
                     //testing todo props $bigDescriptionData
