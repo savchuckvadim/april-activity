@@ -87,6 +87,7 @@
                     $baseClass = 'text-large';
                 }
                 $letterText = str_replace("\\n", "\n", $letterText);
+                $letterText = str_replace("\\n ", "\n", $letterText);
                 // Разбиваем по тегам, сохраняя их в результате
                 $parts = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
                 $inHighlight = false;

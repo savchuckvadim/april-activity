@@ -1834,9 +1834,9 @@ class DocumentController extends Controller
 
         if (!$isTwoLogo) {
             $shortCompanyName = $this->getShortCompanyName($providerRq['fullname']);
-            $first = $shortCompanyName;
+            $shortCompanyName;
             if ($providerRq['inn']) {
-                $first = $first . ' \n ' . ' , ИНН: ' . $providerRq['inn'] . ', ';
+                $first = ' , ИНН: ' . $providerRq['inn'] . ', ';
             }
             if ($providerRq['kpp']) {
                 $first = $first . ', КПП: ' . $providerRq['kpp'] . ', ';
@@ -1850,7 +1850,11 @@ class DocumentController extends Controller
             }
 
             $rqTable = $cell->addTable();
-
+            if ($shortCompanyName) {
+                $rqTable->addRow();
+                $rqCell = $rqTable->addCell($headerRqWidth);
+                $rqCell->addText($shortCompanyName, $headerTextStyle, $headerRqParagraf);
+            }
             if ($first) {
                 $rqTable->addRow();
                 $rqCell = $rqTable->addCell($headerRqWidth);
