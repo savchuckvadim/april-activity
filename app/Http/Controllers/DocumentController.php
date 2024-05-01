@@ -2245,7 +2245,8 @@ class DocumentController extends Controller
                 ) {
                     if ($field['description']) {
                         $letterText = $field['description'];
-                        $letterText = str_replace("\\n", "\n", $letterText);
+                        // $letterText = str_replace("\\n", "\n", $letterText);
+                        $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
                     }
                 }
             }
@@ -2257,13 +2258,12 @@ class DocumentController extends Controller
         $inHighlight = false;
         foreach ($parts as $part) {
             // Разбиваем часть на подстроки по символам переноса строки
-            $subparts = preg_split("/\r\n|\n|\\n|\r/", $part);
+            $subparts = preg_split("/\r\n|\n|\r/", $part);
             foreach ($subparts as $subpart) {
+                $subpart = trim($subpart);  // Удаление лишних пробелов в начале и конце строки
                 if ($inHighlight) {
-                    // Добавление выделенного текста
                     $textRun->addText($subpart, $corporateletterTextStyle, $styles['paragraphs']['align']['both']);
                 } else {
-                    // Добавление обычного текста
                     $textRun->addText($subpart, $letterTextStyle, $styles['paragraphs']['align']['both']);
                 }
                 // Добавление разрыва строки после каждой подстроки, кроме последней
@@ -2273,7 +2273,6 @@ class DocumentController extends Controller
             }
             $inHighlight = !$inHighlight;
         }
-
 
 
         return $section;
