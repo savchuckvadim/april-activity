@@ -2256,24 +2256,28 @@ class DocumentController extends Controller
         $textRun = $section->addTextRun();
 
         $inHighlight = false;
+        $currentStyle = $letterTextStyle;
         foreach ($parts as $part) {
+            if ($part === '<color>') {
+                $inHighlight = true;
+                $currentStyle = $corporateletterTextStyle; // переключаем стиль на выделенный
+                continue; // пропускаем сам тег
+            } elseif ($part === '</color>') {
+                $inHighlight = false;
+                $currentStyle = $letterTextStyle; // возвращаем стиль к обычному тексту
+                continue; // пропускаем сам тег
+            }
+        
             // Разбиваем часть на подстроки по символам переноса строки
             $subparts = preg_split("/\r\n|\n|\r/", $part);
             foreach ($subparts as $subpart) {
-                $subpart = trim($subpart);  // Удаление лишних пробелов в начале и конце строки
-                if ($inHighlight) {
-                    $textRun->addText($subpart, $corporateletterTextStyle, $styles['paragraphs']['align']['both']);
-                } else {
-                    $textRun->addText($subpart, $letterTextStyle, $styles['paragraphs']['align']['both']);
-                }
+                $textRun->addText($subpart, $currentStyle, $styles['paragraphs']['align']['both']);
                 // Добавление разрыва строки после каждой подстроки, кроме последней
                 if ($subpart !== end($subparts)) {
                     $textRun->addTextBreak(1);
                 }
             }
-            $inHighlight = !$inHighlight;
         }
-
 
         return $section;
     }
