@@ -1034,12 +1034,13 @@ class BitrixDealDocumentService
 
 
         $currentSmart = null;
+        $data = [];
         try {
             if (isset($smart)) {
                 if (isset($smart['crmId'])) {
                     $method = '/crm.item.list.json';
                     $url = $this->hook . $method;
-                    $data = [];
+                   
                     if ($companyId) {
                         $data =  [
                             'entityTypeId' => $smart['crmId'],
