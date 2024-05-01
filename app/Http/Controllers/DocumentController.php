@@ -709,14 +709,14 @@ class DocumentController extends Controller
                     // Переменная для отслеживания, находимся ли мы в выделенном блоке
                     $inHighlight = false;
 
-                    if ($withLetter) {
+                    // if ($withLetter) {
                         $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
-                        if ($withStamps) {
-                            $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                        }
-
+                        // if ($withStamps) {
+                        //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                        // }
+                        $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
                         $section->addPageBreak();
-                    }
+                    // }
 
                     $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
                     if ($withStamps) {
@@ -726,12 +726,12 @@ class DocumentController extends Controller
                     $section->addPageBreak();
 
 
-                    $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
-                    if ($withStamps) {
-                        $section->addTextBreak(2);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    }
-                    $section->addPageBreak();
+                    // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+                    // if ($withStamps) {
+                    //     $section->addTextBreak(2);
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
+                    // $section->addPageBreak();
 
 
 
