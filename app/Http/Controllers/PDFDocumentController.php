@@ -226,11 +226,11 @@ class PDFDocumentController extends Controller
                             // );
                             // $documents = $documentService->getDocuments();
                             $documentController = new DocumentController();
-                            $documents = $documentController->getDocument($data);
-                            return APIController::getSuccess(
-                                $documents
+                            return $documentController->getDocument($data);
+                            // return APIController::getSuccess(
+                            //     $documents
 
-                            );
+                            // );
                         }
                     } else {
 
