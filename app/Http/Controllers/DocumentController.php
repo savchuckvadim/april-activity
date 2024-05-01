@@ -2241,6 +2241,7 @@ class DocumentController extends Controller
                 ) {
                     if ($field['description']) {
                         $letterText = $field['description'];
+                        $letterText = str_replace("\\n", "\n", $letterText);
                     }
                 }
             }
