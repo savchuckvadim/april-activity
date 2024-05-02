@@ -108,8 +108,16 @@ class PDFDocumentController extends Controller
                         $salePhrase = $data['salePhrase'];
                     }
 
-
-
+                    $priceFirst = false;
+                    if (!empty($data['settings'])) {
+                        if (!empty($data['settings']['isPriceFirst'])) {
+                            if (!empty($data['settings']['isPriceFirst']['current'])) {
+                                if (!empty($data['settings']['isPriceFirst']['current']['id'])) {
+                                    $priceFirst = true; //0 - no 1 -yes
+                                }
+                            }
+                        }
+                    }
 
                     $complect = $data['complect'];
 
@@ -180,6 +188,10 @@ class PDFDocumentController extends Controller
 
 
 
+                    $regions = null;
+                    if (isset($data['regions'])) {
+                        $regions = $data['regions'];
+                    }
 
 
                     //document data
@@ -187,7 +199,7 @@ class PDFDocumentController extends Controller
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
                     $footerData  = $this->getFooterData($manager, $domain);
                     $letterData  = $this->getLetterData($documentNumber, $fields, $recipient, $domain);
-                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps);
+                    $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps, $priceFirst, $regions);
                     //testing       // $bigDescriptionData  = $this->getBigDescriptionData($complect, $complectName);
                     $bigDescriptionData = [];
                     $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false);
@@ -257,12 +269,12 @@ class PDFDocumentController extends Controller
                         ));
 
                         return APIController::getSuccess(['job' => 'get it !']);
-                    }
+                    // }
 
 
                     //testing todo props $bigDescriptionData
 
-                // }
+                }
             }
         } catch (\Throwable $th) {
             Log::channel('telegram')->info('APRIL_ONLINE Service result', ['error messages' => $th->getMessage()]);
@@ -756,7 +768,7 @@ class PDFDocumentController extends Controller
 
 
 
-    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps)
+    protected function getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps, $priceFirst, $regions)
     {
         $descriptionMode = $infoblocksOptions['description']['id'];
         $styleMode = $infoblocksOptions['style'];
@@ -771,7 +783,14 @@ class PDFDocumentController extends Controller
         ];
         $currentPageItemsCount = 0;
         $erSubstring = "Пакет Энциклопедий решений";
+        $allRegions = [];
 
+        foreach ($regions as $weightType) {
+            foreach ($weightType as $rgn) {
+                array_push($allRegions, $rgn);
+            }
+        }
+        $allRegionsCount = count($allRegions);
         // Проверка наличия подстроки в строке без учета регистра
 
         foreach ($complect as $group) {
@@ -793,6 +812,48 @@ class PDFDocumentController extends Controller
                         // Замена в тексте
                         $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
                         $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
+
+                        if ($allRegionsCount > 1) {
+                            $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . '\\n А также законодательство регионов: \\n';
+                            $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . '\\n А также законодательство регионов: \\n';
+                            $regFirstCount = 0;
+                            foreach ($allRegions as $index => $rgn) {
+
+
+                                if ($rgn['infoblock'] === $infoblock['title']) {
+                                    $regFirstCount += 1;
+                                }
+                                if ($rgn['infoblock'] !== $infoblock['title']) {
+                                    $title = $rgn['title'];
+
+
+                                    if ($index > $regFirstCount) {
+                                        $title = ', ' . $rgn['title'];
+                                    }
+
+
+                                    $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . $title;
+                                    $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
+                                }
+
+
+
+
+                                if ($descriptionMode == 0) {
+
+
+                                    // Log::channel('console')->info('tst infoblock', ['rgn' => $rgn]);
+                                    // Log::channel('console')->info('tst infoblock', ['infoblock' => $infoblock['title']]);
+
+                                    if ($rgn['infoblock'] !== $infoblock['title']) {
+                                        // $infoblockDataRegion = Infoblock::where('code', $rgn['code'])->first();
+                                        $rgn['name'] = $rgn['infoblock'];
+                                        $groupItems[] = $rgn;
+                                        array_push($currentPage['items'], $rgn);
+                                    }
+                                }
+                            }
+                        }
                     }
                     if ($infoblockData) {
                         $groupItems[] = $infoblockData;
@@ -803,6 +864,7 @@ class PDFDocumentController extends Controller
                 // Распределение элементов группы по страницам
                 while (!empty($groupItems)) {
                     $spaceLeft = $itemsPerPage - $currentPageItemsCount; // Сколько элементов помещается на страницу
+
                     if ($spaceLeft == 0) {
                         // Если на текущей странице нет места, переходим к следующей
                         $pages[] = $currentPage;
@@ -818,11 +880,37 @@ class PDFDocumentController extends Controller
                     $itemsToAdd = array_splice($groupItems, 0, $spaceLeft); // Элементы, которые поместятся на страницу
                     if (!empty($itemsToAdd)) {
                         // Добавляем часть группы на текущую страницу
+
                         $currentPage['groups'][] = [
                             'name' => $group['groupsName'],
                             'items' => $itemsToAdd
                         ];
                         $currentPageItemsCount += count($itemsToAdd);
+                        if ($group['groupsName'] == 'Нормативно-правовые акты') {
+                            if ($group['groupsName'] == 'Нормативно-правовые акты') {
+                                // Log::channel('console')->info('ITEMS', ['items' => $itemsToAdd]);
+                                if ($allRegionsCount > 10) {
+
+                                    $currentPageItemsCount += 1;
+                                }
+                                if ($allRegionsCount > 20) {
+
+                                    $currentPageItemsCount += 1;
+                                    if ($styleMode == 'table') {
+                                        $currentPageItemsCount += 2;
+                                    }
+                                    //
+                                }
+                                if ($allRegionsCount > 30) {
+
+                                    $currentPageItemsCount += 1;
+                                }
+                                if ($allRegionsCount > 30) {
+
+                                    $currentPageItemsCount += 1;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -832,7 +920,9 @@ class PDFDocumentController extends Controller
         if (!empty($currentPage['groups'])) {
             $pages[] = $currentPage;
         }
-        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps);
+
+
+        $withPrice = $this->getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps, $priceFirst);
         $result = [
             'styleMode' => $styleMode,
             'descriptionMode' => $descriptionMode,
@@ -988,13 +1078,13 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 32;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 9;
+                $itemsPerPage = 10;
             } else if ($descriptionMode === 2) {
-                $itemsPerPage = 6;
+                $itemsPerPage = 8;
             }
         } else if ($styleMode === 'table') {
             if ($descriptionMode === 0 || $descriptionMode === 3) {
-                $itemsPerPage = 40;
+                $itemsPerPage = 60;
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 18;
             } else  if ($descriptionMode === 2) {
@@ -1004,9 +1094,9 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 24;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 10;
+                $itemsPerPage = 11;
             } else if ($descriptionMode === 2) {
-                $itemsPerPage = 7;
+                $itemsPerPage = 9;
             }
         }
 
@@ -1255,7 +1345,7 @@ class PDFDocumentController extends Controller
         ];
     }
 
-    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps)
+    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps, $priceFirst)
     {
         $isWithPrice = false;
         $salePhraseLength = mb_strlen($salePhrase, "UTF-8");
@@ -1276,107 +1366,113 @@ class PDFDocumentController extends Controller
         }
 
 
+        if (!$priceFirst) {
+            if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4) || ($productsCount < 2)) {
 
-        if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4) || ($productsCount < 2)) {
+                if ($styleMode === 'list') {
 
-            if ($styleMode === 'list') {
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 20) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 5) {
+                            $isWithPrice = true;
+                        }
+                    } else {
 
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 20) {
-                        $isWithPrice = true;
+                        if ($lastPageItemsCount < 5) {
+                            $isWithPrice = true;
+                        }
                     }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 5) {
-                        $isWithPrice = true;
+                } else if ($styleMode === 'table') {
+
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 38) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 12) {
+                            $isWithPrice = true;
+                        }
+                    } else {
+
+                        if ($lastPageItemsCount < 9) {
+                            $isWithPrice = true;
+                        }
                     }
                 } else {
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 15) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 7) {
+                            $isWithPrice = true;
+                        }
+                    } else {
 
-                    if ($lastPageItemsCount < 5) {
-                        $isWithPrice = true;
+                        if ($lastPageItemsCount < 6) {
+                            $isWithPrice = true;
+                        }
                     }
                 }
-            } else if ($styleMode === 'table') {
+            } else if ($productsCount < 5 && ($salePhraseLength < 500 || $entersCount < 4)) {    //если товаров больше или текст описания большой
 
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 38) {
-                        $isWithPrice = true;
+
+                if ($styleMode === 'list') {
+
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 10) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 3) {
+                            $isWithPrice = true;
+                        }
+                    } else {
+
+                        if ($lastPageItemsCount < 2) {
+                            $isWithPrice = true;
+                        }
                     }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 12) {
-                        $isWithPrice = true;
+                } else if ($styleMode === 'table') {
+
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 14) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 9) {
+                            $isWithPrice = true;
+                        }
+                    } else {
+
+                        if ($lastPageItemsCount < 4) {
+                            $isWithPrice = true;
+                        }
                     }
                 } else {
+                    if ($descriptionMode === 0) {
+                        if ($lastPageItemsCount < 7) {
+                            $isWithPrice = true;
+                        }
+                    } else if ($descriptionMode === 1) {
+                        if ($lastPageItemsCount < 6) {
+                            $isWithPrice = true;
+                        }
+                    } else {
 
-                    if ($lastPageItemsCount < 9) {
-                        $isWithPrice = true;
-                    }
-                }
-            } else {
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 15) {
-                        $isWithPrice = true;
-                    }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 7) {
-                        $isWithPrice = true;
-                    }
-                } else {
-
-                    if ($lastPageItemsCount < 6) {
-                        $isWithPrice = true;
+                        if ($lastPageItemsCount < 3) {
+                            $isWithPrice = true;
+                        }
                     }
                 }
             }
-        } else if ($productsCount < 5 && ($salePhraseLength < 500 || $entersCount < 4)) {    //если товаров больше или текст описания большой
+        } else {
+            if ($productsCount < 4 || ($productsCount < 5 && $entersCount < 4) || ($productsCount < 6 && $entersCount < 1)) {
 
-
-            if ($styleMode === 'list') {
-
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 10) {
-                        $isWithPrice = true;
-                    }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 3) {
-                        $isWithPrice = true;
-                    }
-                } else {
-
-                    if ($lastPageItemsCount < 2) {
-                        $isWithPrice = true;
-                    }
-                }
-            } else if ($styleMode === 'table') {
-
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 14) {
-                        $isWithPrice = true;
-                    }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 9) {
-                        $isWithPrice = true;
-                    }
-                } else {
-
-                    if ($lastPageItemsCount < 4) {
-                        $isWithPrice = true;
-                    }
-                }
-            } else {
-                if ($descriptionMode === 0) {
-                    if ($lastPageItemsCount < 7) {
-                        $isWithPrice = true;
-                    }
-                } else if ($descriptionMode === 1) {
-                    if ($lastPageItemsCount < 6) {
-                        $isWithPrice = true;
-                    }
-                } else {
-
-                    if ($lastPageItemsCount < 3) {
-                        $isWithPrice = true;
-                    }
-                }
+                $isWithPrice = true;
             }
         }
 

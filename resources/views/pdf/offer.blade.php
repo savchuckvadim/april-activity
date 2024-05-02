@@ -47,6 +47,7 @@
 
         p,
         span {
+            color: black;
             margin: 0px;
 
         }
@@ -86,6 +87,7 @@
             font-weight: bold;
             color: rgb(220, 26, 33);
         }
+
         .blue {
             font-weight: bold;
             color: rgb(48, 115, 230);
@@ -93,6 +95,7 @@
 
 
         }
+
         .bold {
             font-weight: bold;
 
@@ -105,14 +108,14 @@
 </head>
 
 <body {{-- style="background-image: url('{{ asset('imgs/background.jpg') }}');" --}}>
-   
+
     @component('pdf.components.header', ['headerData' => $headerData])
     @endcomponent
     @if ($withManager)
-    @component('pdf.components.footer', $footerData)
-    @endcomponent
+        @component('pdf.components.footer', $footerData)
+        @endcomponent
     @endif
-    
+
     @if ($headerData['isTwoLogo'])
         @component('pdf.components.doubleHeader', ['doubleHeaderData' => $doubleHeaderData])
         @endcomponent
@@ -123,10 +126,20 @@
 
             @component('pdf.components.letter', ['letterData' => $letterData])
             @endcomponent
-            @if ($withStamps)
+            @if ($withStamps && !$isPriceFirst)
                 <div class="stamp">
                     @component('pdf.components.stamp', $stampsData)
                     @endcomponent
+                </div>
+            @endif
+            @if ($isPriceFirst)
+                @if (!$infoblocksData['withPrice'])
+                    <div class="page-break"></div>
+                @endif
+                <div class="prices">
+                    @component('pdf.components.price', $pricesData)
+                    @endcomponent
+
                 </div>
             @endif
         </div>
@@ -136,21 +149,24 @@
             @component('pdf.components.infoblocks', $infoblocksData)
             @endcomponent
         </div>
-        @if (!$infoblocksData['withPrice'])
-            <div class="page-break"></div>
+
+        @if (!$isPriceFirst)
+            @if (!$infoblocksData['withPrice'])
+                <div class="page-break"></div>
+            @endif
+            <div class="prices">
+                @component('pdf.components.price', $pricesData)
+                @endcomponent
+                @if ($withStamps)
+                    <div class="stamp">
+                        @component('pdf.components.stamp', $stampsData)
+                        @endcomponent
+                    </div>
+                @endif
+
+            </div>
         @endif
 
-        <div class="prices">
-            @component('pdf.components.price', $pricesData)
-            @endcomponent
-            @if ($withStamps)
-                <div class="stamp">
-                    @component('pdf.components.stamp', $stampsData)
-                    @endcomponent
-                </div>
-            @endif
-
-        </div>
         {{-- @if ($infoblocksData['descriptionMode'] === 3)
             <div class="page-break"></div>
             <div class="infoblocks">

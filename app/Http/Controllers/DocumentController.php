@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Mockery\Undefined;
 use morphos\Gender;
 use morphos\Russian\MoneySpeller;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 use function morphos\Russian\detectGender;
 
@@ -48,7 +49,11 @@ class DocumentController extends Controller
             'color' => $colors['oficial'],
             'lang' => 'ru-RU',
         ];
-
+        $red = [
+            'name' => 'Arial',
+            'color' => $colors['atention'],
+            'lang' => 'ru-RU',
+        ];
         $baseCellMargin = 30;
         $baseCellMarginSmall = 10;
 
@@ -159,6 +164,16 @@ class DocumentController extends Controller
                         'spaceAfter' => 1,    // Интервал после абзаца
                         'spaceBefore' => 0,   // Интервал перед абзацем
                         'lineHeight' => 1.5,  // Высота строки
+                        // 'bold' => true,
+
+                    ],
+                    'red' => [
+                        ...$red,
+                        'size' => 9,
+                        'spaceAfter' => 1,    // Интервал после абзаца
+                        'spaceBefore' => 0,   // Интервал перед абзацем
+                        'lineHeight' => 1.5,  // Высота строки
+                        'bold' => true,
 
                     ],
                     'corporate' => [
@@ -242,7 +257,7 @@ class DocumentController extends Controller
 
                     ],
                     'both' => [
-                        'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH,
+                        'alignment' => 'both',
 
                     ]
 
@@ -572,7 +587,7 @@ class DocumentController extends Controller
     }
 
 
-    public function getDocument($data)
+    public function getDocument($data, $isPriceFirst, $withPrice)
     {
         $link = null;
         $manager = null;
@@ -581,7 +596,7 @@ class DocumentController extends Controller
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
-                    
+
 
                     $templateId = $template['id'];
                     $domain = $data['template']['portal'];
@@ -625,8 +640,16 @@ class DocumentController extends Controller
                             }
                         }
                     }
-
-
+                    $salePhrase = '';
+                    if (!empty($data['settings'])) {
+                        if (!empty($data['settings']['salePhrase'])) {
+                            if (!empty($data['settings']['salePhrase'])) {
+                                if (!empty($data['settings']['salePhrase']['value'])) {
+                                    $salePhrase = $data['settings']['salePhrase']['value'];
+                                }
+                            }
+                        }
+                    }
                     //infoblocks data
                     $infoblocksOptions = [
                         'description' => $data['infoblocks']['description']['current'],
@@ -646,8 +669,8 @@ class DocumentController extends Controller
 
 
                     //manager
-                   
-                    if(isset($data['manager'])){
+
+                    if (isset($data['manager'])) {
                         $manager = $data['manager'];
                     }
                     //UF_DEPARTMENT
@@ -661,6 +684,7 @@ class DocumentController extends Controller
 
                     //letter
                     $withLetter = false;
+
 
 
                     foreach ($fields as $field) {
@@ -722,19 +746,33 @@ class DocumentController extends Controller
                     // if ($withStamps) {
                     //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     // }
-                    $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+                    if ($isPriceFirst) {
+                        if (!$withPrice) {
+
+                            $section->addPageBreak();
+                        }
+                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
+                    }
+
                     $section->addPageBreak();
                     // }
 
                     $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-                    if ($withStamps) {
-                        $section->addTextBreak(1);
-                        $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // if ($withStamps) {
+                    //     $section->addTextBreak(1);
+                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    // }
+                    if (!$isPriceFirst) {
+                        if (!$withPrice) {
+                            $section->addPageBreak();
+                        }
+                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
                     }
-                    $section->addPageBreak();
 
 
-                    // $priceSection = $this->getPriceSection($section, $styles,  $data['price']);
+
+
+
                     // if ($withStamps) {
                     //     $section->addTextBreak(2);
                     //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
@@ -840,7 +878,7 @@ class DocumentController extends Controller
             //     ]
             // );
             $domain = null;
-            if(isset($data['domain'])){
+            if (isset($data['domain'])) {
                 $domain =  $data['domain'];
             }
             Log::channel('telegram')->error('APRIL_ONLINE', [
@@ -848,16 +886,14 @@ class DocumentController extends Controller
 
                     'domain' => $domain,
                     'manager' => $manager,
-                    
-                    'message' => 'document docx was not created :'. $th->getMessage(),
+
+                    'message' => 'document docx was not created :' . $th->getMessage(),
 
 
                 ]
             ]);
-            
+
             return $link;
-
-
         }
     }
 
@@ -1201,7 +1237,7 @@ class DocumentController extends Controller
         }
     }
 
-    protected function getPriceSection($section, $styles, $price)
+    protected function getPriceSection($section, $styles, $price, $salePhrase)
     {
         try {
             // $section->addPageBreak();
@@ -1454,6 +1490,12 @@ class DocumentController extends Controller
                 // $section->addText($textTotalSum, $styles['fonts']['text']['normal'],  $styles['paragraphs']['head'], $styles['paragraphs']['align']['right']);
             }
 
+            if ($salePhrase) {
+                $section->addTextBreak(1);
+                $this->getSalePhrase($section,$styles, $salePhrase);
+            }
+
+
 
             return $section;
         } catch (\Throwable $th) {
@@ -1463,6 +1505,72 @@ class DocumentController extends Controller
                 'message' => $th->getMessage()
             ];
         }
+    }
+
+    protected function getSalePhrase($section, $styles, $salePhrase)
+    {
+
+
+
+
+
+        $redFontStyle = $styles['fonts']['text']['red'];
+
+        $blueFontStyle = $styles['fonts']['text']['corporate'];;
+     
+        $boldFontStyle = $styles['fonts']['text']['bold'];;
+  
+
+        // Добавляем стиль для параграфа
+        $paragraphStyle = array('align' => Jc::BOTH);
+
+
+        // Предполагается, что $salePhraseText - это текст, который нужно обработать
+        $salePhraseText = $salePhrase;
+
+        // Разбиение текста на части
+        $parts = preg_split('/(<red>|<\/red>|<blue>|<\/blue>|<bold>|<\/bold>)/', $salePhraseText, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+   
+        $currentStyle = null;
+        foreach ($parts as $part) {
+            if (in_array($part, ['<red>', '</red>', '<blue>', '</blue>', '<bold>', '</bold>'])) {
+                // Меняем стиль в зависимости от тега
+                switch ($part) {
+                    case '<red>':
+                        $currentStyle = $redFontStyle;
+                        break;
+                    case '<blue>':
+                        $currentStyle = $blueFontStyle;
+                        break;
+                    case '<bold>':
+                        $currentStyle = $boldFontStyle;
+                        break;
+                    case '</red>':
+                    case '</blue>':
+                    case '</bold>':
+                        $currentStyle = null; // Возвращаем к нормальному стилю
+                        break;
+                }
+            } else {
+                // Обработка текста перед добавлением
+                $part = str_replace("\\n", "\n", $part);
+                $subparts = preg_split("/\r\n|\n|\r/", $part); // Разбиение на строки для обработки переносов
+                foreach ($subparts as $subpart) {
+                    // Замена звездочек на маркеры
+                    $subpart = preg_replace("/^\*/m", "•", $subpart);
+                    if ($currentStyle) {
+                        $section->addText($subpart, $currentStyle, $paragraphStyle);
+                    }
+                    //  else {
+                    //     $section->addText($subpart, null, $paragraphStyle);
+                    // }
+                    // Добавление разрыва строки после каждой подстроки, кроме последней
+                 
+                }
+            }
+        }
+        
     }
 
     protected function getPriceCell(
@@ -1980,7 +2088,7 @@ class DocumentController extends Controller
         $first = $shortCompanyName;
 
         if ($providerRq['inn']) {
-            $first = $first . '\n , ИНН: ' . $providerRq['inn'];
+            $first = $first . ', ИНН: ' . $providerRq['inn'];
         }
         if ($providerRq['kpp']) {
             $first = $first . ', КПП: ' . $providerRq['kpp'];
@@ -2183,10 +2291,14 @@ class DocumentController extends Controller
         $titleTextStyle = $styles['fonts']['h3'];
         $letterTextStyle = [
             ...$styles['fonts']['text']['normal'],
+            ...$styles['paragraphs']['align']['both'],
+            'size' => 10,
             'lineHeight' => 1.5
         ];
         $corporateletterTextStyle = [
             ...$styles['fonts']['text']['corporate'],
+            ...$styles['paragraphs']['align']['both'],
+            'size' => 10,
             'lineHeight' => 1.5
         ];
         $recipientTextStyle = $styles['fonts']['text']['small'];

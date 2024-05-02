@@ -75,6 +75,7 @@
                             </p>
                             @php
                                 $lastGroupName = $group['name'];
+
                             @endphp
                         @endif
 
@@ -84,17 +85,24 @@
 
                         @foreach ($group['items'] as $infoblock)
                             <p
-                                class="{{ $descriptionMode !== 0 && $descriptionMode !== 3  ? 'text-normal infoblock--title bold' : 'text-normal ' }}">
+                                class="{{ $descriptionMode !== 0 && $descriptionMode !== 3 ? 'text-normal infoblock--title bold' : 'text-normal ' }}">
                                 {{ $infoblock['name'] }}
                             </p>
 
                             @if ($descriptionMode === 1)
-                                <p class="text-normal small">
-                                    {{ $infoblock['shortDescription'] }}
-                                </p>
+                                @php
+
+                                    $descriptionText = str_replace("\\n", "\n", $infoblock['shortDescription']);
+                                @endphp
                             @elseif ($descriptionMode === 2)
+                                @php
+                                    $descriptionText = str_replace("\\n", "\n", $infoblock['descriptionForSale']);
+
+                                @endphp
+                            @endif
+                            @if ($descriptionMode !== 0)
                                 <p class="text-normal small">
-                                    {{ $infoblock['descriptionForSale'] }}
+                                    {!! nl2br(e($descriptionText)) !!}
                                 </p>
                             @endif
                         @endforeach
@@ -135,10 +143,30 @@
                                             {{ $item['name'] }}
                                         </div>
                                         @if ($descriptionMode === 1)
+                                            @php
+
+                                                $descriptionText = str_replace("\\n", "\n", $item['shortDescription']);
+                                            @endphp
+                                        @elseif ($descriptionMode === 2)
+                                            @php
+                                                $descriptionText = str_replace(
+                                                    "\\n",
+                                                    "\n",
+                                                    $item['descriptionForSale'],
+                                                );
+
+                                            @endphp
+                                        @endif
+                                        @if ($descriptionMode !== 0)
+                                            <p class="text-normal small">
+                                                {!! nl2br(e($descriptionText)) !!}
+                                            </p>
+                                        @endif
+                                        {{-- @if ($descriptionMode === 1)
                                             <div class="text-small">{{ $item['shortDescription'] }}</div>
                                         @elseif ($descriptionMode == 2)
                                             <div class="text-small">{{ $item['descriptionForSale'] }}</div>
-                                        @endif
+                                        @endif --}}
                                     @endif
                                 @endforeach
                             </td>
@@ -150,10 +178,30 @@
                                             class="{{ $descriptionMode === 1 || $descriptionMode === 2 ? 'text-normal color' : 'text-normal' }}">
                                             {{ $item['name'] }}
                                         </div>
-                                        @if ($descriptionMode === 1)
+                                        {{-- @if ($descriptionMode === 1)
                                             <div class="text-small">{{ $item['shortDescription'] }}</div>
                                         @elseif ($descriptionMode === 2)
                                             <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                        @endif --}}
+                                        @if ($descriptionMode === 1)
+                                            @php
+
+                                                $descriptionText = str_replace("\\n", "\n", $item['shortDescription']);
+                                            @endphp
+                                        @elseif ($descriptionMode === 2)
+                                            @php
+                                                $descriptionText = str_replace(
+                                                    "\\n",
+                                                    "\n",
+                                                    $item['descriptionForSale'],
+                                                );
+
+                                            @endphp
+                                        @endif
+                                        @if ($descriptionMode !== 0)
+                                            <p class="text-normal small">
+                                                {!! nl2br(e($descriptionText)) !!}
+                                            </p>
                                         @endif
                                     @endif
                                 @endforeach
@@ -208,16 +256,25 @@
                                 </tr>
                                 @if ($item['shortDescription'])
                                     @if ($descriptionMode === 1)
+                                        @php
+
+                                            $descriptionText = str_replace("\\n", "\n", $item['shortDescription']);
+                                        @endphp
                                         <tr>
+
                                             <td class="infoblocks-column-big">
-                                                <div class="text-normal">{{ $item['shortDescription'] }}</div>
+                                                <div class="text-normal"> {!! nl2br(e($descriptionText)) !!}</div>
                                             </td>
 
                                         </tr>
                                     @elseif ($descriptionMode === 2)
+                                        @php
+
+                                            $descriptionText = str_replace("\\n", "\n", $item['descriptionForSale']);
+                                        @endphp
                                         <tr>
                                             <td class="infoblocks-column-big">
-                                                <div class="text-small">{{ $item['descriptionForSale'] }}</div>
+                                                <div class="text-small"> {!! nl2br(e($descriptionText)) !!}</div>
                                             </td>
 
                                         </tr>

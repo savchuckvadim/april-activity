@@ -44,6 +44,8 @@ class BitrixDealDocumentService
 
     protected $withStamps;
     protected $withManager;
+    protected $withPrice;
+    protected $isPriceFirst;
 
     protected $userId;
     protected $aprilSmartData;
@@ -111,6 +113,19 @@ class BitrixDealDocumentService
         $this->dealId =  $dealId;
         $this->withStamps = $withStamps;
         $this->withManager = $withManager;
+        $this->isPriceFirst = false; //0 - no 1 -yes
+        if(!empty($data['settings'])){
+            if(!empty($data['settings']['isPriceFirst'])){
+                if(!empty($data['settings']['isPriceFirst']['current'])){
+                    if(!empty($data['settings']['isPriceFirst']['current']['id'])){
+                        $this->isPriceFirst = true; //0 - no 1 -yes
+                    }
+                }
+        
+            }
+    
+        }
+        $this->withPrice = $infoblocksData['withPrice']; // показывает прайс на отдельной странице или в продолжение темы
 
         $this->hook = BitrixController::getHook($domain);
 
@@ -245,7 +260,9 @@ class BitrixDealDocumentService
         if (isset($data['isWord'])) {
             if ($data['isWord'] == true) {
                 $documentDocsController = new DocumentController();
-                $offerLink = $documentDocsController->getDocument($this->data);
+                
+                
+                $offerLink = $documentDocsController->getDocument($this->data, $this->isPriceFirst, $this->withPrice);
             } else {
                 $isNeedPdfOffer = true;
             }
@@ -330,8 +347,8 @@ class BitrixDealDocumentService
                 'pricesData' => $this->pricesData,
                 'stampsData' =>  $this->stampsData,
                 'withStamps' =>   $this->withStamps,
-                'withManager' =>   $this->withManager
-
+                'withManager' =>   $this->withManager,
+                'isPriceFirst' => $this->isPriceFirst
                 // 'invoiceData' => $invoiceData,
             ]);
 
