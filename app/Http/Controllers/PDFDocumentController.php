@@ -784,7 +784,7 @@ class PDFDocumentController extends Controller
         $currentPageItemsCount = 0;
         $erSubstring = "Пакет Энциклопедий решений";
         $allRegions = [];
-
+        $allRegionsCount = 0;
         if (!empty($regions)) {
 
             foreach ($regions as $weightType) {
