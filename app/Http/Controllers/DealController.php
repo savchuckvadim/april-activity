@@ -35,6 +35,9 @@ class DealController extends Controller
                 // 'product' => $request->product,
     
             ];
+            if(isset($request->regions)){
+                $deal['regions'] = $request->regions;
+            }
             $resultDeal = null;
             $resultCode = 1;
             $message = 'something wrong with saving deal';
