@@ -244,31 +244,31 @@ class PDFDocumentController extends Controller
                     //     }
                     // } else {
 
-                        dispatch(new BitrixDealDocumentJob(
-                            $domain,
-                            $placement,
-                            $userId,
-                            $providerRq,
-                            $documentNumber,
-                            $data,
-                            $invoiceDate,
-                            $headerData,
-                            $doubleHeaderData,
-                            $footerData,
-                            $letterData,
-                            $infoblocksData,
-                            $bigDescriptionData,
-                            $pricesData,
-                            $stampsData,
-                            $isTwoLogo,
-                            $isGeneralInvoice,
-                            $isAlternativeInvoices,
-                            $dealId,
-                            $withStamps,
-                            $withManager
-                        ));
+                    dispatch(new BitrixDealDocumentJob(
+                        $domain,
+                        $placement,
+                        $userId,
+                        $providerRq,
+                        $documentNumber,
+                        $data,
+                        $invoiceDate,
+                        $headerData,
+                        $doubleHeaderData,
+                        $footerData,
+                        $letterData,
+                        $infoblocksData,
+                        $bigDescriptionData,
+                        $pricesData,
+                        $stampsData,
+                        $isTwoLogo,
+                        $isGeneralInvoice,
+                        $isAlternativeInvoices,
+                        $dealId,
+                        $withStamps,
+                        $withManager
+                    ));
 
-                        return APIController::getSuccess(['job' => 'get it !']);
+                    return APIController::getSuccess(['job' => 'get it !']);
                     // }
 
 
@@ -785,12 +785,16 @@ class PDFDocumentController extends Controller
         $erSubstring = "Пакет Энциклопедий решений";
         $allRegions = [];
 
-        foreach ($regions as $weightType) {
-            foreach ($weightType as $rgn) {
-                array_push($allRegions, $rgn);
+        if (!empty($regions)) {
+
+            foreach ($regions as $weightType) {
+                foreach ($weightType as $rgn) {
+                    array_push($allRegions, $rgn);
+                }
             }
+            $allRegionsCount = count($allRegions);
         }
-        $allRegionsCount = count($allRegions);
+
         // Проверка наличия подстроки в строке без учета регистра
 
         foreach ($complect as $group) {
