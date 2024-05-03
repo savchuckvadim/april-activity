@@ -35,13 +35,13 @@ class DealController extends Controller
                 // 'product' => $request->product,
     
             ];
-            if(isset($request['regions'])){
-                $deal['regions'] = $request['regions'];
+            if(isset($request->regions)){
+                $deal['regions'] = $request->regions;
 
                 Log::channel('telegram')->info('APRIL_ONLINE', [
                     'regions' => [
     
-                        'regions' => $request['regions'],
+                        'regions' => $request->regions,
                        
     
     
