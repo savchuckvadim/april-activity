@@ -22,6 +22,7 @@ class Deal extends Model
         'result',
         'rows',
         'userId',
+        'regions'
         
        
         
