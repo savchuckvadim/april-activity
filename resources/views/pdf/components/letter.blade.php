@@ -41,11 +41,11 @@
             </div>
             <div class="cellItem"></div>
             <div class="cellItem letter-rq-right">
-                @if ($letterData['recipientCase'] !== null)
-                <p class="text-small">
-                    {{ $letterData['recipientCase'] }}
-                </p>
-            @endif
+                @if ($letterData['positionCase'] !== null)
+                    <p class="text-small">
+                        {{ $letterData['positionCase'] }}
+                    </p>
+                @endif
                 @if ($letterData['companyName'] !== null)
                     <p class="text-small">
                         {{ $letterData['companyName'] }}
@@ -58,12 +58,13 @@
                         </p>
                     @endif
                 @endif
-                @if ($letterData['positionCase'] !== null)
+
+                @if ($letterData['recipientCase'] !== null)
                     <p class="text-small">
-                        {{ $letterData['positionCase'] }}
+                        {{ $letterData['recipientCase'] }}
                     </p>
                 @endif
-              
+
             </div>
         </div>
 
@@ -73,7 +74,7 @@
         @if ($letterData['appeal'] !== null)
             <div class="letter-title-wrapper">
                 <p class='text-large bold recipientName'>
-                    {{ $letterData['appeal'] }} 
+                    {{ $letterData['appeal'] }}
                 </p>
             </div>
         @endif
@@ -87,7 +88,7 @@
                     $baseClass = 'text-large';
                 }
                 $letterText = str_replace("\\n", "\n", $letterText);
-               
+
                 // Разбиваем по тегам, сохраняя их в результате
                 $parts = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
                 $inHighlight = false;
