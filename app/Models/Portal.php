@@ -111,18 +111,18 @@ class Portal extends Model
     }
 
 
-        // Метод для получения первой сделки
-        public function smart()
-        {
-            $smart = $this->smarts()->first();
-            if ($smart) {
-                $smart = new SmartResource($smart);
-            } else {
-                $smart = null;
-            }
-    
-            return  $smart; // или latest() в зависимости от того, какой элемент считается "первым"
+    // Метод для получения первой сделки
+    public function smart()
+    {
+        $smart = $this->smarts()->first();
+        if ($smart) {
+            $smart = new SmartResource($smart);
+        } else {
+            $smart = null;
         }
+
+        return  $smart; // или latest() в зависимости от того, какой элемент считается "первым"
+    }
 
 
     // Метод для получения первой сделки
@@ -194,8 +194,7 @@ class Portal extends Model
             'apiName' => 'portal',
             'title' => 'Создание Портала',
             'entityType' => 'entity',
-            'groups' => 
-            [
+            'groups' => [[
                 'groupName' => 'Создание портала',
                 'type' => 'portal',
                 'isCanAddField' => false,
@@ -260,7 +259,7 @@ class Portal extends Model
                         'isCanAddField' => false,
                     ]
                 ]
-            ],
+            ],]
         ];
     }
 }
