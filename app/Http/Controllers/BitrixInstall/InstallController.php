@@ -12,18 +12,37 @@ class InstallController extends Controller
 {
     static function field()
     {
-        $domain = 'april-dev.bitrix24.ru';
+        // $domain = 'april-dev.bitrix24.ru';
+        $domain = 'gsr.bitrix24.ru';
         $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
         $url = $hook . $method;
-        $fields = [
-            "FIELD_NAME" => "MY_STRING",
-            "EDIT_FORM_LABEL" => "Моя строка",
-            "LIST_COLUMN_LABEL" => "Моя строка",
-            "USER_TYPE_ID" => "string",
-            "XML_ID" => "MY_STRING",
-            "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
+        // $fields = [ //string
+        //     "FIELD_NAME" => "MY_STRING",
+        //     "EDIT_FORM_LABEL" => "Моя строка",
+        //     "LIST_COLUMN_LABEL" => "Моя строка",
+        //     "USER_TYPE_ID" => "string",
+        //     "XML_ID" => "MY_STRING",
+        //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
+        // ];
+        $fields = [ //list
+            "FIELD_NAME" => "Тип Договора",
+            "EDIT_FORM_LABEL" => "Тип Договора",
+            "LIST_COLUMN_LABEL" => "Тип Договора",
+            "USER_TYPE_ID" => "enumeration",
+            "LIST" => [
+                ["VALUE" => "Интернет"],
+                ["VALUE" => "Проксима"],
+                ["VALUE" => "Абонемент"],
+                ["VALUE" => "Лицензия"],
+                ["VALUE" => "Поставка"]
+
+            ],
+            "XML_ID" => "1684144993",
+            "SETTINGS" => ["LIST_HEIGHT" => 1],
+            "ORDER" => 2
         ];
+
         $data = [
             'fields' => $fields
         ];
