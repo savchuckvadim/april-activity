@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\InfoblockController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\AppOffer\TemplateController;
 use App\Http\Controllers\BitrixController;
+use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
@@ -378,7 +379,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
 
-       
+
     //REPORT
     Route::post('bitrix/calling', function (Request $request) {
         $domain = $request->domain;
@@ -403,11 +404,17 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return BitrixController::getListFilter($request);
     });
-
 });
 
 
 
+//INSTALL
+Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
+
+    Route::get('/install/deal/field', function () {
+        return InstallController::field();
+    });
+});
 
 
 

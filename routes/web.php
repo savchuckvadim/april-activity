@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Models\Link;
@@ -26,4 +27,6 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
-
+Route::get('/install/deal/field', function () {
+    return InstallController::field();
+});
