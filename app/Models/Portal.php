@@ -191,6 +191,10 @@ class Portal extends Model
     {
 
         return [
+            'apiName' => 'portal',
+            'title' => 'Создание Портала',
+            'entityType' => 'entity',
+            'groups' => 
             [
                 'groupName' => 'Создание портала',
                 'type' => 'portal',
