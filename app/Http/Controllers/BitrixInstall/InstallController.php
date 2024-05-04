@@ -26,7 +26,7 @@ class InstallController extends Controller
         //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
         // ];
         $fields = [ //list
-            "FIELD_NAME" => "1684144993",
+            "FIELD_NAME" => "TEST",
             "EDIT_FORM_LABEL" => "Тип Договора",
             "LIST_COLUMN_LABEL" => "Тип Договора",
             "USER_TYPE_ID" => "enumeration",
