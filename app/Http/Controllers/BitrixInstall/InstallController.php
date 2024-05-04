@@ -26,7 +26,7 @@ class InstallController extends Controller
         //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
         // ];
         $fields = [ //list
-            "FIELD_NAME" => "CONTRACT_TYPE_TEST",
+            "FIELD_NAME" => "1684144993",
             "EDIT_FORM_LABEL" => "Тип Договора",
             "LIST_COLUMN_LABEL" => "Тип Договора",
             "USER_TYPE_ID" => "enumeration",
@@ -35,10 +35,10 @@ class InstallController extends Controller
                 ["VALUE" => "Проксима"],
                 ["VALUE" => "Абонемент"],
                 ["VALUE" => "Лицензия"],
-                ["VALUE" => "Поставка"]
+                ["VALUE" => "Передача ключа"]
 
             ],
-            "XML_ID" => "1684144993",
+            "XML_ID" => "CONTRACT_TYPE",
             "SETTINGS" => ["LIST_HEIGHT" => 1],
             "ORDER" => 2
         ];
