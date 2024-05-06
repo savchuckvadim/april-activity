@@ -27,3 +27,8 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
+Route::get('/smart/install', function ($linkId) {
+    // $url = LinkController ::urlForRedirect($linkId);
+
+    return InstallController::installSmart();
+});
