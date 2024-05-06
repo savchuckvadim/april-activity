@@ -22,13 +22,16 @@ Route::get('/', function () {
 });
 
 Route::get('/link/{linkId}', function ($linkId) {
-    $url = LinkController ::urlForRedirect($linkId);
+    $url = LinkController::urlForRedirect($linkId);
 
     return redirect($url);
 });
 
-Route::get('/smart/install', function ($linkId) {
+Route::get('/smart/install/{linkId}', function ($linkId) {
     // $url = LinkController ::urlForRedirect($linkId);
-
-    return InstallController::installSmart();
+    if ($linkId == '34') {
+        return InstallController::installSmart();
+    }else{
+        return 'yo';
+    }
 });
