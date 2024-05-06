@@ -363,10 +363,13 @@ class InstallController extends Controller
             $existingDefaultCategory = null;
             if (!empty($currentCategories)) {
                 foreach ($currentCategories as $currentCategory) {
-                    if ($currentCategory['isDefault'] === 'Y') {
-                        $existingDefaultCategory = $currentCategory;
-                        break;
+                    if(isset($currentCategory['isDefault'])){
+                        if ($currentCategory['isDefault'] === 'Y') {
+                            $existingDefaultCategory = $currentCategory;
+                            break;
+                        }
                     }
+                    
                 }
             }
 
