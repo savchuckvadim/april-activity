@@ -28,20 +28,14 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
-Route::get('/smart/install/{linkId}', function ($linkId) {
+Route::get('/smart/install/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    if ($linkId == '34') {
-        return InstallController::installSmart();
-    }else{
-        return 'yo';
-    }
+
+    return InstallController::installSmart($token);
 });
 
-Route::get('/smart/install/deal/{pass}', function ($pass) {
+Route::get('/smart/install/deal/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    if ($pass == 'nmbrsdntl') {
-        return InstallDealController::installDealCtaegories();
-    }else{
-        return 'yo';
-    }
+
+    return InstallDealController::installDealCtaegories($token);
 });

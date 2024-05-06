@@ -16,6 +16,7 @@ class InstallController extends Controller
     public static function installSmart(
         // $domain,
         // $smarts
+        $token
     )
     {
         // $domain = 'gsr.bitrix24.ru';
@@ -321,107 +322,41 @@ class InstallController extends Controller
         // statusEntityId = 'DEAL_STAGE_3'
         // permissionEntity = 'DEAL_C3'
 
-        //         Компания
-        // entityTypeId = \CCrmOwnerType::Company = 4
-        // entityTypeName = \CCrmOwnerType::CompanyName = 'COMPANY'
-        // entityTypeAbbr = \CCrmOwnerTypeAbbr::Company = 'CO'
-        // userFieldEntityId = \CAllCrmCompany::USER_FIELD_ENTITY_ID = 'CRM_COMPANY'
 
-
-        //         Смарт-процесс с идентификатором типа 128 и идентификатором 1 (колонка ID в b_crm_dynamic_type), направление по умолчанию которого имеет id = 20
-        // entityTypeId = 128
-        // entityTypeName = 'DYNAMIC_128'
-        // entityTypeAbbr = 'T80'
-        // userFieldEntityId = 'CRM_1'
-        // statusEntityId = 'DYNAMIC_128_STAGE_20'
-        // permissionEntity = 'DYNAMIC_128_C20'
-        // suspendedEntityTypeId = 192
-        // suspendedEntityTypeName = 'SUS_DYNAMIC_128
-        // suspendedUserFieldEntityId = 'CRM_1_SPD'
 
 
         $methodCategoryList = '/crm.category.list.json';
         $url = $hook . $methodCategoryList;
 
-        // Получаем список существующих категорий
-        // $currentCategoriesResponse = Http::post($url, [
-        //     'entityTypeId' => $categories[0]['entityTypeId'],
-        //     'filter' => [
-        //         'entityTypeId' => $categories[0]['entityTypeId']
-        //     ]
-        // ]);
-
-        // $currentCategories = BitrixController::getBitrixResponse($currentCategoriesResponse, 'crm.category.list');
-        // if(!empty($currentCategories['items'])){
-        //     $currentCategories = $currentCategories['items'];
-        // }
-        // if(!empty($currentCategories['categories'])){
-        //     $currentCategories = $currentCategories['categories'];
+  
         // }
         $defaultCategoryId = null;
         $results = [];
 
         foreach ($categories as $category) {
             $categoryName = $category['name'];
-            $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
+            // $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
 
             // Ищем, есть ли уже категория по умолчанию
-            $existingDefaultCategory = null;
-            // if (!empty($currentCategories)) {
-            //     foreach ($currentCategories as $currentCategory) {
-            //         if(isset($currentCategory['isDefault'])){
-            //             if ($currentCategory['isDefault'] === 'Y') {
-            //                 $existingDefaultCategory = $currentCategory;
-            //                 break;
-            //             }
-            //         }
-                    
-            //     }
-            // }
-
-
-            // Если текущая категория по умолчанию не совпадает с требуемой
-            // if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
-            //     // Обновляем существующую категорию, делая ее не по умолчанию
-            //     $methodCategoryUpdate = '/crm.category.update.json';
-            //     $urlUpdate = $hook . $methodCategoryUpdate;
-            //     Http::post($urlUpdate, [
-            //         'id' => $existingDefaultCategory['id'],
-            //         'entityTypeId' => $category['entityTypeId'],
-            //         'fields' => [
-
-            //             'isDefault' => 'N'
-            //         ]
-            //     ]);
-            // }
-
-            // // Добавляем или обновляем категорию
-            // if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
-            //     // Обновляем существующую категорию
-            //     $methodCategoryInstall = '/crm.category.update.json';
-            //     $urlInstall = $hook . $methodCategoryInstall;
-            //     $categoryId = $existingDefaultCategory['id'];
-            // } else {
-                // Добавляем новую категорию
+            
                 $methodCategoryInstall = '/crm.category.add.json';
                 $urlInstall = $hook . $methodCategoryInstall;
                 $categoryId = null;
-            // }
+        
 
             $hookCategoriesData = [
-                'entityTypeId' => $category['entityTypeId'],
+                'entityTypeId' => 2,
+                // 'statusEntityId' => 'DEAL_STAGE_3',
                 'fields' => [
                     'name' => $categoryName,
                     'title' => $category['title'],
-                    'isDefault' => $isDefault,
+                    // 'isDefault' => $isDefault,
                     'sort' => $category['order'],
                     'code' => $category['code']
                 ]
             ];
 
-            // if ($categoryId !== null) {
-            //     $hookCategoriesData['id'] = $categoryId;
-            // }
+     
 
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
@@ -435,48 +370,15 @@ class InstallController extends Controller
                     $categoryId = $bitrixResponseCategory['category']['id'];
                 }
             }
-            // $categoryId = $bitrixResponseCategory['result'];
 
-            // if ($isDefault === 'Y') {
-            //     $defaultCategoryId = $categoryId;
-            // }
-
-            // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            //     'INSTALL' => [
-            //         'bitrixResponseCategory' => $bitrixResponseCategory
-            //     ]
-            // ]);
-
-            // Удаляем ненужные стадии
-            // $currentStagesResponse = Http::post($url, [
-            //     'entityTypeId' => $category['entityTypeId'],
-            //     'filter' => [
-            //         'entityTypeId' => $category['entityTypeId'],
-            //         'categoryId' => $categoryId
-            //     ]
-            // ]);
-            // $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
-            // $currentStages = $bitrixResponseCategory;
-            // if (isset($currentStages['items'])) {
-            //     $currentStages = $currentStages['items'];
-            // }
-            // if (!empty($currentStages)) {
-            //     foreach ($currentStages as $currentStage) {
-            //         if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
-            //             $methodStageDelete = '/crm.status.delete.json';
-            //             $urlDeleteStage = $hook . $methodStageDelete;
-            //             Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
-            //         }
-            //     }
-            // }
 
             Log::channel('telegram')->info("categoryId", [
-                'categoryId' => $categoryId,
+                'bitrixResponseCategory' => $bitrixResponseCategory,
 
             ]);
             // Создаем или обновляем стадии
-            $stages = InstallController::setStages($hook, $category, $categoryId);
-            array_push($results, $stages);
+            // $stages = InstallController::setStages($hook, $category, $categoryId);
+            // array_push($results, $stages);
         }
 
         return $results;
@@ -555,11 +457,7 @@ class InstallController extends Controller
 
         // ..............................................................entityTypeId
         // https://dev.1c-bitrix.ru/api_d7/bitrix/crm/dynamic/index.php
-        //         Лид
-        // entityTypeId = \CCrmOwnerType::Lead = 1
-        // entityTypeName = \CCrmOwnerType::LeadName = 'LEAD'
-        // entityTypeAbbr = \CCrmOwnerTypeAbbr::Lead = 'L'
-        // userFieldEntityId = \CAllCrmLead::USER_FIELD_ENTITY_ID = 'CRM_LEAD'
+
 
 
         $currentstagesMethod = '/crm.status.list.json';
@@ -580,47 +478,20 @@ class InstallController extends Controller
 
 
 
-        $callStages = [
-            [
-                'title' => 'Создан',
-                'name' => 'NEW',
-                'color' => '#832EF9',
-                'sort' => 10,
-            ],
-            [
-                'title' => 'Запланирован',
-                'name' => 'PLAN',
-                'color' => '#BA8BFC',
-                'sort' => 20,
-            ],
-            [
-                'title' => 'Просрочен',
-                'name' => 'PREPARATION',
-                'color' => '#A262FC',
-                'sort' => 30,
-            ],
-            [
-                'title' => 'Завершен без результата',
-                'name' => 'CLIENT',
-                'color' => '#7849BB',
-                'sort' => 40,
-            ],
-
-        ];
         $resultStages = [];
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
             foreach ($stages as $stage) {
 
                 //TODO: try get stage if true -> update stage else -> create
-                $entityId = 'DEAL_STAGE_' . $categoryId;
-                // $NEW_STAGE_STATUS_ID = $entityId . ':' . $stage['bitrixId'];
+                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
+                $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
                 $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $index => $currentStage) {
                     // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-                    if ($currentStage['STATUS_ID'] === $stage['bitrixId']) {
+                    if ($currentStage['STATUS_ID'] === $NEW_STAGE_STATUS_ID) {
                         // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
                         $isExist = $currentStage['ID'];
                     }
@@ -634,7 +505,8 @@ class InstallController extends Controller
 
                             'ID' => $isExist,
                             'fields' => [
-                              
+                                // 'STATUS_ID' => 'DT134_' . $category1Id . ':' . $callStage['name'],
+                                // "ENTITY_ID" => 'DYNAMIC_134_STAGE_' . $category1Id,
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
@@ -650,8 +522,8 @@ class InstallController extends Controller
 
                             // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
                             'fields' => [
-                                'STATUS_ID' => $stage['bitrixId'], //"DECISION",  // OFFER
-                                "ENTITY_ID" => $entityId   ,   // "DEAL_STAGE_1",
+                                'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
+                                "ENTITY_ID" => $dynamicId, //'DYNAMIC_134_STAGE_' . $categoryId,
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
