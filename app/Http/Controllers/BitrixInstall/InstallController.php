@@ -42,7 +42,7 @@ class InstallController extends Controller
         $googleData = json_decode($response->body(), true);
         Log::channel('telegram')->info('APRIL_ONLINE TEST', [
             'INSTALL' => [
-                'googleData response' => $googleData,
+                'googleData response' => $response,
 
 
             ]
