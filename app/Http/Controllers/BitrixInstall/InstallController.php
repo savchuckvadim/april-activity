@@ -38,7 +38,16 @@ class InstallController extends Controller
         $token = 'AKfycbxdomlG_F_VqXqWjIJuG_7HKjnCRH7vQeSBYWpshwqCVowrn_BP-Qpztb4_CLE_HmkA';
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
         $response = Http::get($url);
+      
         $googleData = $response->json();
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+            'INSTALL' => [
+                'googleData response' => $googleData,
+
+
+            ]
+        ]);
+
         $smarts =  null;
 
         // Log::info('portal', ['portal' => $portal]);
@@ -118,13 +127,21 @@ class InstallController extends Controller
 
             return APIController::getSuccess(['newSmart' => $newSmart,  'categories' => $categories,]);
         } catch (\Throwable $th) {
-            // Log::error('ERROR: Exception caught', [
-            //     'message'   => $th->getMessage(),
-            //     'file'      => $th->getFile(),
-            //     'line'      => $th->getLine(),
-            //     'trace'     => $th->getTraceAsString(),
-            // ]);
-            // return APIOnlineController::getResponse(1, $th->getMessage(), null);
+            Log::error('ERROR: Exception caught', [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                'INSTALL' => [
+                    'message'   => $th->getMessage(),
+                    'file'      => $th->getFile(),
+                    'line'      => $th->getLine(),
+                    'trace'     => $th->getTraceAsString(),
+                ]
+            ]);
+            return APIController::getError($th->getMessage(), null);
         }
     }
     static function setFields(
