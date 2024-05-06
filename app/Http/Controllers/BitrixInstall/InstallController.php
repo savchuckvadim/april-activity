@@ -37,16 +37,18 @@ class InstallController extends Controller
         $categories = null;
         $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
-        // $response = Http::get($url);
-      
-        $googleData = Http::get($url)->json();
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            'INSTALL' => [
-                'googleData response' => $googleData,
-
-
-            ]
-        ]);
+        $response = Http::get($url);
+        if ($response->successful()) {
+            $googleData = $response->json();
+            
+        } else {
+            // Log the error
+            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+            return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
+        }
 
         $smarts =  null;
 
@@ -62,7 +64,7 @@ class InstallController extends Controller
             if (!empty($googleData['smarts'])) {
                 $smarts =  $googleData['smarts'];
 
-          
+
                 foreach ($smarts as $smart) {
                     $hookSmartInstallData = [
                         'fields' => [
@@ -99,7 +101,7 @@ class InstallController extends Controller
                     //     $stages = InstallController::setStages($hook, $category,);
                 }
             }
-            
+
             // $entityId = env('APRIL_BITRIX_SMART_MAIN_ID');
 
 
