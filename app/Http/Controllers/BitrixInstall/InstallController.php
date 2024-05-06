@@ -92,7 +92,7 @@ class InstallController extends Controller
                     // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
                
-                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
+                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
 
 
                     $categories = InstallController::setCategories($hook, $smart['categories']);
