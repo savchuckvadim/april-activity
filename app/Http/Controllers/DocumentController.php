@@ -741,11 +741,11 @@ class DocumentController extends Controller
                     // Переменная для отслеживания, находимся ли мы в выделенном блоке
                     $inHighlight = false;
 
-                    // if ($withLetter) {
-                    // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
-                    // if ($withStamps) {
-                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    // }
+                    if ($withLetter) {
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        // if ($withStamps) {
+                        //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    }
                     if ($isPriceFirst) {
                         if (!$withPrice) {
 
@@ -1492,7 +1492,7 @@ class DocumentController extends Controller
 
             if ($salePhrase) {
                 $section->addTextBreak(1);
-                $this->getSalePhrase($section,$styles, $salePhrase);
+                $this->getSalePhrase($section, $styles, $salePhrase);
             }
 
 
@@ -1517,9 +1517,9 @@ class DocumentController extends Controller
         $redFontStyle = $styles['fonts']['text']['red'];
 
         $blueFontStyle = $styles['fonts']['text']['corporate'];;
-     
+
         $boldFontStyle = $styles['fonts']['text']['bold'];;
-  
+
 
         // Добавляем стиль для параграфа
         $paragraphStyle = array('align' => Jc::BOTH);
@@ -1531,7 +1531,7 @@ class DocumentController extends Controller
         // Разбиение текста на части
         $parts = preg_split('/(<red>|<\/red>|<blue>|<\/blue>|<bold>|<\/bold>)/', $salePhraseText, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-   
+
         $currentStyle = null;
         foreach ($parts as $part) {
             if (in_array($part, ['<red>', '</red>', '<blue>', '</blue>', '<bold>', '</bold>'])) {
@@ -1566,11 +1566,10 @@ class DocumentController extends Controller
                     //     $section->addText($subpart, null, $paragraphStyle);
                     // }
                     // Добавление разрыва строки после каждой подстроки, кроме последней
-                 
+
                 }
             }
         }
-        
     }
 
     protected function getPriceCell(
@@ -1979,7 +1978,7 @@ class DocumentController extends Controller
             }
             $second = $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
-                $third = 'Тел.: +' . $providerRq['phone'];
+                $third = 'Тел.: ' . $providerRq['phone'];
             }
             if ($providerRq['email']) {
                 $third = $third . ', e-mail: ' . $providerRq['email'];
@@ -2303,6 +2302,12 @@ class DocumentController extends Controller
         ];
         $recipientTextStyle = $styles['fonts']['text']['small'];
 
+        $boldTextStyle = [
+            ...$styles['fonts']['text']['bold'],
+            ...$styles['paragraphs']['align']['both'],
+            'size' => 10,
+            'lineHeight' => 1.5
+        ];
 
         $fullWidth = $styles['page']['pageSizeW'];
         $marginRight = $section->getStyle()->getMarginRight();
@@ -2315,6 +2320,7 @@ class DocumentController extends Controller
         ];
 
 
+      
 
 
 
@@ -2397,31 +2403,32 @@ class DocumentController extends Controller
                 }
             }
         }
-        $parts = preg_split('/(<color>|<\/color>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
 
 
         $textRun = $section->addTextRun();
 
         $inHighlight = false;
         $currentStyle = $letterTextStyle;
-        foreach ($parts as $part) {
+        foreach ($letterText as $part) {
             if ($part === '<color>') {
-                $inHighlight = true;
-                $currentStyle = $corporateletterTextStyle; // переключаем стиль на выделенный
-                continue; // пропускаем сам тег
+                $currentStyle = $corporateletterTextStyle;
             } elseif ($part === '</color>') {
-                $inHighlight = false;
-                $currentStyle = $letterTextStyle; // возвращаем стиль к обычному тексту
-                continue; // пропускаем сам тег
-            }
-
-            // Разбиваем часть на подстроки по символам переноса строки
-            $subparts = preg_split("/\r\n|\n|\r/", $part);
-            foreach ($subparts as $subpart) {
-                $textRun->addText($subpart, $currentStyle, $styles['paragraphs']['align']['both']);
-                // Добавление разрыва строки после каждой подстроки, кроме последней
-                if ($subpart !== end($subparts)) {
-                    $textRun->addTextBreak(1);
+                $currentStyle = $letterTextStyle;
+            } elseif ($part === '<bold>') {
+                $currentStyle = $boldTextStyle;
+            } elseif ($part === '</bold>') {
+                $currentStyle = $letterTextStyle;
+            } else {
+                // Break part into subparts
+                $subparts = preg_split("/\r\n|\n|\r/", $part);
+                foreach ($subparts as $subpart) {
+                    $textRun->addText($subpart, $currentStyle, $styles['paragraphs']['align']['both']);
+                    if ($subpart !== end($subparts)) {
+                        $textRun->addTextBreak(1);
+                    }
                 }
             }
         }
