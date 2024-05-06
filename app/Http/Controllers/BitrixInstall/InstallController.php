@@ -37,12 +37,12 @@ class InstallController extends Controller
         $categories = null;
         $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
-        $response = Http::get($url);
+        // $response = Http::get($url);
       
-        $googleData = json_decode($response->body(), true);
+        $googleData = Http::get($url)->json();
         Log::channel('telegram')->info('APRIL_ONLINE TEST', [
             'INSTALL' => [
-                'googleData response' => $response,
+                'googleData response' => $googleData,
 
 
             ]
