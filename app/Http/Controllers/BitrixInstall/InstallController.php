@@ -416,8 +416,10 @@ class InstallController extends Controller
 
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
-            $categoryId = $bitrixResponseCategory;
-
+         
+            if (isset($bitrixResponseCategory['id'])) {
+                $categoryId = $bitrixResponseCategory['id'];
+            }
             // $categoryId = $bitrixResponseCategory['result'];
 
             if ($isDefault === 'Y') {
