@@ -2397,16 +2397,17 @@ class DocumentController extends Controller
                 ) {
                     if ($field['description']) {
                         $letterText = $field['description'];
-                        // $letterText = str_replace("\\n", "\n", $letterText);
+                        $letterText = str_replace("\\n", "\n", $letterText);
                         // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
-                        $letterText = $this->processLineBreaks($letterText);
+                        // $letterText = $this->processLineBreaks($letterText);
                     }
                 }
             }
         }
+        $letterText = str_replace("●", "•", $letterText); // Replace "●" with "•"
         $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH]);
+        $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
 
 
         $textRun = $section->addTextRun();
@@ -2424,9 +2425,9 @@ class DocumentController extends Controller
                 $currentStyle = $letterTextStyle;
             } else {
                 // Break part into subparts
-                $subparts = preg_split("/\r\n|\n|\r/", $part);
+                $subparts = explode("\n", $part);
                 foreach ($subparts as $subpart) {
-                    $textRun->addText($subpart, $currentStyle, $styles['paragraphs']['align']['both']);
+                    $textRun->addText(trim($subpart), $currentStyle);
                     if ($subpart !== end($subparts)) {
                         $textRun->addTextBreak(1);
                     }
