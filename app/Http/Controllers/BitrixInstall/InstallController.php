@@ -562,6 +562,7 @@ class InstallController extends Controller
                 //TODO: try get stage if true -> update stage else -> create
                 $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
                 $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
+                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE' . $categoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $index => $currentStage) {
@@ -598,7 +599,7 @@ class InstallController extends Controller
                             'statusId' =>  $statusId, //'DT134_' . $categoryId,
                             'fields' => [
                                 'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
-                                "ENTITY_ID" => $stage['bitrixEnitiyId'], //'DYNAMIC_134_STAGE_' . $categoryId,
+                                "ENTITY_ID" => $dynamicId, //'DYNAMIC_134_STAGE_' . $categoryId,
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
