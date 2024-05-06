@@ -345,6 +345,7 @@ class InstallController extends Controller
 
         // Получаем список существующих категорий
         $currentCategoriesResponse = Http::post($url, [
+            'entityTypeId' => $categories[0]['entityTypeId'],
             'filter' => [
                 'entityTypeId' => $categories[0]['entityTypeId']
             ]
