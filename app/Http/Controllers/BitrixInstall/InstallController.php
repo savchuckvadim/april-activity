@@ -427,10 +427,10 @@ class InstallController extends Controller
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
             
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
-            if (isset($bitrixResponseCategory['id'])) {
-                $categoryId = $bitrixResponseCategory['id'];
-            }
-            if (isset($bitrixResponseCategory['category'])) {
+            // if (isset($bitrixResponseCategory['id'])) {
+            //     $categoryId = $bitrixResponseCategory['id'];
+            // }
+            if (!empty($bitrixResponseCategory['category'])) {
                 if (isset($bitrixResponseCategory['category']['id'])) {
                     $categoryId = $bitrixResponseCategory['id'];
                 }
