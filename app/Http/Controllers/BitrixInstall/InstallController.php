@@ -34,7 +34,7 @@ class InstallController extends Controller
         //     ''
         // );
 
-      
+
         try {
             $portal = PortalController::innerGetPortal($domain);
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
@@ -342,22 +342,22 @@ class InstallController extends Controller
 
         $methodCategoryList = '/crm.category.list.json';
         $url = $hook . $methodCategoryList;
-        
+
         // Получаем список существующих категорий
         $currentCategoriesResponse = Http::post($url, [
             'filter' => [
                 'entityTypeId' => $categories[0]['entityTypeId']
             ]
         ]);
-    
-        $currentCategories = $currentCategoriesResponse->json()['result'];
+
+        $currentCategories = BitrixController::getBitrixResponse($currentCategoriesResponse, 'crm.category.list');
         $defaultCategoryId = null;
         $results = [];
-        
+
         foreach ($categories as $category) {
             $categoryName = $category['name'];
             $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
-    
+
             // Ищем, есть ли уже категория по умолчанию
             $existingDefaultCategory = null;
             foreach ($currentCategories as $currentCategory) {
@@ -366,7 +366,7 @@ class InstallController extends Controller
                     break;
                 }
             }
-    
+
             // Если текущая категория по умолчанию не совпадает с требуемой
             if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
                 // Обновляем существующую категорию, делая ее не по умолчанию
@@ -379,7 +379,7 @@ class InstallController extends Controller
                     ]
                 ]);
             }
-    
+
             // Добавляем или обновляем категорию
             if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
                 // Обновляем существующую категорию
@@ -392,7 +392,7 @@ class InstallController extends Controller
                 $urlInstall = $hook . $methodCategoryInstall;
                 $categoryId = null;
             }
-    
+
             $hookCategoriesData = [
                 'entityTypeId' => $category['entityTypeId'],
                 'fields' => [
@@ -403,25 +403,27 @@ class InstallController extends Controller
                     'code' => $category['code']
                 ]
             ];
-    
+
             if ($categoryId !== null) {
                 $hookCategoriesData['id'] = $categoryId;
             }
-    
+
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
-            $categoryId = $bitrixResponseCategory['result'];
-    
+            $categoryId = $bitrixResponseCategory;
+
+            // $categoryId = $bitrixResponseCategory['result'];
+
             if ($isDefault === 'Y') {
                 $defaultCategoryId = $categoryId;
             }
-    
+
             Log::channel('telegram')->info('APRIL_ONLINE TEST', [
                 'INSTALL' => [
                     'bitrixResponseCategory' => $bitrixResponseCategory
                 ]
             ]);
-    
+
             // Удаляем ненужные стадии
             $currentStagesResponse = Http::post($url, [
                 'filter' => [
@@ -429,8 +431,12 @@ class InstallController extends Controller
                     'categoryId' => $categoryId
                 ]
             ]);
-    
-            $currentStages = $currentStagesResponse->json()['result'];
+            $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
+            $currentStages = $bitrixResponseCategory;
+            if (isset($currentStages['items'])) {
+                $currentStages = $currentStages['items'];
+            }
+
             foreach ($currentStages as $currentStage) {
                 if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
                     $methodStageDelete = '/crm.status.delete.json';
@@ -438,14 +444,13 @@ class InstallController extends Controller
                     Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
                 }
             }
-    
+
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
             array_push($results, $stages);
         }
-    
+
         return $results;
-       
     }
 
 
