@@ -39,7 +39,7 @@ class InstallController extends Controller
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
         $response = Http::get($url);
       
-        $googleData = $response->json();
+        $googleData = json_decode($response->body(), true);
         Log::channel('telegram')->info('APRIL_ONLINE TEST', [
             'INSTALL' => [
                 'googleData response' => $googleData,
@@ -62,13 +62,7 @@ class InstallController extends Controller
             if (!empty($googleData['smarts'])) {
                 $smarts =  $googleData['smarts'];
 
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                    'INSTALL' => [
-                        'googleData' => $smarts,
-
-
-                    ]
-                ]);
+          
                 foreach ($smarts as $smart) {
                     $hookSmartInstallData = [
                         'fields' => [
