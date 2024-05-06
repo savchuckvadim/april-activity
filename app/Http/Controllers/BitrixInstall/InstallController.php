@@ -176,8 +176,8 @@ class InstallController extends Controller
     // portal->deal->where('group', 'sales')->first()
 
     {
-        // $domain = 'april-dev.bitrix24.ru';
-        $domain = 'gsr.bitrix24.ru';
+        $domain = 'april-dev.bitrix24.ru';
+        // $domain = 'gsr.bitrix24.ru';
         $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
         $url = $hook . $method;
@@ -303,22 +303,16 @@ class InstallController extends Controller
 
 
 
-
-        //         Сделка в направлении по умолчанию.
-        // entityTypeId = \CCrmOwnerType::Deal = 2
-        // entityTypeName = \CCrmOwnerType::DealName = 'DEAL'
-        // entityTypeAbbr = \CCrmOwnerTypeAbbr::Deal = 'D'
-        // userFieldEntityId = \CAllCrmDeal::USER_FIELD_ENTITY_ID = 'CRM_DEAL'
-        // statusEntityId = 'DEAL_STAGE'
-        // permissionEntity = 'DEAL'
-
-        //         Сделка в направлении с идентификатором 3
-        // entityTypeId = \CCrmOwnerType::Deal = 2
-        // entityTypeName = \CCrmOwnerType::DealName = 'DEAL'
-        // entityTypeAbbr = \CCrmOwnerTypeAbbr::Deal = 'D'
-        // userFieldEntityId = \CAllCrmDeal::USER_FIELD_ENTITY_ID = 'CRM_DEAL'
-        // statusEntityId = 'DEAL_STAGE_3'
-        // permissionEntity = 'DEAL_C3'
+        // Смарт-процесс с идентификатором типа 128 и идентификатором 1 (колонка ID в b_crm_dynamic_type), направление по умолчанию которого имеет id = 20
+        // entityTypeId = 128
+        // entityTypeName = 'DYNAMIC_128'
+        // entityTypeAbbr = 'T80'
+        // userFieldEntityId = 'CRM_1'
+        // statusEntityId = 'DYNAMIC_128_STAGE_20'
+        // permissionEntity = 'DYNAMIC_128_C20'
+        // suspendedEntityTypeId = 192
+        // suspendedEntityTypeName = 'SUS_DYNAMIC_128
+        // suspendedUserFieldEntityId = 'CRM_1_SPD'
 
 
 
@@ -343,7 +337,7 @@ class InstallController extends Controller
 
 
             $hookCategoriesData = [
-                'entityTypeId' => 2,
+                'entityTypeId' => $category['entityTypeId'],
                 // 'statusEntityId' => 'DEAL_STAGE_3',
                 'fields' => [
                     'name' => $categoryName,
@@ -499,6 +493,7 @@ class InstallController extends Controller
                     $methodStageInstall = '/crm.status.add.json';
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
+                        'statusId' => $statusId,
                         'fields' => [
                             'STATUS_ID' => $statusId,
                             'ENTITY_ID' => $dynamicId,
