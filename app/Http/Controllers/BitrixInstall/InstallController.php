@@ -432,7 +432,7 @@ class InstallController extends Controller
             // }
             if (!empty($bitrixResponseCategory['category'])) {
                 if (isset($bitrixResponseCategory['category']['id'])) {
-                    $categoryId = $bitrixResponseCategory['id'];
+                    $categoryId = $bitrixResponseCategory['category']['id'];
                 }
             }
             // $categoryId = $bitrixResponseCategory['result'];
