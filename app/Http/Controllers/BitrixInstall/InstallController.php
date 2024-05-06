@@ -91,10 +91,9 @@ class InstallController extends Controller
 
                     // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smartInstallResponse' => $smartInstallResponse]]);
+                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
 
-                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse->json(), 'productsSet');
-
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
 
                     $categories = InstallController::setCategories($hook, $smart['categories']);
                 }
@@ -114,7 +113,7 @@ class InstallController extends Controller
             ]);
         }
 
-        return response(['resultCode' => 0, 'message' => 'Installation successful'], 200);
+        return APIController::getSuccess(['newSmart' => $newSmart, 'categories' => $categories]);
     }
     static function setFields(
         $parentType, //deal company lead smart list
