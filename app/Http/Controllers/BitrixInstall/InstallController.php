@@ -17,8 +17,7 @@ class InstallController extends Controller
         // $domain,
         // $smarts
         $token
-    )
-    {
+    ) {
         // $domain = 'gsr.bitrix24.ru';
         $domain = 'april-dev.bitrix24.ru';
 
@@ -91,7 +90,7 @@ class InstallController extends Controller
 
                     // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
-               
+
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
 
 
@@ -327,7 +326,7 @@ class InstallController extends Controller
         $methodCategoryList = '/crm.category.list.json';
         $url = $hook . $methodCategoryList;
 
-  
+
         // }
         $defaultCategoryId = null;
         $results = [];
@@ -337,11 +336,11 @@ class InstallController extends Controller
             // $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
 
             // Ищем, есть ли уже категория по умолчанию
-            
-                $methodCategoryInstall = '/crm.category.add.json';
-                $urlInstall = $hook . $methodCategoryInstall;
-                $categoryId = null;
-        
+
+            $methodCategoryInstall = '/crm.category.add.json';
+            $urlInstall = $hook . $methodCategoryInstall;
+            $categoryId = null;
+
 
             $hookCategoriesData = [
                 'entityTypeId' => 2,
@@ -355,11 +354,11 @@ class InstallController extends Controller
                 ]
             ];
 
-     
+
 
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
-            
+
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
             // if (isset($bitrixResponseCategory['id'])) {
             //     $categoryId = $bitrixResponseCategory['id'];
@@ -371,9 +370,9 @@ class InstallController extends Controller
             }
 
 
-           
 
-           
+
+
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
             array_push($results, $stages);
@@ -461,89 +460,66 @@ class InstallController extends Controller
         $currentstagesMethod = '/crm.status.list.json';
         $url = $hook . $currentstagesMethod;
         $hookCurrentStagesData = [
-            'entityTypeId' => $category['entityTypeId'],
-            'entityId' => 'STATUS',
-            'categoryId' => $categoryId,
             'filter' => ['ENTITY_ID' => 'DYNAMIC_' . $category['entityTypeId'] . '_STAGE_' . $categoryId]
-
         ];
 
-
-        // // Log::info('CURRENT STAGES GET 134', ['currentStagesResponse' => $hookCurrentStagesData]);
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
-        $currentStages = $currentStagesResponse['result'];
-        // Log::info('CURRENT STAGES GET 134', ['currentStages' => $currentStages]);
-
-
+        $currentStages = $currentStagesResponse->json()['result'];
 
         $resultStages = [];
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
             foreach ($stages as $stage) {
 
-                //TODO: try get stage if true -> update stage else -> create
-                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
-                $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
+                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId . ':' . $stage['bitrixId'];
                 $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
                 $isExist = false;
-                foreach ($currentStages as $index => $currentStage) {
-                    // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-                    if ($currentStage['STATUS_ID'] === $NEW_STAGE_STATUS_ID) {
-                        // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
+                foreach ($currentStages as $currentStage) {
+                    if ($currentStage['STATUS_ID'] === $statusId) {
                         $isExist = $currentStage['ID'];
                     }
                 }
 
-                if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
+                if ($isExist) {
+                    // Update stage
                     $methodStageInstall = '/crm.status.update.json';
                     $url = $hook . $methodStageInstall;
-                    $hookStagesDataCalls  =
-                        [
-
-                            'ID' => $isExist,
-                            'fields' => [
-                                // 'STATUS_ID' => 'DT134_' . $category1Id . ':' . $callStage['name'],
-                                // "ENTITY_ID" => 'DYNAMIC_134_STAGE_' . $category1Id,
-                                'NAME' => $stage['title'],
-                                'TITLE' => $stage['title'],
-                                'SORT' => $stage['order'],
-                                'COLOR' => $stage['color']
-                                // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-                            ]
-                        ];
+                    $hookStagesDataCalls = [
+                        'ID' => $isExist,
+                        'fields' => [
+                            'NAME' => $stage['title'],
+                            'TITLE' => $stage['title'],
+                            'SORT' => $stage['order'],
+                            'COLOR' => $stage['color']
+                        ]
+                    ];
                 } else {
+                    // Create stage
                     $methodStageInstall = '/crm.status.add.json';
                     $url = $hook . $methodStageInstall;
-                    $hookStagesDataCalls  =
-                        [
-
-                            // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
-                            'fields' => [
-                                'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
-                                "ENTITY_ID" => $dynamicId, //'DYNAMIC_134_STAGE_' . $categoryId,
-                                'NAME' => $stage['title'],
-                                'TITLE' => $stage['title'],
-                                'SORT' => $stage['order'],
-                                'COLOR' => $stage['color']
-                                // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-                            ]
-                        ];
+                    $hookStagesDataCalls = [
+                        'fields' => [
+                            'STATUS_ID' => $statusId,
+                            'ENTITY_ID' => $dynamicId,
+                            'NAME' => $stage['title'],
+                            'TITLE' => $stage['title'],
+                            'SORT' => $stage['order'],
+                            'COLOR' => $stage['color']
+                        ]
+                    ];
                 }
 
                 Log::channel('telegram')->info("categoryId", [
                     'Stages Data' => $hookStagesDataCalls,
-    
-    
                 ]);
+
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
                 array_push($resultStages, $stageResultResponse);
-                // $bitrixResponseStage = $smartStageResponse->json();
-                // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
             }
-
-            return $resultStages;
         }
+
+        return $resultStages;
     }
 }
