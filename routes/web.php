@@ -33,18 +33,18 @@ Route::get('/link/{linkId}', function ($linkId) {
 Route::get('/install/deal/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
-    return InstallDealController::installDealCtaegories($token);
+    // return InstallDealController::installDealCtaegories($token);
 });
 
 Route::get('install/smart/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
-    return InstallController::installSmart($token);
+    // return InstallController::installSmart($token);
 });
 
 
 Route::get('/install/fields/{token}/{isSmart}', function ($token, $isSmart) {
     // $url = LinkController ::urlForRedirect($linkId);
 
-    return InstallFieldsController::setFields($token, $isSmart);
+    // return InstallFieldsController::setFields($token, $isSmart);
 });
