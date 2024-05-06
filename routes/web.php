@@ -45,6 +45,6 @@ Route::get('install/smart/{token}', function ($token) {
 
 Route::get('/install/fields/{token}/', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
-
-    return InstallFieldsController::setFields($token);
+    return 'yo';
+    // return InstallFieldsController::setFields($token);
 });
