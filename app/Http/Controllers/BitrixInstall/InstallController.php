@@ -464,7 +464,10 @@ class InstallController extends Controller
             //     }
             // }
 
+            Log::channel('telegram')->info("categoryId", [
+                'categoryId' => $categoryId,
 
+            ]);
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
             array_push($results, $stages);
