@@ -40,7 +40,6 @@ class InstallController extends Controller
         $response = Http::get($url);
         if ($response->successful()) {
             $googleData = $response->json();
-            
         } else {
             // Log the error
             Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
@@ -61,8 +60,8 @@ class InstallController extends Controller
 
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
-            if (!empty($googleData['smarts'])) {
-                $smarts =  $googleData['smarts'];
+            if (is_array($googleData) && !empty($googleData['smarts'])) {
+                $smarts = $googleData['smarts'];
 
 
                 foreach ($smarts as $smart) {
