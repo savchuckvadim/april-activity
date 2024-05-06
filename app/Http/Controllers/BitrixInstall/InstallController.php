@@ -344,20 +344,20 @@ class InstallController extends Controller
         $url = $hook . $methodCategoryList;
 
         // Получаем список существующих категорий
-        $currentCategoriesResponse = Http::post($url, [
-            'entityTypeId' => $categories[0]['entityTypeId'],
-            'filter' => [
-                'entityTypeId' => $categories[0]['entityTypeId']
-            ]
-        ]);
+        // $currentCategoriesResponse = Http::post($url, [
+        //     'entityTypeId' => $categories[0]['entityTypeId'],
+        //     'filter' => [
+        //         'entityTypeId' => $categories[0]['entityTypeId']
+        //     ]
+        // ]);
 
-        $currentCategories = BitrixController::getBitrixResponse($currentCategoriesResponse, 'crm.category.list');
-        if(!empty($currentCategories['items'])){
-            $currentCategories = $currentCategories['items'];
-        }
-        if(!empty($currentCategories['categories'])){
-            $currentCategories = $currentCategories['categories'];
-        }
+        // $currentCategories = BitrixController::getBitrixResponse($currentCategoriesResponse, 'crm.category.list');
+        // if(!empty($currentCategories['items'])){
+        //     $currentCategories = $currentCategories['items'];
+        // }
+        // if(!empty($currentCategories['categories'])){
+        //     $currentCategories = $currentCategories['categories'];
+        // }
         $defaultCategoryId = null;
         $results = [];
 
@@ -367,46 +367,46 @@ class InstallController extends Controller
 
             // Ищем, есть ли уже категория по умолчанию
             $existingDefaultCategory = null;
-            if (!empty($currentCategories)) {
-                foreach ($currentCategories as $currentCategory) {
-                    if(isset($currentCategory['isDefault'])){
-                        if ($currentCategory['isDefault'] === 'Y') {
-                            $existingDefaultCategory = $currentCategory;
-                            break;
-                        }
-                    }
+            // if (!empty($currentCategories)) {
+            //     foreach ($currentCategories as $currentCategory) {
+            //         if(isset($currentCategory['isDefault'])){
+            //             if ($currentCategory['isDefault'] === 'Y') {
+            //                 $existingDefaultCategory = $currentCategory;
+            //                 break;
+            //             }
+            //         }
                     
-                }
-            }
+            //     }
+            // }
 
 
             // Если текущая категория по умолчанию не совпадает с требуемой
-            if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
-                // Обновляем существующую категорию, делая ее не по умолчанию
-                $methodCategoryUpdate = '/crm.category.update.json';
-                $urlUpdate = $hook . $methodCategoryUpdate;
-                Http::post($urlUpdate, [
-                    'id' => $existingDefaultCategory['id'],
-                    'entityTypeId' => $category['entityTypeId'],
-                    'fields' => [
+            // if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
+            //     // Обновляем существующую категорию, делая ее не по умолчанию
+            //     $methodCategoryUpdate = '/crm.category.update.json';
+            //     $urlUpdate = $hook . $methodCategoryUpdate;
+            //     Http::post($urlUpdate, [
+            //         'id' => $existingDefaultCategory['id'],
+            //         'entityTypeId' => $category['entityTypeId'],
+            //         'fields' => [
 
-                        'isDefault' => 'N'
-                    ]
-                ]);
-            }
+            //             'isDefault' => 'N'
+            //         ]
+            //     ]);
+            // }
 
-            // Добавляем или обновляем категорию
-            if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
-                // Обновляем существующую категорию
-                $methodCategoryInstall = '/crm.category.update.json';
-                $urlInstall = $hook . $methodCategoryInstall;
-                $categoryId = $existingDefaultCategory['id'];
-            } else {
+            // // Добавляем или обновляем категорию
+            // if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
+            //     // Обновляем существующую категорию
+            //     $methodCategoryInstall = '/crm.category.update.json';
+            //     $urlInstall = $hook . $methodCategoryInstall;
+            //     $categoryId = $existingDefaultCategory['id'];
+            // } else {
                 // Добавляем новую категорию
                 $methodCategoryInstall = '/crm.category.add.json';
                 $urlInstall = $hook . $methodCategoryInstall;
                 $categoryId = null;
-            }
+            // }
 
             $hookCategoriesData = [
                 'entityTypeId' => $category['entityTypeId'],
@@ -419,9 +419,9 @@ class InstallController extends Controller
                 ]
             ];
 
-            if ($categoryId !== null) {
-                $hookCategoriesData['id'] = $categoryId;
-            }
+            // if ($categoryId !== null) {
+            //     $hookCategoriesData['id'] = $categoryId;
+            // }
 
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
