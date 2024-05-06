@@ -15,7 +15,8 @@ class InstallFieldsController extends Controller
 {
 
     static function setFields(
-        $token
+        $token,
+        $isSmart
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -116,6 +117,7 @@ class InstallFieldsController extends Controller
 
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
+           
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
@@ -124,14 +126,14 @@ class InstallFieldsController extends Controller
             if (!empty($googleData['fields'])) {
                 $fields = $googleData['fields'];
 
-              
+                
                 foreach ($fields as $field) {
 
-                    $multiple = false;
+                    $multiple = "N";
                     $type = $field['type'];
                     if($type == 'multiple'){
                         $type = 'string';
-                        $multiple = true;
+                        $multiple = "Y";
                     }
 
 
@@ -168,7 +170,25 @@ class InstallFieldsController extends Controller
 
                     $response = Http::post($url, $data);
                     $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                    // if($smartId){
+                    //     $method = '/userfieldconfig.add';
+                    //     $fieldsData['FIELD_NAME'] = $field['smart'];
+                    //     $fieldsData['FIELD_NAME'] = $field['smart'];
+                    // $url = $hook . $method;
+
+                    // $response = Http::post($url, $data);
+                    
+                    // // $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                    // }
                 }
+
+                //smart fields
+                if($isSmart){
+                    $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
+                }
+               
             };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
@@ -233,5 +253,59 @@ class InstallFieldsController extends Controller
         // XML_ID - внешний код значения. Параметр учитывается только при обновлении уже существующих значений элемента списка.
         // ID - идентификатор значения. Если он указан, то считается что это обновление существующего значения элемента списка, а не создание нового. Имеет смысл только при вызове методов *.userfield.update.
         // DEL - если равно Y, то существующий элемент списка будет удален. Применяется, если заполнен параметр ID.
+    }
+
+
+   public static function createFieldsForSmartProcesses($hook, $fields) {
+        // Step 1: Get all smart processes
+        $url = $hook . '/crm.type.list';
+        $response = Http::post($url);
+        $smartProcesses = $response->json()['result']['types'];
+    
+        // Step 2: Filter smart processes
+        $keywords = ['Продажи', 'Гарант', 'ТМЦ'];
+        $filteredSmartProcesses = array_filter($smartProcesses, function($process) use ($keywords) {
+            foreach ($keywords as $keyword) {
+                if (stripos($process['title'], $keyword) !== false) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    
+        // Step 3: Create user fields for filtered smart processes
+        foreach ($filteredSmartProcesses as $smartProcess) {
+            $smartId = $smartProcess['id'];
+            foreach ($fields as $field) {
+                $type = $field['type'] ?? 'string';
+                $multiple = $field['multiple'] ?? 'N';
+                $mandatory = $field['mandatory'] ?? 'N';
+                $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['name']);
+    
+                $fieldsData = [
+                    "moduleId" => "crm",
+                    "field" => [
+                        "entityId" => 'CRM_' . $smartId,
+                        "fieldName" => $fieldNameUpperCase,
+                        "userTypeId" => $type,
+                        "multiple" => $multiple,
+                        "mandatory" => $mandatory,
+                        "editFormLabel" => ["ru" => $field['name']],
+                        "enum" => $type === 'enumeration' ? array_map(function($item, $key) {
+                            return [
+                                "value" => $item,
+                                "sort" => $key + 1,
+                                "def" => 'N',
+                            ];
+                        }, $field['list'], array_keys($field['list'])) : [],
+                    ]
+                ];
+    
+                $method = '/userfieldconfig.add';
+                $url = $hook . $method;
+                $response = Http::post($url, $fieldsData);
+                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+            }
+        }
     }
 }
