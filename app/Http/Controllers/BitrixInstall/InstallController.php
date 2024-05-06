@@ -33,32 +33,32 @@ class InstallController extends Controller
         // );
 
         Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => 0]]);
-
-        $portal = PortalController::innerGetPortal($domain);
-        $newSmart = null;
-        $categories = null;
-        $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
-        $url = 'https://script.google.com/macros/s/' . $token . '/exec';
-        $response = Http::get($url);
-
-        if ($response->successful()) {
-            $googleData = $response->json();
-            Log::channel('telegram')->error("googleData", [
-                'googleData' => $googleData,
-
-            ]);
-        } else {
-            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-            return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
-        }
-
-        $smarts = null;
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
-
         try {
+            $portal = PortalController::innerGetPortal($domain);
+            $newSmart = null;
+            $categories = null;
+            $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
+            $url = 'https://script.google.com/macros/s/' . $token . '/exec';
+            $response = Http::get($url);
+
+            if ($response->successful()) {
+                $googleData = $response->json();
+                Log::channel('telegram')->error("googleData", [
+                    'googleData' => $googleData,
+
+                ]);
+            } else {
+                Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+                return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
+            }
+
+            $smarts = null;
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
+
+
             $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
@@ -105,7 +105,11 @@ class InstallController extends Controller
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
             ]);
-            return response(['resultCode' => 1, 'message' => 'An error occurred during installation'], 500);
+            return APIController::getError('An error occurred during installation', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
         }
 
         return response(['resultCode' => 0, 'message' => 'Installation successful'], 200);
