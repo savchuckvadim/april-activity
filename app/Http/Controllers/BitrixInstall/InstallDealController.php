@@ -41,7 +41,7 @@ class InstallDealController extends Controller
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
             $newSmart = null;
             $categories = null;
-            $token = 'AKfycbzZUDPWn5tLUzlL8hY4aCrCgmUtczLaJoKNq74xv2_2yimAcNoZAIhY6oBznVzISIr6';
+            // $token = 'AKfycbzZUDPWn5tLUzlL8hY4aCrCgmUtczLaJoKNq74xv2_2yimAcNoZAIhY6oBznVzISIr6';
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
 
@@ -69,7 +69,7 @@ class InstallDealController extends Controller
             // $url = $hook . $methodSmartInstall;
 
             // Проверка на массив
-            if (is_array($googleData) && !empty($googleData['deals'])) {
+            if (!empty($googleData['deals'])) {
                 $deals = $googleData['deals'];
 
                 foreach ($deals as $deal) {
