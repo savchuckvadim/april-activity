@@ -48,10 +48,10 @@ class InstallController extends Controller
             $googleData = $response->json();
         } else {
             // Log the error
-            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+            // Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+            //     'status' => $response->status(),
+            //     'body' => $response->body(),
+            // ]);
             return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
         }
 
@@ -99,7 +99,7 @@ class InstallController extends Controller
                             "availableEntityTypes" => ['COMPANY', 'DEAL', 'LEAD']
                         ]
                     ];
-                    $smartInstallResponse = Http::get($url, $hookSmartInstallData);
+                    $smartInstallResponse = Http::post($url, $hookSmartInstallData);
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
                     // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
@@ -253,7 +253,7 @@ class InstallController extends Controller
         $data = [
             'fields' => $fields
         ];
-        $response = Http::get($url, $data);
+        $response = Http::post($url, $data);
         // $responseData = $response->json();
         $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
         return APIController::getSuccess(['field' => $responseData]);
@@ -563,7 +563,7 @@ class InstallController extends Controller
 
 
         // // Log::info('CURRENT STAGES GET 134', ['currentStagesResponse' => $hookCurrentStagesData]);
-        $currentStagesResponse = Http::get($url, $hookCurrentStagesData);
+        $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
         $currentStages = $currentStagesResponse['result'];
         // Log::info('CURRENT STAGES GET 134', ['currentStages' => $currentStages]);
 
@@ -649,7 +649,7 @@ class InstallController extends Controller
                             ]
                         ];
                 }
-                $smartStageResponse = Http::get($url, $hookStagesDataCalls);
+                $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'productsSet');
                 array_push($results, $stageResultResponse);
                 // $bitrixResponseStage = $smartStageResponse->json();
