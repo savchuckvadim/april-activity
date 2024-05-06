@@ -52,7 +52,7 @@ class InstallController extends Controller
         }
 
         $smarts = null;
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smarts' => 0]]);
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
 
         try {
             $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
