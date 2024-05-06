@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BitrixInstall\InstallController;
+use App\Http\Controllers\BitrixInstall\InstallDealController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Models\Link;
@@ -31,6 +32,15 @@ Route::get('/smart/install/{linkId}', function ($linkId) {
     // $url = LinkController ::urlForRedirect($linkId);
     if ($linkId == '34') {
         return InstallController::installSmart();
+    }else{
+        return 'yo';
+    }
+});
+
+Route::get('/smart/install/deal/{pass}', function ($pass) {
+    // $url = LinkController ::urlForRedirect($linkId);
+    if ($pass == 'nmbrsdntl') {
+        return InstallDealController::installDealCtaegories();
     }else{
         return 'yo';
     }

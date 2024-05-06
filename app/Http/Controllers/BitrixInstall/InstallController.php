@@ -613,14 +613,14 @@ class InstallController extends Controller
             foreach ($stages as $stage) {
 
                 //TODO: try get stage if true -> update stage else -> create
-                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
-                $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
+                $entityId = 'DEAL_STAGE_' . $categoryId;
+                // $NEW_STAGE_STATUS_ID = $entityId . ':' . $stage['bitrixId'];
                 $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $index => $currentStage) {
                     // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-                    if ($currentStage['STATUS_ID'] === $NEW_STAGE_STATUS_ID) {
+                    if ($currentStage['STATUS_ID'] === $stage['bitrixId']) {
                         // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
                         $isExist = $currentStage['ID'];
                     }
@@ -634,8 +634,7 @@ class InstallController extends Controller
 
                             'ID' => $isExist,
                             'fields' => [
-                                // 'STATUS_ID' => 'DT134_' . $category1Id . ':' . $callStage['name'],
-                                // "ENTITY_ID" => 'DYNAMIC_134_STAGE_' . $category1Id,
+                              
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
@@ -651,8 +650,8 @@ class InstallController extends Controller
 
                             // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
                             'fields' => [
-                                'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
-                                "ENTITY_ID" => $dynamicId, //'DYNAMIC_134_STAGE_' . $categoryId,
+                                'STATUS_ID' => $stage['bitrixId'], //"DECISION",  // OFFER
+                                "ENTITY_ID" => $entityId   ,   // "DEAL_STAGE_1",
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
