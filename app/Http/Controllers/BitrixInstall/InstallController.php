@@ -355,6 +355,9 @@ class InstallController extends Controller
         if(!empty($currentCategories['items'])){
             $currentCategories = $currentCategories['items'];
         }
+        if(!empty($currentCategories['categories'])){
+            $currentCategories = $currentCategories['categories'];
+        }
         $defaultCategoryId = null;
         $results = [];
 
