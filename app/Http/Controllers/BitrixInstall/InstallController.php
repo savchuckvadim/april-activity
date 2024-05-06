@@ -377,8 +377,8 @@ class InstallController extends Controller
 
             ]);
             // Создаем или обновляем стадии
-            // $stages = InstallController::setStages($hook, $category, $categoryId);
-            // array_push($results, $stages);
+            $stages = InstallController::setStages($hook, $category, $categoryId);
+            array_push($results, $stages);
         }
 
         return $results;

@@ -29,7 +29,7 @@ Route::get('/link/{linkId}', function ($linkId) {
 });
 
 
-Route::get('/smart/install/deal/{token}', function ($token) {
+Route::get('/install/deal/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
     return InstallDealController::installDealCtaegories($token);
