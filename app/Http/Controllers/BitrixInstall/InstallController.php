@@ -374,6 +374,12 @@ class InstallController extends Controller
             Log::channel('telegram')->info("categoryId", [
                 'bitrixResponseCategory' => $bitrixResponseCategory,
 
+
+            ]);
+
+            Log::channel('telegram')->info("categoryId", [
+                'category' => $category,
+
             ]);
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
