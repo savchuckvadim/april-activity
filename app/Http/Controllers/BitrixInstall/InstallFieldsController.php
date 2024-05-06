@@ -93,7 +93,7 @@ class InstallFieldsController extends Controller
             //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
             // ];
             $portal = PortalController::innerGetPortal($domain);
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
+
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -118,7 +118,7 @@ class InstallFieldsController extends Controller
 
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-           
+
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
@@ -127,12 +127,12 @@ class InstallFieldsController extends Controller
             if (!empty($googleData['fields'])) {
                 $fields = $googleData['fields'];
 
-                
+
                 foreach ($fields as $field) {
 
                     $multiple = "N";
                     $type = $field['type'];
-                    if($type == 'multiple'){
+                    if ($type == 'multiple') {
                         $type = 'string';
                         $multiple = "Y";
                     }
@@ -179,20 +179,24 @@ class InstallFieldsController extends Controller
                     // $url = $hook . $method;
 
                     // $response = Http::post($url, $data);
-                    
+
                     // // $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
 
                     // }
                 }
 
                 //smart fields
-                if($isSmart){
+                if ($isSmart) {
                     $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
                 }
-               
             };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
@@ -257,15 +261,16 @@ class InstallFieldsController extends Controller
     }
 
 
-   public static function createFieldsForSmartProcesses($hook, $fields) {
+    public static function createFieldsForSmartProcesses($hook, $fields)
+    {
         // Step 1: Get all smart processes
         $url = $hook . '/crm.type.list';
         $response = Http::post($url);
         $smartProcesses = $response->json()['result']['types'];
-    
+
         // Step 2: Filter smart processes
         $keywords = ['Продажи', 'Гарант', 'ТМЦ'];
-        $filteredSmartProcesses = array_filter($smartProcesses, function($process) use ($keywords) {
+        $filteredSmartProcesses = array_filter($smartProcesses, function ($process) use ($keywords) {
             foreach ($keywords as $keyword) {
                 if (stripos($process['title'], $keyword) !== false) {
                     return true;
@@ -273,7 +278,7 @@ class InstallFieldsController extends Controller
             }
             return false;
         });
-    
+
         // Step 3: Create user fields for filtered smart processes
         foreach ($filteredSmartProcesses as $smartProcess) {
             $smartId = $smartProcess['id'];
@@ -282,7 +287,7 @@ class InstallFieldsController extends Controller
                 $multiple = $field['multiple'] ?? 'N';
                 $mandatory = $field['mandatory'] ?? 'N';
                 $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['name']);
-    
+
                 $fieldsData = [
                     "moduleId" => "crm",
                     "field" => [
@@ -292,7 +297,7 @@ class InstallFieldsController extends Controller
                         "multiple" => $multiple,
                         "mandatory" => $mandatory,
                         "editFormLabel" => ["ru" => $field['name']],
-                        "enum" => $type === 'enumeration' ? array_map(function($item, $key) {
+                        "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
                             return [
                                 "value" => $item,
                                 "sort" => $key + 1,
@@ -301,7 +306,7 @@ class InstallFieldsController extends Controller
                         }, $field['list'], array_keys($field['list'])) : [],
                     ]
                 ];
-    
+
                 $method = '/userfieldconfig.add';
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
