@@ -374,7 +374,9 @@ class InstallController extends Controller
                 $urlUpdate = $hook . $methodCategoryUpdate;
                 Http::post($urlUpdate, [
                     'id' => $existingDefaultCategory['id'],
+                    'entityTypeId' => $category['entityTypeId'],
                     'fields' => [
+
                         'isDefault' => 'N'
                     ]
                 ]);
