@@ -371,16 +371,9 @@ class InstallController extends Controller
             }
 
 
-            Log::channel('telegram')->info("categoryId", [
-                'bitrixResponseCategory' => $bitrixResponseCategory,
+           
 
-
-            ]);
-
-            Log::channel('telegram')->info("categoryId", [
-                'category' => $category,
-
-            ]);
+           
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
             array_push($results, $stages);
@@ -537,6 +530,12 @@ class InstallController extends Controller
                             ]
                         ];
                 }
+
+                Log::channel('telegram')->info("categoryId", [
+                    'Stages Data' => $hookStagesDataCalls,
+    
+    
+                ]);
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
                 array_push($resultStages, $stageResultResponse);
