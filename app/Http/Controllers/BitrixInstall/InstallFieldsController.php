@@ -284,9 +284,9 @@ sleep(2);
             $smartId = $smartProcess['id'];
             foreach ($fields as $field) {
                 $type = $field['type'] ?? 'string';
-                $multiple = $field['multiple'] ?? 'N';
-                $mandatory = $field['mandatory'] ?? 'N';
-                $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['name']);
+                $multiple = $field['multiple'] ? "Y" : 'N';
+                // $mandatory = $field['mandatory'] ?? 'N';
+                $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
                 $fieldsData = [
                     "moduleId" => "crm",
@@ -295,15 +295,15 @@ sleep(2);
                         "fieldName" => $fieldNameUpperCase,
                         "userTypeId" => $type,
                         "multiple" => $multiple,
-                        "mandatory" => $mandatory,
+                        // "mandatory" => $mandatory,
                         "editFormLabel" => ["ru" => $field['name']],
-                        "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
-                            return [
-                                "value" => $item,
-                                "sort" => $key + 1,
-                                "def" => 'N',
-                            ];
-                        }, $field['list'], array_keys($field['list'])) : [],
+                        // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
+                        //     return [
+                        //         "value" => $item,
+                        //         "sort" => $key + 1,
+                        //         "def" => 'N',
+                        //     ];
+                        // }, $field['list'], array_keys($field['list'])) : [],
                     ]
                 ];
 
@@ -311,7 +311,7 @@ sleep(2);
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
                 sleep(2);
-                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
             }
         }
     }
