@@ -157,21 +157,21 @@ class InstallFieldsController extends Controller
                     ];
                     $response = Http::post($url, $data);
                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
-
+sleep(2);
                     $method = '/crm.company.userfield.add';
                     $fieldsData['FIELD_NAME'] = $field['company'];
                     $url = $hook . $method;
 
                     $response = Http::post($url, $data);
                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
-
+                    sleep(2);
                     $method = '/crm.lead.userfield.add';
                     $fieldsData['FIELD_NAME'] = $field['lead'];
                     $url = $hook . $method;
 
                     $response = Http::post($url, $data);
                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
-
+                    sleep(2);
                     // if($smartId){
                     //     $method = '/userfieldconfig.add';
                     //     $fieldsData['FIELD_NAME'] = $field['smart'];
@@ -310,6 +310,7 @@ class InstallFieldsController extends Controller
                 $method = '/userfieldconfig.add';
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
+                sleep(2);
                 $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
             }
         }
