@@ -1,0 +1,461 @@
+{
+    "fields": [
+        {
+            "name": "Название ХО",
+            "type": "string",
+            "list": [],
+            "code": "xo_name",
+            "lead": "XO_NAME",
+            "company": "XO_NAME",
+            "deal": "XO_NAME",
+            "smart": "10_1703491835"
+        },
+        {
+            "name": "Дата ХО",
+            "type": "datetime",
+            "list": [],
+            "code": "xo_date",
+            "lead": "XO_DATE",
+            "company": "XO_DATE",
+            "deal": "XO_DATE",
+            "smart": "10_1701270138"
+        },
+        {
+            "name": "Ответственный ХО",
+            "type": "employee",
+            "list": [],
+            "code": "xo_responsible",
+            "lead": "XO_RESPONSIBLE",
+            "company": "XO_RESPONSIBLE",
+            "deal": "XO_RESPONSIBLE",
+            "smart": "6_1702652862"
+        },
+        {
+            "name": "Постановщик ХО",
+            "type": "employee",
+            "list": [],
+            "code": "xo_created",
+            "lead": "XO_CREATED",
+            "company": "XO_CREATED",
+            "deal": "XO_CREATED",
+            "smart": "6_1702453779"
+        },
+        {
+            "name": "Дата назначенной (следующей) презентации",
+            "type": "datetime",
+            "list": [],
+            "code": "next_pres_plan_date",
+            "lead": "NEXT_PRES_PLAN_DATE",
+            "company": "NEXT_PRES_PLAN_DATE",
+            "deal": "NEXT_PRES_PLAN_DATE",
+            "smart": "NEXT_PRES_PLAN_DATE"
+        },
+        {
+            "name": "Дата последней назначенной презентации",
+            "type": "datetime",
+            "list": [],
+            "code": "last_pres_plan_date",
+            "lead": "LAST_PRES_PLAN_DATE",
+            "company": "LAST_PRES_PLAN_DATE",
+            "deal": "LAST_PRES_PLAN_DATE",
+            "smart": "LAST_PRES_PLAN_DATE"
+        },
+        {
+            "name": "Дата последней проведенной презентации",
+            "type": "datetime",
+            "list": [],
+            "code": "last_pres_done_date",
+            "lead": "LAST_PRES_DONE_DATE",
+            "company": "LAST_PRES_DONE_DATE",
+            "deal": "LAST_PRES_DONE_DATE",
+            "smart": "LAST_PRES_DONE_DATE"
+        },
+        {
+            "name": "Кто назначил последнюю заявку на презентацию",
+            "type": "datetime",
+            "list": [],
+            "code": "last_pres_plan_responsible",
+            "lead": "LAST_PRES_PLAN_RESPONSIBLE",
+            "company": "LAST_PRES_PLAN_RESPONSIBLE",
+            "deal": "LAST_PRES_PLAN_RESPONSIBLE",
+            "smart": "LAST_PRES_PLAN_RESPONSIBLE"
+        },
+        {
+            "name": "Дата последней проведенной презентации",
+            "type": "datetime",
+            "list": [],
+            "code": "last_pres_done_date",
+            "lead": "LAST_PRES_DONE_DATE",
+            "company": "LAST_PRES_DONE_DATE",
+            "deal": "LAST_PRES_DONE_DATE",
+            "smart": "LAST_PRES_DONE_DATE"
+        },
+        {
+            "name": "Кто провел последнюю презентацию",
+            "type": "employee",
+            "list": [],
+            "code": "last_pres_done_responsible",
+            "lead": "LAST_PRES_DONE_RESPONSIBLE",
+            "company": "LAST_PRES_DONE_RESPONSIBLE",
+            "deal": "LAST_PRES_DONE_RESPONSIBLE",
+            "smart": "LAST_PRES_DONE_RESPONSIBLE"
+        },
+        {
+            "name": "Проведено презентаций (счетчик)",
+            "type": "integer",
+            "list": [],
+            "code": "pres_count",
+            "lead": "PRES_COUNT",
+            "company": 1709807026,
+            "deal": "PRES_COUNT",
+            "smart": "10_1709111529"
+        },
+        {
+            "name": "Комментарии после презентаций",
+            "type": "multiple",
+            "list": [],
+            "code": "pres_comments",
+            "lead": "PRES_COMMENTS",
+            "company": "PRES_COMMENTS",
+            "deal": "PRES_COMMENTS",
+            "smart": "PRES_COMMENTS"
+        },
+        {
+            "name": "Менеджер по продажам Гарант",
+            "type": "employee",
+            "list": [],
+            "code": "manager_op",
+            "lead": "MANAGER_OP",
+            "company": 1709798145,
+            "deal": "MANAGER_OP",
+            "smart": "MANAGER_OP"
+        },
+        {
+            "name": "Менеджер ТМЦ",
+            "type": "employee",
+            "list": [],
+            "code": "manager_tmc",
+            "lead": "MANAGER_TMC",
+            "company": "MANAGER_TMC",
+            "deal": "MANAGER_TMC",
+            "smart": "MANAGER_TMC"
+        },
+        {
+            "name": "Менеджер Отдела Сопровождения",
+            "type": "employee",
+            "list": [],
+            "code": "manager_os",
+            "lead": "MANAGER_OS",
+            "company": "MANAGER_OS",
+            "deal": "MANAGER_OS",
+            "smart": "MANAGER_OS"
+        },
+        {
+            "name": "Менеджер Отдела Обучения",
+            "type": "employee",
+            "list": [],
+            "code": "manager_edu",
+            "lead": "MANAGER_EDU",
+            "company": "MANAGER_EDU",
+            "deal": "MANAGER_EDU",
+            "smart": "MANAGER_EDU"
+        },
+        {
+            "name": "Дата Следующего звонка",
+            "type": "datetime",
+            "list": [],
+            "code": "call_next_date",
+            "lead": "CALL_NEXT_DATE",
+            "company": "CALL_NEXT_DATE",
+            "deal": "CALL_NEXT_DATE",
+            "smart": "10_1709907744"
+        },
+        {
+            "name": "Тема Следующего звонка",
+            "type": "datetime",
+            "list": [],
+            "code": "call_next_name",
+            "lead": "CALL_NEXT_NAME",
+            "company": "CALL_NEXT_NAME",
+            "deal": "CALL_NEXT_NAME",
+            "smart": "10_1709907850"
+        },
+        {
+            "name": "Дата последнего звонка",
+            "type": "datetime",
+            "list": [],
+            "code": "call_last_date",
+            "lead": "CALL_LAST_DATE",
+            "company": "CALL_LAST_DATE",
+            "deal": "CALL_LAST_DATE",
+            "smart": "CALL_LAST_DATE"
+        },
+        {
+            "name": "Запланировать",
+            "type": "boolean",
+            "list": [],
+            "code": "go_plan",
+            "lead": "GO_PLAN",
+            "company": 1696580389,
+            "deal": "GO_PLAN",
+            "smart": "10_1709466799"
+        },
+        {
+            "name": "ОП Текущая история работы",
+            "type": "string",
+            "list": [],
+            "code": "op_history",
+            "lead": "OP_HISTORY",
+            "company": "OP_HISTORY",
+            "deal": "OP_HISTORY",
+            "smart": "OP_HISTORY"
+        },
+        {
+            "name": "История (Комментарии)",
+            "type": "multiple",
+            "list": [],
+            "code": "op_history_multiple",
+            "lead": "OP_HISTORY_MULTIPLE",
+            "company": "OP_HISTORY_MULTIPLE",
+            "deal": "OP_HISTORY_MULTIPLE",
+            "smart": "10_1709883918"
+        },
+        {
+            "name": "Статус Работы (ОП Статус)",
+            "type": "enumeration",
+            "list": [
+                "В работе",
+                "На долгий период",
+                "Продажа",
+                "Отказ"
+            ],
+            "code": "op_work_status",
+            "lead": "OP_WORK_STATUS",
+            "company": "OP_WORK_STATUS",
+            "deal": "OP_WORK_STATUS",
+            "smart": "OP_WORK_STATUS"
+        },
+        {
+            "name": "Причины Отказов (ОП Неперспективная)",
+            "type": "enumeration",
+            "list": [
+                "Гарант/Запрет",
+                "Нет перспектив",
+                "Покупает ГО",
+                "Чужая территория",
+                "Бухприх",
+                "Аутсорсинг",
+                "Несамостоятельная организация",
+                "Отказ",
+                ""
+            ],
+            "code": "op_fail_reason",
+            "lead": "OP_FAIL_REASON",
+            "company": "OP_FAIL_REASON",
+            "deal": "OP_FAIL_REASON",
+            "smart": "OP_FAIL_REASON"
+        },
+        {
+            "name": "Комментарии после отказов",
+            "type": "multiple",
+            "list": [],
+            "code": "op_fail_comments",
+            "lead": "op_fail_comments",
+            "company": "op_fail_comments",
+            "deal": "op_fail_comments",
+            "smart": "op_fail_comments"
+        },
+        {
+            "name": "Причины нерезультативности",
+            "type": "enumeration",
+            "list": [
+                "Секретарь",
+                "Недозвон - трубку не берут",
+                "Недозвон - номер не существует",
+                "Занято",
+                "Перенос - не было времени",
+                "Контактера нет на месте",
+                "Просят оставить свой номер",
+                "Не интересует",
+                "до свидания",
+                "По телефону отвечает не та организация",
+                "Автоответчик"
+            ],
+            "code": "op_noresult_reason",
+            "lead": "OP_NORESULT_REASON",
+            "company": "OP_NORESULT_REASON",
+            "deal": "OP_NORESULT_REASON",
+            "smart": "OP_NORESULT_REASON"
+        },
+        {
+            "name": "Статус Клиента",
+            "type": "enumeration",
+            "list": [
+                "Свободен",
+                "ЧОК",
+                "НОК",
+                "ОК",
+                "Чужой КУП",
+                "Чужой КУП КК",
+                "Чужой КГУ РП",
+                "Свой КУП",
+                "Свой КУП КК",
+                "Свой КГУ РП"
+            ],
+            "code": "op_client_status",
+            "lead": "OP_CLIENT_STATUS",
+            "company": "OP_CLIENT_STATUS",
+            "deal": "OP_CLIENT_STATUS",
+            "smart": "OP_CLIENT_STATUS"
+        },
+        {
+            "name": "Перспективность",
+            "type": "enumeration",
+            "list": [
+                "Красный",
+                "Желтый",
+                "Зеленый"
+            ],
+            "code": "op_prospects",
+            "lead": "OP_PROSPECTS",
+            "company": "OP_PROSPECTS",
+            "deal": "OP_PROSPECTS",
+            "smart": "OP_PROSPECTS"
+        },
+        {
+            "name": "Тип",
+            "type": "enumeration",
+            "list": [
+                "Бюджетники",
+                "Коммерческие",
+                "ИП",
+                "Физ лицо",
+                "Адвокаты",
+                "Медицинское",
+                ""
+            ],
+            "code": "op_client_type",
+            "lead": "OP_CLIENT_TYPE",
+            "company": "OP_CLIENT_TYPE",
+            "deal": "OP_CLIENT_TYPE",
+            "smart": "OP_CLIENT_TYPE"
+        },
+        {
+            "name": "Конкуренты",
+            "type": "enumeration",
+            "list": [
+                "К+",
+                "Актион",
+                "Кодекс",
+                "1С",
+                "Контур",
+                "Интернет",
+                "Журналы"
+            ],
+            "code": "op_concurents",
+            "lead": "OP_CONCURENTS",
+            "company": "OP_CONCURENTS",
+            "deal": "OP_CONCURENTS",
+            "smart": "OP_CONCURENTS"
+        },
+        {
+            "name": "Категории",
+            "type": "enumeration",
+            "list": [
+                "ККК",
+                "КК",
+                "VIP",
+                "К",
+                "С",
+                "М",
+                ""
+            ],
+            "code": "op_category",
+            "lead": "OP_CATEGORY",
+            "company": "OP_CATEGORY",
+            "deal": "OP_CATEGORY",
+            "smart": "OP_CATEGORY"
+        },
+        {
+            "name": "ИНН ",
+            "type": "string",
+            "list": [],
+            "code": "op_inn",
+            "lead": "OP_INN",
+            "company": 1706007840,
+            "deal": 1695372881,
+            "smart": "OP_INN"
+        },
+        {
+            "name": "Должность (для КП)",
+            "type": "string",
+            "list": [],
+            "code": "op_position",
+            "lead": "OP_POSITION",
+            "company": 1695373326,
+            "deal": 1695373326,
+            "smart": "OP_POSITION"
+        },
+        {
+            "name": "Имя Текущего контактного Лица",
+            "type": "string",
+            "list": [],
+            "code": "op_name",
+            "lead": "OP_NAME",
+            "company": 1706007882,
+            "deal": 1695373462,
+            "smart": "OP_NAME"
+        },
+        {
+            "name": "Контактные лица ",
+            "type": "multiple",
+            "list": [],
+            "code": "op_contacts",
+            "lead": "OP_CONTACTS",
+            "company": "OP_CONTACTS",
+            "deal": "OP_CONTACTS",
+            "smart": "OP_CONTACTS"
+        },
+        {
+            "name": "companyId",
+            "type": "string",
+            "list": [],
+            "code": "op_smart_compani_id",
+            "lead": "OP_SMART_COMPANY_ID",
+            "company": "OP_SMART_COMPANY_ID",
+            "deal": "OP_SMART_COMPANY_ID",
+            "smart": "7_1698134405"
+        },
+        {
+            "name": "smartId",
+            "type": "string",
+            "list": [],
+            "code": "op_smart_id",
+            "lead": "OP_SMART_ID",
+            "company": "OP_SMART_ID",
+            "deal": "OP_SMART_ID",
+            "smart": "OP_SMART_ID"
+        },
+        {
+            "name": "lidId",
+            "type": "string",
+            "list": [],
+            "code": "op_smart_lid",
+            "lead": "OP_SMART_LID",
+            "company": "OP_SMART_LID",
+            "deal": "OP_SMART_LID",
+            "smart": "7_1697129037"
+        },
+        {
+            "name": "lidId's",
+            "type": "multiple",
+            "list": [],
+            "code": "op_smart_lids",
+            "lead": "OP_SMART_LIDS",
+            "company": "OP_SMART_LIDS",
+            "deal": "OP_SMART_LIDS",
+            "smart": "7_1697129081"
+        }
+    ],
+    "deals": []
+}

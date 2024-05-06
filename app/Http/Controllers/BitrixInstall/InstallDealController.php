@@ -41,7 +41,6 @@ class InstallDealController extends Controller
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
 
             $categories = null;
-            // $token = 'AKfycbzZUDPWn5tLUzlL8hY4aCrCgmUtczLaJoKNq74xv2_2yimAcNoZAIhY6oBznVzISIr6';
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
 

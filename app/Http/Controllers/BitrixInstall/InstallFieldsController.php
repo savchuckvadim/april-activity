@@ -13,16 +13,17 @@ use Illuminate\Support\Facades\Log;
 
 class InstallFieldsController extends Controller
 {
-  
+
     static function setFields(
-        $parentType, //deal company lead smart list
-        $type, //select, date, string,
-        $title, //отображаемое имя
-        $name, //имя в битрикс
-        $bitrixId, //id в bitrix UF_CRM
-        $bitrixCamelId, ////id в bitrix ufCrm
-        $code, ////для доступа из app например comment или actions и будет list->field where code == actions
-        $appOptions
+        $token
+        // $parentType, //deal company lead smart list
+        // $type, //select, date, string,
+        // $title, //отображаемое имя
+        // $name, //имя в битрикс
+        // $bitrixId, //id в bitrix UF_CRM
+        // $bitrixCamelId, ////id в bitrix ufCrm
+        // $code, ////для доступа из app например comment или actions и будет list->field where code == actions
+        // $appOptions
     )
 
     //TODO fields
@@ -78,9 +79,9 @@ class InstallFieldsController extends Controller
     {
         // $domain = 'april-dev.bitrix24.ru';
         $domain = 'gsr.bitrix24.ru';
-        $method = '/crm.deal.userfield.add';
+
         $hook = BitrixController::getHook($domain);
-        $url = $hook . $method;
+
         // $fields = [ //string
         //     "FIELD_NAME" => "MY_STRING",
         //     "EDIT_FORM_LABEL" => "Моя строка",
@@ -89,30 +90,78 @@ class InstallFieldsController extends Controller
         //     "XML_ID" => "MY_STRING",
         //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
         // ];
-        $fields = [ //list
-            "FIELD_NAME" => "TEST",
-            "EDIT_FORM_LABEL" => "Тип Договора",
-            "LIST_COLUMN_LABEL" => "Тип Договора",
-            "USER_TYPE_ID" => "enumeration",
-            "LIST" => [
-                ["VALUE" => "Интернет"],
-                ["VALUE" => "Проксима"],
-                ["VALUE" => "Абонемент"],
-                ["VALUE" => "Лицензия"],
-                ["VALUE" => "Передача ключа"]
+        $portal = PortalController::innerGetPortal($domain);
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
 
-            ],
-            "XML_ID" => "CONTRACT_TYPE",
-            "SETTINGS" => ["LIST_HEIGHT" => 1],
-            "ORDER" => 2
-        ];
+        $categories = null;
+        $url = 'https://script.google.com/macros/s/' . $token . '/exec';
+        $response = Http::get($url);
 
-        $data = [
-            'fields' => $fields
-        ];
-        $response = Http::post($url, $data);
-        // $responseData = $response->json();
-        $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+        if ($response->successful()) {
+            $googleData = $response->json();
+            Log::channel('telegram')->error("googleData", [
+                'googleData' => $googleData,
+
+            ]);
+        } else {
+            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+            return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
+        }
+
+
+
+
+        $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
+        $hook = 'https://' . $domain . '/' . $webhookRestKey;
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+        // $methodSmartInstall = '/crm.type.add.json';
+        // $url = $hook . $methodSmartInstall;
+
+        // Проверка на массив
+        if (!empty($googleData['fields'])) {
+            $fields = $googleData['fields'];
+         
+            foreach ($fields as $field) {
+                $method = '/crm.deal.userfield.add';
+                $url = $hook . $method;
+                $fieldsData = [ //list
+                    "FIELD_NAME" => $field['deal'],
+                    "EDIT_FORM_LABEL" => $field['name'],
+                    "LIST_COLUMN_LABEL" => $field['name'],
+                    "USER_TYPE_ID" => $field['type'],
+                    "LIST" => $field['list'],
+                    "XML_ID" => $field['code'],
+                    "SETTINGS" => ["LIST_HEIGHT" => 1],
+                    // "ORDER" => 2
+                ];
+
+                $data = [
+                    'fields' => $fieldsData
+                ];
+                $response = Http::post($url, $data);
+                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                $method = '/crm.company.userfield.add';
+                $fieldsData['FIELD_NAME'] = $field['company'];
+                $url = $hook . $method;
+
+                $response = Http::post($url, $data);
+                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                $method = '/crm.lead.userfield.add';
+                $fieldsData['FIELD_NAME'] = $field['lead'];
+                $url = $hook . $method;
+
+                $response = Http::post($url, $data);
+                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+            }
+        };
+
+
         return APIController::getSuccess(['field' => $responseData]);
 
         //     "crm.deal.userfield.add",
@@ -164,6 +213,4 @@ class InstallFieldsController extends Controller
         // ID - идентификатор значения. Если он указан, то считается что это обновление существующего значения элемента списка, а не создание нового. Имеет смысл только при вызове методов *.userfield.update.
         // DEL - если равно Y, то существующий элемент списка будет удален. Применяется, если заполнен параметр ID.
     }
-
-   
 }

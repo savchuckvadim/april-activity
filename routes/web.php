@@ -35,9 +35,15 @@ Route::get('/install/deal/{token}', function ($token) {
     return InstallDealController::installDealCtaegories($token);
 });
 
-Route::get('/smart/install/{token}', function ($token) {
+Route::get('install/smart/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
     return InstallController::installSmart($token);
 });
 
+
+Route::get('/install/fields/{token}', function ($token) {
+    // $url = LinkController ::urlForRedirect($linkId);
+
+    return InstallDealController::installDealCtaegories($token);
+});
