@@ -360,7 +360,7 @@ class InstallController extends Controller
 
             // Ищем, есть ли уже категория по умолчанию
             $existingDefaultCategory = null;
-            if(!empty($currentCategories)){
+            if (!empty($currentCategories)) {
                 foreach ($currentCategories as $currentCategory) {
                     if ($currentCategory['isDefault'] === 'Y') {
                         $existingDefaultCategory = $currentCategory;
@@ -368,7 +368,7 @@ class InstallController extends Controller
                     }
                 }
             }
-        
+
 
             // Если текущая категория по умолчанию не совпадает с требуемой
             if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
@@ -441,14 +441,16 @@ class InstallController extends Controller
             if (isset($currentStages['items'])) {
                 $currentStages = $currentStages['items'];
             }
-
-            foreach ($currentStages as $currentStage) {
-                if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
-                    $methodStageDelete = '/crm.status.delete.json';
-                    $urlDeleteStage = $hook . $methodStageDelete;
-                    Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
+            if (!empty($currentStages)) {
+                foreach ($currentStages as $currentStage) {
+                    if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
+                        $methodStageDelete = '/crm.status.delete.json';
+                        $urlDeleteStage = $hook . $methodStageDelete;
+                        Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
+                    }
                 }
             }
+
 
             // Создаем или обновляем стадии
             $stages = InstallController::setStages($hook, $category, $categoryId);
