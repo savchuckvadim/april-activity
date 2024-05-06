@@ -352,6 +352,9 @@ class InstallController extends Controller
         ]);
 
         $currentCategories = BitrixController::getBitrixResponse($currentCategoriesResponse, 'crm.category.list');
+        if(!empty($currentCategories['items'])){
+            $currentCategories = $currentCategories['items'];
+        }
         $defaultCategoryId = null;
         $results = [];
 
