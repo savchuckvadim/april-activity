@@ -16,7 +16,7 @@ class InstallFieldsController extends Controller
 
     static function setFields(
         $token,
-        $isSmart
+   
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -186,9 +186,9 @@ class InstallFieldsController extends Controller
                 }
 
                 //smart fields
-                if ($isSmart) {
+               
                     $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
-                }
+             
             };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
