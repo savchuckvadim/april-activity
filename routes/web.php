@@ -28,14 +28,16 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
-Route::get('/smart/install/{token}', function ($token) {
-    // $url = LinkController ::urlForRedirect($linkId);
-
-    return InstallController::installSmart($token);
-});
 
 Route::get('/smart/install/deal/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
     return InstallDealController::installDealCtaegories($token);
 });
+
+Route::get('/smart/install/{token}', function ($token) {
+    // $url = LinkController ::urlForRedirect($linkId);
+
+    return InstallController::installSmart($token);
+});
+
