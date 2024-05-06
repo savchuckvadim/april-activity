@@ -79,6 +79,7 @@ class InstallFieldsController extends Controller
 
     {
         $domain = 'april-dev.bitrix24.ru';
+        $responseData = null;
         // $domain = 'gsr.bitrix24.ru';
         try {
             $hook = BitrixController::getHook($domain);
@@ -118,7 +119,7 @@ class InstallFieldsController extends Controller
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
            
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
@@ -155,21 +156,21 @@ class InstallFieldsController extends Controller
                         'fields' => $fieldsData
                     ];
                     $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                    $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
 
                     $method = '/crm.company.userfield.add';
                     $fieldsData['FIELD_NAME'] = $field['company'];
                     $url = $hook . $method;
 
                     $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                    $responseData = BitrixController::getBitrixResponse($response, 'response: company');
 
                     $method = '/crm.lead.userfield.add';
                     $fieldsData['FIELD_NAME'] = $field['lead'];
                     $url = $hook . $method;
 
                     $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                    $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
 
                     // if($smartId){
                     //     $method = '/userfieldconfig.add';
