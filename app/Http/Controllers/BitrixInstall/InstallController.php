@@ -375,14 +375,14 @@ class InstallController extends Controller
                         'title' => $category['title'],
                         "isDefault" => $isDefault,
                         'sort' => $category['order'],
-                        'id' => $category['bitrixId'],
-                        'categoryId' => $category['bitrixId'],
+                        // 'id' => $category['bitrixId'],
+                        // 'categoryId' => $category['bitrixId'],
                         'code' => $category['code'],
                     ]
                 ];
                 $smartCategoriesResponse = Http::get($url, $hookCategoriesData);
                 // $bitrixResponseCategory = $smartCategoriesResponse->json();
-                $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'productsSet');
+                $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
                 Log::channel('telegram')->info('APRIL_ONLINE TEST', [
                     'INSTALL' => [
                         'bitrixResponseCategory' => $bitrixResponseCategory,
@@ -562,7 +562,7 @@ class InstallController extends Controller
                 //TODO: try get stage if true -> update stage else -> create
                 $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
                 $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
-                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE' . $categoryId;
+                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $index => $currentStage) {
@@ -609,7 +609,7 @@ class InstallController extends Controller
                         ];
                 }
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'productsSet');
+                $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
                 array_push($resultStages, $stageResultResponse);
                 // $bitrixResponseStage = $smartStageResponse->json();
                 // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
