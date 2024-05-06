@@ -31,7 +31,13 @@ class InstallController extends Controller
         // $initialData = Http::get(
         //     ''
         // );
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+            'INSTALL' => [
+                'newSmart' => 0,
 
+
+            ]
+        ]);
         $portal = PortalController::getPortal($domain);
         $newSmart = null;
         $categories = null;
@@ -39,7 +45,7 @@ class InstallController extends Controller
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
         $response = Http::get($url);
         // if ($response->successful()) {
-            $googleData = $response->json();
+        $googleData = $response->json();
         // } else {
         //     // Log the error
         //     // Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
@@ -50,14 +56,26 @@ class InstallController extends Controller
         // }
 
         $smarts =  null;
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+            'INSTALL' => [
+                'smarts' => 0,
 
+
+            ]
+        ]);
         // Log::info('portal', ['portal' => $portal]);
         try {
 
             //CATEGORIES
             $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain  . '/' . $webhookRestKey;
-
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                'INSTALL' => [
+                    'hook' => $hook,
+    
+    
+                ]
+            ]);
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
             if (is_array($googleData) && !empty($googleData['smarts'])) {
@@ -84,13 +102,13 @@ class InstallController extends Controller
                     $smartInstallResponse = Http::get($url, $hookSmartInstallData);
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                        'INSTALL' => [
-                            'newSmart' => $newSmart,
+                    // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                    //     'INSTALL' => [
+                    //         'newSmart' => $newSmart,
 
 
-                        ]
-                    ]);
+                    //     ]
+                    // ]);
                     $categories = InstallController::setCategories(
                         $hook,
                         $smart['categories']
