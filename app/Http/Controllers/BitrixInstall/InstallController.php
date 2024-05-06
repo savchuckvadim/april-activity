@@ -440,6 +440,7 @@ class InstallController extends Controller
 
             // Удаляем ненужные стадии
             $currentStagesResponse = Http::post($url, [
+                'entityTypeId' => $category['entityTypeId'],
                 'filter' => [
                     'entityTypeId' => $category['entityTypeId'],
                     'categoryId' => $categoryId
