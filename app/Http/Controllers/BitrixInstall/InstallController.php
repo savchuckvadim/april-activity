@@ -609,12 +609,12 @@ class InstallController extends Controller
                 }
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'productsSet');
-                array_push($results, $stageResultResponse);
+                array_push($resultStages, $stageResultResponse);
                 // $bitrixResponseStage = $smartStageResponse->json();
                 // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
             }
 
-            return $results;
+            return $resultStages;
         }
     }
 }
