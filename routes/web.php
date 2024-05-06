@@ -27,6 +27,3 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
-Route::get('/install/deal/field', function () {
-    return InstallController::field();
-});

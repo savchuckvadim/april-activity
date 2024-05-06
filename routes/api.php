@@ -411,9 +411,9 @@ Route::middleware(['ajax.only'])->group(function () {
 //INSTALL
 Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
-    Route::get('/install/deal/field', function () {
-        return InstallController::field();
-    });
+    // Route::get('/install/deal/fields', function () {
+    //     return InstallController::setFieldsfield();
+    // });
 });
 
 

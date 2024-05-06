@@ -1098,7 +1098,7 @@ class PDFDocumentController extends Controller
             if ($descriptionMode === 0 || $descriptionMode === 3) {
                 $itemsPerPage = 24;
             } else if ($descriptionMode === 1) {
-                $itemsPerPage = 11;
+                $itemsPerPage = 9;
             } else if ($descriptionMode === 2) {
                 $itemsPerPage = 9;
             }
