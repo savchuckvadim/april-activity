@@ -91,7 +91,7 @@ class InstallController extends Controller
 
                     // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smartInstallResponse' => $smartInstallResponse]]);
+               
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
 
 
@@ -425,7 +425,7 @@ class InstallController extends Controller
 
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
-         
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
             if (isset($bitrixResponseCategory['id'])) {
                 $categoryId = $bitrixResponseCategory['id'];
             }
