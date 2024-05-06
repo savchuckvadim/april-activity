@@ -640,7 +640,7 @@ class InstallController extends Controller
                     $hookStagesDataCalls  =
                         [
 
-                            'statusId' =>  $statusId, //'DT134_' . $categoryId,
+                            // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
                             'fields' => [
                                 'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
                                 "ENTITY_ID" => $dynamicId, //'DYNAMIC_134_STAGE_' . $categoryId,
