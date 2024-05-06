@@ -2398,7 +2398,8 @@ class DocumentController extends Controller
                     if ($field['description']) {
                         $letterText = $field['description'];
                         // $letterText = str_replace("\\n", "\n", $letterText);
-                        $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
+                        // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
+                        $letterText = $this->processLineBreaks($letterText);
                     }
                 }
             }
@@ -2436,6 +2437,11 @@ class DocumentController extends Controller
         return $section;
     }
 
+    protected function processLineBreaks($text) {
+        $text = str_replace("\\n", "\n", $text); // Replace \\n with \n
+        $text = str_replace("\n", "\r\n", $text); // Replace \n with \r\n
+        return $text;
+    }
 
     //INVOICE
 
