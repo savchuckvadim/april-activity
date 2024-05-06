@@ -79,88 +79,109 @@ class InstallFieldsController extends Controller
     {
         $domain = 'april-dev.bitrix24.ru';
         // $domain = 'gsr.bitrix24.ru';
+        try {
+            $hook = BitrixController::getHook($domain);
 
-        $hook = BitrixController::getHook($domain);
+            // $fields = [ //string
+            //     "FIELD_NAME" => "MY_STRING",
+            //     "EDIT_FORM_LABEL" => "Моя строка",
+            //     "LIST_COLUMN_LABEL" => "Моя строка",
+            //     "USER_TYPE_ID" => "string",
+            //     "XML_ID" => "MY_STRING",
+            //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
+            // ];
+            $portal = PortalController::innerGetPortal($domain);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
 
-        // $fields = [ //string
-        //     "FIELD_NAME" => "MY_STRING",
-        //     "EDIT_FORM_LABEL" => "Моя строка",
-        //     "LIST_COLUMN_LABEL" => "Моя строка",
-        //     "USER_TYPE_ID" => "string",
-        //     "XML_ID" => "MY_STRING",
-        //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
-        // ];
-        $portal = PortalController::innerGetPortal($domain);
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
+            $categories = null;
+            $url = 'https://script.google.com/macros/s/' . $token . '/exec';
+            $response = Http::get($url);
 
-        $categories = null;
-        $url = 'https://script.google.com/macros/s/' . $token . '/exec';
-        $response = Http::get($url);
+            if ($response->successful()) {
+                $googleData = $response->json();
+                Log::channel('telegram')->error("googleData", [
+                    'googleData' => $googleData,
 
-        if ($response->successful()) {
-            $googleData = $response->json();
-            Log::channel('telegram')->error("googleData", [
-                'googleData' => $googleData,
-
-            ]);
-        } else {
-            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-            return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
-        }
-
-
-
-
-        $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
-        $hook = 'https://' . $domain . '/' . $webhookRestKey;
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
-        // $methodSmartInstall = '/crm.type.add.json';
-        // $url = $hook . $methodSmartInstall;
-
-        // Проверка на массив
-        if (!empty($googleData['fields'])) {
-            $fields = $googleData['fields'];
-         
-            foreach ($fields as $field) {
-                $method = '/crm.deal.userfield.add';
-                $url = $hook . $method;
-                $fieldsData = [ //list
-                    "FIELD_NAME" => $field['deal'],
-                    "EDIT_FORM_LABEL" => $field['name'],
-                    "LIST_COLUMN_LABEL" => $field['name'],
-                    "USER_TYPE_ID" => $field['type'],
-                    "LIST" => $field['list'],
-                    "XML_ID" => $field['code'],
-                    "SETTINGS" => ["LIST_HEIGHT" => 1],
-                    // "ORDER" => 2
-                ];
-
-                $data = [
-                    'fields' => $fieldsData
-                ];
-                $response = Http::post($url, $data);
-                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
-
-                $method = '/crm.company.userfield.add';
-                $fieldsData['FIELD_NAME'] = $field['company'];
-                $url = $hook . $method;
-
-                $response = Http::post($url, $data);
-                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
-
-                $method = '/crm.lead.userfield.add';
-                $fieldsData['FIELD_NAME'] = $field['lead'];
-                $url = $hook . $method;
-
-                $response = Http::post($url, $data);
-                $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
-
+                ]);
+            } else {
+                Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+                return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
-        };
 
+
+
+
+            $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
+            $hook = 'https://' . $domain . '/' . $webhookRestKey;
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+            // $methodSmartInstall = '/crm.type.add.json';
+            // $url = $hook . $methodSmartInstall;
+
+            // Проверка на массив
+            if (!empty($googleData['fields'])) {
+                $fields = $googleData['fields'];
+
+              
+                foreach ($fields as $field) {
+
+                    $multiple = false;
+                    $type = $field['type'];
+                    if($type == 'multiple'){
+                        $type = 'string';
+                        $multiple = true;
+                    }
+
+
+                    $method = '/crm.deal.userfield.add';
+                    $url = $hook . $method;
+                    $fieldsData = [ //list
+                        "FIELD_NAME" => $field['deal'],
+                        "EDIT_FORM_LABEL" => $field['name'],
+                        "LIST_COLUMN_LABEL" => $field['name'],
+                        "USER_TYPE_ID" => $type,
+                        "LIST" => $field['list'],
+                        "XML_ID" => $field['code'],
+                        "MULTIPLE" => $multiple,
+                        "SETTINGS" => ["LIST_HEIGHT" => 1],
+                        // "ORDER" => 2
+                    ];
+
+                    $data = [
+                        'fields' => $fieldsData
+                    ];
+                    $response = Http::post($url, $data);
+                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                    $method = '/crm.company.userfield.add';
+                    $fieldsData['FIELD_NAME'] = $field['company'];
+                    $url = $hook . $method;
+
+                    $response = Http::post($url, $data);
+                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+
+                    $method = '/crm.lead.userfield.add';
+                    $fieldsData['FIELD_NAME'] = $field['lead'];
+                    $url = $hook . $method;
+
+                    $response = Http::post($url, $data);
+                    $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                }
+            };
+        } catch (\Exception $e) {
+            Log::error('Error in installSmart', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            return APIController::getError('An error occurred during installation', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        }
 
         return APIController::getSuccess(['field' => $responseData]);
 

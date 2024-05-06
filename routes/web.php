@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\BitrixInstall\InstallDealController;
+use App\Http\Controllers\BitrixInstall\InstallFieldsController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Models\Link;
@@ -45,5 +46,5 @@ Route::get('install/smart/{token}', function ($token) {
 Route::get('/install/fields/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
 
-    return InstallDealController::installDealCtaegories($token);
+    return InstallFieldsController::setFields($token);
 });
