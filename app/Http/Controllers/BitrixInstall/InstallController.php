@@ -9,13 +9,15 @@ use App\Http\Controllers\PortalController;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class InstallController extends Controller
 {
     public static function installSmart(
-        $domain,
-        $smarts
-    ) {
+        // $domain,
+        // $smarts
+    )
+    {
         $domain = 'gsr.bitrix24.ru';
         $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
@@ -29,6 +31,14 @@ class InstallController extends Controller
         // );
 
         $portal = PortalController::getPortal($domain);
+        $newSmart = null;
+        $categories = null;
+        $token = 'AKfycbxdomlG_F_VqXqWjIJuG_7HKjnCRH7vQeSBYWpshwqCVowrn_BP-Qpztb4_CLE_HmkA';
+        $url = 'https://script.google.com/macros/s/' . $token . '/exec';
+        $response = Http::get($url);
+        $googleData = $response->json();
+        $smarts =  null;
+
         // Log::info('portal', ['portal' => $portal]);
         try {
 
@@ -38,50 +48,73 @@ class InstallController extends Controller
 
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
+            if (!empty($googleData['smarts'])) {
+                $smarts =  $googleData['smarts'];
 
-            foreach($smarts as $smart){
-                $hookSmartInstallData = [
-                    'fields' => [
-                        'id' =>  $smart['entityTypeId'],
-                        "title" => $smart['title'],
-                        "entityTypeId" => $smart['entityTypeId'],
-                        'code' => $smart['code'],
-                        "isCategoriesEnabled" => "Y",
-                        "isStagesEnabled" => "Y",
-                        "isClientEnabled" => "Y",
-                        "isUseInUserfieldEnabled" => "Y",
-                        "isLinkWithProductsEnabled" => "Y",
-                        "isAutomationEnabled" => "Y",
-                        "isBizProcEnabled" => "Y",
-                        "availableEntityTypes" => ['COMPANY','DEAL', 'LEAD']
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                    'INSTALL' => [
+                        'googleData' => $smarts,
+
+
                     ]
-                ];
-                $categories = InstallController::setCategories($smart['categories']);
-                foreach ($categories as $category) {
-                    $stages = InstallController::setStages($category['stages']);
+                ]);
+                foreach ($smarts as $smart) {
+                    $hookSmartInstallData = [
+                        'fields' => [
+                            'id' =>  $smart['entityTypeId'],
+                            "title" => $smart['title'],
+                            "entityTypeId" => $smart['entityTypeId'],
+                            'code' => $smart['code'],
+                            "isCategoriesEnabled" => "Y",
+                            "isStagesEnabled" => "Y",
+                            "isClientEnabled" => "Y",
+                            "isUseInUserfieldEnabled" => "Y",
+                            "isLinkWithProductsEnabled" => "Y",
+                            "isAutomationEnabled" => "Y",
+                            "isBizProcEnabled" => "Y",
+                            "availableEntityTypes" => ['COMPANY', 'DEAL', 'LEAD']
+                        ]
+                    ];
+                    $smartInstallResponse = Http::get($url, $hookSmartInstallData);
+
+                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                        'INSTALL' => [
+                            'newSmart' => $smartInstallResponse,
+
+
+                        ]
+                    ]);
+                    $categories = InstallController::setCategories(
+                        $hook,
+                        $smart['categories']
+                    );
+
+                    // foreach ($categories as $category)
+                    //     $stages = InstallController::setStages($hook, $category,);
                 }
-                
             }
-            // $entityId = env('APRIL_BITRIX_SMART_MAIN_ID');
             
+            // $entityId = env('APRIL_BITRIX_SMART_MAIN_ID');
+
 
             // Возвращение ответа клиенту в формате JSON
 
-            $smartInstallResponse = Http::get($url, $hookSmartInstallData);
-            $bitrixResponse = $smartInstallResponse->json();
+
+            // $bitrixResponse = $smartInstallResponse->json();
             //2) использует "entityTypeId" чтобы создать направления - направления в отдельном методе
             // вынести создание напрмавлений в отдельный InstallService - по типу как GeneralService
             // 
-          
+
             // Log::info('SUCCESS SMART INSTALL', ['smart' => $bitrixResponse]);
             // Log::info('SUCCESS CATEGORY INSTALL', ['category1Id' => $category1Id]);
             // Log::info('SUCCESS CATEGORY INSTALL', ['category2Id' => $category2Id]);
             //STAGES
             //2) использует "entityTypeId" и category1Id  чтобы создать стадии
-           
+
             // APIBitrixController::getSmartStages($domain);
 
-            return APIController::getSuccess(['Smart-Categories' => $bitrixResponse]);
+            return APIController::getSuccess(['newSmart' => $newSmart,  'categories' => $categories,]);
         } catch (\Throwable $th) {
             // Log::error('ERROR: Exception caught', [
             //     'message'   => $th->getMessage(),
@@ -245,14 +278,15 @@ class InstallController extends Controller
 
     static function setCategories(
         $hook,
-        $type, //smart deal task lead
-        $group, //sales service  отдел
-        $name,
-        $title,
-        $bitrixId, //id в bitrix 23
-        $bitrixCamelId, //id в bitrix ufCrm
-        $code, //для доступа из app 
-        $isActive,
+        $categories
+        // $type, //smart deal task lead
+        // $group, //sales service  отдел
+        // $name,
+        // $title,
+        // $bitrixId, //id в bitrix 23
+        // $bitrixCamelId, //id в bitrix ufCrm
+        // $code, //для доступа из app 
+        // $isActive,
     ) {
         // crm.category.add({entityTypeId: number, fields: {}})
         // "id": 53,
@@ -318,44 +352,101 @@ class InstallController extends Controller
 
         $methodCategoryInstall = '/crm.category.add.json';
         $url = $hook . $methodCategoryInstall;
-        $hookCategoriesData1  =
-            [
-                "entityTypeId" => 134,
+        $results = [];
+        // $hookCategoriesData1  =
+        //     [
+        //         "entityTypeId" => 134,
 
-                'fields' => [
-                    'name' => 'Холодный обзвон',
-                    'title' => 'Холодный обзвон',
-                    "isDefault" => "N"
-                ]
-            ];
-        $hookCategoriesData2  =
-            [
-                "entityTypeId" => 134,
+        //         'fields' => [
+        //             'name' => 'Холодный обзвон',
+        //             'title' => 'Холодный обзвон',
+        //             "isDefault" => "N"
+        //         ]
+        //     ];
+        // $hookCategoriesData2  =
+        //     [
+        //         "entityTypeId" => 134,
 
-                'fields' => [
-                    'name' => 'Продажи',
-                    'title' => 'Продажи',
-                    "isDefault" => "Y"
-                ]
-            ];
-        $smartCategoriesResponse1 = Http::get($url, $hookCategoriesData1);
-        $smartCategoriesResponse2 = Http::get($url, $hookCategoriesData2);
+        //         'fields' => [
+        //             'name' => 'Продажи',
+        //             'title' => 'Продажи',
+        //             "isDefault" => "Y"
+        //         ]
+        //     ];
+
+        foreach ($categories as $index => $category) {
+            if ($category['isNeedUpdate']) {
+                $isDefault = $category['type'] === 'base';
+                $hookCategoriesData  =  [
+                    "entityTypeId" => $category['entityTypeId'],
+
+                    'fields' => [
+                        'name' => $category['name'],
+                        'title' => $category['title'],
+                        "isDefault" => $isDefault,
+                        'sort' => $category['order'],
+                        'id' => $category['bitrixId'],
+                        'categoryId' => $category['bitrixId'],
+                        'code' => $category['code'],
+                    ]
+                ];
+                $smartCategoriesResponse = Http::get($url, $hookCategoriesData);
+                // $bitrixResponseCategory = $smartCategoriesResponse->json();
+                $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'productsSet');
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                    'INSTALL' => [
+                        'bitrixResponseCategory' => $bitrixResponseCategory,
 
 
-       
-        $bitrixResponseCategory1 = $smartCategoriesResponse1->json();
-        $bitrixResponseCategory2 = $smartCategoriesResponse2->json();
-        $category1Id = $bitrixResponseCategory1['result']['category']['id'];
-        $category2Id = $bitrixResponseCategory2['result']['category']['id'];
+                    ]
+                ]);
+                array_push($results, $bitrixResponseCategory);
+                $categoryId  = null;
+                if (!empty($bitrixResponseCategory['category'])) {
+                    if (!empty($bitrixResponseCategory['category']['id'])) {
+                        $categoryId = $bitrixResponseCategory['category']['id'];
+
+                        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                            'INSTALL' => [
+                                'categoryId' => $categoryId,
+
+
+                            ]
+                        ]);
+                        $stages = InstallController::setStages($hook, $category, $categoryId);
+
+                        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                            'INSTALL' => [
+                                'stages' => $stages,
+
+
+                            ]
+                        ]);
+                        array_push($results, $stages);
+                    }
+                }
+            }
+        }
+        return $results;
+        // $smartCategoriesResponse1 = Http::get($url, $hookCategoriesData1);
+        // $smartCategoriesResponse2 = Http::get($url, $hookCategoriesData2);
+
+
+
+        // $bitrixResponseCategory1 = $smartCategoriesResponse1->json();
+        // $bitrixResponseCategory2 = $smartCategoriesResponse2->json();
+        // $category1Id = $bitrixResponseCategory1['result']['category']['id'];
+        // $category2Id = $bitrixResponseCategory2['result']['category']['id'];
     }
 
 
     static function setStages(
         $hook,
+        $category,
         $categoryId,
-        $entityTypeId, //id smart process или у deal - 2
-        $stages,
-        $category
+        // $entityTypeId, //id smart process или у deal - 2
+        // $stages,
+        // $category
         // $type, //smart deal task lead
         // $group, //sales service  отдел
         // $name,
@@ -431,15 +522,15 @@ class InstallController extends Controller
         $currentstagesMethod = '/crm.status.list.json';
         $url = $hook . $currentstagesMethod;
         $hookCurrentStagesData = [
-            'entityTypeId' => 134,
+            'entityTypeId' => $category['entityTypeId'],
             'entityId' => 'STATUS',
             'categoryId' => $categoryId,
-            'filter' => ['ENTITY_ID' => 'DYNAMIC_' . 134 . '_STAGE_' . $categoryId]
+            'filter' => ['ENTITY_ID' => 'DYNAMIC_' . $category['entityTypeId'] . '_STAGE_' . $categoryId]
 
         ];
 
 
-        // Log::info('CURRENT STAGES GET 134', ['currentStagesResponse' => $hookCurrentStagesData]);
+        // // Log::info('CURRENT STAGES GET 134', ['currentStagesResponse' => $hookCurrentStagesData]);
         $currentStagesResponse = Http::get($url, $hookCurrentStagesData);
         $currentStages = $currentStagesResponse['result'];
         // Log::info('CURRENT STAGES GET 134', ['currentStages' => $currentStages]);
@@ -473,62 +564,67 @@ class InstallController extends Controller
             ],
 
         ];
+        $resultStages = [];
+        if (!empty($category['stages'])) {
+            $stages = $category['stages'];
+            foreach ($stages as $stage) {
 
+                //TODO: try get stage if true -> update stage else -> create
+                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId;
+                $NEW_STAGE_STATUS_ID = $statusId . ':' . $stage['bitrixId'];
 
-        // foreach ($stages as $stage) {
+                $isExist = false;
+                foreach ($currentStages as $index => $currentStage) {
+                    // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
+                    if ($currentStage['STATUS_ID'] === $NEW_STAGE_STATUS_ID) {
+                        // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
+                        $isExist = $currentStage['ID'];
+                    }
+                }
 
-        //     //TODO: try get stage if true -> update stage else -> create
-        //     $NEW_STAGE_STATUS_ID = 'DT'.$stage . $categoryId . ':' . $callStage['name'];
-        //     $isExist = false;
-        //     foreach ($currentStages as $index => $currentStage) {
-        //         // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-        //         if ($currentStage['STATUS_ID'] === $NEW_STAGE_STATUS_ID) {
-        //             // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
-        //             $isExist = $currentStage['ID'];
-        //         }
-        //     }
+                if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
+                    $methodStageInstall = '/crm.status.update.json';
+                    $url = $hook . $methodStageInstall;
+                    $hookStagesDataCalls  =
+                        [
 
-        //     if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
-        //         $methodStageInstall = '/crm.status.update.json';
-        //         $url = $hook . $methodStageInstall;
-        //         $hookStagesDataCalls  =
-        //             [
+                            'ID' => $isExist,
+                            'fields' => [
+                                // 'STATUS_ID' => 'DT134_' . $category1Id . ':' . $callStage['name'],
+                                // "ENTITY_ID" => 'DYNAMIC_134_STAGE_' . $category1Id,
+                                'NAME' => $stage['title'],
+                                'TITLE' => $stage['title'],
+                                'SORT' => $stage['order'],
+                                'COLOR' => $stage['color']
+                                // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
+                            ]
+                        ];
+                } else {
+                    $methodStageInstall = '/crm.status.add.json';
+                    $url = $hook . $methodStageInstall;
+                    $hookStagesDataCalls  =
+                        [
 
-        //                 'ID' => $isExist,
-        //                 'fields' => [
-        //                     // 'STATUS_ID' => 'DT134_' . $category1Id . ':' . $callStage['name'],
-        //                     // "ENTITY_ID" => 'DYNAMIC_134_STAGE_' . $category1Id,
-        //                     'NAME' => $callStage['title'],
-        //                     'TITLE' => $callStage['title'],
-        //                     'SORT' => $callStage['sort'],
-        //                     'COLOR' => $callStage['color']
-        //                     // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-        //                 ]
-        //             ];
-        //     } else {
-        //         $methodStageInstall = '/crm.status.add.json';
-        //         $url = $hook . $methodStageInstall;
-        //         $hookStagesDataCalls  =
-        //             [
+                            'statusId' =>  $statusId, //'DT134_' . $categoryId,
+                            'fields' => [
+                                'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
+                                "ENTITY_ID" => $stage['bitrixEnitiyId'], //'DYNAMIC_134_STAGE_' . $categoryId,
+                                'NAME' => $stage['title'],
+                                'TITLE' => $stage['title'],
+                                'SORT' => $stage['order'],
+                                'COLOR' => $stage['color']
+                                // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
+                            ]
+                        ];
+                }
+                $smartStageResponse = Http::get($url, $hookStagesDataCalls);
+                $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'productsSet');
+                array_push($results, $stageResultResponse);
+                // $bitrixResponseStage = $smartStageResponse->json();
+                // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
+            }
 
-        //                 'statusId' => 'DT134_' . $categoryId,
-        //                 'fields' => [
-        //                     'STATUS_ID' => $NEW_STAGE_STATUS_ID, //'DT134_' . $categoryId . ':' . $callStage['name'],
-        //                     "ENTITY_ID" => $stage['bitrixEnitiyId'], //'DYNAMIC_134_STAGE_' . $categoryId,
-        //                     'NAME' => $callStage['title'],
-        //                     'TITLE' => $callStage['title'],
-        //                     'SORT' => $callStage['sort'],
-        //                     'COLOR' => $callStage['color']
-        //                     // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-        //                 ]
-        //             ];
-        //     }
-        //     $smartStageResponse = Http::get($url, $hookStagesDataCalls);
-        //     $bitrixResponseStage = $smartStageResponse->json();
-        //     // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
-        // }
-
-
-
+            return $results;
+        }
     }
 }
