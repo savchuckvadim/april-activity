@@ -742,7 +742,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     // if ($withLetter) {
-                    $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                    // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                     // if ($withStamps) {
                     //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     // }
