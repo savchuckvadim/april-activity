@@ -360,12 +360,15 @@ class InstallController extends Controller
 
             // Ищем, есть ли уже категория по умолчанию
             $existingDefaultCategory = null;
-            foreach ($currentCategories as $currentCategory) {
-                if ($currentCategory['isDefault'] === 'Y') {
-                    $existingDefaultCategory = $currentCategory;
-                    break;
+            if(!empty($currentCategories)){
+                foreach ($currentCategories as $currentCategory) {
+                    if ($currentCategory['isDefault'] === 'Y') {
+                        $existingDefaultCategory = $currentCategory;
+                        break;
+                    }
                 }
             }
+        
 
             // Если текущая категория по умолчанию не совпадает с требуемой
             if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
