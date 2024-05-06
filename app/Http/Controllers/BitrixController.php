@@ -111,6 +111,8 @@ class BitrixController extends Controller
 
 
             $portalResponse = PortalController::innerGetPortal($domain);
+            Log::channel('telegram')->info('APRIL_ONLINE portalResponse', ['INSTALL' => ['portalResponse' => $portalResponse]]);
+
             if ($portalResponse) {
                 if (isset($portalResponse['resultCode'])) {
                     if ($portalResponse['resultCode'] == 0) {
