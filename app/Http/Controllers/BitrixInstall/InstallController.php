@@ -35,7 +35,7 @@ class InstallController extends Controller
         $portal = PortalController::getPortal($domain);
         $newSmart = null;
         $categories = null;
-        $token = 'AKfycbxdomlG_F_VqXqWjIJuG_7HKjnCRH7vQeSBYWpshwqCVowrn_BP-Qpztb4_CLE_HmkA';
+        $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
         $response = Http::get($url);
       
