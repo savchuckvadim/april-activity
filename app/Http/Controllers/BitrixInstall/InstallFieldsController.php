@@ -155,23 +155,23 @@ class InstallFieldsController extends Controller
                     $data = [
                         'fields' => $fieldsData
                     ];
-                    $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
-sleep(2);
-                    $method = '/crm.company.userfield.add';
-                    $fieldsData['FIELD_NAME'] = $field['company'];
-                    $url = $hook . $method;
+//                     $response = Http::post($url, $data);
+//                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
+// sleep(2);
+//                     $method = '/crm.company.userfield.add';
+//                     $fieldsData['FIELD_NAME'] = $field['company'];
+//                     $url = $hook . $method;
 
-                    $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'response: company');
-                    sleep(2);
-                    $method = '/crm.lead.userfield.add';
-                    $fieldsData['FIELD_NAME'] = $field['lead'];
-                    $url = $hook . $method;
+//                     $response = Http::post($url, $data);
+//                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
+//                     sleep(2);
+//                     $method = '/crm.lead.userfield.add';
+//                     $fieldsData['FIELD_NAME'] = $field['lead'];
+//                     $url = $hook . $method;
 
-                    $response = Http::post($url, $data);
-                    $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
-                    sleep(2);
+//                     $response = Http::post($url, $data);
+//                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
+//                     sleep(2);
                     // if($smartId){
                     //     $method = '/userfieldconfig.add';
                     //     $fieldsData['FIELD_NAME'] = $field['smart'];
