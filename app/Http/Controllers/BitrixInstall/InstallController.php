@@ -431,38 +431,38 @@ class InstallController extends Controller
             }
             // $categoryId = $bitrixResponseCategory['result'];
 
-            if ($isDefault === 'Y') {
-                $defaultCategoryId = $categoryId;
-            }
+            // if ($isDefault === 'Y') {
+            //     $defaultCategoryId = $categoryId;
+            // }
 
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                'INSTALL' => [
-                    'bitrixResponseCategory' => $bitrixResponseCategory
-                ]
-            ]);
+            // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+            //     'INSTALL' => [
+            //         'bitrixResponseCategory' => $bitrixResponseCategory
+            //     ]
+            // ]);
 
             // Удаляем ненужные стадии
-            $currentStagesResponse = Http::post($url, [
-                'entityTypeId' => $category['entityTypeId'],
-                'filter' => [
-                    'entityTypeId' => $category['entityTypeId'],
-                    'categoryId' => $categoryId
-                ]
-            ]);
-            $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
-            $currentStages = $bitrixResponseCategory;
-            if (isset($currentStages['items'])) {
-                $currentStages = $currentStages['items'];
-            }
-            if (!empty($currentStages)) {
-                foreach ($currentStages as $currentStage) {
-                    if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
-                        $methodStageDelete = '/crm.status.delete.json';
-                        $urlDeleteStage = $hook . $methodStageDelete;
-                        Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
-                    }
-                }
-            }
+            // $currentStagesResponse = Http::post($url, [
+            //     'entityTypeId' => $category['entityTypeId'],
+            //     'filter' => [
+            //         'entityTypeId' => $category['entityTypeId'],
+            //         'categoryId' => $categoryId
+            //     ]
+            // ]);
+            // $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
+            // $currentStages = $bitrixResponseCategory;
+            // if (isset($currentStages['items'])) {
+            //     $currentStages = $currentStages['items'];
+            // }
+            // if (!empty($currentStages)) {
+            //     foreach ($currentStages as $currentStage) {
+            //         if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
+            //             $methodStageDelete = '/crm.status.delete.json';
+            //             $urlDeleteStage = $hook . $methodStageDelete;
+            //             Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
+            //         }
+            //     }
+            // }
 
 
             // Создаем или обновляем стадии
