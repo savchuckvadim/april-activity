@@ -31,131 +31,80 @@ class InstallController extends Controller
         // $initialData = Http::get(
         //     ''
         // );
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            'INSTALL' => [
-                'newSmart' => 0,
 
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => 0]]);
 
-            ]
-        ]);
         $portal = PortalController::getPortal($domain);
         $newSmart = null;
         $categories = null;
         $token = 'AKfycbwj00QG9Bv1J3H5r3BJuYmqVy9hhIxdfUPGQVqBhi2zhZnvHVxjlzI6g19d2WAC1unZ';
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
         $response = Http::get($url);
+
         if ($response->successful()) {
             $googleData = $response->json();
         } else {
-            // Log the error
-            // Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-            //     'status' => $response->status(),
-            //     'body' => $response->body(),
-            // ]);
+            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
             return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
         }
 
-        $smarts =  null;
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            'INSTALL' => [
-                'smarts' => 0,
+        $smarts = null;
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smarts' => 0]]);
 
-
-            ]
-        ]);
-        // Log::info('portal', ['portal' => $portal]);
         try {
-
-            //CATEGORIES
             $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
-            $hook = 'https://' . $domain  . '/' . $webhookRestKey;
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                'INSTALL' => [
-                    'hook' => $hook,
-
-
-                ]
-            ]);
+            $hook = 'https://' . $domain . '/' . $webhookRestKey;
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
+
+            // Проверка на массив
             if (is_array($googleData) && !empty($googleData['smarts'])) {
                 $smarts = $googleData['smarts'];
-
 
                 foreach ($smarts as $smart) {
                     $hookSmartInstallData = [
                         'fields' => [
-                            'id' =>  $smart['entityTypeId'],
-                            "title" => $smart['title'],
-                            "entityTypeId" => $smart['entityTypeId'],
+                            'id' => $smart['entityTypeId'],
+                            'title' => $smart['title'],
+                            'entityTypeId' => $smart['entityTypeId'],
                             'code' => $smart['code'],
-                            "isCategoriesEnabled" => "Y",
-                            "isStagesEnabled" => "Y",
-                            "isClientEnabled" => "Y",
-                            "isUseInUserfieldEnabled" => "Y",
-                            "isLinkWithProductsEnabled" => "Y",
-                            "isAutomationEnabled" => "Y",
-                            "isBizProcEnabled" => "Y",
-                            "availableEntityTypes" => ['COMPANY', 'DEAL', 'LEAD']
-                        ]
+                            'isCategoriesEnabled' => 'Y',
+                            'isStagesEnabled' => 'Y',
+                            'isClientEnabled' => 'Y',
+                            'isUseInUserfieldEnabled' => 'Y',
+                            'isLinkWithProductsEnabled' => 'Y',
+                            'isAutomationEnabled' => 'Y',
+                            'isBizProcEnabled' => 'Y',
+                            'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
+                        ],
                     ];
+
+                    // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
 
-                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
-                    // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                    //     'INSTALL' => [
-                    //         'newSmart' => $newSmart,
+                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse->json(), 'productsSet');
 
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
 
-                    //     ]
-                    // ]);
-                    $categories = InstallController::setCategories(
-                        $hook,
-                        $smart['categories']
-                    );
-
-                    // foreach ($categories as $category)
-                    //     $stages = InstallController::setStages($hook, $category,);
+                    $categories = InstallController::setCategories($hook, $smart['categories']);
                 }
+            } else {
+                Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
             }
-
-            // $entityId = env('APRIL_BITRIX_SMART_MAIN_ID');
-
-
-            // Возвращение ответа клиенту в формате JSON
-
-
-            // $bitrixResponse = $smartInstallResponse->json();
-            //2) использует "entityTypeId" чтобы создать направления - направления в отдельном методе
-            // вынести создание напрмавлений в отдельный InstallService - по типу как GeneralService
-            // 
-
-            // Log::info('SUCCESS SMART INSTALL', ['smart' => $bitrixResponse]);
-            // Log::info('SUCCESS CATEGORY INSTALL', ['category1Id' => $category1Id]);
-            // Log::info('SUCCESS CATEGORY INSTALL', ['category2Id' => $category2Id]);
-            //STAGES
-            //2) использует "entityTypeId" и category1Id  чтобы создать стадии
-
-            // APIBitrixController::getSmartStages($domain);
-
-            return APIController::getSuccess(['newSmart' => $newSmart,  'categories' => $categories,]);
-        } catch (\Throwable $th) {
-            Log::error('ERROR: Exception caught', [
-                'message'   => $th->getMessage(),
-                'file'      => $th->getFile(),
-                'line'      => $th->getLine(),
-                'trace'     => $th->getTraceAsString(),
+        } catch (\Exception $e) {
+            Log::error('Error in installSmart', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ]);
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                'INSTALL' => [
-                    'message'   => $th->getMessage(),
-                    'file'      => $th->getFile(),
-                    'line'      => $th->getLine(),
-                    'trace'     => $th->getTraceAsString(),
-                ]
-            ]);
-            return APIController::getError($th->getMessage(), null);
+            return response(['resultCode' => 1, 'message' => 'An error occurred during installation'], 500);
         }
+
+        return response(['resultCode' => 0, 'message' => 'Installation successful'], 200);
     }
     static function setFields(
         $parentType, //deal company lead smart list
