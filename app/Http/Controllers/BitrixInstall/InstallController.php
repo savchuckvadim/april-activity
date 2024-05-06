@@ -59,7 +59,7 @@ class InstallController extends Controller
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
 
 
-            $webhookRestKey = $portal['data']['C_REST_WEB_HOOK_URL'];
+            $webhookRestKey = $portal['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             $methodSmartInstall = '/crm.type.add.json';
