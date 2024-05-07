@@ -244,7 +244,7 @@ class InstallDealController extends Controller
 
         foreach ($categories as $category) {
             if ($category['isNeedUpdate']) {
-
+              
 
                 Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['category' => $category]]);
 
@@ -343,9 +343,19 @@ class InstallDealController extends Controller
                                 $portalCategory->bitrixId = $categoryId;
                                 $portalCategory->bitrixCamelId = $categoryId;
                                 $portalCategory->save();
+
+                                $portalDealCategoryStages =  $portalCategory->stages();
                             }
                         }
                     }
+
+                    Log::channel('telegram')->info("categoryId", [
+                        'categoryId' => $categoryId,
+    
+                    ]);
+                    // Создаем или обновляем стадии
+                    $stages = InstallDealController::setStages($hook, $category, $categoryId, $portalDealCategoryStages);
+                    array_push($results, $stages);
                 }
                 // $categoryId = $bitrixResponseCategory['result'];
 
@@ -382,12 +392,12 @@ class InstallDealController extends Controller
                 //     }
                 // }
 
-                Log::channel('telegram')->info("categoryId", [
-                    'categoryId' => $categoryId,
+                // Log::channel('telegram')->info("categoryId", [
+                //     'categoryId' => $categoryId,
 
-                ]);
-                // Создаем или обновляем стадии
-                // $stages = InstallDealController::setStages($hook, $category, $categoryId);
+                // ]);
+                // // Создаем или обновляем стадии
+                // $stages = InstallDealController::setStages($hook, $category, $categoryId, $portalDealCategoryStages);
                 // array_push($results, $stages);
             }
         }
@@ -400,6 +410,7 @@ class InstallDealController extends Controller
         $hook,
         $category,
         $categoryId,
+        $portalDealCategoryStages,
         // $entityTypeId, //id smart process или у deal - 2
         // $stages,
         // $category
@@ -412,6 +423,11 @@ class InstallDealController extends Controller
         // $code, //для доступа из app 
         // $isActive,
     ) {
+
+        Log::channel('telegram')->info("portalDealCategoryStages", [
+            'portalDealCategoryStages' => $portalDealCategoryStages,
+
+        ]);
         // crm.status.add({fields}
         //https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php
         //  SMART FIELDS FOR STAGE CREATE
@@ -521,75 +537,75 @@ class InstallDealController extends Controller
 
         // ];
         $resultStages = [];
-        if (!empty($category['stages'])) {
-            $stages = $category['stages'];
-            foreach ($stages as $stage) {
+        // if (!empty($category['stages'])) {
+        //     $stages = $category['stages'];
+        //     foreach ($stages as $stage) {
 
-                //TODO: try get stage if true -> update stage else -> create
-                $entityId = 'DEAL_STAGE_' . $categoryId;
-                // $NEW_STAGE_STATUS_ID = $entityId . ':' . $stage['bitrixId'];
-                // $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
+        //         //TODO: try get stage if true -> update stage else -> create
+        //         $entityId = 'DEAL_STAGE_' . $categoryId;
+        //         // $NEW_STAGE_STATUS_ID = $entityId . ':' . $stage['bitrixId'];
+        //         // $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
-                // $isExist = false;
-                // foreach ($currentStages as $index => $currentStage) {
-                //     // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-                //     if ($currentStage['STATUS_ID'] === $stage['bitrixId']) {
-                //         // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
-                //         $isExist = $currentStage['ID'];
-                //     }
-                // }
+        //         // $isExist = false;
+        //         // foreach ($currentStages as $index => $currentStage) {
+        //         //     // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
+        //         //     if ($currentStage['STATUS_ID'] === $stage['bitrixId']) {
+        //         //         // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
+        //         //         $isExist = $currentStage['ID'];
+        //         //     }
+        //         // }
 
-                // if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
-                //     $methodStageInstall = '/crm.status.update.json';
-                //     $url = $hook . $methodStageInstall;
-                //     $hookStagesDataCalls  =
-                //         [
+        //         // if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
+        //         //     $methodStageInstall = '/crm.status.update.json';
+        //         //     $url = $hook . $methodStageInstall;
+        //         //     $hookStagesDataCalls  =
+        //         //         [
 
-                //             'ID' => $isExist,
-                //             'fields' => [
+        //         //             'ID' => $isExist,
+        //         //             'fields' => [
 
-                //                 'NAME' => $stage['title'],
-                //                 'TITLE' => $stage['title'],
-                //                 'SORT' => $stage['order'],
-                //                 'COLOR' => $stage['color']
-                //                 // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-                //             ]
-                //         ];
-                // } else {
-                $methodStageInstall = '/crm.status.add.json';
-                $url = $hook . $methodStageInstall;
-                $hookStagesDataCalls  =
-                    [
+        //         //                 'NAME' => $stage['title'],
+        //         //                 'TITLE' => $stage['title'],
+        //         //                 'SORT' => $stage['order'],
+        //         //                 'COLOR' => $stage['color']
+        //         //                 // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
+        //         //             ]
+        //         //         ];
+        //         // } else {
+        //         $methodStageInstall = '/crm.status.add.json';
+        //         $url = $hook . $methodStageInstall;
+        //         $hookStagesDataCalls  =
+        //             [
 
-                        // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
-                        'fields' => [
-                            'STATUS_ID' => $stage['bitrixId'], //"DECISION",  // OFFER
-                            "ENTITY_ID" => $entityId,   // "DEAL_STAGE_1",
-                            'NAME' => $stage['title'],
-                            'TITLE' => $stage['title'],
-                            'SORT' => $stage['order'],
-                            'COLOR' => $stage['color']
-                            // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
-                        ]
-                    ];
-                // }
-                Log::channel('telegram')->info("categoryId", [
-                    'hookStagesDataCalls' => $hookStagesDataCalls,
+        //                 // 'statusId' =>  $statusId, //'DT134_' . $categoryId,
+        //                 'fields' => [
+        //                     'STATUS_ID' => $stage['bitrixId'], //"DECISION",  // OFFER
+        //                     "ENTITY_ID" => $entityId,   // "DEAL_STAGE_1",
+        //                     'NAME' => $stage['title'],
+        //                     'TITLE' => $stage['title'],
+        //                     'SORT' => $stage['order'],
+        //                     'COLOR' => $stage['color']
+        //                     // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
+        //                 ]
+        //             ];
+        //         // }
+        //         Log::channel('telegram')->info("categoryId", [
+        //             'hookStagesDataCalls' => $hookStagesDataCalls,
 
-                ]);
-                $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
+        //         ]);
+        //         $smartStageResponse = Http::post($url, $hookStagesDataCalls);
+        //         $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
 
-                Log::channel('telegram')->info("categoryId", [
-                    'stageResultResponse' => $stageResultResponse,
+        //         Log::channel('telegram')->info("categoryId", [
+        //             'stageResultResponse' => $stageResultResponse,
 
-                ]);
-                array_push($resultStages, $stageResultResponse);
-                // $bitrixResponseStage = $smartStageResponse->json();
-                // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
-            }
+        //         ]);
+        //         array_push($resultStages, $stageResultResponse);
+        //         // $bitrixResponseStage = $smartStageResponse->json();
+        //         // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
+        //     }
 
-            return $resultStages;
-        }
+        //     return $resultStages;
+        // }
     }
 }
