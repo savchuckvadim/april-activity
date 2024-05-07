@@ -46,8 +46,11 @@ Route::get('install/smart/{token}', function ($token) {
 });
 
 
-Route::get('/install/fields/{token}/', function ($token) {
+Route::get('/install/fields/{pass}/{token}', function ($pass, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    return 'yo';
-    return InstallFieldsController::setFields($token);
+    if ($pass == 'nmbrsdntl') {
+        return InstallFieldsController::setFields($token);
+    } else {
+        return 'yo';
+    }
 });

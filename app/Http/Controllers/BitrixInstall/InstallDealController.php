@@ -115,7 +115,7 @@ class InstallDealController extends Controller
 
 
 
-            // Проверка на массив
+            // Создание или обновление категорий и стадий
             if (!empty($googleData['deals'])) {
                 $deals = $googleData['deals'];
                 // $fields = $googleData['fields'];
@@ -132,6 +132,8 @@ class InstallDealController extends Controller
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
             }
+            // Создание или обновление филдов сделок
+           
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
                 'message' => $e->getMessage(),

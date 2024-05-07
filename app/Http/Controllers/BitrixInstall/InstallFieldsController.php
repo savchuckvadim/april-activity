@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\Portal;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,7 +17,7 @@ class InstallFieldsController extends Controller
 
     static function setFields(
         $token,
-   
+
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -92,8 +93,29 @@ class InstallFieldsController extends Controller
             //     "XML_ID" => "MY_STRING",
             //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
             // ];
-            $portal = PortalController::innerGetPortal($domain);
+            $portal = Portal::where('domain', $domain)->first();
+            $webhookRestKey = $portal->getHook();
+            $portalDeal = $portal->deal();
+            $portalLead = $portal->lead();
+            $portalCompany = $portal->company();
+            $portalsmarts = $portal->smarts;
 
+
+
+            if((!empty($portalDeal))){
+                $portalDealFields = $portalDeal->fields;
+            }
+
+            if(!empty($portalLead)){
+                $portalLeadFields = $portalLead->fields;
+            }
+            if(!empty($portalCompany)){
+                $portalCompanyFields = $portalCompany->fields;
+            }
+            // if(!empty($portalsmarts)){
+            //     $portalportalsmartsFields = $portalCompany->fields;
+            // }
+            
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -116,10 +138,15 @@ class InstallFieldsController extends Controller
 
 
 
-            $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
+            // $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
 
-            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                'portalDealFields' => $portalDealFields,
+                'portalLeadFields' => $portalLeadFields,
+                'portalCompanyFields' => $portalCompanyFields,
+                'portalsmarts' => $portalsmarts,
+                ]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
@@ -155,23 +182,23 @@ class InstallFieldsController extends Controller
                     $data = [
                         'fields' => $fieldsData
                     ];
-//                     $response = Http::post($url, $data);
-//                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
-// sleep(2);
-//                     $method = '/crm.company.userfield.add';
-//                     $fieldsData['FIELD_NAME'] = $field['company'];
-//                     $url = $hook . $method;
+                    //                     $response = Http::post($url, $data);
+                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
+                    // sleep(2);
+                    //                     $method = '/crm.company.userfield.add';
+                    //                     $fieldsData['FIELD_NAME'] = $field['company'];
+                    //                     $url = $hook . $method;
 
-//                     $response = Http::post($url, $data);
-//                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
-//                     sleep(2);
-//                     $method = '/crm.lead.userfield.add';
-//                     $fieldsData['FIELD_NAME'] = $field['lead'];
-//                     $url = $hook . $method;
+                    //                     $response = Http::post($url, $data);
+                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
+                    //                     sleep(2);
+                    //                     $method = '/crm.lead.userfield.add';
+                    //                     $fieldsData['FIELD_NAME'] = $field['lead'];
+                    //                     $url = $hook . $method;
 
-//                     $response = Http::post($url, $data);
-//                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
-//                     sleep(2);
+                    //                     $response = Http::post($url, $data);
+                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
+                    //                     sleep(2);
                     // if($smartId){
                     //     $method = '/userfieldconfig.add';
                     //     $fieldsData['FIELD_NAME'] = $field['smart'];
@@ -186,9 +213,8 @@ class InstallFieldsController extends Controller
                 }
 
                 //smart fields
-               
-                    $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
-             
+
+                // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
             };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
