@@ -42,31 +42,6 @@ class InstallDealController extends Controller
 
             // $portal = ;
             // $portal = PortalController::innerGetPortal($domain);
-            $portalDeal = null;
-
-            $portalDealCategories = null;
-            $portalStages = [];
-            if (isset($portal->deals)) {
-                $portalDeals = $portal->deals;
-                $portalDeal = $portalDeals[0];
-                $portalDealCategories = $portalDeal->categories;
-
-                foreach ($portalDealCategories as $portDealCategory) {
-                    foreach ($portDealCategory->stages as $portDealStage) {
-                        array_push($portalStages, $portDealStage);
-                    }
-                }
-            }
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                'INSTALL' => [
-                    // 'portal' => $portal,
-                    // 'portalDeal' => $portalDeal,
-                    'portalDealCategories' => $portalDealCategories,
-                    'portalStages' => $portalStages,
-
-                ]
-            ]);
-
 
 
 
@@ -101,6 +76,33 @@ class InstallDealController extends Controller
                 'googleData' => $googleData,
 
             ]]);
+
+            $portalDeal = null;
+
+            $portalDealCategories = null;
+            $portalStages = [];
+            if (isset($portal->deals)) {
+                $portalDeals = $portal->deals;
+                $portalDeal = $portalDeals[0];
+                $portalDealCategories = $portalDeal->categories;
+
+                foreach ($portalDealCategories as $portDealCategory) {
+                    foreach ($portDealCategory->stages as $portDealStage) {
+                        array_push($portalStages, $portDealStage);
+                    }
+                }
+            }
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                'INSTALL' => [
+                    // 'portal' => $portal,
+                    // 'portalDeal' => $portalDeal,
+                    'portalDealCategories' => $portalDealCategories,
+                    'portalStages' => $portalStages,
+
+                ]
+            ]);
+
+
             // Проверка на массив
             if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
                 $deals = $googleData['deals'];
