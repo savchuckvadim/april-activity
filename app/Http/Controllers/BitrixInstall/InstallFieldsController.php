@@ -464,8 +464,9 @@ class InstallFieldsController extends Controller
 
             if (!$currentPortalField) {
                 $currentPortalField = new Bitrixfield();
-                $currentPortalField->entity_id = $parentClass;
-                $currentPortalField->title = $parentId;
+                $currentPortalField->entity_type = $parentClass;
+                $currentPortalField->entity_id = $parentId;
+             
                 $currentPortalField->parent_type = $field['appType'];
             }
             $currentPortalField->type = $field['type'];
