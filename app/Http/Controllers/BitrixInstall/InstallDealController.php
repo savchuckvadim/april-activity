@@ -554,13 +554,14 @@ class InstallDealController extends Controller
 
                 //TODO: try get stage if true -> update stage else -> create
                 $entityId = 'DEAL_STAGE_' . $categoryId;
+                $statusId = 'C' . $categoryId . ':' . $stage['bitrixId'];
                 // $NEW_STAGE_STATUS_ID = $entityId . ':' . $stage['bitrixId'];
                 // $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $index => $currentStage) {
                     // Log::info('currentStage ITERABLE', ['STAGE STATUS ID' => $currentStage['STATUS_ID']]);
-                    if ($currentStage['STATUS_ID'] === $stage['bitrixId']) {
+                    if ($currentStage['STATUS_ID'] ===  $statusId) {
                         // Log::info('EQUAL STAGE', ['EQUAL STAGE' => $currentStage['STATUS_ID']]);
                         $isExist = $currentStage['ID'];
                     }
@@ -600,10 +601,7 @@ class InstallDealController extends Controller
                             ]
                         ];
                     // }
-                    Log::channel('telegram')->info("categoryId", [
-                        'hookStagesDataCalls' => $hookStagesDataCalls,
 
-                    ]);
                     $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                     $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
 
@@ -639,6 +637,30 @@ class InstallDealController extends Controller
 
             }
 
+
+            //deleting
+            foreach ($currentStages as $index => $currentStage) {
+                $delitingId = false;
+                foreach ($stages as $stage) {
+                    $statusId = 'C' . $categoryId . ':' . $stage['bitrixId'];
+                    if ($currentStage['STATUS_ID'] ===  $statusId) {
+                        $delitingId =  $currentStage['ID'];
+                    }
+                    if ($delitingId) {
+                        $methodStageDelete = '/crm.status.delete.json';
+                        $url = $hook . $methodStageInstall;
+                        $hookStagesDataCalls  =
+                            [
+
+                                'id' => $delitingId,
+
+                            ];
+
+                        $smartStageResponse = Http::post($url, $hookStagesDataCalls);
+                        $stageResultResponse = BitrixController::getBitrixResponse($methodStageDelete, 'stages install delete');
+                    }
+                }
+            }
             return $resultStages;
         }
     }
