@@ -97,7 +97,10 @@ class InstallDealController extends Controller
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
-         
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                'googleData' => $googleData,
+                
+            ]]);
             // Проверка на массив
             if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
                 $deals = $googleData['deals'];
