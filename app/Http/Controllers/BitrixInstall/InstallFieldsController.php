@@ -535,6 +535,8 @@ class InstallFieldsController extends Controller
 
             if (!$currentPortalItem) {
                 $currentPortalItem  =  new BitrixfieldItem();
+                $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+
             }
             $currentPortalItem->bitrixId = $currentFieldItem['ID'];
             $currentPortalItem->code = $currentFieldItem['XML_ID'];
