@@ -441,11 +441,11 @@ class InstallFieldsController extends Controller
             $data = [
                 'fields' => $fieldsData
             ];
-            $method = '/crm.' . $entityType . 'userfield.add';
+            $method = '/crm.' . $entityType . '.userfield.add';
 
             if ($currentBtxFieldId) {
                 $data['id'] = $currentBtxFieldId;
-                $method = '/crm.' . $entityType . 'userfield.update';
+                $method = '/crm.' . $entityType . '.userfield.update';
             } else {
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
             }
