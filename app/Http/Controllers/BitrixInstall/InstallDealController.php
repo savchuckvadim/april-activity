@@ -76,9 +76,9 @@ class InstallDealController extends Controller
 
 
 
-            $webhookRestKey = $portal->C_REST_WEB_HOOK_URL;
+            $webhookRestKey = $portal->getHook();
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
@@ -328,25 +328,25 @@ class InstallDealController extends Controller
                 }
 
                 if ($categoryId) {
-                }
-                //обновляем категорию в БД
-                foreach ($portalDealCategories as $portalDealCategory) { //перебираем категории сделки привязанной к порталу db
-                    if (!empty($portalDealCategory) && isset($portalDealCategory['code'])) {
-                        if ($portalDealCategory['code'] == $category['code']) {
 
-                            $portalCategory = BtxCategory::find($portalDealCategory['id']);
-                            $portalCategory->group = $category['group'];
-                            $portalCategory->title = $category['title'];
-                            $portalCategory->name = $category['name'];
+                    //обновляем категорию в БД
+                    foreach ($portalDealCategories as $portalDealCategory) { //перебираем категории сделки привязанной к порталу db
+                        if (!empty($portalDealCategory) && isset($portalDealCategory['code'])) {
+                            if ($portalDealCategory['code'] == $category['code']) {
 
-                            $portalCategory->type = $category['type'];
-                            $portalCategory->bitrixId = $categoryId;
-                            $portalCategory->bitrixCamelId = $categoryId;
-                            $portalCategory->save();
+                                $portalCategory = BtxCategory::find($portalDealCategory['id']);
+                                $portalCategory->group = $category['group'];
+                                $portalCategory->title = $category['title'];
+                                $portalCategory->name = $category['name'];
+
+                                $portalCategory->type = $category['type'];
+                                $portalCategory->bitrixId = $categoryId;
+                                $portalCategory->bitrixCamelId = $categoryId;
+                                $portalCategory->save();
+                            }
                         }
                     }
                 }
-
                 // $categoryId = $bitrixResponseCategory['result'];
 
                 // if ($isDefault === 'Y') {
