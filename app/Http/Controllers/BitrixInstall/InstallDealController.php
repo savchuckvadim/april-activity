@@ -610,7 +610,7 @@ class InstallDealController extends Controller
 
                     ]);
                 }
-                //обновляем стадию на сервере
+                //обновляем стадию на сервере БД
                 $currentPortalStage = null;
                 foreach ($portalDealCategoryStages as $portalDealCategoryStage) {
 
@@ -631,6 +631,7 @@ class InstallDealController extends Controller
                 $currentPortalStage->color = $stage['color'];
                 $currentPortalStage->bitrixId = $stage['bitrixId'];
                 $currentPortalStage->isActive = $stage['isActive'];
+                $currentPortalStage->save();
                 array_push($resultStages, $stageResultResponse);
                 // $bitrixResponseStage = $smartStageResponse->json();
                 // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
