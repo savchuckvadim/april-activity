@@ -124,10 +124,10 @@ class InstallFieldsController extends Controller
 
             if ($response->successful()) {
                 $googleData = $response->json();
-                // Log::channel('telegram')->error("googleData", [
-                //     'googleData' => $googleData,
+                Log::channel('telegram')->error("googleData", [
+                    'googleData' => $googleData['fields'],
 
-                // ]);
+                ]);
             } else {
                 Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
                     'status' => $response->status(),
