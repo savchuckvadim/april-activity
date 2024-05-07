@@ -77,15 +77,15 @@ class InstallDealController extends Controller
 
             if ($response->successful()) {
                 $googleData = $response->json();
-                // Log::channel('telegram')->error("googleData", [
-                //     'googleData' => $googleData,
+                Log::channel('telegram')->error("googleData", [
+                    'googleData' => $googleData,
 
-                // ]);
+                ]);
             } else {
-                // Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                //     'status' => $response->status(),
-                //     'body' => $response->body(),
-                // ]);
+                Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
                 return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
 
@@ -97,7 +97,7 @@ class InstallDealController extends Controller
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
-
+         
             // Проверка на массив
             if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
                 $deals = $googleData['deals'];
