@@ -72,10 +72,10 @@ class InstallDealController extends Controller
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                'googleData' => $googleData,
+            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+            //     'googleData' => $googleData,
 
-            ]]);
+            // ]]);
 
             $portalDeal = null;
 
@@ -104,15 +104,19 @@ class InstallDealController extends Controller
 
 
             // Проверка на массив
-            if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
+            if (!empty($googleData['deals'])) {
                 $deals = $googleData['deals'];
-                $fields = $googleData['fields'];
+                // $fields = $googleData['fields'];
                 Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                    'fields' => $fields,
+                    // 'fields' => $fields,
                     'deals' => $deals
                 ]]);
 
                 foreach ($deals as $deal) {
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                        // 'fields' => $fields,
+                        'deal' => $deal
+                    ]]);
                     // $hookSmartInstallData = [
                     //     'fields' => [
                     //         'id' => $smart['entityTypeId'],

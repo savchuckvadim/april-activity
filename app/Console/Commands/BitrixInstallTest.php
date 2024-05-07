@@ -41,7 +41,7 @@ class BitrixInstallTest extends Command
     {
         $domain = 'april-garant.bitrix24.ru';
         $method = '/crm.activity.configurable.add.json';
-        $token = 'AKfycbzDNL4tjpYIJJvuW1d83ToonDRSRq9HgQG1IAmQt1sJvabwdmePmA_-r9NIhGvponTg';
+        $token = '';
 
         $url = 'https://script.google.com/macros/s/' . $token . '/exec';
 
