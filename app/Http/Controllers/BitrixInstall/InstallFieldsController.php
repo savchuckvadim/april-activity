@@ -397,6 +397,11 @@ class InstallFieldsController extends Controller
             foreach ($currentFields as $currentBtxField) {
                 if ($field['code'] === $currentBtxField['XML_ID']) {
                     $currentBtxFieldId = $currentBtxField['ID'];
+                    Log::channel('telegram')->error("currentBtxField", [
+                        'currentBtxFieldId' => $currentBtxFieldId,
+                        'field' => $field,
+    
+                    ]);
                 }
             }
 
@@ -436,10 +441,7 @@ class InstallFieldsController extends Controller
             if ($currentBtxFieldId) {
                 $data['id'] = $currentBtxFieldId;
                 $method = '/crm.' . $entityType . 'userfield.update';
-                Log::channel('telegram')->error("fieldsData", [
-                    'data' => $data,
-
-                ]);
+              
             } else {
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
             }
