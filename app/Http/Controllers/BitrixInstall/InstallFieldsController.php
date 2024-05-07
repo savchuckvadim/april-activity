@@ -386,7 +386,7 @@ class InstallFieldsController extends Controller
 
         foreach ($fields as  $field) {
 
-            if (!empty($field[$entityType])) {
+            // if (!empty($field[$entityType])) {
                 $type = $field['type'] ?? 'string';
                 $multiple = 'N';
 
@@ -421,9 +421,9 @@ class InstallFieldsController extends Controller
                 // $response = Http::post($url, $data);
                 // sleep(2);
                 // $responseData = BitrixController::getBitrixResponse($response, 'fields install');
-            } else {
+            // } else {
                 //TODO найти такой на сервере БД и удалить
-            }
+            // }
         }
         // }
     }
