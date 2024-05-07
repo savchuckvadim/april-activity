@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Models\Bitrixfield;
+use App\Models\BitrixfieldItem;
 use App\Models\BtxDeal;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
@@ -496,8 +497,13 @@ class InstallFieldsController extends Controller
         // }
     }
 
-    public static function setFieldItems($hook, $entityType, $currentBtxFieldId, $field, $currentPortalField)
-    {
+    public static function setFieldItems(
+        $hook,
+        $entityType,
+        $currentBtxFieldId,
+        $field,
+        $currentPortalField
+    ) {
         $url = $hook . '/crm.' . $entityType . '.userfield.get';
         $data = [
             'id' => $currentBtxFieldId
@@ -506,11 +512,49 @@ class InstallFieldsController extends Controller
         $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
         $currentFieldItems = null;
 
-        if(isset($currentField['ITEMS'])){
-            $currentFieldItems = $currentField['ITEMS'];
+        if (isset($currentField['LIST'])) {
+            $currentFieldItems = $currentField['LIST'];
         }
 
         $portalFieldItems = $currentPortalField->items;
+
+
+        foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+            $currentPortalItem  = false;
+            if (!empty($portalFieldItems)) {
+                foreach ($portalFieldItems as $pitem) {
+
+                    if ($currentFieldItem['VALUE'] == $pitem['title']) {
+
+                        $currentPortalItem  =  $pitem;
+                    }
+                }
+            }
+
+            if (!$currentPortalItem) {
+                $currentPortalItem  =  new BitrixfieldItem();
+            }
+            $currentPortalItem->bitrixId = $currentFieldItem['ID'];
+            $currentPortalItem->code = $currentFieldItem['VALUE'];
+            $currentPortalItem->save();
+        }
+
+        if (!empty($portalFieldItems)) {
+            
+            foreach ($portalFieldItems as $pitem) {
+                foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+
+                    if($pitem['title'] === $currentFieldItem['VALUE'] &&
+                    $pitem['bitrixId'] !== $currentFieldItem['ID']
+                    )
+                    $pitem->delete();
+                   
+
+                }
+            }
+        }
+
+
         Log::channel('telegram')->error("responseData", [
             'currentFieldItems' => $currentFieldItems,
             'currentField' => $currentField,
