@@ -357,7 +357,7 @@ class InstallDealController extends Controller
                     $portalCategory->bitrixCamelId = $categoryId;
                     $portalCategory->save();
                     $portalCategoryId = $portalCategory->id;
-                    $portalDealCategoryStages =  $portalCategory->stages;
+                    $portalDealCategoryStages =  $portalCategory->stages->toArray();
                     Log::channel('telegram')->info("categoryId", [
                         'categoryId' => $categoryId,
 
