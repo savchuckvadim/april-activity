@@ -566,7 +566,10 @@ class InstallDealController extends Controller
                         $isExist = $currentStage['ID'];
                     }
                 }
-
+                Log::channel('telegram')->info("currentStage", [
+                    'isExist' => $isExist,
+                    'currentStage' => $currentStage,
+                ]);
                 if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
                     $methodStageInstall = '/crm.status.update.json';
                     $url = $hook . $methodStageInstall;
@@ -604,11 +607,6 @@ class InstallDealController extends Controller
 
                     $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                     $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
-
-                    Log::channel('telegram')->info("categoryId", [
-                        'stageResultResponse' => $stageResultResponse,
-
-                    ]);
                 }
                 //обновляем стадию на сервере БД
                 $currentPortalStage = null;
