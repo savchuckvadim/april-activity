@@ -397,6 +397,7 @@ class InstallFieldsController extends Controller
 
         $responsesData = [];
         foreach ($fields as  $field) {
+            $currentBtxField = false;
             $currentBtxFieldId = false;
             $currentPortalField = false;
 
@@ -404,6 +405,7 @@ class InstallFieldsController extends Controller
             foreach ($currentFields as $currentBtxField) {
                 if ($field['code'] === $currentBtxField['XML_ID']) {
                     $currentBtxFieldId = $currentBtxField['ID'];
+                    $currentBtxField = $currentBtxField;
                 }
             }
 
@@ -485,7 +487,7 @@ class InstallFieldsController extends Controller
             $currentPortalField->save();
             if ($field['type'] == 'enumeration') {
 
-                $items = InstallFieldsController::setFieldItems($hook, $entityType, $currentBtxFieldId, $field, $currentPortalField);
+                $items = InstallFieldsController::setFieldItems($currentBtxField, $field, $currentPortalField);
             }
             sleep(2);
         }
@@ -498,18 +500,18 @@ class InstallFieldsController extends Controller
     }
 
     public static function setFieldItems(
-        $hook,
-        $entityType,
-        $currentBtxFieldId,
-        $field,
-        $currentPortalField
+        $currentBtxField,    //from btx
+        $field,  //from google
+        $currentPortalField  //from db
     ) {
-        $url = $hook . '/crm.' . $entityType . '.userfield.get';
-        $data = [
-            'id' => $currentBtxFieldId
-        ];
-        $response = Http::post($url, $data);
-        $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
+        // $url = $hook . '/crm.' . $entityType . '.userfield.get';
+        // $data = [
+        //     'id' => $currentBtxFieldId
+        // ];
+        // $response = Http::post($url, $data);
+        // $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
+        
+        $currentField = $currentBtxField;
         $currentFieldItems = null;
 
         if (isset($currentField['LIST'])) {
