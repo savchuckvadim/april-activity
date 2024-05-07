@@ -74,15 +74,15 @@ class InstallDealController extends Controller
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
-
+            $googleData = 'googleData';
             if ($response->successful()) {
                 $googleData = $response->json();
-                Log::channel('telegram')->error("googleData", [
+                Log::channel('telegram')->info("googleData", [
                     'googleData' => $googleData,
 
                 ]);
             } else {
-                Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                Log::channel('telegram')->info("Failed to retrieve data from Google Sheets", [
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
@@ -99,7 +99,7 @@ class InstallDealController extends Controller
             // $url = $hook . $methodSmartInstall;
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
                 'googleData' => $googleData,
-                
+
             ]]);
             // Проверка на массив
             if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
