@@ -256,7 +256,7 @@ class PortalController extends Controller
                 'bitrixList' => $portal->getSalesBitrixListId(),
                 'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
                 'bitrixSmart' => $portal->getSalesSmart(),
-                'saleDeal' => $saleDeal,
+                'deals' => $saleDeal,
                 'saleSmarts' => $saleSmarts,
             ]
 
