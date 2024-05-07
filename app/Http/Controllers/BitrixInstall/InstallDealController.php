@@ -604,10 +604,9 @@ class InstallDealController extends Controller
                             ]
                         ];
                     // }
-
-                    $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                    $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
                 }
+                $smartStageResponse = Http::post($url, $hookStagesDataCalls);
+                $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
                 //обновляем стадию на сервере БД
                 $currentPortalStage = null;
                 foreach ($portalDealCategoryStages as $portalDealCategoryStage) {
