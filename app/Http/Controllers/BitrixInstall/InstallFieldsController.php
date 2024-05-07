@@ -434,7 +434,7 @@ class InstallFieldsController extends Controller
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
                 "ORDER" => 134,
             ];
-            
+
             $data = [
                 'fields' => $fieldsData
             ];
@@ -448,7 +448,7 @@ class InstallFieldsController extends Controller
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
                 Log::channel('telegram')->error("fieldsData", [
                     'fieldsData' => $fieldsData,
-    
+
                 ]);
             }
             $url = $hook . $method;
@@ -479,19 +479,14 @@ class InstallFieldsController extends Controller
             $currentPortalField->bitrixId = $field[$entityType];
             $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
             $currentPortalField->save();
-          
+
             sleep(2);
-         
         }
+        Log::channel('telegram')->error("responseData", [
+            'responsesData' => $responsesData,
 
-        foreach($responsesData as $responseData){
-            sleep(1);
-            Log::channel('telegram')->error("responseData", [
-                'responseData' => $responseData,
+        ]);
 
-            ]);
-
-        }
         // }
     }
 }
