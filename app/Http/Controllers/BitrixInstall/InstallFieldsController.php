@@ -434,10 +434,7 @@ class InstallFieldsController extends Controller
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
                 "ORDER" => 134,
             ];
-            Log::channel('telegram')->error("fieldsData", [
-                'fieldsData' => $fieldsData,
-
-            ]);
+            
             $data = [
                 'fields' => $fieldsData
             ];
@@ -447,7 +444,12 @@ class InstallFieldsController extends Controller
                 $data['id'] = $currentBtxFieldId;
                 $method = '/crm.' . $entityType . '.userfield.update';
             } else {
+
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
+                Log::channel('telegram')->error("fieldsData", [
+                    'fieldsData' => $fieldsData,
+    
+                ]);
             }
             $url = $hook . $method;
             $response = Http::post($url, $data);
@@ -484,7 +486,7 @@ class InstallFieldsController extends Controller
 
         foreach($responsesData as $responseData){
             sleep(1);
-            Log::channel('telegram')->error("currentPortalField", [
+            Log::channel('telegram')->error("responseData", [
                 'responseData' => $responseData,
 
             ]);
