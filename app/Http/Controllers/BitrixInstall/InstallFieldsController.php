@@ -142,12 +142,7 @@ class InstallFieldsController extends Controller
             // $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
 
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                // 'portalDealFields' => $portalDealFields,
-                'googleData' => $googleData,
-                // 'portalCompanyFields' => $portalCompanyFields,
-                // 'portalsmarts' => $portalsmarts,
-            ]]);
+      
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
@@ -155,7 +150,12 @@ class InstallFieldsController extends Controller
             if (!empty($googleData['fields'])) {
                 $fields = $googleData['fields'];
 
-
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                    // 'portalDealFields' => $portalDealFields,
+                    'fields' => $fields,
+                    // 'portalCompanyFields' => $portalCompanyFields,
+                    // 'portalsmarts' => $portalsmarts,
+                ]]);
                 foreach ($fields as $field) {
 
                     $multiple = "N";
