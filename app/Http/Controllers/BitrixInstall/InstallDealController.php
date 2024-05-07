@@ -419,8 +419,9 @@ class InstallDealController extends Controller
         $hook,
         $category,
         $categoryId,
-        $portalCategoryId,
+       
         $portalDealCategoryStages,
+        $portalCategoryId,
         // $entityTypeId, //id smart process или у deal - 2
         // $stages,
         // $category
