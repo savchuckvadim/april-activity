@@ -246,6 +246,7 @@ class InstallDealController extends Controller
             if ($category['isNeedUpdate']) {
 
 
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['category' => $category]]);
 
 
 
@@ -300,7 +301,7 @@ class InstallDealController extends Controller
                     'fields' => [
                         'name' => $categoryName,
                         'title' => $category['title'],
-                        'isDefault' => $isDefault,
+                        // 'isDefault' => $isDefault,
                         'sort' => $category['order'],
                         'code' => $category['code']
                     ]
