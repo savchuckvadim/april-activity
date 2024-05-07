@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Http\Resources\PortalResource;
+use App\Models\BtxCategory;
 use App\Models\BtxDeal;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
@@ -97,20 +98,16 @@ class InstallDealController extends Controller
                     if (!empty($portalDeal) && isset($portalDeal->id)) {
                         $portalDealId = $portalDeal->id;
                     }
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                        // 'fields' => $fields,
-                        'portalDeal' => $portalDeal,
-                        'portalDealId' => $portalDealId,
-                    ]]);
+
                     $portalDealCategories = $portalDeal->categories;
                 } else {
                     //если сделки у портала не существует - создать
-                    // $portalDeal = new BtxDeal();
-                    // $portalDeal->name = 'Сделка' . $domain;
-                    // $portalDeal->title = 'Сделка' . $domain;
-                    // $portalDeal->code = 'deal';
-                    // $portalDeal->portal_id = $portalId;
-                    // $portalDeal->save();
+                    $portalDeal = new BtxDeal();
+                    $portalDeal->name = 'Сделка' . $domain;
+                    $portalDeal->title = 'Сделка' . $domain;
+                    $portalDeal->code = 'deal';
+                    $portalDeal->portal_id = $portalId;
+                    $portalDeal->save();
                 }
             }
 
@@ -224,8 +221,8 @@ class InstallDealController extends Controller
         // suspendedUserFieldEntityId = 'CRM_1_SPD'
 
 
-        $methodCategoryList = '/crm.category.list.json';
-        $url = $hook . $methodCategoryList;
+        // $methodCategoryList = '/crm.category.list.json';
+        // $url = $hook . $methodCategoryList;
 
         // Получаем список существующих категорий
         // $currentCategoriesResponse = Http::post($url, [
@@ -244,86 +241,149 @@ class InstallDealController extends Controller
         // }
         $defaultCategoryId = null;
         $results = [];
-        Log::channel('telegram')->info("categoryId", [
-            'portalDealCategories' => $portalDealCategories,
 
-        ]);
         foreach ($categories as $category) {
-            $categoryName = $category['name'];
-            $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
-
-            // Ищем, есть ли уже категория по умолчанию
-            $existingDefaultCategory = null;
-            // if (!empty($currentCategories)) {
-            //     foreach ($currentCategories as $currentCategory) {
-            //         if(isset($currentCategory['isDefault'])){
-            //             if ($currentCategory['isDefault'] === 'Y') {
-            //                 $existingDefaultCategory = $currentCategory;
-            //                 break;
-            //             }
-            //         }
-
-            //     }
-            // }
-            Log::channel('telegram')->info("categoryId", [
-                'category' => $category,
-
-            ]);
-
-            // Если текущая категория по умолчанию не совпадает с требуемой
-            // if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
-            //     // Обновляем существующую категорию, делая ее не по умолчанию
-            //     $methodCategoryUpdate = '/crm.category.update.json';
-            //     $urlUpdate = $hook . $methodCategoryUpdate;
-            //     Http::post($urlUpdate, [
-            //         'id' => $existingDefaultCategory['id'],
-            //         'entityTypeId' => $category['entityTypeId'],
-            //         'fields' => [
-
-            //             'isDefault' => 'N'
-            //         ]
-            //     ]);
-            // }
-
-            // // Добавляем или обновляем категорию
-            // if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
-            //     // Обновляем существующую категорию
-            //     $methodCategoryInstall = '/crm.category.update.json';
-            //     $urlInstall = $hook . $methodCategoryInstall;
-            //     $categoryId = $existingDefaultCategory['id'];
-            // } else {
-            // Добавляем новую категорию
-            // $methodCategoryInstall = '/crm.category.add.json';
-            // $urlInstall = $hook . $methodCategoryInstall;
-            // $categoryId = null;
-            // // }
-
-            // $hookCategoriesData = [
-            //     'entityTypeId' => $category['entityTypeId'],
-            //     'fields' => [
-            //         'name' => $categoryName,
-            //         'title' => $category['title'],
-            //         'isDefault' => $isDefault,
-            //         'sort' => $category['order'],
-            //         'code' => $category['code']
-            //     ]
-            // ];
-
-            // $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
-            // $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
+            if ($category['isNeedUpdate']) {
 
 
-            // if (!empty($bitrixResponseCategory['category'])) {
-            //     if (isset($bitrixResponseCategory['category']['id'])) {
-            //         $categoryId = $bitrixResponseCategory['category']['id'];
-            //     }
-            // }
 
 
-            
-            // // Создаем или обновляем стадии
-            // $stages = InstallDealController::setStages($hook, $category, $categoryId);
-            // array_push($results, $stages);
+
+                $categoryName = $category['name'];
+                $isDefault = $category['isDefault']  ? 'Y' : 'N';
+
+                // Ищем, есть ли уже категория по умолчанию
+                // $existingDefaultCategory = null;
+                // if (!empty($currentCategories)) {
+                //     foreach ($currentCategories as $currentCategory) {
+                //         if(isset($currentCategory['isDefault'])){
+                //             if ($currentCategory['isDefault'] === 'Y') {
+                //                 $existingDefaultCategory = $currentCategory;
+                //                 break;
+                //             }
+                //         }
+
+                //     }
+                // }
+
+
+                // Если текущая категория по умолчанию не совпадает с требуемой
+                // if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
+                //     // Обновляем существующую категорию, делая ее не по умолчанию
+                //     $methodCategoryUpdate = '/crm.category.update.json';
+                //     $urlUpdate = $hook . $methodCategoryUpdate;
+                //     Http::post($urlUpdate, [
+                //         'id' => $existingDefaultCategory['id'],
+                //         'entityTypeId' => $category['entityTypeId'],
+                //         'fields' => [
+
+                //             'isDefault' => 'N'
+                //         ]
+                //     ]);
+                // }
+
+                // // Добавляем или обновляем категорию
+                // if ($existingDefaultCategory && $existingDefaultCategory['name'] === $categoryName) {
+                //     // Обновляем существующую категорию
+                //     $methodCategoryInstall = '/crm.category.update.json';
+                //     $urlInstall = $hook . $methodCategoryInstall;
+                //     $categoryId = $existingDefaultCategory['id'];
+                // } else {
+                // Добавляем новую категорию
+                $methodCategoryInstall = '/crm.category.add.json';
+                $urlInstall = $hook . $methodCategoryInstall;
+                $categoryId = null;
+                // }
+
+                $hookCategoriesData = [
+                    'entityTypeId' => $category['entityTypeId'],
+                    'fields' => [
+                        'name' => $categoryName,
+                        'title' => $category['title'],
+                        'isDefault' => $isDefault,
+                        'sort' => $category['order'],
+                        'code' => $category['code']
+                    ]
+                ];
+
+                // if ($categoryId !== null) {
+                //     $hookCategoriesData['id'] = $categoryId;
+                // }
+
+                $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
+                $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
+
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
+                // if (isset($bitrixResponseCategory['id'])) {
+                //     $categoryId = $bitrixResponseCategory['id'];
+                // }
+                if (!empty($bitrixResponseCategory['category'])) {
+                    if (isset($bitrixResponseCategory['category']['id'])) {
+                        $categoryId = $bitrixResponseCategory['category']['id'];
+                    }
+                }
+
+                //обновляем категорию в БД
+                foreach ($portalDealCategories as $portalDealCategory) { //перебираем категории сделки привязанной к порталу db
+                    if(!empty($portalDealCategory) && isset($portalDealCategory['code'])){
+                        if($portalDealCategory['code'] == $category['code']){
+
+                            $portalCategory = BtxCategory::find($portalDealCategory['id']);
+                            $portalCategory->group = $category['group'];
+                            $portalCategory->title = $category['title'];
+                            $portalCategory->name = $category['name'];
+                      
+                            $portalCategory->type = $category['type'];
+                            $portalCategory->bitrixId = $categoryId;
+                            $portalCategory->bitrixCamelId = $categoryId;
+                            $portalCategory->save();
+                        }
+                    }
+                }
+               
+                // $categoryId = $bitrixResponseCategory['result'];
+
+                // if ($isDefault === 'Y') {
+                //     $defaultCategoryId = $categoryId;
+                // }
+
+                // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                //     'INSTALL' => [
+                //         'bitrixResponseCategory' => $bitrixResponseCategory
+                //     ]
+                // ]);
+
+                // Удаляем ненужные стадии
+                // $currentStagesResponse = Http::post($url, [
+                //     'entityTypeId' => $category['entityTypeId'],
+                //     'filter' => [
+                //         'entityTypeId' => $category['entityTypeId'],
+                //         'categoryId' => $categoryId
+                //     ]
+                // ]);
+                // $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
+                // $currentStages = $bitrixResponseCategory;
+                // if (isset($currentStages['items'])) {
+                //     $currentStages = $currentStages['items'];
+                // }
+                // if (!empty($currentStages)) {
+                //     foreach ($currentStages as $currentStage) {
+                //         if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
+                //             $methodStageDelete = '/crm.status.delete.json';
+                //             $urlDeleteStage = $hook . $methodStageDelete;
+                //             Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
+                //         }
+                //     }
+                // }
+
+                Log::channel('telegram')->info("categoryId", [
+                    'categoryId' => $categoryId,
+
+                ]);
+                // Создаем или обновляем стадии
+                // $stages = InstallDealController::setStages($hook, $category, $categoryId);
+                // array_push($results, $stages);
+            }
         }
 
         return $results;
