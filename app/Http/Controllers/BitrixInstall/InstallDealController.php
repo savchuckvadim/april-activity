@@ -61,10 +61,10 @@ class InstallDealController extends Controller
             $googleData = 'googleData';
             if ($response->successful()) {
                 $googleData = $response->json();
-                Log::channel('telegram')->info("googleData", [
-                    'googleData' => $googleData,
+                // Log::channel('telegram')->info("googleData", [
+                //     'googleData' => $googleData,
 
-                ]);
+                // ]);
             } else {
                 Log::channel('telegram')->info("Failed to retrieve data from Google Sheets", [
                     'status' => $response->status(),
@@ -121,10 +121,10 @@ class InstallDealController extends Controller
 
 
                 foreach ($deals as $deal) {
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                        // 'fields' => $fields,
-                        'deal' => $deal
-                    ]]);
+                    // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                    //     // 'fields' => $fields,
+                    //     'deal' => $deal
+                    // ]]);
 
                     $categories = InstallDealController::setCategories($hook, $deal['categories'], $portalDealCategories);
                 }
@@ -323,6 +323,9 @@ class InstallDealController extends Controller
                     }
                 }
 
+                if($categoryId){
+
+                }
                 //обновляем категорию в БД
                 foreach ($portalDealCategories as $portalDealCategory) { //перебираем категории сделки привязанной к порталу db
                     if(!empty($portalDealCategory) && isset($portalDealCategory['code'])){

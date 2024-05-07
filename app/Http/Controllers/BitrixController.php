@@ -1265,7 +1265,14 @@ class BitrixController extends Controller
 
     static function getBitrixResponse($bitrixResponse, $method)
     {
+        
         $response =  $bitrixResponse->json();
+        Log::channel('telegram')->error('APRIL_ONLINE', [
+            $method => [
+                'response' => $response,
+                
+            ]
+        ]);
         if ($response) {
             if (isset($response['result'])) {
 
