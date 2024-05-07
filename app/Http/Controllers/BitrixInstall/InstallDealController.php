@@ -646,7 +646,7 @@ class InstallDealController extends Controller
                     }
                     if ($delitingId) {
                         $methodStageDelete = '/crm.status.delete.json';
-                        $url = $hook . $methodStageInstall;
+                        $url = $hook . $methodStageDelete;
                         $hookStagesDataCalls  =
                             [
 
@@ -655,7 +655,7 @@ class InstallDealController extends Controller
                             ];
 
                         $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                        $stageResultResponse = BitrixController::getBitrixResponse($methodStageDelete, 'stages install delete');
+                        $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install delete');
                     }
                 }
             }
