@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\BtxDeal;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
@@ -101,21 +102,21 @@ class InstallFieldsController extends Controller
             $portalsmarts = $portal->smarts;
 
 
-
-            if((!empty($portalDeal))){
+            $portalDealFields = [];
+            if ((!empty($portalDeal))) {
                 $portalDealFields = $portalDeal->fields;
             }
 
-            if(!empty($portalLead)){
+            if (!empty($portalLead)) {
                 $portalLeadFields = $portalLead->fields;
             }
-            if(!empty($portalCompany)){
+            if (!empty($portalCompany)) {
                 $portalCompanyFields = $portalCompany->fields;
             }
             // if(!empty($portalsmarts)){
             //     $portalportalsmartsFields = $portalCompany->fields;
             // }
-            
+
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -146,7 +147,7 @@ class InstallFieldsController extends Controller
                 'portalLeadFields' => $portalLeadFields,
                 'portalCompanyFields' => $portalCompanyFields,
                 'portalsmarts' => $portalsmarts,
-                ]]);
+            ]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
@@ -214,7 +215,17 @@ class InstallFieldsController extends Controller
 
                 //smart fields
 
-                // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
+                $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
+                $parentClass = BtxDeal::class;
+                $responseData = InstallFieldsController::createFieldsForEntities(
+                    'deal', 
+                    $hook, 
+                    $fields,
+                    $portalDealFields,
+                    $parentClass
+                
+                );
+                
             };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
@@ -309,8 +320,13 @@ class InstallFieldsController extends Controller
         foreach ($filteredSmartProcesses as $smartProcess) {
             $smartId = $smartProcess['id'];
             foreach ($fields as $field) {
+                $multiple = 'N';
                 $type = $field['type'] ?? 'string';
-                $multiple = $field['multiple'] ? "Y" : 'N';
+                if ($type == 'multiple') {
+                    $multiple =  "Y";
+                    $type = 'string';
+                }
+
                 // $mandatory = $field['mandatory'] ?? 'N';
                 $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
@@ -340,5 +356,71 @@ class InstallFieldsController extends Controller
                 $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
             }
         }
+    }
+
+    public static function createFieldsForEntities(
+        $entityType, $hook, 
+        $fields, $portalFields, 
+        $parentClass,
+        )
+    {
+        // $entityType lead company deal
+        // Step 1: Get all smart processes
+        $url = $hook . '/crm.' . $entityType . 'userfield.list';
+        $response = Http::post($url);
+        $currentFields = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
+        Log::channel('telegram')->error("fieldsData", [
+            'currentFields' => $currentFields,
+
+        ]);
+
+        Log::channel('telegram')->error("fieldsData", [
+            'portalFields' => $portalFields,
+
+        ]);
+
+
+        foreach ($fields as  $field) {
+
+            if (!empty($field[$entityType])) {
+                $type = $field['type'] ?? 'string';
+                $multiple = 'N';
+
+                if ($type == 'multiple') {
+                    $multiple =  "Y";
+                    $type = 'string';
+                }
+                // $mandatory = $field['mandatory'] ?? 'N';
+                // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
+
+                $fieldsData = [ //list
+                    "FIELD_NAME" => $field[$entityType],
+                    "EDIT_FORM_LABEL" => $field['name'],
+                    "LIST_COLUMN_LABEL" => $field['name'],
+                    "USER_TYPE_ID" => $field['type'],
+                    'MULTIPLE' => $multiple,
+                    "LIST" => $field['list'],
+                    // "CODE" => $field['code'],
+                    "XML_ID" => $field['code'],
+                    "SETTINGS" => ["LIST_HEIGHT" => 1],
+                    "ORDER" => 134,
+                ];
+                Log::channel('telegram')->error("fieldsData", [
+                    'fieldsData' => $fieldsData,
+
+                ]);
+                $data = [
+                    'fields' => $fieldsData
+                ];
+                $method = '/crm.' . $entityType . 'userfield.add';
+                $url = $hook . $method;
+                // $response = Http::post($url, $data);
+                // sleep(2);
+                // $responseData = BitrixController::getBitrixResponse($response, 'fields install');
+            } else {
+                //TODO найти такой на сервере БД и удалить
+            }
+        }
+        // }
     }
 }
