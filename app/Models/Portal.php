@@ -109,7 +109,22 @@ class Portal extends Model
 
         return $smart;
     }
+    public function getSalesSmarts()
+    {
+        $smarts =  $this->smarts()->where('group', 'sales')
+            ->orWhere('group', 'tmc')
+            ->first();
+        $resultSmarts    = [];
+        foreach ($smarts as $smart) {
+            if ($smart) {
+                $smartResource = new SmartResource($smart);
+                array_push($resultSmarts, $smartResource);
+            }
+        }
 
+
+        return $resultSmarts;
+    }
 
     // Метод для получения первой сделки
     public function smart()

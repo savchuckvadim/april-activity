@@ -238,7 +238,8 @@ class PortalController extends Controller
                 'portal' => null
             ];
         }
-
+        $saleDeal = $portal->deals()->first();
+        $saleSmarts = $portal->getSalesSmarts();
         return [
             'resultCode' => 0,
             'portal' => [
@@ -255,6 +256,8 @@ class PortalController extends Controller
                 'bitrixList' => $portal->getSalesBitrixListId(),
                 'bitrixCallingTasksGroup' => $portal->getSalesCallingGroupId(),
                 'bitrixSmart' => $portal->getSalesSmart(),
+                'saleDeal' => $saleDeal,
+                'saleSmarts' => $saleSmarts,
             ]
 
         ];

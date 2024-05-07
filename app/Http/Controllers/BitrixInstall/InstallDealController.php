@@ -24,7 +24,7 @@ class InstallDealController extends Controller
 
         // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
+        // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
 
         // $url = $hook . $method;
         //1) создает смарт процесс и сам задает  "entityTypeId" => 134,
@@ -38,7 +38,20 @@ class InstallDealController extends Controller
 
         try {
             $portal = PortalController::innerGetPortal($domain);
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
+            $portalDeal = null;
+            $saleSmarts = null;
+            if(isset($portal['saleDeal'])){
+                $portalDeal = $portal['saleDeal'];
+
+            }
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portalDeal' => $portalDeal]]);
+
+
+            if(isset($portal['saleSmarts'])){
+                $saleSmarts = $portal['saleSmarts'];
+
+            }
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['saleSmarts' => $saleSmarts]]);
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -46,15 +59,15 @@ class InstallDealController extends Controller
 
             if ($response->successful()) {
                 $googleData = $response->json();
-                Log::channel('telegram')->error("googleData", [
-                    'googleData' => $googleData,
+                // Log::channel('telegram')->error("googleData", [
+                //     'googleData' => $googleData,
 
-                ]);
+                // ]);
             } else {
-                Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                ]);
+                // Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                //     'status' => $response->status(),
+                //     'body' => $response->body(),
+                // ]);
                 return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
 
@@ -63,12 +76,12 @@ class InstallDealController extends Controller
 
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
+            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
             // Проверка на массив
-            if (!empty($googleData['deals'])) {
+            if (!empty($googleData['deals']) && !empty($googleData['callingFields']) && !empty($googleData['konstructorFieldsdeals'])) {
                 $deals = $googleData['deals'];
 
                 foreach ($deals as $deal) {
