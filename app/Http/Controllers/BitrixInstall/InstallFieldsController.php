@@ -370,7 +370,7 @@ class InstallFieldsController extends Controller
     ) {
         // $entityType lead company deal
         // Step 1: Get all smart processes
-        $url = $hook . '/crm.' . $entityType . 'userfield.list';
+        $url = $hook . '/crm.' . $entityType . '.userfield.list';
         $response = Http::post($url);
         $currentFields = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
         Log::channel('telegram')->error("fieldsData", [
@@ -378,10 +378,10 @@ class InstallFieldsController extends Controller
 
         ]);
 
-        Log::channel('telegram')->error("fieldsData", [
-            'portalFields' => $portalFields,
+        // Log::channel('telegram')->error("fieldsData", [
+        //     'portalFields' => $portalFields,
 
-        ]);
+        // ]);
 
 
         foreach ($fields as  $field) {
