@@ -434,10 +434,10 @@ class InstallFieldsController extends Controller
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
                 "ORDER" => 134,
             ];
-            // Log::channel('telegram')->error("fieldsData", [
-            //     'fieldsData' => $fieldsData,
+            Log::channel('telegram')->error("fieldsData", [
+                'fieldsData' => $fieldsData,
 
-            // ]);
+            ]);
             $data = [
                 'fields' => $fieldsData
             ];
