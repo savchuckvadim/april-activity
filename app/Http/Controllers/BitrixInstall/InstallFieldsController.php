@@ -510,7 +510,7 @@ class InstallFieldsController extends Controller
         // ];
         // $response = Http::post($url, $data);
         // $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
-        
+
         $currentField = $currentBtxField;
         $currentFieldItems = null;
 
@@ -518,7 +518,7 @@ class InstallFieldsController extends Controller
             $currentFieldItems = $currentField['LIST'];
         }
 
-        $portalFieldItems = $currentPortalField->items;
+        $portalFieldItems = $currentPortalField->items->toArray();
 
 
         foreach ($currentFieldItems as $currentFieldItem) {  //btx items
@@ -526,7 +526,7 @@ class InstallFieldsController extends Controller
             if (!empty($portalFieldItems)) {
                 foreach ($portalFieldItems as $pitem) {
 
-                    if ($currentFieldItem['VALUE'] == $pitem['title']) {
+                    if ($currentFieldItem['XML_ID'] == $pitem['code']) {
 
                         $currentPortalItem  =  $pitem;
                     }
@@ -537,21 +537,25 @@ class InstallFieldsController extends Controller
                 $currentPortalItem  =  new BitrixfieldItem();
             }
             $currentPortalItem->bitrixId = $currentFieldItem['ID'];
-            $currentPortalItem->code = $currentFieldItem['VALUE'];
+            $currentPortalItem->code = $currentFieldItem['XML_ID'];
             $currentPortalItem->save();
         }
 
         if (!empty($portalFieldItems)) {
-            
+
             foreach ($portalFieldItems as $pitem) {
+                $pItemForDelete = false;
                 foreach ($currentFieldItems as $currentFieldItem) {  //btx items
 
-                    if($pitem['title'] === $currentFieldItem['VALUE'] &&
-                    $pitem['bitrixId'] !== $currentFieldItem['ID']
-                    )
+                    if (
+                        $pitem['title'] === $currentFieldItem['VALUE'] &&
+                        $pitem['bitrixId'] !== $currentFieldItem['ID']
+                    ) {
+                        $pItemForDelete = $pitem;
+                    }
+                }
+                if ($pItemForDelete) {
                     $pitem->delete();
-                   
-
                 }
             }
         }
