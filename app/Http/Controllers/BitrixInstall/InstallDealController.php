@@ -297,7 +297,8 @@ class InstallDealController extends Controller
                 // }
 
                 $hookCategoriesData = [
-                    'entityTypeId' => $category['entityTypeId'],
+                    'entityTypeId' => 2, // $category['entityTypeId'],
+                    'entityTypeName' => "DEAL",
                     'fields' => [
                         'name' => $categoryName,
                         'title' => $category['title'],
@@ -313,30 +314,31 @@ class InstallDealController extends Controller
 
                 $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
                 $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
+                $categoryId = $bitrixResponseCategory;
 
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
-                // if (isset($bitrixResponseCategory['id'])) {
-                //     $categoryId = $bitrixResponseCategory['id'];
-                // }
+                if (isset($bitrixResponseCategory['id'])) {
+                    $categoryId = $bitrixResponseCategory['id'];
+                }
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['categoryId' => $categoryId]]);
+
                 if (!empty($bitrixResponseCategory['category'])) {
                     if (isset($bitrixResponseCategory['category']['id'])) {
                         $categoryId = $bitrixResponseCategory['category']['id'];
                     }
                 }
 
-                if($categoryId){
-
+                if ($categoryId) {
                 }
                 //обновляем категорию в БД
                 foreach ($portalDealCategories as $portalDealCategory) { //перебираем категории сделки привязанной к порталу db
-                    if(!empty($portalDealCategory) && isset($portalDealCategory['code'])){
-                        if($portalDealCategory['code'] == $category['code']){
+                    if (!empty($portalDealCategory) && isset($portalDealCategory['code'])) {
+                        if ($portalDealCategory['code'] == $category['code']) {
 
                             $portalCategory = BtxCategory::find($portalDealCategory['id']);
                             $portalCategory->group = $category['group'];
                             $portalCategory->title = $category['title'];
                             $portalCategory->name = $category['name'];
-                      
+
                             $portalCategory->type = $category['type'];
                             $portalCategory->bitrixId = $categoryId;
                             $portalCategory->bitrixCamelId = $categoryId;
@@ -344,7 +346,7 @@ class InstallDealController extends Controller
                         }
                     }
                 }
-               
+
                 // $categoryId = $bitrixResponseCategory['result'];
 
                 // if ($isDefault === 'Y') {
