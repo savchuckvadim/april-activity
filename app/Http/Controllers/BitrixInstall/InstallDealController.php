@@ -344,7 +344,7 @@ class InstallDealController extends Controller
                                 $portalCategory->bitrixCamelId = $categoryId;
                                 $portalCategory->save();
 
-                                $portalDealCategoryStages =  $portalCategory->stages();
+                                $portalDealCategoryStages =  $portalCategory->stages;
                             }
                         }
                     }
