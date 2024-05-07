@@ -147,7 +147,7 @@ class InstallFieldsController extends Controller
             // $url = $hook . $methodSmartInstall;
 
             // Проверка на массив
-            if (!empty($googleData['fields'])) {
+            // if (!empty($googleData['fields'])) {
                 $fields = $googleData['fields'];
 
                 Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
@@ -156,62 +156,62 @@ class InstallFieldsController extends Controller
                     // 'portalCompanyFields' => $portalCompanyFields,
                     // 'portalsmarts' => $portalsmarts,
                 ]]);
-                foreach ($fields as $field) {
+                // foreach ($fields as $field) {
 
-                    $multiple = "N";
-                    $type = $field['type'];
-                    if ($type == 'multiple') {
-                        $type = 'string';
-                        $multiple = "Y";
-                    }
+                //     $multiple = "N";
+                //     $type = $field['type'];
+                //     if ($type == 'multiple') {
+                //         $type = 'string';
+                //         $multiple = "Y";
+                //     }
 
 
-                    $method = '/crm.deal.userfield.add';
-                    $url = $hook . $method;
-                    $fieldsData = [ //list
-                        "FIELD_NAME" => $field['deal'],
-                        "EDIT_FORM_LABEL" => $field['name'],
-                        "LIST_COLUMN_LABEL" => $field['name'],
-                        "USER_TYPE_ID" => $type,
-                        "LIST" => $field['list'],
-                        "XML_ID" => $field['code'],
-                        "MULTIPLE" => $multiple,
-                        "SETTINGS" => ["LIST_HEIGHT" => 1],
-                        // "ORDER" => 2
-                    ];
+                //     $method = '/crm.deal.userfield.add';
+                //     $url = $hook . $method;
+                //     $fieldsData = [ //list
+                //         "FIELD_NAME" => $field['deal'],
+                //         "EDIT_FORM_LABEL" => $field['name'],
+                //         "LIST_COLUMN_LABEL" => $field['name'],
+                //         "USER_TYPE_ID" => $type,
+                //         "LIST" => $field['list'],
+                //         "XML_ID" => $field['code'],
+                //         "MULTIPLE" => $multiple,
+                //         "SETTINGS" => ["LIST_HEIGHT" => 1],
+                //         // "ORDER" => 2
+                //     ];
 
-                    $data = [
-                        'fields' => $fieldsData
-                    ];
-                    //                     $response = Http::post($url, $data);
-                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
-                    // sleep(2);
-                    //                     $method = '/crm.company.userfield.add';
-                    //                     $fieldsData['FIELD_NAME'] = $field['company'];
-                    //                     $url = $hook . $method;
+                //     $data = [
+                //         'fields' => $fieldsData
+                //     ];
+                //     //                     $response = Http::post($url, $data);
+                //     //                     $responseData = BitrixController::getBitrixResponse($response, 'response: deal');
+                //     // sleep(2);
+                //     //                     $method = '/crm.company.userfield.add';
+                //     //                     $fieldsData['FIELD_NAME'] = $field['company'];
+                //     //                     $url = $hook . $method;
 
-                    //                     $response = Http::post($url, $data);
-                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
-                    //                     sleep(2);
-                    //                     $method = '/crm.lead.userfield.add';
-                    //                     $fieldsData['FIELD_NAME'] = $field['lead'];
-                    //                     $url = $hook . $method;
+                //     //                     $response = Http::post($url, $data);
+                //     //                     $responseData = BitrixController::getBitrixResponse($response, 'response: company');
+                //     //                     sleep(2);
+                //     //                     $method = '/crm.lead.userfield.add';
+                //     //                     $fieldsData['FIELD_NAME'] = $field['lead'];
+                //     //                     $url = $hook . $method;
 
-                    //                     $response = Http::post($url, $data);
-                    //                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
-                    //                     sleep(2);
-                    // if($smartId){
-                    //     $method = '/userfieldconfig.add';
-                    //     $fieldsData['FIELD_NAME'] = $field['smart'];
-                    //     $fieldsData['FIELD_NAME'] = $field['smart'];
-                    // $url = $hook . $method;
+                //     //                     $response = Http::post($url, $data);
+                //     //                     $responseData = BitrixController::getBitrixResponse($response, 'response: lead');
+                //     //                     sleep(2);
+                //     // if($smartId){
+                //     //     $method = '/userfieldconfig.add';
+                //     //     $fieldsData['FIELD_NAME'] = $field['smart'];
+                //     //     $fieldsData['FIELD_NAME'] = $field['smart'];
+                //     // $url = $hook . $method;
 
-                    // $response = Http::post($url, $data);
+                //     // $response = Http::post($url, $data);
 
-                    // // $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
+                //     // // $responseData = BitrixController::getBitrixResponse($response, 'BitrixDealDocumentService: getSmartItem');
 
-                    // }
-                }
+                //     // }
+                // }
 
                 //smart fields
 
@@ -225,7 +225,7 @@ class InstallFieldsController extends Controller
                     $parentClass
 
                 );
-            };
+            // };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
                 'message' => $e->getMessage(),
@@ -378,10 +378,10 @@ class InstallFieldsController extends Controller
 
         ]);
 
-        // Log::channel('telegram')->error("fieldsData", [
-        //     'portalFields' => $portalFields,
+        Log::channel('telegram')->error("fieldsData", [
+            'portalFields' => $portalFields,
 
-        // ]);
+        ]);
 
 
         foreach ($fields as  $field) {
@@ -409,10 +409,10 @@ class InstallFieldsController extends Controller
                     "SETTINGS" => ["LIST_HEIGHT" => 1],
                     "ORDER" => 134,
                 ];
-                // Log::channel('telegram')->error("fieldsData", [
-                //     'fieldsData' => $fieldsData,
+                Log::channel('telegram')->error("fieldsData", [
+                    'fieldsData' => $fieldsData,
 
-                // ]);
+                ]);
                 $data = [
                     'fields' => $fieldsData
                 ];

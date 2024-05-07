@@ -41,8 +41,8 @@ Route::get('/install/deal/{pass}/{token}', function ($pass, $token) {
 
 Route::get('install/smart/{token}', function ($token) {
     // $url = LinkController ::urlForRedirect($linkId);
-
-    return InstallController::installSmart($token);
+    return 'yo';
+    // return InstallController::installSmart($token);
 });
 
 
