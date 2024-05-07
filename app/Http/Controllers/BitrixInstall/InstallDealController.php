@@ -81,8 +81,10 @@ class InstallDealController extends Controller
             // $url = $hook . $methodSmartInstall;
 
             // Проверка на массив
-            if (!empty($googleData['deals']) && !empty($googleData['callingFields']) && !empty($googleData['konstructorFieldsdeals'])) {
+            if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
                 $deals = $googleData['deals'];
+                $fields = $googleData['fields'];
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['fields' => $fields]]);
 
                 foreach ($deals as $deal) {
                     // $hookSmartInstallData = [
@@ -108,7 +110,7 @@ class InstallDealController extends Controller
                     // $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
 
 
-                    $categories = InstallDealController::setCategories($hook, $deal['categories']);
+                    // $categories = InstallDealController::setCategories($hook, $deal['categories']);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
