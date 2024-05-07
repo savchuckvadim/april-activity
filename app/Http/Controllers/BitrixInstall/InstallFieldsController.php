@@ -150,12 +150,12 @@ class InstallFieldsController extends Controller
             // if (!empty($googleData['fields'])) {
             $fields = $googleData['fields'];
 
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                // 'portalDealFields' => $portalDealFields,
-                'fields' => $fields,
-                // 'portalCompanyFields' => $portalCompanyFields,
-                // 'portalsmarts' => $portalsmarts,
-            ]]);
+            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+            //     // 'portalDealFields' => $portalDealFields,
+            //     'fields' => $fields,
+            //     // 'portalCompanyFields' => $portalCompanyFields,
+            //     // 'portalsmarts' => $portalsmarts,
+            // ]]);
             // foreach ($fields as $field) {
 
             //     $multiple = "N";
@@ -393,7 +393,8 @@ class InstallFieldsController extends Controller
 
         foreach ($fields as  $field) {
             $currentBtxFieldId = false;
-
+            $currentPortalFieldId = false;
+            
             foreach ($currentFields as $currentBtxField) {
                 if ($field['code'] === $currentBtxField['XML_ID']) {
                     $currentBtxFieldId = $currentBtxField['ID'];
@@ -405,6 +406,16 @@ class InstallFieldsController extends Controller
                 }
             }
 
+            foreach ($portalFields as $portalField) {
+                if ($field['code'] === $portalField['code']) {
+                    $currentPortalFieldId = $portalField['id'];
+                    Log::channel('telegram')->error("currentBtxField", [
+                        'currentPortalFieldId' => $currentPortalFieldId,
+                        'portalField' => $portalField,
+    
+                    ]);
+                }
+            }
 
             // if (!empty($field[$entityType])) {
             $type = $field['type'] ?? 'string';
