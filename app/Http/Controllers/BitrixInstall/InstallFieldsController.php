@@ -125,10 +125,10 @@ class InstallFieldsController extends Controller
 
             if ($response->successful()) {
                 $googleData = $response->json();
-                Log::channel('telegram')->error("googleData", [
-                    'googleData' => $googleData['fields'],
+                // Log::channel('telegram')->error("googleData", [
+                //     'googleData' => $googleData['fields'],
 
-                ]);
+                // ]);
             } else {
                 Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
                     'status' => $response->status(),
@@ -394,7 +394,7 @@ class InstallFieldsController extends Controller
 
         // ]);
 
-
+        $responsesData = [];
         foreach ($fields as  $field) {
             $currentBtxFieldId = false;
             $currentPortalField = false;
@@ -453,6 +453,7 @@ class InstallFieldsController extends Controller
             $response = Http::post($url, $data);
             sleep(1);
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
+            array_push($responsesData, $responseData);
             // } else {
             //TODO найти такой на сервере БД и удалить
             // }
@@ -466,7 +467,7 @@ class InstallFieldsController extends Controller
                 $currentPortalField = new Bitrixfield();
                 $currentPortalField->entity_type = $parentClass;
                 $currentPortalField->entity_id = $parentId;
-             
+
                 $currentPortalField->parent_type = $field['appType'];
             }
             $currentPortalField->type = $field['type'];
@@ -474,13 +475,20 @@ class InstallFieldsController extends Controller
             $currentPortalField->name = $field['name'];
             $currentPortalField->code = $field['code'];
             $currentPortalField->bitrixId = $field[$entityType];
-            $currentPortalField->bitrixCamelId = 'ufCrm'.$field[$entityType];
+            $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
             $currentPortalField->save();
+          
+            sleep(2);
+         
+        }
+
+        foreach($responsesData as $responseData){
+            sleep(1);
             Log::channel('telegram')->error("currentPortalField", [
-                'currentPortalField' => $currentPortalField,
+                'responseData' => $responseData,
 
             ]);
-            sleep(2);
+
         }
         // }
     }
