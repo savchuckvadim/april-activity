@@ -399,6 +399,7 @@ class InstallFieldsController extends Controller
             $currentBtxFieldId = false;
             $currentPortalField = false;
 
+
             foreach ($currentFields as $currentBtxField) {
                 if ($field['code'] === $currentBtxField['XML_ID']) {
                     $currentBtxFieldId = $currentBtxField['ID'];
@@ -410,6 +411,8 @@ class InstallFieldsController extends Controller
                     $currentPortalField = $portalField;
                 }
             }
+
+
 
             // if (!empty($field[$entityType])) {
             $type = $field['type'] ?? 'string';
@@ -432,7 +435,7 @@ class InstallFieldsController extends Controller
                 // "CODE" => $field['code'],
                 "XML_ID" => $field['code'],
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
-                "ORDER" => 134,
+                "SORT" => 134,
             ];
 
             $data = [
@@ -479,14 +482,40 @@ class InstallFieldsController extends Controller
             $currentPortalField->bitrixId = $field[$entityType];
             $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
             $currentPortalField->save();
+            if ($field['type'] == 'enumeration') {
 
+                $items = InstallFieldsController::setFieldItems($hook, $entityType, $currentBtxFieldId, $field, $currentPortalField);
+            }
             sleep(2);
         }
-        Log::channel('telegram')->error("responseData", [
-            'responsesData' => $responsesData,
+        // Log::channel('telegram')->error("responseData", [
+        //     'responsesData' => $responsesData,
 
-        ]);
+        // ]);
 
         // }
+    }
+
+    public static function setFieldItems($hook, $entityType, $currentBtxFieldId, $field, $currentPortalField)
+    {
+        $url = $hook . '/crm.' . $entityType . '.userfield.get';
+        $data = [
+            'id' => $currentBtxFieldId
+        ];
+        $response = Http::post($url, $data);
+        $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
+        $currentFieldItems = null;
+
+        if(isset($currentField['ITEMS'])){
+            $currentFieldItems = $currentField['ITEMS'];
+        }
+
+        $portalFieldItems = $currentPortalField->items;
+        Log::channel('telegram')->error("responseData", [
+            'currentFieldItems' => $currentFieldItems,
+            'currentField' => $currentField,
+            'portalFieldItems' => $portalFieldItems,
+
+        ]);
     }
 }
