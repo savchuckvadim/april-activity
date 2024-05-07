@@ -1,0 +1,153 @@
+{
+    "INSTALL": {
+        "portal": {
+            "App\\Models\\Portal": {
+                "id": 6,
+                "created_at": "2023-12-21T10:07:51.000000Z",
+                "updated_at": "2023-12-21T10:07:51.000000Z",
+                "domain": "april-dev.bitrix24.ru",
+                "key": "eyJpdiI6ImlobUU5OUp3N2s5RFF2SnJPeEFlRmc9PSIsInZhbHVlIjoiTVhoTS8yZXN6d2k0bWhYU3k3ODZRTitKTVVHY3Q3aVZIdFhWeEVTZjl5UT0iLCJtYWMiOiI0MzBjOWYzOGVlZjBlZDkzNzkyZDBlNTRmZTg3MzhkYmQxOTg0ODI5ZGJkYzBhNmNkZTdjNGE0ZjM2MjY1N2FkIiwidGFnIjoiIn0=",
+                "C_REST_CLIENT_ID": "eyJpdiI6ImF1MGI2ME9JR0lETW1yMUZmR0VVb1E9PSIsInZhbHVlIjoiTVNUdzJmVXBTMkxZNjBhN1QwYk1uSVhCZk9aQzJQS01RMjR1d1l0dkc4WT0iLCJtYWMiOiI2ZjJmMjhiMDkzNDljYjE3ZTJjNDc4M2QxYzUxNzY5YzJhMjFkODViZmNkMzA2ZGJmMWI4YWM1Y2M3ODMzYTc4IiwidGFnIjoiIn0=",
+                "C_REST_CLIENT_SECRET": "eyJpdiI6IndRb0RCRGVkQXFEZ0JqSGY4VmhnTGc9PSIsInZhbHVlIjoieUhVUUdFVk1ZQWNBbGxCdVBreitZS25UWEkrVHVZUzZCV1oxc1h1TzdYSzZmajZFUjVpV1VkWjEwOHFaZndtUFFvNUltc1E3Z3REMUxpVzcyY084VVE9PSIsIm1hYyI6ImYxMDdlMGI0Nzk1OTBhNzZkNTcxOGFlYTJhOTc0NTdmNTNiMjEzNWVlOTY5M2M5NzE0MTc5ZTg5ZjE1MmJhMTEiLCJ0YWciOiIifQ==",
+                "C_REST_WEB_HOOK_URL": "eyJpdiI6ImFybW41djhhTUlFeFVUaWZjekIrSnc9PSIsInZhbHVlIjoiRGJaZWN1V2c4eUtFZTJyRDA3aUlEemZyYmI4aGFrNklMY0RBVGI1RS9EST0iLCJtYWMiOiI2YWIxZjE1ZWFlNDFlZjMyMDRkZjA5ZGIzN2FmOTJkNjU3ODQ2NWE2MmI1YTRkMmQ0ODZlODk4NGQ5ZjAzZGMwIiwidGFnIjoiIn0=",
+                "number": 132,
+                "deals": [
+                    {
+                        "id": 1,
+                        "created_at": "2024-04-29T12:50:08.000000Z",
+                        "updated_at": "2024-04-29T12:50:08.000000Z",
+                        "name": "DEAL",
+                        "title": "DEAL",
+                        "code": "deal",
+                        "portal_id": 6,
+                        "categories": [
+                            {
+                                "id": 3,
+                                "entity_type": "App\\Models\\BtxDeal",
+                                "entity_id": 1,
+                                "parent_type": "sales",
+                                "created_at": "2024-04-29T13:06:56.000000Z",
+                                "updated_at": "2024-04-29T13:06:56.000000Z",
+                                "type": "sales",
+                                "group": "sales",
+                                "title": "Test Deal Category",
+                                "name": "Test Deal Category",
+                                "bitrixId": "Test Deal Category",
+                                "bitrixCamelId": "Test Deal Category",
+                                "code": "sales",
+                                "isActive": 1,
+                                "stages": [
+                                    {
+                                        "id": 3,
+                                        "created_at": "2024-04-29T13:07:21.000000Z",
+                                        "updated_at": "2024-04-29T13:07:32.000000Z",
+                                        "btx_category_id": 3,
+                                        "name": "Test Stage for Deal",
+                                        "title": "Test Stage for Deal",
+                                        "code": "Test Stage for Deal",
+                                        "bitrixId": "Test Stage for Deal",
+                                        "color": "#00082",
+                                        "isActive": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "portalDeal": {
+            "App\\Models\\BtxDeal": {
+                "id": 1,
+                "created_at": "2024-04-29T12:50:08.000000Z",
+                "updated_at": "2024-04-29T12:50:08.000000Z",
+                "name": "DEAL",
+                "title": "DEAL",
+                "code": "deal",
+                "portal_id": 6,
+                "categories": [
+                    {
+                        "id": 3,
+                        "entity_type": "App\\Models\\BtxDeal",
+                        "entity_id": 1,
+                        "parent_type": "sales",
+                        "created_at": "2024-04-29T13:06:56.000000Z",
+                        "updated_at": "2024-04-29T13:06:56.000000Z",
+                        "type": "sales",
+                        "group": "sales",
+                        "title": "Test Deal Category",
+                        "name": "Test Deal Category",
+                        "bitrixId": "Test Deal Category",
+                        "bitrixCamelId": "Test Deal Category",
+                        "code": "sales",
+                        "isActive": 1,
+                        "stages": [
+                            {
+                                "id": 3,
+                                "created_at": "2024-04-29T13:07:21.000000Z",
+                                "updated_at": "2024-04-29T13:07:32.000000Z",
+                                "btx_category_id": 3,
+                                "name": "Test Stage for Deal",
+                                "title": "Test Stage for Deal",
+                                "code": "Test Stage for Deal",
+                                "bitrixId": "Test Stage for Deal",
+                                "color": "#00082",
+                                "isActive": 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "portalDealCategories": {
+            "Illuminate\\Database\\Eloquent\\Collection": [
+                {
+                    "id": 3,
+                    "entity_type": "App\\Models\\BtxDeal",
+                    "entity_id": 1,
+                    "parent_type": "sales",
+                    "created_at": "2024-04-29T13:06:56.000000Z",
+                    "updated_at": "2024-04-29T13:06:56.000000Z",
+                    "type": "sales",
+                    "group": "sales",
+                    "title": "Test Deal Category",
+                    "name": "Test Deal Category",
+                    "bitrixId": "Test Deal Category",
+                    "bitrixCamelId": "Test Deal Category",
+                    "code": "sales",
+                    "isActive": 1,
+                    "stages": [
+                        {
+                            "id": 3,
+                            "created_at": "2024-04-29T13:07:21.000000Z",
+                            "updated_at": "2024-04-29T13:07:32.000000Z",
+                            "btx_category_id": 3,
+                            "name": "Test Stage for Deal",
+                            "title": "Test Stage for Deal",
+                            "code": "Test Stage for Deal",
+                            "bitrixId": "Test Stage for Deal",
+                            "color": "#00082",
+                            "isActive": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        "portalStages": [
+            {
+                "App\\Models\\BtxStage": {
+                    "id": 3,
+                    "created_at": "2024-04-29T13:07:21.000000Z",
+                    "updated_at": "2024-04-29T13:07:32.000000Z",
+                    "btx_category_id": 3,
+                    "name": "Test Stage for Deal",
+                    "title": "Test Stage for Deal",
+                    "code": "Test Stage for Deal",
+                    "bitrixId": "Test Stage for Deal",
+                    "color": "#00082",
+                    "isActive": 1
+                }
+            }
+        ]
+    }
+}

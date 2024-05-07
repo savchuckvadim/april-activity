@@ -43,7 +43,7 @@ class InstallDealController extends Controller
             // $portal = ;
             // $portal = PortalController::innerGetPortal($domain);
             $portalDeal = null;
-      
+
             $portalDealCategories = null;
             $portalStages = [];
             if (isset($portal->deals)) {
@@ -57,18 +57,19 @@ class InstallDealController extends Controller
                     }
                 }
             }
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                'portal' => $portal,
-                'portalDeal' => $portalDeal,
-                'portalDealCategories' => $portalDealCategories,
-                'portalStages' => $portalStages,
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                'INSTALL' => [
+                    // 'portal' => $portal,
+                    // 'portalDeal' => $portalDeal,
+                    'portalDealCategories' => $portalDealCategories,
+                    'portalStages' => $portalStages,
 
                 ]
             ]);
 
 
 
-        
+
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -91,7 +92,7 @@ class InstallDealController extends Controller
 
 
 
-            $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
+            $webhookRestKey = $portal->C_REST_WEB_HOOK_URL;
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
@@ -101,7 +102,10 @@ class InstallDealController extends Controller
             if (!empty($googleData['deals']) && !empty($googleData['fields'])) {
                 $deals = $googleData['deals'];
                 $fields = $googleData['fields'];
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['fields' => $fields]]);
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                    'fields' => $fields,
+                    'deals' => $deals
+                ]]);
 
                 foreach ($deals as $deal) {
                     // $hookSmartInstallData = [
