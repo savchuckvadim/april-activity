@@ -457,10 +457,10 @@ class InstallFieldsController extends Controller
             //TODO найти такой на сервере БД и удалить
             // }
 
-            Log::channel('telegram')->error("fieldsData", [
-                'responseData' => $responseData,
+            // Log::channel('telegram')->error("fieldsData", [
+            //     'responseData' => $responseData,
 
-            ]);
+            // ]);
 
             if (!$currentPortalField) {
                 $currentPortalField = new Bitrixfield();
@@ -469,11 +469,11 @@ class InstallFieldsController extends Controller
                 $currentPortalField->parent_type = $field['appType'];
             }
             $currentPortalField->type = $field['type'];
-            $currentPortalField->title = $field['title'];
+            $currentPortalField->title = $field['name'];
             $currentPortalField->name = $field['name'];
             $currentPortalField->code = $field['code'];
-            $currentPortalField->bitrixId = $field['bitrixId'];
-            $currentPortalField->bitrixCamelId = $field['bitrixCamelId'];
+            $currentPortalField->bitrixId = $field[$entityType];
+            $currentPortalField->bitrixCamelId = 'ufCrm'.$field[$entityType];
             $currentPortalField->save();
             Log::channel('telegram')->error("currentPortalField", [
                 'currentPortalField' => $currentPortalField,
