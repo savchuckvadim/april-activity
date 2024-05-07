@@ -143,8 +143,8 @@ class InstallFieldsController extends Controller
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
 
             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                'portalDealFields' => $portalDealFields,
-                // 'portalLeadFields' => $portalLeadFields,
+                // 'portalDealFields' => $portalDealFields,
+                'googleData' => $googleData,
                 // 'portalCompanyFields' => $portalCompanyFields,
                 // 'portalsmarts' => $portalsmarts,
             ]]);
