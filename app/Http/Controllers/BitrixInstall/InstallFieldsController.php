@@ -124,10 +124,10 @@ class InstallFieldsController extends Controller
 
             if ($response->successful()) {
                 $googleData = $response->json();
-                Log::channel('telegram')->error("googleData", [
-                    'googleData' => $googleData,
+                // Log::channel('telegram')->error("googleData", [
+                //     'googleData' => $googleData,
 
-                ]);
+                // ]);
             } else {
                 Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
                     'status' => $response->status(),
@@ -142,12 +142,12 @@ class InstallFieldsController extends Controller
             // $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
 
-            // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-            //     'portalDealFields' => $portalDealFields,
-            //     'portalLeadFields' => $portalLeadFields,
-            //     'portalCompanyFields' => $portalCompanyFields,
-            //     'portalsmarts' => $portalsmarts,
-            // ]]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                'portalDealFields' => $portalDealFields,
+                // 'portalLeadFields' => $portalLeadFields,
+                // 'portalCompanyFields' => $portalCompanyFields,
+                // 'portalsmarts' => $portalsmarts,
+            ]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
 
