@@ -373,25 +373,33 @@ class InstallFieldsController extends Controller
         $url = $hook . '/crm.' . $entityType . '.userfield.list';
         $response = Http::post($url);
         $currentFields = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
- 
+
         if (isset($currentFields['items'])) {
             $currentFields = $currentFields['items'];
         }
         if (isset($currentFields['fields'])) {
             $currentFields = $currentFields['fields'];
         }
-        Log::channel('telegram')->error("fieldsData", [
-            'currentFields' => $currentFields[0],
+        // Log::channel('telegram')->error("fieldsData", [
+        //     'currentFields' => $currentFields[0],
 
-        ]);
+        // ]);
 
-        Log::channel('telegram')->error("fieldsData", [
-            'portalFields' => $portalFields,
+        // Log::channel('telegram')->error("fieldsData", [
+        //     'portalFields' => $portalFields,
 
-        ]);
+        // ]);
 
 
         foreach ($fields as  $field) {
+            $currentBtxFieldId = false;
+
+            foreach ($currentFields as $currentBtxField) {
+                if ($field['code'] === $currentBtxField['XML_ID']) {
+                    $currentBtxFieldId = $currentBtxField['ID'];
+                }
+            }
+
 
             // if (!empty($field[$entityType])) {
             $type = $field['type'] ?? 'string';
@@ -405,7 +413,7 @@ class InstallFieldsController extends Controller
             // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
             $fieldsData = [ //list
-                "FIELD_NAME" => $field[$entityType],
+
                 "EDIT_FORM_LABEL" => $field['name'],
                 "LIST_COLUMN_LABEL" => $field['name'],
                 "USER_TYPE_ID" => $field['type'],
@@ -424,6 +432,17 @@ class InstallFieldsController extends Controller
                 'fields' => $fieldsData
             ];
             $method = '/crm.' . $entityType . 'userfield.add';
+
+            if ($currentBtxFieldId) {
+                $data['id'] = $currentBtxFieldId;
+                $method = '/crm.' . $entityType . 'userfield.update';
+                Log::channel('telegram')->error("fieldsData", [
+                    'data' => $data,
+
+                ]);
+            } else {
+                $data['fields']["FIELD_NAME"] = $field[$entityType];
+            }
             $url = $hook . $method;
             // $response = Http::post($url, $data);
             // sleep(2);
