@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\Bitrixfield;
 use App\Models\BtxDeal;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
@@ -217,12 +218,14 @@ class InstallFieldsController extends Controller
 
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
             $parentClass = BtxDeal::class;
+            $parentId = $portalDeal['id'];
             $responseData = InstallFieldsController::createFieldsForEntities(
                 'deal',
                 $hook,
                 $fields,
                 $portalDealFields,
-                $parentClass
+                $parentClass,
+                $parentId
 
             );
             // };
@@ -367,6 +370,7 @@ class InstallFieldsController extends Controller
         $fields,
         $portalFields,
         $parentClass,
+        $parentId,
     ) {
         // $entityType lead company deal
         // Step 1: Get all smart processes
@@ -393,27 +397,17 @@ class InstallFieldsController extends Controller
 
         foreach ($fields as  $field) {
             $currentBtxFieldId = false;
-            $currentPortalFieldId = false;
-            
+            $currentPortalField = false;
+
             foreach ($currentFields as $currentBtxField) {
                 if ($field['code'] === $currentBtxField['XML_ID']) {
                     $currentBtxFieldId = $currentBtxField['ID'];
-                    Log::channel('telegram')->error("currentBtxField", [
-                        'currentBtxFieldId' => $currentBtxFieldId,
-                        'field' => $field,
-    
-                    ]);
                 }
             }
 
             foreach ($portalFields as $portalField) {
                 if ($field['code'] === $portalField['code']) {
-                    $currentPortalFieldId = $portalField['id'];
-                    Log::channel('telegram')->error("currentBtxField", [
-                        'currentPortalFieldId' => $currentPortalFieldId,
-                        'portalField' => $portalField,
-    
-                    ]);
+                    $currentPortalField = $portalField;
                 }
             }
 
@@ -452,17 +446,40 @@ class InstallFieldsController extends Controller
             if ($currentBtxFieldId) {
                 $data['id'] = $currentBtxFieldId;
                 $method = '/crm.' . $entityType . 'userfield.update';
-              
             } else {
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
             }
             $url = $hook . $method;
-            // $response = Http::post($url, $data);
-            // sleep(2);
-            // $responseData = BitrixController::getBitrixResponse($response, 'fields install');
+            $response = Http::post($url, $data);
+            sleep(1);
+            $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             // } else {
             //TODO найти такой на сервере БД и удалить
             // }
+
+            Log::channel('telegram')->error("fieldsData", [
+                'responseData' => $responseData,
+
+            ]);
+
+            if (!$currentPortalField) {
+                $currentPortalField = new Bitrixfield();
+                $currentPortalField->entity_id = $parentClass;
+                $currentPortalField->title = $parentId;
+                $currentPortalField->parent_type = $field['appType'];
+            }
+            $currentPortalField->type = $field['type'];
+            $currentPortalField->title = $field['title'];
+            $currentPortalField->name = $field['name'];
+            $currentPortalField->code = $field['code'];
+            $currentPortalField->bitrixId = $field['bitrixId'];
+            $currentPortalField->bitrixCamelId = $field['bitrixCamelId'];
+            $currentPortalField->save();
+            Log::channel('telegram')->error("currentPortalField", [
+                'currentPortalField' => $currentPortalField,
+
+            ]);
+            sleep(2);
         }
         // }
     }
