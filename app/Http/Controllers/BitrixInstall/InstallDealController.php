@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Http\Resources\PortalResource;
+use App\Models\BtxDeal;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class InstallDealController extends Controller
     ) {
         // $domain = 'gsr.bitrix24.ru';
         $domain = 'april-dev.bitrix24.ru';
-
+        $appType = 'general';
+        $group = 'sales';
         // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
         // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
@@ -39,6 +41,12 @@ class InstallDealController extends Controller
 
         try {
             $portal = Portal::where('domain', $domain)->first();
+            $portalId = null;
+            $portalDealId = null;
+            $portalDeal = null;
+            if ($portal && isset($portal->id)) {
+                $portalId = $portal->id;
+            }
 
             // $portal = ;
             // $portal = PortalController::innerGetPortal($domain);
@@ -79,68 +87,49 @@ class InstallDealController extends Controller
 
             $portalDeal = null;
 
-            $portalDealCategories = null;
-            $portalStages = [];
-            if (isset($portal->deals)) {
-                $portalDeals = $portal->deals;
-                $portalDeal = $portalDeals[0];
-                $portalDealCategories = $portalDeal->categories;
+            $portalDealCategories = [];
 
-                foreach ($portalDealCategories as $portDealCategory) {
-                    foreach ($portDealCategory->stages as $portDealStage) {
-                        array_push($portalStages, $portDealStage);
+            if ($portal) {
+                if (!empty($portal->deals)) { // Сделка у портала на DB существует
+                    $portalDeals = $portal->deals;
+                    $portalDeal = $portalDeals[0];
+
+                    if (!empty($portalDeal) && isset($portalDeal->id)) {
+                        $portalDealId = $portalDeal->id;
                     }
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                        // 'fields' => $fields,
+                        'portalDeal' => $portalDeal,
+                        'portalDealId' => $portalDealId,
+                    ]]);
+                    $portalDealCategories = $portalDeal->categories;
+                } else {
+                    //если сделки у портала не существует - создать
+                    // $portalDeal = new BtxDeal();
+                    // $portalDeal->name = 'Сделка' . $domain;
+                    // $portalDeal->title = 'Сделка' . $domain;
+                    // $portalDeal->code = 'deal';
+                    // $portalDeal->portal_id = $portalId;
+                    // $portalDeal->save();
                 }
             }
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                'INSTALL' => [
-                    // 'portal' => $portal,
-                    // 'portalDeal' => $portalDeal,
-                    'portalDealCategories' => $portalDealCategories,
-                    'portalStages' => $portalStages,
 
-                ]
-            ]);
+
 
 
             // Проверка на массив
             if (!empty($googleData['deals'])) {
                 $deals = $googleData['deals'];
                 // $fields = $googleData['fields'];
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                    // 'fields' => $fields,
-                    'deals' => $deals
-                ]]);
+
 
                 foreach ($deals as $deal) {
                     Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
                         // 'fields' => $fields,
                         'deal' => $deal
                     ]]);
-                    // $hookSmartInstallData = [
-                    //     'fields' => [
-                    //         'id' => $smart['entityTypeId'],
-                    //         'title' => $smart['title'],
-                    //         'entityTypeId' => $smart['entityTypeId'],
-                    //         'code' => $smart['code'],
-                    //         'isCategoriesEnabled' => 'Y',
-                    //         'isStagesEnabled' => 'Y',
-                    //         'isClientEnabled' => 'Y',
-                    //         'isUseInUserfieldEnabled' => 'Y',
-                    //         'isLinkWithProductsEnabled' => 'Y',
-                    //         'isAutomationEnabled' => 'Y',
-                    //         'isBizProcEnabled' => 'Y',
-                    //         'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
-                    //     ],
-                    // ];
 
-                    // Используем post, чтобы отправить данные
-                    // $smartInstallResponse = Http::post($url, $hookSmartInstallData);
-
-                    // $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'productsSet');
-
-
-                    // $categories = InstallDealController::setCategories($hook, $deal['categories']);
+                    $categories = InstallDealController::setCategories($hook, $deal['categories'], $portalDealCategories);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -162,7 +151,8 @@ class InstallDealController extends Controller
     }
     static function setCategories(
         $hook,
-        $categories
+        $categories,
+        $portalDealCategories
         // $type, //smart deal task lead
         // $group, //sales service  отдел
         // $name,
@@ -254,7 +244,10 @@ class InstallDealController extends Controller
         // }
         $defaultCategoryId = null;
         $results = [];
+        Log::channel('telegram')->info("categoryId", [
+            'portalDealCategories' => $portalDealCategories,
 
+        ]);
         foreach ($categories as $category) {
             $categoryName = $category['name'];
             $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
@@ -272,7 +265,10 @@ class InstallDealController extends Controller
 
             //     }
             // }
+            Log::channel('telegram')->info("categoryId", [
+                'category' => $category,
 
+            ]);
 
             // Если текущая категория по умолчанию не совпадает с требуемой
             // if ($existingDefaultCategory && $existingDefaultCategory['name'] !== $categoryName) {
@@ -297,80 +293,37 @@ class InstallDealController extends Controller
             //     $categoryId = $existingDefaultCategory['id'];
             // } else {
             // Добавляем новую категорию
-            $methodCategoryInstall = '/crm.category.add.json';
-            $urlInstall = $hook . $methodCategoryInstall;
-            $categoryId = null;
-            // }
+            // $methodCategoryInstall = '/crm.category.add.json';
+            // $urlInstall = $hook . $methodCategoryInstall;
+            // $categoryId = null;
+            // // }
 
-            $hookCategoriesData = [
-                'entityTypeId' => $category['entityTypeId'],
-                'fields' => [
-                    'name' => $categoryName,
-                    'title' => $category['title'],
-                    'isDefault' => $isDefault,
-                    'sort' => $category['order'],
-                    'code' => $category['code']
-                ]
-            ];
-
-            // if ($categoryId !== null) {
-            //     $hookCategoriesData['id'] = $categoryId;
-            // }
-
-            $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
-            $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
-
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
-            // if (isset($bitrixResponseCategory['id'])) {
-            //     $categoryId = $bitrixResponseCategory['id'];
-            // }
-            if (!empty($bitrixResponseCategory['category'])) {
-                if (isset($bitrixResponseCategory['category']['id'])) {
-                    $categoryId = $bitrixResponseCategory['category']['id'];
-                }
-            }
-            // $categoryId = $bitrixResponseCategory['result'];
-
-            // if ($isDefault === 'Y') {
-            //     $defaultCategoryId = $categoryId;
-            // }
-
-            // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            //     'INSTALL' => [
-            //         'bitrixResponseCategory' => $bitrixResponseCategory
-            //     ]
-            // ]);
-
-            // Удаляем ненужные стадии
-            // $currentStagesResponse = Http::post($url, [
+            // $hookCategoriesData = [
             //     'entityTypeId' => $category['entityTypeId'],
-            //     'filter' => [
-            //         'entityTypeId' => $category['entityTypeId'],
-            //         'categoryId' => $categoryId
+            //     'fields' => [
+            //         'name' => $categoryName,
+            //         'title' => $category['title'],
+            //         'isDefault' => $isDefault,
+            //         'sort' => $category['order'],
+            //         'code' => $category['code']
             //     ]
-            // ]);
-            // $bitrixResponseCategory = BitrixController::getBitrixResponse($currentStagesResponse, 'category currentStagesResponse');
-            // $currentStages = $bitrixResponseCategory;
-            // if (isset($currentStages['items'])) {
-            //     $currentStages = $currentStages['items'];
-            // }
-            // if (!empty($currentStages)) {
-            //     foreach ($currentStages as $currentStage) {
-            //         if (!in_array($currentStage['STATUS_ID'], array_column($category['stages'], 'bitrixId'))) {
-            //             $methodStageDelete = '/crm.status.delete.json';
-            //             $urlDeleteStage = $hook . $methodStageDelete;
-            //             Http::post($urlDeleteStage, ['ID' => $currentStage['ID']]);
-            //         }
+            // ];
+
+            // $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
+            // $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
+
+
+            // if (!empty($bitrixResponseCategory['category'])) {
+            //     if (isset($bitrixResponseCategory['category']['id'])) {
+            //         $categoryId = $bitrixResponseCategory['category']['id'];
             //     }
             // }
 
-            Log::channel('telegram')->info("categoryId", [
-                'categoryId' => $categoryId,
 
-            ]);
-            // Создаем или обновляем стадии
-            $stages = InstallDealController::setStages($hook, $category, $categoryId);
-            array_push($results, $stages);
+            
+            // // Создаем или обновляем стадии
+            // $stages = InstallDealController::setStages($hook, $category, $categoryId);
+            // array_push($results, $stages);
         }
 
         return $results;
