@@ -415,7 +415,7 @@ class InstallFieldsController extends Controller
             $type = $field['type'] ?? 'string';
             $multiple = 'N';
 
-            if ($type == 'multiple') {
+            if ($field['type'] == 'multiple') {
                 $multiple =  "Y";
                 $type = 'string';
             }
@@ -426,7 +426,7 @@ class InstallFieldsController extends Controller
 
                 "EDIT_FORM_LABEL" => $field['name'],
                 "LIST_COLUMN_LABEL" => $field['name'],
-                "USER_TYPE_ID" => $field['type'],
+                "USER_TYPE_ID" => $type,
                 'MULTIPLE' => $multiple,
                 "LIST" => $field['list'],
                 // "CODE" => $field['code'],
