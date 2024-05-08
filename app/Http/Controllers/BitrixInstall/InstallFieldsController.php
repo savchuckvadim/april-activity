@@ -468,7 +468,7 @@ class InstallFieldsController extends Controller
                 $data['id'] = $currentBtxFieldId;
                 $method = '/crm.' . $entityType . '.userfield.update';
             } else {
-
+                $data['fields']["LIST"] = $field['list'];
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
             }
             $url = $hook . $method;
