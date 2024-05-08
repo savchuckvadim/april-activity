@@ -476,7 +476,9 @@ class InstallFieldsController extends Controller
             sleep(1);
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
-
+            if (!$currentBtxFieldId && $responseData) {
+                $currentBtxFieldId = $responseData;
+            }
 
 
             // } else {
@@ -504,21 +506,22 @@ class InstallFieldsController extends Controller
             // $currentPortalField->save();
             if ($field['type'] == 'enumeration') {
                 $updtedField = $currentBtxField;
-                Log::channel('telegram')->error("set Fields responseData", [
-                    'responseData' => $responseData,
 
-
-                ]);
-                if ($responseData) {
+                if ($currentBtxFieldId) {
                     $method = '/crm.' . $entityType . '.userfield.get';
                     $url = $hook . $method;
                     $response = Http::post($url, [
                         'id' => $responseData
                     ]);
-                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
+                    $updtedField = BitrixController::getBitrixResponse($currentBtxFieldId, 'fields install');
+                    Log::channel('telegram')->error("updtedField get", [
+                        'updtedField' => $updtedField,
+
+
+                    ]);
                 }
 
-                $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
+                // $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
             }
             // sleep(2);
         }
