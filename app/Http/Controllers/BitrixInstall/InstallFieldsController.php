@@ -633,18 +633,16 @@ class InstallFieldsController extends Controller
                         }
                     }
                 }
-                Log::channel('telegram')->error("setFieldItems currentBtxField", [
-                    '!currentPortalItem' => $currentPortalItem,
-        
-        
-                ]);
+             
                 if (!$currentPortalItem) {
                     $currentPortalItem  =  new BitrixfieldItem();
                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+                }else{
+                    $currentPortalItem  =  BitrixfieldItem::find($currentPortalItem['id']);
                 }
 
                 Log::channel('telegram')->error("setFieldItems currentBtxField", [
-                    '!currentPortalItem' => $currentPortalItem,
+                    'currentPortalItem' => $currentPortalItem,
         
         
                 ]);
