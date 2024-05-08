@@ -623,12 +623,11 @@ class InstallFieldsController extends Controller
 
                         if ($currentFieldItem['VALUE'] == $pitem['title']) {
 
-                            if(!empty($pitem['id'])){
+                            if (!empty($pitem['id'])) {
                                 $currentPortalItem  = BitrixfieldItem::find($pitem['id']);
-                            }else{
+                            } else {
                                 $currentPortalItem  = $pitem;
                             }
-                            
                         }
                     }
                 }
@@ -639,26 +638,29 @@ class InstallFieldsController extends Controller
                         if ($currentFieldItem['VALUE'] == $gitem['VALUE']) {
 
                             $currentGooItem  =  $gitem;
+
+
+                            if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
+                                $currentPortalItem  =  new BitrixfieldItem();
+                                $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+
+                                if ($currentGooItem) {
+                                    $currentPortalItem->code = $currentGooItem['XML_ID'];
+                                }
+                            } else { // если на портале существуют item - обновляем
+
+                            }
+
+                            $currentPortalItem->bitrixId = $currentFieldItem['ID'];
+
+                            $currentPortalItem->name = $currentFieldItem['VALUE'];
+                            $currentPortalItem->title = $currentFieldItem['VALUE'];
+                            $currentPortalItem->save();
                         }
                     }
                 }
 
-                if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
-                    $currentPortalItem  =  new BitrixfieldItem();
-                    $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
 
-                    if ($currentGooItem) {
-                        $currentPortalItem->code = $currentGooItem['XML_ID'];
-                    }
-                } else { // если на портале существуют item - обновляем
-                   
-                }
-
-                $currentPortalItem->bitrixId = $currentFieldItem['ID'];
-
-                $currentPortalItem->name = $currentFieldItem['VALUE'];
-                $currentPortalItem->title = $currentFieldItem['VALUE'];
-                $currentPortalItem->save();
                 $currentPortalItem  = false;
             }
 
@@ -670,7 +672,7 @@ class InstallFieldsController extends Controller
 
                 foreach ($portalFieldItems as $pitem) {
                     $pItemForDelete = false;
-                    foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+                    foreach ($field['list'] as $currentFieldItem) {  //btx items
 
                         if (
                             $pitem['title'] === $currentFieldItem['VALUE'] &&
@@ -680,12 +682,8 @@ class InstallFieldsController extends Controller
                         }
                     }
                     if ($pItemForDelete) {
-                        Log::channel('telegram')->error("currentPortalField", [
-                            'pItemForDelete' => $pItemForDelete,
-                            'currentFieldItem VALUE' => $currentFieldItem['VALUE'],
 
-                        ]);
-                        
+
                         $pitem->delete();
                     }
                 }
