@@ -480,7 +480,7 @@ class InstallFieldsController extends Controller
                 Log::channel('telegram')->error("responseData", [
                     '$currentBtxField' => $currentBtxField,
                     'google list' => $field['list'],
-                    '$currentBtxField' => $currentBtxField,
+                    'field' => $field,
     
                 ]);
             }
