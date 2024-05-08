@@ -691,7 +691,7 @@ class InstallFieldsController extends Controller
                             $currentPortalItem->save();
                         }else{
                             if ($field['name'] == 'Тип договора') {
-                                Log::channel('telegram')->error("setFieldItem Тип договора", [
+                                Log::channel('telegram')->error("!===== Тип договора", [
                                     'currentFieldItem' => $currentFieldItem,
                                     'gitem' => $gitem,
                                     'currentPortalItem VALUE' => $currentFieldItem['VALUE'],
