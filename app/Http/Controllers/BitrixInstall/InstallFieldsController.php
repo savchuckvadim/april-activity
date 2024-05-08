@@ -578,7 +578,7 @@ class InstallFieldsController extends Controller
                     ]);
                 }
 
-                $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
+                $items = InstallFieldsController::setFieldItems($updtedField, $field, $currentPortalField);
             }
             // sleep(2);
         }
