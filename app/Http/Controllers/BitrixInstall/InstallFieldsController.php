@@ -563,11 +563,11 @@ class InstallFieldsController extends Controller
                             'LIST' => $resultList
                         ]
                     ];
-                    Log::channel('telegram')->error("setFieldItems currentBtxField", [
-                        'data' => $data,
+                    // Log::channel('telegram')->error("setFieldItems currentBtxField", [
+                    //     'data' => $data,
             
             
-                    ]);
+                    // ]);
                     sleep(1);
                     $method = '/crm.' . $entityType . '.userfield.update';
                     $response = Http::post($url, $data);
@@ -634,7 +634,7 @@ class InstallFieldsController extends Controller
                     }
                 }
                 Log::channel('telegram')->error("setFieldItems currentBtxField", [
-                    'currentFieldItem' => $currentFieldItem,
+                    '!currentPortalItem' => $currentPortalItem,
         
         
                 ]);
@@ -642,6 +642,12 @@ class InstallFieldsController extends Controller
                     $currentPortalItem  =  new BitrixfieldItem();
                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
                 }
+
+                Log::channel('telegram')->error("setFieldItems currentBtxField", [
+                    '!currentPortalItem' => $currentPortalItem,
+        
+        
+                ]);
                 $currentPortalItem->bitrixId = $currentFieldItem['ID'];
                 $currentPortalItem->code = $field['XML_ID'];
                 $currentPortalItem->name = $currentFieldItem['VALUE'];
