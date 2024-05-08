@@ -563,6 +563,11 @@ class InstallFieldsController extends Controller
                             'LIST' => $resultList
                         ]
                     ];
+                    Log::channel('telegram')->error("setFieldItems currentBtxField", [
+                        'data' => $data,
+            
+            
+                    ]);
                     sleep(1);
                     $method = '/crm.' . $entityType . '.userfield.update';
                     $response = Http::post($url, $data);
