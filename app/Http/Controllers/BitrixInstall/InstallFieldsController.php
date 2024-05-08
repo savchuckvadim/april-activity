@@ -624,7 +624,7 @@ class InstallFieldsController extends Controller
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
 
-                        if ($currentFieldItem['XML_ID'] == $pitem['code']) {
+                        if ($currentFieldItem['VALUE'] == $pitem['title']) {
 
                             $currentPortalItem  =  $pitem;
                         }
