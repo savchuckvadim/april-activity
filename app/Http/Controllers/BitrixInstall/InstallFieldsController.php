@@ -636,7 +636,7 @@ class InstallFieldsController extends Controller
                 if (!empty($field['list'])) {
                     foreach ($field['list'] as $gitem) {
 
-                        if ($currentFieldItem['VALUE'] == $gitem['title']) {
+                        if ($currentFieldItem['VALUE'] == $gitem['VALUE']) {
 
                             $currentGooItem  =  $gitem;
                         }
