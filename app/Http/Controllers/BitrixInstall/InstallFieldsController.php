@@ -514,11 +514,15 @@ class InstallFieldsController extends Controller
                         'id' => $currentBtxFieldId
                     ]);
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-                    Log::channel('telegram')->error("updtedField", [
-                        'updtedField' => $updtedField,
-
-
-                    ]);
+                   
+                    if(!empty($updtedField['LIST'])){
+                        Log::channel('telegram')->error("updtedField", [
+                            'updtedField LIST' => $updtedField['LIST'],
+    
+    
+                        ]);
+                    }
+                  
                 }
 
                 // $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
