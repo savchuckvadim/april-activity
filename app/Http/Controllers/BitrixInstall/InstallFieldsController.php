@@ -524,8 +524,12 @@ class InstallFieldsController extends Controller
                                 // определяем элементы которые надо отредактировать
                                 // if(isset($currentBtxItem['XML_ID'])){
                                     if ($gooItem['VALUE'] == $currentBtxItem['VALUE']) {
-                                        $gooItem['ID'] == $currentBtxItem['ID'];
-                                        $searchingItem = $gooItem;
+                                        // $gooItem['ID'] == $currentBtxItem['ID'];
+                                        $searchingItem = [
+                                            ...$gooItem,
+                                            'ID' => $currentBtxItem['ID']
+                                        ];
+                                       
                                     }
                                     
                                 // }
