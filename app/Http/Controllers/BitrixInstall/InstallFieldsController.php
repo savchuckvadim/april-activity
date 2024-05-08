@@ -678,7 +678,7 @@ class InstallFieldsController extends Controller
                             $pitem['title'] === $currentFieldItem['VALUE'] &&
                             $pitem['code'] !== $currentFieldItem['XML_ID']
                         ) {
-                            $pitem = $currentPortalItem  = BitrixfieldItem::find($pitem['id']);
+                            $pitem =  BitrixfieldItem::find($pitem['id']);
                         }
                     }
                     if ($pItemForDelete) {
