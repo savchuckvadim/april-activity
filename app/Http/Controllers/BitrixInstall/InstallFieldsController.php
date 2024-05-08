@@ -503,7 +503,7 @@ class InstallFieldsController extends Controller
             $currentPortalField->code = $field['code'];
             $currentPortalField->bitrixId = $field[$entityType];
             $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
-            // $currentPortalField->save();
+            $currentPortalField->save();
             if ($field['type'] == 'enumeration') {
                 $updtedField = $currentBtxField;
 
@@ -578,7 +578,7 @@ class InstallFieldsController extends Controller
                     ]);
                 }
 
-                // $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
+                $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
             }
             // sleep(2);
         }
