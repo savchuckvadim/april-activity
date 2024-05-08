@@ -473,13 +473,13 @@ class InstallFieldsController extends Controller
             }
             $url = $hook . $method;
             $response = Http::post($url, $data);
-            sleep(1);
+            
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
             if (!$currentBtxFieldId && $responseData) {
                 $currentBtxFieldId = $responseData;
             }
-
+            sleep(1);
 
             // } else {
             //TODO найти такой на сервере БД и удалить
