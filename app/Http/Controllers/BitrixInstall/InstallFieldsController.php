@@ -424,11 +424,11 @@ class InstallFieldsController extends Controller
                 }
             }
             // if($index < 10){
-            //     Log::channel('telegram')->error("currentPortalField", [
-            //         'currentPortalField' => $currentPortalField,
-            //         'currentPortalField' => $currentPortalField,
+                Log::channel('telegram')->error("currentPortalField", [
+                    'currentPortalField' => $currentPortalField,
+                    // 'currentPortalField' => $currentPortalField,
 
-            //     ]);
+                ]);
             // }
 
 
@@ -563,7 +563,7 @@ class InstallFieldsController extends Controller
 
 
                     // ]);
-                    sleep(1);
+                    // sleep(1);
                     $method = '/crm.' . $entityType . '.userfield.update';
                     $response = Http::post($url, $data);
                     // $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
@@ -623,11 +623,11 @@ class InstallFieldsController extends Controller
         $currentGooItem  = false;
         if (!empty($currentFieldItems)) {
             foreach ($currentFieldItems as $currentFieldItem) {  //btx items
-                Log::channel('telegram')->error("setFieldItem", [
-                    'currentFieldItem' => $currentFieldItem,
+                // Log::channel('telegram')->error("setFieldItem", [
+                //     'currentFieldItem' => $currentFieldItem,
                     
 
-                ]);
+                // ]);
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
 
