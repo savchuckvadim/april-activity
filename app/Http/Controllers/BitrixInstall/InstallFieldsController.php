@@ -666,13 +666,13 @@ class InstallFieldsController extends Controller
 
                             if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
 
-                                if ($field['name'] == 'Тип договора') {
-                                    Log::channel('telegram')->error("setFieldItem new BitrixfieldItem", [
-                                        'currentGooItem' => $currentFieldItem,
+                                // if ($field['name'] == 'Тип договора') {
+                                //     Log::channel('telegram')->error("setFieldItem new BitrixfieldItem", [
+                                //         'currentGooItem' => $currentFieldItem,
                                         
         
-                                    ]);
-                                }
+                                //     ]);
+                                // }
 
                                 $currentPortalItem  =  new BitrixfieldItem();
                                 $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
