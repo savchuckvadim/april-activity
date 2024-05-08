@@ -689,6 +689,16 @@ class InstallFieldsController extends Controller
                             $currentPortalItem->name = $currentFieldItem['VALUE'];
                             $currentPortalItem->title = $currentFieldItem['VALUE'];
                             $currentPortalItem->save();
+                        }else{
+                            if ($field['name'] == 'Тип договора') {
+                                Log::channel('telegram')->error("setFieldItem Тип договора", [
+                                    'currentFieldItem' => $currentFieldItem,
+                                    'gitem' => $gitem,
+                                    'currentPortalItem VALUE' => $currentFieldItem['VALUE'],
+                                    'gitem VALUE' => $gitem['VALUE'],
+
+                                ]);
+                            }
                         }
                     }
                 }
