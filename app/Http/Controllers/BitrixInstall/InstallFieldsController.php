@@ -450,7 +450,7 @@ class InstallFieldsController extends Controller
                 "LIST_COLUMN_LABEL" => $field['name'],
                 "USER_TYPE_ID" => $type,
                 'MULTIPLE' => $multiple,
-                "LIST" => $field['list'],
+                // "LIST" => $field['list'],
                 // "CODE" => $field['code'],
                 "XML_ID" => $field['code'],
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
@@ -473,7 +473,7 @@ class InstallFieldsController extends Controller
             }
             $url = $hook . $method;
             $response = Http::post($url, $data);
-            
+
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
             if (!$currentBtxFieldId && $responseData) {
@@ -514,15 +514,52 @@ class InstallFieldsController extends Controller
                         'id' => $currentBtxFieldId
                     ]);
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-                   
-                    if(!empty($updtedField['LIST'])){
+
+                    $resultList = [];
+                    if (!empty($updtedField['LIST'])) {
+                        foreach ($updtedField['LIST'] as $currentBtxItem) {
+                            $searchingItem = null;
+                            foreach ($field['field'] as $gooItem) {
+                                if ($gooItem['XML_ID'] == $currentBtxItem['XML_ID']) {
+                                    $gooItem['ID'] == $currentBtxItem['ID'];
+                                    $searchingItem = $gooItem;
+                                }
+                            }
+                            if (!$searchingItem) {
+
+                                $currentBtxItem['DEL'] = 'Y';
+                                $searchingItem = $currentBtxItem;
+                            }
+                            array_push($resultList, $gooItem);
+                        }
+
+                        foreach ($field['field'] as $gooItem) {
+                            foreach ($resultList as $resItem) {
+                                if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
+                                    array_push($resultList, $gooItem);
+                                }
+                            }
+                        }
+
+
                         Log::channel('telegram')->error("updtedField", [
                             'updtedField LIST' => $updtedField['LIST'],
-    
-    
+
+
                         ]);
                     }
-                  
+                    $data = [
+                        'id' => $currentBtxFieldId,
+                        'fields' => [
+                            'LIST' => $resultList
+                        ]
+                    ];
+                    sleep(1);
+                    $method = '/crm.' . $entityType . '.userfield.update';
+                    $response = Http::post($url, [
+                        'id' => $currentBtxFieldId
+                    ]);
+                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
                 }
 
                 // $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
