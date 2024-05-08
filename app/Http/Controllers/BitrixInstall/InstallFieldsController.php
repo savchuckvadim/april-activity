@@ -525,10 +525,19 @@ class InstallFieldsController extends Controller
                         foreach ($updtedField['LIST'] as $currentBtxItem) {
                             $searchingItem = null;
                             foreach ($field['list'] as $gooItem) {
-                                if ($gooItem['XML_ID'] == $currentBtxItem['XML_ID']) {
-                                    $gooItem['ID'] == $currentBtxItem['ID'];
-                                    $searchingItem = $gooItem;
+                                // определяем элементы которые надо отредактировать
+                                if(isset($currentBtxItem['XML_ID'])){
+                                    if ($gooItem['XML_ID'] == $currentBtxItem['XML_ID']) {
+                                        $gooItem['ID'] == $currentBtxItem['ID'];
+                                        $searchingItem = $gooItem;
+                                    }
+
                                 }
+                                Log::channel('telegram')->error("updtedField", [
+                                    'currentBtxItem' => $currentBtxItem,
+        
+        
+                                ]);
                             }
                             if (!$searchingItem) {
 
