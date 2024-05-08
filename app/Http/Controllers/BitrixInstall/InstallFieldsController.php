@@ -477,7 +477,7 @@ class InstallFieldsController extends Controller
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
 
-    
+
 
             // } else {
             //TODO найти такой на сервере БД и удалить
@@ -506,8 +506,8 @@ class InstallFieldsController extends Controller
                 $updtedField = $currentBtxField;
                 Log::channel('telegram')->error("set Fields responseData", [
                     'responseData' => $responseData,
-        
-        
+
+
                 ]);
                 if ($responseData) {
                     $method = '/crm.' . $entityType . '.userfield.get';
@@ -516,18 +516,16 @@ class InstallFieldsController extends Controller
                         'id' => $responseData
                     ]);
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-
-
                 }
-             
+
                 $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
             }
             // sleep(2);
         }
-        // Log::channel('telegram')->error("responseData", [
-        //     'responsesData' => $responsesData,
+        Log::channel('telegram')->error("responseData", [
+            'responsesData' => $responsesData,
 
-        // ]);
+        ]);
 
         // }
     }
@@ -555,7 +553,13 @@ class InstallFieldsController extends Controller
             $currentFieldItems = $currentField['LIST'];
         }
 
-        $portalFieldItems = $currentPortalField->items->toArray();
+        if (!empty($currentPortalField)) {
+
+            if (isset($currentPortalField->items)) {
+                $portalFieldItems = $currentPortalField->items->toArray();
+            }
+        }
+
 
         if (!empty($currentFieldItems)) {
             foreach ($currentFieldItems as $currentFieldItem) {  //btx items
@@ -605,8 +609,5 @@ class InstallFieldsController extends Controller
                 }
             }
         }
-
-
-       
     }
 }
