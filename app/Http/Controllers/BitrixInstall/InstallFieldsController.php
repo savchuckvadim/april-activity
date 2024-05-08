@@ -516,6 +516,11 @@ class InstallFieldsController extends Controller
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
 
                     $resultList = [];
+                    Log::channel('telegram')->error("updtedField", [
+                        'updtedField' => $updtedField,
+
+
+                    ]);
                     if (!empty($updtedField['LIST'])) {
                         foreach ($updtedField['LIST'] as $currentBtxItem) {
                             $searchingItem = null;
