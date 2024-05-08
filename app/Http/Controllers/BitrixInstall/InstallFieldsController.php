@@ -676,7 +676,7 @@ class InstallFieldsController extends Controller
                             $pitem['title'] === $currentFieldItem['VALUE'] &&
                             $pitem['bitrixId'] !== $currentFieldItem['ID']
                         ) {
-                            $pItemForDelete = $pitem;
+                            $pitem = $currentPortalItem  = BitrixfieldItem::find($pitem['id']);
                         }
                     }
                     if ($pItemForDelete) {
@@ -685,6 +685,7 @@ class InstallFieldsController extends Controller
                             'currentFieldItem VALUE' => $currentFieldItem['VALUE'],
 
                         ]);
+                        
                         $pitem->delete();
                     }
                 }
