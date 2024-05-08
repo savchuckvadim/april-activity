@@ -539,11 +539,7 @@ class InstallFieldsController extends Controller
 
                                 $currentBtxItem['DEL'] = 'Y';
                                 $searchingItem = $currentBtxItem;
-                                Log::channel('telegram')->error("updtedField DEL", [
-                                    'currentBtxItem' => $currentBtxItem,
-            
-            
-                                ]);
+                               
                             }
                             array_push($resultList, $gooItem);
                         }
@@ -571,11 +567,7 @@ class InstallFieldsController extends Controller
                         'id' => $currentBtxFieldId
                     ]);
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-                    Log::channel('telegram')->error("updtedField", [
-                        'updtedField' => $updtedField,
-
-
-                    ]);
+                   
                 }
 
                 $items = InstallFieldsController::setFieldItems($updtedField, $field, $currentPortalField);
@@ -617,10 +609,10 @@ class InstallFieldsController extends Controller
             }
         }
 
-
+        $currentPortalItem  = false;
         if (!empty($currentFieldItems)) {
             foreach ($currentFieldItems as $currentFieldItem) {  //btx items
-                $currentPortalItem  = false;
+                
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
 
@@ -640,7 +632,12 @@ class InstallFieldsController extends Controller
                 $currentPortalItem->name = $currentFieldItem['VALUE'];
                 $currentPortalItem->title = $currentFieldItem['VALUE'];
                 $currentPortalItem->save();
+                $currentPortalItem  = false;
             }
+           
+
+
+
 
             if (!empty($portalFieldItems)) {
 
