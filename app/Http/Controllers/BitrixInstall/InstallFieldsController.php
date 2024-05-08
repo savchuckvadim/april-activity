@@ -402,10 +402,19 @@ class InstallFieldsController extends Controller
             $currentPortalField = false;
 
 
-            foreach ($currentFields as $currentBtxField) {
-                if ($field['code'] === $currentBtxField['XML_ID']) {
-                    $currentBtxFieldId = $currentBtxField['ID'];
-                    $currentBtxField = $currentBtxField;
+            foreach ($currentFields as $curBtxField) {
+                if ($field['code'] === $curBtxField['XML_ID']) {
+                    $currentBtxFieldId = $curBtxField['ID'];
+                    $currentBtxField = $curBtxField;
+
+                    if($field['type'] == 'enumeration'){
+                        Log::channel('telegram')->error("responseData", [
+                            '$currentBtxField' => $currentBtxField['XML_ID'],
+                            '$field' => $field['code'],
+                            'field' => $field,
+            
+                        ]);
+                    }
                 }
             }
 
@@ -476,14 +485,7 @@ class InstallFieldsController extends Controller
             //     'responseData' => $responseData,
 
             // ]);
-            if($field['type'] == 'enumeration'){
-                Log::channel('telegram')->error("responseData", [
-                    '$currentBtxField' => $currentBtxField,
-                    'google list' => $field['list'],
-                    'field' => $field,
-    
-                ]);
-            }
+           
             if (!$currentPortalField) {
                 $currentPortalField = new Bitrixfield();
                 $currentPortalField->entity_type = $parentClass;
