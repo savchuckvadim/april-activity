@@ -642,28 +642,38 @@ class InstallFieldsController extends Controller
                     }
                 }
 
-                Log::channel('telegram')->error("setFieldItem field", [
-                    'field' => $field,
+                // Log::channel('telegram')->error("setFieldItem field", [
+                //     'field' => $field,
                     
 
-                ]);
+                // ]);
                 if (!empty($field['list'])) {
                     foreach ($field['list'] as $gitem) {
 
-                        if ($field['name'] == 'Тип договора') {
-                            Log::channel('telegram')->error("setFieldItem Тип договора", [
-                                'currentFieldItem' => $currentFieldItem,
-                                'gitem' => $gitem,
-
-                            ]);
-                        }
+                      
 
                         if ($currentFieldItem['VALUE'] == $gitem['VALUE']) {
 
                             $currentGooItem  =  $gitem;
-
+                            if ($field['name'] == 'Тип договора') {
+                                Log::channel('telegram')->error("setFieldItem Тип договора", [
+                                    'currentFieldItem' => $currentFieldItem,
+                                    'gitem' => $gitem,
+                                    'currentPortalItem' => $currentPortalItem,
+    
+                                ]);
+                            }
 
                             if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
+
+                                if ($field['name'] == 'Тип договора') {
+                                    Log::channel('telegram')->error("setFieldItem new BitrixfieldItem", [
+                                        'currentGooItem' => $currentFieldItem,
+                                        
+        
+                                    ]);
+                                }
+
                                 $currentPortalItem  =  new BitrixfieldItem();
                                 $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
 
