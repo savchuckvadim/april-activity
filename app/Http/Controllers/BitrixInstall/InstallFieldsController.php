@@ -601,11 +601,11 @@ class InstallFieldsController extends Controller
         // ];
         // $response = Http::post($url, $data);
         // $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
-        Log::channel('telegram')->error("setFieldItems currentBtxField", [
-            'currentBtxField' => $currentBtxField,
+        // Log::channel('telegram')->error("setFieldItems currentBtxField", [
+        //     'currentBtxField' => $currentBtxField,
 
 
-        ]);
+        // ]);
         $currentField = $currentBtxField;
         $currentFieldItems = null;
 
@@ -633,12 +633,16 @@ class InstallFieldsController extends Controller
                         }
                     }
                 }
-
+                Log::channel('telegram')->error("setFieldItems currentBtxField", [
+                    'currentFieldItem' => $currentFieldItem,
+        
+        
+                ]);
                 if (!$currentPortalItem) {
                     $currentPortalItem  =  new BitrixfieldItem();
                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
                 }
-                $currentPortalItem->bitrixId = (int)$currentFieldItem['ID'];
+                $currentPortalItem->bitrixId = $currentFieldItem['ID'];
                 $currentPortalItem->code = $field['XML_ID'];
                 $currentPortalItem->name = $currentFieldItem['VALUE'];
                 $currentPortalItem->title = $currentFieldItem['VALUE'];
