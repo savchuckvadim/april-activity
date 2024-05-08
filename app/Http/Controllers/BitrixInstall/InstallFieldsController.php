@@ -656,7 +656,7 @@ class InstallFieldsController extends Controller
 
                 $currentPortalItem->bitrixId = $currentFieldItem['ID'];
 
-                $currentPortalItem->name = $currentFieldItem['XML_ID'];
+                $currentPortalItem->name = $currentFieldItem['VALUE'];
                 $currentPortalItem->title = $currentFieldItem['VALUE'];
                 $currentPortalItem->save();
                 $currentPortalItem  = false;
