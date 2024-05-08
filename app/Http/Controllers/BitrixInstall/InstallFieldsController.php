@@ -554,6 +554,8 @@ class InstallFieldsController extends Controller
 
 
                        
+                    }else{
+                        $resultList = $field['list'];
                     }
                     $data = [
                         'id' => $currentBtxFieldId,
