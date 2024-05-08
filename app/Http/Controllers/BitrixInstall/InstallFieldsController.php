@@ -12,6 +12,7 @@ use App\Models\BtxCompany;
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
 use App\Models\Portal;
+use App\Models\Smart;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -99,6 +100,7 @@ class InstallFieldsController extends Controller
             //     "SETTINGS" => ["DEFAULT_VALUE" => "Привет, мир!"]
             // ];
             $portal = Portal::where('domain', $domain)->first();
+            $group = 'sales';
             $webhookRestKey = $portal->getHook();
             $portalDeal = $portal->deal();
             $portalLead = $portal->lead();
@@ -233,17 +235,30 @@ class InstallFieldsController extends Controller
                 $parentClass = BtxLead::class;
                 $parentId = $portalLead['id'];
                 $portalEntityFields =  $portalLeadFields;
+            } else   if ($entityType === 'smart') {
+                $parentClass = Smart::class;
             }
 
-            $responseData = InstallFieldsController::createFieldsForEntities(
-                $entityType,
-                $hook,
-                $fields,
-                $portalEntityFields,
-                $parentClass,
-                $parentId
+            if ($entityType !== 'smart') {
+                $responseData = InstallFieldsController::createFieldsForEntities(
+                    $entityType,
+                    $hook,
+                    $fields,
+                    $portalEntityFields,
+                    $parentClass,
+                    $parentId
 
-            );
+                );
+            } else {
+                $responseData = InstallFieldsController::createFieldsForSmartProcesses(
+                    $hook,
+                    $fields,
+                    $group,
+                    $portalsmarts,
+                    $parentClass
+                );
+            }
+
             // };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
@@ -316,8 +331,13 @@ class InstallFieldsController extends Controller
     }
 
 
-    public static function createFieldsForSmartProcesses($hook, $fields)
-    {
+    public static function createFieldsForSmartProcesses(
+        $hook,
+        $fields,
+        $group,
+        $portalsmarts,
+        $parentClass
+    ) {
         // Step 1: Get all smart processes
         $url = $hook . '/crm.type.list';
         $response = Http::post($url);
