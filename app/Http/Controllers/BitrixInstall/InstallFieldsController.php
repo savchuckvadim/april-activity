@@ -642,11 +642,16 @@ class InstallFieldsController extends Controller
                     }
                 }
 
+                Log::channel('telegram')->error("setFieldItem field", [
+                    'field' => $field,
+                    
+
+                ]);
                 if (!empty($field['list'])) {
                     foreach ($field['list'] as $gitem) {
 
                         if ($field['type'] == 'Тип договора') {
-                            Log::channel('telegram')->error("setFieldItem", [
+                            Log::channel('telegram')->error("setFieldItem Тип договора", [
                                 'currentFieldItem' => $currentFieldItem,
                                 'gitem' => $gitem,
 
