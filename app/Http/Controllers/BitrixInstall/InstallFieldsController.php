@@ -424,12 +424,12 @@ class InstallFieldsController extends Controller
                 }
             }
             // if($index < 10){
-                Log::channel('telegram')->error("currentPortalField", [
-                    'currentPortalField' => $currentPortalField,
-                    // 'currentPortalField' => $currentPortalField,
+            //     Log::channel('telegram')->error("currentPortalField", [
+            //         'currentPortalField' => $currentPortalField,
+            //         // 'currentPortalField' => $currentPortalField,
 
-                ]);
-            // }
+            //     ]);
+            // // }
 
 
 
@@ -601,12 +601,12 @@ class InstallFieldsController extends Controller
         // ]);
         $currentField = $currentBtxField;
         $currentFieldItems = null;
-        Log::channel('telegram')->error("setFieldItem", [
-            'currentBtxField' => $currentBtxField,
-            'field' => $field,
-            'currentPortalField' => $currentPortalField,
+        // Log::channel('telegram')->error("setFieldItem", [
+        //     'currentBtxField' => $currentBtxField,
+        //     'field' => $field,
+        //     'currentPortalField' => $currentPortalField,
 
-        ]);
+        // ]);
 
         if (isset($currentField['LIST'])) {
             $currentFieldItems = $currentField['LIST'];
