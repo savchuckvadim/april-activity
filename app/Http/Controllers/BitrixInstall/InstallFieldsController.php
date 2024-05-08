@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
+use App\Models\BtxCompany;
 use App\Models\BtxDeal;
+use App\Models\BtxLead;
 use App\Models\Portal;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
@@ -218,13 +220,26 @@ class InstallFieldsController extends Controller
             //smart fields
 
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
-            $parentClass = BtxDeal::class;
-            $parentId = $portalDeal['id'];
+            $portalEntityFields = null;
+            if($entityType === 'deal'){
+                $parentClass = BtxDeal::class;
+                $parentId = $portalDeal['id'];
+                $portalEntityFields =  $portalDealFields;
+            }else   if($entityType === 'company'){
+                $parentClass = BtxCompany::class;
+                $parentId = $portalCompany['id'];
+                $portalEntityFields =  $portalCompanyFields;
+            }else   if($entityType === 'lead'){
+                $parentClass = BtxLead::class;
+                $parentId = $portalLead['id'];
+                $portalEntityFields =  $portalLeadFields;
+            }
+            
             $responseData = InstallFieldsController::createFieldsForEntities(
                 $entityType,
                 $hook,
                 $fields,
-                $portalDealFields,
+                $portalEntityFields,
                 $parentClass,
                 $parentId
 
