@@ -516,28 +516,20 @@ class InstallFieldsController extends Controller
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
 
                     $resultList = [];
-                    Log::channel('telegram')->error("updtedField", [
-                        'updtedField' => $updtedField,
 
-
-                    ]);
                     if (!empty($updtedField['LIST'])) {
                         foreach ($updtedField['LIST'] as $currentBtxItem) {
                             $searchingItem = null;
                             foreach ($field['list'] as $gooItem) {
                                 // определяем элементы которые надо отредактировать
-                                if(isset($currentBtxItem['XML_ID'])){
-                                    if ($gooItem['XML_ID'] == $currentBtxItem['XML_ID']) {
+                                // if(isset($currentBtxItem['XML_ID'])){
+                                    if ($gooItem['VALUE'] == $currentBtxItem['VALUE']) {
                                         $gooItem['ID'] == $currentBtxItem['ID'];
                                         $searchingItem = $gooItem;
                                     }
-
-                                }
-                                Log::channel('telegram')->error("updtedField", [
-                                    'currentBtxItem' => $currentBtxItem,
-        
-        
-                                ]);
+                                    
+                                // }
+                               
                             }
                             if (!$searchingItem) {
 
@@ -556,11 +548,7 @@ class InstallFieldsController extends Controller
                         }
 
 
-                        Log::channel('telegram')->error("updtedField", [
-                            'updtedField LIST' => $updtedField['LIST'],
-
-
-                        ]);
+                       
                     }
                     $data = [
                         'id' => $currentBtxFieldId,
@@ -574,16 +562,18 @@ class InstallFieldsController extends Controller
                         'id' => $currentBtxFieldId
                     ]);
                     $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
+                    Log::channel('telegram')->error("updtedField", [
+                        'updtedField' => $updtedField,
+
+
+                    ]);
                 }
 
                 // $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
             }
             // sleep(2);
         }
-        Log::channel('telegram')->error("responseData", [
-            'responsesData' => $responsesData,
-
-        ]);
+  
 
         // }
     }
@@ -637,10 +627,10 @@ class InstallFieldsController extends Controller
                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
                 }
                 $currentPortalItem->bitrixId = (int)$currentFieldItem['ID'];
-                $currentPortalItem->code = $currentFieldItem['XML_ID'];
+                $currentPortalItem->code = $field['XML_ID'];
                 $currentPortalItem->name = $currentFieldItem['VALUE'];
                 $currentPortalItem->title = $currentFieldItem['VALUE'];
-                // $currentPortalItem->save();
+                $currentPortalItem->save();
             }
 
             if (!empty($portalFieldItems)) {
