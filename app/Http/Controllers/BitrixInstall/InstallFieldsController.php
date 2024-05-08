@@ -450,7 +450,7 @@ class InstallFieldsController extends Controller
                 "LIST_COLUMN_LABEL" => $field['name'],
                 "USER_TYPE_ID" => $type,
                 'MULTIPLE' => $multiple,
-                "LIST" => $field['list'],
+                // "LIST" => $field['list'],
                 // "CODE" => $field['code'],
                 "XML_ID" => $field['code'],
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
@@ -463,6 +463,8 @@ class InstallFieldsController extends Controller
             $method = '/crm.' . $entityType . '.userfield.add';
 
             if ($currentBtxFieldId) {
+
+
                 $data['id'] = $currentBtxFieldId;
                 $method = '/crm.' . $entityType . '.userfield.update';
             } else {
@@ -475,6 +477,7 @@ class InstallFieldsController extends Controller
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
 
+    
 
             // } else {
             //TODO найти такой на сервере БД и удалить
@@ -500,8 +503,24 @@ class InstallFieldsController extends Controller
             $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
             // $currentPortalField->save();
             if ($field['type'] == 'enumeration') {
+                $updtedField = $currentBtxField;
+                Log::channel('telegram')->error("set Fields responseData", [
+                    'responseData' => $responseData,
+        
+        
+                ]);
+                if ($responseData) {
+                    $method = '/crm.' . $entityType . '.userfield.get';
+                    $url = $hook . $method;
+                    $response = Http::post($url, [
+                        'id' => $responseData
+                    ]);
+                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
 
-                $items = InstallFieldsController::setFieldItems($currentBtxField, $field, $currentPortalField);
+
+                }
+             
+                $items = InstallFieldsController::setFieldItems($updtedField, $entityType, $field, $currentPortalField);
             }
             // sleep(2);
         }
@@ -524,7 +543,11 @@ class InstallFieldsController extends Controller
         // ];
         // $response = Http::post($url, $data);
         // $currentField = BitrixController::getBitrixResponse($response, 'install :createFieldsForEntities');
+        Log::channel('telegram')->error("setFieldItems currentBtxField", [
+            'currentBtxField' => $currentBtxField,
 
+
+        ]);
         $currentField = $currentBtxField;
         $currentFieldItems = null;
 
@@ -555,7 +578,7 @@ class InstallFieldsController extends Controller
                 $currentPortalItem->code = $currentFieldItem['XML_ID'];
                 $currentPortalItem->name = $currentFieldItem['VALUE'];
                 $currentPortalItem->title = $currentFieldItem['VALUE'];
-                $currentPortalItem->save();
+                // $currentPortalItem->save();
             }
 
             if (!empty($portalFieldItems)) {
@@ -577,17 +600,13 @@ class InstallFieldsController extends Controller
                             'currentFieldItem VALUE' => $currentFieldItem['VALUE'],
 
                         ]);
-                        $pitem->delete();
+                        // $pitem->delete();
                     }
                 }
             }
         }
 
 
-        Log::channel('telegram')->error("responseData", [
-            'currentFieldItems' => $currentFieldItems,
-
-
-        ]);
+       
     }
 }
