@@ -221,20 +221,20 @@ class InstallFieldsController extends Controller
 
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
             $portalEntityFields = null;
-            if($entityType === 'deal'){
+            if ($entityType === 'deal') {
                 $parentClass = BtxDeal::class;
                 $parentId = $portalDeal['id'];
                 $portalEntityFields =  $portalDealFields;
-            }else   if($entityType === 'company'){
+            } else   if ($entityType === 'company') {
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
                 $portalEntityFields =  $portalCompanyFields;
-            }else   if($entityType === 'lead'){
+            } else   if ($entityType === 'lead') {
                 $parentClass = BtxLead::class;
                 $parentId = $portalLead['id'];
                 $portalEntityFields =  $portalLeadFields;
             }
-            
+
             $responseData = InstallFieldsController::createFieldsForEntities(
                 $entityType,
                 $hook,
@@ -400,7 +400,7 @@ class InstallFieldsController extends Controller
         if (isset($currentFields['fields'])) {
             $currentFields = $currentFields['fields'];
         }
-     
+
 
         $responsesData = [];
         foreach ($fields as  $index => $field) {
@@ -408,25 +408,25 @@ class InstallFieldsController extends Controller
             $currentBtxFieldId = false;
             $currentPortalField = false;
 
-            if($field[$entityType]){
+            if ($field[$entityType]) {
 
 
                 foreach ($currentFields as $curBtxField) {
                     if ($field['code'] === $curBtxField['XML_ID']) {
                         $currentBtxFieldId = $curBtxField['ID'];
                         $currentBtxField = $curBtxField;
-    
+
                         // if($field['type'] == 'enumeration'){
                         //     Log::channel('telegram')->error("responseData", [
                         //         '$currentBtxField' => $currentBtxField['XML_ID'],
                         //         '$field' => $field['code'],
                         //         'field' => $field,
-    
+
                         //     ]);
                         // }
                     }
                 }
-    
+
                 foreach ($portalFields as $portalField) {
                     if ($field['code'] === $portalField['code']) {
                         $currentPortalField = $portalField;
@@ -436,25 +436,25 @@ class InstallFieldsController extends Controller
                 //     Log::channel('telegram')->error("currentPortalField", [
                 //         'currentPortalField' => $currentPortalField,
                 //         // 'currentPortalField' => $currentPortalField,
-    
+
                 //     ]);
                 // // }
-    
-    
-    
+
+
+
                 // if (!empty($field[$entityType])) {
                 $type = $field['type'] ?? 'string';
                 $multiple = 'N';
-    
+
                 if ($field['type'] == 'multiple') {
                     $multiple =  "Y";
                     $type = 'string';
                 }
                 // $mandatory = $field['mandatory'] ?? 'N';
                 // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
-    
+
                 $fieldsData = [ //list
-    
+
                     "EDIT_FORM_LABEL" => $field['name'],
                     "LIST_COLUMN_LABEL" => $field['name'],
                     "USER_TYPE_ID" => $type,
@@ -465,15 +465,15 @@ class InstallFieldsController extends Controller
                     "SETTINGS" => ["LIST_HEIGHT" => 1],
                     "SORT" => $field['order'],
                 ];
-    
+
                 $data = [
                     'fields' => $fieldsData
                 ];
                 $method = '/crm.' . $entityType . '.userfield.add';
-    
+
                 if ($currentBtxFieldId) {
-    
-    
+
+
                     $data['id'] = $currentBtxFieldId;
                     $method = '/crm.' . $entityType . '.userfield.update';
                 } else {
@@ -482,40 +482,48 @@ class InstallFieldsController extends Controller
                 }
                 $url = $hook . $method;
                 $response = Http::post($url, $data);
-    
+
                 $responseData = BitrixController::getBitrixResponse($response, 'fields install');
                 array_push($responsesData, $responseData);
                 if (!$currentBtxFieldId && $responseData) {
                     $currentBtxFieldId = $responseData;
                 }
                 sleep(1);
-    
+
                 // } else {
                 //TODO найти такой на сервере БД и удалить
                 // }
-    
+
                 // Log::channel('telegram')->error("fieldsData", [
                 //     'responseData' => $responseData,
-    
+
                 // ]);
-    
+
                 if (!$currentPortalField) {
                     $currentPortalField = new Bitrixfield();
                     $currentPortalField->entity_type = $parentClass;
                     $currentPortalField->entity_id = $parentId;
-    
+                    $appTypeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['appType']);
                     $currentPortalField->parent_type = $field['appType'];
                 }
-                $currentPortalField->type = $field['type'];
-                $currentPortalField->title = $field['name'];
-                $currentPortalField->name = $field['name'];
-                $currentPortalField->code = $field['code'];
-                $currentPortalField->bitrixId = $field[$entityType];
-                $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
+                $typeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['type']);
+                $nameBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['name']);
+                $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['code']);
+                $currentPortalField->type = $typeBitrixId;
+                $currentPortalField->title = $nameBitrixId;
+                $currentPortalField->name = $nameBitrixId;
+                $currentPortalField->code = $codeBitrixId;
+
+                $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field[$entityType]);
+                $currentPortalField->bitrixId = $fieldBitrixId;
+                $currentPortalField->bitrixCamelId = 'ufCrm' . $fieldBitrixId;
+
+
                 $currentPortalField->save();
+                $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
                 if ($field['type'] == 'enumeration') {
                     $updtedField = $currentBtxField;
-    
+
                     if ($currentBtxFieldId) {
                         $method = '/crm.' . $entityType . '.userfield.get';
                         $url = $hook . $method;
@@ -523,15 +531,16 @@ class InstallFieldsController extends Controller
                             'id' => $currentBtxFieldId
                         ]);
                         $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-    
+
                         $resultList = [];
-    
+
                         if (!empty($updtedField['LIST'])) {
                             foreach ($updtedField['LIST'] as $currentBtxItem) {
                                 $searchingItem = null;
                                 foreach ($field['list'] as $gooItem) {
                                     // определяем элементы которые надо отредактировать
                                     // if(isset($currentBtxItem['XML_ID'])){
+                                    $gooItem['VALUE'] = preg_replace('/[\x00-\x1F\x7F]/', '', $gooItem['VALUE']);
                                     if ($gooItem['VALUE'] === $currentBtxItem['VALUE']) {
                                         // $gooItem['ID'] == $currentBtxItem['ID'];
                                         $searchingItem = [
@@ -539,18 +548,18 @@ class InstallFieldsController extends Controller
                                             'ID' => $currentBtxItem['ID']
                                         ];
                                     }
-    
+
                                     // }
-    
+
                                 }
                                 if (!$searchingItem) {
-    
+
                                     $currentBtxItem['DEL'] = 'Y';
                                     $searchingItem = $currentBtxItem;
                                 }
                                 array_push($resultList, $gooItem);
                             }
-    
+
                             foreach ($field['list'] as $gooItem) {
                                 foreach ($resultList as $resItem) {
                                     if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
@@ -569,25 +578,22 @@ class InstallFieldsController extends Controller
                         ];
                         // Log::channel('telegram')->error("setFieldItems currentBtxField", [
                         //     'data' => $data,
-    
-    
+
+
                         // ]);
                         // sleep(1);
                         $method = '/crm.' . $entityType . '.userfield.update';
                         $response = Http::post($url, $data);
                         // $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
                         sleep(1);
-    
+
                         $method = '/crm.' . $entityType . '.userfield.get';
                         $updtgetresponse = Http::post($url, ['id' => $currentBtxFieldId]);
                         $updtedField = BitrixController::getBitrixResponse($updtgetresponse, 'fields install updtgetresponse');
                     }
-    
+
                     $items = InstallFieldsController::setFieldItems($updtedField, $field, $currentPortalField);
                 }
-
-
-
             }
 
             // sleep(2);
@@ -639,7 +645,7 @@ class InstallFieldsController extends Controller
             foreach ($currentFieldItems as $currentFieldItem) {  //btx items
                 // Log::channel('telegram')->error("setFieldItem", [
                 //     'currentFieldItem' => $currentFieldItem,
-                    
+
 
                 // ]);
                 if (!empty($portalFieldItems)) {
@@ -658,33 +664,33 @@ class InstallFieldsController extends Controller
 
                 // Log::channel('telegram')->error("setFieldItem field", [
                 //     'field' => $field,
-                    
+
 
                 // ]);
                 if (!empty($field['list'])) {
                     foreach ($field['list'] as $gitem) {
 
-                      
 
+                        $gitem['VALUE'] = preg_replace('/[\x00-\x1F\x7F]/', '', $gitem['VALUE']);
                         if ($currentFieldItem['VALUE'] == $gitem['VALUE']) {
 
                             $currentGooItem  =  $gitem;
-                            if ($field['name'] == 'Тип договора') {
-                                Log::channel('telegram')->error("setFieldItem Тип договора", [
-                                    'currentFieldItem' => $currentFieldItem,
-                                    'gitem' => $gitem,
-                                    'currentPortalItem' => $currentPortalItem,
-    
-                                ]);
-                            }
+                            // if ($field['name'] == 'Тип договора') {
+                            //     // Log::channel('telegram')->error("setFieldItem Тип договора", [
+                            //     //     'currentFieldItem' => $currentFieldItem,
+                            //     //     'gitem' => $gitem,
+                            //     //     'currentPortalItem' => $currentPortalItem,
+
+                            //     // ]);
+                            // }
 
                             if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
 
                                 // if ($field['name'] == 'Тип договора') {
                                 //     Log::channel('telegram')->error("setFieldItem new BitrixfieldItem", [
                                 //         'currentGooItem' => $currentFieldItem,
-                                        
-        
+
+
                                 //     ]);
                                 // }
 
@@ -692,27 +698,27 @@ class InstallFieldsController extends Controller
                                 $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
 
                                 if ($currentGooItem) {
+                                    $currentGooItem['XML_ID'] = preg_replace('/[\x00-\x1F\x7F]/', '', $currentGooItem['XML_ID']);
                                     $currentPortalItem->code = $currentGooItem['XML_ID'];
                                 }
                             } else { // если на портале существуют item - обновляем
 
                             }
-
                             $currentPortalItem->bitrixId = $currentFieldItem['ID'];
 
                             $currentPortalItem->name = $currentFieldItem['VALUE'];
                             $currentPortalItem->title = $currentFieldItem['VALUE'];
                             $currentPortalItem->save();
-                        }else{
-                            if ($field['name'] == 'Тип договора') {
-                                Log::channel('telegram')->error("!===== Тип договора", [
-                                    'currentFieldItem' => $currentFieldItem,
-                                    'gitem' => $gitem,
-                                    'currentPortalItem VALUE' => $currentFieldItem['VALUE'],
-                                    'gitem VALUE' => $gitem['VALUE'],
+                        } else {
+                            // if ($field['name'] == 'Тип договора') {
+                            //     Log::channel('telegram')->error("!===== Тип договора", [
+                            //         'currentFieldItem' => $currentFieldItem,
+                            //         'gitem' => $gitem,
+                            //         'currentPortalItem VALUE' => $currentFieldItem['VALUE'],
+                            //         'gitem VALUE' => $gitem['VALUE'],
 
-                                ]);
-                            }
+                            //     ]);
+                            // }
                         }
                     }
                 }
