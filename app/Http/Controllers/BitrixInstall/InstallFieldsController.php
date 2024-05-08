@@ -661,7 +661,7 @@ class InstallFieldsController extends Controller
                             'currentFieldItem VALUE' => $currentFieldItem['VALUE'],
 
                         ]);
-                        // $pitem->delete();
+                        $pitem->delete();
                     }
                 }
             }
