@@ -571,7 +571,13 @@ class InstallFieldsController extends Controller
                     sleep(1);
                     $method = '/crm.' . $entityType . '.userfield.update';
                     $response = Http::post($url, $data);
-                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
+                    // $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
+                    sleep(1);
+
+                    $method = '/crm.' . $entityType . '.userfield.get';
+                    $updtgetresponse = Http::post($url, ['id' => $currentBtxFieldId]);
+                    $updtedField = BitrixController::getBitrixResponse($updtgetresponse, 'fields install updtgetresponse');
+                   
                    
                 }
 
