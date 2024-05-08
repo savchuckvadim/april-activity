@@ -668,26 +668,26 @@ class InstallFieldsController extends Controller
 
 
 
-            if (!empty($portalFieldItems)) {
+            // if (!empty($portalFieldItems)) {
 
-                foreach ($portalFieldItems as $pitem) {
-                    $pItemForDelete = false;
-                    foreach ($field['list'] as $currentFieldItem) {  //btx items
+            //     foreach ($portalFieldItems as $pitem) {
+            //         $pItemForDelete = false;
+            //         foreach ($field['list'] as $currentFieldItem) {  //btx items
 
-                        if (
-                            $pitem['title'] === $currentFieldItem['VALUE'] &&
-                            $pitem['code'] !== $currentFieldItem['XML_ID']
-                        ) {
-                            $pitem =  BitrixfieldItem::find($pitem['id']);
-                        }
-                    }
-                    if ($pItemForDelete) {
+            //             if (
+            //                 $pitem['title'] === $currentFieldItem['VALUE'] &&
+            //                 $pitem['code'] !== $currentFieldItem['XML_ID']
+            //             ) {
+            //                 $pitem =  BitrixfieldItem::find($pitem['id']);
+            //             }
+            //         }
+            //         if ($pItemForDelete) {
 
 
-                        $pitem->delete();
-                    }
-                }
-            }
+            //             $pitem->delete();
+            //         }
+            //     }
+            // }
         }
     }
 }
