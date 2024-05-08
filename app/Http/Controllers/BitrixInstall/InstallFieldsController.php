@@ -396,7 +396,7 @@ class InstallFieldsController extends Controller
         // ]);
 
         $responsesData = [];
-        foreach ($fields as  $field) {
+        foreach ($fields as  $index => $field) {
             $currentBtxField = false;
             $currentBtxFieldId = false;
             $currentPortalField = false;
@@ -414,7 +414,14 @@ class InstallFieldsController extends Controller
                     $currentPortalField = $portalField;
                 }
             }
-
+            if($index < 10){
+                Log::channel('telegram')->error("currentPortalField", [
+                    'currentPortalField' => $currentPortalField,
+                    'currentPortalField' => $currentPortalField,
+    
+                ]);
+            }
+          
 
 
             // if (!empty($field[$entityType])) {
@@ -452,10 +459,7 @@ class InstallFieldsController extends Controller
             } else {
 
                 $data['fields']["FIELD_NAME"] = $field[$entityType];
-                Log::channel('telegram')->error("fieldsData", [
-                    'fieldsData' => $fieldsData,
-
-                ]);
+                
             }
             $url = $hook . $method;
             $response = Http::post($url, $data);
@@ -470,7 +474,13 @@ class InstallFieldsController extends Controller
             //     'responseData' => $responseData,
 
             // ]);
-
+            if($index < 20){
+                Log::channel('telegram')->error("responseData", [
+                    'method' => $method,
+                    'responseData' => $responseData,
+    
+                ]);
+            }
             if (!$currentPortalField) {
                 $currentPortalField = new Bitrixfield();
                 $currentPortalField->entity_type = $parentClass;
@@ -484,12 +494,12 @@ class InstallFieldsController extends Controller
             $currentPortalField->code = $field['code'];
             $currentPortalField->bitrixId = $field[$entityType];
             $currentPortalField->bitrixCamelId = 'ufCrm' . $field[$entityType];
-            $currentPortalField->save();
+            // $currentPortalField->save();
             if ($field['type'] == 'enumeration') {
 
-                $items = InstallFieldsController::setFieldItems($currentBtxField, $field, $currentPortalField);
+                // $items = InstallFieldsController::setFieldItems($currentBtxField, $field, $currentPortalField);
             }
-            sleep(2);
+            // sleep(2);
         }
         // Log::channel('telegram')->error("responseData", [
         //     'responsesData' => $responsesData,
@@ -520,50 +530,53 @@ class InstallFieldsController extends Controller
 
         $portalFieldItems = $currentPortalField->items->toArray();
 
-
-        foreach ($currentFieldItems as $currentFieldItem) {  //btx items
-            $currentPortalItem  = false;
+        if(!empty($currentFieldItems)){
+            foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+                $currentPortalItem  = false;
+                if (!empty($portalFieldItems)) {
+                    foreach ($portalFieldItems as $pitem) {
+    
+                        if ($currentFieldItem['XML_ID'] == $pitem['code']) {
+    
+                            $currentPortalItem  =  $pitem;
+                        }
+                    }
+                }
+    
+                if (!$currentPortalItem) {
+                    $currentPortalItem  =  new BitrixfieldItem();
+                    $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+    
+                }
+                $currentPortalItem->bitrixId = (int)$currentFieldItem['ID'];
+                $currentPortalItem->code = $currentFieldItem['XML_ID'];
+                $currentPortalItem->name = $currentFieldItem['VALUE'];
+                $currentPortalItem->title = $currentFieldItem['VALUE'];
+                $currentPortalItem->save();
+            }
+    
             if (!empty($portalFieldItems)) {
+    
                 foreach ($portalFieldItems as $pitem) {
-
-                    if ($currentFieldItem['XML_ID'] == $pitem['code']) {
-
-                        $currentPortalItem  =  $pitem;
+                    $pItemForDelete = false;
+                    foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+    
+                        if (
+                            $pitem['title'] === $currentFieldItem['VALUE'] &&
+                            $pitem['bitrixId'] !== $currentFieldItem['ID']
+                        ) {
+                            $pItemForDelete = $pitem;
+                        }
+                    }
+                    if ($pItemForDelete) {
+                        $pitem->delete();
                     }
                 }
             }
+    
 
-            if (!$currentPortalItem) {
-                $currentPortalItem  =  new BitrixfieldItem();
-                $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
-
-            }
-            $currentPortalItem->bitrixId = (int)$currentFieldItem['ID'];
-            $currentPortalItem->code = $currentFieldItem['XML_ID'];
-            $currentPortalItem->name = $currentFieldItem['VALUE'];
-            $currentPortalItem->title = $currentFieldItem['VALUE'];
-            $currentPortalItem->save();
         }
-
-        if (!empty($portalFieldItems)) {
-
-            foreach ($portalFieldItems as $pitem) {
-                $pItemForDelete = false;
-                foreach ($currentFieldItems as $currentFieldItem) {  //btx items
-
-                    if (
-                        $pitem['title'] === $currentFieldItem['VALUE'] &&
-                        $pitem['bitrixId'] !== $currentFieldItem['ID']
-                    ) {
-                        $pItemForDelete = $pitem;
-                    }
-                }
-                if ($pItemForDelete) {
-                    $pitem->delete();
-                }
-            }
-        }
-
+      
 
         Log::channel('telegram')->error("responseData", [
             'currentFieldItems' => $currentFieldItems,
