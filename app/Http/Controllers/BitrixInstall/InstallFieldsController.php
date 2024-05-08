@@ -450,7 +450,7 @@ class InstallFieldsController extends Controller
                 "LIST_COLUMN_LABEL" => $field['name'],
                 "USER_TYPE_ID" => $type,
                 'MULTIPLE' => $multiple,
-                // "LIST" => $field['list'],
+                "LIST" => $field['list'],
                 // "CODE" => $field['code'],
                 "XML_ID" => $field['code'],
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
