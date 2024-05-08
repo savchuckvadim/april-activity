@@ -454,7 +454,7 @@ class InstallFieldsController extends Controller
                 // "CODE" => $field['code'],
                 "XML_ID" => $field['code'],
                 "SETTINGS" => ["LIST_HEIGHT" => 1],
-                "SORT" => 134,
+                "SORT" => $field['order'],
             ];
 
             $data = [
