@@ -508,14 +508,14 @@ class InstallFieldsController extends Controller
                 $updtedField = $currentBtxField;
 
                 if ($currentBtxFieldId) {
-                    $method = '/crm.' . $entityType . '.userfield.get';
-                    $url = $hook . $method;
-                    $response = Http::post($url, [
-                        'id' => $responseData
-                    ]);
-                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
-                    Log::channel('telegram')->error("updtedField get", [
-                        'updtedField' => $updtedField,
+                    // $method = '/crm.' . $entityType . '.userfield.get';
+                    // $url = $hook . $method;
+                    // $response = Http::post($url, [
+                    //     'id' => $responseData
+                    // ]);
+                    // $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
+                    Log::channel('telegram')->error("currentBtxFieldId get", [
+                        'currentBtxFieldId' => $currentBtxFieldId,
 
 
                     ]);
