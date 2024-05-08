@@ -601,6 +601,12 @@ class InstallFieldsController extends Controller
         // ]);
         $currentField = $currentBtxField;
         $currentFieldItems = null;
+        Log::channel('telegram')->error("setFieldItem", [
+            'currentBtxField' => $currentBtxField,
+            'field' => $field,
+            'currentPortalField' => $currentPortalField,
+
+        ]);
 
         if (isset($currentField['LIST'])) {
             $currentFieldItems = $currentField['LIST'];
@@ -617,7 +623,11 @@ class InstallFieldsController extends Controller
         $currentGooItem  = false;
         if (!empty($currentFieldItems)) {
             foreach ($currentFieldItems as $currentFieldItem) {  //btx items
+                Log::channel('telegram')->error("setFieldItem", [
+                    'currentFieldItem' => $currentFieldItem,
+                    
 
+                ]);
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
 
