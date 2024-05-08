@@ -519,7 +519,7 @@ class InstallFieldsController extends Controller
                     if (!empty($updtedField['LIST'])) {
                         foreach ($updtedField['LIST'] as $currentBtxItem) {
                             $searchingItem = null;
-                            foreach ($field['field'] as $gooItem) {
+                            foreach ($field['list'] as $gooItem) {
                                 if ($gooItem['XML_ID'] == $currentBtxItem['XML_ID']) {
                                     $gooItem['ID'] == $currentBtxItem['ID'];
                                     $searchingItem = $gooItem;
@@ -533,7 +533,7 @@ class InstallFieldsController extends Controller
                             array_push($resultList, $gooItem);
                         }
 
-                        foreach ($field['field'] as $gooItem) {
+                        foreach ($field['list'] as $gooItem) {
                             foreach ($resultList as $resItem) {
                                 if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
                                     array_push($resultList, $gooItem);
