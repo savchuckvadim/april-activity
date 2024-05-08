@@ -414,13 +414,13 @@ class InstallFieldsController extends Controller
                     $currentPortalField = $portalField;
                 }
             }
-            if($index < 10){
-                Log::channel('telegram')->error("currentPortalField", [
-                    'currentPortalField' => $currentPortalField,
-                    'currentPortalField' => $currentPortalField,
+            // if($index < 10){
+            //     Log::channel('telegram')->error("currentPortalField", [
+            //         'currentPortalField' => $currentPortalField,
+            //         'currentPortalField' => $currentPortalField,
     
-                ]);
-            }
+            //     ]);
+            // }
           
 
 
@@ -464,8 +464,10 @@ class InstallFieldsController extends Controller
             $url = $hook . $method;
             $response = Http::post($url, $data);
             sleep(1);
-            $responseData = BitrixController::getBitrixResponse($response, 'fields install');
-            array_push($responsesData, $responseData);
+            // $responseData = BitrixController::getBitrixResponse($response, 'fields install');
+            // array_push($responsesData, $responseData);
+           
+           
             // } else {
             //TODO найти такой на сервере БД и удалить
             // }
@@ -474,10 +476,11 @@ class InstallFieldsController extends Controller
             //     'responseData' => $responseData,
 
             // ]);
-            if($index < 20){
+            if($field['type'] == 'enumeration'){
                 Log::channel('telegram')->error("responseData", [
-                    'method' => $method,
-                    'responseData' => $responseData,
+                    '$currentBtxField' => $currentBtxField,
+                    'google list' => $field['list'],
+                    '$currentBtxField' => $currentBtxField,
     
                 ]);
             }
