@@ -476,7 +476,7 @@ class InstallFieldsController extends Controller
             sleep(1);
             $responseData = BitrixController::getBitrixResponse($response, 'fields install');
             array_push($responsesData, $responseData);
-            if (!$currentBtxFieldId && $responseData && is_numeric($responseData)) {
+            if (!$currentBtxFieldId && $responseData) {
                 $currentBtxFieldId = $responseData;
             }
 
