@@ -523,7 +523,7 @@ class InstallFieldsController extends Controller
                             foreach ($field['list'] as $gooItem) {
                                 // определяем элементы которые надо отредактировать
                                 // if(isset($currentBtxItem['XML_ID'])){
-                                    if ($gooItem['VALUE'] == $currentBtxItem['VALUE']) {
+                                    if ($gooItem['VALUE'] === $currentBtxItem['VALUE']) {
                                         // $gooItem['ID'] == $currentBtxItem['ID'];
                                         $searchingItem = [
                                             ...$gooItem,
@@ -539,6 +539,11 @@ class InstallFieldsController extends Controller
 
                                 $currentBtxItem['DEL'] = 'Y';
                                 $searchingItem = $currentBtxItem;
+                                Log::channel('telegram')->error("updtedField DEL", [
+                                    'currentBtxItem' => $currentBtxItem,
+            
+            
+                                ]);
                             }
                             array_push($resultList, $gooItem);
                         }
