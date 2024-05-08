@@ -513,7 +513,7 @@ class InstallFieldsController extends Controller
                     $response = Http::post($url, [
                         'id' => $responseData
                     ]);
-                    $updtedField = BitrixController::getBitrixResponse($currentBtxFieldId, 'fields install');
+                    $updtedField = BitrixController::getBitrixResponse($response, 'fields install');
                     Log::channel('telegram')->error("updtedField get", [
                         'updtedField' => $updtedField,
 
