@@ -416,14 +416,19 @@ class InstallFieldsController extends Controller
                         ]);
 
                     }
-                    // if (!$index) {
+                    if (!$index) {
 
-                    //     Log::channel('telegram')->error("curBtxField vs field", [
-                    //         'Btx Field' => $curBtxField,
+                        Log::channel('telegram')->error("curBtxField vs field", [
+                            'Btx Field' => $curBtxField,
 
 
-                    //     ]);
-                    // }
+                        ]);
+                        Log::channel('telegram')->error("curBtxField vs field", [
+                            'upperName' => $curBtxField['upperName'],
+
+
+                        ]);
+                    }
                 }
 
                 // $multiple = 'N';
