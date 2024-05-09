@@ -348,7 +348,7 @@ class InstallFieldsController extends Controller
         $btxSmartFields = null;
        
         $portalFields = $portalsmart->fields;
-        Log::channel('telegram')->error("portalFields", [
+        Log::info("portalFields", [
             'portalFields' => $portalFields,
             // 'smartId' => $smartId,
 
