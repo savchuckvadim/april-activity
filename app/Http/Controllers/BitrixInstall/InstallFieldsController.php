@@ -120,14 +120,13 @@ class InstallFieldsController extends Controller
             if (!empty($portalCompany)) {
                 $portalCompanyFields = $portalCompany->fields;
             }
-            if(!empty($portalsmart)){
-                $portalportalsmartsFields = $portalsmart->fields;
-                 Log::channel('telegram')->info("smart", [
-                    'portalportalsmartsFields' => $portalportalsmartsFields,
+            // if (!empty($portalsmart)) {
+            //     $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт
+            //     // Log::channel('telegram')->info("smart", [
+            //     //     'portalportalsmartsFields' => $portalsmart,
 
-                ]);
-
-            }
+            //     // ]);
+            // }
 
 
             $categories = null;
@@ -256,13 +255,13 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                // $responseData = InstallFieldsController::createFieldsForSmartProcesses(
-                //     $hook,
-                //     $fields,
-                //     $group,
-                //     $portalsmarts,
-                //     $parentClass
-                // );
+                $responseData = InstallFieldsController::createFieldsForSmartProcesses(
+                    $hook,
+                    $fields,
+                    $group,
+                    $portalsmart,
+                    $parentClass
+                );
             }
 
             // };
@@ -341,69 +340,106 @@ class InstallFieldsController extends Controller
         $hook,
         $fields,
         $group,
-        $portalsmarts,
+        $portalsmart,
         $parentClass
     ) {
+    
+        $smartId = $portalsmart['bitrixId'];
+
+        Log::channel('telegram')->error("setFieldItem", [
+            'portalsmart' => $portalsmart,
+            'smartId' => $smartId,
+          
+
+        ]);
+
+
         // Step 1: Get all smart processes
-        $url = $hook . '/crm.type.list';
-        $response = Http::post($url);
-        $smartProcesses = $response->json()['result']['types'];
+        // $url = $hook . '/userfieldconfig.list';
+        // $getSmartBtxFieldsData = [
+        //     'moduleId' => 'crm',
+        //     'filter' => [
+        //         'ENTITY_ID' => 'CRM_' . $smartId
+        //     ]
+        // ];
 
-        // Step 2: Filter smart processes
-        $keywords = ['Продажи', 'Гарант', 'ТМЦ'];
-        $filteredSmartProcesses = array_filter($smartProcesses, function ($process) use ($keywords) {
-            foreach ($keywords as $keyword) {
-                if (stripos($process['title'], $keyword) !== false) {
-                    return true;
-                }
-            }
-            return false;
-        });
+        $url = $hook . '/crm.item.fields';
+        $getSmartBtxFieldsData = [
+            'entityTypeId' => $smartId,
+            // 'filter' => [
+            //     'ENTITY_ID' => 'CRM_' . $smartId
+            // ]
+        ];
 
-        // Step 3: Create user fields for filtered smart processes
-        foreach ($filteredSmartProcesses as $smartProcess) {
-            $smartId = $smartProcess['id'];
-            foreach ($fields as $field) {
 
-                if (!empty($field['smart'])) {
+        $response = Http::post($url, $getSmartBtxFieldsData);
+        $resultFields = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
+        
+        Log::channel('telegram')->error("setFieldItem", [
+            'resultFields' => $resultFields,
+         
+          
 
-                    $multiple = 'N';
-                    $type = $field['type'] ?? 'string';
-                    if ($type == 'multiple') {
-                        $multiple =  "Y";
-                        $type = 'string';
-                    }
+        ]);
 
-                    // $mandatory = $field['mandatory'] ?? 'N';
-                    $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
+        
+        
+        // $smartProcesses = $response->json()['result']['types'];
 
-                    $fieldsData = [
-                        "moduleId" => "crm",
-                        "field" => [
-                            "entityId" => 'CRM_' . $smartId,
-                            "fieldName" => $fieldNameUpperCase,
-                            "userTypeId" => $type,
-                            "multiple" => $multiple,
-                            // "mandatory" => $mandatory,
-                            "editFormLabel" => ["ru" => $field['name']],
-                            // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
-                            //     return [
-                            //         "value" => $item,
-                            //         "sort" => $key + 1,
-                            //         "def" => 'N',
-                            //     ];
-                            // }, $field['list'], array_keys($field['list'])) : [],
-                        ]
-                    ];
+        // // Step 2: Filter smart processes
+        // $keywords = ['Продажи', 'Гарант', 'ТМЦ'];
+        // $filteredSmartProcesses = array_filter($smartProcesses, function ($process) use ($keywords) {
+        //     foreach ($keywords as $keyword) {
+        //         if (stripos($process['title'], $keyword) !== false) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // });
 
-                    $method = '/userfieldconfig.add';
-                    $url = $hook . $method;
-                    $response = Http::post($url, $fieldsData);
-                    sleep(2);
-                    $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
-                }
-            }
-        }
+        // foreach ($filteredSmartProcesses as $smartProcess) {
+        // $smartId = $smartProcess['id'];
+        // foreach ($fields as $field) {
+
+        //     if (!empty($field['smart'])) {
+
+        //         $multiple = 'N';
+        //         $type = $field['type'] ?? 'string';
+        //         if ($type == 'multiple') {
+        //             $multiple =  "Y";
+        //             $type = 'string';
+        //         }
+
+        //         // $mandatory = $field['mandatory'] ?? 'N';
+        //         $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
+
+        //         $fieldsData = [
+        //             "moduleId" => "crm",
+        //             "field" => [
+        //                 "entityId" => 'CRM_' . $smartId,
+        //                 "fieldName" => $fieldNameUpperCase,
+        //                 "userTypeId" => $type,
+        //                 "multiple" => $multiple,
+        //                 // "mandatory" => $mandatory,
+        //                 "editFormLabel" => ["ru" => $field['name']],
+        //                 // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
+        //                 //     return [
+        //                 //         "value" => $item,
+        //                 //         "sort" => $key + 1,
+        //                 //         "def" => 'N',
+        //                 //     ];
+        //                 // }, $field['list'], array_keys($field['list'])) : [],
+        //             ]
+        //         ];
+
+        //         $method = '/userfieldconfig.add';
+        //         $url = $hook . $method;
+        //         $response = Http::post($url, $fieldsData);
+        //         sleep(2);
+        //         $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+        //     }
+        // }
+        // }
     }
 
     public static function createFieldsForEntities(
