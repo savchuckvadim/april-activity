@@ -106,7 +106,7 @@ class InstallFieldsController extends Controller
             $portalDeal = $portal->deal();
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
-            $portalsmart = $portal->smarts->where('bitrixId', $smartId);
+            $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
 
 
             $portalDealFields = [];
@@ -122,7 +122,7 @@ class InstallFieldsController extends Controller
             }
             if(!empty($portalsmart)){
                 $portalportalsmartsFields = $portalsmart->fields;
-                 Log::channel('telegram')->info("smart fields", [
+                 Log::channel('telegram')->info("smart", [
                     'portalportalsmartsFields' => $portalportalsmartsFields,
 
                 ]);
