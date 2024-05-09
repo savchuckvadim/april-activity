@@ -74,9 +74,12 @@ class PortalController extends Controller
     }
     public static function getPortal($domain)
     {
-        $cacheKey = 'portal_' . $domain;
-        $cachedPortalData = Cache::get($cacheKey);
+        // $cacheKey = 'portal_' . $domain;
+        // $cachedPortalData = Cache::get($cacheKey);
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'getPortal'   => 'yo'
 
+        ]);
         // if (!is_null($cachedPortalData)) {
         //     Log::channel('telegram')->info('APRIL_ONLINE', [
         //         'log from cache getPortal'   =>
@@ -118,7 +121,7 @@ class PortalController extends Controller
 
         if (isset($portalData['smarts'])) {
             if (isset($portalData['smarts'][0])) {
-                $categories = $portalData['smarts'][0]->categories; 
+                $categories = $portalData['smarts'][0]->categories;
                 // Log::info('smartData ', [
 
                 //     'categories' => $categories,
@@ -137,14 +140,14 @@ class PortalController extends Controller
 
                 // Log::channel('telegram')->info('APRIL_ONLINE', [
                 //     'portalData categories'   => $categories
-                    
+
 
                 // ]);
-               
+
             }
         }
 
-        Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
+        // Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
         return response(['resultCode' => 0, 'portal' => $portalData]); // Возвращаем данные в формате response
     }
     public static function getPortalById($portalId)
