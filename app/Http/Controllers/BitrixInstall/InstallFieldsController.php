@@ -23,7 +23,8 @@ class InstallFieldsController extends Controller
 
     static function setFields(
         $token,
-        $entityType
+        $entityType,
+        $smartId = null
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -105,7 +106,7 @@ class InstallFieldsController extends Controller
             $portalDeal = $portal->deal();
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
-            $portalsmarts = $portal->smarts;
+            $portalsmart = $portal->smarts->where('bitrixId', $smartId);
 
 
             $portalDealFields = [];
@@ -119,9 +120,14 @@ class InstallFieldsController extends Controller
             if (!empty($portalCompany)) {
                 $portalCompanyFields = $portalCompany->fields;
             }
-            // if(!empty($portalsmarts)){
-            //     $portalportalsmartsFields = $portalCompany->fields;
-            // }
+            if(!empty($portalsmart)){
+                $portalportalsmartsFields = $portalsmart->fields;
+                 Log::channel('telegram')->info("smart fields", [
+                    'portalportalsmartsFields' => $portalportalsmartsFields['fields'],
+
+                ]);
+
+            }
 
 
             $categories = null;
@@ -250,13 +256,13 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                $responseData = InstallFieldsController::createFieldsForSmartProcesses(
-                    $hook,
-                    $fields,
-                    $group,
-                    $portalsmarts,
-                    $parentClass
-                );
+                // $responseData = InstallFieldsController::createFieldsForSmartProcesses(
+                //     $hook,
+                //     $fields,
+                //     $group,
+                //     $portalsmarts,
+                //     $parentClass
+                // );
             }
 
             // };
