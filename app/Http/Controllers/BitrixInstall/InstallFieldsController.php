@@ -346,14 +346,14 @@ class InstallFieldsController extends Controller
 
         $smartId = $portalsmart['bitrixId'];
         $btxSmartFields = null;
-        Log::channel('telegram')->error("setFieldItem", [
-            'portalsmart' => $portalsmart,
-            'smartId' => $smartId,
+       
+        $portalFields = $portalsmart->fields;
+        Log::channel('telegram')->error("portalFields", [
+            'portalFields' => $portalFields,
+            // 'smartId' => $smartId,
 
 
         ]);
-
-
         // Step 1: Get all smart processes
         // $url = $hook . '/userfieldconfig.list';
         // $getSmartBtxFieldsData = [
@@ -402,22 +402,32 @@ class InstallFieldsController extends Controller
 
         foreach ($fields as $index => $field) {
 
+
+            $type = $field['type'] ?? 'string';
+            $multiple = 'N';
+
+            if ($field['type'] == 'multiple') {
+                $multiple =  "Y";
+                $type = 'string';
+            }
+
+
             if (!empty($field['smart'])) {
 
                 $currentBtxField = false;
                 foreach ($btxSmartFields as $curBtxField) {
                     if (
                         'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
-                        $field['smart'] == 'enumeration'
+                        $field['smart'] == 'multiple'
 
                     ) {
                         // $currentBtxFieldId = $curBtxField['ID'];
                         $currentBtxField = $curBtxField;
-                        Log::channel('telegram')->error("curBtxField vs field", [
-                            'currentBtxField' => $currentBtxField,
+                        // Log::channel('telegram')->error("curBtxField vs field", [
+                        //     'currentBtxField' => $currentBtxField,
 
 
-                        ]);
+                        // ]);
                     }
                     if (!$index) {
 
