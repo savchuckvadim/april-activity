@@ -123,7 +123,7 @@ class InstallFieldsController extends Controller
             if(!empty($portalsmart)){
                 $portalportalsmartsFields = $portalsmart->fields;
                  Log::channel('telegram')->info("smart fields", [
-                    'portalportalsmartsFields' => $portalportalsmartsFields['fields'],
+                    'portalportalsmartsFields' => $portalportalsmartsFields,
 
                 ]);
 
