@@ -427,11 +427,11 @@ class InstallFieldsController extends Controller
                     }
                     if (!$index) {
 
-                        // Log::channel('telegram')->error("curBtxField vs field", [
-                        //     'Btx Field' => $curBtxField,
+                        Log::channel('telegram')->error("curBtxField vs field", [
+                            'Btx Field' => $curBtxField,
 
 
-                        // ]);
+                        ]);
                         // Log::channel('telegram')->error("curBtxField vs field", [
                         //     'upperName' => $curBtxField['upperName'],
 
@@ -445,11 +445,6 @@ class InstallFieldsController extends Controller
                     foreach ($portalFields as $pind => $pField) {
                         if (!$pind) {
 
-                            Log::channel('telegram')->error("curBtxField vs field", [
-                                'pField Field' => $pField,
-
-
-                            ]);
                             Log::channel('telegram')->error("curBtxField vs field", [
                                 'pField code' => $pField['code'],
 
