@@ -450,7 +450,7 @@ class InstallFieldsController extends Controller
 
                             ]);
                             Log::channel('telegram')->error("curBtxField vs field", [
-                                'pField code' => $curBtxField['code'],
+                                'pField code' => $curBtxField->code,
 
 
                             ]);
