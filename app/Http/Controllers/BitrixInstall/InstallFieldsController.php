@@ -406,7 +406,11 @@ class InstallFieldsController extends Controller
 
                 $currentBtxField = false;
                 foreach ($btxSmartFields as $curBtxField) {
-                    if ('UF_CRM_' . $field['smart'] === $curBtxField['upperName']) {
+                    if (
+                        'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
+                        $field['smart'] == 'enumeration'
+
+                    ) {
                         // $currentBtxFieldId = $curBtxField['ID'];
                         $currentBtxField = $curBtxField;
                         Log::channel('telegram')->error("curBtxField vs field", [
