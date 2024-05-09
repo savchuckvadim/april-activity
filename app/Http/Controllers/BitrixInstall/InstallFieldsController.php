@@ -406,24 +406,24 @@ class InstallFieldsController extends Controller
 
                 $currentBtxField = false;
                 foreach ($btxSmartFields as $curBtxField) {
-                    // if ($field['code'] === $curBtxField['XML_ID']) {
-                    //     // $currentBtxFieldId = $curBtxField['ID'];
-                    //     $currentBtxField = $curBtxField;
-                    //     Log::channel('telegram')->error("curBtxField vs field", [
-                    //         'currentBtxField' => $currentBtxField,
-
-
-                    //     ]);
-
-                    // }
-                    if (!$index) {
-
+                    if ($field['code'] === $curBtxField['upperName']) {
+                        // $currentBtxFieldId = $curBtxField['ID'];
+                        $currentBtxField = $curBtxField;
                         Log::channel('telegram')->error("curBtxField vs field", [
-                            'Btx Field' => $curBtxField,
+                            'currentBtxField' => $currentBtxField,
 
 
                         ]);
+
                     }
+                    // if (!$index) {
+
+                    //     Log::channel('telegram')->error("curBtxField vs field", [
+                    //         'Btx Field' => $curBtxField,
+
+
+                    //     ]);
+                    // }
                 }
 
                 // $multiple = 'N';
