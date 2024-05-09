@@ -406,7 +406,7 @@ class InstallFieldsController extends Controller
 
                 $currentBtxField = false;
                 foreach ($btxSmartFields as $curBtxField) {
-                    if ($field['code'] === $curBtxField['upperName']) {
+                    if ('UF_CRM_' . $field['smart'] === $curBtxField['upperName']) {
                         // $currentBtxFieldId = $curBtxField['ID'];
                         $currentBtxField = $curBtxField;
                         Log::channel('telegram')->error("curBtxField vs field", [
@@ -414,20 +414,19 @@ class InstallFieldsController extends Controller
 
 
                         ]);
-
                     }
                     if (!$index) {
 
-                        Log::channel('telegram')->error("curBtxField vs field", [
-                            'Btx Field' => $curBtxField,
+                        // Log::channel('telegram')->error("curBtxField vs field", [
+                        //     'Btx Field' => $curBtxField,
 
 
-                        ]);
-                        Log::channel('telegram')->error("curBtxField vs field", [
-                            'upperName' => $curBtxField['upperName'],
+                        // ]);
+                        // Log::channel('telegram')->error("curBtxField vs field", [
+                        //     'upperName' => $curBtxField['upperName'],
 
 
-                        ]);
+                        // ]);
                     }
                 }
 
