@@ -344,7 +344,9 @@ class InstallFieldsController extends Controller
         $parentClass
     ) {
 
-        $smartId = $portalsmart['bitrixId'];
+        // $smartId = $portalsmart['bitrixId'];
+        $smartId = 465;
+        
         $btxSmartFields = null;
 
         $portalFields = $portalsmart->fields;
