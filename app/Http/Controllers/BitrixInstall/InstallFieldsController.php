@@ -346,14 +346,9 @@ class InstallFieldsController extends Controller
 
         $smartId = $portalsmart['bitrixId'];
         $btxSmartFields = null;
-       
+
         $portalFields = $portalsmart->fields;
-        Log::info("portalFields", [
-            'portalFields' => $portalFields,
-            // 'smartId' => $smartId,
 
-
-        ]);
         // Step 1: Get all smart processes
         // $url = $hook . '/userfieldconfig.list';
         // $getSmartBtxFieldsData = [
@@ -444,14 +439,28 @@ class InstallFieldsController extends Controller
                     }
                 }
 
-                // $multiple = 'N';
-                // $type = $field['type'] ?? 'string';
-                // if ($type == 'multiple') {
-                //     $multiple =  "Y";
-                //     $type = 'string';
-                // }
 
-                // // $mandatory = $field['mandatory'] ?? 'N';
+                if (!empty($portalFields)) {
+                    foreach ($portalFields as $pind => $pField) {
+                        if (!$pind) {
+
+                            Log::channel('telegram')->error("curBtxField vs field", [
+                                'pField Field' => $pField,
+
+
+                            ]);
+                            Log::channel('telegram')->error("curBtxField vs field", [
+                                'pField code' => $curBtxField['code'],
+
+
+                            ]);
+                        }
+                    }
+                }
+
+
+
+
                 // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
                 // $fieldsData = [
