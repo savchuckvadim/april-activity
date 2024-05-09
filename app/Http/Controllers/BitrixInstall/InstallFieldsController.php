@@ -354,7 +354,7 @@ class InstallFieldsController extends Controller
         $getSmartBtxFieldsData = [
             'moduleId' => 'crm',
             'filter' => [
-                'ENTITY_ID' => 'CRM_' . $smartId
+                'entityId' => 'CRM_' . $smartId
             ]
         ];
 
