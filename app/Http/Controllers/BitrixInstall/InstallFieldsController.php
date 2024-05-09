@@ -350,21 +350,21 @@ class InstallFieldsController extends Controller
         $portalFields = $portalsmart->fields;
 
         // Step 1: Get all smart processes
-        // $url = $hook . '/userfieldconfig.list';
-        // $getSmartBtxFieldsData = [
-        //     'moduleId' => 'crm',
-        //     'filter' => [
-        //         'ENTITY_ID' => 'CRM_' . $smartId
-        //     ]
-        // ];
-
-        $url = $hook . '/crm.item.fields';
+        $url = $hook . '/userfieldconfig.list';
         $getSmartBtxFieldsData = [
-            'entityTypeId' => $smartId,
-            // 'filter' => [
-            //     'ENTITY_ID' => 'CRM_' . $smartId
-            // ]
+            'moduleId' => 'crm',
+            'filter' => [
+                'ENTITY_ID' => 'CRM_' . $smartId
+            ]
         ];
+
+        // $url = $hook . '/crm.item.fields';
+        // $getSmartBtxFieldsData = [
+        //     'entityTypeId' => $smartId,
+        //     // 'filter' => [
+        //     //     'ENTITY_ID' => 'CRM_' . $smartId
+        //     // ]
+        // ];
 
 
         $response = Http::post($url, $getSmartBtxFieldsData);
@@ -410,6 +410,7 @@ class InstallFieldsController extends Controller
             if (!empty($field['smart'])) {
 
                 $currentBtxField = false;
+                //get current btx field
                 foreach ($btxSmartFields as $curBtxField) {
                     if (
                         'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
@@ -439,7 +440,7 @@ class InstallFieldsController extends Controller
                     }
                 }
 
-
+                //get current portal data field
                 if (!empty($portalFields)) {
                     foreach ($portalFields as $pind => $pField) {
                         if (!$pind) {
