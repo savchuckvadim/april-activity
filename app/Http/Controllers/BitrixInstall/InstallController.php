@@ -131,21 +131,20 @@ class InstallController extends Controller
 
                                 $currentPortalSmart = new Smart();
                                 $currentPortalSmart->portal_id = $portalId;
-                                $currentPortalSmart->type = $newSmart['code'];
-                                $currentPortalSmart->group = $newSmart['code'];
-                                $currentPortalSmart->name = $newSmart['code'];
-                                $currentPortalSmart->title = $newSmart['title'];
-                                $currentPortalSmart->bitrixId = $newSmartTypeId;
-                                $currentPortalSmart->entityTypeId = $newSmartTypeId;
-                                $currentPortalSmart->forStageId = $newSmartTypeId;
-                                $currentPortalSmart->forStage = 'DT' . $newSmartTypeId . '_';
-                                $currentPortalSmart->forFilterId = $newSmartTypeId;
-                                $currentPortalSmart->forFilter = 'DYNAMIC_' . $newSmartTypeId . '_';
-                                $currentPortalSmart->crmId = $newSmartTypeId;
-                                $currentPortalSmart->crm = 'WARNING' . $newSmartTypeId;
-                                $currentPortalSmart->save();
-
                             }
+                            $currentPortalSmart->type = $newSmart['code'];
+                            $currentPortalSmart->group = $newSmart['code'];
+                            $currentPortalSmart->name = $newSmart['code'];
+                            $currentPortalSmart->title = $newSmart['title'];
+                            $currentPortalSmart->bitrixId = $newSmartTypeId;
+                            $currentPortalSmart->entityTypeId = $newSmartTypeId;
+                            $currentPortalSmart->forStageId = $newSmartTypeId;
+                            $currentPortalSmart->forStage = 'DT' . $newSmartTypeId . '_';
+                            $currentPortalSmart->forFilterId = $newSmartTypeId;
+                            $currentPortalSmart->forFilter = 'DYNAMIC_' . $newSmartTypeId . '_';
+                            $currentPortalSmart->crmId = $newSmartTypeId;
+                            $currentPortalSmart->crm = 'WARNING' . $newSmartTypeId;
+                            $currentPortalSmart->save();
                         }
                     }
 
