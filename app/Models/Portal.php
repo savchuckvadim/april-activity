@@ -111,8 +111,8 @@ class Portal extends Model
     public function getSalesSmarts()
     {
         $smarts =  $this->smarts()->where('group', 'sales')
-            ->orWhere('group', 'tmc')
-            ->all();
+            ->orWhere('group', 'tmc');
+
         $resultSmarts    = [];
 
         
