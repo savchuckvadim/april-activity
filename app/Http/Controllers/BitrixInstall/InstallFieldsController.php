@@ -444,11 +444,11 @@ class InstallFieldsController extends Controller
                 //get current btx field
 
                 foreach ($btxSmartFields as $curBtxField) {
-                    Log::channel('telegram')->info("hook btxSmartFields", [
-                        'curBtxField' => $curBtxField,
+                    // Log::channel('telegram')->info("hook btxSmartFields", [
+                    //     'curBtxField' => $curBtxField,
             
             
-                    ]);
+                    // ]);
                     if (
                         'UF_CRM_' . $field['smart'] === $curBtxField['fieldName']
 
@@ -493,7 +493,7 @@ class InstallFieldsController extends Controller
                         $btxEnumItemData = [
                             'value' => $gitem['VALUE'],
                             'xmlId' => $gitem['XML_ID'],
-                            'sort' => $gitem['order'],
+                            'sort' => $gitem['SORT'],
                         ];
                         array_push($enum, $btxEnumItemData);
                     }
