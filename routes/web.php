@@ -39,10 +39,14 @@ Route::get('/install/deal/{pass}/{token}', function ($pass, $token) {
     }
 });
 
-Route::get('install/smart/{token}', function ($token) {
+Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    return 'yo';
-    // return InstallController::installSmart($token);
+    // return 'yo';
+   
+    if ($pass == 'nmbrsdntl') {
+        return InstallController::installSmart($token);    } else {
+        return 'yo';
+    }
 });
 
 
