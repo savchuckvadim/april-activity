@@ -65,85 +65,114 @@ class InstallController extends Controller
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $portalId = $portal['portal']['id'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            $methodSmartInstall = '/crm.type.add.json';
-            $url = $hook . $methodSmartInstall;
+
 
             // Проверка на массив
             if (is_array($googleData) && !empty($googleData['smarts'])) {
                 $smarts = $googleData['smarts'];
 
                 foreach ($smarts as $smart) {
-
-
                     $currentPortalSmart = null;
+                    $currentBtxSmart = null;
+                    $currentBtxSmartId = null;
 
-
-                    $hookSmartInstallData = [
-                        'fields' => [
-                            'id' => $smart['entityTypeId'],
-                            'title' => $smart['title'],
+                    $methodSmartInstall = '/crm.type.list.json';
+                    $url = $hook . $methodSmartInstall;
+                    $typeGetData = [
+                        'filter' => [
                             'entityTypeId' => $smart['entityTypeId'],
-                            'code' => $smart['code'],
-                            'isCategoriesEnabled' => 'Y',
-                            'isStagesEnabled' => 'Y',
-                            'isClientEnabled' => 'Y',
-                            'isUseInUserfieldEnabled' => 'Y',
-                            'isLinkWithProductsEnabled' => 'Y',
-                            'isAutomationEnabled' => 'Y',
-                            'isBizProcEnabled' => 'Y',
-                            'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
-
-                            "isCrmTrackingEnabled" => "Y",
-                            "isMycompanyEnabled" => "Y",
-                            "isDocumentsEnabled" => "Y",
-                            "isSourceEnabled" => "Y",
-                            "isObserversEnabled" => "Y",
-                            "isRecyclebinEnabled" => "Y",
-
-                            "isChildrenListEnabled" => "Y",
-                            "isSetOpenPermissions" => "Y",
-                            "linkedUserField" =>  [
-                                'CALENDAR_EVENT|UF_CRM_CAL_EVENT',
-                                'TASKS_TASK|UF_CRM_TASK',
-                                'TASKS_TASK_TEMPLATE|UF_CRM_TASK',
-
-                            ]
-                        ],
+                        ]
                     ];
+                    $getsmartResponse = Http::post($url, $typeGetData);
+
+                    $getSmarts = BitrixController::getBitrixResponse($getsmartResponse, 'get Smart');
+
+                    if (!empty($getSmarts)) {
+                        if (!empty($getSmarts['types'])) {
+                            $currentBtxSmart = $getSmarts['types'][0];
+                            $currentBtxSmartId = $currentBtxSmart['entityTypeId'];
+                        }
+                    }
+
+                    if (!$currentBtxSmart) {
+                        $methodSmartInstall = '/crm.type.add.json';
+                    } else {
+                        $methodSmartInstall = '/crm.type.update.json';
+                        $hookSmartInstallData = [
+                            'id' => $currentBtxSmart['id'],
+                            'fields' => []
+                        ];
+                    }
+
+                    $url = $hook . $methodSmartInstall;
+                    $hookSmartInstallData['fields'] = [
+                        // 'id' => $smart['entityTypeId'],
+                        'title' => $smart['title'],
+                        'entityTypeId' => $smart['entityTypeId'],
+                        'code' => $smart['code'],
+                        'isCategoriesEnabled' => 'Y',
+                        'isStagesEnabled' => 'Y',
+                        'isClientEnabled' => 'Y',
+                        'isUseInUserfieldEnabled' => 'Y',
+                        'isLinkWithProductsEnabled' => 'Y',
+                        'isAutomationEnabled' => 'Y',
+                        'isBizProcEnabled' => 'Y',
+                        'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
+
+                        "isCrmTrackingEnabled" => "Y",
+                        "isMycompanyEnabled" => "Y",
+                        "isDocumentsEnabled" => "Y",
+                        "isSourceEnabled" => "Y",
+                        "isObserversEnabled" => "Y",
+                        "isRecyclebinEnabled" => "Y",
+
+                        "isChildrenListEnabled" => "Y",
+                        "isSetOpenPermissions" => "Y",
+                        "linkedUserField" =>  [
+                            'CALENDAR_EVENT|UF_CRM_CAL_EVENT',
+                            'TASKS_TASK|UF_CRM_TASK',
+                            'TASKS_TASK_TEMPLATE|UF_CRM_TASK',
+
+                        ]
+                    ];
+
 
                     // Используем post, чтобы отправить данные
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
-
                     if (isset($newSmart['type'])) {
-                        $newSmart = $newSmart['type'];
+                        $currentBtxSmart = $newSmart['type'];
                     }
-                    $newSmartTypeId = $newSmart['entityTypeId'];
+                    $currentBtxSmartId = $currentBtxSmart['entityTypeId'];
 
 
 
-                    if (!empty($newSmart)) {
-                        if (!empty($newSmart['entityTypeId'] && !empty($newSmart['code']))) {
+
+
+
+
+                    if (!empty($currentBtxSmart)) {
+                        if (!empty($currentBtxSmart['entityTypeId'] && !empty($currentBtxSmart['code']))) {
                             $currentPortalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $newSmart['code'])->first();
-
+                            $smartEntityTypeId = $smart['entityTypeId'];
                             if (!$currentPortalSmart) {
 
                                 $currentPortalSmart = new Smart();
                                 $currentPortalSmart->portal_id = $portalId;
                             }
-                            $currentPortalSmart->type = $newSmart['code'];
-                            $currentPortalSmart->group = $newSmart['code'];
-                            $currentPortalSmart->name = $newSmart['code'];
-                            $currentPortalSmart->title = $newSmart['title'];
-                            $currentPortalSmart->bitrixId = $newSmartTypeId;
-                            $currentPortalSmart->entityTypeId = $newSmartTypeId;
-                            $currentPortalSmart->forStageId = $newSmartTypeId;
-                            $currentPortalSmart->forStage = 'DT' . $newSmartTypeId . '_';
-                            $currentPortalSmart->forFilterId = $newSmartTypeId;
-                            $currentPortalSmart->forFilter = 'DYNAMIC_' . $newSmartTypeId . '_';
-                            $currentPortalSmart->crmId = $newSmartTypeId;
-                            $currentPortalSmart->crm = 'WARNING' . $newSmartTypeId;
+                            $currentPortalSmart->type = $smart['code'];
+                            $currentPortalSmart->group = $smart['code'];
+                            $currentPortalSmart->name = $smart['code'];
+                            $currentPortalSmart->title = $smart['title'];
+                            $currentPortalSmart->bitrixId = $smartEntityTypeId;
+                            $currentPortalSmart->entityTypeId = $smartEntityTypeId;
+                            $currentPortalSmart->forStageId = $smartEntityTypeId;
+                            $currentPortalSmart->forStage = 'DT' . $smartEntityTypeId . '_';
+                            $currentPortalSmart->forFilterId = $smartEntityTypeId;
+                            $currentPortalSmart->forFilter = 'DYNAMIC_' . $smartEntityTypeId . '_';
+                            $currentPortalSmart->crmId = $smartEntityTypeId;
+                            $currentPortalSmart->crm = 'WARNING' . $smartEntityTypeId;
                             $currentPortalSmart->save();
                         }
                     }
@@ -154,7 +183,7 @@ class InstallController extends Controller
                     // $categories = InstallController::setCategories($hook, $smart['categories']);
 
 
-                    InstallFieldsController::setFields($token, 'smart', $newSmart, $currentPortalSmart);
+                    InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
