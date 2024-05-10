@@ -365,7 +365,7 @@ class InstallFieldsController extends Controller
     ) {
 
         $smartId = $portalsmart['bitrixId'];
-
+        $portalsmartId = $portalsmart['id'];
 
         $btxSmartFields = null;
 
@@ -440,7 +440,7 @@ class InstallFieldsController extends Controller
                 $currentBtxField = false;
                 $currentBtxFieldId = false;
                 $currentPortalField = false;
-                $enum = [];
+                $enumItemsForUpdate = [];
                 $currentBtxEnum = [];
                 //get current btx field
 
@@ -489,21 +489,51 @@ class InstallFieldsController extends Controller
                     }
                 }
 
-                if ($field['type'] == 'enumeration') {
-                    foreach ($field['list'] as $gitem) {
-                        $btxEnumItemData = [
-                            'userFieldId' => $currentBtxFieldId,
-                            'value' => $gitem['VALUE'],
-                            'xmlId' => $gitem['XML_ID'],
-                            'sort' => $gitem['SORT'],
-                        ];
-                        array_push($enum, $btxEnumItemData);
+
+                    $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
+                    if ($field['type'] == 'enumeration') {
+                        // $enumItemsForUpdate = [];
+                        if (!empty($field['list'])) {
+    
+                            foreach ($field['list'] as $gItem) {
+                                $currentItem = null;
+                                $currentItemBtxId = null;
+                                if (!empty($currentBtxEnum)) {
+    
+                                    foreach ($currentBtxEnum as $btxEnumItem) {
+                                        if ($btxEnumItem['xmlId'] === $gItem['XML_ID'])
+                                            // Log::channel('telegram')->error("setFieldItem add", [
+                                            //     'currentPortalField' => $currentPortalField,
+    
+    
+                                            // ]);
+                                        $currentItem = $btxEnumItem;
+    
+                                    }
+                                }
+    
+                                if (!$currentItem && !empty($currentItemBtxId)) {
+                                    $currentItem = [];
+                                }
+                                $currentItem['value'] = $gItem['VALUE'];
+                                $currentItem['sort'] = $gItem['SORT'];
+                                $currentItem['xmlId'] = $gItem['XML_ID'];
+    
+                                array_push($enumItemsForUpdate, $currentItem);
+                            }
+    
+                        }
                     }
-                }
 
 
 
-                $fieldNameUpperCase = 'UF_CRM_' . $btxSmart['id'] . '_' . strtoupper($field['smart']);
+
+                
+
+
+                $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['smart']);
+                $fieldNameUpperCase = 'UF_CRM_' . $btxSmart['id'] . '_' . $fieldBitrixId;
+                $fieldNameCamelCase = 'ufCrm' . $btxSmart['id'] . '_' . $fieldBitrixId;
 
                 $fieldsData = [
                     "moduleId" => "crm",
@@ -516,7 +546,7 @@ class InstallFieldsController extends Controller
                         "xmlId" => $field['smart'],
                         // "mandatory" => $mandatory,
                         "editFormLabel" => ["ru" => $field['name']],
-                        "enum" => $enum
+                        "enum" => $enumItemsForUpdate
                         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
                         //     return [
                         //         "value" => $item,
@@ -529,7 +559,7 @@ class InstallFieldsController extends Controller
 
                 $method = '/userfieldconfig.add';
 
-                if($currentBtxField){
+                if ($currentBtxField) {
                     $fieldsData['id'] = $currentBtxFieldId;
                     $method = '/userfieldconfig.update';
                 }
@@ -538,17 +568,45 @@ class InstallFieldsController extends Controller
                 // sleep(1);
                 $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
 
-                Log::channel('telegram')->error("setFieldItem add", [
-                    'fieldsData.add' => $fieldsData,
+
+                if (!$currentPortalField) {
+                    $currentPortalField = new Bitrixfield();
+                    $currentPortalField->entity_type = $parentClass;
+                    $currentPortalField->entity_id = $portalsmartId;
+                    $appTypeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['appType']);
+                    $currentPortalField->parent_type = $appTypeBitrixId;
+                }
+                $typeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['type']);
+                $nameBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['name']);
+                $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['code']);
+                $currentPortalField->type = $typeBitrixId;
+                $currentPortalField->title = $nameBitrixId;
+                $currentPortalField->name = $nameBitrixId;
+                $currentPortalField->code = $codeBitrixId;
 
 
-                ]);
+                $currentPortalField->bitrixId = $fieldNameUpperCase;
+                $currentPortalField->bitrixCamelId = $fieldNameCamelCase;
+
+
+                $currentPortalField->save();
+
+
+
 
                 Log::channel('telegram')->error("setFieldItem add", [
                     'userfieldconfig.add' => $responseData,
 
 
                 ]);
+
+                Log::channel('telegram')->error("setFieldItem add", [
+                    'currentPortalField' => $currentPortalField,
+
+
+                ]);
+
+                
             }
         }
     }
