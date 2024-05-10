@@ -539,6 +539,12 @@ class InstallFieldsController extends Controller
                 $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
 
                 Log::channel('telegram')->error("setFieldItem add", [
+                    'fieldsData.add' => $fieldsData,
+
+
+                ]);
+
+                Log::channel('telegram')->error("setFieldItem add", [
                     'userfieldconfig.add' => $responseData,
 
 
