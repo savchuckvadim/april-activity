@@ -568,8 +568,12 @@ class InstallFieldsController extends Controller
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
                 // sleep(1);
-                $updtdBtxField = BitrixController::getBitrixResponse($response, 'smart: fields');
+                $updtdBtxField = BitrixController::getBitrixResponse($response, 'smart: fields'.$fieldsData['field']['fieldName']);
 
+                if(isset($updtdBtxField['field'])){
+                    $updtdBtxField = $updtdBtxField['field'];
+
+                }
 
                 if (!$currentPortalField) {
                     $currentPortalField = new Bitrixfield();
