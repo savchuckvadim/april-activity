@@ -154,7 +154,7 @@ class InstallController extends Controller
 
                     if (!empty($currentBtxSmart)) {
                         if (!empty($currentBtxSmart['entityTypeId'] && !empty($currentBtxSmart['code']))) {
-                            $currentPortalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $newSmart['code'])->first();
+                            $currentPortalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $currentBtxSmart['code'])->first();
                             $smartEntityTypeId = $smart['entityTypeId'];
                             if (!$currentPortalSmart) {
 
