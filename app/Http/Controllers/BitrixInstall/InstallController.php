@@ -23,11 +23,11 @@ class InstallController extends Controller
         // $domain = 'gsr.bitrix24.ru';
         $domain = 'april-dev.bitrix24.ru';
 
-        $method = '/crm.deal.userfield.add';
+        // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
         // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
 
-        $url = $hook . $method;
+        // $url = $hook . $method;
         //1) создает смарт процесс и сам задает  "entityTypeId" => 134,
 
         //3) записывает стадии и направления ввиде одного объекта json связь portal-smart
@@ -63,6 +63,7 @@ class InstallController extends Controller
 
 
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
+            $portalId = $portal['portal']['id'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
@@ -72,6 +73,11 @@ class InstallController extends Controller
                 $smarts = $googleData['smarts'];
 
                 foreach ($smarts as $smart) {
+
+
+                    $currentPortalSmart = null;
+
+
                     $hookSmartInstallData = [
                         'fields' => [
                             'id' => $smart['entityTypeId'],
@@ -120,9 +126,28 @@ class InstallController extends Controller
 
                     if (!empty($newSmart)) {
                         if (!empty($newSmart['entityTypeId'] && !empty($newSmart['code']))) {
-                            $portalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $newSmart['code'])->first();
-                            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portalSmart' => $portalSmart]]);
+                            $currentPortalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $newSmart['code'])->first();
 
+                            if (!$currentPortalSmart) {
+
+                                $currentPortalSmart = new Smart();
+                                $currentPortalSmart->portal_id = $portalId;
+                                $currentPortalSmart->type = $newSmart['code'];
+                                $currentPortalSmart->group = $newSmart['code'];
+                                $currentPortalSmart->name = $newSmart['code'];
+                                $currentPortalSmart->title = $newSmart['title'];
+                                $currentPortalSmart->bitrixId = $newSmartTypeId;
+                                $currentPortalSmart->entityTypeId = $newSmartTypeId;
+                                $currentPortalSmart->forStageId = $newSmartTypeId;
+                                $currentPortalSmart->forStage = 'DT' . $newSmartTypeId . '_';
+                                $currentPortalSmart->forFilterId = $newSmartTypeId;
+                                $currentPortalSmart->forFilter = 'DYNAMIC_' . $newSmartTypeId . '_';
+                                $currentPortalSmart->crmId = $newSmartTypeId;
+                                $currentPortalSmart->crm = 'WARNING' . $newSmartTypeId;
+                                $currentPortalSmart->save();
+
+                            }
+                            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['NEW PortalSmart' => $currentPortalSmart]]);
                         }
                     }
 
