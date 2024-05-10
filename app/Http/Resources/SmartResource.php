@@ -14,17 +14,17 @@ class SmartResource extends JsonResource
      */
     public function toArray($request): array
     {
-        $resultcategories = [];
-        foreach ($this->categories as $ctgr) {
-            $category = new BtxCategoryResource($ctgr);
-           array_push($resultcategories, $category);
-        }
+        // $resultcategories = [];
+        // foreach ($this->categories as $ctgr) {
+        //     $category = new BtxCategoryResource($ctgr);
+        //    array_push($resultcategories, $category);
+        // }
 
-        $resultfields= [];
-        foreach ($this->fields as $fld) {
-            $field = new BitrixFieldResource($fld);
-           array_push($resultfields, $field);
-        }
+        // $resultfields= [];
+        // foreach ($this->fields as $fld) {
+        //     $field = new BitrixFieldResource($fld);
+        //    array_push($resultfields, $field);
+        // }
 
         return [
             'id' => $this->id,
@@ -41,8 +41,10 @@ class SmartResource extends JsonResource
             'crm' => $this->crm,
             'forFilterId' => $this->forFilterId,
             'forFilter' => $this->forFilter,
-            'categories' =>  $resultcategories, 
-            'bitrixfields' => $resultfields,
+            // 'categories' =>  $resultcategories, 
+            // 'bitrixfields' => $resultfields,
+            'categories' => BtxCategoryResource::collection($this->categories),
+            'fields' => BitrixFieldResource::collection($this->fields),
 
             
         ];
