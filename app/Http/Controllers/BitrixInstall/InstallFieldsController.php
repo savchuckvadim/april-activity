@@ -451,7 +451,7 @@ class InstallFieldsController extends Controller
 
                     // ]);
                     if (
-                        'UF_CRM_' . $field['smart'] === $curBtxField['fieldName']
+                        'UF_CRM_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
 
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];
@@ -490,45 +490,43 @@ class InstallFieldsController extends Controller
                 }
 
 
-                    $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
-                    if ($field['type'] == 'enumeration') {
-                        // $enumItemsForUpdate = [];
-                        if (!empty($field['list'])) {
-    
-                            foreach ($field['list'] as $gItem) {
-                                $currentItem = null;
-                                $currentItemBtxId = null;
-                                if (!empty($currentBtxEnum)) {
-    
-                                    foreach ($currentBtxEnum as $btxEnumItem) {
-                                        if ($btxEnumItem['xmlId'] === $gItem['XML_ID'])
-                                            // Log::channel('telegram')->error("setFieldItem add", [
-                                            //     'currentPortalField' => $currentPortalField,
-    
-    
-                                            // ]);
+                $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
+                if ($field['type'] == 'enumeration') {
+                    // $enumItemsForUpdate = [];
+                    if (!empty($field['list'])) {
+
+                        foreach ($field['list'] as $gItem) {
+                            $currentItem = null;
+                            $currentItemBtxId = null;
+                            if (!empty($currentBtxEnum)) {
+
+                                foreach ($currentBtxEnum as $btxEnumItem) {
+                                    if ($btxEnumItem['xmlId'] === $gItem['XML_ID'])
+                                        // Log::channel('telegram')->error("setFieldItem add", [
+                                        //     'currentPortalField' => $currentPortalField,
+
+
+                                        // ]);
                                         $currentItem = $btxEnumItem;
-    
-                                    }
                                 }
-    
-                                if (!$currentItem && !empty($currentItemBtxId)) {
-                                    $currentItem = [];
-                                }
-                                $currentItem['value'] = $gItem['VALUE'];
-                                $currentItem['sort'] = $gItem['SORT'];
-                                $currentItem['xmlId'] = $gItem['XML_ID'];
-    
-                                array_push($enumItemsForUpdate, $currentItem);
                             }
-    
+
+                            if (!$currentItem && !empty($currentItemBtxId)) {
+                                $currentItem = [];
+                            }
+                            $currentItem['value'] = $gItem['VALUE'];
+                            $currentItem['sort'] = $gItem['SORT'];
+                            $currentItem['xmlId'] = $gItem['XML_ID'];
+
+                            array_push($enumItemsForUpdate, $currentItem);
                         }
                     }
+                }
 
 
 
 
-                
+
 
 
                 $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['smart']);
@@ -605,8 +603,6 @@ class InstallFieldsController extends Controller
 
 
                 ]);
-
-                
             }
         }
     }
