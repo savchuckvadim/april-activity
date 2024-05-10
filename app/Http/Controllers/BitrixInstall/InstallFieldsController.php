@@ -24,7 +24,8 @@ class InstallFieldsController extends Controller
     static function setFields(
         $token,
         $entityType,
-        $smartId = null
+        $btxSmart = null,
+        $portalSmart = null
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -106,7 +107,7 @@ class InstallFieldsController extends Controller
             $portalDeal = $portal->deal();
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
-            $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
+            // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
         
 
             $portalDealFields = [];
@@ -161,12 +162,7 @@ class InstallFieldsController extends Controller
             // if (!empty($googleData['fields'])) {
             $fields = $googleData['fields'];
 
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                // 'portalDealFields' => $portalDealFields,
-                'fields' => $fields,
-                // 'portalCompanyFields' => $portalCompanyFields,
-                // 'portalsmarts' => $portalsmarts,
-            ]]);
+          
             // foreach ($fields as $field) {
 
             //     $multiple = "N";
@@ -242,6 +238,18 @@ class InstallFieldsController extends Controller
                 $portalEntityFields =  $portalLeadFields;
             } else   if ($entityType === 'smart') {
                 $parentClass = Smart::class;
+                if(!empty($portalSmart)){
+                    $portalEntityFields = $portalSmart->fields;
+
+
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                        // 'portalDealFields' => $portalDealFields,
+                        'portalEntityFields' => $portalEntityFields,
+                        // 'portalCompanyFields' => $portalCompanyFields,
+                        // 'portalsmarts' => $portalsmarts,
+                    ]]);
+                }
+              
             }
 
             if ($entityType !== 'smart') {
@@ -255,13 +263,17 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                if(!empty($portalsmart)){
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [' PortalSmart' => $portalSmart]]);
+
+                if(!empty($portalSmart)){
                     $responseData = InstallFieldsController::createFieldsForSmartProcesses(
                         $hook,
                         $fields,
                         $group,
-                        $portalsmart,
-                        $parentClass
+                        $portalSmart,
+                        $parentClass,
+                        $btxSmart,
+
                     );
 
                 }
@@ -345,11 +357,12 @@ class InstallFieldsController extends Controller
         $fields,
         $group,
         $portalsmart,
-        $parentClass
+        $parentClass,
+        $btxSmart,
     ) {
 
         // $smartId = $portalsmart['bitrixId'];
-        $smartId = 465;
+    
 
         $btxSmartFields = null;
 
@@ -360,7 +373,7 @@ class InstallFieldsController extends Controller
         $getSmartBtxFieldsData = [
             'moduleId' => 'crm',
             'filter' => [
-                'entityId' => 'CRM_' . $smartId
+                'entityId' => 'CRM_' . $btxSmart['id']
             ]
         ];
        

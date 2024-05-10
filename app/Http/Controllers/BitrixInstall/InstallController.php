@@ -120,7 +120,6 @@ class InstallController extends Controller
                         $newSmart = $newSmart['type'];
                     }
                     $newSmartTypeId = $newSmart['entityTypeId'];
-                    Log::info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
 
 
 
@@ -147,7 +146,6 @@ class InstallController extends Controller
                                 $currentPortalSmart->save();
 
                             }
-                            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['NEW PortalSmart' => $currentPortalSmart]]);
                         }
                     }
 
@@ -157,7 +155,7 @@ class InstallController extends Controller
                     // $categories = InstallController::setCategories($hook, $smart['categories']);
 
 
-                    // InstallFieldsController::setFields($token, 'smart', $newSmartTypeId);
+                    InstallFieldsController::setFields($token, 'smart', $newSmart, $currentPortalSmart);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
