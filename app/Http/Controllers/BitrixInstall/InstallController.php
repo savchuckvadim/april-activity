@@ -23,7 +23,7 @@ class InstallController extends Controller
 
         $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
+        // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['hook' => ['hook' => $hook]]);
 
         $url = $hook . $method;
         //1) создает смарт процесс и сам задает  "entityTypeId" => 134,

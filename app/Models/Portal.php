@@ -136,7 +136,7 @@ class Portal extends Model
             $smart = null;
         }
 
-        return  $smart; // или latest() в зависимости от того, какой элемент считается "первым"
+        return  $this->smarts()->first(); // или latest() в зависимости от того, какой элемент считается "первым"
     }
 
 
