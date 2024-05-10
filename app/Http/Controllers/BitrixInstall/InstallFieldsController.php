@@ -470,12 +470,18 @@ class InstallFieldsController extends Controller
                             ];
                             $response = Http::post($url, $getSmartBtxFieldsData);
                             $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
-                            $currentBtxEnum = $resultEnumField['enum'];
-                            // Log::channel('telegram')->error("setFieldItem get enum", [
-                            //     'resultEnumField' => $currentBtxEnum,
+                            
+                          
+                            if(isset($resultEnumField['enum'])){
+                                $currentBtxEnum = $resultEnumField['enum'];
+                            }
 
 
-                            // ]);
+                            Log::channel('telegram')->error("setFieldItem get enum", [
+                                'resultEnumField get' => $resultEnumField,
+
+
+                            ]);
                         }
                     }
                 }
@@ -592,17 +598,17 @@ class InstallFieldsController extends Controller
 
 
 
-                Log::channel('telegram')->error("setFieldItem add", [
-                    'userfieldconfig.add' => $responseData,
+                // Log::channel('telegram')->error("setFieldItem add", [
+                //     'userfieldconfig.add' => $responseData,
 
 
-                ]);
+                // ]);
 
-                Log::channel('telegram')->error("setFieldItem add", [
-                    'currentPortalField' => $currentPortalField,
+                // Log::channel('telegram')->error("setFieldItem add", [
+                //     'currentPortalField' => $currentPortalField,
 
 
-                ]);
+                // ]);
             }
         }
     }
