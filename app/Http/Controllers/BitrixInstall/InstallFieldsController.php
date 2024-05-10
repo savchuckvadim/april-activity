@@ -359,7 +359,12 @@ class InstallFieldsController extends Controller
                 'entityId' => 'CRM_' . $smartId
             ]
         ];
+        Log::channel('telegram')->info("hook", [
+            'portalFields' => 
+            $portalFields,
 
+
+        ]);
         // $url = $hook . '/crm.item.fields';
         // $getSmartBtxFieldsData = [
         //     'entityTypeId' => $smartId,
