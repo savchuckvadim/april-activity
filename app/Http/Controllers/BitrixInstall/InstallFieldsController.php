@@ -503,7 +503,7 @@ class InstallFieldsController extends Controller
 
 
 
-                $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
+                $fieldNameUpperCase = 'UF_CRM_' . $btxSmart['id'] . '_' . strtoupper($field['smart']);
 
                 $fieldsData = [
                     "moduleId" => "crm",
