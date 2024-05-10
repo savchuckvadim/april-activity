@@ -445,7 +445,7 @@ class InstallFieldsController extends Controller
 
                 foreach ($btxSmartFields as $curBtxField) {
                     Log::channel('telegram')->info("hook btxSmartFields", [
-                        'btxSmartFields' => $btxSmartFields,
+                        'curBtxField' => $curBtxField,
             
             
                     ]);
