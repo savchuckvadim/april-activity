@@ -111,7 +111,7 @@ class Portal extends Model
     public function getSalesSmarts()
     {
         $smarts =  $this->smarts()->where('group', 'sales')
-            ->orWhere('group', 'tmc');
+            ->orWhere('group', 'tmc')->get();
 
         $resultSmarts    = [];
         Log::channel('telegram')->info('APRIL_ONLINE TEST', [
