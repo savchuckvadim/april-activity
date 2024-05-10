@@ -471,11 +471,11 @@ class InstallFieldsController extends Controller
                             $response = Http::post($url, $getSmartBtxFieldsData);
                             $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
                             $currentBtxEnum = $resultEnumField['enum'];
-                            Log::channel('telegram')->error("setFieldItem get enum", [
-                                'resultEnumField' => $currentBtxEnum,
+                            // Log::channel('telegram')->error("setFieldItem get enum", [
+                            //     'resultEnumField' => $currentBtxEnum,
 
 
-                            ]);
+                            // ]);
                         }
                     }
                 }
@@ -508,7 +508,8 @@ class InstallFieldsController extends Controller
                 $fieldsData = [
                     "moduleId" => "crm",
                     "field" => [
-                        "entityId" => 'CRM_' . $smartId,
+                        'entityId' => 'CRM_' . $btxSmart['id'],
+                        // "entityId" => 'CRM_' . $smartId,
                         "fieldName" => $fieldNameUpperCase,
                         "userTypeId" => $type,
                         "multiple" => $multiple,
@@ -537,8 +538,8 @@ class InstallFieldsController extends Controller
                 // sleep(1);
                 $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
 
-                Log::channel('telegram')->error("setFieldItem get enum", [
-                    'responseData' => $responseData,
+                Log::channel('telegram')->error("setFieldItem add", [
+                    'userfieldconfig.add' => $responseData,
 
 
                 ]);
