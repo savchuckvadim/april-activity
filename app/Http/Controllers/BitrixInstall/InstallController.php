@@ -39,7 +39,6 @@ class InstallController extends Controller
 
         try {
             $portal = PortalController::innerGetPortal($domain);
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portal' => $portal]]);
             $newSmart = null;
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';

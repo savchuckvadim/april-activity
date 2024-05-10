@@ -242,12 +242,12 @@ class InstallFieldsController extends Controller
                     $portalEntityFields = $portalSmart->fields;
 
 
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
-                        // 'portalDealFields' => $portalDealFields,
-                        'portalEntityFields' => $portalEntityFields,
-                        // 'portalCompanyFields' => $portalCompanyFields,
-                        // 'portalsmarts' => $portalsmarts,
-                    ]]);
+                    // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
+                    //     // 'portalDealFields' => $portalDealFields,
+                    //     'portalEntityFields' => $portalEntityFields,
+                    //     // 'portalCompanyFields' => $portalCompanyFields,
+                    //     // 'portalsmarts' => $portalsmarts,
+                    // ]]);
                 }
               
             }
@@ -263,7 +263,13 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [' PortalSmart' => $portalSmart]]);
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                    'INSTALL' => 
+                    [
+                        ' PortalSmart' => $portalSmart,
+                        ' btxSmart' => $btxSmart
+                    
+                    ]]);
 
                 if(!empty($portalSmart)){
                     $responseData = InstallFieldsController::createFieldsForSmartProcesses(
@@ -373,7 +379,7 @@ class InstallFieldsController extends Controller
         $getSmartBtxFieldsData = [
             'moduleId' => 'crm',
             'filter' => [
-                'entityId' => 'CRM_' . 158
+                'entityId' => 'CRM_' . $btxSmart['id']
             ]
         ];
        
