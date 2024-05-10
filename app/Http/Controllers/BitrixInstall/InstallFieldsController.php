@@ -405,11 +405,7 @@ class InstallFieldsController extends Controller
 
 
         $btxSmartFields = $resultFields;
-        Log::channel('telegram')->info("hook btxSmartFields", [
-            'btxSmartFields' => $btxSmartFields,
-
-
-        ]);
+     
 
         // $smartProcesses = $response->json()['result']['types'];
 
@@ -438,7 +434,7 @@ class InstallFieldsController extends Controller
             }
 
 
-            if (!empty($field['smart']) && !empty($field['isNeedUpdate']) && !empty($field['isActive'])) {
+            if (!empty($field['smart'])) {
 
 
                 $currentBtxField = false;
@@ -448,6 +444,11 @@ class InstallFieldsController extends Controller
                 //get current btx field
 
                 foreach ($btxSmartFields as $curBtxField) {
+                    Log::channel('telegram')->info("hook btxSmartFields", [
+                        'btxSmartFields' => $btxSmartFields,
+            
+            
+                    ]);
                     if (
                         'UF_CRM_' . $field['smart'] === $curBtxField['fieldName']
 
