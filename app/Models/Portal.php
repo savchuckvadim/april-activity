@@ -9,8 +9,7 @@ use App\Http\Resources\SmartResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-
-
+use Illuminate\Support\Facades\Log;
 
 class Portal extends Model
 {
@@ -115,12 +114,21 @@ class Portal extends Model
             ->orWhere('group', 'tmc')
             ->first();
         $resultSmarts    = [];
-        foreach ($smarts as $smart) {
-            if ($smart) {
-                $smartResource = new SmartResource($smart);
-                array_push($resultSmarts, $smartResource);
+
+        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+            'getSalesSmarts' => ['smarts' => $smarts]
+        
+        ]);
+
+        if (!empty($smarts)) {
+            foreach ($smarts as $smart) {
+                if ($smart) {
+                    $smartResource = new SmartResource($smart);
+                    array_push($resultSmarts, $smartResource);
+                }
             }
         }
+
 
 
         return $resultSmarts;
