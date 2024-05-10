@@ -115,13 +115,14 @@ class Portal extends Model
             ->first();
         $resultSmarts    = [];
 
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            'getSalesSmarts' => ['smarts' => $smarts]
         
-        ]);
 
         if (!empty($smarts)) {
             foreach ($smarts as $smart) {
+                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                    'getSalesSmarts' => ['smart' => $smart]
+                
+                ]);
                 if ($smart) {
                     $smartResource = new SmartResource($smart);
                     array_push($resultSmarts, $smartResource);
