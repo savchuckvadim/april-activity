@@ -112,7 +112,7 @@ class Portal extends Model
     {
         $smarts =  $this->smarts()->where('group', 'sales')
             ->orWhere('group', 'tmc')
-            ->first();
+            ->all();
         $resultSmarts    = [];
 
         
