@@ -6,6 +6,8 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\Portal;
+use App\Models\Smart;
 use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -70,7 +72,6 @@ class InstallController extends Controller
                 $smarts = $googleData['smarts'];
 
                 foreach ($smarts as $smart) {
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smart' => $smart]]);
                     $hookSmartInstallData = [
                         'fields' => [
                             'id' => $smart['entityTypeId'],
@@ -114,12 +115,24 @@ class InstallController extends Controller
                     }
                     $newSmartTypeId = $newSmart['entityTypeId'];
                     Log::info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
+
+
+
+                    if (!empty($newSmart)) {
+                        if (!empty($newSmart['entityTypeId'] && !empty($newSmart['code']))) {
+                            $portalSmart = Portal::where('domain', $domain)->first()->smarts()::where('code', $newSmart['code'])->first();
+                            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portalSmart' => $portalSmart]]);
+
+                        }
+                    }
+
+
+
+
                     // $categories = InstallController::setCategories($hook, $smart['categories']);
 
 
-                    InstallFieldsController::setFields($token, 'smart', $newSmartTypeId);
-
-
+                    // InstallFieldsController::setFields($token, 'smart', $newSmartTypeId);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -411,7 +424,6 @@ class InstallController extends Controller
             $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
             $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
 
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['bitrixResponseCategory' => $bitrixResponseCategory]]);
             // if (isset($bitrixResponseCategory['id'])) {
             //     $categoryId = $bitrixResponseCategory['id'];
             // }

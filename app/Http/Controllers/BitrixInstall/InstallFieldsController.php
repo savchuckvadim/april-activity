@@ -107,12 +107,7 @@ class InstallFieldsController extends Controller
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
             $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
-            Log::channel('telegram')->info("hook portalsmart", [
-                'portalsmart' =>
-                $portalsmart,
-    
-    
-            ]);
+        
 
             $portalDealFields = [];
             if ((!empty($portalDeal))) {
@@ -260,13 +255,17 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                $responseData = InstallFieldsController::createFieldsForSmartProcesses(
-                    $hook,
-                    $fields,
-                    $group,
-                    $portalsmart,
-                    $parentClass
-                );
+                if(!empty($portalsmart)){
+                    $responseData = InstallFieldsController::createFieldsForSmartProcesses(
+                        $hook,
+                        $fields,
+                        $group,
+                        $portalsmart,
+                        $parentClass
+                    );
+
+                }
+               
             }
 
             // };
@@ -354,7 +353,7 @@ class InstallFieldsController extends Controller
 
         $btxSmartFields = null;
 
-        $portalFields = $portalsmart['fields'];
+        $portalFields = $portalsmart->fields;
 
         // Step 1: Get all smart processes
         $url = $hook . '/userfieldconfig.list';
