@@ -513,7 +513,7 @@ class InstallFieldsController extends Controller
                         "fieldName" => $fieldNameUpperCase,
                         "userTypeId" => $type,
                         "multiple" => $multiple,
-                        "xmlId" => $field['code'],
+                        "xmlId" => $field['smart'],
                         // "mandatory" => $mandatory,
                         "editFormLabel" => ["ru" => $field['name']],
                         "enum" => $enum
