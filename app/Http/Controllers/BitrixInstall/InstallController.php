@@ -62,7 +62,6 @@ class InstallController extends Controller
 
             $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             $methodSmartInstall = '/crm.type.add.json';
             $url = $hook . $methodSmartInstall;
 
@@ -93,7 +92,8 @@ class InstallController extends Controller
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
 
-
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smart' => $smart]]);
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
                     $categories = InstallController::setCategories($hook, $smart['categories']);
                 }
             } else {
