@@ -591,30 +591,30 @@ class InstallFieldsController extends Controller
 
                 $currentPortalField->save();
 
-                Log::channel('telegram')->error("setFieldItem get enum", [
-                    'currentPortalField' => $currentPortalField,
-
-
-                ]);
+               
                 
                 if ($field['type'] == 'enumeration') {
                     $portalFieldItems = $currentPortalField->items;
 
-                    // Log::channel('telegram')->error("setFieldItem get enum", [
-                    //     'currentPortalField' => $currentPortalField,
+                    Log::channel('telegram')->error("updtdBtxField", [
+                        'updtdBtxField' => $updtdBtxField,
     
     
-                    // ]);
+                    ]);
 
 
                     if(!empty($updtdBtxField)){
-                        if(!empty($resultEnumField['enum'])){
-                            $currentBtxEnum = $resultEnumField['enum'];
+                        if(!empty($updtdBtxField['enum'])){
+                            $currentBtxEnum = $updtdBtxField['enum'];
 
                             foreach($currentBtxEnum as $currentFieldItem){
 
                                 $currentPortalItem = null;
-
+                                Log::channel('telegram')->error("setFieldItem currentBtxEnum", [
+                                    'currentBtxEnum' => $currentBtxEnum,
+                
+                
+                                ]);
 
                                 if (!empty($portalFieldItems)) {
                                     foreach ($portalFieldItems as $pitem) {
