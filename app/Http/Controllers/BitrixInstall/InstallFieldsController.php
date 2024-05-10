@@ -570,7 +570,7 @@ class InstallFieldsController extends Controller
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
                 // sleep(1);
-                $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+                $updtdBtxField = BitrixController::getBitrixResponse($response, 'smart: fields');
 
 
                 if (!$currentPortalField) {
@@ -594,7 +594,60 @@ class InstallFieldsController extends Controller
 
 
                 $currentPortalField->save();
+                if ($field['type'] == 'enumeration') {
+                    $portalFieldItems = $currentPortalField->items;
 
+                    if(!empty($updtdBtxField)){
+                        if(!empty($resultEnumField['enum'])){
+                            $currentBtxEnum = $resultEnumField['enum'];
+
+                            foreach($currentBtxEnum as $currentFieldItem){
+
+                                $currentPortalItem = null;
+
+
+                                if (!empty($portalFieldItems)) {
+                                    foreach ($portalFieldItems as $pitem) {
+                
+                                        if ($currentFieldItem['xmlId'] == $pitem['code']) {
+                
+                                            if (!empty($pitem['id'])) {
+                                                $currentPortalItem  = BitrixfieldItem::find($pitem['id']);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
+
+    
+                                    $currentPortalItem  =  new BitrixfieldItem();
+                                    $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+    
+                                } else { // если на портале существуют item - обновляем
+    
+                                }
+                                $currentPortalItem->bitrixId = $currentFieldItem['id'];
+    
+                                $currentPortalItem->name = $currentFieldItem['value'];
+                                $currentPortalItem->title = $currentFieldItem['value'];
+                                $currentPortalItem->code = $currentFieldItem['xmlId'];
+                                $currentPortalItem->save();
+
+
+
+
+                            }
+                            
+                            
+
+
+
+                        }
+
+                    }
+                    
+                }
 
 
 
