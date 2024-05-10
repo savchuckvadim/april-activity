@@ -483,6 +483,7 @@ class InstallFieldsController extends Controller
                 }
 
                 //get current portal data field
+                $field['code'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['code']);
                 if (!empty($portalFields)) {
                     foreach ($portalFields as $pind => $pField) {
                         if ($pField['code'] == $field['code']) {
@@ -503,6 +504,7 @@ class InstallFieldsController extends Controller
                             if (!empty($currentBtxEnum)) {
 
                                 foreach ($currentBtxEnum as $btxEnumItem) {
+                                    $gItem['XML_ID'] = preg_replace('/[\x00-\x1F\x7F]/', '', $gItem['XML_ID']);
                                     if ($btxEnumItem['xmlId'] === $gItem['XML_ID'])
                                         // Log::channel('telegram')->error("setFieldItem add", [
                                         //     'currentPortalField' => $currentPortalField,
@@ -534,7 +536,7 @@ class InstallFieldsController extends Controller
                 $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['smart']);
                 $fieldNameUpperCase = 'UF_CRM_' . $btxSmart['id'] . '_' . $fieldBitrixId;
                 $fieldNameCamelCase = 'ufCrm' . $btxSmart['id'] . '_' . $fieldBitrixId;
-
+                $field['name'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['name']);
                 $fieldsData = [
                     "moduleId" => "crm",
                     "field" => [
@@ -543,7 +545,7 @@ class InstallFieldsController extends Controller
                         "fieldName" => $fieldNameUpperCase,
                         "userTypeId" => $type,
                         "multiple" => $multiple,
-                        "xmlId" => $field['smart'],
+                        "xmlId" => $fieldBitrixId,
                         // "mandatory" => $mandatory,
                         "editFormLabel" => ["ru" => $field['name']],
                         "enum" => $enumItemsForUpdate
