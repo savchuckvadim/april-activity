@@ -70,6 +70,7 @@ class InstallController extends Controller
                 $smarts = $googleData['smarts'];
 
                 foreach ($smarts as $smart) {
+                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smart' => $smart]]);
                     $hookSmartInstallData = [
                         'fields' => [
                             'id' => $smart['entityTypeId'],
@@ -92,9 +93,9 @@ class InstallController extends Controller
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
 
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['smart' => $smart]]);
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
-                    $categories = InstallController::setCategories($hook, $smart['categories']);
+                    
+                    Log::info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
+                    // $categories = InstallController::setCategories($hook, $smart['categories']);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
