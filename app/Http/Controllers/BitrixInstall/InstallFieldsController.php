@@ -514,9 +514,9 @@ class InstallFieldsController extends Controller
                             if (!$currentItem && !empty($currentItemBtxId)) {
                                 $currentItem = [];
                             }
-                            $currentItem['value'] = $gItem['VALUE'];
-                            $currentItem['sort'] = $gItem['SORT'];
-                            $currentItem['xmlId'] = $gItem['XML_ID'];
+                            $currentItem['value'] = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
+                            $currentItem['sort'] = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['SORT']);
+                            $currentItem['xmlId'] = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['XML_ID']);
 
                             array_push($enumItemsForUpdate, $currentItem);
                         }
