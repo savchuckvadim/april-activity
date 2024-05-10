@@ -120,7 +120,7 @@ class InstallController extends Controller
 
                     if (!empty($newSmart)) {
                         if (!empty($newSmart['entityTypeId'] && !empty($newSmart['code']))) {
-                            $portalSmart = Portal::where('domain', $domain)->first()->smarts()->where('code', $newSmart['code'])->first();
+                            $portalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $newSmart['code'])->first();
                             Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['portalSmart' => $portalSmart]]);
 
                         }
