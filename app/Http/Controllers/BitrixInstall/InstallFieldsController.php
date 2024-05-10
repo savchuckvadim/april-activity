@@ -391,11 +391,11 @@ class InstallFieldsController extends Controller
         //     // ]
         // ];
 
-        Log::channel('telegram')->info("hook", [
-            'getSmartBtxFieldsData' => $getSmartBtxFieldsData,
+        // Log::channel('telegram')->info("hook", [
+        //     'getSmartBtxFieldsData' => $getSmartBtxFieldsData,
 
 
-        ]);
+        // ]);
         $response = Http::post($url, $getSmartBtxFieldsData);
         $resultFields = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
 
@@ -428,96 +428,96 @@ class InstallFieldsController extends Controller
 
 
 
-        foreach ($fields as $index => $field) {
+        // foreach ($fields as $index => $field) {
 
 
-            $type = $field['type'] ?? 'string';
-            $multiple = 'N';
+        //     $type = $field['type'] ?? 'string';
+        //     $multiple = 'N';
 
-            if ($field['type'] == 'multiple') {
-                $multiple =  "Y";
-                $type = 'string';
-            }
-
-
-            if (!empty($field['smart'])) {
-
-                $currentBtxField = false;
-                //get current btx field
-                foreach ($btxSmartFields as $curBtxField) {
-                    if (
-                        'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
-                        $field['smart'] == 'multiple'
-
-                    ) {
-                        // $currentBtxFieldId = $curBtxField['ID'];
-                        $currentBtxField = $curBtxField;
-                        // Log::channel('telegram')->error("curBtxField vs field", [
-                        //     'currentBtxField' => $currentBtxField,
+        //     if ($field['type'] == 'multiple') {
+        //         $multiple =  "Y";
+        //         $type = 'string';
+        //     }
 
 
-                        // ]);
-                    }
-                    if (!$index) {
+        //     if (!empty($field['smart'])) {
 
-                        Log::channel('telegram')->error("curBtxField vs field", [
-                            'Btx Field' => $curBtxField,
+        //         $currentBtxField = false;
+        //         //get current btx field
+        //         foreach ($btxSmartFields as $curBtxField) {
+        //             if (
+        //                 'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
+        //                 $field['smart'] == 'multiple'
 
-
-                        ]);
-                        // Log::channel('telegram')->error("curBtxField vs field", [
-                        //     'upperName' => $curBtxField['upperName'],
-
-
-                        // ]);
-                    }
-                }
-
-                //get current portal data field
-                if (!empty($portalFields)) {
-                    foreach ($portalFields as $pind => $pField) {
-                        if (!$pind) {
-
-                            Log::channel('telegram')->error("curBtxField vs field", [
-                                'pField code' => $pField['code'],
+        //             ) {
+        //                 // $currentBtxFieldId = $curBtxField['ID'];
+        //                 $currentBtxField = $curBtxField;
+        //                 // Log::channel('telegram')->error("curBtxField vs field", [
+        //                 //     'currentBtxField' => $currentBtxField,
 
 
-                            ]);
-                        }
-                    }
-                }
+        //                 // ]);
+        //             }
+        //             if (!$index) {
+
+        //                 Log::channel('telegram')->error("curBtxField vs field", [
+        //                     'Btx Field' => $curBtxField,
+
+
+        //                 ]);
+        //                 // Log::channel('telegram')->error("curBtxField vs field", [
+        //                 //     'upperName' => $curBtxField['upperName'],
+
+
+        //                 // ]);
+        //             }
+        //         }
+
+        //         //get current portal data field
+        //         if (!empty($portalFields)) {
+        //             foreach ($portalFields as $pind => $pField) {
+        //                 if (!$pind) {
+
+        //                     Log::channel('telegram')->error("curBtxField vs field", [
+        //                         'pField code' => $pField['code'],
+
+
+        //                     ]);
+        //                 }
+        //             }
+        //         }
 
 
 
 
-                // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
+        //         // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
-                // $fieldsData = [
-                //     "moduleId" => "crm",
-                //     "field" => [
-                //         "entityId" => 'CRM_' . $smartId,
-                //         "fieldName" => $fieldNameUpperCase,
-                //         "userTypeId" => $type,
-                //         "multiple" => $multiple,
-                //         // "mandatory" => $mandatory,
-                //         "editFormLabel" => ["ru" => $field['name']],
-                //         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
-                //         //     return [
-                //         //         "value" => $item,
-                //         //         "sort" => $key + 1,
-                //         //         "def" => 'N',
-                //         //     ];
-                //         // }, $field['list'], array_keys($field['list'])) : [],
-                //     ]
-                // ];
+        //         // $fieldsData = [
+        //         //     "moduleId" => "crm",
+        //         //     "field" => [
+        //         //         "entityId" => 'CRM_' . $smartId,
+        //         //         "fieldName" => $fieldNameUpperCase,
+        //         //         "userTypeId" => $type,
+        //         //         "multiple" => $multiple,
+        //         //         // "mandatory" => $mandatory,
+        //         //         "editFormLabel" => ["ru" => $field['name']],
+        //         //         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
+        //         //         //     return [
+        //         //         //         "value" => $item,
+        //         //         //         "sort" => $key + 1,
+        //         //         //         "def" => 'N',
+        //         //         //     ];
+        //         //         // }, $field['list'], array_keys($field['list'])) : [],
+        //         //     ]
+        //         // ];
 
-                // $method = '/userfieldconfig.add';
-                // $url = $hook . $method;
-                // $response = Http::post($url, $fieldsData);
-                // sleep(2);
-                // $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
-            }
-        }
+        //         // $method = '/userfieldconfig.add';
+        //         // $url = $hook . $method;
+        //         // $response = Http::post($url, $fieldsData);
+        //         // sleep(2);
+        //         // $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+        //     }
+        // }
     }
 
     public static function createFieldsForEntities(

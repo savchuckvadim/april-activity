@@ -114,11 +114,7 @@ class Portal extends Model
             ->orWhere('group', 'tmc')->get();
 
         $resultSmarts    = [];
-        Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-            'getSalesSmarts' => ['smarts' => $smarts]
-        
-        ]);
-        
+     
 
         if (!empty($smarts)) {
             foreach ($smarts as $smart) {

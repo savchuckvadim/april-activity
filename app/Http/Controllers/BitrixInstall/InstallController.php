@@ -93,9 +93,6 @@ class InstallController extends Controller
                         }
                     }
 
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [' currentBtxSmart' => $currentBtxSmart]]);
-                    Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [' getSmarts' => $getSmarts]]);
-
 
                     if (!$currentBtxSmart) {
                         $methodSmartInstall = '/crm.type.add.json';
