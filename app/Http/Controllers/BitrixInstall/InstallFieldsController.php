@@ -477,11 +477,7 @@ class InstallFieldsController extends Controller
                             }
 
 
-                            Log::channel('telegram')->error("setFieldItem get enum", [
-                                'resultEnumField get' => $resultEnumField,
-
-
-                            ]);
+                           
                         }
                     }
                 }
@@ -594,8 +590,22 @@ class InstallFieldsController extends Controller
 
 
                 $currentPortalField->save();
+
+                Log::channel('telegram')->error("setFieldItem get enum", [
+                    'currentPortalField' => $currentPortalField,
+
+
+                ]);
+                
                 if ($field['type'] == 'enumeration') {
                     $portalFieldItems = $currentPortalField->items;
+
+                    // Log::channel('telegram')->error("setFieldItem get enum", [
+                    //     'currentPortalField' => $currentPortalField,
+    
+    
+                    // ]);
+
 
                     if(!empty($updtdBtxField)){
                         if(!empty($resultEnumField['enum'])){
@@ -634,7 +644,11 @@ class InstallFieldsController extends Controller
                                 $currentPortalItem->code = $currentFieldItem['xmlId'];
                                 $currentPortalItem->save();
 
-
+                                Log::channel('telegram')->error("setFieldItem get enum", [
+                                    'currentPortalItem' => $currentPortalItem,
+    
+    
+                                ]);
 
 
                             }
