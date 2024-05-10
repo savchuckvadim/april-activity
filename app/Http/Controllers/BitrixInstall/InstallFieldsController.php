@@ -602,11 +602,11 @@ class InstallFieldsController extends Controller
                 if ($field['type'] == 'enumeration') {
                     $portalFieldItems = $currentPortalField->items;
 
-                    Log::channel('telegram')->error("updtdBtxField", [
-                        'updtdBtxField' => $updtdBtxField,
+                    // Log::channel('telegram')->error("updtdBtxField", [
+                    //     'updtdBtxField' => $updtdBtxField,
     
     
-                    ]);
+                    // ]);
 
 
                     if(!empty($updtdBtxField)){
