@@ -108,7 +108,7 @@ class InstallFieldsController extends Controller
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
-        
+
 
             $portalDealFields = [];
             if ((!empty($portalDeal))) {
@@ -162,7 +162,7 @@ class InstallFieldsController extends Controller
             // if (!empty($googleData['fields'])) {
             $fields = $googleData['fields'];
 
-          
+
             // foreach ($fields as $field) {
 
             //     $multiple = "N";
@@ -238,7 +238,7 @@ class InstallFieldsController extends Controller
                 $portalEntityFields =  $portalLeadFields;
             } else   if ($entityType === 'smart') {
                 $parentClass = Smart::class;
-                if(!empty($portalSmart)){
+                if (!empty($portalSmart)) {
                     $portalEntityFields = $portalSmart->fields;
 
 
@@ -249,7 +249,6 @@ class InstallFieldsController extends Controller
                     //     // 'portalsmarts' => $portalsmarts,
                     // ]]);
                 }
-              
             }
 
             if ($entityType !== 'smart') {
@@ -263,15 +262,15 @@ class InstallFieldsController extends Controller
 
                 );
             } else {
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', [
-                    'INSTALL' => 
-                    [
-                        ' PortalSmart' => $portalSmart,
-                        ' btxSmart' => $btxSmart
-                    
-                    ]]);
+                // Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                //     'INSTALL' => 
+                //     [
+                //         ' PortalSmart' => $portalSmart,
+                //         ' btxSmart' => $btxSmart
 
-                if(!empty($portalSmart)){
+                //     ]]);
+
+                if (!empty($portalSmart)) {
                     $responseData = InstallFieldsController::createFieldsForSmartProcesses(
                         $hook,
                         $fields,
@@ -281,9 +280,7 @@ class InstallFieldsController extends Controller
                         $btxSmart,
 
                     );
-
                 }
-               
             }
 
             // };
@@ -367,8 +364,8 @@ class InstallFieldsController extends Controller
         $btxSmart,
     ) {
 
-        // $smartId = $portalsmart['bitrixId'];
-    
+        $smartId = $portalsmart['bitrixId'];
+
 
         $btxSmartFields = null;
 
@@ -383,7 +380,7 @@ class InstallFieldsController extends Controller
                 // 'entityTypeId' => $btxSmart['entityTypeId'],
             ]
         ];
-       
+
         // $url = $hook . '/crm.item.fields';
         // $getSmartBtxFieldsData = [
         //     'entityTypeId' => $smartId,
@@ -429,96 +426,116 @@ class InstallFieldsController extends Controller
 
 
 
-        // foreach ($fields as $index => $field) {
+        foreach ($fields as $index => $field) {
 
 
-        //     $type = $field['type'] ?? 'string';
-        //     $multiple = 'N';
+            $type = $field['type'] ?? 'string';
+            $multiple = 'N';
 
-        //     if ($field['type'] == 'multiple') {
-        //         $multiple =  "Y";
-        //         $type = 'string';
-        //     }
-
-
-        //     if (!empty($field['smart'])) {
-
-        //         $currentBtxField = false;
-        //         //get current btx field
-        //         foreach ($btxSmartFields as $curBtxField) {
-        //             if (
-        //                 'UF_CRM_' . $field['smart'] === $curBtxField['upperName'] &&
-        //                 $field['smart'] == 'multiple'
-
-        //             ) {
-        //                 // $currentBtxFieldId = $curBtxField['ID'];
-        //                 $currentBtxField = $curBtxField;
-        //                 // Log::channel('telegram')->error("curBtxField vs field", [
-        //                 //     'currentBtxField' => $currentBtxField,
+            if ($field['type'] == 'multiple') {
+                $multiple =  "Y";
+                $type = 'string';
+            }
 
 
-        //                 // ]);
-        //             }
-        //             if (!$index) {
-
-        //                 Log::channel('telegram')->error("curBtxField vs field", [
-        //                     'Btx Field' => $curBtxField,
+            if (!empty($field['smart']) && !empty($field['isNeedUpdate']) && !empty($field['isActive'])) {
 
 
-        //                 ]);
-        //                 // Log::channel('telegram')->error("curBtxField vs field", [
-        //                 //     'upperName' => $curBtxField['upperName'],
+                $currentBtxField = false;
+                $currentBtxFieldId = false;
+                $currentPortalField = false;
+                $enum = [];
+                //get current btx field
+
+                foreach ($btxSmartFields as $curBtxField) {
+                    if (
+                        'UF_CRM_' . $field['smart'] === $curBtxField['fieldName'] &&
+                        $field['smart'] == 'multiple'
+
+                    ) {
+                        $currentBtxFieldId = $curBtxField['id'];
+                        $currentBtxField = $curBtxField;
+                    }
+
+                    if ($curBtxField['userTypeId'] == 'enumeration') {
+
+                        $currentBtxFieldId = $curBtxField['id'];
+                        $currentBtxField = $curBtxField;
+
+                        $url = $hook . '/userfieldconfig.get';
+                        $getSmartBtxFieldsData = [
+                            'id' => $currentBtxFieldId,
+                            'moduleId' => 'crm',
+
+                        ];
+                        $response = Http::post($url, $getSmartBtxFieldsData);
+                        $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
+
+                        Log::channel('telegram')->error("setFieldItem get enum", [
+                            'resultEnumField' => $resultEnumField,
 
 
-        //                 // ]);
-        //             }
-        //         }
+                        ]);
+                    }
+                }
 
-        //         //get current portal data field
-        //         if (!empty($portalFields)) {
-        //             foreach ($portalFields as $pind => $pField) {
-        //                 if (!$pind) {
+                //get current portal data field
+                if (!empty($portalFields)) {
+                    foreach ($portalFields as $pind => $pField) {
+                        if ($pField['code'] == $field['code']) {
+                            $currentPortalField = $pField;
+                        }
+                    }
+                }
 
-        //                     Log::channel('telegram')->error("curBtxField vs field", [
-        //                         'pField code' => $pField['code'],
+                if ($field['type'] == 'enumeration') {
+                    foreach ($field['list'] as $gitem) {
+                        $btxEnumItemData = [
+                            'value' => $gitem['VALUE'],
+                            'xmlId' => $gitem['XML_ID'],
+                            'sort' => $gitem['order'],
+                        ];
+                        array_push($enum, $btxEnumItemData);
+                    }
+                }
 
 
-        //                     ]);
-        //                 }
-        //             }
-        //         }
 
+                $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
+                // $fieldsData = [
+                //     "moduleId" => "crm",
+                //     "field" => [
+                //         "entityId" => 'CRM_' . $smartId,
+                //         "fieldName" => $fieldNameUpperCase,
+                //         "userTypeId" => $type,
+                //         "multiple" => $multiple,
+                //         "xmlId" => $field['code'],
+                //         // "mandatory" => $mandatory,
+                //         "editFormLabel" => ["ru" => $field['name']],
+                //         "enum" => $enum
+                //         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
+                //         //     return [
+                //         //         "value" => $item,
+                //         //         "sort" => $key + 1,
+                //         //         "def" => 'N',
+                //         //     ];
+                //         // }, $field['list'], array_keys($field['list'])) : [],
+                //     ]
+                // ];
 
+                // $method = '/userfieldconfig.add';
 
-        //         // $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
-
-        //         // $fieldsData = [
-        //         //     "moduleId" => "crm",
-        //         //     "field" => [
-        //         //         "entityId" => 'CRM_' . $smartId,
-        //         //         "fieldName" => $fieldNameUpperCase,
-        //         //         "userTypeId" => $type,
-        //         //         "multiple" => $multiple,
-        //         //         // "mandatory" => $mandatory,
-        //         //         "editFormLabel" => ["ru" => $field['name']],
-        //         //         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
-        //         //         //     return [
-        //         //         //         "value" => $item,
-        //         //         //         "sort" => $key + 1,
-        //         //         //         "def" => 'N',
-        //         //         //     ];
-        //         //         // }, $field['list'], array_keys($field['list'])) : [],
-        //         //     ]
-        //         // ];
-
-        //         // $method = '/userfieldconfig.add';
-        //         // $url = $hook . $method;
-        //         // $response = Http::post($url, $fieldsData);
-        //         // sleep(2);
-        //         // $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
-        //     }
-        // }
+                // if($currentBtxField){
+                //     $fieldsData['id'] = $currentBtxFieldId;
+                //     $method = '/userfieldconfig.update';
+                // }
+                // $url = $hook . $method;
+                // $response = Http::post($url, $fieldsData);
+                // sleep(1);
+                // $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+            }
+        }
     }
 
     public static function createFieldsForEntities(
