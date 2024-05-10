@@ -44,6 +44,8 @@ class InstallController extends Controller
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
 
+            $resultSmarts = [];
+
             if ($response->successful()) {
                 $googleData = $response->json();
                 Log::channel('telegram')->error("googleData", [
@@ -181,8 +183,8 @@ class InstallController extends Controller
 
 
                     // $categories = InstallController::setCategories($hook, $smart['categories']);
-
-
+                    array_push($resultSmarts, $currentBtxSmart);
+                    
                     InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
                 }
             } else {
@@ -201,7 +203,7 @@ class InstallController extends Controller
             ]);
         }
 
-        return APIController::getSuccess(['newSmart' => $newSmart, 'categories' => $categories]);
+        return APIController::getSuccess(['resultSmarts' => $resultSmarts, 'categories' => $categories]);
     }
 
 
