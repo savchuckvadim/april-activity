@@ -406,23 +406,7 @@ class InstallFieldsController extends Controller
 
         $btxSmartFields = $resultFields;
 
-
-        // $smartProcesses = $response->json()['result']['types'];
-
-        // // Step 2: Filter smart processes
-        // $keywords = ['Продажи', 'Гарант', 'ТМЦ'];
-        // $filteredSmartProcesses = array_filter($smartProcesses, function ($process) use ($keywords) {
-        //     foreach ($keywords as $keyword) {
-        //         if (stripos($process['title'], $keyword) !== false) {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
-        // });
-
-
-
-        foreach ($fields as $index => $field) {
+        foreach ($fields as $field) {
 
 
             $type = $field['type'] ?? 'string';
@@ -445,11 +429,7 @@ class InstallFieldsController extends Controller
                 //get current btx field
 
                 foreach ($btxSmartFields as $curBtxField) {
-                    // Log::channel('telegram')->info("hook btxSmartFields", [
-                    //     'curBtxField' => $curBtxField,
 
-
-                    // ]);
                     if (
                         'UF_CRM_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
 
@@ -616,11 +596,7 @@ class InstallFieldsController extends Controller
                             foreach($currentBtxEnum as $currentFieldItem){
 
                                 $currentPortalItem = null;
-                                Log::channel('telegram')->error("setFieldItem currentBtxEnum", [
-                                    'currentBtxEnum' => $currentBtxEnum,
-                
-                
-                                ]);
+            
 
                                 if (!empty($portalFieldItems)) {
                                     foreach ($portalFieldItems as $pitem) {
@@ -650,18 +626,7 @@ class InstallFieldsController extends Controller
                                 $currentPortalItem->code = $currentFieldItem['xmlId'];
                                 $currentPortalItem->save();
 
-                                Log::channel('telegram')->error("setFieldItem get enum", [
-                                    'currentPortalItem' => $currentPortalItem,
-    
-    
-                                ]);
-
-
                             }
-                            
-                            
-
-
 
                         }
 
