@@ -449,8 +449,7 @@ class InstallFieldsController extends Controller
 
                 foreach ($btxSmartFields as $curBtxField) {
                     if (
-                        'UF_CRM_' . $field['smart'] === $curBtxField['fieldName'] &&
-                        $field['smart'] == 'multiple'
+                        'UF_CRM_' . $field['smart'] === $curBtxField['fieldName']
 
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];
