@@ -173,7 +173,7 @@ class InstallController extends Controller
                             $currentPortalSmart->forStage = 'DT' . $smartEntityTypeId . '_';
                             $currentPortalSmart->forFilterId = $smartEntityTypeId;
                             $currentPortalSmart->forFilter = 'DYNAMIC_' . $smartEntityTypeId . '_';
-                            $currentPortalSmart->crmId = $smartEntityTypeId;
+                            $currentPortalSmart->crmId = $currentBtxSmart['id'];
                             $currentPortalSmart->crm = 'WARNING' . $smartEntityTypeId;
                             $currentPortalSmart->save();
                         }
