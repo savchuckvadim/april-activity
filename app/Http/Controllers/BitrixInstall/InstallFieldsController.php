@@ -405,7 +405,7 @@ class InstallFieldsController extends Controller
 
 
         $btxSmartFields = $resultFields;
-     
+
 
         // $smartProcesses = $response->json()['result']['types'];
 
@@ -441,13 +441,14 @@ class InstallFieldsController extends Controller
                 $currentBtxFieldId = false;
                 $currentPortalField = false;
                 $enum = [];
+                $currentBtxEnum = [];
                 //get current btx field
 
                 foreach ($btxSmartFields as $curBtxField) {
                     // Log::channel('telegram')->info("hook btxSmartFields", [
                     //     'curBtxField' => $curBtxField,
-            
-            
+
+
                     // ]);
                     if (
                         'UF_CRM_' . $field['smart'] === $curBtxField['fieldName']
@@ -455,27 +456,27 @@ class InstallFieldsController extends Controller
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];
                         $currentBtxField = $curBtxField;
-                    }
 
-                    if ($curBtxField['userTypeId'] == 'enumeration') {
+                        if ($curBtxField['userTypeId'] == 'enumeration') {
 
-                        $currentBtxFieldId = $curBtxField['id'];
-                        $currentBtxField = $curBtxField;
+                            $currentBtxFieldId = $curBtxField['id'];
+                            $currentBtxField = $curBtxField;
 
-                        $url = $hook . '/userfieldconfig.get';
-                        $getSmartBtxFieldsData = [
-                            'id' => $currentBtxFieldId,
-                            'moduleId' => 'crm',
+                            $url = $hook . '/userfieldconfig.get';
+                            $getSmartBtxFieldsData = [
+                                'id' => $currentBtxFieldId,
+                                'moduleId' => 'crm',
 
-                        ];
-                        $response = Http::post($url, $getSmartBtxFieldsData);
-                        $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
+                            ];
+                            $response = Http::post($url, $getSmartBtxFieldsData);
+                            $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
+                            $currentBtxEnum = $resultEnumField['enum'];
+                            Log::channel('telegram')->error("setFieldItem get enum", [
+                                'resultEnumField' => $currentBtxEnum,
 
-                        Log::channel('telegram')->error("setFieldItem get enum", [
-                            'resultEnumField' => $resultEnumField,
 
-
-                        ]);
+                            ]);
+                        }
                     }
                 }
 
@@ -491,6 +492,7 @@ class InstallFieldsController extends Controller
                 if ($field['type'] == 'enumeration') {
                     foreach ($field['list'] as $gitem) {
                         $btxEnumItemData = [
+                            'userFieldId' => $currentBtxFieldId,
                             'value' => $gitem['VALUE'],
                             'xmlId' => $gitem['XML_ID'],
                             'sort' => $gitem['SORT'],
@@ -503,37 +505,43 @@ class InstallFieldsController extends Controller
 
                 $fieldNameUpperCase = 'UF_CRM_' . $smartId . '_' . strtoupper($field['smart']);
 
-                // $fieldsData = [
-                //     "moduleId" => "crm",
-                //     "field" => [
-                //         "entityId" => 'CRM_' . $smartId,
-                //         "fieldName" => $fieldNameUpperCase,
-                //         "userTypeId" => $type,
-                //         "multiple" => $multiple,
-                //         "xmlId" => $field['code'],
-                //         // "mandatory" => $mandatory,
-                //         "editFormLabel" => ["ru" => $field['name']],
-                //         "enum" => $enum
-                //         // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
-                //         //     return [
-                //         //         "value" => $item,
-                //         //         "sort" => $key + 1,
-                //         //         "def" => 'N',
-                //         //     ];
-                //         // }, $field['list'], array_keys($field['list'])) : [],
-                //     ]
-                // ];
+                $fieldsData = [
+                    "moduleId" => "crm",
+                    "field" => [
+                        "entityId" => 'CRM_' . $smartId,
+                        "fieldName" => $fieldNameUpperCase,
+                        "userTypeId" => $type,
+                        "multiple" => $multiple,
+                        "xmlId" => $field['code'],
+                        // "mandatory" => $mandatory,
+                        "editFormLabel" => ["ru" => $field['name']],
+                        "enum" => $enum
+                        // "enum" => $type === 'enumeration' ? array_map(function ($item, $key) {
+                        //     return [
+                        //         "value" => $item,
+                        //         "sort" => $key + 1,
+                        //         "def" => 'N',
+                        //     ];
+                        // }, $field['list'], array_keys($field['list'])) : [],
+                    ]
+                ];
 
-                // $method = '/userfieldconfig.add';
+                $method = '/userfieldconfig.add';
 
-                // if($currentBtxField){
-                //     $fieldsData['id'] = $currentBtxFieldId;
-                //     $method = '/userfieldconfig.update';
-                // }
-                // $url = $hook . $method;
-                // $response = Http::post($url, $fieldsData);
+                if($currentBtxField){
+                    $fieldsData['id'] = $currentBtxFieldId;
+                    $method = '/userfieldconfig.update';
+                }
+                $url = $hook . $method;
+                $response = Http::post($url, $fieldsData);
                 // sleep(1);
-                // $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+                $responseData = BitrixController::getBitrixResponse($response, 'smart: fields');
+
+                Log::channel('telegram')->error("setFieldItem get enum", [
+                    'responseData' => $responseData,
+
+
+                ]);
             }
         }
     }
