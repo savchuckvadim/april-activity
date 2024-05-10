@@ -368,11 +368,11 @@ class InstallFieldsController extends Controller
         //     // ]
         // ];
 
-        // Log::channel('telegram')->info("hook", [
-        //     'hook' => $hook,
+        Log::channel('telegram')->info("hook", [
+            'getSmartBtxFieldsData' => $getSmartBtxFieldsData,
 
 
-        // ]);
+        ]);
         $response = Http::post($url, $getSmartBtxFieldsData);
         $resultFields = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
 
@@ -384,7 +384,11 @@ class InstallFieldsController extends Controller
 
 
         $btxSmartFields = $resultFields;
+        Log::channel('telegram')->info("hook btxSmartFields", [
+            'btxSmartFields' => $btxSmartFields,
 
+
+        ]);
 
         // $smartProcesses = $response->json()['result']['types'];
 

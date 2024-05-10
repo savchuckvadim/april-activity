@@ -85,6 +85,22 @@ class InstallController extends Controller
                             'isAutomationEnabled' => 'Y',
                             'isBizProcEnabled' => 'Y',
                             'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
+
+                            "isCrmTrackingEnabled" => "Y",
+                            "isMycompanyEnabled" => "Y",
+                            "isDocumentsEnabled" => "Y",
+                            "isSourceEnabled" => "Y",
+                            "isObserversEnabled" => "Y",
+                            "isRecyclebinEnabled" => "Y",
+
+                            "isChildrenListEnabled" => "Y",
+                            "isSetOpenPermissions" => "Y",
+                            "linkedUserField" =>  [
+                                'CALENDAR_EVENT|UF_CRM_CAL_EVENT',
+                                'TASKS_TASK|UF_CRM_TASK',
+                                'TASKS_TASK_TEMPLATE|UF_CRM_TASK',
+
+                            ]
                         ],
                     ];
 
@@ -93,9 +109,17 @@ class InstallController extends Controller
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
 
-                    
+                    if (isset($newSmart['type'])) {
+                        $newSmart = $newSmart['type'];
+                    }
+                    $newSmartTypeId = $newSmart['entityTypeId'];
                     Log::info('APRIL_ONLINE TEST', ['INSTALL' => ['newSmart' => $newSmart]]);
                     // $categories = InstallController::setCategories($hook, $smart['categories']);
+
+
+                    InstallFieldsController::setFields($token, 'smart', $newSmartTypeId);
+
+
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -115,6 +139,39 @@ class InstallController extends Controller
 
         return APIController::getSuccess(['newSmart' => $newSmart, 'categories' => $categories]);
     }
+
+
+    //     Настройки связей
+    // Настройки связей отдаются по ключу relations в следующем виде:
+
+    // {
+    // 	"parent": [],
+    // 	"child": []
+    // }
+    // parent - настройки привязок к этому смарт-процессу;
+    // child - настройки привязок этого смарт-процесса к другим разделам.
+    // где каждый элемент массива имеет следующую структуру с описанием связи:
+    // {
+    //     "entityTypeId": number,
+    //     "isChildrenListEnabled": boolean,
+    //     "isPredefined": boolean
+    // }
+
+
+    //     Если поле isUseInUserfieldEnabled установлено в true, 
+    // то можно передать по ключу linkedUserFields набор полей, 
+    // в которых должен отображаться этот смарт-процесс.
+
+    // 'CALENDAR_EVENT|UF_CRM_CAL_EVENT' - событие в календаре.
+    // 'TASKS_TASK|UF_CRM_TASK' - задачи.
+    // 'TASKS_TASK_TEMPLATE|UF_CRM_TASK' - шаблон задачи.
+    // Если в поле isUseInUserfieldEnabled передать false, то все настроенные привязки будут отключены.
+
+
+
+
+
+
     static function setFields(
         $parentType, //deal company lead smart list
         $type, //select, date, string,
