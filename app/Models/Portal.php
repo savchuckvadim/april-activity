@@ -125,7 +125,7 @@ class Portal extends Model
                
                 if ($smart) {
                     $smartResource = new SmartResource($smart);
-                    array_push($resultSmarts, $smartResource);
+                    array_push($resultSmarts, $smart);
                 }
             }
         }
