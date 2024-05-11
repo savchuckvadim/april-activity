@@ -211,16 +211,16 @@ class ListController extends Controller
                     'MULTIPLE ' => $isMultiple,
                     'TYPE ' => $type,
 
-                ];
+                ];Log::channel('telegram')->error("set List Field", [
+                    'listFieldSetData' => $listFieldSetData,
+
+
+                ]);
                 $url = $hook . $method;
 
                 $setFieldResponse = Http::post($url, $listFieldSetData);
                 $resultListField = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method);
-                Log::channel('telegram')->error("set List Field", [
-                    'resultListField' => $resultListField,
-
-
-                ]);
+                
             }
         }
 
