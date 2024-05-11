@@ -216,7 +216,7 @@ class ListController extends Controller
                         'VALUE' =>  $gItem['VALUE'],
                     ]);
                 }
-                $listFieldSetData['FIELDS']['LIST'] = $listValues;
+                $listFieldSetData['FIELDS']['LIST'] = '$listValues\nдва\nтри\nчетыре';
             }
 
             if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
