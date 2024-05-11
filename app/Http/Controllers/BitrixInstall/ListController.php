@@ -227,9 +227,12 @@ class ListController extends Controller
                 $listFieldSetData['FIELDS']['CODE'] =  $currentFieldCode;
             }
 
+            sleep(1);
             $url = $hook . $method;
             $setFieldResponse = Http::post($url, $listFieldSetData);
             $resultListFieldId = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method); //PROPERTY_313 | boolean
+
+
             if ($method === '/lists.field.add') {
                 $currentBtxFieldId = $resultListFieldId;
             }
