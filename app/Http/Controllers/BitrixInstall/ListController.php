@@ -206,7 +206,7 @@ class ListController extends Controller
                 //создаем поле в btx
                 $listFieldSetData['FIELDS'] = [
                     'NAME' => $gField['title'],
-                    'CODE' => $gField['code'],
+                    'CODE' => $listBtxCode . '_' . $gField['code'],
                     'SORT' => $gField['order'],
                     'MULTIPLE' => $isMultiple,
                     'TYPE' => $type,
