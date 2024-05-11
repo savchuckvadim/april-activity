@@ -181,8 +181,14 @@ class ListController extends Controller
 
             $currentFieldCode = $listBtxCode . '_' . $gField['code'];
 
-            foreach ($currentPortalListFields as $pField) {
+            foreach ($currentPortalListFields as $index => $pField) {
+                if (!$index) {
+                    Log::channel('telegram')->error("pField", [
+                        'result Field pField' => $pField,
 
+
+                    ]);
+                }
                 if ($currentFieldCode === $pField['code']) {
                     $currentPortalField =  $pField;
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixCamelId']);
@@ -221,34 +227,34 @@ class ListController extends Controller
             if (!empty($resultListFieldId)) {
 
                 $currentBtxField = ListController::getListField($hook, $listBtxCode, $resultListFieldId);
-                if(isset($currentBtxField[$type])){
+                if (isset($currentBtxField[$type])) {
                     $currentBtxField = $currentBtxField[$type];
                 }
             }
 
             if ($gField['type'] == 'enumeration') {
-                Log::channel('telegram')->error("set List Field", [
-                    'result Field currentBtxField' => $currentBtxField,
+                // Log::channel('telegram')->error("set List Field", [
+                //     'result Field currentBtxField' => $currentBtxField,
 
 
-                ]);
-                if(isset($currentBtxField['list'])){
-                    Log::channel('telegram')->error("set List Field", [
-                        'result Field list' => $currentBtxField['list'],
-    
-    
-                    ]);
+                // ]);
+                // if(isset($currentBtxField['list'])){
+                //     Log::channel('telegram')->error("set List Field", [
+                //         'result Field list' => $currentBtxField['list'],
 
-                }
 
-                if(isset($currentBtxField['LIST'])){
-                    Log::channel('telegram')->error("set List Field", [
-                        'result Field LIST' => $currentBtxField['LIST'],
-    
-    
-                    ]);
+                //     ]);
 
-                }
+                // }
+
+                // if(isset($currentBtxField['DISPLAY_VALUES'])){
+                //     Log::channel('telegram')->error("set DISPLAY_VALUES Field", [
+                //         'result Field DISPLAY_VALUES' => $currentBtxField['DISPLAY_VALUES'],
+
+
+                //     ]);
+
+                // }
             }
 
 
