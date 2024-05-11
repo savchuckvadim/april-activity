@@ -167,6 +167,7 @@ class ListController extends Controller
         $listFieldGetData = [
             'IBLOCK_TYPE_ID' => 'lists',
             'IBLOCK_CODE' => $listBtxCode,
+            'FIELD_ID' => 'EVENT_TITLE'
 
         ];
         $currentPortalListFields = $currentPortalList->fields;
