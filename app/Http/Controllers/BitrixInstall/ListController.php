@@ -182,13 +182,7 @@ class ListController extends Controller
             $currentFieldCode = $listBtxCode . '_' . $gField['code'];
             $type = ListController::getFieldType($gField['type']);
             foreach ($currentPortalListFields as $index => $pField) {
-                // if (!$index) {
-                //     Log::channel('telegram')->error("pField", [
-                //         'result Field pField' => $pField,
 
-
-                //     ]);
-                // }
                 if ($currentFieldCode === $pField->code) {
 
                     $currentPortalField =  $pField;
@@ -349,11 +343,7 @@ class ListController extends Controller
             'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
-        Log::channel('telegram')->info("resultListField", [
-            '$type' => $type,
-
-
-        ]);
+    
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
@@ -361,11 +351,7 @@ class ListController extends Controller
         if (isset($resultListField[$type])) {
             $resultListField = $resultListField[$type];
         }
-        Log::channel('telegram')->info("resultListField", [
-            'resultListField' => $resultListField,
 
-
-        ]);
         return  $resultListField;
     }
 
