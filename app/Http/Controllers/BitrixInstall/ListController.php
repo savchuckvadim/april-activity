@@ -95,9 +95,12 @@ class ListController extends Controller
 
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
-        $method = '/lists.add';
-        $url = $hook . $method;
+        $method = '/lists.add'; 
         $listBtxCode = $currentGoogleList['group'] . '_' . $currentGoogleList['code'];
+       
+        $currentBtxList  = ListController::getList($hook, $listBtxCode);
+       
+       
         $listData = [
             'NAME' => $currentGoogleList['title'],
             // 'DESCRIPTION' => '',
@@ -111,26 +114,21 @@ class ListController extends Controller
             'IBLOCK_CODE' => $listBtxCode,
             'FIELDS' => $listData
         ];
+        
+       
+        if($currentBtxList && !empty($currentBtxList['ID'])){
+            $method = '/lists.update';
+
+        }
+        $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
         $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List - createListResponse');
         $resultList = null;
 
         if (!empty($resultListId)) {
-            $methodGet = '/lists.get';
-            $urlGet = $hook . $methodGet;
-            $btxListGetData = [
-                'IBLOCK_TYPE_ID' => 'lists',
-                'IBLOCK_CODE' => $listBtxCode,
-
-            ];
-
-            $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
-            $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
-            Log::channel('telegram')->info("Create BTX List", [
-                'getCreatedListResponse' => $resultList,
-
-
-            ]);
+           
+            $resultList = ListController::getList($hook, $listBtxCode);
+           
         }
 
         if ($resultList && !empty($resultList['ID'])) {
@@ -144,5 +142,23 @@ class ListController extends Controller
             $currentPortalList->title = $currentGoogleList['title'];
             $currentPortalList->bitrixId = $resultList['ID'];
         }
+    }
+
+    public static function getList($hook, $listCode)
+    {
+
+        $resultList = null;
+        $methodGet = '/lists.get';
+        $urlGet = $hook . $methodGet;
+        $btxListGetData = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE' => $listCode,
+
+        ];
+
+        $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
+        $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
+
+        return  $resultList;
     }
 }
