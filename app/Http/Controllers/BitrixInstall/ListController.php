@@ -95,12 +95,14 @@ class ListController extends Controller
 
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
-        $method = '/lists.add'; 
+        $method = '/lists.add';
         $listBtxCode = $currentGoogleList['group'] . '_' . $currentGoogleList['code'];
-       
+
         $currentBtxList  = ListController::getList($hook, $listBtxCode);
-       
-       
+        if (is_array($currentBtxList) && !empty($currentBtxList)) {
+            $currentBtxList = $currentBtxList[0];
+        }
+
         $listData = [
             'NAME' => $currentGoogleList['title'],
             // 'DESCRIPTION' => '',
@@ -114,11 +116,10 @@ class ListController extends Controller
             'IBLOCK_CODE' => $listBtxCode,
             'FIELDS' => $listData
         ];
-        
-       
-        if($currentBtxList && !empty($currentBtxList['ID'])){
-            $method = '/lists.update';
 
+
+        if ($currentBtxList) {
+            $method = '/lists.update';
         }
         $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
@@ -126,9 +127,8 @@ class ListController extends Controller
         $resultList = null;
 
         if (!empty($resultListId)) {
-           
+
             $resultList = ListController::getList($hook, $listBtxCode);
-           
         }
 
         if ($resultList && !empty($resultList['ID'])) {
@@ -158,7 +158,10 @@ class ListController extends Controller
 
         $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
         $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
+        Log::channel('telegram')->info('APRIL_ONLINE', [
+            'get resultList'   => $resultList
 
+        ]);
         return  $resultList;
     }
 }
