@@ -115,8 +115,15 @@ class ListController extends Controller
         ];
 
 
-        if ($currentBtxList) {
+        if ($currentBtxList && isset($currentBtxList['ID'])) {
             $method = '/lists.update';
+            $btxListSetData = [
+                'IBLOCK_TYPE_ID' => 'lists',
+                // 'IBLOCK_CODE' => $listBtxCode,
+                'IBLOCK_ID' => $currentBtxList['ID'],
+                
+                'FIELDS' => $listData
+            ];
         }
         $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
