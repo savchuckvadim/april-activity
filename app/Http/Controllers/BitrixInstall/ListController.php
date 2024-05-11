@@ -197,7 +197,7 @@ class ListController extends Controller
 
 
                     ]);
-                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixCamelId']);
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId);
                     Log::channel('telegram')->info("currentBtxField", [
                         'currentBtxField' => $currentBtxField,
 
