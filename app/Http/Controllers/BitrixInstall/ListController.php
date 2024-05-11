@@ -357,17 +357,9 @@ class ListController extends Controller
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
-        // if (is_array($resultListField) && !empty($resultListField)) {
-        //     $resultListField = $resultListField[0];
-        // }
-        // Log::channel('telegram')->error("getListField", [
-        //     'resultListField' => $resultListField,
-
-
-        // ]);
-      
-        if (isset($currentBtxField[$type])) {
-            $currentBtxField = $currentBtxField[$type];
+   
+        if (isset($resultListField[$type])) {
+            $resultListField = $resultListField[$type];
         }
         Log::channel('telegram')->info("resultListField", [
             'resultListField' => $resultListField,
