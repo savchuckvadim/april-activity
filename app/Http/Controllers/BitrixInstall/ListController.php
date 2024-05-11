@@ -96,6 +96,7 @@ class ListController extends Controller
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
         $method = '/lists.add';
+        $resultList = null;
         $listBtxCode = $currentGoogleList['group'] . '_' . $currentGoogleList['code'];
 
         $currentBtxList  = ListController::getList($hook, $listBtxCode);
@@ -128,7 +129,7 @@ class ListController extends Controller
         $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
         $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List ' . $method);
-        $resultList = null;
+        
 
         if (!empty($resultListId)) {
 
@@ -145,6 +146,7 @@ class ListController extends Controller
             $currentPortalList->name = $currentGoogleList['title'];
             $currentPortalList->title = $currentGoogleList['title'];
             $currentPortalList->bitrixId = $resultList['ID'];
+            $currentPortalList->save();
         }
     }
 
@@ -166,10 +168,7 @@ class ListController extends Controller
         if (is_array($resultList) && !empty($resultList)) {
             $resultList = $resultList[0];
         }
-        Log::channel('telegram')->info('APRIL_ONLINE', [
-            'get resultList'   => $resultList
-
-        ]);
+       
         return  $resultList;
     }
 }
