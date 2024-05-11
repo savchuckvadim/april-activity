@@ -187,12 +187,12 @@ class ListController extends Controller
             }
         }
 
-        $resultListBtxFields = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
-        Log::channel('telegram')->error("setListFields ", [
-            'resultListBtxFields' => $resultListBtxFields,
+        // $resultListBtxFields = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
+        // Log::channel('telegram')->error("setListFields ", [
+        //     'resultListBtxFields' => $resultListBtxFields,
 
 
-        ]);
+        // ]);
         // $currentBtxList  = ListController::getList($hook, $listBtxCode);
 
         // $listData = [
@@ -250,7 +250,7 @@ class ListController extends Controller
         $listFieldGetData = [
             'IBLOCK_TYPE_ID' => 'lists',
             'IBLOCK_CODE' => $listBtxCode,
-            'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
+            // 'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
 
