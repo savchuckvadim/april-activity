@@ -185,16 +185,16 @@ class ListController extends Controller
 
                 if ($currentFieldCode === $pField['code']) {
                     $currentPortalField =  $pField;
-                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixId']);
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixCamelId']);
                 }
             }
 
 
             //создаем поле в btx
             $type = ListController::getFieldType($gField['type']);
-            $isMultiple = false;
+            $isMultiple = 'N';
             if ($gField['type'] == 'multiple') {
-                $isMultiple = true;
+                $isMultiple = 'Y';
             }
             $listFieldSetData['FIELDS'] = [
                 'NAME' => $gField['title'],
@@ -328,7 +328,7 @@ class ListController extends Controller
         $listFieldGetData = [
             'IBLOCK_TYPE_ID' => 'lists',
             'IBLOCK_CODE' => $listBtxCode,
-            // 'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
+            'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
 
