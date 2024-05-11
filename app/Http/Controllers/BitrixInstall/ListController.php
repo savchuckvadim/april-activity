@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -18,13 +19,18 @@ class ListController extends Controller
         try {
             $domain = 'april-dev.bitrix24.ru';
             $hook = BitrixController::getHook($domain);
-            $portal = PortalController::innerGetPortal($domain);
-            $newSmart = null;
-            $categories = null;
+            $portal = Portal::where('domain', $domain)->first();
+            $webhookRestKey = $portal->getHook();
+            $hook = 'https://' . $domain . '/' . $webhookRestKey;
+            $portalId = $portal['id'];
+            $group = 'sales';
+           
+            $portalLists = $portal->lists;
+
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
 
-            $resultSmarts = [];
+        
 
             if ($response->successful()) {
                 $googleData = $response->json();
@@ -40,12 +46,11 @@ class ListController extends Controller
                 return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
 
-            $smarts = null;
+          
 
-
-            $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
-            $portalId = $portal['portal']['id'];
-            $hook = 'https://' . $domain . '/' . $webhookRestKey;
+       
+           
+           
 
 
             // Проверка на массив
@@ -56,22 +61,36 @@ class ListController extends Controller
                     $currentPortalSmart = null;
                     $currentBtxSmart = null;
                     $currentBtxSmartId = null;
+                    Log::channel('telegram')->error("LIST", [
+                        'Google List' => $list,
+
+
+                    ]);
+
+
                     foreach ($list['fields'] as $field) {
                         if (!empty($field['list'])) {
                             foreach ($field['list'] as $fieldItem) {
 
 
-                                Log::channel('telegram')->error("LIST", [
-                                    'fieldItem' => $fieldItem,
-
-
-                                ]);
+                              
                             }
                         }
                     }
 
                    
                 }
+
+                foreach($portalLists  as $portalList){
+                    Log::channel('telegram')->error("LIST", [
+                        'portalList' => $portalList,
+
+
+                    ]);
+
+                }
+
+
             }
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
