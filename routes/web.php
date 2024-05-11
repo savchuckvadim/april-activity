@@ -3,6 +3,7 @@
 use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\BitrixInstall\InstallDealController;
 use App\Http\Controllers\BitrixInstall\InstallFieldsController;
+use App\Http\Controllers\BitrixInstall\ListController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Models\Link;
@@ -54,6 +55,16 @@ Route::get('/install/fields/{entityType}/{pass}/{token}/{smartId}', function ($e
     // $url = LinkController ::urlForRedirect($linkId);
     if ($pass == 'nmbrsdntl') {
         return InstallFieldsController::setFields($token, $entityType, $smartId);
+    } else {
+        return 'yo';
+    }
+});
+
+
+Route::get('/install/lists/{pass}/{token}/{smartId}', function ($pass, $token) {
+    // $url = LinkController ::urlForRedirect($linkId);
+    if ($pass == 'nmbrsdntl') {
+        return ListController::setLists($token);
     } else {
         return 'yo';
     }
