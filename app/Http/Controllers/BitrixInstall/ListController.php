@@ -221,6 +221,9 @@ class ListController extends Controller
             if (!empty($resultListFieldId)) {
 
                 $currentBtxField = ListController::getListField($hook, $listBtxCode, $resultListFieldId);
+                if(isset($currentBtxField[$type])){
+                    $currentBtxField = $currentBtxField[$type];
+                }
             }
 
             if ($gField['type'] == 'enumeration') {
