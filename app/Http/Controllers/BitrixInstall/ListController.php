@@ -182,15 +182,21 @@ class ListController extends Controller
             $currentFieldCode = $listBtxCode . '_' . $gField['code'];
 
             foreach ($currentPortalListFields as $index => $pField) {
-                if (!$index) {
-                    Log::channel('telegram')->error("pField", [
-                        'result Field pField' => $pField,
+                // if (!$index) {
+                //     Log::channel('telegram')->error("pField", [
+                //         'result Field pField' => $pField,
+
+
+                //     ]);
+                // }
+                if ($currentFieldCode === $pField->code) {
+                 
+                    $currentPortalField =  $pField;
+                    Log::channel('telegram')->info("currentPortalField", [
+                        'currentPortalField' => $currentPortalField,
 
 
                     ]);
-                }
-                if ($currentFieldCode === $pField['code']) {
-                    $currentPortalField =  $pField;
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixCamelId']);
                 }
             }
