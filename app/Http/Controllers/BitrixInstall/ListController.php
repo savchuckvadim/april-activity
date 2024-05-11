@@ -207,8 +207,9 @@ class ListController extends Controller
                 $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
             }
 
-            if ($currentBtxField) {
+            if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
                 $method = '/lists.field.update';
+                $listFieldSetData['FIELD_ID'] = $currentPortalField['bitrixCamelId'];
             } else {
                 //создаем поле в btx
                 $listFieldSetData['FIELDS']['CODE'] =  $currentFieldCode;
