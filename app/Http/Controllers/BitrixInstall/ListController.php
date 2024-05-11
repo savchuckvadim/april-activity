@@ -187,7 +187,7 @@ class ListController extends Controller
 
                     $currentPortalField =  $pField;
 
-                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId, $type);
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, 'PROPERTY_' . $pField->bitrixId, $type);
                     if (isset($currentBtxField['FIELD_ID'])) {
                         $currentBtxFieldId = $currentBtxField['FIELD_ID'];
                     }
@@ -270,7 +270,7 @@ class ListController extends Controller
                 $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField['type'];
                 $currentPortalField->bitrixId = $currentBtxField['ID'];
-                $currentPortalField->bitrixCamelId = $resultListFieldId;
+                $currentPortalField->bitrixCamelId = $currentBtxFieldId;
                 $currentPortalField->save();
             }
         }
