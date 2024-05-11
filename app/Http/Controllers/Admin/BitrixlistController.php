@@ -130,5 +130,22 @@ class BitrixlistController extends Controller
         }
     }
 
+    public static function delete($btxlistId)
+    {
+
+        $bitrixlist = Bitrixlist::find($btxlistId);
+        $data = [
+            'bitrixlist' => $bitrixlist
+        ];
+        if ($bitrixlist) {
+            $bitrixlist->delete();
+            $data = [
+                'bitrixlist' => $bitrixlist
+            ];
+            return APIController::getSuccess($data);
+        }
+
+        return APIController::getError('stage was not found', ['btxlistId' => $btxlistId]);
+    }
     
 }

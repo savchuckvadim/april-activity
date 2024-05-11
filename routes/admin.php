@@ -813,6 +813,13 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
+    // .............................................DELETE   BITRIX LIST
+    // ...............  delete stage
+    Route::delete('bitrixlist/{bitrixlistId}', function ($bitrixlistId) {
+        return BitrixlistController::delete($bitrixlistId);
+    });
+
+
     //........................................................................BITRIX LIST FIELDS | BTX FIELDS
     // id и другие параметры полей из битрикс
     //....       'type',        select, date, string,
