@@ -256,9 +256,9 @@ class ListController extends Controller
 
                 // }
 
-                if (isset($currentBtxField['DISPLAY_VALUES'])) {
-                    Log::channel('telegram')->error("set DISPLAY_VALUES Field", [
-                        'result Field DISPLAY_VALUES' => $currentBtxField['DISPLAY_VALUES'],
+                if (isset($currentBtxField['DISPLAY_VALUES_FORM'])) {
+                    Log::channel('telegram')->error("set DISPLAY_VALUES_FORM Field", [
+                        'result Field DISPLAY_VALUES_FORM' => $currentBtxField['DISPLAY_VALUES_FORM'],
 
 
                     ]);
@@ -365,14 +365,15 @@ class ListController extends Controller
 
 
         // ]);
+      
+        if (isset($currentBtxField[$type])) {
+            $currentBtxField = $currentBtxField[$type];
+        }
         Log::channel('telegram')->info("resultListField", [
             'resultListField' => $resultListField,
 
 
         ]);
-        if (isset($currentBtxField[$type])) {
-            $currentBtxField = $currentBtxField[$type];
-        }
         return  $resultListField;
     }
 
