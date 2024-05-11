@@ -209,13 +209,14 @@ class ListController extends Controller
 
             ];
             if ($gField['type'] == 'enumeration') {
-                $listsTextValues = '';
+                $listValues = [];
                 foreach ($gField['list'] as $index => $gItem) {
-                    $listsTextValues = !$index
-                        ?  $gItem['VALUE']
-                        : $listsTextValues . ' \n ' . $gItem['VALUE'];
+                    array_push($listValues, [
+                        'SORT' =>  $gItem['SORT'],
+                        'VALUE' =>  $gItem['VALUE'],
+                    ]);
                 }
-                $listFieldSetData['FIELDS']['LIST_TEXT_VALUES'] = $listsTextValues;
+                $listFieldSetData['FIELDS']['LIST'] = $listValues;
             }
 
             if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
@@ -350,11 +351,11 @@ class ListController extends Controller
             'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
-        Log::channel('telegram')->error("type data", [
-            'listFieldGetData' => $listFieldGetData,
-            'type' => $type,
+        // Log::channel('telegram')->error("type data", [
+        //     'listFieldGetData' => $listFieldGetData,
+        //     'type' => $type,
 
-        ]);
+        // ]);
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
