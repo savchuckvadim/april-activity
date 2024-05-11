@@ -212,9 +212,9 @@ class ListController extends Controller
                     'TYPE' => $type,
 
                 ];
-                // if ($gField['type'] == 'enumeration') {
-                //     $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
-                // }
+                if ($gField['type'] == 'enumeration') {
+                    $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+                }
                 Log::channel('telegram')->error("set List Field", [
                     'list Data' => $listFieldSetData,
 
