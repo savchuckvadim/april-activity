@@ -167,18 +167,27 @@ class ListController extends Controller
         $listFieldGetData = [
             'IBLOCK_TYPE_ID' => 'lists',
             'IBLOCK_CODE' => $listBtxCode,
-            'FIELD_ID' => 'PROPERTY_EVENT_TITLE'
+            'FIELD_ID' => 'PROPERTY_201'
 
         ];
         $currentPortalListFields = $currentPortalList->fields;
-        Log::channel('telegram')->error("setListFields ", [
-            'currentPortalListFields' => $currentPortalListFields,
 
+        $currentBtxField = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
+        foreach ($currentGoogleFields as $gField) {
+            $currentPortalField = null;
+            foreach ($currentPortalListFields as $pField) {
 
-        ]);
-        $url = $hook . $method;
-        $createListResponse = Http::post($url, $listFieldGetData);
-        $resultListBtxFields = BitrixController::getBitrixResponse($createListResponse, 'Create List ' . $method);
+                if ($gField['code'] === $pField['code']) {
+                    $currentPortalField =  $pField;
+                }
+            }
+
+            if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
+
+            }
+        }
+
+        $resultListBtxFields = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
         Log::channel('telegram')->error("setListFields ", [
             'resultListBtxFields' => $resultListBtxFields,
 
@@ -230,5 +239,32 @@ class ListController extends Controller
         }
 
         return  $resultList;
+    }
+
+    public static function getListField($hook, $listBtxCode, $fieldId)
+    {
+
+        $resultListField = null;
+        $method = '/lists.field.get';
+
+        $listFieldGetData = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE' => $listBtxCode,
+            'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
+
+        ];
+
+        $url = $hook . $method;
+        $getFieldResponse = Http::post($url, $listFieldGetData);
+        $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
+        if (is_array($resultListField) && !empty($resultListField)) {
+            $resultListField = $resultListField[0];
+        }
+        Log::channel('telegram')->error("getListField", [
+            'resultListField' => $resultListField,
+
+
+        ]);
+        return  $resultListField;
     }
 }
