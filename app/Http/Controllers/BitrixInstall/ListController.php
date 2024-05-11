@@ -211,12 +211,12 @@ class ListController extends Controller
             if ($gField['type'] == 'enumeration') {
                 $listValues = [];
                 foreach ($gField['list'] as $index => $gItem) {
-                    array_push($listValues, [
+                    array_push($listValues,  [
                         'SORT' =>  $gItem['SORT'],
                         'VALUE' =>  $gItem['VALUE'],
                     ]);
                 }
-                $listFieldSetData['FIELDS']['LIST'] = '$listValues\nдва\nтри\nчетыре';
+                $listFieldSetData['FIELDS']['LIST_TEXT_VALUES '] = '$listValues\nдва\nтри\nчетыре';
             }
 
             if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
