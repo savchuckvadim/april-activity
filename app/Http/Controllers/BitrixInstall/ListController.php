@@ -96,11 +96,12 @@ class ListController extends Controller
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
         $method = '/lists.add';
+        $currentGoogleFields = $currentGoogleList['fields'];
         $resultList = null;
         $listBtxCode = $currentGoogleList['group'] . '_' . $currentGoogleList['code'];
 
         $currentBtxList  = ListController::getList($hook, $listBtxCode);
-     
+
         $listData = [
             'NAME' => $currentGoogleList['title'],
             // 'DESCRIPTION' => '',
@@ -122,14 +123,14 @@ class ListController extends Controller
                 'IBLOCK_TYPE_ID' => 'lists',
                 // 'IBLOCK_CODE' => $listBtxCode,
                 'IBLOCK_ID' => $currentBtxList['ID'],
-                
+
                 'FIELDS' => $listData
             ];
         }
         $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
         $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List ' . $method);
-        
+
 
         if (!empty($resultListId)) {
 
@@ -148,7 +149,65 @@ class ListController extends Controller
             $currentPortalList->bitrixId = $resultList['ID'];
             $currentPortalList->save();
         }
+
+        //install or update fields
+        ListController::setListFields($hook, $listBtxCode, $currentGoogleFields, $currentPortalList, $portalId);
     }
+
+
+
+    public static function setListFields($hook, $listBtxCode, $currentGoogleFields, $currentPortalList, $portalId)
+    {
+
+
+        // сначала обновляем или создаем на битриксе чтобы получить id
+        // затем обновляем в портал или создаем и записываем туда id
+        $method = '/lists.field.get';
+        $resultListBtxFields = [];
+        $listFieldGetData = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE' => $listBtxCode,
+
+        ];
+        $currentPortalListFields = $currentPortalList->fields;
+        Log::channel('telegram')->error("setListFields ", [
+            'currentPortalListFields' => $currentPortalListFields,
+
+
+        ]);
+        $url = $hook . $method;
+        $createListResponse = Http::post($url, $listFieldGetData);
+        $resultListBtxFields = BitrixController::getBitrixResponse($createListResponse, 'Create List ' . $method);
+        Log::channel('telegram')->error("setListFields ", [
+            'resultListBtxFields' => $resultListBtxFields,
+
+
+        ]);
+        // $currentBtxList  = ListController::getList($hook, $listBtxCode);
+
+        // $listData = [
+        //     'NAME' => $currentGoogleList['title'],
+        //     // 'DESCRIPTION' => '',
+        //     'SORT' =>  $currentGoogleList['order'],
+        //     // 'PICTURE' => document.getElementById('iblock-image-add'),
+        //     'BIZPROC' => 'Y'
+        // ];
+        // // bitrix list
+        // $btxListSetData = [
+        //     'IBLOCK_TYPE_ID' => 'lists',
+        //     'IBLOCK_CODE' => $listBtxCode,
+        //     'FIELDS' => $listData
+        // ];
+
+
+        // if ($currentBtxList && isset($currentBtxList['ID'])) {
+        // }
+    }
+
+
+
+
+    //utils
 
     public static function getList($hook, $listCode)
     {
@@ -164,11 +223,11 @@ class ListController extends Controller
 
         $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
         $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
-     
+
         if (is_array($resultList) && !empty($resultList)) {
             $resultList = $resultList[0];
         }
-       
+
         return  $resultList;
     }
 }
