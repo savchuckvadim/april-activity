@@ -208,13 +208,13 @@ class ListController extends Controller
                     'NAME' => $gField['title'],
                     'CODE' => $gField['code'],
                     'SORT' => $gField['order'],
-                    'MULTIPLE ' => $isMultiple,
+                    'MULTIPLE' => $isMultiple,
                     'TYPE' => $type,
 
                 ];
-                if ($gField['type'] == 'enumeration') {
-                    $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
-                }
+                // if ($gField['type'] == 'enumeration') {
+                //     $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+                // }
 
 
                 $url = $hook . $method;
@@ -302,11 +302,11 @@ class ListController extends Controller
         // if (is_array($resultListField) && !empty($resultListField)) {
         //     $resultListField = $resultListField[0];
         // }
-        Log::channel('telegram')->error("getListField", [
-            'resultListField' => $resultListField,
+        // Log::channel('telegram')->error("getListField", [
+        //     'resultListField' => $resultListField,
 
 
-        ]);
+        // ]);
         return  $resultListField;
     }
 
