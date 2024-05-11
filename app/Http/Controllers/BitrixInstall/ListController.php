@@ -49,17 +49,13 @@ class ListController extends Controller
 
 
 
-
-
-
-
             // Проверка на массив
             if (is_array($googleData) && !empty($googleData['lists'])) {
                 $lists = $googleData['lists'];
 
                 foreach ($lists as $list) {
                     $currentPortalList = null;
-                    $currentBtxSmart = null;
+                    $currentBtxlList = null;
                     $currentBtxSmartId = null;
 
 
@@ -70,23 +66,12 @@ class ListController extends Controller
                         }
                     }
 
+                    //portal list
                     $currentPortalList = $portalLists
                         ->where('group', $list['group'])
                         ->where('type', $list['code'])->first();
-                    // foreach($portalLists  as $portalList){
-                    //     if($list['group'] === $portalList['group'] && $list['code'] === $portalList['type'])
-                    //     Log::channel('telegram')->error("LIST", [
-                    //         'portalList' => $portalList,
 
-
-                    //     ]);
-
-                    // }
-                    Log::channel('telegram')->error("LIST", [
-                        'currentPortalList' => $currentPortalList,
-
-
-                    ]);
+                    ListController::setList($hook, $list, $currentPortalList);
                 }
             }
         } catch (\Exception $e) {
@@ -103,7 +88,39 @@ class ListController extends Controller
         }
     }
 
-    public static function setList()
+    public static function setList($hook, $currentGoogleList, $currentPortalList)
     {
+
+
+        // сначала обновляем или создаем на битриксе чтобы получить id
+        // затем обновляем в портал или создаем и записываем туда id
+        $method = '/lists.add';
+        $url = $hook . $method;
+        $listBtxCode = $currentGoogleList['group'] . ' ' . $currentGoogleList['code'];
+        $listData = [
+            'NAME' => $currentGoogleList['title'],
+            // 'DESCRIPTION' => '',
+            'SORT' =>  $currentGoogleList['order'],
+            // 'PICTURE' => document.getElementById('iblock-image-add'),
+            'BIZPROC' => 'Y'
+        ];
+        // bitrix list
+        $btxListSetData = [
+            'IBLOCK_TYPE_ID' => 'lists',
+            'IBLOCK_CODE' => $listBtxCode,
+            'FIELDS' => $listData
+        ];
+        $createListResponse = Http::post($url, $btxListSetData);
+        $resultList = BitrixController::getBitrixResponse($createListResponse, 'Create List - createListResponse');
+
+        Log::channel('telegram')->info("Create BTX List", [
+            'resultList' => $resultList,
+
+
+        ]);
+
+
+
+
     }
 }
