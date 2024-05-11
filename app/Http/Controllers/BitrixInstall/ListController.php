@@ -111,16 +111,27 @@ class ListController extends Controller
             'FIELDS' => $listData
         ];
         $createListResponse = Http::post($url, $btxListSetData);
-        $resultList = BitrixController::getBitrixResponse($createListResponse, 'Create List - createListResponse');
-
-        Log::channel('telegram')->info("Create BTX List", [
-            'resultList' => $resultList,
+        $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List - createListResponse');
 
 
-        ]);
+        if (!empty($resultListId)) {
+            $methodGet = '/lists.get';
+            $urlGet = $hook . $methodGet;
+            $btxListGetData = [
+                'IBLOCK_TYPE_ID' => 'lists',
+                'IBLOCK_CODE' => $listBtxCode,
+           
+            ];
 
+            $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
+            $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
+            Log::channel('telegram')->info("Create BTX List", [
+                'getCreatedListResponse' => $resultList,
+    
+    
+            ]);
+        }
 
-
-
+       
     }
 }
