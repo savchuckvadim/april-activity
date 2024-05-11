@@ -99,10 +99,7 @@ class ListController extends Controller
         $listBtxCode = $currentGoogleList['group'] . '_' . $currentGoogleList['code'];
 
         $currentBtxList  = ListController::getList($hook, $listBtxCode);
-        if (is_array($currentBtxList) && !empty($currentBtxList)) {
-            $currentBtxList = $currentBtxList[0];
-        }
-
+     
         $listData = [
             'NAME' => $currentGoogleList['title'],
             // 'DESCRIPTION' => '',
@@ -158,6 +155,10 @@ class ListController extends Controller
 
         $getCreatedListResponse = Http::post($urlGet, $btxListGetData);
         $resultList = BitrixController::getBitrixResponse($getCreatedListResponse, 'Create List - get created');
+     
+        if (is_array($resultList) && !empty($resultList)) {
+            $resultList = $resultList[0];
+        }
         Log::channel('telegram')->info('APRIL_ONLINE', [
             'get resultList'   => $resultList
 
