@@ -209,18 +209,23 @@ class ListController extends Controller
                     'CODE' => $gField['code'],
                     'SORT' => $gField['order'],
                     'MULTIPLE ' => $isMultiple,
-                    'TYPE ' => $type,
+                    'TYPE' => $type,
 
-                ];Log::channel('telegram')->error("set List Field", [
-                    'listFieldSetData' => $listFieldSetData,
+                ];
+                if ($gField['type'] == 'enumeration') {
+                    $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+                }
 
 
-                ]);
                 $url = $hook . $method;
 
                 $setFieldResponse = Http::post($url, $listFieldSetData);
                 $resultListField = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method);
-                
+                Log::channel('telegram')->error("set List Field", [
+                    'resultListField' => $resultListField,
+
+
+                ]);
             }
         }
 
