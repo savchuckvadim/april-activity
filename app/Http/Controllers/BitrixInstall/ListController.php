@@ -123,7 +123,7 @@ class ListController extends Controller
         }
         $url = $hook . $method;
         $createListResponse = Http::post($url, $btxListSetData);
-        $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List - createListResponse');
+        $resultListId = BitrixController::getBitrixResponse($createListResponse, 'Create List ' . $method);
         $resultList = null;
 
         if (!empty($resultListId)) {
