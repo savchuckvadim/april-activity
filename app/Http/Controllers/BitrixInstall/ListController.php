@@ -24,13 +24,13 @@ class ListController extends Controller
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
             $portalId = $portal['id'];
             $group = 'sales';
-           
+
             $portalLists = $portal->lists;
 
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
             $response = Http::get($url);
 
-        
+
 
             if ($response->successful()) {
                 $googleData = $response->json();
@@ -46,11 +46,11 @@ class ListController extends Controller
                 return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
 
-          
 
-       
-           
-           
+
+
+
+
 
 
             // Проверка на массив
@@ -58,39 +58,36 @@ class ListController extends Controller
                 $lists = $googleData['lists'];
 
                 foreach ($lists as $list) {
-                    $currentPortalSmart = null;
+                    $currentPortalList = null;
                     $currentBtxSmart = null;
                     $currentBtxSmartId = null;
-                    Log::channel('telegram')->error("LIST", [
-                        'Google List' => $list,
-
-
-                    ]);
 
 
                     foreach ($list['fields'] as $field) {
                         if (!empty($field['list'])) {
                             foreach ($field['list'] as $fieldItem) {
-
-
-                              
                             }
                         }
                     }
 
-                   
-                }
+                    $currentPortalList = $portalLists
+                        ->where('group', $list['group'])
+                        ->where('type', $list['code'])->first();
+                    // foreach($portalLists  as $portalList){
+                    //     if($list['group'] === $portalList['group'] && $list['code'] === $portalList['type'])
+                    //     Log::channel('telegram')->error("LIST", [
+                    //         'portalList' => $portalList,
 
-                foreach($portalLists  as $portalList){
+
+                    //     ]);
+
+                    // }
                     Log::channel('telegram')->error("LIST", [
-                        'portalList' => $portalList,
+                        'currentPortalList' => $currentPortalList,
 
 
                     ]);
-
                 }
-
-
             }
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
