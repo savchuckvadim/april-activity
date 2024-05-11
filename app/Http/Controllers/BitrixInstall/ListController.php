@@ -209,14 +209,13 @@ class ListController extends Controller
 
             ];
             if ($gField['type'] == 'enumeration') {
-                $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
-                if (isset($currentBtxField['DISPLAY_VALUES_FORM'])) {
-                    Log::channel('telegram')->info("list", [
-                        'list' => $gField['list'],
-
-
-                    ]);
+                $listsTextValues = '';
+                foreach ($gField['list'] as $index => $gItem) {
+                    $listsTextValues = !$index
+                        ?  $gItem['VALUE']
+                        : $listsTextValues . ' \n ' . $gItem['VALUE'];
                 }
+                $listFieldSetData['FIELDS']['LIST_TEXT_VALUES'] = $listsTextValues;
             }
 
             if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
