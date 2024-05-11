@@ -232,17 +232,7 @@ class ListController extends Controller
                 if (isset($currentBtxField[$type])) {
                     $currentBtxField = $currentBtxField[$type];
                 }
-                Log::channel('telegram')->info("currentPortalField", [
-                    'currentBtxField' => $currentBtxField,
-
-
-                ]);
-
-                Log::channel('telegram')->info("type", [
-                    'type' => $type,
-
-
-                ]);
+             
             }
 
             if ($gField['type'] == 'enumeration') {
@@ -260,14 +250,14 @@ class ListController extends Controller
 
                 // }
 
-                // if(isset($currentBtxField['DISPLAY_VALUES'])){
-                //     Log::channel('telegram')->error("set DISPLAY_VALUES Field", [
-                //         'result Field DISPLAY_VALUES' => $currentBtxField['DISPLAY_VALUES'],
+                if(isset($currentBtxField['DISPLAY_VALUES'])){
+                    Log::channel('telegram')->error("set DISPLAY_VALUES Field", [
+                        'result Field DISPLAY_VALUES' => $currentBtxField['DISPLAY_VALUES'],
 
 
-                //     ]);
+                    ]);
 
-                // }
+                }
             }
 
 
