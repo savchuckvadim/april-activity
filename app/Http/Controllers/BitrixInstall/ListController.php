@@ -190,15 +190,10 @@ class ListController extends Controller
                 //     ]);
                 // }
                 if ($currentFieldCode === $pField->code) {
-                 
+
                     $currentPortalField =  $pField;
-                    // Log::channel('telegram')->info("currentPortalField", [
-                    //     'currentPortalField' => $currentPortalField,
 
-
-                    // ]);
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId);
-                    
                 }
             }
 
@@ -237,6 +232,17 @@ class ListController extends Controller
                 if (isset($currentBtxField[$type])) {
                     $currentBtxField = $currentBtxField[$type];
                 }
+                Log::channel('telegram')->info("currentPortalField", [
+                    'currentBtxField' => $currentBtxField,
+
+
+                ]);
+
+                Log::channel('telegram')->info("type", [
+                    'type' => $type,
+
+
+                ]);
             }
 
             if ($gField['type'] == 'enumeration') {
