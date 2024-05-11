@@ -188,16 +188,15 @@ class ListController extends Controller
                     $currentPortalField =  $pField;
 
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId, $type);
-                    if(isset($currentBtxField['FIELD_ID'])){
+                    if (isset($currentBtxField['FIELD_ID'])) {
                         $currentBtxFieldId = $currentBtxField['FIELD_ID'];
-
                     }
                 }
             }
 
 
             //создаем поле в btx
-           
+
             $isMultiple = 'N';
             if ($gField['type'] == 'multiple') {
                 $isMultiple = 'Y';
@@ -232,7 +231,6 @@ class ListController extends Controller
             if (!empty($currentBtxFieldId)) {
 
                 $currentBtxField = ListController::getListField($hook, $listBtxCode, $currentBtxFieldId, $type);
-               
             }
 
             if ($gField['type'] == 'enumeration') {
@@ -343,15 +341,23 @@ class ListController extends Controller
             'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
-    
+        Log::channel('telegram')->error("type data", [
+            'listFieldGetData' => $listFieldGetData,
+            'type' => $type,
+
+        ]);
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
-   
+
         if (isset($resultListField[$type])) {
             $resultListField = $resultListField[$type];
         }
+        Log::channel('telegram')->error("getListField", [
+            'resultListField' => $resultListField,
 
+
+        ]);
         return  $resultListField;
     }
 
