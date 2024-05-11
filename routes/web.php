@@ -61,7 +61,7 @@ Route::get('/install/fields/{entityType}/{pass}/{token}/{smartId}', function ($e
 });
 
 
-Route::get('/install/lists/{pass}/{token}/{smartId}', function ($pass, $token) {
+Route::get('/install/lists/{pass}/{token}/', function ($pass, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     if ($pass == 'nmbrsdntl') {
         return ListController::setLists($token);
