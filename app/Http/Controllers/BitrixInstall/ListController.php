@@ -350,7 +350,7 @@ class ListController extends Controller
 
         ];
         Log::channel('telegram')->info("resultListField", [
-            'listFieldGetData' => $listFieldGetData,
+            '$type' => $type,
 
 
         ]);
