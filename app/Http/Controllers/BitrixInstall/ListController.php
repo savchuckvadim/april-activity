@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\Bitrixfield;
 use App\Models\Bitrixlist;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -183,53 +184,62 @@ class ListController extends Controller
 
                 if ($gField['code'] === $pField['code']) {
                     $currentPortalField =  $pField;
-                    $currentBtxField = ListController::getListField($hook, $listBtxCode, 'PROPERTY_' . $pField['bitrixId']);
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixId']);
                 }
             }
 
 
+            //создаем поле в btx
+            $type = ListController::getFieldType($gField['type']);
+            $isMultiple = false;
+            if ($gField['type'] == 'multiple') {
+                $isMultiple = true;
+            }
+            $listFieldSetData['FIELDS'] = [
+                'NAME' => $gField['title'],
+                'SORT' => $gField['order'],
+                'MULTIPLE' => $isMultiple,
+                'TYPE' => $type,
 
+            ];
+            if ($gField['type'] == 'enumeration') {
+                $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+            }
 
             if ($currentBtxField) {
-                if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
-
-                }
+                $method = '/lists.field.update';
             } else {
-
-                $type = ListController::getFieldType($gField['type']);
-                $isMultiple = false;
-                if ($gField['type'] == 'multiple') {
-                    $isMultiple = true;
-                }
-
-
                 //создаем поле в btx
-                $listFieldSetData['FIELDS'] = [
-                    'NAME' => $gField['title'],
-                    'CODE' => $listBtxCode . '_' . $gField['code'],
-                    'SORT' => $gField['order'],
-                    'MULTIPLE' => $isMultiple,
-                    'TYPE' => $type,
+                $listFieldSetData['FIELDS']['CODE'] =  $listBtxCode . '_' . $gField['code'];
+            }
+            $url = $hook . $method;
+            $setFieldResponse = Http::post($url, $listFieldSetData);
+            $resultListFieldId = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method); //PROPERTY_313
 
-                ];
-                if ($gField['type'] == 'enumeration') {
-                    $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+            if (!empty($resultListFieldId)) {
+
+                $currentBtxField = ListController::getListField($hook, $listBtxCode, $resultListFieldId);
+            }
+            Log::channel('telegram')->error("set List Field", [
+                'result Field currentBtxField' => $currentBtxField,
+
+
+            ]);
+
+            if (!empty($currentBtxField)) {
+                if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
+                    $currentPortalField = new Bitrixfield();
+                    $currentPortalField->entity_id = $currentPortalList['id'];
+                    $currentPortalField->entity_type = Bitrixlist::class;
+                    $currentPortalField->parent_type = $listBtxCode;
                 }
-                Log::channel('telegram')->error("set List Field", [
-                    'list Data' => $listFieldSetData,
-
-
-                ]);
-
-                $url = $hook . $method;
-
-                $setFieldResponse = Http::post($url, $listFieldSetData);
-                $resultListField = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method);
-                Log::channel('telegram')->error("set List Field", [
-                    'result Field' => $resultListField,
-
-
-                ]);
+                $currentPortalField->title = $gField['title'];
+                $currentPortalField->name = $gField['name'];
+                $currentPortalField->code = $listBtxCode . '_' . $gField['code'];
+                $currentPortalField->type = $gField['type'];
+                $currentPortalField->bitrixId = $resultListFieldId;
+                $currentPortalField->bitrixCamelId = $resultListFieldId;
+                $currentPortalField->save();
             }
         }
 
