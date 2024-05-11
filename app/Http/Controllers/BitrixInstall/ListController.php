@@ -162,28 +162,65 @@ class ListController extends Controller
 
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
-        $method = '/lists.field.get';
+        $method = '/lists.field.add';
         $resultListBtxFields = [];
-        $listFieldGetData = [
+        $listFieldSetData = [
             'IBLOCK_TYPE_ID' => 'lists',
             'IBLOCK_CODE' => $listBtxCode,
-            'FIELD_ID' => 'PROPERTY_201'
+
 
         ];
+
         $currentPortalListFields = $currentPortalList->fields;
 
-        $currentBtxField = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
+
         foreach ($currentGoogleFields as $gField) {
             $currentPortalField = null;
+            $currentBtxField = null;
+
+
             foreach ($currentPortalListFields as $pField) {
 
                 if ($gField['code'] === $pField['code']) {
                     $currentPortalField =  $pField;
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, 'PROPERTY_' . $pField['bitrixId']);
                 }
             }
 
-            if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
 
+
+
+            if ($currentBtxField) {
+                if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
+
+                }
+            } else {
+
+                $type = ListController::getFieldType($gField['type']);
+                $isMultiple = false;
+                if ($gField['type'] == 'multiple') {
+                    $isMultiple = true;
+                }
+
+
+                //создаем поле в btx
+                $listFieldSetData['FIELDS'] = [
+                    'NAME' => $gField['title'],
+                    'CODE' => $gField['code'],
+                    'SORT' => $gField['order'],
+                    'MULTIPLE ' => $isMultiple,
+                    'TYPE ' => $type,
+
+                ];
+                $url = $hook . $method;
+
+                $setFieldResponse = Http::post($url, $listFieldSetData);
+                $resultListField = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method);
+                Log::channel('telegram')->error("set List Field", [
+                    'resultListField' => $resultListField,
+
+
+                ]);
             }
         }
 
@@ -266,5 +303,50 @@ class ListController extends Controller
 
         ]);
         return  $resultListField;
+    }
+
+    public static function getFieldType($type)
+    {
+
+        //         TYPE тип (обязательно)
+        // S - Строка
+        // N - Число
+        // L - Список
+        // F - Файл
+        // G - Привязка к разделам
+        // E - Привязка к элементам
+        // S:Date - Дата
+        // S:DateTime - Дата/Время
+        // S:HTML - HTML/текст
+        // E:EList - Привязка к элементам в виде списка. При создании поля с этим типом необходимо обязательно указать LINK_IBLOCK_ID id информационного блока, элементы которого будут отображаться в селекторе этого поля.
+        // N:Sequence - Счетчик
+        // S:Money - Деньги
+        // S:DiskFile - Файл (Диск)
+        // S:map_yandex - Привязка к Яндекс.Карте
+        // S:employee - Привязка к сотруднику
+        // S:ECrm - Привязка к элементам CRM
+
+        switch ($type) {
+            case 'string':
+            case 'multiple':
+                return 'S';
+                break;
+            case 'datetime':
+                return 'S:DateTime';
+                break;
+            case 'employee':
+                return 'S:employee';
+                break;
+
+            case 'enumeration':
+                return 'L';
+                break;
+            case 'crm':
+                return 'S:ECrm';
+                break;
+            default:
+                return 'S';
+                break;
+        }
     }
 }
