@@ -179,10 +179,11 @@ class ListController extends Controller
             $currentPortalField = null;
             $currentBtxField = null;
 
+            $currentFieldCode = $listBtxCode . '_' . $gField['code'];
 
             foreach ($currentPortalListFields as $pField) {
 
-                if ($gField['code'] === $pField['code']) {
+                if ($currentFieldCode === $pField['code']) {
                     $currentPortalField =  $pField;
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField['bitrixId']);
                 }
@@ -210,7 +211,7 @@ class ListController extends Controller
                 $method = '/lists.field.update';
             } else {
                 //создаем поле в btx
-                $listFieldSetData['FIELDS']['CODE'] =  $listBtxCode . '_' . $gField['code'];
+                $listFieldSetData['FIELDS']['CODE'] =  $currentFieldCode;
             }
             $url = $hook . $method;
             $setFieldResponse = Http::post($url, $listFieldSetData);
@@ -256,7 +257,7 @@ class ListController extends Controller
                 }
                 $currentPortalField->title = $gField['title'];
                 $currentPortalField->name = $gField['name'];
-                $currentPortalField->code = $listBtxCode . '_' . $gField['code'];
+                $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField['type'];
                 $currentPortalField->bitrixId = $resultListFieldId;
                 $currentPortalField->bitrixCamelId = $resultListFieldId;
