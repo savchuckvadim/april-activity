@@ -220,18 +220,39 @@ class ListController extends Controller
 
                 $currentBtxField = ListController::getListField($hook, $listBtxCode, $resultListFieldId);
             }
-            Log::channel('telegram')->error("set List Field", [
-                'result Field currentBtxField' => $currentBtxField,
+
+            if ($gField['type'] == 'enumeration') {
+                Log::channel('telegram')->error("set List Field", [
+                    'result Field currentBtxField' => $currentBtxField,
 
 
-            ]);
+                ]);
+                if(isset($currentBtxField['list'])){
+                    Log::channel('telegram')->error("set List Field", [
+                        'result Field list' => $currentBtxField['list'],
+    
+    
+                    ]);
+
+                }
+
+                if(isset($currentBtxField['LIST'])){
+                    Log::channel('telegram')->error("set List Field", [
+                        'result Field LIST' => $currentBtxField['LIST'],
+    
+    
+                    ]);
+
+                }
+            }
+
 
             if (!empty($currentBtxField)) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
                     $currentPortalField = new Bitrixfield();
                     $currentPortalField->entity_id = $currentPortalList['id'];
                     $currentPortalField->entity_type = Bitrixlist::class;
-                    $currentPortalField->parent_type = $listBtxCode;
+                    $currentPortalField->parent_type = 'list';
                 }
                 $currentPortalField->title = $gField['title'];
                 $currentPortalField->name = $gField['name'];
