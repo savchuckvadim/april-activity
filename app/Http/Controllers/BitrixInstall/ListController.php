@@ -248,7 +248,7 @@ class ListController extends Controller
             }
 
 
-            if (!empty($currentBtxField)) {
+            if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
                     $currentPortalField = new Bitrixfield();
                     $currentPortalField->entity_id = $currentPortalList['id'];
@@ -259,7 +259,7 @@ class ListController extends Controller
                 $currentPortalField->name = $gField['name'];
                 $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField['type'];
-                $currentPortalField->bitrixId = $resultListFieldId;
+                $currentPortalField->bitrixId = $currentBtxField['ID'];
                 $currentPortalField->bitrixCamelId = $resultListFieldId;
                 $currentPortalField->save();
             }
