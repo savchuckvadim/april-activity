@@ -178,9 +178,9 @@ class ListController extends Controller
         foreach ($currentGoogleFields as $gField) {
             $currentPortalField = null;
             $currentBtxField = null;
-
+            $currentBtxFieldId = null;
             $currentFieldCode = $listBtxCode . '_' . $gField['code'];
-
+            $type = ListController::getFieldType($gField['type']);
             foreach ($currentPortalListFields as $index => $pField) {
                 // if (!$index) {
                 //     Log::channel('telegram')->error("pField", [
@@ -193,13 +193,17 @@ class ListController extends Controller
 
                     $currentPortalField =  $pField;
 
-                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId);
+                    $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId, $type);
+                    if(isset($currentBtxField['FIELD_ID'])){
+                        $currentBtxFieldId = $currentBtxField['FIELD_ID'];
+
+                    }
                 }
             }
 
 
             //создаем поле в btx
-            $type = ListController::getFieldType($gField['type']);
+           
             $isMultiple = 'N';
             if ($gField['type'] == 'multiple') {
                 $isMultiple = 'Y';
@@ -222,17 +226,19 @@ class ListController extends Controller
                 //создаем поле в btx
                 $listFieldSetData['FIELDS']['CODE'] =  $currentFieldCode;
             }
+
             $url = $hook . $method;
             $setFieldResponse = Http::post($url, $listFieldSetData);
-            $resultListFieldId = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method); //PROPERTY_313
+            $resultListFieldId = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method); //PROPERTY_313 | boolean
+            if ($method === '/lists.field.add') {
+                $currentBtxFieldId = $resultListFieldId;
+            }
 
-            if (!empty($resultListFieldId)) {
 
-                $currentBtxField = ListController::getListField($hook, $listBtxCode, $resultListFieldId);
-                if (isset($currentBtxField[$type])) {
-                    $currentBtxField = $currentBtxField[$type];
-                }
-             
+            if (!empty($currentBtxFieldId)) {
+
+                $currentBtxField = ListController::getListField($hook, $listBtxCode, $currentBtxFieldId, $type);
+               
             }
 
             if ($gField['type'] == 'enumeration') {
@@ -250,13 +256,12 @@ class ListController extends Controller
 
                 // }
 
-                if(isset($currentBtxField['DISPLAY_VALUES'])){
+                if (isset($currentBtxField['DISPLAY_VALUES'])) {
                     Log::channel('telegram')->error("set DISPLAY_VALUES Field", [
                         'result Field DISPLAY_VALUES' => $currentBtxField['DISPLAY_VALUES'],
 
 
                     ]);
-
                 }
             }
 
@@ -332,7 +337,7 @@ class ListController extends Controller
         return  $resultList;
     }
 
-    public static function getListField($hook, $listBtxCode, $fieldId)
+    public static function getListField($hook, $listBtxCode, $fieldId, $type)
     {
 
         $resultListField = null;
@@ -365,6 +370,9 @@ class ListController extends Controller
 
 
         ]);
+        if (isset($currentBtxField[$type])) {
+            $currentBtxField = $currentBtxField[$type];
+        }
         return  $resultListField;
     }
 
