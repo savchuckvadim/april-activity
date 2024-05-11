@@ -192,17 +192,13 @@ class ListController extends Controller
                 if ($currentFieldCode === $pField->code) {
                  
                     $currentPortalField =  $pField;
-                    Log::channel('telegram')->info("currentPortalField", [
-                        'currentPortalField' => $currentPortalField,
+                    // Log::channel('telegram')->info("currentPortalField", [
+                    //     'currentPortalField' => $currentPortalField,
 
 
-                    ]);
+                    // ]);
                     $currentBtxField = ListController::getListField($hook, $listBtxCode, $pField->bitrixCamelId);
-                    Log::channel('telegram')->info("currentBtxField", [
-                        'currentBtxField' => $currentBtxField,
-
-
-                    ]);
+                    
                 }
             }
 
@@ -352,7 +348,11 @@ class ListController extends Controller
             'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
+        Log::channel('telegram')->info("resultListField", [
+            'listFieldGetData' => $listFieldGetData,
 
+
+        ]);
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);
@@ -364,6 +364,11 @@ class ListController extends Controller
 
 
         // ]);
+        Log::channel('telegram')->info("resultListField", [
+            'resultListField' => $resultListField,
+
+
+        ]);
         return  $resultListField;
     }
 
