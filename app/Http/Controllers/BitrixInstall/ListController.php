@@ -325,28 +325,29 @@ class ListController extends Controller
         // S:map_yandex - Привязка к Яндекс.Карте
         // S:employee - Привязка к сотруднику
         // S:ECrm - Привязка к элементам CRM
-
+        $resultType = 'S';
         switch ($type) {
             case 'string':
             case 'multiple':
-                return 'S';
+                $resultType = 'S';
                 break;
             case 'datetime':
-                return 'S:DateTime';
+                $resultType = 'S:DateTime';
                 break;
             case 'employee':
-                return 'S:employee';
+                $resultType = 'S:employee';
                 break;
 
             case 'enumeration':
-                return 'L';
+                $resultType = 'L';
                 break;
             case 'crm':
-                return 'S:ECrm';
+                $resultType = 'S:ECrm';
                 break;
             default:
-                return 'S';
+                $resultType = 'S';
                 break;
         }
+        return $resultType;
     }
 }
