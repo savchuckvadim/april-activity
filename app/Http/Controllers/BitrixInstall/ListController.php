@@ -215,14 +215,18 @@ class ListController extends Controller
                 // if ($gField['type'] == 'enumeration') {
                 //     $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
                 // }
+                Log::channel('telegram')->error("set List Field", [
+                    'list Data' => $listFieldSetData,
 
+
+                ]);
 
                 $url = $hook . $method;
 
                 $setFieldResponse = Http::post($url, $listFieldSetData);
                 $resultListField = BitrixController::getBitrixResponse($setFieldResponse, 'SET List Field' . $method);
                 Log::channel('telegram')->error("set List Field", [
-                    'resultListField' => $resultListField,
+                    'result Field' => $resultListField,
 
 
                 ]);
