@@ -210,6 +210,13 @@ class ListController extends Controller
             ];
             if ($gField['type'] == 'enumeration') {
                 $listFieldSetData['FIELDS']['LIST'] = $gField['list'];
+                if (isset($currentBtxField['DISPLAY_VALUES_FORM'])) {
+                    Log::channel('telegram')->info("list", [
+                        'list' => $gField['list'],
+
+
+                    ]);
+                }
             }
 
             if ($currentBtxField && isset($currentPortalField['bitrixCamelId'])) {
@@ -353,11 +360,7 @@ class ListController extends Controller
         if (isset($resultListField[$type])) {
             $resultListField = $resultListField[$type];
         }
-        Log::channel('telegram')->error("getListField", [
-            'resultListField' => $resultListField,
 
-
-        ]);
         return  $resultListField;
     }
 
