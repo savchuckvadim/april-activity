@@ -177,6 +177,7 @@ class ListController extends Controller
 
 
         foreach ($currentGoogleFields as $gField) {
+            sleep(1);
             $currentPortalField = null;
             $currentBtxField = null;
             $currentBtxFieldId = null;
@@ -350,7 +351,7 @@ class ListController extends Controller
     
     
                     ]);
-                  
+                  sleep(1);
                 }
             }
         }
