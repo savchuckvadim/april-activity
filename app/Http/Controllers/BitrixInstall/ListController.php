@@ -291,13 +291,7 @@ class ListController extends Controller
                     // по текущему pItem из его bitrixId найти текущий bitrix Item из списка "itemId": itemValue
                     // если нашел его - обновить если нет добавить в pushing items
                     // 
-                    Log::channel('telegram')->error("gItem", [
-                        'gItem' => $gItem,
-                      
-                        
-    
-    
-                    ]);
+                   
                     //get cur btx and portal items from gItem
                     if (!empty($currentPortalFieldItems)) {
                         foreach ($currentPortalFieldItems as $btxId => $pItem) {
@@ -316,6 +310,16 @@ class ListController extends Controller
                         }
                     }
 
+
+                    Log::channel('telegram')->error("gItem", [
+                        'gItem' => $gItem,
+                        'currentPItem' => $gItem,
+                        'currentBtxItem' => $currentBtxItem,
+    
+    
+                    ]);
+
+                    
                     if (empty($currentPItem)) {
                         $currentPItem = new BitrixfieldItem();
                         $currentPItem->bitrixfield_id = $currentPortalField['id'];
@@ -338,13 +342,7 @@ class ListController extends Controller
                     $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
-                    Log::channel('telegram')->error("set currentPItem", [
-                        'currentPItem' => $currentPItem,
-                        'currentPortalField' => $currentPortalField,
-                        
-    
-    
-                    ]);
+                  
                 }
             }
         }
