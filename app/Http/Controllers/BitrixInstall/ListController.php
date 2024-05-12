@@ -339,7 +339,7 @@ class ListController extends Controller
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
                     Log::channel('telegram')->error("set currentPItem", [
-                        'currentPItem' => $currentBtxField['currentPItem'],
+                        'currentPItem' => $currentPItem,
                         'currentPortalField' => $currentPortalField,
                         
     
