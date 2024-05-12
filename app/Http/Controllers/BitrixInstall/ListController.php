@@ -291,7 +291,13 @@ class ListController extends Controller
                     // по текущему pItem из его bitrixId найти текущий bitrix Item из списка "itemId": itemValue
                     // если нашел его - обновить если нет добавить в pushing items
                     // 
-
+                    Log::channel('telegram')->error("gItem", [
+                        'gItem' => $gItem,
+                      
+                        
+    
+    
+                    ]);
                     //get cur btx and portal items from gItem
                     if (!empty($currentPortalFieldItems)) {
                         foreach ($currentPortalFieldItems as $btxId => $pItem) {
