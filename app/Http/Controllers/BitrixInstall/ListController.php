@@ -335,7 +335,7 @@ class ListController extends Controller
                   
                     
                  
-                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['CODE']);
+                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
                     Log::channel('telegram')->error("set currentPItem", [
