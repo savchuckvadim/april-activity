@@ -217,7 +217,7 @@ class ListController extends Controller
             if ($gField['type'] == 'enumeration') {
                 $listValues = [];
                 foreach ($gField['list'] as $index => $gItem) {
-                    $listValues['n' . $index] = [  // Используйте 'n' с добавлением индекса для ключей
+                    $listValues['n' . $gItem['SORT']] = [  // Используйте 'n' с добавлением индекса для ключей
                         'SORT' =>  $gItem['SORT'],
                         'VALUE' =>  $gItem['VALUE'],
                     ];
