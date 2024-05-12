@@ -301,8 +301,15 @@ class ListController extends Controller
                             }
                         }
                     }
+                    Log::channel('telegram')->error("gItem", [
+                        'currentPItem' => $currentPItem,
+                     
+                        'currentBtxFieldItems' => $currentBtxFieldItems,
+    
+    
+                    ]);
        
-                    if (!empty($currentPItem)) {
+                 
                         if (!empty($currentBtxFieldItems)) {
                             foreach ($currentBtxFieldItems as $btxId => $value) {
                                 if ($btxId == $currentPItem['bitrixId'] || $value == $currentPItem['title'] ||  $value == $gItem['VALUE']) {
@@ -310,7 +317,7 @@ class ListController extends Controller
                                 }
                             }
                         }
-                    }
+               
 
 
                     Log::channel('telegram')->error("gItem", [
