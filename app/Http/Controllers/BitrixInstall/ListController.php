@@ -318,7 +318,9 @@ class ListController extends Controller
                             }
                         } else {
                             foreach ($currentBtxFieldItems as $btxId => $value) {
-                                if ($value == $gItem['VALUE'] || $value == $gItem['name']) {
+                                $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['name']);
+                                $itemValue = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
+                                if ($value == $itemValue  || $value == $itemName) {
                                     $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
                                 }
                             }
