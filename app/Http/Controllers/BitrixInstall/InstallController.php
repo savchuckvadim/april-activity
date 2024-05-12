@@ -6,6 +6,8 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Models\BtxCategory;
+use App\Models\BtxStage;
 use App\Models\Portal;
 use App\Models\Smart;
 use FontLib\Table\Type\name;
@@ -38,7 +40,15 @@ class InstallController extends Controller
 
 
         try {
-            $portal = PortalController::innerGetPortal($domain);
+            $portal = Portal::where('domain', $domain)->first();
+            $portalId = null;
+            $portalDealId = null;
+            $portalDeal = null;
+            if ($portal && isset($portal->id)) {
+                $portalId = $portal->id;
+            }
+            $webhookRestKey = $portal->getHook();
+            $hook = 'https://' . $domain . '/' . $webhookRestKey;
             $newSmart = null;
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -63,9 +73,8 @@ class InstallController extends Controller
             $smarts = null;
 
 
-            $webhookRestKey = $portal['portal']['C_REST_WEB_HOOK_URL'];
-            $portalId = $portal['portal']['id'];
-            $hook = 'https://' . $domain . '/' . $webhookRestKey;
+
+
 
 
             // Проверка на массив
@@ -156,7 +165,7 @@ class InstallController extends Controller
 
                     if (!empty($currentBtxSmart)) {
                         if (!empty($currentBtxSmart['entityTypeId'] && !empty($currentBtxSmart['code']))) {
-                            $currentPortalSmart = Portal::where('domain', $domain)->first()->smarts()->where('type', $currentBtxSmart['code'])->first();
+                            $currentPortalSmart = $portal->smarts()->where('type', $currentBtxSmart['code'])->first();
                             $smartEntityTypeId = $smart['entityTypeId'];
                             if (!$currentPortalSmart) {
 
@@ -182,10 +191,10 @@ class InstallController extends Controller
 
 
 
-                    // $categories = InstallController::setCategories($hook, $smart['categories']);
+                    $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
                     array_push($resultSmarts, $currentBtxSmart);
-                    
-                    InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
+
+                    // InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -240,7 +249,9 @@ class InstallController extends Controller
 
     static function setCategories(
         $hook,
-        $categories
+        $categories,
+        $currentBtxSmart,
+        $currentPortalSmart
         // $type, //smart deal task lead
         // $group, //sales service  отдел
         // $name,
@@ -289,6 +300,8 @@ class InstallController extends Controller
 
 
 
+        $currentPortalCategories = $currentPortalSmart->categories;
+
 
         $methodCategoryList = '/crm.category.list.json';
         $url = $hook . $methodCategoryList;
@@ -306,7 +319,7 @@ class InstallController extends Controller
 
             $methodCategoryInstall = '/crm.category.add.json';
             $urlInstall = $hook . $methodCategoryInstall;
-            $categoryId = null;
+            $btxCategoryId = null;
 
 
             $hookCategoriesData = [
@@ -315,7 +328,8 @@ class InstallController extends Controller
                 'fields' => [
                     'name' => $categoryName,
                     'title' => $category['title'],
-                    // 'isDefault' => $isDefault,
+                    'isDefault' => $category['isDefault'],
+
                     'sort' => $category['order'],
                     'code' => $category['code']
                 ]
@@ -330,18 +344,47 @@ class InstallController extends Controller
             //     $categoryId = $bitrixResponseCategory['id'];
             // }
             if (!empty($bitrixResponseCategory['category'])) {
-                if (isset($bitrixResponseCategory['category']['id'])) {
-                    $categoryId = $bitrixResponseCategory['category']['id'];
+                $bitrixResponseCategory = $bitrixResponseCategory['category'];
+                if (isset($bitrixResponseCategory['id'])) {
+                    $btxCategoryId = $bitrixResponseCategory['id'];
                 }
             }
 
+            if ($btxCategoryId) {
 
+                //обновляем категорию в БД
+                $portalCategory = null;
+                foreach ($currentPortalCategories as $currentPortalCategory) { //перебираем категории сделки привязанной к порталу db
+                    if (!empty($currentPortalCategory) && isset($currentPortalCategory['code'])) {
+                        if ($currentPortalCategory['code'] == $category['code']) {
 
+                            $portalCategory = BtxCategory::find($currentPortalCategory['id']);
+                        }
+                    }
+                }
+                if (!$portalCategory) {
+                    $portalCategory = new BtxCategory();
+                    $portalCategory->entity_type = Smart::class;
+                    $portalCategory->entity_id = $currentPortalSmart->id;
+                    $portalCategory->parent_type = 'smart';
+                }
 
+                $portalCategory->group = $category['group'];
+                $portalCategory->title = $category['title'];
+                $portalCategory->name = $category['name'];
 
-            // Создаем или обновляем стадии
-            $stages = InstallController::setStages($hook, $category, $categoryId);
-            array_push($results, $stages);
+                $portalCategory->type = $category['type'];
+                $portalCategory->isActive = $category['isActive'];
+                $portalCategory->bitrixId = $btxCategoryId;
+                $portalCategory->bitrixCamelId = $btxCategoryId;
+                $portalCategory->save();
+                $portalCategoryId = $portalCategory->id;
+                $portalSmartCategoryStages =  $portalCategory->stages->toArray();
+
+                // Создаем или обновляем стадии
+                $stages = InstallController::setStages($hook, $category, $btxCategoryId, $portalSmartCategoryStages, $portalCategoryId);
+                array_push($results, $stages);
+            }
         }
 
         return $results;
@@ -351,7 +394,9 @@ class InstallController extends Controller
     static function setStages(
         $hook,
         $category,
-        $categoryId,
+        $btxCategoryId,
+        $portalSmartCategoryStages,
+        $portalCategoryId
         // $entityTypeId, //id smart process или у deal - 2
         // $stages,
         // $category
@@ -426,19 +471,19 @@ class InstallController extends Controller
         $currentstagesMethod = '/crm.status.list.json';
         $url = $hook . $currentstagesMethod;
         $hookCurrentStagesData = [
-            'filter' => ['ENTITY_ID' => 'DYNAMIC_' . $category['entityTypeId'] . '_STAGE_' . $categoryId]
+            'filter' => ['ENTITY_ID' => 'DYNAMIC_' . $category['entityTypeId'] . '_STAGE_' . $btxCategoryId]
         ];
 
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
-        $currentStages = $currentStagesResponse->json()['result'];
+        $currentStages = BitrixController::getBitrixResponse($currentStagesResponse, 'smart set stages');
 
         $resultStages = [];
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
             foreach ($stages as $stage) {
 
-                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $categoryId . ':' . $stage['bitrixId'];
-                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $categoryId;
+                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $btxCategoryId . ':' . $stage['bitrixId'];
+                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $btxCategoryId;
 
                 $isExist = false;
                 foreach ($currentStages as $currentStage) {
@@ -457,7 +502,8 @@ class InstallController extends Controller
                             'NAME' => $stage['title'],
                             'TITLE' => $stage['title'],
                             'SORT' => $stage['order'],
-                            'COLOR' => $stage['color']
+                            'COLOR' => $stage['color'],
+                            'isDefault' => $stage['isDefault'],
                         ]
                     ];
                 } else {
@@ -472,18 +518,66 @@ class InstallController extends Controller
                             'NAME' => $stage['title'],
                             'TITLE' => $stage['title'],
                             'SORT' => $stage['order'],
-                            'COLOR' => $stage['color']
+                            'COLOR' => $stage['color'],
+                            'isDefault' => $stage['isDefault'],
                         ]
                     ];
                 }
 
-                Log::channel('telegram')->info("categoryId", [
-                    'Stages Data' => $hookStagesDataCalls,
-                ]);
+
 
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
+                Log::channel('telegram')->info("stageResultResponse", [
+                    'stageResultResponse' => $stageResultResponse,
+                ]);
+                $currentPortalStage = null;
+                foreach ($portalSmartCategoryStages as $portalSmartCategoryStage) {
+
+                    if (
+                        $portalSmartCategoryStage['code'] === $stage['code'] ||
+                        $portalSmartCategoryStage['bitrixId'] === $stage['bitrixId']
+                    ) {
+                        $currentPortalStage = BtxStage::find($portalSmartCategoryStage['id']);
+                    }
+                }
+                if (!$currentPortalStage) {
+                    $currentPortalStage = new BtxStage();
+                    $currentPortalStage->btx_category_id = $portalCategoryId;
+                }
+                $currentPortalStage->title = $stage['title'];
+                $currentPortalStage->name = $stage['name'];
+                $currentPortalStage->code = $stage['code'];
+                $currentPortalStage->color = $stage['color'];
+                $currentPortalStage->bitrixId = $stage['bitrixId'];
+                $currentPortalStage->isActive = $stage['isActive'];
+                $currentPortalStage->save();
+
                 array_push($resultStages, $stageResultResponse);
+            }
+
+            //deleting
+            foreach ($currentStages as $index => $currentStage) {
+                $delitingId = false;
+                foreach ($stages as $stage) {
+                    $statusId = 'DT' . $stage['entityTypeId'] . '_' . $btxCategoryId . ':' . $stage['bitrixId'];
+                    if ($currentStage['STATUS_ID'] ===  $statusId) {
+                        $delitingId =  $currentStage['ID'];
+                    }
+                    if ($delitingId) {
+                        $methodStageDelete = '/crm.status.delete.json';
+                        $url = $hook . $methodStageDelete;
+                        $hookStagesDataCalls  =
+                            [
+
+                                'id' => $delitingId,
+
+                            ];
+
+                        $smartStageResponse = Http::post($url, $hookStagesDataCalls);
+                        $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install delete');
+                    }
+                }
             }
         }
 

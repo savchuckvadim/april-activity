@@ -5,14 +5,11 @@ namespace App\Http\Controllers\BitrixInstall;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PortalController;
-use App\Http\Resources\PortalResource;
+
 use App\Models\BtxCategory;
 use App\Models\BtxDeal;
 use App\Models\BtxStage;
 use App\Models\Portal;
-use FontLib\Table\Type\name;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -79,7 +76,6 @@ class InstallDealController extends Controller
 
             $webhookRestKey = $portal->getHook();
             $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['hook' => $hook]]);
             // $methodSmartInstall = '/crm.type.add.json';
             // $url = $hook . $methodSmartInstall;
             // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => [
@@ -127,13 +123,13 @@ class InstallDealController extends Controller
                     //     'deal' => $deal
                     // ]]);
 
-                    $categories = InstallDealController::setCategories($hook, $deal['categories'], $portalDealCategories);
+                    $categories = InstallDealController::setCategories($hook, $deal['categories'], $portalDealCategories, $portalDeal);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
             }
             // Создание или обновление филдов сделок
-           
+
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
                 'message' => $e->getMessage(),
@@ -152,7 +148,8 @@ class InstallDealController extends Controller
     static function setCategories(
         $hook,
         $categories,
-        $portalDealCategories
+        $portalDealCategories,
+        $portalDeal
         // $type, //smart deal task lead
         // $group, //sales service  отдел
         // $name,
@@ -245,11 +242,9 @@ class InstallDealController extends Controller
         $defaultCategoryId = null;
         $results = [];
         $portalCategoryId = null;
+        $portalDealId = $portalDeal && $portalDeal->id;
         foreach ($categories as $category) {
             if ($category['isNeedUpdate']) {
-
-
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['category' => $category]]);
 
 
 
@@ -345,7 +340,7 @@ class InstallDealController extends Controller
                     if (!$portalCategory) {
                         $portalCategory = new BtxCategory();
                         $portalCategory->entity_type = BtxDeal::class;
-                        $portalCategory->entity_id = BtxDeal::class;
+                        $portalCategory->entity_id = $portalDealId;
                         $portalCategory->parent_type = 'deal';
                     }
 
@@ -364,6 +359,9 @@ class InstallDealController extends Controller
                         'categoryId' => $categoryId,
 
                     ]);
+
+
+
                     // Создаем или обновляем стадии
                     $stages = InstallDealController::setStages($hook, $category, $categoryId, $portalDealCategoryStages, $portalCategoryId);
                     array_push($results, $stages);
@@ -437,10 +435,7 @@ class InstallDealController extends Controller
         // $isActive,
     ) {
 
-        Log::channel('telegram')->info("portalDealCategoryStages", [
-            'portalCategoryId' => $portalCategoryId,
-
-        ]);
+  
         // crm.status.add({fields}
         //https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php
         //  SMART FIELDS FOR STAGE CREATE
@@ -518,37 +513,8 @@ class InstallDealController extends Controller
         // // // Log::info('CURRENT STAGES GET 134', ['currentStagesResponse' => $hookCurrentStagesData]);
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
         $currentStages = BitrixController::getBitrixResponse($currentStagesResponse, 'get currentStages');
-        Log::info('CURRENT STAGES ', ['currentStages' => $currentStages]);
 
 
-
-        // $callStages = [
-        //     [
-        //         'title' => 'Создан',
-        //         'name' => 'NEW',
-        //         'color' => '#832EF9',
-        //         'sort' => 10,
-        //     ],
-        //     [
-        //         'title' => 'Запланирован',
-        //         'name' => 'PLAN',
-        //         'color' => '#BA8BFC',
-        //         'sort' => 20,
-        //     ],
-        //     [
-        //         'title' => 'Просрочен',
-        //         'name' => 'PREPARATION',
-        //         'color' => '#A262FC',
-        //         'sort' => 30,
-        //     ],
-        //     [
-        //         'title' => 'Завершен без результата',
-        //         'name' => 'CLIENT',
-        //         'color' => '#7849BB',
-        //         'sort' => 40,
-        //     ],
-
-        // ];
         $resultStages = [];
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
@@ -568,10 +534,7 @@ class InstallDealController extends Controller
                         $isExist = $currentStage['ID'];
                     }
                 }
-                Log::channel('telegram')->info("currentStage", [
-                    'isExist' => $isExist,
-                    'currentStage' => $currentStage,
-                ]);
+          
                 if ($isExist) { //если стадия с таким STATUS_ID существует - надо сделать update
                     $methodStageInstall = '/crm.status.update.json';
                     $url = $hook . $methodStageInstall;
@@ -638,29 +601,7 @@ class InstallDealController extends Controller
             }
 
 
-            //deleting
-            foreach ($currentStages as $index => $currentStage) {
-                $delitingId = false;
-                foreach ($stages as $stage) {
-                    $statusId = 'C' . $categoryId . ':' . $stage['bitrixId'];
-                    if ($currentStage['STATUS_ID'] ===  $statusId) {
-                        $delitingId =  $currentStage['ID'];
-                    }
-                    if ($delitingId) {
-                        $methodStageDelete = '/crm.status.delete.json';
-                        $url = $hook . $methodStageDelete;
-                        $hookStagesDataCalls  =
-                            [
-
-                                'id' => $delitingId,
-
-                            ];
-
-                        $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                        $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install delete');
-                    }
-                }
-            }
+      
             return $resultStages;
         }
     }

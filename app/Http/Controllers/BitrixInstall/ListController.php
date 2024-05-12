@@ -301,13 +301,7 @@ class ListController extends Controller
                             }
                         }
                     }
-                    Log::channel('telegram')->error("gItem", [
-                        'currentPItem' => $gItem,
-
-                        'currentBtxFieldItems' => $currentBtxFieldItems,
-
-
-                    ]);
+                
                     if (!empty($currentBtxFieldItems)) {
                         if (!empty($currentPItem)) {
 
@@ -326,16 +320,6 @@ class ListController extends Controller
                             }
                         }
                     }
-
-
-
-                    Log::channel('telegram')->error("gItem", [
-                        'gItem' => $gItem,
-
-                        'currentBtxItem' => $currentBtxItem,
-
-
-                    ]);
 
 
                     if (empty($currentPItem)) {
@@ -358,42 +342,12 @@ class ListController extends Controller
                     $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
-                    Log::channel('telegram')->error("gItem", [
 
-                        'currentPItem' => $currentPItem,
-
-
-
-                    ]);
                     sleep(1);
                 }
             }
         }
-        // $resultListBtxFields = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
-        // Log::channel('telegram')->error("setListFields ", [
-        //     'resultListBtxFields' => $resultListBtxFields,
 
-
-        // ]);
-        // $currentBtxList  = ListController::getList($hook, $listBtxCode);
-
-        // $listData = [
-        //     'NAME' => $currentGoogleList['title'],
-        //     // 'DESCRIPTION' => '',
-        //     'SORT' =>  $currentGoogleList['order'],
-        //     // 'PICTURE' => document.getElementById('iblock-image-add'),
-        //     'BIZPROC' => 'Y'
-        // ];
-        // // bitrix list
-        // $btxListSetData = [
-        //     'IBLOCK_TYPE_ID' => 'lists',
-        //     'IBLOCK_CODE' => $listBtxCode,
-        //     'FIELDS' => $listData
-        // ];
-
-
-        // if ($currentBtxList && isset($currentBtxList['ID'])) {
-        // }
     }
 
 
@@ -435,11 +389,7 @@ class ListController extends Controller
             'FIELD_ID' =>   $fieldId  // 'PROPERTY_201'
 
         ];
-        // Log::channel('telegram')->error("type data", [
-        //     'listFieldGetData' => $listFieldGetData,
-        //     'type' => $type,
 
-        // ]);
         $url = $hook . $method;
         $getFieldResponse = Http::post($url, $listFieldGetData);
         $resultListField = BitrixController::getBitrixResponse($getFieldResponse, 'Get List Field' . $method);

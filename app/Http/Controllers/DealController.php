@@ -38,28 +38,9 @@ class DealController extends Controller
             if(isset($request->regions)){
                 $deal['regions'] = $request->regions;
 
-                // Log::channel('telegram')->info('APRIL_ONLINE', [
-                //     'regions' => [
-    
-                //         'regions' => $request->regions,
-                       
-    
-    
-                //     ]
-                // ]);
-
-
 
             }
-            Log::channel('telegram')->info('APRIL_ONLINE', [
-                'regions' => [
-
-                    'deal' => $deal,
-                   
-
-
-                ]
-            ]);
+         
             $resultDeal = null;
             $resultCode = 1;
             $message = 'something wrong with saving deal';
