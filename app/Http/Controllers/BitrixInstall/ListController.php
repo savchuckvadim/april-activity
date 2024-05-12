@@ -300,13 +300,7 @@ class ListController extends Controller
                             }
                         }
                     }
-                    Log::channel('telegram')->error("gItem", [
-                        'currentBtxFieldItems' => $currentBtxFieldItems,
-                        'currentPItem' => $currentPItem,
-                
-    
-    
-                    ]);
+       
                     if (!empty($currentPItem)) {
                         if (!empty($currentBtxFieldItems)) {
                             foreach ($currentBtxFieldItems as $btxId => $value) {
@@ -320,7 +314,7 @@ class ListController extends Controller
 
                     Log::channel('telegram')->error("gItem", [
                         'gItem' => $gItem,
-                        'currentPItem' => $currentPItem,
+                     
                         'currentBtxItem' => $currentBtxItem,
     
     
@@ -349,6 +343,13 @@ class ListController extends Controller
                     $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
+                    Log::channel('telegram')->error("gItem", [
+                     
+                        'currentPItem' => $currentPItem,
+                  
+    
+    
+                    ]);
                   
                 }
             }
