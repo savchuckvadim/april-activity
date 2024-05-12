@@ -347,7 +347,7 @@ class InstallDealController extends Controller
                     $portalCategory->group = $category['group'];
                     $portalCategory->title = $category['title'];
                     $portalCategory->name = $category['name'];
-
+                    $portalCategory->code = $category['code'];
                     $portalCategory->type = $category['type'];
                     $portalCategory->isActive = $category['isActive'];
                     $portalCategory->bitrixId = $categoryId;
