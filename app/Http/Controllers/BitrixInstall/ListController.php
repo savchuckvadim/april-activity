@@ -279,7 +279,7 @@ class ListController extends Controller
                 }
 
                 if (!empty($currentPortalField) && !empty($currentPortalField->items)) {
-                    $currentPortalFieldItems = $currentPortalField->item;
+                    $currentPortalFieldItems = $currentPortalField->items;
                 }
 
 
@@ -300,6 +300,13 @@ class ListController extends Controller
                             }
                         }
                     }
+                    Log::channel('telegram')->error("gItem", [
+                        'currentBtxFieldItems' => $currentBtxFieldItems,
+                        'currentPItem' => $currentPItem,
+                
+    
+    
+                    ]);
                     if (!empty($currentPItem)) {
                         if (!empty($currentBtxFieldItems)) {
                             foreach ($currentBtxFieldItems as $btxId => $value) {
@@ -313,13 +320,13 @@ class ListController extends Controller
 
                     Log::channel('telegram')->error("gItem", [
                         'gItem' => $gItem,
-                        'currentPItem' => $gItem,
+                        'currentPItem' => $currentPItem,
                         'currentBtxItem' => $currentBtxItem,
     
     
                     ]);
 
-                    
+
                     if (empty($currentPItem)) {
                         $currentPItem = new BitrixfieldItem();
                         $currentPItem->bitrixfield_id = $currentPortalField['id'];
