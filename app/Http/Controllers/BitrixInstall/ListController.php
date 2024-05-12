@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Models\Bitrixfield;
+use App\Models\BitrixfieldItem;
 use App\Models\Bitrixlist;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -180,8 +181,13 @@ class ListController extends Controller
             $currentBtxField = null;
             $currentBtxFieldId = null;
             $currentFieldCode = $listBtxCode . '_' . $gField['code'];
+            $currentBtxFieldItems = [];
+            $currentPortalFieldItems = [];
+
+
+
             $type = ListController::getFieldType($gField['type']);
-            foreach ($currentPortalListFields as $index => $pField) {
+            foreach ($currentPortalListFields as $index => $pField) {  //без portal нельзя взять и current btx
 
                 if ($currentFieldCode === $pField->code) {
 
@@ -243,29 +249,9 @@ class ListController extends Controller
                 $currentBtxField = ListController::getListField($hook, $listBtxCode, $currentBtxFieldId, $type);
             }
 
-            if ($gField['type'] == 'enumeration') {
-                // Log::channel('telegram')->error("set List Field", [
-                //     'result Field currentBtxField' => $currentBtxField,
 
+            
 
-                // ]);
-                // if(isset($currentBtxField['list'])){
-                //     Log::channel('telegram')->error("set List Field", [
-                //         'result Field list' => $currentBtxField['list'],
-
-
-                //     ]);
-
-                // }
-
-                if (isset($currentBtxField['DISPLAY_VALUES_FORM'])) {
-                    Log::channel('telegram')->error("set DISPLAY_VALUES_FORM Field", [
-                        'result Field DISPLAY_VALUES_FORM' => $currentBtxField['DISPLAY_VALUES_FORM'],
-
-
-                    ]);
-                }
-            }
 
 
             if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
@@ -283,8 +269,79 @@ class ListController extends Controller
                 $currentPortalField->bitrixCamelId = $currentBtxFieldId;
                 $currentPortalField->save();
             }
-        }
 
+            /// TODO SET ITEMS METHOD
+            if ($gField['type'] == 'enumeration') {
+
+
+                if (!empty($currentBtxField) && !empty($currentBtxField['DISPLAY_VALUES_FORM'])) {
+                    $currentBtxFieldItems = $currentBtxField['DISPLAY_VALUES_FORM'];
+                }
+
+                if (!empty($currentPortalField) && !empty($currentPortalField->items)) {
+                    $currentPortalFieldItems = $currentPortalField->item;
+                }
+
+
+                foreach ($gField['list'] as $gItem) {
+                    $currentPItem = null;
+                    $currentBtxItem = null;
+                    // перебрать каждый эллемент списка из обновления
+                    // определить текщий pItem по code
+                    // по текущему pItem из его bitrixId найти текущий bitrix Item из списка "itemId": itemValue
+                    // если нашел его - обновить если нет добавить в pushing items
+                    // 
+
+                    //get cur btx and portal items from gItem
+                    if (!empty($currentPortalFieldItems)) {
+                        foreach ($currentPortalFieldItems as $btxId => $pItem) {
+                            if ($pItem['code'] == $gItem['code']) {
+                                $currentPItem = $pItem;
+                            }
+                        }
+                    }
+                    if (!empty($currentPItem)) {
+                        if (!empty($currentBtxFieldItems)) {
+                            foreach ($currentBtxFieldItems as $btxId => $value) {
+                                if ($btxId == $currentPItem['bitrixId'] || $value == $currentPItem['title'] ||  $value == $gItem['VALUE']) {
+                                    $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
+                                }
+                            }
+                        }
+                    }
+
+                    if (empty($currentPItem)) {
+                        $currentPItem = new BitrixfieldItem();
+                        $currentPItem->bitrixfield_id = $currentPortalField['id'];
+                    }
+                    if (!empty($currentBtxItem)) {
+                        $currentPItem->bitrixId = $currentBtxItem['bitrixId'];
+                        $currentPItem->name = $currentBtxItem['value'];
+                        $currentPItem->title = $currentBtxItem['value'];
+                    }else{
+                        $currentPItem->bitrixId = 0;
+                        $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
+                        $currentPItem->name = $itemName;
+                        $currentPItem->title = $itemName;
+
+
+                    }
+                  
+                    
+                 
+                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['CODE']);
+                    $currentPItem->code = $codeBitrixId;
+                    $currentPItem->save();
+                    Log::channel('telegram')->error("set currentPItem", [
+                        'currentPItem' => $currentBtxField['currentPItem'],
+                        'currentPortalField' => $currentPortalField,
+                        
+    
+    
+                    ]);
+                }
+            }
+        }
         // $resultListBtxFields = ListController::getListField($hook, $listBtxCode, 'PROPERTY_201');
         // Log::channel('telegram')->error("setListFields ", [
         //     'resultListBtxFields' => $resultListBtxFields,
