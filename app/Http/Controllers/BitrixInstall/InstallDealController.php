@@ -21,7 +21,7 @@ class InstallDealController extends Controller
         $token
     ) {
         // $domain = 'gsr.bitrix24.ru';
-        $domain = 'april-dev.bitrix24.ru';
+        $domain = 'gsr.bitrix24.ru';
         $appType = 'general';
         $group = 'sales';
         // $method = '/crm.deal.userfield.add';
@@ -249,7 +249,7 @@ class InstallDealController extends Controller
 
 
                 $categoryName = $category['name'];
-                $isDefault = $category['isDefault']  ? 'Y' : 'N';
+                $isDefault = $category['isDefault'];
 
                 // Ищем, есть ли уже категория по умолчанию
                 // $existingDefaultCategory = null;
@@ -300,7 +300,7 @@ class InstallDealController extends Controller
                     'fields' => [
                         'name' => $categoryName,
                         'title' => $category['title'],
-                        // 'isDefault' => $isDefault,
+                        'isDefault' => $isDefault,
                         'sort' => $category['order'],
                         'code' => $category['code']
                     ]
@@ -355,10 +355,10 @@ class InstallDealController extends Controller
                     $portalCategory->save();
                     $portalCategoryId = $portalCategory->id;
                     $portalDealCategoryStages =  $portalCategory->stages->toArray();
-                    Log::channel('telegram')->info("categoryId", [
-                        'categoryId' => $categoryId,
+                    // Log::channel('telegram')->info("categoryId", [
+                    //     'categoryId' => $categoryId,
 
-                    ]);
+                    // ]);
 
 
 
@@ -547,8 +547,8 @@ class InstallDealController extends Controller
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
-                                'COLOR' => $stage['color']
-                                // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
+                                'COLOR' => $stage['color'],
+                                "IS_DEFAULT" =>$stage['isDefault']  //$callStage['title'] === 'Создан' ? "Y" : "N"
                             ]
                         ];
                 } else {
@@ -564,7 +564,8 @@ class InstallDealController extends Controller
                                 'NAME' => $stage['title'],
                                 'TITLE' => $stage['title'],
                                 'SORT' => $stage['order'],
-                                'COLOR' => $stage['color']
+                                'COLOR' => $stage['color'],
+                                "IS_DEFAULT" =>$stage['isDefault']
                                 // "isDefault" => $callStage['title'] === 'Создан' ? "Y" : "N"
                             ]
                         ];
