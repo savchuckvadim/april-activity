@@ -657,7 +657,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
     // ............................................DELETE
-    Route::delete('deal/{dealId', function ($dealId) {
+    Route::delete('deal/{dealId}', function ($dealId) {
         return BtxDealController::delete($dealId);
     });
 
@@ -744,7 +744,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
     // ............................................DELETE
-    Route::delete('company/{companyId', function ($companyId) {
+    Route::delete('company/{companyId}', function ($companyId) {
         return BtxCompanyController::delete($companyId);
     });
 
