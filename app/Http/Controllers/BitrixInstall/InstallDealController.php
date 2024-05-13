@@ -244,7 +244,7 @@ class InstallDealController extends Controller
         $defaultCategoryId = null;
         $results = [];
         $portalCategoryId = null;
-        $portalDealId = $portalDeal && $portalDeal->id;
+        $portalDealId = $portalDeal->id;
         foreach ($categories as $category) {
             if ($category['isNeedUpdate']) {
 
