@@ -88,7 +88,7 @@ class InstallDealController extends Controller
             $portalDealCategories = [];
 
             if ($portal) {
-                if (!empty($portal->deals)) { // Сделка у портала на DB существует
+                if (!empty($portal->deals->first())) { // Сделка у портала на DB существует
                     $portalDeals = $portal->deals;
                     $portalDeal = $portalDeals->first();
 
