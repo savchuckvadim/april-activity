@@ -345,7 +345,10 @@ class InstallDealController extends Controller
                         $portalCategory->entity_id = $portalDealId;
                         $portalCategory->parent_type = 'deal';
                     }
+                    Log::channel('telegram')->info("categoryId", [
+                        'portalCategory' => $portalCategory,
 
+                    ]);
                     $portalCategory->group = $category['group'];
                     $portalCategory->title = $category['title'];
                     $portalCategory->name = $category['name'];
@@ -357,13 +360,14 @@ class InstallDealController extends Controller
                     $portalCategory->save();
                     $portalCategoryId = $portalCategory->id;
                     $portalDealCategoryStages =  $portalCategory->stages->toArray();
-                    // Log::channel('telegram')->info("categoryId", [
-                    //     'categoryId' => $categoryId,
-
-                    // ]);
+                   
 
 
+                    Log::channel('telegram')->info("categoryId", [
+                        'portalCategory' => $portalCategory,
+                        'portalDealCategoryStages' => $portalDealCategoryStages,
 
+                    ]);
                     // Создаем или обновляем стадии
                     $stages = InstallDealController::setStages($hook, $category, $categoryId, $portalDealCategoryStages, $portalCategoryId);
                     array_push($results, $stages);
