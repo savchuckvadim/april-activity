@@ -21,7 +21,7 @@ class InstallDealController extends Controller
         $token
     ) {
         
-        $domain = '';
+        $domain = 'april-dev.bitrix24.ru';
         $appType = 'general';
         $group = 'sales';
         // $method = '/crm.deal.userfield.add';
