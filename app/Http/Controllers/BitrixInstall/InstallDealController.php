@@ -109,7 +109,8 @@ class InstallDealController extends Controller
             }
 
 
-
+            Log::channel('telegram')->error("install test", ['portalDeal' => $portalDeal]);
+            Log::channel('telegram')->error("install test", ['portalDealCategories' => $portalDealCategories]);
 
             // Создание или обновление категорий и стадий
             if (!empty($googleData['deals'])) {
