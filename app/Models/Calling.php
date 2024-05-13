@@ -112,7 +112,7 @@ class Calling extends Model
                             'apiName' => 'portal_id',
                             'type' =>  'select',
                             'validation' => 'required',
-                            'initialValue' => '',
+                            'initialValue' => $portalId,
                             'items' => $portalsSelect,
                             'isCanAddField' => false,
 
