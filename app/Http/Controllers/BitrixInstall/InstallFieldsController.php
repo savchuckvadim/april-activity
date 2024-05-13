@@ -429,7 +429,7 @@ class InstallFieldsController extends Controller
                 //get current btx field
 
                 foreach ($btxSmartFields as $curBtxField) {
-
+                    sleep(1);
                     if (
                         'UF_CRM_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
 
@@ -450,14 +450,11 @@ class InstallFieldsController extends Controller
                             ];
                             $response = Http::post($url, $getSmartBtxFieldsData);
                             $resultEnumField = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
-                            
-                          
-                            if(isset($resultEnumField['enum'])){
+
+
+                            if (isset($resultEnumField['enum'])) {
                                 $currentBtxEnum = $resultEnumField['enum'];
                             }
-
-
-                           
                         }
                     }
                 }
@@ -548,11 +545,10 @@ class InstallFieldsController extends Controller
                 $url = $hook . $method;
                 $response = Http::post($url, $fieldsData);
                 // sleep(1);
-                $updtdBtxField = BitrixController::getBitrixResponse($response, 'smart: fields'.$fieldsData['field']['fieldName']);
+                $updtdBtxField = BitrixController::getBitrixResponse($response, 'smart: fields' . $fieldsData['field']['fieldName']);
 
-                if(isset($updtdBtxField['field'])){
+                if (isset($updtdBtxField['field'])) {
                     $updtdBtxField = $updtdBtxField['field'];
-
                 }
 
                 if (!$currentPortalField) {
@@ -577,32 +573,32 @@ class InstallFieldsController extends Controller
 
                 $currentPortalField->save();
 
-               
-                
+
+
                 if ($field['type'] == 'enumeration') {
                     $portalFieldItems = $currentPortalField->items;
 
                     Log::channel('telegram')->error("updtdBtxField", [
                         'portalFieldItems' => $portalFieldItems,
-    
-    
+
+
                     ]);
 
 
-                    if(!empty($updtdBtxField)){
-                        if(!empty($updtdBtxField['enum'])){
+                    if (!empty($updtdBtxField)) {
+                        if (!empty($updtdBtxField['enum'])) {
                             $currentBtxEnum = $updtdBtxField['enum'];
 
-                            foreach($currentBtxEnum as $currentFieldItem){
+                            foreach ($currentBtxEnum as $currentFieldItem) {
 
                                 $currentPortalItem = null;
-            
+
 
                                 if (!empty($portalFieldItems)) {
                                     foreach ($portalFieldItems as $pitem) {
-                
+
                                         if ($currentFieldItem['xmlId'] == $pitem['code']) {
-                
+
                                             if (!empty($pitem['id'])) {
                                                 $currentPortalItem  = BitrixfieldItem::find($pitem['id']);
                                             }
@@ -612,26 +608,21 @@ class InstallFieldsController extends Controller
 
                                 if (!$currentPortalItem) {       // если на портале не существуют item - создаем  
 
-    
+
                                     $currentPortalItem  =  new BitrixfieldItem();
                                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
-    
                                 } else { // если на портале существуют item - обновляем
-    
+
                                 }
                                 $currentPortalItem->bitrixId = $currentFieldItem['id'];
-    
+
                                 $currentPortalItem->name = $currentFieldItem['value'];
                                 $currentPortalItem->title = $currentFieldItem['value'];
                                 $currentPortalItem->code = $currentFieldItem['xmlId'];
                                 $currentPortalItem->save();
-
                             }
-
                         }
-
                     }
-                    
                 }
 
 
@@ -921,7 +912,7 @@ class InstallFieldsController extends Controller
                 // ]);
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
-
+                        sleep(1);
                         if ($currentFieldItem['VALUE'] == $pitem['title']) {
 
                             if (!empty($pitem['id'])) {
