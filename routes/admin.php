@@ -701,7 +701,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return BtxLeadController::store($request);
     });
     // ............................................DELETE
-    Route::delete('lead/{leadId', function ($leadId) {
+    Route::delete('lead/{leadId}', function ($leadId) {
         return BtxLeadController::delete($leadId);
     });
 
