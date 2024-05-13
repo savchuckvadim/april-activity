@@ -597,7 +597,7 @@ class InstallDealController extends Controller
                 $currentPortalStage->save();
                 array_push($resultStages, $stageResultResponse);
                 // $bitrixResponseStage = $smartStageResponse->json();
-                // Log::info('SUCCESS SMART INSTALL', ['stage_response' => $bitrixResponseStage]);
+                Log::info('SUCCESS SMART INSTALL', ['currentPortalStage' => $currentPortalStage]);
 
             }
 
