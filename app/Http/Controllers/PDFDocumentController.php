@@ -1693,13 +1693,7 @@ class PDFDocumentController extends Controller
 
         $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
 
-        Log::channel('telegram')->info('APRIL_ONLINE test', [
-            'getStampsData' => [
-                'stampsData' => $stampsData,
-
-
-            ]
-        ]);
+   
 
 
         return $stampsData;

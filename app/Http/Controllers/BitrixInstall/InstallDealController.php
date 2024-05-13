@@ -317,7 +317,7 @@ class InstallDealController extends Controller
                 if (isset($bitrixResponseCategory['id'])) {
                     $categoryId = $bitrixResponseCategory['id'];
                 }
-                Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['categoryId' => $categoryId]]);
+                // Log::channel('telegram')->info('APRIL_ONLINE TEST', ['INSTALL' => ['categoryId' => $categoryId]]);
 
                 if (!empty($bitrixResponseCategory['category'])) {
                     if (isset($bitrixResponseCategory['category']['id'])) {

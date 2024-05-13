@@ -528,9 +528,7 @@ class InstallController extends Controller
 
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
-                Log::channel('telegram')->info("stageResultResponse", [
-                    'stageResultResponse' => $stageResultResponse,
-                ]);
+               
                 $currentPortalStage = null;
                 foreach ($portalSmartCategoryStages as $portalSmartCategoryStage) {
 
@@ -571,6 +569,9 @@ class InstallController extends Controller
                             [
 
                                 'id' => $delitingId,
+                                'params' => [
+                                    'FORCED' => "Y"
+                                ]
 
                             ];
 

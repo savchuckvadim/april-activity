@@ -325,7 +325,7 @@ class BitrixDealDocumentService
             // 'bigDescriptionData' => $this->bigDescriptionData
 
         ];
-        Log::channel('telegram')->info('APRIL_ONLINE Service result', $result);
+        
         return  $result;
     }
 
