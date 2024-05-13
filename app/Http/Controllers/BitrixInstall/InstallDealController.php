@@ -94,9 +94,10 @@ class InstallDealController extends Controller
 
                     if (!empty($portalDeal) && isset($portalDeal->id)) {
                         $portalDealId = $portalDeal->id;
+                        $portalDealCategories = $portalDeal->categories;
                     }
 
-                    $portalDealCategories = $portalDeal->categories;
+                    
                 } else {
                     //если сделки у портала не существует - создать
                     $portalDeal = new BtxDeal();
