@@ -87,7 +87,7 @@ class InstallFieldsController extends Controller
     // portal->deal->where('group', 'sales')->first()
 
     {
-        $domain = 'april-dev.bitrix24.ru';
+        $domain = 'gsr.bitrix24.ru';
         $responseData = null;
         // $domain = 'gsr.bitrix24.ru';
         try {
