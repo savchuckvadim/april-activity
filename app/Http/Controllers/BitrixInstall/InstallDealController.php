@@ -20,8 +20,8 @@ class InstallDealController extends Controller
         // $smarts
         $token
     ) {
-        // $domain = 'gsr.bitrix24.ru';
-        $domain = 'gsr.bitrix24.ru';
+        
+        $domain = '';
         $appType = 'general';
         $group = 'sales';
         // $method = '/crm.deal.userfield.add';
