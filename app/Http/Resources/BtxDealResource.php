@@ -14,14 +14,25 @@ class BtxDealResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $resultcategories = [];
+        foreach ($this->categories as $ctgr) {
+            $category = new BtxCategoryResource($ctgr);
+           array_push($resultcategories, $category);
+        }
+
+        $resultfields= [];
+        foreach ($this->fields as $fld) {
+            $field = new BitrixFieldResource($fld);
+           array_push($resultfields, $field);
+        }
         return [
             'id' => $this->id,
             'portal_id' => $this->portal_id,
             'code' => $this->code,
             'name' => $this->name,
             'title' => $this->title,
-            'categories' =>  $this->categories, 
-            'bitrixfields' => $this->fields,
+            'categories' =>  $resultcategories, 
+            'bitrixfields' => $resultfields,
             
         ];
     }
