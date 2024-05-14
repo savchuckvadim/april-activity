@@ -43,13 +43,9 @@ use function morphos\Russian\inflectName;
 Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
     //..................................GENERAL FRONT APP ...............................
-    Route::post('getportal', function (Request $request) {
-
-        //hook server обращается к этому эндпоинту чтобы получить
-        // портал для работы хуков
-
+    Route::post('front/portal', function (Request $request) {
         $domain  = $request->input('domain');
-        return PortalController::getPortal($domain);
+        return PortalController::getFrontPortal($domain);
     });
 
     ///KONSTRUKTOR OFFER API   ...........................................................
