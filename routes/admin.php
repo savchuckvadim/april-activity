@@ -164,9 +164,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return RqController::getFiles($rqId, $fileType);
     });
 
-    //////////////////////////////CLIENTS
-    //////PORTAL
 
+    //////PORTAL TEMPLATE
+    Route::post('portal/{portalId}/template', function (Request $request) {
+        $controller = new TemplateController();
+        $domain  = $request->input('domain');
+        $type  = $request->input('type');
+        $name  = $request->input('domain');
+
+        return $controller->setTemplate($domain, $type, $name, null);
+    });
 
 
 

@@ -87,7 +87,7 @@ class BaseController extends Controller
                     break;
                 case 'template':
 
-                    // return TemplateController::initialTemplate();
+                    return TemplateController::initialTemplate();
                     break;
                 case 'field':
                     // return FieldController::getInitialField();
