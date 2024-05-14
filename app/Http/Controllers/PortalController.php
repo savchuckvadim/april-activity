@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PortalFrontResource;
 use App\Http\Resources\PortalHookResource;
 use App\Http\Resources\PortalResource;
 use App\Http\Resources\ProviderCollection;
@@ -147,6 +148,44 @@ class PortalController extends Controller
         // Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
         return response(['resultCode' => 0, 'portal' => $portalData]); // Возвращаем данные в формате response
     }
+
+    public static function getFrontPortal($domain)
+    {
+        // $cacheKey = 'portal_' . $domain;
+        // $cachedPortalData = Cache::get($cacheKey);
+        
+        // if (!is_null($cachedPortalData)) {
+        //     Log::channel('telegram')->info('APRIL_ONLINE', [
+        //         'log from cache getPortal'   =>
+        //         $cachedPortalData
+
+        //     ]);
+        //     return APIController::getSuccess([
+        //         'data' => [
+        //             'portal' => $cachedPortalData
+        //         ]
+        //     ]); // Возвращаем данные в формате response
+        // }
+
+        $portal = Portal::where('domain', $domain)->first();
+        if (!$portal) {
+            return response([
+                'resultCode' => 1,
+                'message' => 'portal does not exist!'
+            ], 404);
+        }
+
+        $portalData = new PortalFrontResource($portal);
+
+    
+
+        // Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
+        return APIController::getSuccess(['portal' => $portalData]); // Возвращаем данные в формате response
+    }
+
+
+
+
     public static function getPortalById($portalId)
     {
 

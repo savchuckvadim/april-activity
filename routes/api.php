@@ -42,7 +42,15 @@ use function morphos\Russian\inflectName;
 // });
 Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
 
+    //..................................GENERAL FRONT APP ...............................
+    Route::post('getportal', function (Request $request) {
 
+        //hook server обращается к этому эндпоинту чтобы получить
+        // портал для работы хуков
+
+        $domain  = $request->input('domain');
+        return PortalController::getPortal($domain);
+    });
 
     ///KONSTRUKTOR OFFER API   ...........................................................
     Route::post('/deal', function (Request $request) {
