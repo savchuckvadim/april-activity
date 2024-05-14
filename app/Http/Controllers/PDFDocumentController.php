@@ -277,7 +277,7 @@ class PDFDocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            Log::channel('telegram')->info('APRIL_ONLINE Service result', ['error messages' => $th->getMessage()]);
+            Log::channel('telegram')->error('APRIL_ONLINE Service result', ['error messages' => $th->getMessage()]);
             return APIController::getError($th->getMessage(), ['come' => $data, 'pdf' => $pdfData]);
         }
     }
