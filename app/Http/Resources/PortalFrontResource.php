@@ -21,16 +21,24 @@ class PortalFrontResource extends JsonResource
            array_push($resultsmarts, $smart);
         }
 
+        $bitrixLists = [];
+        foreach ($this->lists as $list) {
+            $bitrixList = new BitrixlistResource($list);
+           array_push($bitrixLists, $bitrixList);
+        }
+
         return [
             'id' => $this->id,
             'departament' => $this->getSalesDepartamentId(),
-            'bitrixList' => $this->getSalesBitrixListId(),
+            // 'bitrixList' => $this->getSalesBitrixListId(),
+            'bitrixLists' => $bitrixLists,
             'bitrixCallingTasksGroup' => $this->getSalesCallingGroupId(),
             'bitrixSmart' => $this->getSalesSmart(),
             'bitrixDeal' => $this->deal(),
             'smarts' => $resultsmarts,
             // 'smart' => $this->getSalesSmart(),
             'deals' => $this->deals,
+  
             'company' => $this->company(),
             'lead' => $this->lead(),
         ];

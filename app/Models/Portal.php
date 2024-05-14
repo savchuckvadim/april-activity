@@ -184,6 +184,10 @@ class Portal extends Model
         return  $lead;
     }
 
+    public function bitrixLists()
+    {
+        return $this->lists;
+    }
 
     //crypto
     public function getKey()
