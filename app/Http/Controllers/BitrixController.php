@@ -1456,7 +1456,7 @@ class BitrixController extends Controller
                         // '>DEADLINE' => $start,
                         // '<DEADLINE' => $finish,
                         'RESPONSIBLE_ID' => $userId,
-                        'GROUP_ID' => $tasksGroupId,
+                        // 'GROUP_ID' => $tasksGroupId,
                         '!=STATUS' => 5, // Исключаем задачи со статусом "завершена"
                         'UF_CRM_TASK' => $crmItems,
                     ]
@@ -1477,7 +1477,7 @@ class BitrixController extends Controller
                             [
                                 'tasks' => $resultTasks,
                                 '$response' => $response,
-                                // 'date' => $date,
+                                '$tasksGroupId' => $tasksGroupId,
                                 'data' => $data,
                                 // 'RESPONSIBLE_ID' => $userId
 
