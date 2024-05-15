@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Admin\BtxCategoryController;
 use App\Http\Controllers\Admin\BtxDealController;
 use App\Http\Controllers\Admin\BtxStageController;
+use App\Http\Controllers\Admin\DepartamentController;
 use App\Http\Controllers\BtxCompanyController;
 use App\Http\Controllers\BtxLeadController;
 use App\Http\Controllers\CallingController;
@@ -582,6 +583,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
     //BITRIX IDS FOR CONNECTION AND HOOKS
+
+     //.................................... initial SMART
+    // initial from parent
+    Route::get('initial/portal/{portalId}/departament', function ($portalId) {
+
+        return DepartamentController::getInitial($portalId);
+    });
+    // single initial
+    Route::get('initial/departament', function () {
+        return DepartamentController::getInitial();
+    });
+
     // ......................................................................... SMARTS
 
     //.................................... initial SMART

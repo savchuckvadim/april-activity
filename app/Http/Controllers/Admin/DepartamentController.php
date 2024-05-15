@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class DepartamentController extends Controller
 {
-    public static function getInitial($portalId)
+    public static function getInitial($portalId = null)
     {
 
         $initialData = Departament::getForm($portalId);

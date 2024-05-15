@@ -36,7 +36,7 @@ class BaseController extends Controller
 
                 // case 'smart':
                 case 'bitrixlist':
-                case 'departament':
+                // case 'departament':
                 case 'timezone':
                 // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
