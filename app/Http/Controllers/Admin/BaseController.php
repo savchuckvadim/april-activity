@@ -40,7 +40,7 @@ class BaseController extends Controller
                 case 'timezone':
                 // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
-                    $controllerClass = "App\\Http\\Controllers\\" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
+                    $controllerClass = "App\\Http\\Controllers\\Admin" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 
                     if (class_exists($controllerClass)) {
                         $controller = app()->make($controllerClass);
@@ -98,7 +98,7 @@ class BaseController extends Controller
                 case 'timezone':
                 // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
-                    $controllerClass = "App\\Http\\Controllers\\" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
+                    $controllerClass = "App\\Http\\Controllers\\Admin" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 
                     if (class_exists($controllerClass)) {
                         $controller = app()->make($controllerClass);
