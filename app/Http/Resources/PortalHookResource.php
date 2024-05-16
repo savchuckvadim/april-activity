@@ -21,6 +21,12 @@ class PortalHookResource extends JsonResource
            array_push($resultsmarts, $smart);
         }
 
+        $bitrixLists = [];
+        foreach ($this->lists as $list) {
+            $bitrixList = new BitrixlistResource($list);
+           array_push($bitrixLists, $bitrixList);
+        }
+
         return [
             'id' => $this->id,
             'domain' => $this->domain,
@@ -31,6 +37,7 @@ class PortalHookResource extends JsonResource
             'timezone' => $this->getSalesTimezone(),
             'departament' => $this->getSalesDepartamentId(),
             'bitrixList' => $this->getSalesBitrixListId(),
+            'bitrixLists' => $bitrixLists,
             'bitrixCallingTasksGroup' => $this->getSalesCallingGroupId(),
             'bitrixSmart' => $this->getSalesSmart(),
             'bitrixDeal' => $this->deal(),
