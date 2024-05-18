@@ -22,8 +22,8 @@ class InstallController extends Controller
         // $smarts
         $token
     ) {
-        $domain = '';
-        // $domain = 'april-dev.bitrix24.ru';
+        // $domain = '';
+        $domain = 'april-dev.bitrix24.ru';
 
         // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
@@ -191,10 +191,10 @@ class InstallController extends Controller
 
 
 
-                    $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
-                    array_push($resultSmarts, $currentBtxSmart);
+                    // $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
+                    // array_push($resultSmarts, $currentBtxSmart);
 
-                    // InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
+                    InstallFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
