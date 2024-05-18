@@ -22,8 +22,8 @@ class InstallController extends Controller
         // $smarts
         $token
     ) {
-        // $domain = '';
-        $domain = 'april-dev.bitrix24.ru';
+        $domain = '';
+        // $domain = 'april-dev.bitrix24.ru';
 
         // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);

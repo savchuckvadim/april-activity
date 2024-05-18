@@ -89,7 +89,7 @@ class InstallFieldsController extends Controller
     {
         $domain = '';
         $responseData = null;
-        // $domain = 'gsr.bitrix24.ru';
+        $domain = 'april-dev.bitrix24.ru';
         try {
             $hook = BitrixController::getHook($domain);
 
