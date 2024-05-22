@@ -23,7 +23,7 @@ class DepartamentController extends Controller
 
     public static function set(Request $request)
     {
-        // Предполагая, что у вас уже есть экземпляр Template
+ 
         $type = $request['type'];
         $group = $request['group'];
         $name = $request['name'];
@@ -56,6 +56,30 @@ class DepartamentController extends Controller
             ['portal' => $portal]
 
         );
+    }
+
+    public static function get($departamentId)
+    {
+        try {
+            $departament = Departament::find($departamentId);
+
+            if ($departament) {
+               
+                return APIController::getSuccess(
+                    ['departament' => $departament]
+                );
+            } else {
+                return APIController::getError(
+                    'departament was not found',
+                    ['departament' => $departament]
+                );
+            }
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['departamentId' => $departamentId]
+            );
+        }
     }
 
     public static function getAll()
