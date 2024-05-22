@@ -202,7 +202,7 @@ class BaseController extends Controller
 
                     case 'smart':
                         // case 'bitrixlist':
- 
+
                     case 'timezone':
                     case 'counter':
                         $controllerName = ucfirst($model) . 'Controller';
@@ -316,6 +316,11 @@ class BaseController extends Controller
                     case 'smart':
                         return SmartController::delete($modelId);
                         break;
+
+                    case 'departament':
+                        return DepartamentController::delete($modelId);
+
+
                     case 'template':
 
                         // return TemplateController::getTemplate($modelId);

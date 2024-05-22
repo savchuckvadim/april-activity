@@ -23,7 +23,7 @@ class DepartamentController extends Controller
 
     public static function set(Request $request)
     {
- 
+
         $type = $request['type'];
         $group = $request['group'];
         $name = $request['name'];
@@ -64,7 +64,7 @@ class DepartamentController extends Controller
             $departament = Departament::find($departamentId);
 
             if ($departament) {
-               
+
                 return APIController::getSuccess(
                     ['departament' => $departament]
                 );
@@ -81,6 +81,24 @@ class DepartamentController extends Controller
             );
         }
     }
+
+    public static function delete($departamentId)
+    {
+        $departament = Departament::find($departamentId);
+
+        if ($departament) {
+            // Получаем все связанные поля
+            $departament->delete();
+            return APIController::getSuccess($departament);
+        } else {
+
+            return APIController::getError(
+                'departament not found',
+                null
+            );
+        }
+    }
+
 
     public static function getAll()
     {
