@@ -34,11 +34,11 @@ class BaseController extends Controller
                     return FieldController::getInitialField();
                     break;
 
-                // case 'smart':
+                    // case 'smart':
                 case 'bitrixlist':
-                // case 'departament':
+                    // case 'departament':
                 case 'timezone':
-                // case 'counter':
+                    // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
                     $controllerClass = "App\\Http\\Controllers\\Admin" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 
@@ -49,7 +49,7 @@ class BaseController extends Controller
 
                     break;
 
-                // case 'callingGroup':
+                    // case 'callingGroup':
 
                     // return CallingController::getInitial();
 
@@ -96,7 +96,7 @@ class BaseController extends Controller
                 case 'smart':
                 case 'bitrixlist':
                 case 'timezone':
-                // case 'counter':
+                    // case 'counter':
                     $controllerName = ucfirst($entityType) . 'Controller';
                     $controllerClass = "App\\Http\\Controllers\\Admin" . $controllerName; // Предполагая, что все контроллеры находятся в каталоге App\Http\Controllers
 
@@ -107,9 +107,9 @@ class BaseController extends Controller
 
                     break;
 
-                // case 'callingGroup':
-                //     return CallingController::set($request);
-                //     break;
+                    // case 'callingGroup':
+                    //     return CallingController::set($request);
+                    //     break;
 
                 case 'departament':
                     return DepartamentController::set($request);
@@ -201,8 +201,8 @@ class BaseController extends Controller
 
 
                     case 'smart':
-                    // case 'bitrixlist':
-                    case 'departament':
+                        // case 'bitrixlist':
+ 
                     case 'timezone':
                     case 'counter':
                         $controllerName = ucfirst($model) . 'Controller';
@@ -213,11 +213,13 @@ class BaseController extends Controller
                         }
                         return $controller->get($modelId);
 
+                    case 'departament':
+                        return DepartamentController::get($modelId);
                         break;
 
-                    // case 'callingGroup':
+                        // case 'callingGroup':
 
-                    //     return CallingController::getCallingGroup($modelId);
+                        //     return CallingController::getCallingGroup($modelId);
 
                     case 'provider':
                     case 'item':
@@ -264,8 +266,8 @@ class BaseController extends Controller
 
                     case 'items':
                         // return FItemController::getFitem($modelId);
-                    // case 'callingGroups':
-                    //     return CallingController::getAll();
+                        // case 'callingGroups':
+                        //     return CallingController::getAll();
 
 
                     case 'departaments':
