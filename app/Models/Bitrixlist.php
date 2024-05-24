@@ -12,7 +12,7 @@ class Bitrixlist extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['type', 'group', 'name', 'title', 'bitrixId', 'portal_id'];
-
+    protected $with = ['fields']; 
     public function portal()
     {
         return $this->belongsTo(Portal::class);

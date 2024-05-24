@@ -13,7 +13,7 @@ class BtxCategory extends Model
         'entity_type', 'entity_id', 'parent_type', 'type', 'group',
         'title', 'name', 'bitrixId', 'bitrixCamelId', 'code', 'isActive'
     ];
-
+    protected $with = ['stages']; 
     public function entity()
     {
         return $this->morphTo();

@@ -20,7 +20,7 @@ class Bitrixfield extends Model
         'parent_type', //название типа филда в родительской модели напр list или dealProduct dealComplect - к чему относится field
 
     ];
-
+    protected $with = ['items']; 
     public function entity()
     {
         return $this->morphTo();
