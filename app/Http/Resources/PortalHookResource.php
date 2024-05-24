@@ -13,20 +13,21 @@ class PortalHookResource extends JsonResource
      * @return array<string, mixed>
      */
     public function toArray($request): array
-    
+
     {
         $resultsmarts = [];
         foreach ($this->smarts as $smrt) {
             $smart = new SmartResource($smrt);
-           array_push($resultsmarts, $smart);
+            array_push($resultsmarts, $smart);
         }
 
         $bitrixLists = [];
         foreach ($this->lists as $list) {
             $bitrixList = new BitrixlistResource($list);
-           array_push($bitrixLists, $bitrixList);
+            array_push($bitrixLists, $bitrixList);
         }
-
+        $company = $this->company();
+        $companyResource =  new BtxCompanyResource($company);
         return [
             'id' => $this->id,
             'domain' => $this->domain,
@@ -44,7 +45,7 @@ class PortalHookResource extends JsonResource
             'smarts' => $resultsmarts,
             // 'smart' => $this->getSalesSmart(),
             'deals' => $this->deals,
-            'company' => $this->company(),
+            'company' => $companyResource,
             'lead' => $this->lead(),
         ];
     }
