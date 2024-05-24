@@ -14,6 +14,11 @@ class BitrixFieldResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $resultfields = [];
+        foreach ($this->items as $item) {
+            // $field = new BitrixFieldResource ($field);
+           array_push($resultfields, $item);
+        }
         return [
             'id' => $this->id,
             'type' => $this->type,
@@ -25,7 +30,8 @@ class BitrixFieldResource extends JsonResource
             'entity_id' => $this->entity_id,
             
             'parent_type' => $this->parent_type,
-            'bitrixfielditems' => $this->items,
+            'bitrixfielditems' => $this->items(),
+            'items' => $resultfields,
         ];
     }
 }
