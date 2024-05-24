@@ -73,7 +73,7 @@ class BtxCompanyController extends Controller
             if ($company) {
                 $resultcompany = new BtxCompanyResource($company);
                 return APIController::getSuccess(
-                    ['company' => $resultcompany]
+                    ['company' => $company]
                 );
             } else {
                 return APIController::getError(
