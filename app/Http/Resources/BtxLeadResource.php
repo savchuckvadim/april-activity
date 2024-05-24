@@ -21,7 +21,7 @@ class BtxLeadResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'categories' => $this->categories,
-            'bitrixfields' => $this->fields,
+            'bitrixfields' => $this->bitrixfields,
 
         ];
     }

@@ -27,7 +27,7 @@ class Smart extends Model
         'portal_id'
 
     ];
-
+    protected $with = ['categories', 'fields']; 
     public function portal()
     {
         return $this->belongsTo(Portal::class);

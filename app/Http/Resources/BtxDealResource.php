@@ -20,11 +20,11 @@ class BtxDealResource extends JsonResource
            array_push($resultcategories, $category);
         }
 
-        $resultfields= [];
-        foreach ($this->fields as $fld) {
-            $field = new BitrixFieldResource($fld);
-           array_push($resultfields, $field);
-        }
+        // $resultfields= [];
+        // foreach ($this->fields as $fld) {
+        //     $field = new BitrixFieldResource($fld);
+        //    array_push($resultfields, $field);
+        // }
         return [
             'id' => $this->id,
             'portal_id' => $this->portal_id,
@@ -32,7 +32,7 @@ class BtxDealResource extends JsonResource
             'name' => $this->name,
             'title' => $this->title,
             'categories' =>  $resultcategories, 
-            'bitrixfields' => $resultfields,
+            'bitrixfields' => $this->bitrixfields,
             
         ];
     }

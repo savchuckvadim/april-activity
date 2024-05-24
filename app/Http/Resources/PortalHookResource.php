@@ -45,7 +45,7 @@ class PortalHookResource extends JsonResource
             'smarts' => $resultsmarts,
             // 'smart' => $this->getSalesSmart(),
             'deals' => $this->deals,
-            'company' => $companyResource,
+            'company' => $company,
             'lead' => $this->lead(),
         ];
     }

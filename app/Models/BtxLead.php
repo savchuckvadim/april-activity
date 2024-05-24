@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class BtxLead extends Model
 {
     use HasFactory;
-    protected $with = ['categories', 'fields']; 
+    protected $with = ['categories', 'bitrixfields']; 
 
     public function portal()
     {
@@ -21,7 +21,7 @@ class BtxLead extends Model
         return $this->morphMany(BtxCategory::class, 'entity');
     }
 
-    public function fields()
+    public function bitrixfields()
     {
         return $this->morphMany(Bitrixfield::class, 'entity');
     }
