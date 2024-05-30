@@ -20,7 +20,7 @@ class ListController extends Controller
     {
 
         try {
-            $domain = '';
+            $domain = 'april-dev.bitrix24.ru';
             $hook = BitrixController::getHook($domain);
             $portal = Portal::where('domain', $domain)->first();
             $webhookRestKey = $portal->getHook();
