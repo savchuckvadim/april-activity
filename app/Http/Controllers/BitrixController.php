@@ -1265,7 +1265,7 @@ class BitrixController extends Controller
 
     static function getBitrixResponse($bitrixResponse, $method)
     {
-        
+
         $response =  $bitrixResponse->json();
 
         if ($response) {
@@ -1656,26 +1656,33 @@ class BitrixController extends Controller
     {
         $method = '/crm.deal.update.json';
         // $bitrixController = new BitrixController();
-        if ($stage === 'offer') {
-            $stage = "C6:PREPARATION";
-            if ($domain == 'alfacentr.bitrix24.ru') {
-                $stage = "C8:PREPARATION";
-            } else if ($domain == 'gsirk.bitrix24.ru') {
-                $stage = "C3:PREPARATION";
-            } else if ($domain == 'april-garant.bitrix24.ru') {
+
+
+        if ($domain === 'april-dev.bitrix24.ru') {
+            $stage = "C297:OFFER_CREATE";
+        } else if ($domain === 'gsr.bitrix24.ru') {
+            $stage = "C43:OFFER_CREATE";
+        } else {
+            if ($stage === 'offer') {
                 $stage = "C6:PREPARATION";
-            }
-        } else   if ($stage === 'invoice') {
-            $stage = "C6:PREPARATION";
-            if ($domain == 'alfacentr.bitrix24.ru') {
-                $stage = "C8:PREPAYMENT_INVOICE";
-            } else if ($domain == 'gsirk.bitrix24.ru') {
-                $stage = "C3:1";
-            } else if ($domain == 'april-garant.bitrix24.ru') {
-                $stage = "C6:13";
+                if ($domain == 'alfacentr.bitrix24.ru') {
+                    $stage = "C8:PREPARATION";
+                } else if ($domain == 'gsirk.bitrix24.ru') {
+                    $stage = "C3:PREPARATION";
+                } else if ($domain == 'april-garant.bitrix24.ru') {
+                    $stage = "C6:PREPARATION";
+                }
+            } else   if ($stage === 'invoice') {
+                $stage = "C6:PREPARATION";
+                if ($domain == 'alfacentr.bitrix24.ru') {
+                    $stage = "C8:PREPAYMENT_INVOICE";
+                } else if ($domain == 'gsirk.bitrix24.ru') {
+                    $stage = "C3:1";
+                } else if ($domain == 'april-garant.bitrix24.ru') {
+                    $stage = "C6:13";
+                }
             }
         }
-
 
         //TODO IF INVOICE
         // C8:PREPAYMENT_INVOICE
