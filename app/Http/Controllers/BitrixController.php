@@ -1461,7 +1461,8 @@ class BitrixController extends Controller
                         'UF_CRM_TASK' => $crmItems,
                     ],
                     'select' => [
-                        'ID ',
+                        'ID',
+                        'UF_CRM_TASK',
                         'TITLE',
                         'DATE_START',
                         'CREATED_DATE',
