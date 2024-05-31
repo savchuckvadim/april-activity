@@ -1459,7 +1459,8 @@ class BitrixController extends Controller
                         // 'GROUP_ID' => $tasksGroupId,
                         '!=STATUS' => 5, // Исключаем задачи со статусом "завершена"
                         'UF_CRM_TASK' => $crmItems,
-                    ]
+                    ],
+                    'select' => ['UF_CRM_TASK'],
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
                     // 'GROUP_ID' => $date,
