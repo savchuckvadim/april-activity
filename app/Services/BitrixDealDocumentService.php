@@ -114,16 +114,14 @@ class BitrixDealDocumentService
         $this->withStamps = $withStamps;
         $this->withManager = $withManager;
         $this->isPriceFirst = false; //0 - no 1 -yes
-        if(!empty($data['settings'])){
-            if(!empty($data['settings']['isPriceFirst'])){
-                if(!empty($data['settings']['isPriceFirst']['current'])){
-                    if(!empty($data['settings']['isPriceFirst']['current']['id'])){
+        if (!empty($data['settings'])) {
+            if (!empty($data['settings']['isPriceFirst'])) {
+                if (!empty($data['settings']['isPriceFirst']['current'])) {
+                    if (!empty($data['settings']['isPriceFirst']['current']['id'])) {
                         $this->isPriceFirst = true; //0 - no 1 -yes
                     }
                 }
-        
             }
-    
         }
         $this->withPrice = $infoblocksData['withPrice']; // показывает прайс на отдельной странице или в продолжение темы
 
@@ -248,85 +246,118 @@ class BitrixDealDocumentService
 
     public function getDocuments()
     {
+        try {
+            //code...
 
-        $data = $this->data;
-        $result = [
-            'offerLink' => '',
-            'link' => '',
-            'invoiceLinks' => [],
-            'links' => [],
-        ];
-        $isNeedPdfOffer = false;
-        if (isset($data['isWord'])) {
-            if ($data['isWord'] == true) {
-                $documentDocsController = new DocumentController();
-                
-                
-                $offerLink = $documentDocsController->getDocument($this->data, $this->isPriceFirst, $this->withPrice);
+
+            $data = $this->data;
+            $result = [
+                'offerLink' => '',
+                'link' => '',
+                'invoiceLinks' => [],
+                'links' => [],
+            ];
+            $isNeedPdfOffer = false;
+            if (isset($data['isWord'])) {
+                if ($data['isWord'] == true) {
+                    $documentDocsController = new DocumentController();
+
+
+                    $offerLink = $documentDocsController->getDocument($this->data, $this->isPriceFirst, $this->withPrice);
+                } else {
+                    $isNeedPdfOffer = true;
+                }
             } else {
                 $isNeedPdfOffer = true;
             }
-        } else {
-            $isNeedPdfOffer = true;
-        }
 
-        if ($isNeedPdfOffer) {
-            $offerLink = $this->createDocumentOffer();
-        }
-
-        $links = [];
-        $invoices = [];
-
-
-        array_push($links, $offerLink);
-        if ($this->isGeneralInvoice) {
-            $this->documentInvoiceNumber = CounterController::getCount($this->providerRq['id'], 'invoice');
-            $generalInvoice = $this->createDocumentInvoice();
-            array_push($invoices, $generalInvoice);
-            array_push($links, $generalInvoice);
-        }
-        if ($this->isAlternativeInvoices) {
-            foreach ($data['price']['cells']['alternative'] as $key => $product) {
-
-                $alternativeInvoice = $this->createDocumentInvoice(false, $key);
-
-                array_push($invoices, $alternativeInvoice);
-                array_push($links, $alternativeInvoice);
+            if ($isNeedPdfOffer) {
+                $offerLink = $this->createDocumentOffer();
             }
+
+            $links = [];
+            $invoices = [];
+
+
+            array_push($links, $offerLink);
+            if ($this->isGeneralInvoice) {
+                $this->documentInvoiceNumber = CounterController::getCount($this->providerRq['id'], 'invoice');
+                $generalInvoice = $this->createDocumentInvoice();
+                array_push($invoices, $generalInvoice);
+                array_push($links, $generalInvoice);
+            }
+            if ($this->isAlternativeInvoices) {
+                foreach ($data['price']['cells']['alternative'] as $key => $product) {
+
+                    $alternativeInvoice = $this->createDocumentInvoice(false, $key);
+
+                    array_push($invoices, $alternativeInvoice);
+                    array_push($links, $alternativeInvoice);
+                }
+            }
+
+            //testing
+            $bitrixDealUpdateResponse = $this->updateDeal($links);
+
+
+            // Log::channel('telegram')->info('APRIL_ONLINE', [
+            //     'after smart create' => [
+
+            //         'domain' => $this->domain,
+
+
+
+            //     ]
+            // ]);
+            //smart
+            if ($this->domain !== 'gsirk.bitrix24.ru') {
+                $this->smartProccess();
+            }
+
+
+
+
+            $result = [
+                'offerLink' => $offerLink,
+                'link' => $offerLink,
+                // 'link' => $invoices[0],  invoice testing
+                'invoiceLinks' => $invoices,
+                'links' => $links,
+                // 'bigDescriptionData' => $this->bigDescriptionData
+
+            ];
+            Log::channel('telegram')->info('APRIL_ONLINE', [
+                'document create' => [
+                    'dealId' => $this->dealId,
+                    'domain' => $this->domain,
+                    'link' => $offerLink,
+                    'invoiceLinks' => $invoices,
+
+                ]
+            ]);
+            return  $result;
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            Log::error('APRIL_ONLINE', [
+                'BitrixDealDocumentService getDocuments error' => $errorMessages,
+                'domain' => $this->domain,
+                'dealId' => $this->dealId,
+                'result' => $result
+            ]);
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixDealDocumentService getDocuments error' => $errorMessages,
+                'domain' => $this->domain,
+                'dealId' => $this->dealId,
+                'result' => $result
+            ]);
+            return  $result;
         }
-
-        //testing
-        $bitrixDealUpdateResponse = $this->updateDeal($links);
-
-
-        // Log::channel('telegram')->info('APRIL_ONLINE', [
-        //     'after smart create' => [
-
-        //         'domain' => $this->domain,
-
-
-
-        //     ]
-        // ]);
-        //smart
-        if ($this->domain !== 'gsirk.bitrix24.ru') {
-            $this->smartProccess();
-        }
-
-
-
-
-        $result = [
-            'offerLink' => $offerLink,
-            'link' => $offerLink,
-            // 'link' => $invoices[0],  invoice testing
-            'invoiceLinks' => $invoices,
-            'links' => $links,
-            // 'bigDescriptionData' => $this->bigDescriptionData
-
-        ];
-        
-        return  $result;
+     
     }
 
 
@@ -401,7 +432,9 @@ class BitrixDealDocumentService
             Log::error('ERROR: Exception caught',  $errorMessages);
             Log::info('error', ['error' => $th->getMessage()]);
             Log::channel('telegram')->error('APRIL_ONLINE', [
-                'BitrixDealDocumentService error' => $errorMessages
+                'BitrixDealDocumentService create offer error' => $errorMessages,
+                'domain' => $this->domain,
+                'dealId' => $this->dealId,
             ]);
             return null;
         }
@@ -417,7 +450,7 @@ class BitrixDealDocumentService
             $headerData  = $this->headerData;
             $doubleHeaderData  = $this->doubleHeaderData;
             $stampsData  =   $this->getStampsData(true);
-
+            $link = '';
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
@@ -498,7 +531,13 @@ class BitrixDealDocumentService
             ];
             Log::error('ERROR: Exception caught',  $errorMessages);
             Log::info('error', ['error' => $th->getMessage()]);
-            return APIController::getError($th->getMessage(),  $errorMessages);
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                'BitrixDealDocumentService create invoice error' => $errorMessages,
+                'domain' => $this->domain,
+                'dealId' => $this->dealId,
+                'link' => $link
+            ]);
+            return $link;
         }
     }
 
@@ -1057,7 +1096,7 @@ class BitrixDealDocumentService
                 if (isset($smart['crmId'])) {
                     $method = '/crm.item.list.json';
                     $url = $this->hook . $method;
-                   
+
                     if ($companyId) {
                         $data =  [
                             'entityTypeId' => $smart['crmId'],
