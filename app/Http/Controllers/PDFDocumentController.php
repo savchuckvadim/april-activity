@@ -1371,7 +1371,7 @@ class PDFDocumentController extends Controller
 
 
         if (!$priceFirst) {
-            if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4) || ($productsCount < 2)) {
+            if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4)) {
 
                 if ($styleMode === 'list') {
 
@@ -1407,7 +1407,7 @@ class PDFDocumentController extends Controller
                     }
                 } else {
                     if ($descriptionMode === 0) {
-                        if ($lastPageItemsCount < 15) {
+                        if ($lastPageItemsCount < 11) {
                             $isWithPrice = true;
                         }
                     } else if ($descriptionMode === 1) {
