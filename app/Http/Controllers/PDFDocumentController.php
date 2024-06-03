@@ -1407,7 +1407,7 @@ class PDFDocumentController extends Controller
                     }
                 } else {
                     if ($descriptionMode === 0) {
-                        if ($lastPageItemsCount < 11) {
+                        if ($lastPageItemsCount < 10) {
                             $isWithPrice = true;
                         }
                     } else if ($descriptionMode === 1) {
