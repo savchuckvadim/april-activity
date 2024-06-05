@@ -1,6 +1,6 @@
 <style>
     .table-container {
-        margin-top: 20px;
+        margin-top: 15px;
         width: 100%;
         text-align: left;
     }

@@ -277,7 +277,7 @@ class PDFDocumentController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            Log::channel('telegram')->error('APRIL_ONLINE Service result', ['error messages' => $th->getMessage()]);
+            Log::channel('telegram')->error('APRIL_ONLINE PDF Cntrlr Service result', ['error messages' => $th->getMessage()]);
             return APIController::getError($th->getMessage(), ['come' => $data, 'pdf' => $pdfData]);
         }
     }
@@ -1349,7 +1349,15 @@ class PDFDocumentController extends Controller
         ];
     }
 
-    protected function getWithPrice($pages, $descriptionMode, $styleMode, $productsCount, $salePhrase, $withStamps, $priceFirst)
+    protected function getWithPrice(
+        $pages, 
+        $descriptionMode, 
+        $styleMode, 
+        $productsCount, 
+        $salePhrase, 
+        $withStamps, 
+        $priceFirst
+        )
     {
         $isWithPrice = false;
         $salePhraseLength = mb_strlen($salePhrase, "UTF-8");
@@ -1371,7 +1379,9 @@ class PDFDocumentController extends Controller
 
 
         if (!$priceFirst) {
-            if (($productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4)) {
+            if ((
+                $productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3
+                ) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4)) {
 
                 if ($styleMode === 'list') {
 

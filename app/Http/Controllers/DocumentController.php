@@ -758,10 +758,16 @@ class DocumentController extends Controller
                     // }
 
                     $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
-                    // if ($withStamps) {
-                    //     $section->addTextBreak(1);
-                    //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
-                    // }
+
+                    // if ($isPriceFirst) {
+                    //     if ($withStamps) {
+                    //         if (!$withPrice) {
+                    //             $section->addTextBreak(1);
+                    //             $stampsSection = $this->getStamps($section, $styles,  $providerRq);
+                    //         }
+                    //     }
+                    // } else 
+                    
                     if (!$isPriceFirst) {
                         if (!$withPrice) {
                             $section->addPageBreak();
@@ -2320,7 +2326,7 @@ class DocumentController extends Controller
         ];
 
 
-      
+
 
 
 
@@ -2438,7 +2444,8 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function processLineBreaks($text) {
+    protected function processLineBreaks($text)
+    {
         $text = str_replace("\\n", "\n", $text); // Replace \\n with \n
         $text = str_replace("\n", "\r\n", $text); // Replace \n with \r\n
         return $text;
