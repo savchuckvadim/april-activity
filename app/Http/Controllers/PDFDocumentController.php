@@ -210,31 +210,31 @@ class PDFDocumentController extends Controller
 
                     // if (isset($data['isPublic'])) {
                     //     if (!empty($data['isPublic'])) {
-                    //         $documentService = new BitrixDealDocumentService(
-                    //             $domain,
-                    //             $placement,
-                    //             $userId,
-                    //             $providerRq,
-                    //             $documentNumber,
-                    //             $data,
-                    //             $invoiceDate,
-                    //             $headerData,
-                    //             $doubleHeaderData,
-                    //             $footerData,
-                    //             $letterData,
-                    //             $infoblocksData,
-                    //             $bigDescriptionData,
-                    //             $pricesData,
-                    //             $stampsData,
-                    //             $isTwoLogo,
-                    //             $isGeneralInvoice,
-                    //             $isAlternativeInvoices,
-                    //             $dealId,
-                    //             $withStamps,
-                    //             $withManager
+                            $documentService = new BitrixDealDocumentService(
+                                $domain,
+                                $placement,
+                                $userId,
+                                $providerRq,
+                                $documentNumber,
+                                $data,
+                                $invoiceDate,
+                                $headerData,
+                                $doubleHeaderData,
+                                $footerData,
+                                $letterData,
+                                $infoblocksData,
+                                $bigDescriptionData,
+                                $pricesData,
+                                $stampsData,
+                                $isTwoLogo,
+                                $isGeneralInvoice,
+                                $isAlternativeInvoices,
+                                $dealId,
+                                $withStamps,
+                                $withManager
 
-                    //         );
-                    //         $documents = $documentService->getDocuments();
+                            );
+                            $documentService->getDocuments();
                     //         // $documentController = new DocumentController();
                     //         // return $documentController->getDocument($data);
                     //         return APIController::getSuccess(
@@ -244,31 +244,31 @@ class PDFDocumentController extends Controller
                     //     }
                     // } else {
 
-                    dispatch(new BitrixDealDocumentJob(
-                        $domain,
-                        $placement,
-                        $userId,
-                        $providerRq,
-                        $documentNumber,
-                        $data,
-                        $invoiceDate,
-                        $headerData,
-                        $doubleHeaderData,
-                        $footerData,
-                        $letterData,
-                        $infoblocksData,
-                        $bigDescriptionData,
-                        $pricesData,
-                        $stampsData,
-                        $isTwoLogo,
-                        $isGeneralInvoice,
-                        $isAlternativeInvoices,
-                        $dealId,
-                        $withStamps,
-                        $withManager
-                    ));
+                    // dispatch(new BitrixDealDocumentJob(
+                    //     $domain,
+                    //     $placement,
+                    //     $userId,
+                    //     $providerRq,
+                    //     $documentNumber,
+                    //     $data,
+                    //     $invoiceDate,
+                    //     $headerData,
+                    //     $doubleHeaderData,
+                    //     $footerData,
+                    //     $letterData,
+                    //     $infoblocksData,
+                    //     $bigDescriptionData,
+                    //     $pricesData,
+                    //     $stampsData,
+                    //     $isTwoLogo,
+                    //     $isGeneralInvoice,
+                    //     $isAlternativeInvoices,
+                    //     $dealId,
+                    //     $withStamps,
+                    //     $withManager
+                    // ));
 
-                    return APIController::getSuccess(['job' => 'get it !']);
+                    // return APIController::getSuccess(['job' => 'get it !']);
                     // }
 
 
@@ -1011,7 +1011,6 @@ class PDFDocumentController extends Controller
                             $additionalWords = $newLinesCount * 11;
                             $itemWordsCount += 1 + $additionalWords;
 
-                            Log::channel('console')->info(($currentPageWordsCount + $itemWordsCount));
                             if (($currentPageWordsCount + $itemWordsCount) <= $maxWordsPerPage) {
                                 $itemDescriptionParts[] = $word;
                             } else {

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\PDFDocumentController;
 use App\Services\BitrixDealDocumentService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -46,53 +47,54 @@ class BitrixDealDocumentJob implements ShouldQueue
 
 
     public function __construct(
-        $domain,
-        $placement,
-        $userId,
-        $providerRq,
-        $documentNumber,
-        $data,
-        $invoiceDate,
-        $headerData,
-        $doubleHeaderData,
-        $footerData,
-        $letterData,
-        $infoblocksData,
-        $bigDescriptionData,
-        $pricesData,
-        $stampsData,
-        $isTwoLogo,
-        $isGeneralInvoice,
-        $isAlternativeInvoices,
-        $dealId,
-        $withStamps,
-        $withManager
-
+        // $domain,
+        // $placement,
+        // $userId,
+        // $providerRq,
+        // $documentNumber,
+        // $data,
+        // $invoiceDate,
+        // $headerData,
+        // $doubleHeaderData,
+        // $footerData,
+        // $letterData,
+        // $infoblocksData,
+        // $bigDescriptionData,
+        // $pricesData,
+        // $stampsData,
+        // $isTwoLogo,
+        // $isGeneralInvoice,
+        // $isAlternativeInvoices,
+        // $dealId,
+        // $withStamps,
+        // $withManager
+        $data
 
 
     ) {
-        $this->domain =  $domain;
-        $this->placement =  $placement;
-        $this->userId =  $userId;
-        $this->providerRq =  $providerRq;
-        $this->documentNumber = $documentNumber;
-        $this->data = $data;
-        $this->invoiceDate = $invoiceDate;
+        // $this->domain =  $domain;
+        // $this->placement =  $placement;
+        // $this->userId =  $userId;
+        // $this->providerRq =  $providerRq;
+        // $this->documentNumber = $documentNumber;
+        // $this->data = $data;
+        // $this->invoiceDate = $invoiceDate;
         
-        $this->headerData =  $headerData;
-        $this->doubleHeaderData = $doubleHeaderData;
-        $this->footerData = $footerData;
-        $this->letterData =  $letterData;
-        $this->infoblocksData =  $infoblocksData;
-        $this->bigDescriptionData =  $bigDescriptionData;
-        $this->pricesData =  $pricesData;
-        $this->stampsData =  $stampsData;
-        $this->isTwoLogo =  $isTwoLogo;
-        $this->isGeneralInvoice =  $isGeneralInvoice;
-        $this->isAlternativeInvoices =  $isAlternativeInvoices;
-        $this->dealId =  $dealId;
-        $this->withStamps = $withStamps;
-        $this->withManager = $withManager;
+        // $this->headerData =  $headerData;
+        // $this->doubleHeaderData = $doubleHeaderData;
+        // $this->footerData = $footerData;
+        // $this->letterData =  $letterData;
+        // $this->infoblocksData =  $infoblocksData;
+        // $this->bigDescriptionData =  $bigDescriptionData;
+        // $this->pricesData =  $pricesData;
+        // $this->stampsData =  $stampsData;
+        // $this->isTwoLogo =  $isTwoLogo;
+        // $this->isGeneralInvoice =  $isGeneralInvoice;
+        // $this->isAlternativeInvoices =  $isAlternativeInvoices;
+        // $this->dealId =  $dealId;
+        // $this->withStamps = $withStamps;
+        // $this->withManager = $withManager;
+        $this->data = $data;
     }
 
     /**
@@ -102,30 +104,32 @@ class BitrixDealDocumentJob implements ShouldQueue
      */
     public function handle()
     {
-        $documentService = new BitrixDealDocumentService(
-            $this->domain,
-            $this->placement,
-            $this->userId,
-            $this->providerRq,
-            $this->documentNumber,
-            $this->data,
-            $this->invoiceDate,
-            $this->headerData,
-            $this->doubleHeaderData,
-            $this->footerData,
-            $this->letterData,
-            $this->infoblocksData,
-            $this->bigDescriptionData,
+        // $documentService = new BitrixDealDocumentService(
+        //     $this->domain,
+        //     $this->placement,
+        //     $this->userId,
+        //     $this->providerRq,
+        //     $this->documentNumber,
+        //     $this->data,
+        //     $this->invoiceDate,
+        //     $this->headerData,
+        //     $this->doubleHeaderData,
+        //     $this->footerData,
+        //     $this->letterData,
+        //     $this->infoblocksData,
+        //     $this->bigDescriptionData,
             
-            $this->pricesData,
-            $this->stampsData,
-            $this->isTwoLogo,
-            $this->isGeneralInvoice,
-            $this->isAlternativeInvoices,
-            $this->dealId,
-            $this->withStamps,
-            $this->withManager
-        );
-        $documents = $documentService->getDocuments();
+        //     $this->pricesData,
+        //     $this->stampsData,
+        //     $this->isTwoLogo,
+        //     $this->isGeneralInvoice,
+        //     $this->isAlternativeInvoices,
+        //     $this->dealId,
+        //     $this->withStamps,
+        //     $this->withManager
+        // );
+        // $documents = $documentService->getDocuments();
+        $controller = new PDFDocumentController();
+        $controller->getDocument($this->data);
     }
 }
