@@ -12,7 +12,6 @@ use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
 
 use App\Http\Controllers\UserController;
-use App\Jobs\BitrixDealDocumentJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -76,12 +75,11 @@ Route::middleware(['ajax.only', 'ajax.only'])->group(function () {
         //     'get/document manager' => $data['manager']['NAME'],
         // ]);
 
-        // $documentController = new PDFDocumentController;
-        // $result = $documentController->getDocument($data);
+        $documentController = new PDFDocumentController;
+        $result = $documentController->getDocument($data);
 
-        dispatch(new BitrixDealDocumentJob($data));
-        return APIController::getSuccess(['job' => 'get it !']);
-        // return $result;
+
+        return $result;
     });
     Route::get('templates/{domain}', function ($domain) {
         return TemplateController::getTemplates($domain);
