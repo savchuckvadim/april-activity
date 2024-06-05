@@ -1282,7 +1282,7 @@ class BitrixController extends Controller
                         ]
                     ]);
                     Log::info('error', [
-                        'SET_DEAL' => [
+                        $method => [
                             'btrx error' => $response['error'],
                             'btrx response' => $response['error_description']
                         ]

@@ -27,4 +27,9 @@ class DealDocumentOption extends Model
         'otherSettings' 
       
     ];
+
+    public function favorites()
+    {
+        return $this->hasMany(DealDocumentFavorite::class, 'dealDocumentOptionId');
+    }
 }

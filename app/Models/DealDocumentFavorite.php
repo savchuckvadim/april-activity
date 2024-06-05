@@ -8,7 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class DealDocumentFavorite extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'dealId',
+        'dealDocumentOptionId',
+        'domain',
+        'btxUserId',
+        'title',
+        'complectName',
+        'dealName',
+        'description',
+        'settings',
+        'tag',
+        'type',
+        'group',
+        'promotionName',
+        'promotionCode',
+        'targetAudience',
+    ];
 
     // Связь с Deal
     public function deal()

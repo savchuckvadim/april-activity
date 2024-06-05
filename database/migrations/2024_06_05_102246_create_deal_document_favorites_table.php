@@ -16,8 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('dealId')->nullable();   //id модели в online сохраненной сделки - deals
             $table->foreignId('dealDocumentOptionId')->nullable();
+            $table->foreignId('userId')->nullable();
             $table->string('domain')->nullable();
-            $table->integer('userId')->nullable();
+            $table->integer('btxUserId')->nullable();
             $table->string('title')->nullable();
             $table->string('complectName')->nullable();
             $table->string('dealName')->nullable();
