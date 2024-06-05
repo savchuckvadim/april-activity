@@ -22,12 +22,7 @@ class Deal extends Model
         'result',
         'rows',
         'userId',
-        'regions'
-        
-       
-        
-        
-       
+        'regions'    
         // 'product',
       
         
@@ -37,5 +32,10 @@ class Deal extends Model
     public function portal()
     {
         return $this->belongsTo(Portal::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(DealDocumentFavorite::class, 'dealId');
     }
 }

@@ -17,7 +17,7 @@ class CreateDealsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('portalId')->nullable();
-            $table->integer('dealId')->nullable();
+            $table->integer('dealId')->nullable();  //id сделки в битриксе
             $table->integer('userId')->nullable();
             $table->string('domain')->nullable();
             $table->string('dealName')->nullable();
@@ -29,7 +29,7 @@ class CreateDealsTable extends Migration
             $table->text('contract')->nullable();
             $table->text('product')->nullable();
             $table->text('rows')->nullable();
-
+            //regions added
         });
     }
 
