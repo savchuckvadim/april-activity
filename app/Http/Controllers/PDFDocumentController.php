@@ -1091,7 +1091,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 18;
             } else  if ($descriptionMode === 2) {
-                $itemsPerPage = 10;
+                $itemsPerPage = 8;
             }
         } else {
             if ($descriptionMode === 0 || $descriptionMode === 3) {
@@ -1099,7 +1099,7 @@ class PDFDocumentController extends Controller
             } else if ($descriptionMode === 1) {
                 $itemsPerPage = 9;
             } else if ($descriptionMode === 2) {
-                $itemsPerPage = 9;
+                $itemsPerPage = 8;
             }
         }
 
