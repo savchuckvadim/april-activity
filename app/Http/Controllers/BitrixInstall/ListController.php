@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Log;
 
 class ListController extends Controller
 {
-    public static function setLists($token)
+    public static function setLists($token, $domain)
     {
 
         try {
-            $domain = '';
+         
             $hook = BitrixController::getHook($domain);
             $portal = Portal::where('domain', $domain)->first();
             $webhookRestKey = $portal->getHook();
