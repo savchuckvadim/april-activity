@@ -64,11 +64,11 @@ Route::get('/install/fields/{entityType}/{pass}/{token}/{smartId}', function ($e
 
 Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    // dd([
-    //     'pass' => $pass,
-    //     'domain' => $domain,
-    //     'token' => $token,
-    // ]);
+    dd([
+        'pass' => $pass,
+        'domain' => $domain,
+        'token' => $token,
+    ]);
 
     if ($pass == 'nmbrsdntl' && $domain) {
         return ListController::setLists($token, $domain);
