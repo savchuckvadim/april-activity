@@ -62,7 +62,7 @@ Route::get('/install/fields/{entityType}/{pass}/{token}/{smartId}', function ($e
 });
 
 
-Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $token, $domain) {
+Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     dd([
         'pass' => $pass,
