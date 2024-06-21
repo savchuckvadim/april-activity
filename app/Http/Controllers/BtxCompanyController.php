@@ -134,7 +134,7 @@ class BtxCompanyController extends Controller
             $company = BtxCompany::find($companyId);
 
             if ($company) {
-                $bitrixfields = $company->fields;
+                $bitrixfields = $company->bitrixfields;
                 return APIController::getSuccess(
                     ['bitrixfields' => $bitrixfields]
                 );
