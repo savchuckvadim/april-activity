@@ -689,11 +689,15 @@ class InstallFieldsController extends Controller
                     }
                 }
 
-                foreach ($portalFields as $portalField) {
-                    if ($field['code'] === $portalField['code']) {
-                        $currentPortalField = $portalField;
+                if (!empty($portalFields)) {
+
+                    foreach ($portalFields as $portalField) {
+                        if ($field['code'] === $portalField['code']) {
+                            $currentPortalField = $portalField;
+                        }
                     }
                 }
+
                 // if($index < 10){
                 //     Log::channel('telegram')->error("currentPortalField", [
                 //         'currentPortalField' => $currentPortalField,
