@@ -24,8 +24,10 @@ class InstallFieldsController extends Controller
     static function setFields(
         $token,
         $entityType,
+        $domain,
         $btxSmart = null,
         $portalSmart = null
+        
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя

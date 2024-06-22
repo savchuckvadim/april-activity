@@ -52,10 +52,16 @@ Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
 });
 
 
-Route::get('/install/fields/{entityType}/{pass}/{token}/{smartId}', function ($entityType, $pass, $token, $smartId = null) {
+Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', function (
+    $entityType,
+    $pass,
+    $domain,
+    $token,
+    $smartId = null
+) {
     // $url = LinkController ::urlForRedirect($linkId);
     if ($pass == 'nmbrsdntl') {
-        return InstallFieldsController::setFields($token, $entityType, $smartId);
+        return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
     } else {
         return 'yo';
     }
@@ -73,6 +79,6 @@ Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, 
     // if ($pass == 'nmbrsdntl' && $domain) {
     //     return ListController::setLists($token, $domain);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
