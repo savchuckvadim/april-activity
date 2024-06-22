@@ -161,7 +161,7 @@ class BtxDealController extends Controller
             $deal = BtxDeal::find($dealId);
 
             if ($deal) {
-                $bitrixfields = $deal->fields;
+                $bitrixfields = $deal->bitrixfields;
                 return APIController::getSuccess(
                     ['bitrixfields' => $bitrixfields]
                 );
