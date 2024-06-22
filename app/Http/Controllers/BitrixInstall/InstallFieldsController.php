@@ -89,9 +89,8 @@ class InstallFieldsController extends Controller
     // portal->deal->where('group', 'sales')->first()
 
     {
-        $domain = '';
+    
         $responseData = null;
-        $domain = 'april-dev.bitrix24.ru';
         try {
             $hook = BitrixController::getHook($domain);
 
