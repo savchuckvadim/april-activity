@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Log;
 class InstallDealController extends Controller
 {
     public static function installDealCtaegories(
-        // $domain,
+        $domain,
         // $smarts
         $token
     ) {
         
-        $domain = '';
+   
         $appType = 'general';
         $group = 'sales';
         // $method = '/crm.deal.userfield.add';

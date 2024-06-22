@@ -31,10 +31,10 @@ Route::get('/link/{linkId}', function ($linkId) {
 });
 
 
-Route::get('/install/deal/{pass}/{token}', function ($pass, $token) {
+Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass,$domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     if ($pass == 'nmbrsdntl') {
-        return InstallDealController::installDealCtaegories($token);
+        return InstallDealController::installDealCtaegories($domain, $token);
     } else {
         return 'yo';
     }
@@ -60,11 +60,11 @@ Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', fun
     $smartId = null
 ) {
     // $url = LinkController ::urlForRedirect($linkId);
-    if ($pass == 'nmbrsdntl') {
-        return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
-    } else {
+    // if ($pass == 'nmbrsdntl') {
+    //     return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
+    // } else {
         return 'yo';
-    }
+    // }
 });
 
 
