@@ -1263,6 +1263,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // //.................................... initial RQ
     // initial from parent
+    Route::get('rqы', function ($providerId) {
+
+        return RqController::getRqs($providerId);
+    });
     Route::get('initial/provider/{providerId}/rq', function ($providerId) {
 
         return RqController::getInitial($providerId);
