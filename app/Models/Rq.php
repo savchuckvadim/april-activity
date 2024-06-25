@@ -154,6 +154,7 @@ class Rq extends Model
             'type' =>  'string',
             'validation' => 'required',
             'initialValue' => $agentId,
+            'value' => $agentId,
             'items' => $agentsSelect,
             'isCanAddField' => false,
 
