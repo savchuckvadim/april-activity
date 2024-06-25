@@ -88,7 +88,7 @@ class Rq extends Model
     public static function getForm($agentId)
     {
 
-        $agentsSelect = AgentController::getProvider($agentId);
+        $agentsSelect = AgentController::getSelectProviders($agentId);
         $fillable = [
             'number',
             'name',
@@ -151,7 +151,7 @@ class Rq extends Model
             'entityType' => 'rq',
             'name' => 'agentId',
             'apiName' => 'agentId',
-            'type' =>  'string',
+            'type' =>  'select',
             'validation' => 'required',
             'initialValue' => $agentId,
             'value' => $agentId,

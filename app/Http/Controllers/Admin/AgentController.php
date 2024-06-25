@@ -211,4 +211,35 @@ class AgentController extends Controller
             );
         }
     }
+
+
+    public static function getSelectProviders($providerId = null)
+    {
+        $allproviders = [];
+        $providerSelect = [];
+
+        if ($providerId) {
+            $int = intval($providerId);
+            $findingprovider = Agent::find($int);
+            if ($findingprovider) {
+                $allproviders = [
+                    $findingprovider
+                ];
+            }
+        } else {
+            $allproviders = Portal::all();
+        }
+
+
+        foreach ($allproviders  as $provider) {
+            array_push($providerSelect, [
+                'id' => $provider->id,
+                'domain' => '$provider->domain',
+                'name' => $provider->name,
+                'title' => $provider->code,
+            ]);
+        };
+
+        return  $providerSelect;
+    }
 }
