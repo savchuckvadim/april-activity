@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 class RqController extends Controller
 {
 
-    public static function getInitial($portalId = null)
+    public static function getInitial($providerId = null)
     {
 
-        $initialData = Agent::getForm($portalId);
+        $initialData = Rq::getForm($providerId);
         $data = [
             'initial' => $initialData
         ];
