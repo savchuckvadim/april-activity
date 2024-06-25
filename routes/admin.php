@@ -60,7 +60,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['api.key', 'ajax.only'])->group(function () {
+// Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
 
 
@@ -1336,4 +1336,4 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     Route::delete('{entityType}/{entityId}', function ($entityType, $fileId) {
         return BaseController::delete($entityType, $fileId);
     });
-});
+// });
