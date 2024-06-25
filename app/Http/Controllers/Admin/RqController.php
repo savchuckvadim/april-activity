@@ -12,6 +12,39 @@ use Illuminate\Http\Request;
 
 class RqController extends Controller
 {
+
+    public static function getInitial($portalId = null)
+    {
+
+        $initialData = Agent::getForm($portalId);
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
+    }
+
+    public static function getByPortal($agentId)
+    {
+        try {
+            $result = [];
+            $agent = Agent::find($agentId);
+            $rq = $agent->rq;
+            
+
+
+            return APIController::getSuccess(
+                ['rq' => $rq]
+            );
+
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                ['providers' => null]
+            );
+        }
+    }
+
     public static function getRqs()
     {
         try {

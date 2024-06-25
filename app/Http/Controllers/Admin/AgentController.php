@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 class AgentController extends Controller
 {
 
+    public static function getInitial($portalId = null)
+    {
+
+        $initialData = Agent::getForm($portalId);
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
+    }
+
     public static function getProviders()
     {
         try {
@@ -73,7 +83,7 @@ class AgentController extends Controller
             return APIController::getSuccess(
                 ['providers' => $providers]
             );
-            
+
         } catch (\Throwable $th) {
             return APIController::getResponse(
                 1,
