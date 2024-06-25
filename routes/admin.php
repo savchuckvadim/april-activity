@@ -1214,18 +1214,18 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
   // ........................................................................................... 
     // .........................................................................PRROVIDERS
 
-    // //.................................... initial COMPANIES
+    // //.................................... initial PRROVIDERS
     // initial from parent
     Route::get('initial/portal/{portalId}/provider', function ($portalId) {
 
-        return BtxCompanyController::getInitial($portalId);
+        return AgentController::getInitial($portalId);
     });
     // // single initial
     // Route::get('initial/company', function () {
     //     return BtxCompanyController::getInitial();
     // });
 
-    // .............................................GET  COMPANIES
+    // .............................................GET  PRROVIDERS
     // all from parent  portal
     Route::get('portal/{portalId}/providers', function ($portalId) {
 
@@ -1237,20 +1237,20 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
     });
 
 
-    // // //...............................................SET COMPANY
+    // // //...............................................SET PRROVIDERS
 
-    // Route::post('portal/{portalId}/company', function (Request $request) {
+    Route::post('portal/{portalId}/provider', function (Request $request) {
 
-    //     return BtxCompanyController::store($request);
-    // });
+        return AgentController::store($request);
+    });
 
-    // Route::post('company/{companyId}', function (Request $request) {
-    //     return BtxCompanyController::store($request);
-    // });
+    Route::post('provider/{providerId}', function (Request $request) {
+        return AgentController::store($request);
+    });
 
-    // // ............................................DELETE
+    // ............................................DELETE
     // Route::delete('company/{companyId}', function ($companyId) {
-    //     return BtxCompanyController::delete($companyId);
+    //     return AgentController::delete($companyId);
     // });
 
 
