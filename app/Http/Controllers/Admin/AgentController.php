@@ -97,16 +97,23 @@ class AgentController extends Controller
     {
         $id = null;
         $portal = null;
+        $portalId = null;
+        if (isset($request['portal_id'])) {
+            $portalId =$request['portal_id'];
+        }else if (isset($request['portal_id'])) {
+            $portalId =$request['portalId'];
+        }
+
         if (isset($request['id'])) {
             $id = $request['id'];
             $agent = Agent::find($id);
         } else {
-            if (isset($request['portal_id'])) {
+            if (isset($portalId)) {
 
-                $portal_id = $request['portal_id'];
-                $portal = Portal::find($portal_id);
+                $portalId = $portalId;
+                $portal = Portal::find($portalId);
                 $agent = new Agent();
-                $agent->portalId = $portal_id;
+                $agent->portalId = $portalId;
             }
         }
         $validatedData = $request->validate([
@@ -115,7 +122,7 @@ class AgentController extends Controller
             'number' => 'required|string',
             'code' => 'required|string',
             'type' => 'required|string',
-            'portal_id' => 'required|string',
+            // 'portal_id' => 'required|string',
 
         ]);
 
@@ -125,13 +132,13 @@ class AgentController extends Controller
             $agent->number = $validatedData['number'];
             $agent->code = $validatedData['code'];
             $agent->type = $validatedData['type'];
-            $agent->portalId = $validatedData['portal_id'];
+            $agent->portalId = $portalId;
 
 
             $agent->save(); // Сохранение Counter в базе данных
             $resultagent = $agent;
             return APIController::getSuccess(
-                ['provider' => $resultagent, 'portal' => $portal]
+                ['provider' => $resultagent, 'portal' => $portal, '$portalId' => $portalId]
             );
         }
 
