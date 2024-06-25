@@ -120,7 +120,7 @@ class RqController extends Controller
             // Создание нового Counter
             $rq->name = $validatedData['name'];
             $rq->number = (string)$validatedData['number'];
-            $rq->code = $validatedData['code'];
+            // $rq->code = $validatedData['code'];
             $rq->type = $validatedData['type'];
 
             $rq->fullname = $validatedData['fullname'];
