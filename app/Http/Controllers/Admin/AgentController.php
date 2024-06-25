@@ -105,7 +105,7 @@ class AgentController extends Controller
                 $portal_id = $request['portal_id'];
                 $portal = Portal::find($portal_id);
                 $agent = new Agent();
-                $agent->portal_id = $portal_id;
+                $agent->portalId = $portal_id;
             }
         }
         $validatedData = $request->validate([
