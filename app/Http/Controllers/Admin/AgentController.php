@@ -110,7 +110,7 @@ class AgentController extends Controller
             }
         }
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:btx_deals,id',
+            'id' => 'sometimes|integer|exists:agents,id',
             'name' => 'required|string',
             'number' => 'required|string',
             'code' => 'required|string',
