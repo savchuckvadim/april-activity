@@ -19,16 +19,19 @@ class AgentResource extends JsonResource
         //     $category = new BtxCategoryResource($ctgr);
         //    array_push($resultcategories, $category);
         // }
-
+        $rq = $this->rq;
+        if (!empty($rq)) {
+            $rq = [];
+        }
         return [
             'id' => $this->id,
-            'number' => $this->portal_id,
-            'type' => $this->code,
+            'number' => $this->number,
+            'type' => $this->type,
             'portalId' => $this->portalId,
             'name' => $this->name,
-            'code' =>  $this->code, 
-            'rq' => $this->rq,
-            
+            'code' =>  $this->code,
+            'rq' => $rq,
+
         ];
     }
 }
