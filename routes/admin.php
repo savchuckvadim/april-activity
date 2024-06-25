@@ -1263,16 +1263,16 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // //.................................... initial RQ
     // initial from parent
-    Route::get('initial/portal/{portalId}/provider', function ($portalId) {
+    Route::get('initial/provider/{providerId}/rq', function ($providerId) {
 
-        return RqController::getInitial($portalId);
+        return RqController::getInitial($providerId);
     });
 
     // .............................................GET  REQUESITAS
     // all from parent  portal
-    Route::get('portal/{portalId}/rqs', function ($portalId) {
+    Route::get('provider/{providerId}/rqs', function ($providerId) {
 
-        return RqController::getByPortal($portalId);
+        return RqController::getByPortal($providerId);
     });
     // ...............  get company
     Route::get('rq/{rqId}', function ($rqId) {
@@ -1282,7 +1282,7 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // // //...............................................SET REQUESITAS
 
-    Route::post('portal/{portalId}/rq', function (Request $request) {
+    Route::post('provider/{providerId}/rq', function (Request $request) {
 
         return RqController::store($request);
     });
@@ -1291,10 +1291,10 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
         return RqController::store($request);
     });
 
-    // ............................................DELETE
-    Route::delete('company/{companyId}', function ($companyId) {
-        return BtxCompanyController::delete($companyId);
-    });
+    // // ............................................DELETE
+    // Route::delete('company/{companyId}', function ($companyId) {
+    //     return BtxCompanyController::delete($companyId);
+    // });
 
 
 
