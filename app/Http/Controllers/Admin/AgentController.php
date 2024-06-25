@@ -61,7 +61,27 @@ class AgentController extends Controller
             );
         }
     }
+    public static function getByPortal($portalId)
+    {
+        try {
+            $result = [];
+            $portal = Portal::find($portalId);
+            $providers = $portal->providers;
+            
 
+
+            return APIController::getSuccess(
+                ['providers' => $providers]
+            );
+            
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                ['providers' => null]
+            );
+        }
+    }
     public static function store(Request $request)
     {
         $id = null;
