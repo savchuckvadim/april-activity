@@ -14,13 +14,9 @@ class AgentResource extends JsonResource
      */
     public function toArray($request): array
     {
-        // $resultcategories = [];
-        // foreach ($this->categories as $ctgr) {
-        //     $category = new BtxCategoryResource($ctgr);
-        //    array_push($resultcategories, $category);
-        // }
+    
         $rq = $this->rq;
-        if (!empty($rq)) {
+        if (empty($rq)) {
             $rq = [];
         }
         return [
