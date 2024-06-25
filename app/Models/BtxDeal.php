@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class BtxDeal extends Model
 {
     use HasFactory;
-    protected $with = ['categories', 'bitrixfields']; 
+    protected $with = [
+        'categories', 'bitrixfields']; 
 
     public function portal()
     {

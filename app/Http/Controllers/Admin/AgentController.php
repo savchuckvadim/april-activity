@@ -32,7 +32,7 @@ class AgentController extends Controller
             );
         }
     }
-    
+
     public static function getProvider($providerId)
     {
         try {
@@ -61,6 +61,56 @@ class AgentController extends Controller
             );
         }
     }
+
+    public static function store(Request $request)
+    {
+        $id = null;
+        $portal = null;
+        if (isset($request['id'])) {
+            $id = $request['id'];
+            $agent = Agent::find($id);
+        } else {
+            if (isset($request['portal_id'])) {
+
+                $portal_id = $request['portal_id'];
+                $portal = Portal::find($portal_id);
+                $agent = new Agent();
+                $agent->portal_id = $portal_id;
+            }
+        }
+        $validatedData = $request->validate([
+            'id' => 'sometimes|integer|exists:btx_deals,id',
+            'name' => 'required|string',
+            'number' => 'required|string',
+            'code' => 'required|string',
+            'type' => 'required|string',
+            'portal_id' => 'required|string',
+
+        ]);
+
+        if ($agent) {
+            // Создание нового Counter
+            $agent->name = $validatedData['name'];
+            $agent->title = $validatedData['title'];
+            $agent->code = $validatedData['code'];
+            $agent->type = $validatedData['type'];
+            $agent->portal_id = $validatedData['portal_id'];
+
+
+            $agent->save(); // Сохранение Counter в базе данных
+            $resultagent = $agent;
+            return APIController::getSuccess(
+                ['provider' => $resultagent, 'portal' => $portal]
+            );
+        }
+
+        return APIController::getError(
+            'portal was not found',
+            ['portal' => $portal]
+
+        );
+    }
+
     public static function setProviders($providers)
     {
         $result = [];
