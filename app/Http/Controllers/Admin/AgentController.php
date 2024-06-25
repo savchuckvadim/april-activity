@@ -132,7 +132,10 @@ class AgentController extends Controller
             $agent->number = $validatedData['number'];
             $agent->code = $validatedData['code'];
             $agent->type = $validatedData['type'];
-            $agent->portalId = $portalId;
+            if(!empty($portalId)){
+                $agent->portalId = $portalId;
+            }
+   
 
 
             $agent->save(); // Сохранение Counter в базе данных
