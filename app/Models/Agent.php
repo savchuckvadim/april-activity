@@ -9,22 +9,27 @@ use Illuminate\Database\Eloquent\Model;
 class Agent extends Model
 {
     use HasFactory;
-    protected $with = ['rq']; 
+    protected $with = ['rq'];
     protected $fillable = [
-        'number', 'type', 
+        'number', 'type',
         'portalId', 'name', 'code'
-    
+
     ];
-   
+
     public function portal()
     {
         return $this->belongsTo(Portal::class, 'portalId', 'id');
     }
 
-    
+
     public function rq()
     {
         return $this->hasOne(Rq::class, 'agentId', 'number');
+    }
+    // Аксессор для получения связи `rq`
+    public function getRqAttribute($value)
+    {
+        return $this->rq()->exists() ? $this->rq()->first() : [];
     }
 
     public static function getForm($portalId)
