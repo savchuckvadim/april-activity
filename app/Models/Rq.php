@@ -161,6 +161,7 @@ class Rq extends Model
         array_push($items, $relationitem);
         return [
             'apiName' => 'rq',
+            '$agentsSelect' => $agentsSelect,
             'title' => 'реквизиты',
             'entityType' => 'entity',
             'groups' => [
