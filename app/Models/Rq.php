@@ -39,7 +39,7 @@ class Rq extends Model
         'garantEmail',
         'phone',
 
-        
+
         'assigned',
         'assignedPhone',
         'other',
@@ -151,7 +151,7 @@ class Rq extends Model
             'entityType' => 'rq',
             'name' => 'agentId',
             'apiName' => 'agentId',
-            'type' =>  'select',
+            'type' =>  'string',
             'validation' => 'required',
             'initialValue' => $agentId,
             'items' => $agentsSelect,
