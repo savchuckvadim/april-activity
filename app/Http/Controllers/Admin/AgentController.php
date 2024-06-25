@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AgentResource;
 use App\Models\Agent;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -48,7 +49,7 @@ class AgentController extends Controller
         try {
 
             $provider = Agent::find($providerId);
-
+          
 
             if (!$provider) {
                 return response([
@@ -57,11 +58,11 @@ class AgentController extends Controller
                     'message' => 'provider not found'
                 ]);
             }
-
+            $resource = new AgentResource($provider);
             return APIController::getResponse(
                 0,
                 'success',
-                ['provider' => $provider]
+                ['provider' => $resource]
             );
         } catch (\Throwable $th) {
             return APIController::getResponse(
@@ -78,7 +79,7 @@ class AgentController extends Controller
             $portal = Portal::find($portalId);
             $providers = $portal->providers;
             
-
+            
 
             return APIController::getSuccess(
                 ['providers' => $providers]

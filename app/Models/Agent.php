@@ -27,10 +27,10 @@ class Agent extends Model
         return $this->hasOne(Rq::class, 'agentId', 'number');
     }
     // Аксессор для получения связи `rq`
-    public function getRqAttribute($value)
-    {
-        return $this->rq()->exists() ? $this->rq()->first() : [];
-    }
+    // public function getRqAttribute($value)
+    // {
+    //     return $this->rq()->exists() ? $this->rq()->first() : [];
+    // }
 
     public static function getForm($portalId)
     {
