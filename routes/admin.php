@@ -60,8 +60,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['ajax.only'])->group(function () {
+// Route::middleware(['ajax.only'])->group(function () {
 
+Route::group(function () {
 
 
 
@@ -584,7 +585,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
     //BITRIX IDS FOR CONNECTION AND HOOKS
 
-     //.................................... initial SMART
+    //.................................... initial SMART
     // initial from parent
     Route::get('initial/portal/{portalId}/departament', function ($portalId) {
 
@@ -1211,7 +1212,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
 
-  // ........................................................................................... 
+    // ........................................................................................... 
     // .........................................................................PRROVIDERS
 
     // //.................................... initial PRROVIDERS
@@ -1258,7 +1259,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
 
-      // ........................................................................................... 
+    // ........................................................................................... 
     // .........................................................................REQUESITAS RQ
 
     // //.................................... initial RQ
