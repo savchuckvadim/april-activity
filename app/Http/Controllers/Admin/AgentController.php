@@ -129,7 +129,7 @@ class AgentController extends Controller
         if ($agent) {
             // Создание нового Counter
             $agent->name = $validatedData['name'];
-            $agent->number = $validatedData['number'];
+            $agent->number = (string)$validatedData['number'];
             $agent->code = $validatedData['code'];
             $agent->type = $validatedData['type'];
             if(!empty($portalId)){
