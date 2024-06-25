@@ -107,10 +107,10 @@ class RqController extends Controller
             }
         }
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:agents,id',
+            'id' => 'sometimes|integer|exists:rqs,id',
             'name' => 'required|string',
             'number' => 'required|string',
-            'code' => 'required|string',
+            // 'code' => 'required|string',
             'type' => 'required|string',
             // 'portal_id' => 'required|string',
 
