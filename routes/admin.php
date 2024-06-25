@@ -1263,42 +1263,38 @@ Route::middleware(['api.key', 'ajax.only'])->group(function () {
 
     // //.................................... initial RQ
     // initial from parent
-    Route::get('initial/portal/{portalId}/company', function ($portalId) {
+    Route::get('initial/portal/{portalId}/provider', function ($portalId) {
 
-        return BtxCompanyController::getInitial($portalId);
-    });
-    // single initial
-    Route::get('initial/company', function () {
-        return BtxCompanyController::getInitial();
+        return RqController::getInitial($portalId);
     });
 
-    // .............................................GET  COMPANIES
+    // .............................................GET  REQUESITAS
     // all from parent  portal
-    // Route::get('portal/{portalId}/providers', function ($portalId) {
+    Route::get('portal/{portalId}/rqs', function ($portalId) {
 
-    //     return AgentController::getByPortal($portalId);
-    // });
-    // // ...............  get company
-    // Route::get('provider/{providerId}', function ($providerId) {
-    //     return AgentController::getProvider($providerId);
-    // });
+        return RqController::getByPortal($portalId);
+    });
+    // ...............  get company
+    Route::get('rq/{rqId}', function ($rqId) {
+        return RqController::getRq($rqId);
+    });
 
 
-    // // //...............................................SET COMPANY
+    // // //...............................................SET REQUESITAS
 
-    // Route::post('portal/{portalId}/company', function (Request $request) {
+    Route::post('portal/{portalId}/rq', function (Request $request) {
 
-    //     return BtxCompanyController::store($request);
-    // });
+        return RqController::store($request);
+    });
 
-    // Route::post('company/{companyId}', function (Request $request) {
-    //     return BtxCompanyController::store($request);
-    // });
+    Route::post('rq/{rqId}', function (Request $request) {
+        return RqController::store($request);
+    });
 
-    // // ............................................DELETE
-    // Route::delete('company/{companyId}', function ($companyId) {
-    //     return BtxCompanyController::delete($companyId);
-    // });
+    // ............................................DELETE
+    Route::delete('company/{companyId}', function ($companyId) {
+        return BtxCompanyController::delete($companyId);
+    });
 
 
 

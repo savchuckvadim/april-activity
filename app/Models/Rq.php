@@ -22,18 +22,24 @@ class Rq extends Model
         'inn',
         'kpp',
         'ogrn',
-        'ogrnip',
+
+        
         'personName',
         'document',
         'docSer',
         'docNum',
         'docDate',
+
+
         'docIssuedBy',
         'docDepCode',
         'registredAdress',
         'primaryAdresss',
-        'email', 'garantEmail',
+        'email', 
+        'garantEmail',
         'phone',
+
+        
         'assigned',
         'assignedPhone',
         'other',

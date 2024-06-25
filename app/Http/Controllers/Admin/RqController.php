@@ -88,6 +88,97 @@ class RqController extends Controller
         }
     }
 
+    public static function store(Request $request)
+    {
+        $id = null;
+        $portal = null;
+
+
+        if (isset($request['id'])) {
+            $id = $request['id'];
+            $rq = Rq::find($id);
+        } else {
+            if (isset($request['agentId'])) {
+
+                $agentId = $request['agentId'];
+                $agent = Agent::find($agentId);
+                $rq = new Rq();
+                $rq->agentId = $agentId;
+            }
+        }
+        $validatedData = $request->validate([
+            'id' => 'sometimes|integer|exists:agents,id',
+            'name' => 'required|string',
+            'number' => 'required|string',
+            'code' => 'required|string',
+            'type' => 'required|string',
+            // 'portal_id' => 'required|string',
+
+        ]);
+
+        if ($rq) {
+            // Создание нового Counter
+            $rq->name = $validatedData['name'];
+            $rq->number = (string)$validatedData['number'];
+            $rq->code = $validatedData['code'];
+            $rq->type = $validatedData['type'];
+
+            $rq->fullname = $validatedData['fullname'];
+            $rq->shortname = $validatedData['shortname'];
+            $rq->director = $validatedData['director'];
+            $rq->position = $validatedData['position'];
+            $rq->accountant = $validatedData['accountant'];
+            $rq->based = $validatedData['based'];
+            $rq->inn = $validatedData['inn'];
+            $rq->kpp = $validatedData['kpp'];
+            $rq->ogrn = $validatedData['ogrn'];
+
+            $rq->personName = $validatedData['personName'];
+            $rq->document = $validatedData['document'];
+            $rq->docSer = $validatedData['docSer'];
+            $rq->docNum = $validatedData['docNum'];
+            $rq->docDate = $validatedData['docDate'];
+
+            $rq->docIssuedBy = $validatedData['docIssuedBy'];
+            $rq->docDepCode = $validatedData['docDepCode'];
+            $rq->registredAdress = $validatedData['registredAdress'];
+            $rq->primaryAdresss = $validatedData['primaryAdresss'];
+            $rq->email = $validatedData['email'];
+            $rq->garantEmail = $validatedData['garantEmail'];
+            $rq->phone = $validatedData['phone'];
+
+            $rq->assigned = $validatedData['assigned'];
+            $rq->assignedPhone = $validatedData['assignedPhone'];
+            $rq->other = $validatedData['other'];
+            $rq->bank = $validatedData['bank'];
+            $rq->bik = $validatedData['bik'];
+            $rq->rs = $validatedData['rs'];
+            $rq->ks = $validatedData['ks'];
+            $rq->bankAdress = $validatedData['bankAdress'];
+            $rq->bankOther = $validatedData['bankOther'];
+
+
+            if(!empty($agentId)){
+                $rq->agentId = $agentId;
+            }
+   
+
+
+            $rq->save(); // Сохранение Counter в базе данных
+        
+            return APIController::getSuccess(
+                ['rq' => $rq, 'portal' => $portal, '$agentId' => $agentId]
+            );
+        }
+
+        return APIController::getError(
+            'portal was not found',
+            ['portal' => $portal]
+
+        );
+    }
+
+
     public static function setRqs($rqs)
     {
         $result = [];
