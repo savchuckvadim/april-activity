@@ -123,39 +123,39 @@ class RqController extends Controller
             // $rq->code = $validatedData['code'];
             $rq->type = $validatedData['type'];
 
-            $rq->fullname = $validatedData['fullname'];
-            $rq->shortname = $validatedData['shortname'];
-            $rq->director = $validatedData['director'];
-            $rq->position = $validatedData['position'];
-            $rq->accountant = $validatedData['accountant'];
-            $rq->based = $validatedData['based'];
-            $rq->inn = $validatedData['inn'];
-            $rq->kpp = $validatedData['kpp'];
-            $rq->ogrn = $validatedData['ogrn'];
+            $rq->fullname = $request['fullname'];
+            $rq->shortname = $request['shortname'];
+            $rq->director = $request['director'];
+            $rq->position = $request['position'];
+            $rq->accountant = $request['accountant'];
+            $rq->based = $request['based'];
+            $rq->inn = $request['inn'];
+            $rq->kpp = $request['kpp'];
+            $rq->ogrn = $request['ogrn'];
 
-            $rq->personName = $validatedData['personName'];
-            $rq->document = $validatedData['document'];
-            $rq->docSer = $validatedData['docSer'];
-            $rq->docNum = $validatedData['docNum'];
-            $rq->docDate = $validatedData['docDate'];
+            $rq->personName = $request['personName'];
+            $rq->document = $request['document'];
+            $rq->docSer = $request['docSer'];
+            $rq->docNum = $request['docNum'];
+            $rq->docDate = $request['docDate'];
 
-            $rq->docIssuedBy = $validatedData['docIssuedBy'];
-            $rq->docDepCode = $validatedData['docDepCode'];
-            $rq->registredAdress = $validatedData['registredAdress'];
-            $rq->primaryAdresss = $validatedData['primaryAdresss'];
-            $rq->email = $validatedData['email'];
-            $rq->garantEmail = $validatedData['garantEmail'];
-            $rq->phone = $validatedData['phone'];
+            $rq->docIssuedBy = $request['docIssuedBy'];
+            $rq->docDepCode = $request['docDepCode'];
+            $rq->registredAdress = $request['registredAdress'];
+            $rq->primaryAdresss = $request['primaryAdresss'];
+            $rq->email = $request['email'];
+            $rq->garantEmail = $request['garantEmail'];
+            $rq->phone = $request['phone'];
 
-            $rq->assigned = $validatedData['assigned'];
-            $rq->assignedPhone = $validatedData['assignedPhone'];
-            $rq->other = $validatedData['other'];
-            $rq->bank = $validatedData['bank'];
-            $rq->bik = $validatedData['bik'];
-            $rq->rs = $validatedData['rs'];
-            $rq->ks = $validatedData['ks'];
-            $rq->bankAdress = $validatedData['bankAdress'];
-            $rq->bankOther = $validatedData['bankOther'];
+            $rq->assigned = $request['assigned'];
+            $rq->assignedPhone = $request['assignedPhone'];
+            $rq->other = $request['other'];
+            $rq->bank = $request['bank'];
+            $rq->bik = $request['bik'];
+            $rq->rs = $request['rs'];
+            $rq->ks = $request['ks'];
+            $rq->bankAdress = $request['bankAdress'];
+            $rq->bankOther = $request['bankOther'];
 
 
             if(!empty($agentId)){
