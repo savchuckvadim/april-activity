@@ -1410,7 +1410,7 @@ class BitrixController extends Controller
             $domain = $request->domain;
             $userId = $request->userId;
             $placement = $request->placement;
-            $method = '/tasks.task.list.json';
+            $method = '/tasks.task.list';
             $controller = new BitrixController;
             $hook = $controller->getHookUrl($domain);
             $tasksGroupId = $controller->getCallingGroupId($domain);
@@ -1450,10 +1450,10 @@ class BitrixController extends Controller
 
             if ($hook) {
 
-                if(isset($userId['ID'])){
+                // if(isset($userId['ID'])){
 
-                    $userId = $userId['ID'];
-                }
+                //     $userId = 'user_'.$userId['ID'];
+                // }
 
 
                 $url = $hook . $method;
@@ -1509,7 +1509,9 @@ class BitrixController extends Controller
                                 '$response' => $response,
                                 '$tasksGroupId' => $tasksGroupId,
                                 'data' => $data,
-                                // 'RESPONSIBLE_ID' => $userId
+                                'RESPONSIBLE_ID' => $userId,
+                                '$url' => $url
+
 
 
                             ]
