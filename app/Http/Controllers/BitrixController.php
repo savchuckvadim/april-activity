@@ -1450,6 +1450,10 @@ class BitrixController extends Controller
 
             if ($hook) {
 
+                if(isset($userId['ID'])){
+
+                    $userId = $userId['ID'];
+                }
 
 
                 $url = $hook . $method;
