@@ -861,10 +861,12 @@ class BitrixController extends Controller
                                         ]
                                     ];
                                     $response = Http::get($url, $data);
+                                    $bxController = new BitrixController();
+                                    $departament = $bxController->getBitrixResponse($response, 'getDepartamentUsers');
                                     return APIController::getSuccess(
                                         [
                                             'response' => $response,
-                                            'departament' => $response['result']
+                                            'departament' => $departament
                                         ]
                                     );
                                 }
