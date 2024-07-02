@@ -190,7 +190,7 @@ Route::middleware(['ajax.only'])->group(function () {
     Route::get('portals', function () {
         return PortalController::getPortals();
     });
-    Route::post('portal', function (Request $request) {
+    Route::post('portal/{portalId}', function (Request $request) {
         $number  = $request->input('number');
         $domain  = $request->input('domain');
         $key = $request->input('key'); //placement key
