@@ -46,7 +46,7 @@ class PortalController extends Controller
             $data['C_REST_CLIENT_SECRET']  = Crypt::encryptString($secret);
             $data['C_REST_WEB_HOOK_URL'] =   Crypt::encryptString($hook);
 
-            $portal = Portal::firstOrCreate(
+            $portal = Portal::updateOrCreate(
                 ['domain' => $domain], // Условия для поиска
                 $data // Значения по умолчанию, если создается новая запись
             );
@@ -62,10 +62,10 @@ class PortalController extends Controller
                     'id' => $portal->id,
                     'number' => $portal->number,
                     'domain' => $domain,
-                    'key' => $portal->key,
-                    'C_REST_CLIENT_ID' => $portal->C_REST_CLIENT_ID,
-                    'C_REST_CLIENT_SECRET' => $portal->C_REST_CLIENT_SECRET,
-                    'C_REST_WEB_HOOK_URL' => $portal->C_REST_WEB_HOOK_URL,
+                    'key' =>  $data['key'],
+                    'C_REST_CLIENT_ID' => $data['C_REST_CLIENT_ID'],
+                    'C_REST_CLIENT_SECRET' =>  $data['C_REST_CLIENT_SECRET'] ,
+                    'C_REST_WEB_HOOK_URL' => $data['C_REST_WEB_HOOK_URL'],
                 ]
 
             ]);
