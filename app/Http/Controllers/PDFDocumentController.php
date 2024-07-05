@@ -32,7 +32,7 @@ class PDFDocumentController extends Controller
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
 
-
+                    $withHook = false;
                     $templateId = $template['id'];
                     $domain = $data['template']['portal'];
                     $dealId = $data['dealId'];
@@ -46,6 +46,11 @@ class PDFDocumentController extends Controller
                         }
                     }
 
+                    if (isset($data['withHook'])) {
+                        if (!empty($data['withHook'])) {
+                            $withHook = $data['withHook'];
+                        }
+                    }
 
 
 
@@ -231,7 +236,8 @@ class PDFDocumentController extends Controller
                     //             $isAlternativeInvoices,
                     //             $dealId,
                     //             $withStamps,
-                    //             $withManager
+                    //             $withManager,
+                    // $withHook
 
                     //         );
                     //         $documents = $documentService->getDocuments();
@@ -265,7 +271,8 @@ class PDFDocumentController extends Controller
                         $isAlternativeInvoices,
                         $dealId,
                         $withStamps,
-                        $withManager
+                        $withManager,
+                        $withHook
                     ));
 
                     return APIController::getSuccess(['job' => 'get it !']);
@@ -1349,15 +1356,14 @@ class PDFDocumentController extends Controller
     }
 
     protected function getWithPrice(
-        $pages, 
-        $descriptionMode, 
-        $styleMode, 
-        $productsCount, 
-        $salePhrase, 
-        $withStamps, 
+        $pages,
+        $descriptionMode,
+        $styleMode,
+        $productsCount,
+        $salePhrase,
+        $withStamps,
         $priceFirst
-        )
-    {
+    ) {
         $isWithPrice = false;
         $salePhraseLength = mb_strlen($salePhrase, "UTF-8");
         $entersCount = substr_count($salePhrase, "\n");
@@ -1380,7 +1386,7 @@ class PDFDocumentController extends Controller
         if (!$priceFirst) {
             if ((
                 $productsCount < 4 && $salePhraseLength < 150 && $entersCount < 3
-                ) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4)) {
+            ) || ($productsCount < 3 && $salePhraseLength <= 400 && $entersCount < 4)) {
 
                 if ($styleMode === 'list') {
 
@@ -1702,7 +1708,7 @@ class PDFDocumentController extends Controller
 
         $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
 
-   
+
 
 
         return $stampsData;

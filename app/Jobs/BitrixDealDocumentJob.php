@@ -42,8 +42,8 @@ class BitrixDealDocumentJob implements ShouldQueue
     protected $withManager;
     
     protected $userId;
-
-
+    protected $withHook = false;
+    
 
     public function __construct(
         $domain,
@@ -66,7 +66,8 @@ class BitrixDealDocumentJob implements ShouldQueue
         $isAlternativeInvoices,
         $dealId,
         $withStamps,
-        $withManager
+        $withManager,
+        $withHook = false,
 
 
 
@@ -93,7 +94,10 @@ class BitrixDealDocumentJob implements ShouldQueue
         $this->dealId =  $dealId;
         $this->withStamps = $withStamps;
         $this->withManager = $withManager;
+        $this->withHook = $withHook;
+
     }
+
 
     /**
      * Execute the job.
@@ -124,7 +128,8 @@ class BitrixDealDocumentJob implements ShouldQueue
             $this->isAlternativeInvoices,
             $this->dealId,
             $this->withStamps,
-            $this->withManager
+            $this->withManager,
+            $this->withHook
         );
         $documents = $documentService->getDocuments();
     }

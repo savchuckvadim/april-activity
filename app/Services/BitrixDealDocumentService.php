@@ -59,7 +59,7 @@ class BitrixDealDocumentService
     protected $leadId;
     protected $companyId;
     protected $dealId;
-
+    protected $withHook = false;
 
 
 
@@ -84,7 +84,8 @@ class BitrixDealDocumentService
         $isAlternativeInvoices,
         $dealId,
         $withStamps,
-        $withManager
+        $withManager,
+        $withHook = false
 
 
 
@@ -114,6 +115,8 @@ class BitrixDealDocumentService
         $this->withStamps = $withStamps;
         $this->withManager = $withManager;
         $this->isPriceFirst = false; //0 - no 1 -yes
+
+        $this->withHook = $withHook;
         if (!empty($data['settings'])) {
             if (!empty($data['settings']['isPriceFirst'])) {
                 if (!empty($data['settings']['isPriceFirst']['current'])) {
