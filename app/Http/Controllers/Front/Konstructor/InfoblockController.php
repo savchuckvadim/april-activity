@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Calling;
+namespace App\Http\Controllers\Front\Konstructor;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
