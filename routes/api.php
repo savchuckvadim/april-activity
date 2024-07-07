@@ -40,7 +40,8 @@ use function morphos\Russian\inflectName;
 //         return BitrixController::hooktest($request);
 //     });
 // });
-Route::middleware(['api.key', 'ajax.only'])->group(function () {
+// 'api.key', 
+Route::middleware(['ajax.only'])->group(function () {
 
     //..................................GENERAL FRONT APP ...............................
     Route::post('front/portal', function (Request $request) {
