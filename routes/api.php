@@ -8,6 +8,7 @@ use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\Front\Calling\InfoblockFrontController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
 
@@ -65,7 +66,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
 
     Route::get('/infoblocks', function () {
-        $controller = new InfoblockController();
+        $controller = new InfoblockFrontController();
         return $controller->getBlocks();
     });
 

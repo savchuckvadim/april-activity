@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Infoblock;
 use Illuminate\Http\Request;
 
-class InfoblockController extends Controller
+class InfoblockFrontController extends Controller
 {
     public function getBlocks()
     {
