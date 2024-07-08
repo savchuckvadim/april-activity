@@ -12,6 +12,7 @@ class InfoblockFrontController extends Controller
     public function getBlocks()
     {
         $iblocks = Infoblock::all();
+        
         return APIController::getSuccess($iblocks);
     }
 }
