@@ -494,7 +494,7 @@ class InstallRPAController extends Controller
         $resultStages = [];
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
-            foreach ($stages as $stage) {
+            foreach ($stages as $stage) {  //from google
 
                 $statusId = $stage['code'];
 
@@ -532,7 +532,7 @@ class InstallRPAController extends Controller
                             'SEMANTIC' => $stage['semantic'],
                             'IS_FIRST' => $stage['isFirst'],
                             'IS_SUCCESS' => $stage['isSuccess'],
-                            'IS_FAIL' => $stage['isFiail'],
+                            'IS_FAIL' => $stage['isFail'],
                         ]
                     ];
                 } else {
@@ -550,7 +550,7 @@ class InstallRPAController extends Controller
                             'SEMANTIC' => $stage['semantic'],
                             'IS_FIRST' => $stage['isFirst'],
                             'IS_SUCCESS' => $stage['isSuccess'],
-                            'IS_FAIL' => $stage['isFiail'],
+                            'IS_FAIL' => $stage['isFail'],
                         ]
                     ];
                 }
