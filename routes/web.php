@@ -4,6 +4,7 @@ use App\Http\Controllers\BitrixInstall\InstallController;
 use App\Http\Controllers\BitrixInstall\InstallDealController;
 use App\Http\Controllers\BitrixInstall\InstallFieldsController;
 use App\Http\Controllers\BitrixInstall\ListController;
+use App\Http\Controllers\BitrixInstall\RPA\InstallRPAController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Models\Link;
@@ -31,12 +32,12 @@ Route::get('/link/{linkId}', function ($linkId) {
 });
 
 
-Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass,$domain, $token) {
+Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     // if ($pass == 'nmbrsdntl') {
     //     return InstallDealController::installDealCtaegories($domain, $token);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
 
@@ -63,7 +64,7 @@ Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', fun
     // if ($pass == 'nmbrsdntl') {
     //     return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
 
@@ -81,4 +82,17 @@ Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, 
     // } else {
     return 'yo';
     // }
+});
+
+
+
+Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
+    // $url = LinkController ::urlForRedirect($linkId);
+    // return 'yo';
+
+    if ($pass == 'nmbrsdntl') {
+        return InstallRPAController::installRPA($domain, $token);
+    } else {
+        return 'yo';
+    }
 });

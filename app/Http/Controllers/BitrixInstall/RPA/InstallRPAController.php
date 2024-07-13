@@ -17,13 +17,11 @@ use Illuminate\Support\Facades\Log;
 
 class InstallRPAController extends Controller
 {
-    public static function installSmart(
-        // $domain,
+    public static function installRPA(
+        $domain,
         // $smarts
         $token
     ) {
-        // $domain = '';
-        $domain = 'april-dev.bitrix24.ru';
 
         // $method = '/crm.deal.userfield.add';
         $hook = BitrixController::getHook($domain);
@@ -82,7 +80,7 @@ class InstallRPAController extends Controller
                 $rpas = $googleData['rpa'];
 
                 foreach ($rpas as $rpa) {
-                 
+
                     $currentPortalRPA = null;
                     $currentBtxRPA = null;
                     $currentBtxRPAId = null;
@@ -123,6 +121,10 @@ class InstallRPAController extends Controller
                         'entityTypeId' => $rpa['entityTypeId'],
                         'code' => $rpa['code'],
                         'image' => $rpa['image'],
+
+                        
+
+
                     ];
 
 
@@ -144,7 +146,7 @@ class InstallRPAController extends Controller
                     if (!empty($currentBtxRPA)) {
                         if (!empty($currentBtxRPA['entityTypeId'] && !empty($currentBtxRPA['code']))) {
                             $currentPortalRPA = $portal->rpas()->where('code', $currentBtxRPA['code'])->first();
-                            $rpaEntityTypeId = $rpa['entityTypeId'];
+                            $smartEntityTypeId = $rpa['entityTypeId'];
                             if (!$currentPortalRPA) {
 
                                 $currentPortalRPA = new Smart();
@@ -157,11 +159,11 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->description = $rpa['description'];
                             $currentPortalRPA->typeId = $rpa['typeId'];
 
-                            $currentPortalRPA->bitrixId = $currentBtxRPA['id'];
-                            $currentPortalRPA->entityTypeId = $rpaEntityTypeId;
-                            $currentPortalRPA->forStageId = $rpaEntityTypeId;
+                            $currentPortalRPA->bitrixId = $smartEntityTypeId;
+                            $currentPortalRPA->entityTypeId = $smartEntityTypeId;
+                            $currentPortalRPA->forStageId = $smartEntityTypeId;
 
-                            $currentPortalRPA->forFilterId = $rpaEntityTypeId;
+                            $currentPortalRPA->forFilterId = $smartEntityTypeId;
                             $currentPortalRPA->crmId = $currentBtxRPA['id'];
 
                             $currentPortalRPA->save();
