@@ -28,7 +28,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('forFilterId')->nullable(); //DYNAMIC_134_  
             $table->unsignedBigInteger('crmId')->nullable();  //T9c_
-
+            $table->unsignedBigInteger('portal_id')->after('code'); // Добавить после столбца 'code'
+            $table->foreign('portal_id')->references('id')->on('portals')->onDelete('cascade');
 
             // 'list',
 			// 'settings',
