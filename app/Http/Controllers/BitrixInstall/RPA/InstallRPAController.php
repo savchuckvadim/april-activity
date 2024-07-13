@@ -202,7 +202,7 @@ class InstallRPAController extends Controller
                     // $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
                     // array_push($resultSmarts, $currentBtxSmart);
 
-                    InstallRPAFieldsController::setFields($token, 'smart', $currentBtxRPA, $currentPortalRPA);
+                    InstallRPAFieldsController::setFields($token, 'rpa', $domain, $currentBtxRPA, $currentPortalRPA);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
