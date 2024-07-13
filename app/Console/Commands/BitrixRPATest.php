@@ -6,7 +6,7 @@ use App\Http\Controllers\BitrixController;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class BitrixInstallTest extends Command
+class BitrixRPATest extends Command
 {
     /**
      * The name and signature of the console command.
