@@ -90,9 +90,9 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // $url = LinkController ::urlForRedirect($linkId);
     // return 'yo';
 
-    if ($pass == 'nmbrsdntl') {
-        return InstallRPAController::installRPA($domain, $token);
-    } else {
+    // if ($pass == 'nmbrsdntl') {
+    //     return InstallRPAController::installRPA($domain, $token);
+    // } else {
         return 'yo';
-    }
+    // }
 });
