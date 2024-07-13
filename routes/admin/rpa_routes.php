@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BitrixfieldController;
-use App\Http\Controllers\BtxRpaController;
+use App\Http\Controllers\Admin\BtxRpaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
