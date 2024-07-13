@@ -454,6 +454,15 @@ class InstallRPAController extends Controller
         // }
 
 
+        Log::channel('telegram')->info(
+            'INFO',
+            ['typeId' => $currentRPABxId]
+        );
+
+        Log::channel('telegram')->info(
+            'INFO',
+            ['portalSmartCategoryStages' => $portalSmartCategoryStages]
+        );
 
         //         Работа со стадиями смарт-процессов осуществляется через общий набор методов crm.status.*
 
@@ -524,7 +533,7 @@ class InstallRPAController extends Controller
                         'id' => $isExist,
                         'fields' => [
 
-                            'TYPE_ID' =>$currentRPABxId,
+                            'TYPE_ID' => $currentRPABxId,
                             'NAME' => $stage['title'],
                             'CODE' => $stage['code'],
                             'SORT' => $stage['order'],
