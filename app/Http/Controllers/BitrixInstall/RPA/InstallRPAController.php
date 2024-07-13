@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\Models\BtxCategory;
+use App\Models\BtxRpa;
 use App\Models\BtxStage;
 use App\Models\Portal;
 use App\Models\Smart;
@@ -101,15 +102,16 @@ class InstallRPAController extends Controller
                     Log::info('RPA ONLINE ADMIN', [
                         'getrpasResponse' => $getrpasResponse
                     ]);
-                    $getrpas = BitrixController::getBitrixResponse($getrpasResponse, 'get Smart');
+                    $getrpas = BitrixController::getBitrixResponse($getrpasResponse, 'get RPA');
 
                     if (!empty($getrpas)) {
                         if (!empty($getrpas['types'])) {
                             $currentBtxRPA = $getrpas['types'][0];
-                            $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
                         }
                     }
-
+                    $hookRPAInstallData = [
+                        'fields' => []
+                    ];
 
                     if (!$currentBtxRPA) {
                         $methodRPAInstall = '/rpa.type.add.json';
@@ -125,8 +127,8 @@ class InstallRPAController extends Controller
                     $hookRPAInstallData['fields'] = [
                         // 'id' => $smart['entityTypeId'],
                         'title' => $rpa['title'],
-                        'entityTypeId' => $rpa['entityTypeId'],
-                        'code' => $rpa['code'],
+                        // 'entityTypeId' => $rpa['entityTypeId'],
+                        // 'code' => $rpa['code'],
                         'image' => $rpa['image'],
 
 
@@ -142,7 +144,7 @@ class InstallRPAController extends Controller
                     if (isset($newRPA['type'])) {
                         $currentBtxRPA = $newRPA['type'];
                     }
-                    $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
+                    // $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
 
 
                     Log::channel('telegram')->info('RPA ONLINE ADMIN', [
@@ -157,12 +159,12 @@ class InstallRPAController extends Controller
 
 
                     if (!empty($currentBtxRPA)) {
-                        if (!empty($currentBtxRPA['entityTypeId'] && !empty($currentBtxRPA['code']))) {
-                            $currentPortalRPA = $portal->rpas()->where('code', $currentBtxRPA['code'])->first();
-                            $smartEntityTypeId = $rpa['entityTypeId'];
+                        if (!empty($currentBtxRPA['title'])) {
+                            $currentPortalRPA = $portal->rpas()->where('title', $currentBtxRPA['title'])->first();
+                            // $smartEntityTypeId = $rpa['entityTypeId'];
                             if (!$currentPortalRPA) {
 
-                                $currentPortalRPA = new Smart();
+                                $currentPortalRPA = new BtxRpa();
                                 $currentPortalRPA->portal_id = $portalId;
                             }
                             $currentPortalRPA->type = $rpa['type'];
@@ -172,11 +174,11 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->description = $rpa['description'];
                             $currentPortalRPA->typeId = $rpa['typeId'];
 
-                            $currentPortalRPA->bitrixId = $smartEntityTypeId;
-                            $currentPortalRPA->entityTypeId = $smartEntityTypeId;
-                            $currentPortalRPA->forStageId = $smartEntityTypeId;
+                            $currentPortalRPA->bitrixId = $currentBtxRPA['id'];
+                            $currentPortalRPA->entityTypeId =  $currentBtxRPA['id'];
+                            $currentPortalRPA->forStageId = $currentBtxRPA['id'];
 
-                            $currentPortalRPA->forFilterId = $smartEntityTypeId;
+                            $currentPortalRPA->forFilterId =  $currentBtxRPA['id'];
                             $currentPortalRPA->crmId = $currentBtxRPA['id'];
 
                             $currentPortalRPA->save();
