@@ -20,7 +20,7 @@ class Bitrixfield extends Model
         'parent_type', //название типа филда в родительской модели напр list или dealProduct dealComplect - к чему относится field
 
     ];
-    protected $with = ['items']; 
+    protected $with = ['items'];
     public function entity()
     {
         return $this->morphTo();
@@ -47,7 +47,10 @@ class Bitrixfield extends Model
             $parent = BtxCompany::find($parentId);
         } else      if ($parentType == 'lead') {
             $parent = BtxLead::find($parentId);
+        } else      if ($parentType == 'rpa') {
+            $parent = BtxRpa::find($parentId);
         }
+
 
 
 
