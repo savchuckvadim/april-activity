@@ -90,7 +90,7 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodRPAInstall;
                     $typeGetData = [
                         'filter' => [
-                            'title' => $rpa['title'],
+                            'TITLE' => $rpa['title'],
                         ]
                     ];
                     $getrpasResponse = Http::post($url, $typeGetData);
@@ -172,7 +172,7 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->name = $rpa['name'];
                             $currentPortalRPA->title = $rpa['title'];
                             $currentPortalRPA->description = $currentBtxRPA['id'];
-                            $currentPortalRPA->typeId = $rpa['typeId'];
+                            $currentPortalRPA->typeId = $currentBtxRPA['id'];
 
                             $currentPortalRPA->bitrixId = $currentBtxRPA['id'];
                             $currentPortalRPA->entityTypeId =  $currentBtxRPA['id'];
