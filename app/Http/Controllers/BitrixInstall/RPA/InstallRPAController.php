@@ -524,7 +524,7 @@ class InstallRPAController extends Controller
                         'id' => $isExist,
                         'fields' => [
 
-                            'TYPE_ID' => $stage['typeId'],
+                            'TYPE_ID' =>$currentRPABxId,
                             'NAME' => $stage['title'],
                             'CODE' => $stage['code'],
                             'SORT' => $stage['order'],
@@ -542,7 +542,7 @@ class InstallRPAController extends Controller
                     $hookStagesDataCalls = [
                         // 'statusId' => $statusId,
                         'fields' => [
-                            'TYPE_ID' => $stage['typeId'],
+                            'TYPE_ID' => $currentRPABxId,
                             'NAME' => $stage['title'],
                             'CODE' => $stage['code'],
                             'SORT' => $stage['order'],
