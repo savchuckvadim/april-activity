@@ -90,7 +90,7 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodRPAInstall;
                     $typeGetData = [
                         'filter' => [
-                            'TITLE' => $rpa['title'],
+                            'title' => $rpa['title'],
                         ]
                     ];
                     $getrpasResponse = Http::post($url, $typeGetData);
