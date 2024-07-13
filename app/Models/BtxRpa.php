@@ -140,7 +140,7 @@ class BtxRpa extends Model
 
                         [
                             'id' => 6,
-                            'title' => 'ID в битриксе !',
+                            'title' => 'ID в битриксе ! number',
                             'entityType' => 'rpa',
                             'name' => 'bitrixId',
                             'apiName' => 'bitrixId',
@@ -154,7 +154,7 @@ class BtxRpa extends Model
 
                         [
                             'id' => 7,
-                            'title' => 'typeId //134 ',
+                            'title' => 'typeId //134  string',
                             'entityType' => 'rpa',
                             'name' => 'typeId',
                             'apiName' => 'typeId',
@@ -180,7 +180,7 @@ class BtxRpa extends Model
                         ],
                         [
                             'id' => 9,
-                            'title' => 'entityTypeId //134 ',
+                            'title' => 'entityTypeId //134 number ',
                             'entityType' => 'rpa',
                             'name' => 'entityTypeId',
                             'apiName' => 'entityTypeId',
@@ -193,7 +193,7 @@ class BtxRpa extends Model
                         ],
                         [
                             'id' => 10,
-                            'title' => 'forStageId ',
+                            'title' => 'forStageId number',
                             'entityType' => 'rpa',
                             'name' => 'forStageId',
                             'apiName' => 'forStageId',
@@ -206,7 +206,7 @@ class BtxRpa extends Model
                         ],
                         [
                             'id' => 11,
-                            'title' => 'forFilterId  134',
+                            'title' => 'forFilterId  134 number',
                             'entityType' => 'rpa',
                             'name' => 'forFilterId',
                             'apiName' => 'forFilterId',
@@ -219,7 +219,7 @@ class BtxRpa extends Model
                         ],
                         [
                             'id' => 12,
-                            'title' => 'crmId  134',
+                            'title' => 'crmId  134 number',
                             'entityType' => 'rpa',
                             'name' => 'crmId',
                             'apiName' => 'crmId',
