@@ -8,6 +8,7 @@ use App\Http\Resources\BtxCategoryResource;
 use App\Models\BtxCategory;
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
+use App\Models\BtxRpa;
 use App\Models\Smart;
 use Illuminate\Http\Request;
 
@@ -74,6 +75,11 @@ class BtxCategoryController extends Controller
         } else if ($validatedData['entity_type'] === 'lead') {
             $validatedData['entity_type'] = BtxLead::class;
         } else if ($validatedData['entity_type'] === 'task') {
+
+            
+        } else if ($validatedData['entity_type'] === 'rpa') {
+            $validatedData['entity_type'] = BtxRpa::class;
+
         }
 
         if ($currentCategory) {

@@ -6,7 +6,7 @@ use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BtxDeal extends Model
+class BtxRpa extends Model
 {
     use HasFactory;
     protected $with = [
@@ -31,15 +31,6 @@ class BtxDeal extends Model
         return $this->morphMany(Bitrixfield::class, 'entity');
     }
 
-    public function callingFields()
-    {
-        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'calling');
-    }
-
-    public function offerFields()
-    {
-        return $this->morphMany(Bitrixfield::class, 'entity')->where('parent_type', 'konstructor');
-    }
 
 
     public static function getForm($portalId)
@@ -48,8 +39,8 @@ class BtxDeal extends Model
         $portalsSelect = PortalController::getSelectPortals($portalId);
 
         return [
-            'apiName' => 'deal',
-            'title' => 'Создание Сделка - обобщающая модель',
+            'apiName' => 'rpa',
+            'title' => 'Создание BX RPA - обобщающая модель',
             'entityType' => 'entity',
             'groups' => [
                 [
@@ -57,12 +48,11 @@ class BtxDeal extends Model
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
-                    'entityType' => 'group',
                     'fields' => [
                         [
                             'id' => 0,
                             'title' => 'name',
-                            'entityType' => 'deal',
+                            'entityType' => 'rpa',
                             'name' => 'name',
                             'apiName' => 'name',
                             'type' =>  'string',
@@ -75,7 +65,7 @@ class BtxDeal extends Model
                         [
                             'id' => 1,
                             'title' => 'Show Name (title)',
-                            'entityType' => 'deal',
+                            'entityType' => 'rpa',
                             'name' => 'title',
                             'apiName' => 'title',
                             'type' =>  'string',
@@ -89,7 +79,7 @@ class BtxDeal extends Model
                         [
                             'id' => 2,
                             'title' => 'code',
-                            'entityType' => 'deal',
+                            'entityType' => 'rpa',
                             'name' => 'code',
                             'apiName' => 'code',
                             'type' =>  'string',
@@ -102,7 +92,7 @@ class BtxDeal extends Model
                         [
                             'id' => 3,
                             'title' => 'Relation portal_id',
-                            'entityType' => 'deal',
+                            'entityType' => 'rpa',
                             'name' => 'portal_id',
                             'apiName' => 'portal_id',
                             'type' =>  'select',

@@ -64,6 +64,11 @@ class Portal extends Model
         return $this->hasMany(BtxLead::class);
     }
 
+    public function rpas()
+    {
+        return $this->hasMany(BtxRpa::class);
+    }
+
 
 
     public function departaments()

@@ -14,6 +14,7 @@ class BtxCategory extends Model
         'title', 'name', 'bitrixId', 'bitrixCamelId', 'code', 'isActive'
     ];
     protected $with = ['stages']; 
+    
     public function entity()
     {
         return $this->morphTo();
@@ -38,6 +39,9 @@ class BtxCategory extends Model
         } else   if ($parentType === 'lead') {
             $parentClass = BtxLead::class;
             $btxParent = BtxLead::find($parentId);
+        }else   if ($parentType === 'rpa') {
+            $parentClass = BtxRpa::class;
+            $btxParent = BtxRpa::find($parentId);
         }
 
 
