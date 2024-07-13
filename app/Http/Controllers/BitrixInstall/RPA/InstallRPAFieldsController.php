@@ -11,6 +11,7 @@ use App\Models\BitrixfieldItem;
 use App\Models\BtxCompany;
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
+use App\Models\BtxRpa;
 use App\Models\Portal;
 use App\Models\Smart;
 use FontLib\Table\Type\name;
@@ -25,8 +26,8 @@ class InstallRPAFieldsController extends Controller
         $token,
         $entityType,
         $domain,
-        $btxSmart = null,
-        $portalSmart = null
+        $btxRPA = null,
+        $currentPortalRPA = null
         
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
@@ -105,16 +106,19 @@ class InstallRPAFieldsController extends Controller
             $portal = Portal::where('domain', $domain)->first();
             $group = 'sales';
             $webhookRestKey = $portal->getHook();
-            $portalRPA = $portal->RPA();
+            $portalRPA = $portal->rpas();
 
 
 
-            $portalDealFields = [];
+            $portalRPAFields = [];
             if ((!empty($portalRPA))) {
-                $portalDealFields = $portalRPA->fields;
+                $portalRPAFields = $portalRPA->fields;
             }
 
-
+            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                'portalRPA' => $portalRPA,
+                
+            ]);
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
@@ -210,18 +214,18 @@ class InstallRPAFieldsController extends Controller
 
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
       
-                $parentClass = Smart::class;
-                if (!empty($portalSmart)) {
-                    $portalEntityFields = $portalSmart->fields;
+                $parentClass = BtxRpa::class;
+                if (!empty($portalRPA)) {
+                    $portalEntityFields = $portalRPA->fields;
 
 
                     $responseData = InstallRPAFieldsController::createFieldsForRPA(
                         $hook,
                         $fields,
                         $group,
-                        $portalSmart,
+                        $portalRPA,
                         $parentClass,
-                        $btxSmart,
+                        $btxRPA,
 
                     );
                 }
@@ -318,9 +322,9 @@ class InstallRPAFieldsController extends Controller
         // Step 1: Get all smart processes
         $url = $hook . '/userfieldconfig.list';
         $getSmartBtxFieldsData = [
-            'moduleId' => 'crm',
+            'moduleId' => 'rpa',
             'filter' => [
-                'entityId' => 'CRM_' . $btxSmart['id'],
+                'entityId' => 'RPA_' . $btxSmart['id'],
                 // 'entityTypeId' => $btxSmart['entityTypeId'],
             ]
         ];
@@ -339,7 +343,7 @@ class InstallRPAFieldsController extends Controller
 
         // ]);
         $response = Http::post($url, $getSmartBtxFieldsData);
-        $resultFields = BitrixController::getBitrixResponse($response, 'Create Smart Fields - get fields');
+        $resultFields = BitrixController::getBitrixResponse($response, 'Create RPA Fields - get fields');
 
         if (isset($resultFields['fields'])) {
 
@@ -375,7 +379,7 @@ class InstallRPAFieldsController extends Controller
                 foreach ($btxSmartFields as $curBtxField) {
                     sleep(1);
                     if (
-                        'UF_CRM_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
+                        'UF_RPA_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
 
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];

@@ -90,7 +90,7 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodRPAInstall;
                     $typeGetData = [
                         'filter' => [
-                            '=title' => $rpa['title'],
+                            'title' => $rpa['title'],
                         ]
                     ];
                     $getrpasResponse = Http::post($url, $typeGetData);
@@ -171,6 +171,7 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->code = $rpa['code'];
                             $currentPortalRPA->name = $rpa['name'];
                             $currentPortalRPA->title = $rpa['title'];
+                            $currentPortalRPA->image = $rpa['image'];
                             $currentPortalRPA->description = $currentBtxRPA['id'];
                             $currentPortalRPA->typeId = $currentBtxRPA['id'];
 
@@ -201,7 +202,7 @@ class InstallRPAController extends Controller
                     // $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
                     // array_push($resultSmarts, $currentBtxSmart);
 
-                    // InstallRPAFieldsController::setFields($token, 'smart', $currentBtxRPA, $currentPortalSmart);
+                    InstallRPAFieldsController::setFields($token, 'smart', $currentBtxRPA, $currentPortalRPA);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
