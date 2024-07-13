@@ -171,7 +171,7 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->code = $rpa['code'];
                             $currentPortalRPA->name = $rpa['name'];
                             $currentPortalRPA->title = $rpa['title'];
-                            $currentPortalRPA->description = $rpa['description'];
+                            $currentPortalRPA->description = $currentBtxRPA['id'];
                             $currentPortalRPA->typeId = $rpa['typeId'];
 
                             $currentPortalRPA->bitrixId = $currentBtxRPA['id'];
