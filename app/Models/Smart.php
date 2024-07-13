@@ -74,7 +74,7 @@ class Smart extends Model
 
                         [
                             'id' => 1,
-                            'title' => 'Тип группы звоноков (sales, service, seminars)',
+                            'title' => 'Тип smart (sales, service, seminars)',
                             'name' => 'type',
                             'apiName' => 'type',
                             'entityType' => 'smart',
