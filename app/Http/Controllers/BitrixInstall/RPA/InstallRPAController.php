@@ -76,7 +76,7 @@ class InstallRPAController extends Controller
 
 
             // Проверка на массив
-            if (is_array($googleData) && !empty($googleData['smarts'])) {
+            if (is_array($googleData) && !empty($googleData['rpa'])) {
                 $rpas = $googleData['rpa'];
 
                 foreach ($rpas as $rpa) {
