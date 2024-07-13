@@ -65,7 +65,7 @@ class BtxRpa extends Model
             'entityType' => 'entity',
             'groups' => [
                 [
-                    'groupName' => 'Сделка - обобщающая модель',
+                    'groupName' => 'BX RPA - обобщающая модель',
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
@@ -125,16 +125,7 @@ class BtxRpa extends Model
 
                         [
                             'id' => 5,
-                            'title' => 'image (
-                              list
-			                  settings
-			                  math
-			                  tick
-			                  plane
-			                  piece
-			                  vacation
-
-                            )',
+                            'title' => 'image: list, settings, math, tick, plane, piece, vacation',
                             'entityType' => 'rpa',
                             'name' => 'image',
                             'apiName' => 'image',
