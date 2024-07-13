@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BitrixfieldController;
+use App\Http\Controllers\Admin\BtxCategoryController;
 use App\Http\Controllers\Admin\BtxRpaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -58,3 +59,17 @@ Route::post('rpa/{rpaId}/bitrixfield', function (Request $request) {
     //store = set or uppdate
     return BitrixfieldController::store($request);
 });
+
+
+    //...................................................SET  category
+    // .................................   set or update
+    // ............................from parent smart
+    Route::post('rpa/{rpaId}/category', function (Request $request) {
+        //.........set                                                 store = set or uppdate
+        return BtxCategoryController::store($request);
+    });
+    // ....................................................GET   category
+
+    //................................. .get categories from parent
+    //  ........get categories -  all from parent  smart  
+    Route::get('rpa/{rpaId}/categories', [BtxRpaController::class, 'getCategories']);
