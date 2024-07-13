@@ -79,83 +79,61 @@ class InstallRPAController extends Controller
 
             // Проверка на массив
             if (is_array($googleData) && !empty($googleData['smarts'])) {
-                $smarts = $googleData['smarts'];
+                $rpas = $googleData['rpa'];
 
-                foreach ($smarts as $smart) {
-                    $currentPortalSmart = null;
-                    $currentBtxSmart = null;
-                    $currentBtxSmartId = null;
+                foreach ($rpas as $rpa) {
+                 
+                    $currentPortalRPA = null;
+                    $currentBtxRPA = null;
+                    $currentBtxRPAId = null;
 
-                    $methodSmartInstall = '/crm.type.list.json';
-                    $url = $hook . $methodSmartInstall;
+                    $methodRPAInstall = '/rpa.type.list.json';
+                    $url = $hook . $methodRPAInstall;
                     $typeGetData = [
                         'filter' => [
-                            'entityTypeId' => $smart['entityTypeId'],
+                            'entityTypeId' => $rpa['entityTypeId'],
                         ]
                     ];
-                    $getsmartResponse = Http::post($url, $typeGetData);
+                    $getrpasResponse = Http::post($url, $typeGetData);
 
-                    $getSmarts = BitrixController::getBitrixResponse($getsmartResponse, 'get Smart');
+                    $getrpas = BitrixController::getBitrixResponse($getrpasResponse, 'get Smart');
 
-                    if (!empty($getSmarts)) {
-                        if (!empty($getSmarts['types'])) {
-                            $currentBtxSmart = $getSmarts['types'][0];
-                            $currentBtxSmartId = $currentBtxSmart['entityTypeId'];
+                    if (!empty($getrpas)) {
+                        if (!empty($getrpas['types'])) {
+                            $currentBtxRPA = $getrpas['types'][0];
+                            $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
                         }
                     }
 
 
-                    if (!$currentBtxSmart) {
-                        $methodSmartInstall = '/crm.type.add.json';
+                    if (!$currentBtxRPA) {
+                        $methodRPAInstall = '/rpa.type.add.json';
                     } else {
-                        $methodSmartInstall = '/crm.type.update.json';
-                        $hookSmartInstallData = [
-                            'id' => $currentBtxSmart['id'],
+                        $methodRPAInstall = '/rpa.type.update.json';
+                        $hookRPAInstallData = [
+                            'id' => $currentBtxRPA['id'],
                             'fields' => []
                         ];
                     }
 
-                    $url = $hook . $methodSmartInstall;
-                    $hookSmartInstallData['fields'] = [
+                    $url = $hook . $methodRPAInstall;
+                    $hookRPAInstallData['fields'] = [
                         // 'id' => $smart['entityTypeId'],
-                        'title' => $smart['title'],
-                        'entityTypeId' => $smart['entityTypeId'],
-                        'code' => $smart['code'],
-                        'isCategoriesEnabled' => 'Y',
-                        'isStagesEnabled' => 'Y',
-                        'isClientEnabled' => 'Y',
-                        'isUseInUserfieldEnabled' => 'Y',
-                        'isLinkWithProductsEnabled' => 'Y',
-                        'isAutomationEnabled' => 'Y',
-                        'isBizProcEnabled' => 'Y',
-                        'availableEntityTypes' => ['COMPANY', 'DEAL', 'LEAD'],
-
-                        "isCrmTrackingEnabled" => "Y",
-                        "isMycompanyEnabled" => "Y",
-                        "isDocumentsEnabled" => "Y",
-                        "isSourceEnabled" => "Y",
-                        "isObserversEnabled" => "Y",
-                        "isRecyclebinEnabled" => "Y",
-
-                        "isChildrenListEnabled" => "Y",
-                        "isSetOpenPermissions" => "Y",
-                        "linkedUserField" =>  [
-                            'CALENDAR_EVENT|UF_CRM_CAL_EVENT',
-                            'TASKS_TASK|UF_CRM_TASK',
-                            'TASKS_TASK_TEMPLATE|UF_CRM_TASK',
-
-                        ]
+                        'title' => $rpa['title'],
+                        'entityTypeId' => $rpa['entityTypeId'],
+                        'code' => $rpa['code'],
+                        'image' => $rpa['image'],
                     ];
 
 
                     // Используем post, чтобы отправить данные
-                    $smartInstallResponse = Http::post($url, $hookSmartInstallData);
+                    $rpaInstallResponse = Http::post($url, $hookRPAInstallData);
 
-                    $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
-                    if (isset($newSmart['type'])) {
-                        $currentBtxSmart = $newSmart['type'];
+                    $newRPA = BitrixController::getBitrixResponse($rpaInstallResponse, 'newSmart');
+                    if (isset($newRPA['type'])) {
+                        $currentBtxRPA = $newRPA['type'];
                     }
-                    $currentBtxSmartId = $currentBtxSmart['entityTypeId'];
+                    $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
 
 
 
@@ -163,28 +141,30 @@ class InstallRPAController extends Controller
 
 
 
-                    if (!empty($currentBtxSmart)) {
-                        if (!empty($currentBtxSmart['entityTypeId'] && !empty($currentBtxSmart['code']))) {
-                            $currentPortalSmart = $portal->smarts()->where('type', $currentBtxSmart['code'])->first();
-                            $smartEntityTypeId = $smart['entityTypeId'];
-                            if (!$currentPortalSmart) {
+                    if (!empty($currentBtxRPA)) {
+                        if (!empty($currentBtxRPA['entityTypeId'] && !empty($currentBtxRPA['code']))) {
+                            $currentPortalRPA = $portal->rpas()->where('code', $currentBtxRPA['code'])->first();
+                            $rpaEntityTypeId = $rpa['entityTypeId'];
+                            if (!$currentPortalRPA) {
 
-                                $currentPortalSmart = new Smart();
-                                $currentPortalSmart->portal_id = $portalId;
+                                $currentPortalRPA = new Smart();
+                                $currentPortalRPA->portal_id = $portalId;
                             }
-                            $currentPortalSmart->type = $smart['code'];
-                            $currentPortalSmart->group = $smart['code'];
-                            $currentPortalSmart->name = $smart['code'];
-                            $currentPortalSmart->title = $smart['title'];
-                            $currentPortalSmart->bitrixId = $smartEntityTypeId;
-                            $currentPortalSmart->entityTypeId = $smartEntityTypeId;
-                            $currentPortalSmart->forStageId = $smartEntityTypeId;
-                            $currentPortalSmart->forStage = 'DT' . $smartEntityTypeId . '_';
-                            $currentPortalSmart->forFilterId = $smartEntityTypeId;
-                            $currentPortalSmart->forFilter = 'DYNAMIC_' . $smartEntityTypeId . '_';
-                            $currentPortalSmart->crmId = $currentBtxSmart['id'];
-                            $currentPortalSmart->crm = 'WARNING' . $smartEntityTypeId;
-                            $currentPortalSmart->save();
+                            $currentPortalRPA->type = $rpa['type'];
+                            $currentPortalRPA->code = $rpa['code'];
+                            $currentPortalRPA->name = $rpa['name'];
+                            $currentPortalRPA->title = $rpa['title'];
+                            $currentPortalRPA->description = $rpa['description'];
+                            $currentPortalRPA->typeId = $rpa['typeId'];
+
+                            $currentPortalRPA->bitrixId = $currentBtxRPA['id'];
+                            $currentPortalRPA->entityTypeId = $rpaEntityTypeId;
+                            $currentPortalRPA->forStageId = $rpaEntityTypeId;
+
+                            $currentPortalRPA->forFilterId = $rpaEntityTypeId;
+                            $currentPortalRPA->crmId = $currentBtxRPA['id'];
+
+                            $currentPortalRPA->save();
                         }
                     }
 
@@ -194,7 +174,7 @@ class InstallRPAController extends Controller
                     // $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
                     // array_push($resultSmarts, $currentBtxSmart);
 
-                    InstallRPAFieldsController::setFields($token, 'smart', $currentBtxSmart, $currentPortalSmart);
+                    // InstallRPAFieldsController::setFields($token, 'smart', $currentBtxRPA, $currentPortalSmart);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -528,7 +508,7 @@ class InstallRPAController extends Controller
 
                 $smartStageResponse = Http::post($url, $hookStagesDataCalls);
                 $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install');
-               
+
                 $currentPortalStage = null;
                 foreach ($portalSmartCategoryStages as $portalSmartCategoryStage) {
 
