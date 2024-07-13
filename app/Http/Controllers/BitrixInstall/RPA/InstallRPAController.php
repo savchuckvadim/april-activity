@@ -499,19 +499,22 @@ class InstallRPAController extends Controller
                 $statusId = $stage['code'];
 
                 $isExist = false;
-                foreach ($currentStages as $currentStage) {
-                    if (isset($currentStage['code'])) {
-                        if ($currentStage['code'] === $statusId) {
-                            $isExist = $currentStage['id'];
+                if (!empty($currentStages) && is_array($currentStages)) {
+                    foreach ($currentStages as $currentStage) {
+                        if (isset($currentStage['code'])) {
+                            if ($currentStage['code'] === $statusId) {
+                                $isExist = $currentStage['id'];
+                            }
                         }
-                    }
 
-                    if (isset($currentStage['CODE'])) {
-                        if ($currentStage['CODE'] === $statusId) {
-                            $isExist = $currentStage['ID'];
+                        if (isset($currentStage['CODE'])) {
+                            if ($currentStage['CODE'] === $statusId) {
+                                $isExist = $currentStage['ID'];
+                            }
                         }
                     }
                 }
+
 
                 if ($isExist) {
                     // Update stage
