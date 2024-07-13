@@ -199,7 +199,7 @@ class InstallRPAController extends Controller
 
 
 
-                    // $categories = InstallController::setCategories($hook, $smart['categories'], $currentBtxSmart, $currentPortalSmart);
+                    $categories = InstallRPAController::setCategories($hook, $rpa['categories'], $currentBtxRPA, $currentPortalRPA);
                     // array_push($resultSmarts, $currentBtxSmart);
 
                     InstallRPAFieldsController::setFields($token, 'rpa', $domain, $currentBtxRPA, $currentPortalRPA);
@@ -257,9 +257,9 @@ class InstallRPAController extends Controller
 
     static function setCategories(
         $hook,
-        $categories,
-        $currentBtxSmart,
-        $currentPortalSmart
+        $categories,  //from google
+        $currentBtxRPA,
+        $currentPortalRPA
         // $type, //smart deal task lead
         // $group, //sales service  отдел
         // $name,
@@ -276,7 +276,7 @@ class InstallRPAController extends Controller
         // "entityTypeId": 170,
         // "isDefault": "N"
 
-
+        $btxCategoryId = 0; //потому что у rpa нет категорий в битриксе
 
         // для связи с сущностью типа BtxDeal BtxList Smart
         // 'id' => 'sometimes|integer|exists:btx_categories,id',
@@ -308,91 +308,96 @@ class InstallRPAController extends Controller
 
 
 
-        $currentPortalCategories = $currentPortalSmart->categories;
+        $currentPortalCategories = $currentPortalRPA->categories;
 
 
-        $methodCategoryList = '/crm.category.list.json';
-        $url = $hook . $methodCategoryList;
+        // $methodCategoryList = '/crm.category.list.json';
+        // $url = $hook . $methodCategoryList;
 
 
         // }
         $defaultCategoryId = null;
         $results = [];
 
-        foreach ($categories as $category) {
+        foreach ($categories as $category) {     //from google
             $categoryName = $category['name'];
             // $isDefault = $category['type'] === 'base' ? 'Y' : 'N';
 
             // Ищем, есть ли уже категория по умолчанию
 
-            $methodCategoryInstall = '/crm.category.add.json';
-            $urlInstall = $hook . $methodCategoryInstall;
-            $btxCategoryId = null;
+            // $methodCategoryInstall = '/crm.category.add.json';
+            // $urlInstall = $hook . $methodCategoryInstall;
+            // $btxCategoryId = null;
 
 
-            $hookCategoriesData = [
-                'entityTypeId' => $category['entityTypeId'],
-                // 'statusEntityId' => 'DEAL_STAGE_3',
-                'fields' => [
-                    'name' => $categoryName,
-                    'title' => $category['title'],
-                    'isDefault' => $category['isDefault'],
+            // $hookCategoriesData = [
+            //     'entityTypeId' => $category['entityTypeId'],
+            //     // 'statusEntityId' => 'DEAL_STAGE_3',
+            //     'fields' => [
+            //         'name' => $categoryName,
+            //         'title' => $category['title'],
+            //         'isDefault' => $category['isDefault'],
 
-                    'sort' => $category['order'],
-                    'code' => $category['code']
-                ]
-            ];
+            //         'sort' => $category['order'],
+            //         'code' => $category['code']
+            //     ]
+            // ];
 
 
 
-            $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
-            $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
+            // $smartCategoriesResponse = Http::post($urlInstall, $hookCategoriesData);
+            // $bitrixResponseCategory = BitrixController::getBitrixResponse($smartCategoriesResponse, 'category');
 
-            // if (isset($bitrixResponseCategory['id'])) {
-            //     $categoryId = $bitrixResponseCategory['id'];
+            // // if (isset($bitrixResponseCategory['id'])) {
+            // //     $categoryId = $bitrixResponseCategory['id'];
+            // // }
+            // if (!empty($bitrixResponseCategory['category'])) {
+            //     $bitrixResponseCategory = $bitrixResponseCategory['category'];
+            //     if (isset($bitrixResponseCategory['id'])) {
+            //         $btxCategoryId = $bitrixResponseCategory['id'];
+            //     }
             // }
-            if (!empty($bitrixResponseCategory['category'])) {
-                $bitrixResponseCategory = $bitrixResponseCategory['category'];
-                if (isset($bitrixResponseCategory['id'])) {
-                    $btxCategoryId = $bitrixResponseCategory['id'];
+
+            // if ($btxCategoryId) {
+
+            //обновляем категорию в БД
+            $portalCategory = null;
+            $currentPortalCategory =  null;
+
+            if (!empty($currentPortalCategories) && is_array($currentPortalCategories)) {
+
+                $currentPortalCategory =   $currentPortalCategories[0];
+            }
+            if (!empty($currentPortalCategory) && isset($currentPortalCategory['code'])) {
+                if ($currentPortalCategory['code'] == $category['code']) {
+
+                    $portalCategory = BtxCategory::find($currentPortalCategory['id']);
                 }
             }
 
-            if ($btxCategoryId) {
-
-                //обновляем категорию в БД
-                $portalCategory = null;
-                foreach ($currentPortalCategories as $currentPortalCategory) { //перебираем категории сделки привязанной к порталу db
-                    if (!empty($currentPortalCategory) && isset($currentPortalCategory['code'])) {
-                        if ($currentPortalCategory['code'] == $category['code']) {
-
-                            $portalCategory = BtxCategory::find($currentPortalCategory['id']);
-                        }
-                    }
-                }
-                if (!$portalCategory) {
-                    $portalCategory = new BtxCategory();
-                    $portalCategory->entity_type = Smart::class;
-                    $portalCategory->entity_id = $currentPortalSmart->id;
-                    $portalCategory->parent_type = 'smart';
-                }
-
-                $portalCategory->group = $category['group'];
-                $portalCategory->title = $category['title'];
-                $portalCategory->name = $category['name'];
-                $portalCategory->code = $category['code'];
-                $portalCategory->type = $category['type'];
-                $portalCategory->isActive = $category['isActive'];
-                $portalCategory->bitrixId = $btxCategoryId;
-                $portalCategory->bitrixCamelId = $btxCategoryId;
-                $portalCategory->save();
-                $portalCategoryId = $portalCategory->id;
-                $portalSmartCategoryStages =  $portalCategory->stages->toArray();
-
-                // Создаем или обновляем стадии
-                $stages = InstallRPAController::setStages($hook, $category, $btxCategoryId, $portalSmartCategoryStages, $portalCategoryId);
-                array_push($results, $stages);
+            if (!$portalCategory) {
+                $portalCategory = new BtxCategory();
+                $portalCategory->entity_type = BtxRpa::class;
+                $portalCategory->entity_id = $currentPortalRPA->id;
+                $portalCategory->parent_type = 'rpa';
             }
+
+            $portalCategory->group = $category['group'];
+            $portalCategory->title = $category['title'];
+            $portalCategory->name = $category['name'];
+            $portalCategory->code = $category['code'];
+            $portalCategory->type = $category['type'];
+            $portalCategory->isActive = $category['isActive'];
+            $portalCategory->bitrixId = $btxCategoryId;
+            $portalCategory->bitrixCamelId = $btxCategoryId;
+            $portalCategory->save();
+            $portalCategoryId = $portalCategory->id;
+            $portalSmartCategoryStages =  $portalCategory->stages->toArray();
+
+            // Создаем или обновляем стадии
+            $stages = InstallRPAController::setStages($hook, $category, $btxCategoryId, $portalSmartCategoryStages, $portalCategoryId, $currentPortalRPA['bitrixId']);
+            array_push($results, $stages);
+            // }
         }
 
         return $results;
@@ -404,7 +409,8 @@ class InstallRPAController extends Controller
         $category,
         $btxCategoryId,
         $portalSmartCategoryStages,
-        $portalCategoryId
+        $portalCategoryId,
+        $currentRPABxId,
         // $entityTypeId, //id smart process или у deal - 2
         // $stages,
         // $category
@@ -476,10 +482,10 @@ class InstallRPAController extends Controller
 
 
 
-        $currentstagesMethod = '/crm.status.list.json';
+        $currentstagesMethod = '/rpa.stage.listForType.json';
         $url = $hook . $currentstagesMethod;
         $hookCurrentStagesData = [
-            'filter' => ['ENTITY_ID' => 'DYNAMIC_' . $category['entityTypeId'] . '_STAGE_' . $btxCategoryId]
+            'filter' => ['TYPE_ID' => $currentRPABxId]
         ];
 
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
@@ -490,44 +496,58 @@ class InstallRPAController extends Controller
             $stages = $category['stages'];
             foreach ($stages as $stage) {
 
-                $statusId = 'DT' . $stage['entityTypeId'] . '_' . $btxCategoryId . ':' . $stage['bitrixId'];
-                $dynamicId = 'DYNAMIC_' . $stage['entityTypeId'] . '_STAGE_' . $btxCategoryId;
+                $statusId = $stage['code'];
 
                 $isExist = false;
                 foreach ($currentStages as $currentStage) {
-                    if ($currentStage['STATUS_ID'] === $statusId) {
-                        $isExist = $currentStage['ID'];
+                    if (isset($currentStage['code'])) {
+                        if ($currentStage['code'] === $statusId) {
+                            $isExist = $currentStage['id'];
+                        }
+                    }
+
+                    if (isset($currentStage['CODE'])) {
+                        if ($currentStage['CODE'] === $statusId) {
+                            $isExist = $currentStage['ID'];
+                        }
                     }
                 }
 
                 if ($isExist) {
                     // Update stage
-                    $methodStageInstall = '/crm.status.update.json';
+                    $methodStageInstall = '/rpa.stage.update.json';
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
-                        'ID' => $isExist,
+                        'id' => $isExist,
                         'fields' => [
+
+                            'TYPE_ID' => $stage['typeId'],
                             'NAME' => $stage['title'],
-                            'TITLE' => $stage['title'],
+                            'CODE' => $stage['code'],
                             'SORT' => $stage['order'],
                             'COLOR' => $stage['color'],
-                            'isDefault' => $stage['isDefault'],
+                            'SEMANTIC' => $stage['semantic'],
+                            'IS_FIRST' => $stage['isFirst'],
+                            'IS_SUCCESS' => $stage['isSuccess'],
+                            'IS_FAIL' => $stage['isFiail'],
                         ]
                     ];
                 } else {
                     // Create stage
-                    $methodStageInstall = '/crm.status.add.json';
+                    $methodStageInstall = '/rpa.stage.add.json';
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
-                        'statusId' => $statusId,
+                        // 'statusId' => $statusId,
                         'fields' => [
-                            'STATUS_ID' => $statusId,
-                            'ENTITY_ID' => $dynamicId,
+                            'TYPE_ID' => $stage['typeId'],
                             'NAME' => $stage['title'],
-                            'TITLE' => $stage['title'],
+                            'CODE' => $stage['code'],
                             'SORT' => $stage['order'],
                             'COLOR' => $stage['color'],
-                            'isDefault' => $stage['isDefault'],
+                            'SEMANTIC' => $stage['semantic'],
+                            'IS_FIRST' => $stage['isFirst'],
+                            'IS_SUCCESS' => $stage['isSuccess'],
+                            'IS_FAIL' => $stage['isFiail'],
                         ]
                     ];
                 }
@@ -563,31 +583,31 @@ class InstallRPAController extends Controller
             }
 
             //deleting
-            foreach ($currentStages as $index => $currentStage) {
-                $delitingId = false;
-                foreach ($stages as $stage) {
-                    $statusId = 'DT' . $stage['entityTypeId'] . '_' . $btxCategoryId . ':' . $stage['bitrixId'];
-                    if ($currentStage['STATUS_ID'] ===  $statusId) {
-                        $delitingId =  $currentStage['ID'];
-                    }
-                    if ($delitingId) {
-                        $methodStageDelete = '/crm.status.delete.json';
-                        $url = $hook . $methodStageDelete;
-                        $hookStagesDataCalls  =
-                            [
+            // foreach ($currentStages as $index => $currentStage) {
+            //     $delitingId = false;
+            //     foreach ($stages as $stage) {
+            //         $statusId = 'DT' . $stage['entityTypeId'] . '_' . $btxCategoryId . ':' . $stage['bitrixId'];
+            //         if ($currentStage['STATUS_ID'] ===  $statusId) {
+            //             $delitingId =  $currentStage['ID'];
+            //         }
+            //         if ($delitingId) {
+            //             $methodStageDelete = '/crm.status.delete.json';
+            //             $url = $hook . $methodStageDelete;
+            //             $hookStagesDataCalls  =
+            //                 [
 
-                                'id' => $delitingId,
-                                'params' => [
-                                    'FORCED' => "Y"
-                                ]
+            //                     'id' => $delitingId,
+            //                     'params' => [
+            //                         'FORCED' => "Y"
+            //                     ]
 
-                            ];
+            //                 ];
 
-                        $smartStageResponse = Http::post($url, $hookStagesDataCalls);
-                        $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install delete');
-                    }
-                }
-            }
+            //             $smartStageResponse = Http::post($url, $hookStagesDataCalls);
+            //             $stageResultResponse = BitrixController::getBitrixResponse($smartStageResponse, 'stages install delete');
+            //         }
+            //     }
+            // }
         }
 
         return $resultStages;
