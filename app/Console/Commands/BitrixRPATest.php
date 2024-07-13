@@ -40,7 +40,9 @@ class BitrixRPATest extends Command
     public function handle()
     {
         $domain = 'april-dev.bitrix24.ru';
-        $method = '/rpa.stage.listForType.json';
+        // $method = '/rpa.stage.listForType.json';
+        $method = '/rpa.stage.add.json';
+        
         // $hook = env('TEST_HOOK');
         $hook = BitrixController::getHook($domain);
       

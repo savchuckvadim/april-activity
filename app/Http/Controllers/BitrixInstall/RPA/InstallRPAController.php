@@ -533,15 +533,15 @@ class InstallRPAController extends Controller
                         'id' => $isExist,
                         'fields' => [
 
-                            'TYPE_ID' => $currentRPABxId,
-                            'NAME' => $stage['title'],
-                            'CODE' => $stage['code'],
-                            'SORT' => $stage['order'],
-                            'COLOR' => $stage['color'],
-                            'SEMANTIC' => $stage['semantic'],
-                            'IS_FIRST' => $stage['isFirst'],
-                            'IS_SUCCESS' => $stage['isSuccess'],
-                            'IS_FAIL' => $stage['isFail'],
+                            'typeId' => $currentRPABxId,
+                            'name' => $stage['title'],
+                            'code' => $stage['code'],
+                            'sort' => $stage['order'],
+                            'color' => $stage['color'],
+                            'semantic' => $stage['semantic'],
+                            'isFirst' => $stage['isFirst'],
+                            'isSuccess' => $stage['isSuccess'],
+                            'isFail' => $stage['isFail'],
                         ]
                     ];
                 } else {
@@ -551,15 +551,15 @@ class InstallRPAController extends Controller
                     $hookStagesDataCalls = [
                         // 'statusId' => $statusId,
                         'fields' => [
-                            'TYPE_ID' => $currentRPABxId,
-                            'NAME' => $stage['title'],
-                            'CODE' => $stage['code'],
-                            'SORT' => $stage['order'],
-                            'COLOR' => $stage['color'],
-                            'SEMANTIC' => $stage['semantic'],
-                            'IS_FIRST' => $stage['isFirst'],
-                            'IS_SUCCESS' => $stage['isSuccess'],
-                            'IS_FAIL' => $stage['isFail'],
+                            'typeId' => $currentRPABxId,
+                            'name' => $stage['title'],
+                            'code' => $stage['code'],
+                            'sort' => $stage['order'],
+                            'color' => $stage['color'],
+                            'semantic' => $stage['semantic'],
+                            'isFirst' => $stage['isFirst'],
+                            'isSuccess' => $stage['isSuccess'],
+                            'isFail' => $stage['isFail'],
                         ]
                     ];
                 }
