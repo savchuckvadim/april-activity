@@ -45,7 +45,7 @@ class BtxRpaController extends Controller
             'id' => 'sometimes|integer|exists:btx_rpas,id',
             // 'entity_type' => 'required|string',
             'type' => 'required|string',
-            'group' => 'required|string',
+      
             'name' => 'required|string',
             'title' => 'required|string',
             'code' => 'required|string',
@@ -61,7 +61,6 @@ class BtxRpaController extends Controller
         ]);
         $type = $validatedData['type'];
         $code = $validatedData['code'];
-        $group = $validatedData['group'];
         $name = $validatedData['name'];
         $title = $validatedData['title'];
         $bitrixId = $validatedData['bitrixId'];
@@ -82,7 +81,7 @@ class BtxRpaController extends Controller
             $rpa->title = $title;
             $rpa->type = $type;
             $rpa->code = $code;
-            $rpa->group = $group;
+
             $rpa->bitrixId = $bitrixId;
             $rpa->entityTypeId = $entityTypeId;
             $rpa->forStageId = $forStageId;
