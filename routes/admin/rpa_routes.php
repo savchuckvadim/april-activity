@@ -36,7 +36,7 @@ Route::post('portal/{portalId}/rpa', [BtxRpaController::class, 'store']);
 Route::post('rpa/{rpaId}', [BtxRpaController::class, 'store']);
 
 // ............................................DELETE
-Route::delete('rpa/{rpaId}', [BtxRpaController::class, 'delete']);
+Route::delete('rpa/{rpaId}', [BtxRpaController::class, 'destroy']);
 
 
 //FIELDS
