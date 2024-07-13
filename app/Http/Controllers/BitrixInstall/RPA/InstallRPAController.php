@@ -94,6 +94,13 @@ class InstallRPAController extends Controller
                     ];
                     $getrpasResponse = Http::post($url, $typeGetData);
 
+                    Log::channel('telegram')->info('RPA ONLINE ADMIN', [
+                        'getrpasResponse' => $getrpasResponse
+                    ]);
+
+                    Log::info('RPA ONLINE ADMIN', [
+                        'getrpasResponse' => $getrpasResponse
+                    ]);
                     $getrpas = BitrixController::getBitrixResponse($getrpasResponse, 'get Smart');
 
                     if (!empty($getrpas)) {
@@ -122,7 +129,7 @@ class InstallRPAController extends Controller
                         'code' => $rpa['code'],
                         'image' => $rpa['image'],
 
-                        
+
 
 
                     ];
@@ -138,7 +145,13 @@ class InstallRPAController extends Controller
                     $currentBtxRPAId = $currentBtxRPA['entityTypeId'];
 
 
+                    Log::channel('telegram')->info('RPA ONLINE ADMIN', [
+                        'currentBtxRPA' => $currentBtxRPA
+                    ]);
 
+                    Log::info('RPA ONLINE ADMIN', [
+                        'currentBtxRPA' => $currentBtxRPA
+                    ]);
 
 
 
@@ -167,6 +180,16 @@ class InstallRPAController extends Controller
                             $currentPortalRPA->crmId = $currentBtxRPA['id'];
 
                             $currentPortalRPA->save();
+
+
+
+                            Log::channel('telegram')->info('RPA ONLINE ADMIN', [
+                                'currentPortalRPA' => $currentPortalRPA
+                            ]);
+
+                            Log::info('RPA ONLINE ADMIN', [
+                                'currentPortalRPA' => $currentPortalRPA
+                            ]);
                         }
                     }
 
