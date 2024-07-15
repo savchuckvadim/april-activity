@@ -69,8 +69,8 @@ class InstallRPAController extends Controller
                 return response(['resultCode' => 1, 'message' => 'Error retrieving data'], 500);
             }
 
-            $smarts = null;
-
+            // $smarts = null;
+            $fields = null;
 
 
 
@@ -202,7 +202,7 @@ class InstallRPAController extends Controller
                     $categories = InstallRPAController::setCategories($hook, $rpa['categories'], $currentBtxRPA, $currentPortalRPA);
                     // array_push($resultSmarts, $currentBtxSmart);
 
-                    InstallRPAFieldsController::setFields($token, 'rpa', $domain, $currentBtxRPA, $currentPortalRPA);
+                   $fields = InstallRPAFieldsController::setFields($token, 'rpa', $domain, $currentBtxRPA, $currentPortalRPA);
                 }
             } else {
                 Log::channel('telegram')->error("Expected array from Google Sheets", ['googleData' => $googleData]);
@@ -220,7 +220,7 @@ class InstallRPAController extends Controller
             ]);
         }
 
-        return APIController::getSuccess(['resultSmarts' => $resultSmarts, 'categories' => $categories]);
+        return APIController::getSuccess(['fields' => $fields, 'categories' => $categories]);
     }
 
 
