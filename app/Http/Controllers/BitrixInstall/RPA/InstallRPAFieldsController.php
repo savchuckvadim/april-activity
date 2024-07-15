@@ -412,7 +412,7 @@ class InstallRPAFieldsController extends Controller
                             $url = $hook . '/userfieldconfig.get';
                             $getSmartBtxFieldsData = [
                                 'id' => $currentBtxFieldId,
-                                'moduleId' => 'crm',
+                                'moduleId' => 'rpa',
 
                             ];
                             $response = Http::post($url, $getSmartBtxFieldsData);
