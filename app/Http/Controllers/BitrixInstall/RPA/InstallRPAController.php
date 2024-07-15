@@ -140,7 +140,7 @@ class InstallRPAController extends Controller
                     // Используем post, чтобы отправить данные
                     $rpaInstallResponse = Http::post($url, $hookRPAInstallData);
 
-                    $newRPA = BitrixController::getBitrixResponse($rpaInstallResponse, 'newSmart');
+                    $newRPA = BitrixController::getBitrixResponse($rpaInstallResponse, 'newRPA');
                     if (isset($newRPA['type'])) {
                         $currentBtxRPA = $newRPA['type'];
                     }
@@ -494,7 +494,7 @@ class InstallRPAController extends Controller
         $currentstagesMethod = '/rpa.stage.listForType.json';
         $url = $hook . $currentstagesMethod;
         $hookCurrentStagesData = [
-            'filter' => ['TYPE_ID' => $currentRPABxId]
+            'filter' => ['typeId' => $currentRPABxId]
         ];
 
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
