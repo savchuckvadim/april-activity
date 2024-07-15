@@ -21,6 +21,7 @@ class Bitrixfield extends Model
 
     ];
     protected $with = ['items'];
+    
     public function entity()
     {
         return $this->morphTo();

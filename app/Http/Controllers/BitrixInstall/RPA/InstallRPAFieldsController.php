@@ -112,7 +112,7 @@ class InstallRPAFieldsController extends Controller
 
             $portalRPAFields = [];
             if ((!empty($portalRPA))) {
-                $portalRPAFields = $portalRPA->fields();
+                $portalRPAFields = $portalRPA->fields;
             }
 
             Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
