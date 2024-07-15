@@ -215,6 +215,13 @@ class InstallRPAFieldsController extends Controller
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
 
             $parentClass = BtxRpa::class;
+            Log::channel('telegram')->info("hook", [
+                'portalRPA' => $portalRPA,
+            ]);
+            Log::info("hook", [
+                'portalRPA' => $portalRPA,
+            ]);
+    
             if (!empty($portalRPA)) {
                 $portalEntityFields = $portalRPA->fields;
 
