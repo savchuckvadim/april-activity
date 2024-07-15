@@ -45,11 +45,11 @@ Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     // return 'yo';
 
-    if ($pass == 'nmbrsdntl') {
-        return InstallController::installSmart($token);
-    } else {
+    // if ($pass == 'nmbrsdntl') {
+    //     return InstallController::installSmart($token);
+    // } else {
         return 'yo';
-    }
+    // }
 });
 
 
@@ -90,9 +90,9 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // $url = LinkController ::urlForRedirect($linkId);
     // return 'yo';
 
-    if ($pass == 'nmbrsdntl') {
-        return InstallRPAController::installRPA($domain, $token);
-    } else {
+    // if ($pass == 'nmbrsdntl') {
+    //     return InstallRPAController::installRPA($domain, $token);
+    // } else {
         return 'yo';
-    }
+    // }
 });
