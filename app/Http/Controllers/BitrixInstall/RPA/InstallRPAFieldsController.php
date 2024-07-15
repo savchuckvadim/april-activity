@@ -28,7 +28,7 @@ class InstallRPAFieldsController extends Controller
         $domain,
         $btxRPA = null,
         $currentPortalRPA = null
-        
+
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -90,7 +90,7 @@ class InstallRPAFieldsController extends Controller
     // portal->deal->where('group', 'sales')->first()
 
     {
-    
+
         $responseData = null;
         try {
             $hook = BitrixController::getHook($domain);
@@ -117,7 +117,7 @@ class InstallRPAFieldsController extends Controller
 
             Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
                 'portalRPA' => $portalRPA,
-                
+
             ]);
 
             $categories = null;
@@ -213,23 +213,23 @@ class InstallRPAFieldsController extends Controller
             //smart fields
 
             // $responseData = InstallFieldsController::createFieldsForSmartProcesses($hook, $fields);
-      
-                $parentClass = BtxRpa::class;
-                if (!empty($portalRPA)) {
-                    $portalEntityFields = $portalRPA->fields;
+
+            $parentClass = BtxRpa::class;
+            if (!empty($portalRPA)) {
+                $portalEntityFields = $portalRPA->fields;
 
 
-                    $responseData = InstallRPAFieldsController::createFieldsForRPA(
-                        $hook,
-                        $fields,
-                        $group,
-                        $portalRPA,
-                        $parentClass,
-                        $btxRPA,
+                $responseData = InstallRPAFieldsController::createFieldsForRPA(
+                    $hook,
+                    $fields,
+                    $group,
+                    $portalRPA,
+                    $parentClass,
+                    $btxRPA,
 
-                    );
-                }
-            
+                );
+            }
+
 
             // };
         } catch (\Exception $e) {
@@ -309,7 +309,7 @@ class InstallRPAFieldsController extends Controller
         $group,
         $portalsmart,
         $parentClass,
-        $btxSmart,
+        $btxRPA,
     ) {
 
         $smartId = $portalsmart['bitrixId'];
@@ -324,7 +324,7 @@ class InstallRPAFieldsController extends Controller
         $getSmartBtxFieldsData = [
             'moduleId' => 'rpa',
             'filter' => [
-                'entityId' => 'RPA_' . $btxSmart['id'],
+                'entityId' => 'RPA_' . $btxRPA['id'],
                 // 'entityTypeId' => $btxSmart['entityTypeId'],
             ]
         ];
@@ -337,11 +337,16 @@ class InstallRPAFieldsController extends Controller
         //     // ]
         // ];
 
-        // Log::channel('telegram')->info("hook", [
-        //     'getSmartBtxFieldsData' => $getSmartBtxFieldsData,
+        Log::channel('telegram')->info("hook", [
+            'getSmartBtxFieldsData' => $getSmartBtxFieldsData,
 
 
-        // ]);
+        ]);
+        Log::channel('telegram')->info("hook", [
+            'btxRPA' => $btxRPA,
+
+
+        ]);
         $response = Http::post($url, $getSmartBtxFieldsData);
         $resultFields = BitrixController::getBitrixResponse($response, 'Create RPA Fields - get fields');
 
@@ -379,7 +384,7 @@ class InstallRPAFieldsController extends Controller
                 foreach ($btxSmartFields as $curBtxField) {
                     sleep(1);
                     if (
-                        'UF_RPA_' . $btxSmart['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
+                        'UF_RPA_' . $btxRPA['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
 
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];
@@ -459,13 +464,13 @@ class InstallRPAFieldsController extends Controller
 
 
                 $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['smart']);
-                $fieldNameUpperCase = 'UF_RPA_' . $btxSmart['id'] . '_' . $fieldBitrixId;
-                $fieldNameCamelCase = 'ufRpa' . $btxSmart['id'] . '_' . $fieldBitrixId;
+                $fieldNameUpperCase = 'UF_RPA_' . $btxRPA['id'] . '_' . $fieldBitrixId;
+                $fieldNameCamelCase = 'ufRpa' . $btxRPA['id'] . '_' . $fieldBitrixId;
                 $field['name'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['name']);
                 $fieldsData = [
                     "moduleId" => "rpa",
                     "field" => [
-                        'entityId' => 'RPA_' . $btxSmart['id'],
+                        'entityId' => 'RPA_' . $btxRPA['id'],
                         // "entityId" => 'CRM_' . $smartId,
                         "fieldName" => $fieldNameUpperCase,
                         "userTypeId" => $type,
@@ -484,6 +489,11 @@ class InstallRPAFieldsController extends Controller
                     ]
                 ];
 
+                Log::info("updtdBtxField", [
+                    'fieldsData' => $fieldsData,
+
+
+                ]);
                 $method = '/userfieldconfig.add';
 
                 if ($currentBtxField) {
@@ -521,6 +531,11 @@ class InstallRPAFieldsController extends Controller
 
                 $currentPortalField->save();
 
+                Log::channel('telegram')->error("updtdBtxField", [
+                    'currentPortalField' => $currentPortalField,
+
+
+                ]);
 
 
                 if ($field['type'] == 'enumeration') {
