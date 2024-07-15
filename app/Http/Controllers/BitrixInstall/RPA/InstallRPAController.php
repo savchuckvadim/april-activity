@@ -493,9 +493,12 @@ class InstallRPAController extends Controller
 
         $currentstagesMethod = '/rpa.stage.listForType.json';
         $url = $hook . $currentstagesMethod;
-        $hookCurrentStagesData = [
-            'filter' => ['typeId' => $currentRPABxId]
-        ];
+        // $hookCurrentStagesData = [
+        //     'filter' => ['typeId' => $currentRPABxId]
+        // ];
+
+        $hookCurrentStagesData = ['typeId' => $currentRPABxId];
+
 
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
         $currentStages = BitrixController::getBitrixResponse($currentStagesResponse, 'rpa set stages');
@@ -540,7 +543,7 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
                         'id' => $isExist,
-                        'typeId' => $currentRPABxId,
+                        // 'typeId' => $currentRPABxId,
                         'fields' => [
 
                           
@@ -560,9 +563,9 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
                         // 'statusId' => $statusId,
-                        'typeId' => $currentRPABxId,
+                       
                         'fields' => [
-                         
+                            'typeId' => $currentRPABxId,
                             'name' => $stage['title'],
                             'code' => $stage['code'],
                             'sort' => $stage['order'],
