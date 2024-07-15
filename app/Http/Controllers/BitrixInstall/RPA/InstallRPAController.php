@@ -531,9 +531,10 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
                         'id' => $isExist,
+                        'typeId' => $currentRPABxId,
                         'fields' => [
 
-                            'typeId' => $currentRPABxId,
+                          
                             'name' => $stage['title'],
                             'code' => $stage['code'],
                             'sort' => $stage['order'],
@@ -550,8 +551,9 @@ class InstallRPAController extends Controller
                     $url = $hook . $methodStageInstall;
                     $hookStagesDataCalls = [
                         // 'statusId' => $statusId,
+                        'typeId' => $currentRPABxId,
                         'fields' => [
-                            'typeId' => $currentRPABxId,
+                         
                             'name' => $stage['title'],
                             'code' => $stage['code'],
                             'sort' => $stage['order'],
