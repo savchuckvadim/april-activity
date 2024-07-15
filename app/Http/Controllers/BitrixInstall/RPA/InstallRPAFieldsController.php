@@ -106,19 +106,20 @@ class InstallRPAFieldsController extends Controller
             $portal = Portal::where('domain', $domain)->first();
             $group = 'sales';
             $webhookRestKey = $portal->getHook();
-            $portalRPA = $portal->rpas();
+            $portalRPAS = $portal->rpas();
+            $portalRPA = $portal->rpas()->first();
 
+            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
+                'portalRPA' => $portalRPA,
 
+            ]);
 
             $portalRPAFields = [];
             if ((!empty($portalRPA))) {
                 $portalRPAFields = $portalRPA->bitrixfields;
             }
 
-            Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
-                'portalRPA' => $portalRPA,
-
-            ]);
+          
 
             $categories = null;
             $url = 'https://script.google.com/macros/s/' . $token . '/exec';
