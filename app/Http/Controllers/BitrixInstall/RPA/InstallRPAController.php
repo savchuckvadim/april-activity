@@ -498,7 +498,7 @@ class InstallRPAController extends Controller
         ];
 
         $currentStagesResponse = Http::post($url, $hookCurrentStagesData);
-        $currentStages = BitrixController::getBitrixResponse($currentStagesResponse, 'smart set stages');
+        $currentStages = BitrixController::getBitrixResponse($currentStagesResponse, 'rpa set stages');
 
         $resultStages = [];
         if (!empty($category['stages'])) {
