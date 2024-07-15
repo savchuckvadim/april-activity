@@ -222,7 +222,12 @@ class InstallRPAFieldsController extends Controller
             Log::info("hook", [
                 'portalRPA' => $portalRPA,
             ]);
-    
+            Log::channel('telegram')->info("hook", [
+                'btxRPA' => $portalRPA,
+            ]);
+            Log::info("hook", [
+                'btxRPA' => $portalRPA,
+            ]);
             if (!empty($portalRPA)) {
                 $portalEntityFields = $portalRPA->fields;
 
@@ -332,6 +337,7 @@ class InstallRPAFieldsController extends Controller
         $getSmartBtxFieldsData = [
             'moduleId' => 'rpa',
             'filter' => [
+                // 'fieldName' => 
                 'entityId' => 'RPA_' . $btxRPA['id'],
                 // 'entityTypeId' => $btxSmart['entityTypeId'],
             ]
@@ -379,7 +385,7 @@ class InstallRPAFieldsController extends Controller
             }
 
 
-            if (!empty($field['lead'])) {
+            if (!empty($field['rpa'])) {
 
 
                 $currentBtxField = false;
@@ -392,7 +398,7 @@ class InstallRPAFieldsController extends Controller
                 foreach ($btxSmartFields as $curBtxField) {
                     sleep(1);
                     if (
-                        'UF_RPA_' . $btxRPA['id'] . '_' . $field['smart'] === $curBtxField['fieldName']
+                        'UF_RPA_' . $btxRPA['id'] . '_' . $field['rpa'] === $curBtxField['fieldName']
 
                     ) {
                         $currentBtxFieldId = $curBtxField['id'];
@@ -471,7 +477,7 @@ class InstallRPAFieldsController extends Controller
 
 
 
-                $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['smart']);
+                $fieldBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['rpa']);
                 $fieldNameUpperCase = 'UF_RPA_' . $btxRPA['id'] . '_' . $fieldBitrixId;
                 $fieldNameCamelCase = 'ufRpa' . $btxRPA['id'] . '_' . $fieldBitrixId;
                 $field['name'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['name']);
