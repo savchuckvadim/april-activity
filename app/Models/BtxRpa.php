@@ -52,11 +52,6 @@ class BtxRpa extends Model
         return $this->morphMany(Bitrixfield::class, 'entity');
     }
 
-    public function fields()
-    {
-        return $this->morphMany(Bitrixfield::class, 'entity');
-    }
-
     public static function getForm($portalId)
     {
 

@@ -112,7 +112,7 @@ class InstallRPAFieldsController extends Controller
 
             $portalRPAFields = [];
             if ((!empty($portalRPA))) {
-                $portalRPAFields = $portalRPA->fields;
+                $portalRPAFields = $portalRPA->bitrixfields;
             }
 
             Log::channel('telegram')->error("Failed to retrieve data from Google Sheets", [
@@ -314,17 +314,17 @@ class InstallRPAFieldsController extends Controller
         $hook,
         $fields,
         $group,
-        $portalsmart,
+        $portalRPA,
         $parentClass,
         $btxRPA,
     ) {
 
-        $smartId = $portalsmart['bitrixId'];
-        $portalsmartId = $portalsmart['id'];
+        $smartId = $portalRPA['bitrixId'];
+        $portalsmartId = $portalRPA['id'];
 
         $btxSmartFields = null;
 
-        $portalFields = $portalsmart->fields;
+        $portalFields = $portalRPA->bitrixfields;
 
         // Step 1: Get all smart processes
         $url = $hook . '/userfieldconfig.list';
@@ -378,7 +378,7 @@ class InstallRPAFieldsController extends Controller
             }
 
 
-            if (!empty($field['smart'])) {
+            if (!empty($field['lead'])) {
 
 
                 $currentBtxField = false;
