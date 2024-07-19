@@ -13,6 +13,8 @@ use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
 
 use App\Http\Controllers\UserController;
+use App\Models\Portal;
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -86,6 +88,43 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return $result;
     });
+
+    Route::post('get/contract', function (Request $request) {
+        $data  = $request->input('data');
+
+        // Log::channel('telegram')->info('APRIL_ONLINE', [
+        //     'get/document domain' => $data['domain'],
+        //     'get/document userId' => $data['userId'],
+        //     'get/document manager' => $data['manager']['NAME'],
+        // ]);
+
+        $documentController = new PDFDocumentController;
+        $result = $documentController->getDocument($data);
+
+
+        return $result;
+    });
+
+
+    Route::post('get/init/contract', function (Request $request) {
+
+        // возвращает форму и 
+        // готовит сессию для создания договора
+        $data  = $request->input('data');
+
+        $companyId = $data['companyId'];
+        $userId = $data['userId'];
+        $domain = $data['domain'];
+        $templateId = $data['templateId'];
+        $currentContract = $data['templateId'];
+
+        $portal = Portal::where('domain', $domain)->first();
+        $template = Template::find($templateId);
+
+        // return $result;
+    });
+
+
     Route::get('templates/{domain}', function ($domain) {
         return TemplateFrontController::getTemplates($domain);
     });
