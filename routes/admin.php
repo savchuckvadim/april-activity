@@ -36,6 +36,7 @@ use App\Http\Controllers\FileController;
 // use App\Http\Controllers\InfoGroupController;
 
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\PortalInstall\TempalteFieldsInstallController;
 use App\Models\BtxCategory;
 use App\Models\BtxLead;
 // use App\Http\Controllers\RqController;
@@ -361,6 +362,8 @@ Route::middleware(['ajax.only'])->group(function () {
 
     //SET 
     //// specific
+ 
+
     Route::post('template/{templateId}/fields', function ($templateId, Request $request) {
         $fieldData = [
             'name' => $request['name'],

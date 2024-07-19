@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixInstall\ListController;
 use App\Http\Controllers\BitrixInstall\RPA\InstallRPAController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
+use App\Http\Controllers\PortalInstall\TempalteFieldsInstallController;
 use App\Models\Link;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +49,7 @@ Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
     // if ($pass == 'nmbrsdntl') {
     //     return InstallController::installSmart($token);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
 
@@ -93,6 +94,19 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // if ($pass == 'nmbrsdntl') {
     //     return InstallRPAController::installRPA($domain, $token);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
+
+
+Route::get(
+    'template/{pass}/{templateId}/fields/{token}',
+    function ($pass, $templateId, $token) {
+
+        if ($pass == 'nmbrsdntl') {
+            return TempalteFieldsInstallController::setFields($templateId, $token);
+        } else {
+            return 'yo';
+        }
+    }
+);
