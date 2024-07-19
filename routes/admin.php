@@ -133,6 +133,9 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
 
+
+
+
     Route::get('field/{fieldId}/items', function ($fieldId) {
         return FItemController::getFitems($fieldId);
     });
@@ -358,6 +361,39 @@ Route::middleware(['ajax.only'])->group(function () {
 
     //SET 
     //// specific
+    Route::post('template/{templateId}/fields', function ($templateId, Request $request) {
+        $fieldData = [
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'code' => $request['code'],
+            'isGeneral' => $request['isGeneral'],
+            'isDefault' => $request['isDefault'],
+            'isRequired' => $request['isRequired'],
+            'value' => $request['value'],
+            'description' => $request['description'],
+            'bitixId' => $request['bitixId'],
+            'bitrixTemplateId' => $request['bitrixTemplateId'],
+            'isActive' => $request['isActive'],
+            'isPlural' => $request['isPlural'],
+            'isClient' => $request['isClient'],
+            'img' => $request['img'],
+
+        ];
+        if ($request->hasFile('img_0')) {
+            $file = $request->file('img_0');
+
+            // Проверяем, является ли файл экземпляром UploadedFile и был ли он успешно загружен
+            if ($file instanceof Illuminate\Http\UploadedFile && $file->isValid()) {
+                // Обрабатываем файл, например, сохраняем его
+                // $filePath = $file->store('path/to/store', 'disk_name');
+
+                // Сохраняем путь к файлу в $fieldData
+                $fieldData['img'] = $file;
+            }
+        }
+        // return APIController::getSuccess(['fieldData' => $fieldData]);
+        return FieldController::setField($templateId, $fieldData);
+    });
     Route::post('template/{templateId}/field', function ($templateId, Request $request) {
         $fieldData = [
             'name' => $request['name'],

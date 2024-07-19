@@ -8,6 +8,7 @@ use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Front\Konstructor\InfoblockFrontController;
+use App\Http\Controllers\Front\Konstructor\TemplateFrontController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
 
@@ -86,7 +87,7 @@ Route::middleware(['ajax.only'])->group(function () {
         return $result;
     });
     Route::get('templates/{domain}', function ($domain) {
-        return TemplateController::getTemplates($domain);
+        return TemplateFrontController::getTemplates($domain);
     });
 
 
