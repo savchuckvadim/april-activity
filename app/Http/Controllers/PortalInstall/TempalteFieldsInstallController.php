@@ -62,12 +62,14 @@ class TempalteFieldsInstallController extends Controller
                                     ]);
                                 }
 
-                                return APIController::getSuccess(
-                                    [
-                                        'results' => $results
-                                    ]
-                                );
+                               
                             }
+
+                            return APIController::getSuccess(
+                                [
+                                    'results' => $results
+                                ]
+                            );
                         }
                     }
                 }
