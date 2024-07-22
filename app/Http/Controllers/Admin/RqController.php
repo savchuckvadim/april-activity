@@ -33,7 +33,7 @@ class RqController extends Controller
 
 
             return APIController::getSuccess(
-                ['rqs' => $rq]
+                ['rqs' => [$rq]]
             );
 
         } catch (\Throwable $th) {
