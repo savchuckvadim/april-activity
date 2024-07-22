@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('portal_measure', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->foreignId('measure_id')->constrained()->onDelete('cascade');
             $table->foreignId('portal_id')->constrained()->onDelete('cascade');
             $table->string('bitrixId')->nullable(); // Пример дополнительного поля, если необходимо
