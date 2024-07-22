@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('portal_contracts', function (Blueprint $table) {
-            $table->dropForeign(['contract_id']); // Имя ограничения формируется по шаблону: <имя_таблицы>_<имя_колонки>_foreign
-
+            $table->dropForeign(['portal_measure_id']);
+            $table->dropForeign(['contract_id']);
         });
     }
 
