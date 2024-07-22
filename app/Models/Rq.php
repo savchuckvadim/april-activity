@@ -56,7 +56,7 @@ class Rq extends Model
 
     public function agent()
     {
-        return $this->hasOne(Agent::class, 'number', 'agentId');
+        return $this->hasOne(Agent::class, 'id', 'agentId');
     }
 
     public function logos()
