@@ -22,12 +22,12 @@ use Illuminate\Http\Request;
 
 //.................................... initial RPA
 // initial from parent
-Route::get('initial/portal/{portalId}/measure', [MeasureController::class, 'getInitial']);
+// Route::get('initial/portal/{portalId}/measure', [MeasureController::class, 'getInitial']);
 // single initial
 Route::get('initial/measure',  [MeasureController::class, 'getInitial']);
 // .............................................GET  SMART
 // all from parent  smart
-Route::get('portal/{portalId}/measures', [MeasureController::class, 'getByPortal']);
+Route::get('measures', [MeasureController::class, 'getByPortal']);
 
 // ...............  get smart
 Route::get('measure/{measureId}', [MeasureController::class, 'get']);
@@ -35,7 +35,7 @@ Route::get('measure/{measureId}', [MeasureController::class, 'get']);
 
 //...............................................SET RPA
 
-Route::post('portal/{portalId}/measure', [MeasureController::class, 'store']);
+Route::post('measure', [MeasureController::class, 'store']);
 Route::post('measure/{measureId}', [MeasureController::class, 'store']);
 
 // ............................................DELETE
