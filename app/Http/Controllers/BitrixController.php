@@ -886,10 +886,17 @@ class BitrixController extends Controller
                 ['domain' => $request['domain']]
             );
         } catch (\Throwable $th) {
+            $errorData = [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
             return APIController::getError(
                 $th->getMessage(),
                 [
-                    'request' => $request
+                    'request' => $request->all(),
+                    'errorData' => $errorData
                 ]
             );
         }

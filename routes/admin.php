@@ -875,6 +875,13 @@ Route::middleware(['ajax.only'])->group(function () {
     // ........  'title',       Универсальные списки April
     // ......    'bitrixId',    86
     // ......    'portal_id'    7
+
+    Route::get('initial/portal/{portalId}/bitrixlist', function ($portalId) {
+
+        return BitrixlistController::getInitial($portalId);
+    });
+
+
     Route::post('bitrixlist/{bitrixlistId}/bitrixfield', function (Request $request) {
 
         return BitrixlistController::set($request);
