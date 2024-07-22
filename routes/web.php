@@ -110,3 +110,16 @@ Route::get(
         // }
     }
 );
+
+
+Route::get(
+    'infoblock/{pass}/{templateId}/fields/{token}',
+    function ($pass, $templateId, $token) {
+
+        // if ($pass == 'nmbrsdntl') {
+        //     return TempalteFieldsInstallController::setFields($templateId, $token);
+        // } else {
+            return 'yo';
+        // }
+    }
+);
