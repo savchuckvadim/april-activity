@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\RqController;
+use App\Http\Controllers\Admin\RqController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
