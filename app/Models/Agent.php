@@ -24,7 +24,7 @@ class Agent extends Model
 
     public function rq()
     {
-        return $this->hasOne(Rq::class, 'agentId', 'number');
+        return $this->hasOne(Rq::class, 'agentId', 'id');
     }
     // Аксессор для получения связи `rq`
     // public function getRqAttribute($value)

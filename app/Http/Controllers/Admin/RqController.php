@@ -106,6 +106,8 @@ class RqController extends Controller
                 $rq->agentId = $agentId;
             }
         }
+
+        
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:rqs,id',
             'name' => 'required|string',
