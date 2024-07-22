@@ -117,10 +117,10 @@ Route::get(
     'infoblock/{pass}/{token}',
     function ($pass, $token) {
 
-        if ($pass == 'nmbrsdntl') {
-            return InfoblockInstallController::setIblocks($token);
-        } else {
+        // if ($pass == 'nmbrsdntl') {
+        //     return InfoblockInstallController::setIblocks($token);
+        // } else {
             return 'yo';
-        }
+        // }
     }
 );
