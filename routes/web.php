@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixInstall\ListController;
 use App\Http\Controllers\BitrixInstall\RPA\InstallRPAController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PDFDocumentController;
+use App\Http\Controllers\PortalInstall\InfoblockInstallController;
 use App\Http\Controllers\PortalInstall\TempalteFieldsInstallController;
 use App\Models\Link;
 use Illuminate\Support\Facades\Route;
@@ -106,20 +107,20 @@ Route::get(
         // if ($pass == 'nmbrsdntl') {
         //     return TempalteFieldsInstallController::setFields($templateId, $token);
         // } else {
-            return 'yo';
+        return 'yo';
         // }
     }
 );
 
 
 Route::get(
-    'infoblock/{pass}/{templateId}/fields/{token}',
-    function ($pass, $templateId, $token) {
+    'infoblock/{pass}/{token}',
+    function ($pass, $token) {
 
-        // if ($pass == 'nmbrsdntl') {
-        //     return TempalteFieldsInstallController::setFields($templateId, $token);
-        // } else {
+        if ($pass == 'nmbrsdntl') {
+            return InfoblockInstallController::setIblocks($token);
+        } else {
             return 'yo';
-        // }
+        }
     }
 );

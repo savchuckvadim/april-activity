@@ -18,7 +18,7 @@ class InfoblockInstallController extends Controller
 {
 
 
-    public static function setIblocks($templateId, $token)
+    public static function setIblocks( $token)
     {
         $result = null;
         $infoblocks = [];
