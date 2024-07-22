@@ -49,6 +49,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/admin/rpa_routes.php';
+require __DIR__.'/admin/konstructor/measure_routes.php';
+require __DIR__.'/admin/konstructor/portal_measure_routes.php';
+require __DIR__.'/admin/konstructor/contract_routes.php';
+
 
 /*
 |--------------------------------------------------------------------------
