@@ -58,6 +58,7 @@ class AgentController extends Controller
                     'message' => 'provider not found'
                 ]);
             }
+
             $resource = new AgentResource($provider);
             return APIController::getResponse(
                 0,

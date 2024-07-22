@@ -26,7 +26,7 @@ class AgentResource extends JsonResource
             'portalId' => $this->portalId,
             'name' => $this->name,
             'code' =>  $this->code,
-            'rqs' => $rq,
+            'rq' => $rq,
 
         ];
     }
