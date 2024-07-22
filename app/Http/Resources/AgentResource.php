@@ -15,7 +15,7 @@ class AgentResource extends JsonResource
     public function toArray($request): array
     {
     
-        $rq = $this->rq;
+        $rq = [$this->rq];
         if (empty($rq)) {
             $rq = [];
         }
