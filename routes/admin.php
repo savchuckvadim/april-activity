@@ -881,10 +881,14 @@ Route::middleware(['ajax.only'])->group(function () {
         return BitrixlistController::getInitial($portalId);
     });
 
+    Route::post('portal/{portalId}/bitrixlist', function (Request $request) {
+
+        return BitrixlistController::set($request);
+    });
 
     Route::post('bitrixlist/{bitrixlistId}/bitrixfield', function (Request $request) {
 
-        return BitrixlistController::set($request);
+        return BitrixfieldController::store($request);
     });
     Route::get('bitrixlist/{bitrixlistId}', function ($bitrixlistId) {
 
