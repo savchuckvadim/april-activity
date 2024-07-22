@@ -27,7 +27,7 @@ use Illuminate\Http\Request;
 Route::get('initial/measure',  [MeasureController::class, 'getInitial']);
 // .............................................GET  SMART
 // all from parent  smart
-Route::get('measures', [MeasureController::class, 'getByPortal']);
+Route::get('measures', [MeasureController::class, 'getAll']);
 
 // ...............  get smart
 Route::get('measure/{measureId}', [MeasureController::class, 'get']);
