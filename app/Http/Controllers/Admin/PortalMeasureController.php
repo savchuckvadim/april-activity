@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\Controller;
 use App\Models\Measure;
 use App\Models\Portal;
 use App\Models\PortalMeasure;
 use Illuminate\Http\Request;
 
-class MeasureController extends Controller
+class PortalMeasureController extends Controller
 {
     public static function getInitial($portalId = null)
     {

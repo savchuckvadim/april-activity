@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,15 +54,38 @@ class PortalContract extends Model
     public static function getForm($portalId)
     {
 
-        $portalsSelect = PortalControlle::getSelectPortals($portalId);
+        $portalsSelect = PortalController::getSelectPortals($portalId);
+        $portal = Portal::find($portalId);
+        $contracts = Contract::all();
+        $deal = $portal->deals()->first();
+        $fields = $deal->bitrixfields;
+        $selectFieldItems = [];
+
+        foreach ($fields as  $field) {
+          if( $field['code'] == 'contract_type'){
+
+            if(!empty($field->items)){
+                foreach ($field->items  as $item) {
+                    array_push($selectFieldItems, [
+                        'id' => $item->id,
+                        // 'domain' => $portal->domain,
+                        'name' => $item->name,
+                        'code' => $portal->code,
+                    ]);
+                };
+            }
+
+          }
+        }
+       
 
         return [
-            'apiName' => 'deal',
-            'title' => 'Создание Сделка - обобщающая модель',
+            'apiName' => 'portal_contract',
+            'title' => 'Создание portal_contract - обобщающая модель',
             'entityType' => 'entity',
             'groups' => [
                 [
-                    'groupName' => 'Сделка - обобщающая модель',
+                    'groupName' => 'portal_contract - обобщающая модель',
                     'entityType' => 'group',
                     'isCanAddField' => true,
                     'isCanDeleteField' => true,
@@ -69,10 +93,10 @@ class PortalContract extends Model
                     'fields' => [
                         [
                             'id' => 0,
-                            'title' => 'name',
-                            'entityType' => 'deal',
-                            'name' => 'name',
-                            'apiName' => 'name',
+                            'title' => 'title',
+                            'entityType' => 'portal_contract',
+                            'name' => 'title',
+                            'apiName' => 'title',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
@@ -82,10 +106,10 @@ class PortalContract extends Model
                         ],
                         [
                             'id' => 1,
-                            'title' => 'Show Name (title)',
-                            'entityType' => 'deal',
-                            'name' => 'title',
-                            'apiName' => 'title',
+                            'title' => 'template link nullable',
+                            'entityType' => 'portal_contract',
+                            'name' => 'template',
+                            'apiName' => 'template',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
@@ -96,10 +120,10 @@ class PortalContract extends Model
 
                         [
                             'id' => 2,
-                            'title' => 'code',
-                            'entityType' => 'deal',
-                            'name' => 'code',
-                            'apiName' => 'code',
+                            'title' => 'order',
+                            'entityType' => 'portal_contract',
+                            'name' => 'order',
+                            'apiName' => 'order',
                             'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
@@ -110,7 +134,7 @@ class PortalContract extends Model
                         [
                             'id' => 3,
                             'title' => 'Relation portal_id',
-                            'entityType' => 'deal',
+                            'entityType' => 'portal_contract',
                             'name' => 'portal_id',
                             'apiName' => 'portal_id',
                             'type' =>  'select',
@@ -120,7 +144,33 @@ class PortalContract extends Model
                             'isCanAddField' => false,
 
                         ],
+                        [
+                            'id' => 4,
+                            'title' => 'Relation bitrixfield_item_id',
+                            'entityType' => 'portal_contract',
+                            'name' => 'bitrixfield_item_id',
+                            'apiName' => 'bitrixfield_item_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => $selectFieldItems[0]['id'],
+                            'items' => $selectFieldItems,
+                            'isCanAddField' => false,
 
+                        ],
+
+                        [
+                            'id' => 5,
+                            'title' => 'Relation contract_id',
+                            'entityType' => 'portal_contract',
+                            'name' => 'contract_id',
+                            'apiName' => 'contract_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => $contracts[0]['id'],
+                            'items' => $contracts,
+                            'isCanAddField' => false,
+
+                        ],
 
 
 

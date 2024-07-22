@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\BitrixfieldController;
 use App\Http\Controllers\Admin\BtxCategoryController;
 use App\Http\Controllers\Admin\BtxRpaController;
+use App\Http\Controllers\Admin\MeasureController;
+use App\Models\Measure;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -20,56 +22,22 @@ use Illuminate\Http\Request;
 
 //.................................... initial RPA
 // initial from parent
-Route::get('initial/portal/{portalId}/measure', [BtxRpaController::class, 'getInitial']);
+Route::get('initial/portal/{portalId}/measure', [MeasureController::class, 'getInitial']);
 // single initial
-Route::get('initial/measure',  [BtxRpaController::class, 'getInitial']);
+Route::get('initial/measure',  [MeasureController::class, 'getInitial']);
 // .............................................GET  SMART
 // all from parent  smart
-Route::get('portal/{portalId}/measures', [BtxRpaController::class, 'getByPortal']);
+Route::get('portal/{portalId}/measures', [MeasureController::class, 'getByPortal']);
 
 // ...............  get smart
-Route::get('measure/{measureId}', [BtxRpaController::class, 'get']);
+Route::get('measure/{measureId}', [MeasureController::class, 'get']);
 
 
 //...............................................SET RPA
 
-Route::post('portal/{portalId}/measure', [BtxRpaController::class, 'store']);
-Route::post('measure/{measureId}', [BtxRpaController::class, 'store']);
+Route::post('portal/{portalId}/measure', [MeasureController::class, 'store']);
+Route::post('measure/{measureId}', [MeasureController::class, 'store']);
 
 // ............................................DELETE
-Route::delete('measure/{measureaId}', [BtxRpaController::class, 'destroy']);
+Route::delete('measure/{measureaId}', [MeasureController::class, 'destroy']);
 
-
-//FIELDS
-
-
-Route::get('initial/measure/{measureId}/bitrixfield', function ($rpaId) {
-
-    return BitrixfieldController::getInitial($rpaId, 'measure');
-});
-// .............................................GET 
-
-Route::get('measure/{measureId}/bitrixfields',[BtxRpaController::class, 'getFields']);
-
-
-//...............................................SET 
-
-// .................. parent - smart
-Route::post('measure/{measureId}/bitrixfield', function (Request $request) {
-    //store = set or uppdate
-    return BitrixfieldController::store($request);
-});
-
-
-    //...................................................SET  category
-    // .................................   set or update
-    // ............................from parent smart
-    Route::post('measure/{measureId}/category', function (Request $request) {
-        //.........set                                                 store = set or uppdate
-        return BtxCategoryController::store($request);
-    });
-    // ....................................................GET   category
-
-    //................................. .get categories from parent
-    //  ........get categories -  all from parent  smart  
-    Route::get('measure/{measureId}/categories', [BtxRpaController::class, 'getCategories']);
