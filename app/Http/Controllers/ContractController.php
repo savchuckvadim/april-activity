@@ -47,8 +47,8 @@ class ContractController extends Controller
             'type' => 'required|string',
 
             'productName' => 'required|string',
-            'product' => 'required|string',
-            'service' => 'required|string',
+            'product' => 'sometimes',
+            'service' => 'sometimes',
       
             'template' => 'sometimes',
             'order' => 'sometimes',
