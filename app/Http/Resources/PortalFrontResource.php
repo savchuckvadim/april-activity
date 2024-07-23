@@ -42,6 +42,7 @@ class PortalFrontResource extends JsonResource
             'company' => $this->company(),
             'lead' => $this->lead(),
             'contracts' =>  $this->contracts,
+            'measures' =>  $this->measures,
         ];
     }
 }

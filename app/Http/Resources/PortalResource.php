@@ -40,6 +40,7 @@ class PortalResource extends JsonResource
             'departaments' => $this->departaments,
             'timezones' => $this->timezones,
             'contracts' =>  $this->contracts,
+            'measures' =>  $this->measures,
 
 
         ];
