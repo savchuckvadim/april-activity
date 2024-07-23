@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            //
+            $table->string('product')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->longText('description')->nullable();  // Добавление строки `product`, которая может быть NULL
+
         });
     }
 
@@ -22,9 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            $table->string('product')->nullable();  // Добавление строки `product`, которая может быть NULL
-            $table->longText('description')->nullable();  // Добавление строки `product`, которая может быть NULL
-
+            $table->dropColumn('product'); // Удаление поля `product`
+            $table->dropColumn('description'); // Удаление поля `description`
         });
     }
 };
