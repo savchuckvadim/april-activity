@@ -39,8 +39,8 @@ class PortalResource extends JsonResource
             'bitrixlists' => $this->lists,
             'departaments' => $this->departaments,
             'timezones' => $this->timezones,
-            'contracts' =>  $this->contracts,
-            'measures' =>  $this->measures,
+            // 'contracts' =>  $this->contracts,
+            // 'measures' =>  $this->measures,
         ];
     }
 }

@@ -48,8 +48,8 @@ class PortalHookResource extends JsonResource
             'rpas' => $this->rpas,
             'company' => $company,
             'lead' => $this->lead(),
-            'contracts' =>  $this->contracts,
-            'measures' =>  $this->measures,
+            // 'contracts' =>  $this->contracts,
+            // 'measures' =>  $this->measures,
 
         ];
     }
