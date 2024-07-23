@@ -41,8 +41,6 @@ class PortalResource extends JsonResource
             'timezones' => $this->timezones,
             'contracts' =>  $this->contracts,
             'measures' =>  $this->measures,
-
-
         ];
     }
 }
