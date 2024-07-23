@@ -54,19 +54,19 @@ class PortalMeasure extends Model
     {
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
-        $measureSelect = Measure::all();
+        $measuresSelect = Measure::all();
         $currentMeasureSelect = [];
-        $currentMeasures = Measure::first();
+        $currentMeasure = Measure::first();
         $currentMeasureSelectId = 0;
 
-        if (!empty($currentMeasureSelect)) {
-            if (!empty($currentMeasureSelect['id'])) {
-                $currentMeasureSelectId = $currentMeasureSelect['id'];
+        if (!empty($currentMeasure)) {
+            if (!empty($currentMeasure['id'])) {
+                $currentMeasureSelectId = $currentMeasure['id'];
             }
         }
 
 
-        foreach ($currentMeasures  as $measure) {
+        foreach ($measuresSelect  as $measure) {
             array_push($currentMeasureSelect, [
                 'id' => $measure->id,
                 'name' => $measure->name,
@@ -161,7 +161,7 @@ class PortalMeasure extends Model
                             'type' =>  'select',
                             'validation' => 'required',
                             'initialValue' => $currentMeasureSelectId,
-                            'items' => $measureSelect,
+                            'items' => $currentMeasureSelect,
                             'isCanAddField' => false,
 
                         ],
