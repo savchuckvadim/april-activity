@@ -31,12 +31,12 @@ Route::get('initial/portal/{portalId}/portalmeasure', [PortalMeasureController::
 Route::get('portal/{portalId}/portalmeasures', [PortalMeasureController::class, 'getByPortal']);
 
 // // ...............  get smart
-Route::get('measure/{measureId}', [PortalMeasureController::class, 'get']);
+Route::get('portalmeasure/{portalmeasureId}', [PortalMeasureController::class, 'get']);
 
 
 //...............................................SET RPA
 
-Route::post('portal/portalmeasure/{portalmeasureId}', [PortalMeasureController::class, 'store']);
+Route::post('portal/{portalId}/portalmeasure', [PortalMeasureController::class, 'store']);
 // Route::post('measure/{measureId}', [PortalMeasure::class, 'store']);
 
 // ............................................DELETE
