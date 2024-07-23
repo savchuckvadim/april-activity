@@ -52,7 +52,7 @@ require __DIR__.'/admin/rpa_routes.php';
 require __DIR__.'/admin/konstructor/measure_routes.php';
 require __DIR__.'/admin/konstructor/portal_measure_routes.php';
 require __DIR__.'/admin/konstructor/contract_routes.php';
-
+require __DIR__.'/admin/konstructor/portal_contract_routes.php';
 
 /*
 |--------------------------------------------------------------------------

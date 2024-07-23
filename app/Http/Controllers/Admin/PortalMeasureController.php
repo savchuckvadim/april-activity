@@ -34,7 +34,7 @@ class PortalMeasureController extends Controller
 
         if (isset($request['id'])) {
             $id = $request['id'];
-            $portalMeasure = Measure::find($id);
+            $portalMeasure = PortalMeasure::find($id);
         } else {
             $portalMeasure = new PortalMeasure();
             if (isset($request['portal_id'])) {
@@ -49,7 +49,7 @@ class PortalMeasureController extends Controller
                 $measure_id = $request['measure_id'];
                 $portalMeasure->measure_id = $measure_id;
 
-                $measure = Portal::find($measure_id);
+                $measure = Measure::find($measure_id);
             }
         }
         $validatedData = $request->validate([

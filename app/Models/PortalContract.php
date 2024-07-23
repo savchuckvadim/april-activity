@@ -57,28 +57,33 @@ class PortalContract extends Model
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
         $portal = Portal::find($portalId);
+        $portalMesures = $portal->measures();
+        $selectportalMesures= PortalContract::getSelectItems($portalMesures);
+        $currentportalMesuresId = PortalContract::getSelectItemId($portalMesures);
+
         $contracts = Contract::all();
+        $selectContracts = PortalContract::getSelectItems($contracts);
+        $currentContractId = PortalContract::getSelectItemId($contracts);
         $deal = $portal->deals()->first();
         $fields = $deal->bitrixfields;
         $selectFieldItems = [];
 
         foreach ($fields as  $field) {
-          if( $field['code'] == 'contract_type'){
+            if ($field['code'] == 'contract_type') {
 
-            if(!empty($field->items)){
-                foreach ($field->items  as $item) {
-                    array_push($selectFieldItems, [
-                        'id' => $item->id,
-                        // 'domain' => $portal->domain,
-                        'name' => $item->name,
-                        'code' => $portal->code,
-                    ]);
-                };
+                if (!empty($field->items)) {
+                    foreach ($field->items  as $item) {
+                        array_push($selectFieldItems, [
+                            'id' => $item->id,
+                            // 'domain' => $portal->domain,
+                            'name' => $item->name,
+                            'code' => $portal->code,
+                        ]);
+                    };
+                }
             }
-
-          }
         }
-       
+
 
         return [
             'apiName' => 'portal_contract',
@@ -167,8 +172,22 @@ class PortalContract extends Model
                             'apiName' => 'contract_id',
                             'type' =>  'select',
                             'validation' => 'required',
-                            'initialValue' => $contracts[0]['id'],
-                            'items' => $contracts,
+                            'initialValue' => $currentContractId,
+                            'items' => $selectContracts,
+                            'isCanAddField' => false,
+
+                        ],
+
+                        [
+                            'id' => 5,
+                            'title' => 'Relation portal_measure_id',
+                            'entityType' => 'portal_contract',
+                            'name' => 'portal_measure_id',
+                            'apiName' => 'portal_measure_id',
+                            'type' =>  'select',
+                            'validation' => 'required',
+                            'initialValue' => $currentportalMesuresId,
+                            'items' => $selectportalMesures,
                             'isCanAddField' => false,
 
                         ],
@@ -183,5 +202,31 @@ class PortalContract extends Model
                 ]
             ]
         ];
+    }
+
+    public static function getSelectItems($items)
+    {
+        $selectItems = [];
+
+        foreach ($items  as $item) {
+            array_push($selectItems, [
+                'id' => $item->id,
+
+                'name' => $item->name,
+                'title' => $item->name,
+            ]);
+        };
+        return $selectItems;
+    }
+    public static function getSelectItemId($items)
+    {
+        $result = 0;
+        if (!empty($items) && is_array($items)) {
+            if (!empty($items[0]['id'])) {
+                $result = $items[0]['id'];
+            }
+        }
+
+        return $result;
     }
 }
