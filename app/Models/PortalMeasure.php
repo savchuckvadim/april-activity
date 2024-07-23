@@ -29,27 +29,7 @@ class PortalMeasure extends Model
     }
 
 
-    // Accessor для title
-    public function getTitleAttribute($value)
-    {
-        // Возвращаем пользовательский title, если он есть
-        return $this->attributes['name'] ?? $this->measure->name;
-    }
-
-    // Accessor для template
-    public function getTemplateAttribute($value)
-    {
-        // Возвращаем пользовательский template, если он есть
-        return $this->attributes['shortName'] ?? $this->measure->shortName;
-    }
-
-    // Accessor для order
-    public function getOrderAttribute($value)
-    {
-        // Возвращаем пользовательский order, если он есть
-        return $this->attributes['fullName'] ?? $this->measure->fullName;
-    }
-
+  
 
     public static function getForm($portalId)
     {
