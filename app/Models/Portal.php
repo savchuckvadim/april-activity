@@ -197,16 +197,11 @@ class Portal extends Model
    
 
     public function measures() {
-        return $this->belongsToMany(Measure::class, 'portal_measure')
-                    ->using(PortalMeasure::class)
-                    ->withPivot('bitrixId', 'name', 'shortName', 'fullName');
+        return $this->hasMany(PortalMeasure::class);
     }
 
-    public function contracts()
-    {
-        return $this->belongsToMany(Contract::class, 'portal_contracts')
-                    ->withPivot(['id', 'portal_measure_id'])
-                    ->using(PortalContract::class); // Указываем модель, которая используется как промежуточная
+    public function contracts() {
+        return $this->hasMany(PortalContract::class);
     }
 
 
