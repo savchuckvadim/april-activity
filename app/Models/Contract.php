@@ -133,7 +133,7 @@ class Contract extends Model
                             'apiName' => 'prepayment',
                             'type' =>  'number',
                             'validation' => 'required|max:255',
-                            'initialValue' => 1,
+                            'initialValue' => '',
                             'isCanAddField' => false,
 
                         ],
@@ -146,7 +146,7 @@ class Contract extends Model
                             'apiName' => 'discount',
                             'type' =>  'number',
                             'validation' => 'required|max:255',
-                            'initialValue' => 1,
+                            'initialValue' => '',
                             'isCanAddField' => false,
 
                         ],
