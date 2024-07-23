@@ -47,21 +47,18 @@ class PortalContractController extends Controller
 
                 $contract_id = $request['contract_id'];
                 $portalContract->contract_id = $contract_id;
-
             }
 
             if (isset($request['portal_measure_id'])) {
 
                 $portal_measure_id = $request['portal_measure_id'];
                 $portalContract->portal_measure_id = $portal_measure_id;
-
             }
 
             if (isset($request['bitrixfield_item_id'])) {
 
                 $bitrixfield_item_id = $request['bitrixfield_item_id'];
                 $portalContract->bitrixfield_item_id = $bitrixfield_item_id;
-
             }
         }
         $validatedData = $request->validate([
@@ -92,7 +89,7 @@ class PortalContractController extends Controller
         }
 
         return APIController::getError(
-            'portalmeasure was not found',
+            'portalcontract was not found',
             ['rq' => $request]
 
         );
@@ -138,10 +135,8 @@ class PortalContractController extends Controller
         }
 
 
-        return APIController::getError(
-            'portalcontracts was not found',
-            null
-
+        return APIController::getSuccess(
+            ['portalcontracts' => []]
         );
     }
 
