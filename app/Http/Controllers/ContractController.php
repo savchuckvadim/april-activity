@@ -47,6 +47,9 @@ class ContractController extends Controller
             'type' => 'required|string',
 
             'productName' => 'required|string',
+            'product' => 'required|string',
+            'service' => 'required|string',
+      
             'template' => 'sometimes',
             'order' => 'sometimes',
             'coefficient' => 'sometimes',
@@ -67,7 +70,8 @@ class ContractController extends Controller
         $contract->template = $validatedData['template'];
         $contract->productName = true;
         $contract->withPrepayment = $validatedData['withPrepayment'];
-      
+        $contract->product = $validatedData['product'];
+        $contract->service = $validatedData['service'];
 
             $contract->save(); // Сохранение Counter в базе данных
 
