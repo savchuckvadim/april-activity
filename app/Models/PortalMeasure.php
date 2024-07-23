@@ -55,7 +55,8 @@ class PortalMeasure extends Model
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
         $measureSelect = Measure::all();
-        $currentMeasureSelect = Measure::first();
+        $currentMeasureSelect = [];
+        $currentMeasures = Measure::first();
         $currentMeasureSelectId = 0;
 
         if (!empty($currentMeasureSelect)) {
@@ -63,6 +64,15 @@ class PortalMeasure extends Model
                 $currentMeasureSelectId = $currentMeasureSelect['id'];
             }
         }
+
+
+        foreach ($currentMeasures  as $measure) {
+            array_push($currentMeasureSelect, [
+                'id' => $measure->id,
+                'name' => $measure->name,
+                'title' => $measure->name,
+            ]);
+        };
 
         return [
             'apiName' => 'Portal Measure',
