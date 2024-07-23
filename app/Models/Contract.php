@@ -137,14 +137,13 @@ class Contract extends Model
                             'isCanAddField' => false,
 
                         ],
-                        
                         [
                             'id' => 8,
-                            'title' => 'discount',
+                            'title' => 'template',
                             'entityType' => 'contract',
-                            'name' => 'discount',
-                            'apiName' => 'discount',
-                            'type' =>  'number',
+                            'name' => 'template',
+                            'apiName' => 'template',
+                            'type' =>  'string',
                             'validation' => 'required|max:255',
                             'initialValue' => '',
                             'isCanAddField' => false,
@@ -152,6 +151,19 @@ class Contract extends Model
                         ],
                         [
                             'id' => 9,
+                            'title' => 'discount',
+                            'entityType' => 'contract',
+                            'name' => 'discount',
+                            'apiName' => 'discount',
+                            'type' =>  'number',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'value' => 1,
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 10,
                             'title' => 'productName',
                             'entityType' => 'contract',
                             'name' => 'productName',
