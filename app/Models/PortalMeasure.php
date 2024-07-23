@@ -32,21 +32,21 @@ class PortalMeasure extends Model
     public function getTitleAttribute($value)
     {
         // Возвращаем пользовательский title, если он есть
-        return $this->attributes['name'] ?? $this->contract->name;
+        return $this->attributes['name'] ?? $this->measure->name;
     }
 
     // Accessor для template
     public function getTemplateAttribute($value)
     {
         // Возвращаем пользовательский template, если он есть
-        return $this->attributes['shortName'] ?? $this->contract->shortName;
+        return $this->attributes['shortName'] ?? $this->measure->shortName;
     }
 
     // Accessor для order
     public function getOrderAttribute($value)
     {
         // Возвращаем пользовательский order, если он есть
-        return $this->attributes['fullName'] ?? $this->contract->fullName;
+        return $this->attributes['fullName'] ?? $this->measure->fullName;
     }
 
 
