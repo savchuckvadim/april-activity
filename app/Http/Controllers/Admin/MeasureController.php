@@ -33,10 +33,10 @@ class MeasureController extends Controller
             $id = $request['id'];
             $measure = Measure::find($id);
         } else {
-            if (isset($request['portal_id'])) {
+            // if (isset($request['portal_id'])) {
 
                 $measure = new Measure();
-            }
+            // }
         }
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:measures,id',
