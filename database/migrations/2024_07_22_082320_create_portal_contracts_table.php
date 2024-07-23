@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId('contract_id')->constrained()->onDelete('cascade');
             $table->foreignId('portal_measure_id')->constrained(); // связь с PortalMeasure
             $table->foreignId('bitrixfield_item_id')->constrained();
+            $table->string('productName')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->longText('description')->nullable();  // Добавление строки `product`, которая может быть NULL
         });
     }
 

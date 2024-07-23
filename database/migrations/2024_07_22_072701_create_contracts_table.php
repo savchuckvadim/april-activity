@@ -25,8 +25,17 @@ return new class extends Migration
             $table->integer('coefficient')->default(1);
             $table->integer('prepayment')->default(1);
             $table->float('discount')->default(1);
-            $table->boolean('productName');
+            $table->string('productName')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->string('product')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->string('service')->nullable();  // Добавление строки `product`, которая может быть NULL
+
+            $table->longText('description')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->longText('comment')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->longText('comment1')->nullable();  // Добавление строки `product`, которая может быть NULL
+            $table->longText('comment2')->nullable();  // Добавление строки `product`, которая может быть NULL
+
             $table->boolean('withPrepayment');
+        
         });
     }
 
