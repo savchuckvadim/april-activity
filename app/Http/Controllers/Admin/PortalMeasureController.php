@@ -55,9 +55,9 @@ class PortalMeasureController extends Controller
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:portal_measure,id',
             'bitrixId' => 'required|string',
-            'name' => 'sometimes|string',
-            'shortName' => 'sometimes|string',
-            'fullName' => 'sometimes|string',
+            'name' => 'sometimes',
+            'shortName' => 'sometimes',
+            'fullName' => 'sometimes',
 
 
 
@@ -68,9 +68,9 @@ class PortalMeasureController extends Controller
             // Создание нового Counter
 
 
-            $portalMeasure->name = $validatedData['name'];
-            $portalMeasure->shortName = $validatedData['shortName'];
-            $portalMeasure->fullName = $validatedData['fullName'];
+            $portalMeasure->name = (string)$validatedData['name'];
+            $portalMeasure->shortName = (string)$validatedData['shortName'];
+            $portalMeasure->fullName = (string)$validatedData['fullName'];
             $portalMeasure->bitrixId = $validatedData['bitrixId'];
 
             $portalMeasure->save(); // Сохранение Counter в базе данных
