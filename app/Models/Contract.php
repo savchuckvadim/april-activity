@@ -137,20 +137,9 @@ class Contract extends Model
                             'isCanAddField' => false,
 
                         ],
+                        
                         [
                             'id' => 8,
-                            'title' => 'prepayment',
-                            'entityType' => 'contract',
-                            'name' => 'prepayment',
-                            'apiName' => 'prepayment',
-                            'type' =>  'number',
-                            'validation' => 'required|max:255',
-                            'initialValue' => 1,
-                            'isCanAddField' => false,
-
-                        ],
-                        [
-                            'id' => 9,
                             'title' => 'discount',
                             'entityType' => 'contract',
                             'name' => 'discount',
@@ -162,7 +151,7 @@ class Contract extends Model
 
                         ],
                         [
-                            'id' => 10,
+                            'id' => 9,
                             'title' => 'productName',
                             'entityType' => 'contract',
                             'name' => 'productName',
