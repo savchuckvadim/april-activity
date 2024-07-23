@@ -176,6 +176,42 @@ class Contract extends Model
                         ],
                         [
                             'id' => 11,
+                            'title' => 'product',
+                            'entityType' => 'contract',
+                            'name' => 'product',
+                            'apiName' => 'product',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 11,
+                            'title' => 'service',
+                            'entityType' => 'contract',
+                            'name' => 'service',
+                            'apiName' => 'service',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 12,
+                            'title' => 'service',
+                            'entityType' => 'contract',
+                            'name' => 'service',
+                            'apiName' => 'service',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+
+                        ],
+                        [
+                            'id' => 13,
                             'title' => 'withPrepayment',
                             'entityType' => 'contract',
                             'name' => 'withPrepayment',
