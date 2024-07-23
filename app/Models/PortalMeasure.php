@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class PortalMeasure extends Model
 {
     use HasFactory;
+    protected $with = ['measure'];
     protected $table = 'portal_measure'; // Указание, какая таблица используется для этой модели
 
 
