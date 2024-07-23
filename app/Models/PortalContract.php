@@ -11,6 +11,7 @@ class PortalContract extends Model
     use HasFactory;
 
     protected $with = ['contract', 'portalMeasure'];
+    protected $fillable = ['portal_id', 'contract_id', 'portal_measure_id', 'title', 'template', 'order', 'bitrixfield_item_id'];
 
 
     public function contract()

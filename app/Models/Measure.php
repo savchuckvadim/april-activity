@@ -9,9 +9,15 @@ class Measure extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'shortName', 'fullName', 'code', 'type'];
+
+    public function portalMeasures()
+    {
+        return $this->hasMany(PortalMeasure::class);
+    }
+
     public static function getForm()
     {
-
 
         return [
             'apiName' => 'measure',
