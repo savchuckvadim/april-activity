@@ -76,12 +76,12 @@ class PortalMeasureController extends Controller
             $portalMeasure->save(); // Сохранение Counter в базе данных
 
             return APIController::getSuccess(
-                ['portalMeasure' => $portalMeasure, 'portal' => $portal, 'measure' => $measure]
+                ['portalmeasure' => $portalMeasure, 'portal' => $portal, 'measure' => $measure]
             );
         }
 
         return APIController::getError(
-            'portal was not found',
+            'portalmeasure was not found',
             ['rq' => $request]
 
         );
@@ -98,12 +98,12 @@ class PortalMeasureController extends Controller
             if ($portalMeasure) {
                 // $resultSmart = new SmartResource($rpa);
                 return APIController::getSuccess(
-                    ['portalMeasure' => $portalMeasure]
+                    ['portalmeasure' => $portalMeasure]
                 );
             } else {
                 return APIController::getError(
                     'portalMeasure was not found',
-                    ['portalMeasure' => $portalMeasure]
+                    ['portalmeasure' => $portalMeasure]
                 );
             }
         } catch (\Throwable $th) {
@@ -122,13 +122,13 @@ class PortalMeasureController extends Controller
         if ($measures) {
 
             return APIController::getSuccess(
-                ['measures' => $measures]
+                ['portalmeasures' => $measures]
             );
         }
 
 
         return APIController::getError(
-            'measures was not found',
+            'portalmeasures was not found',
             null
 
         );
@@ -145,13 +145,13 @@ class PortalMeasureController extends Controller
         if ($measures) {
 
             return APIController::getSuccess(
-                ['measures' => $measures]
+                ['portalmeasures' => $measures]
             );
         }
 
 
         return APIController::getError(
-            'measures was not found',
+            'portalmeasures was not found',
             ['portal id' => $portalId]
 
         );
@@ -171,7 +171,7 @@ class PortalMeasureController extends Controller
         } else {
 
             return APIController::getError(
-                'measure not found',
+                'portalmeasure not found',
                 null
             );
         }
