@@ -111,6 +111,12 @@ class Field extends Model
                                 'name'  => 'img',
                                 'value' => 'img',
                             ],
+                            [
+                                'id' => 6,
+                                'title' => 'file',
+                                'name'  => 'file',
+                                'value' => 'file',
+                            ],
                         ],
                         'validation' => 'required|max:255',
                         'initialValue' => '',
