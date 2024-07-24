@@ -159,7 +159,7 @@ class BtxLeadController extends Controller
             $lead = BtxLead::find($leadId);
 
             if ($lead) {
-                $bitrixfields = $lead->fields;
+                $bitrixfields = $lead->bitrixfields;
                 return APIController::getSuccess(
                     ['bitrixfields' => $bitrixfields]
                 );
