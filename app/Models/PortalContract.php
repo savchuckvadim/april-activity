@@ -57,7 +57,7 @@ class PortalContract extends Model
 
         $portalsSelect = PortalController::getSelectPortals($portalId);
         $portal = Portal::find($portalId);
-        $portalMesures = $portal->measures();
+        $portalMesures = $portal->measures;
         $selectportalMesures= PortalContract::getSelectItems($portalMesures);
         $currentportalMesuresId = PortalContract::getSelectItemId($portalMesures);
 
