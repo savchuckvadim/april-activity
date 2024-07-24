@@ -70,9 +70,11 @@ class PortalContract extends Model
         $items = [];
         foreach ($fields as  $field) {
             if ($field['code'] == 'contract_type') {
-                $items =$field->items;
+
                 if (!empty($field->items)) {
+                    
                     foreach ($field->items  as $item) {
+                        array_push($selectFieldItems, $item);
                         array_push($selectFieldItems, [
                             'id' => $item->id,
                             // 'domain' => $portal->domain,
