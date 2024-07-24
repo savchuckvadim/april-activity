@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class BtxLead extends Model
 {
     use HasFactory;
-    protected $with = ['categories', 'bitrixfields']; 
+    protected $with = [
+        'categories',
+        'bitrixfields'
+    ];
 
     public function portal()
     {
@@ -109,5 +112,4 @@ class BtxLead extends Model
             ]
         ];
     }
-
 }
