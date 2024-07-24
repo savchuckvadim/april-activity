@@ -181,7 +181,7 @@ class PortalContract extends Model
                         ],
 
                         [
-                            'id' => 5,
+                            'id' => 6,
                             'title' => 'Relation portal_measure_id',
                             'entityType' => 'portal_contract',
                             'name' => 'portal_measure_id',
@@ -193,7 +193,33 @@ class PortalContract extends Model
                             'isCanAddField' => false,
 
                         ],
+                        [
+                            'id' => 7,
+                            'title' => 'productName nullable',
+                            'entityType' => 'portal_contract',
+                            'name' => 'productName',
+                            'apiName' => 'productName',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
+                        ],
+
+                        [
+                            'id' => 7,
+                            'title' => 'description nullable',
+                            'entityType' => 'portal_contract',
+                            'name' => 'description',
+                            'apiName' => 'description',
+                            'type' =>  'string',
+                            'validation' => 'required|max:255',
+                            'initialValue' => '',
+                            'isCanAddField' => false,
+                            'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                        ],
 
 
 
