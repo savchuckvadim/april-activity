@@ -36,11 +36,11 @@ Route::get('/link/{linkId}', function ($linkId) {
 
 Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    // if ($pass == 'nmbrsdntl') {
-    //     return InstallDealController::installDealCtaegories($domain, $token);
-    // } else {
-    return 'yo';
-    // }
+    if ($pass == 'nmbrsdntl') {
+        return InstallDealController::installDealCtaegories($domain, $token);
+    } else {
+        return 'yo';
+    }
 });
 
 Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
@@ -120,7 +120,7 @@ Route::get(
         // if ($pass == 'nmbrsdntl') {
         //     return InfoblockInstallController::setIblocks($token);
         // } else {
-            return 'yo';
+        return 'yo';
         // }
     }
 );
