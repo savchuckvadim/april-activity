@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Controllers\PortalController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PDO;
 
 class PortalContract extends Model
 {
@@ -72,7 +73,7 @@ class PortalContract extends Model
             if ($field['code'] == 'contract_type') {
 
                 if (!empty($field->items)) {
-                    
+
                     foreach ($field->items  as $item) {
                         array_push($selectFieldItems, $item);
                         // array_push($selectFieldItems, [
@@ -250,11 +251,12 @@ class PortalContract extends Model
     public static function getSelectItemId($items)
     {
         $result = 0;
-        if (!empty($items) && is_array($items)) {
-            if (!empty($items[0]['id'])) {
-                $result = $items[0]['id'];
+
+        foreach ($items  as $key => $item) {
+            if (!$key) {
+                $result = $item['id'];
             }
-        }
+        };
 
         return $result;
     }
