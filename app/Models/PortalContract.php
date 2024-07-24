@@ -58,7 +58,7 @@ class PortalContract extends Model
         $portalsSelect = PortalController::getSelectPortals($portalId);
         $portal = Portal::find($portalId);
         $portalMesures = $portal->measures;
-        $selectportalMesures= PortalContract::getSelectItems($portalMesures);
+        $selectportalMesures = PortalContract::getSelectItems($portalMesures);
         $currentportalMesuresId = PortalContract::getSelectItemId($portalMesures);
 
         $contracts = Contract::all();
@@ -67,17 +67,17 @@ class PortalContract extends Model
         $deal = $portal->deals()->first();
         $fields = $deal->bitrixfields;
         $selectFieldItems = [];
-
+        $items = [];
         foreach ($fields as  $field) {
             if ($field['code'] == 'contract_type') {
-
+                $items =$field->items;
                 if (!empty($field->items)) {
                     foreach ($field->items  as $item) {
                         array_push($selectFieldItems, [
                             'id' => $item->id,
                             // 'domain' => $portal->domain,
                             'name' => $item->name,
-                            'code' => $portal->code,
+                            'code' => $item->code,
                         ]);
                     };
                 }
@@ -198,7 +198,7 @@ class PortalContract extends Model
                     ],
 
                     'relations' => $deal,
-                    'fields' => $fields,
+                    'items' => $items,
 
                 ]
             ]
