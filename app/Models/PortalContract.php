@@ -75,12 +75,12 @@ class PortalContract extends Model
                     
                     foreach ($field->items  as $item) {
                         array_push($selectFieldItems, $item);
-                        array_push($selectFieldItems, [
-                            'id' => $item->id,
-                            // 'domain' => $portal->domain,
-                            'name' => $item->name,
-                            'code' => $item->code,
-                        ]);
+                        // array_push($selectFieldItems, [
+                        //     'id' => $item->id,
+                        //     // 'domain' => $portal->domain,
+                        //     'name' => $item->title,
+                        //     'code' => $item->code,
+                        // ]);
                     };
                 }
             }
