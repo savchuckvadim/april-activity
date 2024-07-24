@@ -45,19 +45,19 @@ class PortalContractController extends Controller
 
             if (isset($request['contract_id'])) {
 
-                $contract_id = $request['contract_id'];
+                $contract_id  = (int)$request['contract_id'];
                 $portalContract->contract_id = $contract_id;
             }
 
             if (isset($request['portal_measure_id'])) {
 
-                $portal_measure_id = $request['portal_measure_id'];
+                $portal_measure_id = (int)$request['portal_measure_id'];
                 $portalContract->portal_measure_id = $portal_measure_id;
             }
 
             if (isset($request['bitrixfield_item_id'])) {
 
-                $bitrixfield_item_id = $request['bitrixfield_item_id'];
+                $bitrixfield_item_id = (int)$request['bitrixfield_item_id'];
                 $portalContract->bitrixfield_item_id = $bitrixfield_item_id;
             }
         }
