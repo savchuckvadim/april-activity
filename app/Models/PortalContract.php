@@ -197,7 +197,8 @@ class PortalContract extends Model
 
                     ],
 
-                    'relations' => [],
+                    'relations' => $deal,
+                    'fields' => $fields,
 
                 ]
             ]
