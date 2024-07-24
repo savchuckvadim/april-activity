@@ -144,22 +144,22 @@ class PortalContractController extends Controller
 
     public function getByPortal($portalId)
     {
-
+        $portalcontracts = [];
         // Создание нового Counter
         $portal = Portal::find($portalId);
-        $portalcontracts = $portal->portalcontracts;
-        if ($portalcontracts) {
+        if ($portal) {
+            $portalcontracts = $portal->portalcontracts;
+            if ($portalcontracts) {
 
-            return APIController::getSuccess(
-                ['portalcontracts' => $portalcontracts]
-            );
+                return APIController::getSuccess(
+                    ['portalcontracts' => $portalcontracts]
+                );
+            }
         }
 
 
-        return APIController::getError(
-            'portalcontract was not found',
-            ['portal id' => $portalId]
-
+        return APIController::getSuccess(
+            ['portalcontracts' => $portalcontracts]
         );
     }
     /**
