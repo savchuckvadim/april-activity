@@ -71,6 +71,7 @@ class ContractController extends Controller
                     $resultContract = $portalcontract;
                     if (!empty($portalcontract['contract'])) {
                         $resultContract['code'] = $portalcontract['contract']['code'];
+                        $resultContract['shortName'] = $portalcontract['contract']['code'];
                         $resultContract['number'] = $portalcontract['contract']['number'];
 
 
@@ -91,7 +92,7 @@ class ContractController extends Controller
 
                     $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
                     $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
-                    
+
                     $resultContract['fieldItem'] = $fieldItem;
                     $resultContract['field'] = $field;
 
