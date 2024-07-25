@@ -53,9 +53,9 @@ class PortalContractResource extends JsonResource
 
             'portalMeasure' => $measure,
             'measureCode' =>  $measure->measure->code,
-            'measureFullName' =>  $measure->fullName || $measure->measure->fullName,
+            'measureFullName' =>  $measure->measure->fullName,
             'measureId' =>  (int)$measure->bitrixId,
-            'measureName' =>  $measure->shortName || $measure->measure->shortName,
+            'measureName' =>   $measure->measure->shortName,
             'measureNumber' => $measure->id,
 
 
