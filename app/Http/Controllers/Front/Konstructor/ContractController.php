@@ -89,9 +89,9 @@ class ContractController extends Controller
                     }
 
                     $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
-                    // $field = $fieldItem->bitrixfield;
-                    $resultContracts['fieldItem'] = $fieldItem;
-                    // $resultContracts['field'] = $field;
+                    $field = $fieldItem->bitrixfield;
+                    $resultContract['fieldItem'] = $fieldItem;
+                    $resultContracts['field'] = $field;
 
                     array_push($resultContracts, $resultContract);
                 }
