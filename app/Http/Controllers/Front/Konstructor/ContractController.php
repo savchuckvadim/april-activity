@@ -28,7 +28,7 @@ class ContractController extends Controller
             $rqMethod = 'crm.requisite.list.json';
             $rqData = [
                 'filter' => [
-                    'ENTITY_TYPE_ID' => 4,
+                    // 'ENTITY_TYPE_ID' => 4,
                     // 'ENTITY_ID' => $companyId,
                 ]
             ];
