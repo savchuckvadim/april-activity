@@ -33,7 +33,7 @@ class ContractController extends Controller
                 ]
             ];
             $url = $hook . $rqMethod;
-            $responseData = Http::get($url,  $rqData);
+            $responseData = Http::post($url,  $rqData);
             $response = BitrixController::getBitrixResponse($responseData, $rqMethod);
 
             return APIController::getSuccess(
