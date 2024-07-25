@@ -49,7 +49,7 @@ class PortalContractResource extends JsonResource
             'discount' => (int)$contract->discount,
             'itemId' =>  $fieldItem->bitrixId,
             'prepayment' => (int)$contract->prepayment,
-            'order' => (int)$contract->order || (int)$this->order,
+            'order' =>  (int)$this->order,
 
             'portalMeasure' => $measure,
             'measureCode' =>  $measure->measure->code,
