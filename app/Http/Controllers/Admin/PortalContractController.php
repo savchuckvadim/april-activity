@@ -145,29 +145,11 @@ class PortalContractController extends Controller
     public function getByPortal($portalId)
     {
         $portalcontracts = [];
-        $resultcontracts = [];
         // Создание нового Counter
         $portal = Portal::find($portalId);
         if ($portal) {
             $portalcontracts = $portal->contracts;
-            if (!empty($portalcontracts)) {
-
-                foreach ($portalcontracts as $portalcontract) {
-                    $resultContract = $portalcontract;
-                    if (!empty($portalcontract['contract'])) {
-                        $resultContract['code'] = $portalcontract['contract']['code'];
-
-
-
-                        if (empty($portalcontract['productName'])) {
-                            $resultContract['productName'] = $portalcontract['contract']['productName'];
-                        }
-
-                        $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-                        // $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-
-                    }
-                }
+            if (($portalcontracts)) {
 
                 return APIController::getSuccess(
                     ['portalcontracts' => $portalcontracts]

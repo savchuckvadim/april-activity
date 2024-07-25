@@ -58,14 +58,38 @@ class ContractController extends Controller
     {
         $domain =  $request->domain;
         $portalcontracts = [];
+        $resultContracts = [];
         // Создание нового Counter
         $portal = Portal::where('domain', $domain)->first();
         if ($portal) {
             $portalcontracts = $portal->contracts;
-            if ($portalcontracts) {
+            if (!empty($portalcontracts)) {
+
+                foreach ($portalcontracts as $portalcontract) {
+                    $resultContract = $portalcontract;
+                    if (!empty($portalcontract['contract'])) {
+                        $resultContract['code'] = $portalcontract['contract']['code'];
+
+
+
+                        if (empty($portalcontract['productName'])) {
+                            $resultContract['productName'] = $portalcontract['contract']['productName'];
+                        }
+
+                        $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+                        // $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+
+                    }
+
+
+                    array_push($resultContracts, $resultContract);
+                }
+
+
+
 
                 return APIController::getSuccess(
-                    ['contracts' => $portalcontracts]
+                    ['portalcontracts' => $resultContracts]
                 );
             }
         }
