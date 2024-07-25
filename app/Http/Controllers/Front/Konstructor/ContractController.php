@@ -25,11 +25,11 @@ class ContractController extends Controller
 
             $hook = BitrixController::getHook($domain);
 
-            $rqMethod = 'crm.requisite.list.json';
+            $rqMethod = 'crm.requisite.list';
             $rqData = [
                 'filter' => [
-                    // 'ENTITY_TYPE_ID' => 4,
-                    // 'ENTITY_ID' => $companyId,
+                    'ENTITY_TYPE_ID' => 4,
+                    'ENTITY_ID' => $companyId,
                 ]
             ];
             $url = $hook . $rqMethod;
