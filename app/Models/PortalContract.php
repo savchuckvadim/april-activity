@@ -11,7 +11,7 @@ class PortalContract extends Model
 {
     use HasFactory;
 
-    protected $with = ['contract', 'portalMeasure'];
+    protected $with = ['contract', 'portalMeasure', 'portalDealContractItem'];
     protected $fillable = ['portal_id', 'contract_id', 'portal_measure_id', 'title', 'template', 'order', 'bitrixfield_item_id'];
 
 
@@ -29,7 +29,10 @@ class PortalContract extends Model
     {
         return $this->belongsTo(PortalMeasure::class);
     }
-
+    public function portalDealContractItem()
+    {
+        return $this->belongsTo(BitrixfieldItem::class);
+    }
 
     // Accessor для title
     public function getTitleAttribute($value)
