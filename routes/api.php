@@ -43,7 +43,9 @@ use function morphos\Russian\inflectName;
 //     });
 // });
 // 'api.key', 
-Route::middleware(['ajax.only'])->group(function () {
+
+Route::middleware(['ajax.only', 'api.key'])->group(function () {
+    require __DIR__.'/front/konstructor/contract_routes.php';
 
     //..................................GENERAL FRONT APP ...............................
     Route::post('front/portal', function (Request $request) {
