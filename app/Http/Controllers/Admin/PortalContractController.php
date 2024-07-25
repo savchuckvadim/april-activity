@@ -80,7 +80,8 @@ class PortalContractController extends Controller
             $portalContract->title = (string)$validatedData['title'];
             $portalContract->productName = (string)$validatedData['productName'];
             $portalContract->description = (string)$validatedData['description'];
-            $portalContract->order = (string)$validatedData['order'];
+            $portalContract->order = (int)$validatedData['order'];
+      
             $portalContract->save(); // Сохранение Counter в базе данных
 
             return APIController::getSuccess(

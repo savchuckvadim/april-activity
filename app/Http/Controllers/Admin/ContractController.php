@@ -35,14 +35,14 @@ class ContractController extends Controller
         } else {
             // if (isset($request['portal_id'])) {
 
-                $contract = new Contract();
+            $contract = new Contract();
             // }
         }
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:contracts,id',
             // 'entity_type' => 'required|string',
             'name' => 'required|string',
-      
+
             'number' => 'required|string',
             'title' => 'required|string',
             'code' => 'required|string',
@@ -51,38 +51,37 @@ class ContractController extends Controller
             'productName' => 'required|string',
             'product' => 'sometimes',
             'service' => 'sometimes',
-      
+
             'template' => 'sometimes',
             'order' => 'sometimes',
             'coefficient' => 'sometimes',
             'prepayment' => 'sometimes',
             'discount' => 'sometimes',
             'withPrepayment' => 'sometimes',
-  
+
         ]);
         if ($contract) {
-        $contract->type = $validatedData['type'];
-        $contract->code = $validatedData['code'];
-        $contract->name = $validatedData['name'];
-        $contract->title = $validatedData['title'];
-        $contract->number = (int)$validatedData['number'];
-        $contract->coefficient = (int)$validatedData['coefficient'];
-        $contract->prepayment = (int)$validatedData['prepayment'];
-        $contract->discount = (int)$validatedData['discount'];
-        $contract->template = $validatedData['template'];
-        $contract->productName =$validatedData['productName'];
-        $contract->order =$validatedData['order'];
+            $contract->type = $validatedData['type'];
+            $contract->code = $validatedData['code'];
+            $contract->name = $validatedData['name'];
+            $contract->title = $validatedData['title'];
+            $contract->number = (int)$validatedData['number'];
+            $contract->coefficient = (int)$validatedData['coefficient'];
+            $contract->prepayment = (int)$validatedData['prepayment'];
+            $contract->discount = (int)$validatedData['discount'];
+            $contract->template = $validatedData['template'];
+            $contract->productName = $validatedData['productName'];
+            $contract->order = (int)$validatedData['order'];
 
-        
-        if(!empty($validatedData['withPrepayment'])){
 
-            $contract->withPrepayment = true;
+            if (!empty($validatedData['withPrepayment'])) {
 
-        }else{
-            $contract->withPrepayment = false;
-        }
-        $contract->product = $validatedData['product'];
-        $contract->service = $validatedData['service'];
+                $contract->withPrepayment = true;
+            } else {
+                $contract->withPrepayment = false;
+            }
+            $contract->product = $validatedData['product'];
+            $contract->service = $validatedData['service'];
 
             $contract->save(); // Сохранение Counter в базе данных
 
