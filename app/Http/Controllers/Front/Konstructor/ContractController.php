@@ -18,10 +18,11 @@ class ContractController extends Controller
 
     public function frontInit(Request $request) //by id
     {
+        $data = $request->body();
+        $domain = $data->domain;
+        $companyId = $data->companyId;
         try {
-            $data = $request->body();
-            $domain = $data->domain;
-            $companyId = $data->companyId;
+           
             $hook = BitrixController::getHook($domain);
 
             $rqMethod = 'crm.requisite.list.json';
