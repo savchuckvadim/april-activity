@@ -65,54 +65,54 @@ class ContractController extends Controller
         $portal = Portal::where('domain', $domain)->first();
         if ($portal) {
             $portalcontracts = $portal->contracts;
-            if (!empty($portalcontracts)) {
+            // if (!empty($portalcontracts)) {
 
-                foreach ($portalcontracts as $portalcontract) {
-                    $resultContract = $portalcontract;
-                    if (!empty($portalcontract['contract'])) {
+            //     foreach ($portalcontracts as $portalcontract) {
+            //         $resultContract = $portalcontract;
+            //         if (!empty($portalcontract['contract'])) {
                       
 
 
-                        if (empty($portalcontract['productName'])) {
-                            $resultContract['productName'] = $portalcontract['contract']['productName'];
-                        }
-                        if (!empty($portalcontract['portal_measure'])) {
+            //             if (empty($portalcontract['productName'])) {
+            //                 $resultContract['productName'] = $portalcontract['contract']['productName'];
+            //             }
+            //             if (!empty($portalcontract['portal_measure'])) {
 
-                            if (!empty($portalcontract['portal_measure']['bitrixId'])) {
+            //                 if (!empty($portalcontract['portal_measure']['bitrixId'])) {
 
-                                $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-                            }
-                        }
-                    }
+            //                     $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+            //                 }
+            //             }
+            //         }
 
-                    // $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
-                    // $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
-
-
-                    $resultContract['code'] = $portalcontract['contract']['code'];
-                    $resultContract['shortName'] = $portalcontract['contract']['code'];
-                    $resultContract['number'] = $portalcontract['contract']['number'];
+            //         // $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
+            //         // $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
 
 
-                    // $resultContract['fieldItem'] = $fieldItem;
-                    // $resultContract['field'] = $field;
-                    $resultContract['aprilName'] =  $portalcontract;
-                    // $resultContract['bitrixName'] =  $fieldItem['title'];
-                    $resultContract['discount'] = (int)$portalcontract['contract']['discount'];
-                    $resultContract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
+            //         $resultContract['code'] = $portalcontract['contract']['code'];
+            //         $resultContract['shortName'] = $portalcontract['contract']['code'];
+            //         $resultContract['number'] = $portalcontract['contract']['number'];
+
+
+            //         // $resultContract['fieldItem'] = $fieldItem;
+            //         // $resultContract['field'] = $field;
+            //         $resultContract['aprilName'] =  $portalcontract;
+            //         // $resultContract['bitrixName'] =  $fieldItem['title'];
+            //         $resultContract['discount'] = (int)$portalcontract['contract']['discount'];
+            //         $resultContract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
                 
-                    // $resultContract['itemId'] =  $fieldItem['bitrixId'];
+            //         // $resultContract['itemId'] =  $fieldItem['bitrixId'];
 
-                    array_push($resultContracts, $resultContract);
-                }
-
-
+            //         array_push($resultContracts, $resultContract);
+            //     }
 
 
-                return APIController::getSuccess(
-                    ['contracts' => $resultContracts]
-                );
-            }
+
+
+            //     return APIController::getSuccess(
+            //         ['contracts' => $resultContracts]
+            //     );
+            // }
         }
 
 
