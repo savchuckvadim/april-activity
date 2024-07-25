@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\Konstructor;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PortalContractResource;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use App\Models\Portal;
@@ -68,21 +69,23 @@ class ContractController extends Controller
             if (!empty($portalcontracts)) {
 
                 foreach ($portalcontracts as $portalcontract) {
-                    $resultContract = $portalcontract;
+                    $resultContract = new PortalContractResource($portalcontract);
+
+
+
                     if (!empty($portalcontract['contract'])) {
-                      
 
 
-                        if (empty($portalcontract['productName'])) {
-                            $resultContract['productName'] = $portalcontract['contract']['productName'];
-                        }
-                        if (!empty($portalcontract['portal_measure'])) {
+                        // if (empty($portalcontract['productName'])) {
+                        //     $resultContract['productName'] = $portalcontract['contract']['productName'];
+                        // }
+                        // if (!empty($portalcontract['portal_measure'])) {
 
-                            if (!empty($portalcontract['portal_measure']['bitrixId'])) {
+                        //     if (!empty($portalcontract['portal_measure']['bitrixId'])) {
 
-                                $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-                            }
-                        }
+                        //         $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+                        //     }
+                        // }
                     }
 
                     // $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
@@ -100,10 +103,10 @@ class ContractController extends Controller
                     // $resultContract['bitrixName'] =  $fieldItem['title'];
                     // $portalcontract['discount'] = (int)$portalcontract['contract']['discount'];
                     // $portalcontract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
-                
+
                     // $resultContract['itemId'] =  $fieldItem['bitrixId'];
 
-                    array_push($resultContracts, $portalcontract);
+                    array_push($resultContracts, $resultContract);
                 }
 
 
