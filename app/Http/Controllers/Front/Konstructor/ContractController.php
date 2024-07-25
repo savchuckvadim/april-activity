@@ -76,9 +76,15 @@ class ContractController extends Controller
                         if (empty($portalcontract['productName'])) {
                             $resultContract['productName'] = $portalcontract['contract']['productName'];
                         }
+                        if (!empty($portalcontract['portal_measure'])) {
 
-                        $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-                        // $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+                            if (!empty($portalcontract['portal_measure']['bitrixId'])) {
+
+                                $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
+    
+                            }
+                        }
+
 
                     }
 
