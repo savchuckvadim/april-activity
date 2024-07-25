@@ -68,7 +68,7 @@ class ContractController extends Controller
             if (!empty($portalcontracts)) {
 
                 foreach ($portalcontracts as $portalcontract) {
-                    // $resultContract = $portalcontract;
+                    $resultContract = $portalcontract;
                     if (!empty($portalcontract['contract'])) {
                       
 
@@ -89,17 +89,17 @@ class ContractController extends Controller
                     // $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
 
 
-                    $portalcontract['code'] = $portalcontract['contract']['code'];
-                    $portalcontract['shortName'] = $portalcontract['contract']['code'];
-                    $portalcontract['number'] = $portalcontract['contract']['number'];
+                    // $portalcontract['code'] = $portalcontract['contract']['code'];
+                    // $portalcontract['shortName'] = $portalcontract['contract']['code'];
+                    // $portalcontract['number'] = $portalcontract['contract']['number'];
 
 
                     // $resultContract['fieldItem'] = $fieldItem;
                     // $resultContract['field'] = $field;
-                    $portalcontract['aprilName'] =  $portalcontract;
+                    // $portalcontract['aprilName'] =  $portalcontract;
                     // $resultContract['bitrixName'] =  $fieldItem['title'];
-                    $portalcontract['discount'] = (int)$portalcontract['contract']['discount'];
-                    $portalcontract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
+                    // $portalcontract['discount'] = (int)$portalcontract['contract']['discount'];
+                    // $portalcontract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
                 
                     // $resultContract['itemId'] =  $fieldItem['bitrixId'];
 
