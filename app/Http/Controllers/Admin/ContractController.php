@@ -71,6 +71,9 @@ class ContractController extends Controller
         $contract->discount = (int)$validatedData['discount'];
         $contract->template = $validatedData['template'];
         $contract->productName =$validatedData['productName'];
+        $contract->order =$validatedData['order'];
+
+        
         if(!empty($validatedData['withPrepayment'])){
 
             $contract->withPrepayment = true;

@@ -70,9 +70,7 @@ class ContractController extends Controller
                 foreach ($portalcontracts as $portalcontract) {
                     $resultContract = $portalcontract;
                     if (!empty($portalcontract['contract'])) {
-                        $resultContract['code'] = $portalcontract['contract']['code'];
-                        $resultContract['shortName'] = $portalcontract['contract']['code'];
-                        $resultContract['number'] = $portalcontract['contract']['number'];
+                      
 
 
                         if (empty($portalcontract['productName'])) {
@@ -83,19 +81,35 @@ class ContractController extends Controller
                             if (!empty($portalcontract['portal_measure']['bitrixId'])) {
 
                                 $resultContract['bitrixMeasureId'] = (int)$portalcontract['portal_measure']['bitrixId'];
-    
                             }
                         }
-
-
                     }
 
                     $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
                     $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
 
+
+                    $resultContract['code'] = $portalcontract['contract']['code'];
+                    $resultContract['shortName'] = $portalcontract['contract']['code'];
+                    $resultContract['number'] = $portalcontract['contract']['number'];
+
+
                     $resultContract['fieldItem'] = $fieldItem;
                     $resultContract['field'] = $field;
-
+                    $resultContract['aprilName'] =  $portalcontract;
+                    $resultContract['bitrixName'] =  $fieldItem['title'];
+                    $resultContract['discount'] = (int)$portalcontract['contract']['discount'];
+                    $resultContract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
+                
+                    $resultContract['itemId'] =  6777;
+                    $resultContract['measureCode'] =  6;
+                    $resultContract['measureFullName'] =  "Месяц";
+                    $resultContract['measureId'] =  1;
+                    $resultContract['measureName'] =  "мес.";
+                    $resultContract['measureNumber'] =  0;
+                    $resultContract['number'] =  0;
+                    $resultContract['order'] =  0;
+                   
                     array_push($resultContracts, $resultContract);
                 }
 
