@@ -100,7 +100,7 @@ class ContractController extends Controller
 
 
                 return APIController::getSuccess(
-                    ['portalcontracts' => $resultContracts]
+                    ['contracts' => $resultContracts]
                 );
             }
         }
