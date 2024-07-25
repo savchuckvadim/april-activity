@@ -61,7 +61,7 @@ class ContractController extends Controller
         // Создание нового Counter
         $portal = Portal::where('domain', $domain)->first();
         if ($portal) {
-            $portalcontracts = $portal->portalcontracts;
+            $portalcontracts = $portal->contracts;
             if ($portalcontracts) {
 
                 return APIController::getSuccess(
@@ -72,7 +72,7 @@ class ContractController extends Controller
 
 
         return APIController::getSuccess(
-            ['portalcontracts' => $portalcontracts]
+            ['contracts' => $portalcontracts, 'portal' => $portal]
         );
     }
 }

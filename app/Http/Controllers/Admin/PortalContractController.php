@@ -148,7 +148,7 @@ class PortalContractController extends Controller
         // Создание нового Counter
         $portal = Portal::find($portalId);
         if ($portal) {
-            $portalcontracts = $portal->portalcontracts;
+            $portalcontracts = $portal->contracts;
             if ($portalcontracts) {
 
                 return APIController::getSuccess(
