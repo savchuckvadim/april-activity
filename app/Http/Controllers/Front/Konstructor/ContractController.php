@@ -70,7 +70,7 @@ class ContractController extends Controller
                     $resultContract = $portalcontract;
                     if (!empty($portalcontract['contract'])) {
                         $resultContract['code'] = $portalcontract['contract']['code'];
-
+                        $resultContract['number'] = $portalcontract['contract']['number'];
 
 
                         if (empty($portalcontract['productName'])) {
