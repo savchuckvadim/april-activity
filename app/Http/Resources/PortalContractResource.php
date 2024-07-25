@@ -39,7 +39,7 @@ class PortalContractResource extends JsonResource
             'portalMeasure' => $this->portalMeasure,
             'code' => $this->contract->code,
             'shortName' => $this->contract->code,
-            'number' => $this->$this->contract->number,
+            'number' => $this->contract->number,
             // 'fieldItem' => $fieldItem->bitrixId,
             // 'field' => $field,
             'aprilName' => $this->contract->title,
