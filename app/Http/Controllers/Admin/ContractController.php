@@ -68,7 +68,7 @@ class ContractController extends Controller
             $contract->number = (int)$validatedData['number'];
             $contract->coefficient = (int)$validatedData['coefficient'];
             $contract->prepayment = (int)$validatedData['prepayment'];
-            $contract->discount = (int)$validatedData['discount'];
+            $contract->discount = floatval($validatedData['discount']);
             $contract->template = $validatedData['template'];
             $contract->productName = $validatedData['productName'];
             $contract->order = (int)$validatedData['order'];
