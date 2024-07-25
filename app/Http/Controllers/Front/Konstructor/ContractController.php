@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\Konstructor;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use App\Models\Portal;
 use App\Models\PortalContract;
@@ -89,9 +90,10 @@ class ContractController extends Controller
                     }
 
                     $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
-                    $field = $fieldItem->bitrixfield;
+                    $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
+                    
                     $resultContract['fieldItem'] = $fieldItem;
-                    $resultContracts['field'] = $field;
+                    $resultContract['field'] = $field;
 
                     array_push($resultContracts, $resultContract);
                 }
