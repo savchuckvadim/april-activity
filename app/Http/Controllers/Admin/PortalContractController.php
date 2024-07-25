@@ -62,7 +62,7 @@ class PortalContractController extends Controller
             }
         }
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:portal_contract,id',
+            'id' => 'sometimes|integer|exists:portal_contracts,id',
             // 'bitrixId' => 'required|string',
             'title' => 'required|string',
             'productName' => 'sometimes',
