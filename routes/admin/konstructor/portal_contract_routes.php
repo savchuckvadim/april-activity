@@ -33,6 +33,8 @@ Route::get('portalcontract/{portalcontractId}', [PortalContractController::class
 //...............................................SET RPA
 
 Route::post('portal/{portalId}/portalcontract', [PortalContractController::class, 'store']);
+Route::post('portalcontract/{portalcontractId}', [PortalContractController::class, 'store']);
+
 // Route::post('measure/{measureId}', [PortalMeasure::class, 'store']);
 
 // ............................................DELETE

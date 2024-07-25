@@ -1,7 +1,6 @@
 <?php
 
-
-use App\Http\Controllers\ContractController;
+use App\Http\Controllers\Admin\ContractController;
 use Illuminate\Support\Facades\Route;
 
 
