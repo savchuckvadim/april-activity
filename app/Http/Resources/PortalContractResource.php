@@ -32,22 +32,31 @@ class PortalContractResource extends JsonResource
 
 
         $fieldItem = $this->bitrixfieldItem;
+        $measure = $this->portalMeasure;
+        $contract = $this->contract;
         $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
         return [
             'id' => $this->id,
-            'contract' => $this->contract,
-            'portalMeasure' => $this->portalMeasure,
-            'code' => $this->contract->code,
-            'shortName' => $this->contract->code,
-            'number' => $this->contract->number,
+            'contract' => $contract,
+
+            'code' => $contract->code,
+            'shortName' => $contract->code,
+            'number' => $contract->number,
             // 'fieldItem' => $fieldItem->bitrixId,
             // 'field' => $field,
-            'aprilName' => $this->contract->title,
-            'bitrixName' => $this->contract->title,
-            'discount' => (int)$this->contract->discount,
+            'aprilName' => $contract->title,
+            'bitrixName' => $contract->title,
+            'discount' => (int)$contract->discount,
             'itemId' =>  $fieldItem->bitrixId,
-            'prepayment' => (int)$this->contract->prepayment,
-            'order' => $this->contract->order,
+            'prepayment' => (int)$contract->prepayment,
+            'order' => (int)$contract->order || (int)$this->order,
+
+            'portalMeasure' => $measure,
+            'measureCode' =>  $measure->measure->code,
+            'measureFullName' =>  $measure->fullName || $measure->measure->fullName,
+            'measureId' =>  (int)$measure->bitrixId,
+            'measureName' =>  $measure->shortName || $measure->measure->shortName,
+            'measureNumber' => $measure->id,
 
 
         ];
