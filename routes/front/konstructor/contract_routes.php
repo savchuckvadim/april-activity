@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('konstruct')->group(function () {
    
     Route::prefix('contract')->group(function () {
-   
+        Route::post('init', [ContractController::class, 'frontInit']);
+
         
     });
 

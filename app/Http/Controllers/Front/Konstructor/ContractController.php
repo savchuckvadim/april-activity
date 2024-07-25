@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front\Konstructor;
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Bitrixfield;
@@ -10,10 +11,40 @@ use App\Models\BitrixfieldItem;
 use App\Models\Portal;
 use App\Models\PortalContract;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ContractController extends Controller
 {
 
+    public function frontInit(Request $request) //by id
+    {
+        try {
+            $data = $request->body();
+            $domain = $data->domain;
+            $companyId = $data->companyId;
+            $hook = BitrixController::getHook($domain);
+
+            $rqMethod = 'crm.requisite.list.json';
+            $rqData = [
+                'filter' => [
+                    'ENTITY_TYPE_ID' => 4,
+                    'ENTITY_ID' => $companyId,
+                ]
+            ];
+            $url = $hook . $rqMethod;
+            $responseData = Http::get($url,  $rqData);
+            $response = BitrixController::getBitrixResponse($responseData, $rqMethod);
+
+            return APIController::getSuccess(
+                ['init' => $response]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['companyId' => $companyId, 'domain' => $domain]
+            );
+        }
+    }
 
     public function get($portalContractId) //by id
     {

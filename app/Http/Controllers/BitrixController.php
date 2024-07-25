@@ -149,6 +149,39 @@ class BitrixController extends Controller
         }
     }
 
+
+    // static function getBitrixRespone($bitrixResponse, $method)
+    // {
+    //     $response =  $bitrixResponse->json();
+    //     if ($response) {
+
+    //         if (isset($response['result'])) {
+
+      
+    //             return $response['result'];
+    //         } else {
+    //             if (isset($response['error_description'])) {
+    //                 Log::channel('telegram')->error('APRIL_HOOK', [
+    //                     $method => [
+    //                         'btrx error' => $response['error'],
+    //                         'btrx response' => $response['error_description']
+    //                     ]
+    //                 ]);
+
+
+    //                 Log::error('error', [
+    //                     $method => [
+    //                         'btrx error' => $response['error'],
+    //                         'btrx response' => $response['error_description']
+    //                     ]
+
+    //                 ]);
+    //                 return null;
+    //             }
+    //         }
+    //     }
+    // }
+
     public function getPortalReportData($domain)
     {
         $portal = Portal::where('domain', $domain)->first();
