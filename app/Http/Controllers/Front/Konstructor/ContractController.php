@@ -22,14 +22,14 @@ class ContractController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         try {
-           
+
             $hook = BitrixController::getHook($domain);
 
             $rqMethod = 'crm.requisite.list.json';
             $rqData = [
                 'filter' => [
                     'ENTITY_TYPE_ID' => 4,
-                    'ENTITY_ID' => $companyId,
+                    'ENTITY_ID' => 'CO_' . $companyId,
                 ]
             ];
             $url = $hook . $rqMethod;
@@ -37,7 +37,7 @@ class ContractController extends Controller
             $response = BitrixController::getBitrixResponse($responseData, $rqMethod);
 
             return APIController::getSuccess(
-                ['init' => $responseData]
+                ['init' => $response, 'response' => $responseData]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
