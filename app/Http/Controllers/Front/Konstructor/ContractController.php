@@ -18,9 +18,9 @@ class ContractController extends Controller
 
     public function frontInit(Request $request) //by id
     {
-        $data = $request->body();
-        $domain = $data->domain;
-        $companyId = $data->companyId;
+        $data = $request->all();
+        $domain = $data['domain'];
+        $companyId = $data['companyId'];
         try {
            
             $hook = BitrixController::getHook($domain);
