@@ -29,7 +29,7 @@ class ContractController extends Controller
             $rqData = [
                 'filter' => [
                     'ENTITY_TYPE_ID' => 4,
-                    'ENTITY_ID' => 'CO_' . $companyId,
+                    // 'ENTITY_ID' => $companyId,
                 ]
             ];
             $url = $hook . $rqMethod;
