@@ -11,7 +11,7 @@ class PortalContract extends Model
 {
     use HasFactory;
 
-    protected $with = ['contract', 'portalMeasure', 'portalDealContractItem'];
+    protected $with = ['contract', 'portalMeasure', 'dealContractItem'];
     protected $fillable = ['portal_id', 'contract_id', 'portal_measure_id', 'title', 'template', 'order', 'bitrixfield_item_id'];
 
 
@@ -30,31 +30,31 @@ class PortalContract extends Model
         return $this->belongsTo(PortalMeasure::class);
     }
     
-    public function portalDealContractItem()
+    public function dealContractItem()
     {
         return $this->belongsTo(BitrixfieldItem::class);
     }
 
-    // Accessor для title
-    public function getTitleAttribute($value)
-    {
-        // Возвращаем пользовательский title, если он есть
-        return $this->attributes['title'] ?? $this->contract->title;
-    }
+    // // Accessor для title
+    // public function getTitleAttribute($value)
+    // {
+    //     // Возвращаем пользовательский title, если он есть
+    //     return $this->attributes['title'] ?? $this->contract->title;
+    // }
 
-    // Accessor для template
-    public function getTemplateAttribute($value)
-    {
-        // Возвращаем пользовательский template, если он есть
-        return $this->attributes['template'] ?? $this->contract->template;
-    }
+    // // Accessor для template
+    // public function getTemplateAttribute($value)
+    // {
+    //     // Возвращаем пользовательский template, если он есть
+    //     return $this->attributes['template'] ?? $this->contract->template;
+    // }
 
-    // Accessor для order
-    public function getOrderAttribute($value)
-    {
-        // Возвращаем пользовательский order, если он есть
-        return $this->attributes['order'] ?? $this->contract->order;
-    }
+    // // Accessor для order
+    // public function getOrderAttribute($value)
+    // {
+    //     // Возвращаем пользовательский order, если он есть
+    //     return $this->attributes['order'] ?? $this->contract->order;
+    // }
 
 
     public static function getForm($portalId)
