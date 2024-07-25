@@ -101,15 +101,8 @@ class ContractController extends Controller
                     $resultContract['discount'] = (int)$portalcontract['contract']['discount'];
                     $resultContract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
                 
-                    $resultContract['itemId'] =  6777;
-                    $resultContract['measureCode'] =  6;
-                    $resultContract['measureFullName'] =  "Месяц";
-                    $resultContract['measureId'] =  1;
-                    $resultContract['measureName'] =  "мес.";
-                    $resultContract['measureNumber'] =  0;
-                    $resultContract['number'] =  0;
-                    $resultContract['order'] =  0;
-                   
+                    $resultContract['itemId'] =  $fieldItem['bitrixId'];
+
                     array_push($resultContracts, $resultContract);
                 }
 
