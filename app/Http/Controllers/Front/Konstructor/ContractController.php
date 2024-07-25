@@ -85,8 +85,8 @@ class ContractController extends Controller
                         }
                     }
 
-                    $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
-                    $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
+                    // $fieldItem = BitrixfieldItem::find($portalcontract['bitrixfield_item_id']);
+                    // $field = Bitrixfield::find($fieldItem['bitrixfield_id']);
 
 
                     $resultContract['code'] = $portalcontract['contract']['code'];
@@ -94,14 +94,14 @@ class ContractController extends Controller
                     $resultContract['number'] = $portalcontract['contract']['number'];
 
 
-                    $resultContract['fieldItem'] = $fieldItem;
-                    $resultContract['field'] = $field;
+                    // $resultContract['fieldItem'] = $fieldItem;
+                    // $resultContract['field'] = $field;
                     $resultContract['aprilName'] =  $portalcontract;
-                    $resultContract['bitrixName'] =  $fieldItem['title'];
+                    // $resultContract['bitrixName'] =  $fieldItem['title'];
                     $resultContract['discount'] = (int)$portalcontract['contract']['discount'];
                     $resultContract['prepayment'] = (int)$portalcontract['contract']['prepayment'];
                 
-                    $resultContract['itemId'] =  $fieldItem['bitrixId'];
+                    // $resultContract['itemId'] =  $fieldItem['bitrixId'];
 
                     array_push($resultContracts, $resultContract);
                 }
