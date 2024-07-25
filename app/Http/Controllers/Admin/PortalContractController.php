@@ -67,7 +67,7 @@ class PortalContractController extends Controller
             'title' => 'required|string',
             'productName' => 'sometimes',
             'description' => 'sometimes',
-
+            'order' => 'sometimes',
 
 
         ]);
