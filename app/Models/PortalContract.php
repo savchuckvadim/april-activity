@@ -29,6 +29,7 @@ class PortalContract extends Model
     {
         return $this->belongsTo(PortalMeasure::class);
     }
+    
     public function portalDealContractItem()
     {
         return $this->belongsTo(BitrixfieldItem::class);

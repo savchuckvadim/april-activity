@@ -15,6 +15,11 @@ class BitrixfieldItem extends Model
         return $this->belongsTo(Bitrixfield::class);
     }
 
+    public function portalContracts()
+    {
+        return $this->hasMany(PortalContract::class);
+    }
+
     public static function getForm($bitrixFieldId)
     {
         $btxField = Bitrixfield::find($bitrixFieldId);
