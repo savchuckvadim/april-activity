@@ -37,7 +37,7 @@ class ContractController extends Controller
             $response = BitrixController::getBitrixResponse($responseData, $rqMethod);
 
             return APIController::getSuccess(
-                ['init' => $response]
+                ['init' => $responseData]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
