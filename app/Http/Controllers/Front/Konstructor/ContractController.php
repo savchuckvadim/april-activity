@@ -31,12 +31,12 @@ class ContractController extends Controller
                 'client' => [
                     'rq' => [],
                     'bank' => [],
-                    'adress' => [],
+                    'address' => [],
                 ],
                 'provider' => [
                     'rq' => [],
                     'bank' => [],
-                    'adress' => [],
+                    'address' => [],
                 ],
             ];
             $rqMethod = '/crm.requisite.list';
@@ -52,35 +52,36 @@ class ContractController extends Controller
 
 
             //bank
-            $bankMethod = '/crm.requisite.bankdetail.list';
-            $bankData = [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => 4,
-                    'ENTITY_ID' => $companyId,
-                ]
-            ];
-            $url = $hook . $bankMethod;
-            $responseData = Http::post($url,  $bankData);
-            $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
+            if (!empty($result['client']['rq']) && isset($result['client']['rq']['id'])) {
+                $rqId = $result['client']['rq']['id'];
+                $bankMethod = '/crm.requisite.bankdetail.list';
+                $bankData = [
+                    'filter' => [
+                        // 'ENTITY_TYPE_ID' => 4,
+                        'ENTITY_ID' => $rqId,
+                    ]
+                ];
+                $url = $hook . $bankMethod;
+                $responseData = Http::post($url,  $bankData);
+                $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
 
 
-            //address
-            $addressMethod = '/crm.requisite.address.list';
-            $addressData = [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => 4,
-                    'ENTITY_ID' => $companyId,
-                ]
-            ];
-            $url = $hook . $addressMethod;
-            $responseData = Http::post($url,  $addressData);
-            $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
-
-
+                //address
+                $addressMethod = '/crm.requisite.address.list';
+                $addressData = [
+                    'filter' => [
+                        // 'ENTITY_TYPE_ID' => 4,
+                        'ENTITY_ID' =>  $rqId,
+                    ]
+                ];
+                $url = $hook . $addressMethod;
+                $responseData = Http::post($url,  $addressData);
+                $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+            }
 
 
             return APIController::getSuccess(
-                ['init' => $result, ]
+                ['init' => $result,]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
