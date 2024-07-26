@@ -52,31 +52,37 @@ class ContractController extends Controller
 
 
             //bank
-            if (!empty($result['client']['rq']) && isset($result['client']['rq']['ID'])) {
-                $rqId = $result['client']['rq']['ID'];
-                $bankMethod = '/crm.requisite.bankdetail.list';
-                $bankData = [
-                    'filter' => [
-                        // 'ENTITY_TYPE_ID' => 4,
-                        'ENTITY_ID' => $rqId,
-                    ]
-                ];
-                $url = $hook . $bankMethod;
-                $responseData = Http::post($url,  $bankData);
-                $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
+            if (!empty($result['client']['rq'])) {
+                $clientRq = $result['client']['rq'][0];
+                if (!empty($clientRq) && isset($clientRq['ID'])) {
 
 
-                //address
-                $addressMethod = '/crm.requisite.address.list';
-                $addressData = [
-                    'filter' => [
-                        // 'ENTITY_TYPE_ID' => 4,
-                        'ENTITY_ID' =>  $rqId,
-                    ]
-                ];
-                $url = $hook . $addressMethod;
-                $responseData = Http::post($url,  $addressData);
-                $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+                    $result['client']['rq']  = $clientRq;
+                    $rqId = $result['client']['rq']['ID'];
+                    $bankMethod = '/crm.requisite.bankdetail.list';
+                    $bankData = [
+                        'filter' => [
+                            // 'ENTITY_TYPE_ID' => 4,
+                            'ENTITY_ID' => $rqId,
+                        ]
+                    ];
+                    $url = $hook . $bankMethod;
+                    $responseData = Http::post($url,  $bankData);
+                    $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
+
+
+                    //address
+                    $addressMethod = '/crm.requisite.address.list';
+                    $addressData = [
+                        'filter' => [
+                            // 'ENTITY_TYPE_ID' => 4,
+                            'ENTITY_ID' =>  $rqId,
+                        ]
+                    ];
+                    $url = $hook . $addressMethod;
+                    $responseData = Http::post($url,  $addressData);
+                    $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+                }
             }
 
 
