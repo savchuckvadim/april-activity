@@ -22,7 +22,7 @@ class ContractController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         try {
-            $portal = Portal::where('domain', $domain);
+            $portal = Portal::where('domain', $domain)->first();
 
             $providers = $portal->providers;
             $hook = BitrixController::getHook($domain);
