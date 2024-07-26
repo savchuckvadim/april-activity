@@ -46,7 +46,7 @@ class PortalContractResource extends JsonResource
             // 'field' => $field,
             'aprilName' => $contract->title,
             'bitrixName' => $contract->title,
-            'discount' => (int)$contract->discount,
+            'discount' => (float)$contract->discount,
             'itemId' =>  $fieldItem->bitrixId,
             'prepayment' => (int)$contract->prepayment,
             'order' =>  (int)$this->order,
