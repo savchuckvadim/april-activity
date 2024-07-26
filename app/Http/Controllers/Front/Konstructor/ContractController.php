@@ -69,13 +69,17 @@ class ContractController extends Controller
                     $url = $hook . $bankMethod;
                     $responseData = Http::post($url,  $bankData);
                     $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
-
+                    if (!empty($result['client']['bank'])) {
+                        if (isset($result['client']['bank'][0])) {
+                            $result['client']['bank'] = $result['client']['bank'][0];
+                        }
+                    }
 
                     //address
-                    $addressMethod = '/crm.requisite.address.list';
+                    $addressMethod = '/crm.address.list';
                     $addressData = [
                         'filter' => [
-                            // 'ENTITY_TYPE_ID' => 4,
+                            'ENTITY_TYPE_ID' => 8,
                             'ENTITY_ID' =>  $rqId,
                         ]
                     ];
