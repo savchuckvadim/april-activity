@@ -52,8 +52,8 @@ class ContractController extends Controller
 
 
             //bank
-            if (!empty($result['client']['rq']) && isset($result['client']['rq']['id'])) {
-                $rqId = $result['client']['rq']['id'];
+            if (!empty($result['client']['rq']) && isset($result['client']['rq']['ID'])) {
+                $rqId = $result['client']['rq']['ID'];
                 $bankMethod = '/crm.requisite.bankdetail.list';
                 $bankData = [
                     'filter' => [
