@@ -868,103 +868,103 @@ class ContractController extends Controller
             }
         }
 
-        $isRegisrted = false;
-        $isFizRegisrted = false;
-        if($bxAdressRq['TYPE_ID'] === 6){
-            $isRegisrted = true;
-        }else  if($bxAdressRq['TYPE_ID'] === 4){
-            $isFizRegisrted = true;
-        }
+        // $isRegisrted = false;
+        // $isFizRegisrted = false;
+        // if($bxAdressRq['TYPE_ID'] === 6){
+        //     $isRegisrted = true;
+        // }else  if($bxAdressRq['TYPE_ID'] === 4){
+        //     $isFizRegisrted = true;
+        // }
 
 
-        foreach ($bxAdressRq as $bxAdressRqFieldName => $value) {
-            $isRegisrted = true;
-            if($bxAdressRqFieldName === 'TYPE_ID'){
+        // foreach ($bxAdressRq as $bxAdressRqFieldName => $value) {
+        //     $isRegisrted = true;
+        //     if($bxAdressRqFieldName === 'TYPE_ID'){
 
-                if($value === 1 || $value === 2 || $value === 3 ){
-                    $isRegisrted = false;
+        //         if($value === 1 || $value === 2 || $value === 3 ){
+        //             $isRegisrted = false;
                 
-                }
-            }
-            switch ($bxRqFieldName) {
-                case 'NAME': //Название реквизита. Обязательное поле.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'name') {
-                            $rq['value'] = $value;
-                        }
-                    }
-                    break;
-                case 'RQ_NAME': //Ф.И.О.  физлица ип
-                    # code...
-                    break;
-                case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-                    # code...
-                    break;
-                case 'RQ_COMPANY_FULL_NAME':
-                    # code...
-                    break;
-                case 'RQ_DIRECTOR': //Ген. директор.
-                    # code...
-                    break;
-                case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-                    # code...
-                    break;
-                case 'RQ_EMAIL':
-                    # code...
-                    break;
-                case 'RQ_PHONE':
-                    # code...
-                    break;
+        //         }
+        //     }
+        //     switch ($bxRqFieldName) {
+        //         case 'NAME': //Название реквизита. Обязательное поле.
+        //             foreach ($result['rq'] as $rq) {
+        //                 if ($rq['code'] === 'name') {
+        //                     $rq['value'] = $value;
+        //                 }
+        //             }
+        //             break;
+        //         case 'RQ_NAME': //Ф.И.О.  физлица ип
+        //             # code...
+        //             break;
+        //         case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
+        //             # code...
+        //             break;
+        //         case 'RQ_COMPANY_FULL_NAME':
+        //             # code...
+        //             break;
+        //         case 'RQ_DIRECTOR': //Ген. директор.
+        //             # code...
+        //             break;
+        //         case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
+        //             # code...
+        //             break;
+        //         case 'RQ_EMAIL':
+        //             # code...
+        //             break;
+        //         case 'RQ_PHONE':
+        //             # code...
+        //             break;
 
 
-                    //fiz lic
-                case 'RQ_IDENT_DOC': //Вид документа.
-                    # code...
-                    break;
-                case 'RQ_IDENT_DOC_SER': //Серия.
-                    # code...
-                    break;
-            }
-        }
+        //             //fiz lic
+        //         case 'RQ_IDENT_DOC': //Вид документа.
+        //             # code...
+        //             break;
+        //         case 'RQ_IDENT_DOC_SER': //Серия.
+        //             # code...
+        //             break;
+        //     }
+        // }
 
 
-        foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
-            switch ($bxRqFieldName) {
-                case 'NAME': //Название реквизита. Обязательное поле.
-                    # code...
-                    break;
-                case 'RQ_NAME': //Ф.И.О.  физлица ип
-                    # code...
-                    break;
-                case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-                    # code...
-                    break;
-                case 'RQ_COMPANY_FULL_NAME':
-                    # code...
-                    break;
-                case 'RQ_DIRECTOR': //Ген. директор.
-                    # code...
-                    break;
-                case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-                    # code...
-                    break;
-                case 'RQ_EMAIL':
-                    # code...
-                    break;
-                case 'RQ_PHONE':
-                    # code...
-                    break;
+        // foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
+        //     switch ($bxRqFieldName) {
+        //         case 'NAME': //Название реквизита. Обязательное поле.
+        //             # code...
+        //             break;
+        //         case 'RQ_NAME': //Ф.И.О.  физлица ип
+        //             # code...
+        //             break;
+        //         case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
+        //             # code...
+        //             break;
+        //         case 'RQ_COMPANY_FULL_NAME':
+        //             # code...
+        //             break;
+        //         case 'RQ_DIRECTOR': //Ген. директор.
+        //             # code...
+        //             break;
+        //         case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
+        //             # code...
+        //             break;
+        //         case 'RQ_EMAIL':
+        //             # code...
+        //             break;
+        //         case 'RQ_PHONE':
+        //             # code...
+        //             break;
 
 
-                    //fiz lic
-                case 'RQ_IDENT_DOC': //Вид документа.
-                    # code...
-                    break;
-                case 'RQ_IDENT_DOC_SER': //Серия.
-                    # code...
-                    break;
-            }
-        }
+        //             //fiz lic
+        //         case 'RQ_IDENT_DOC': //Вид документа.
+        //             # code...
+        //             break;
+        //         case 'RQ_IDENT_DOC_SER': //Серия.
+        //             # code...
+        //             break;
+        //     }
+        // }
         return $result;
     }
     protected function getContractGeneralForm()
