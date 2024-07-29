@@ -36,7 +36,7 @@ class ContractController extends Controller
                     'rq' => [],
                     'bank' => [],
                     'address' => [],
-                ], 
+                ],
                 'provider' => [
                     'rq' => [],
                     'bank' => [],
@@ -285,6 +285,7 @@ class ContractController extends Controller
                     'group' => 'base',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 0,
 
                 ],
                 [
@@ -297,6 +298,8 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 1,
+
 
 
                 ],
@@ -310,6 +313,8 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 2,
+
 
                 ],
                 [
@@ -322,6 +327,7 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 3
 
                 ],
                 [
@@ -333,8 +339,7 @@ class ContractController extends Controller
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'header',
                     'isActive' => true,
-                    'isDisable' => false,
-
+                    'order' => 4
                 ],
                 [
                     'type' => 'string',
@@ -345,7 +350,7 @@ class ContractController extends Controller
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'header',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'order' => 6,
 
                 ],
                 [
@@ -358,6 +363,7 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 5,
 
                 ],
                 [
@@ -370,6 +376,7 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 7
 
                 ],
 
@@ -383,69 +390,10 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 8
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО главного бухгалтера организации',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'accountant',
-                    'includes' => ['org', 'org_state'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assigned',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Телефон ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assignedPhone',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-
-                ],
-
-                [
-                    'type' => 'string',
-                    'name' => 'Телефон',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'phone',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'E-mail',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'email',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-
-                ],
+                
 
                 [
                     'type' => 'string',
@@ -457,6 +405,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 9
 
                 ],
                 [
@@ -469,6 +418,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 10
 
                 ],
 
@@ -482,6 +432,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 11
 
                 ],
 
@@ -495,10 +446,76 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 12
 
                 ],
 
+                [
+                    'type' => 'string',
+                    'name' => 'ФИО главного бухгалтера организации',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'accountant',
+                    'includes' => ['org', 'org_state'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 13
 
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'ФИО ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assigned',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 14
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Телефон ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assignedPhone',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 15
+
+                ],
+
+                [
+                    'type' => 'string',
+                    'name' => 'Телефон',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'phone',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 16
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'E-mail',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'email',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 17
+
+                ],
                 [
                     'type' => 'string',
                     'name' => 'ФИО',
@@ -509,6 +526,7 @@ class ContractController extends Controller
                     'group' => 'header',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 0
 
                 ],
 
@@ -523,6 +541,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 1
 
                 ],
                 [
@@ -535,6 +554,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 2
 
                 ],
                 [
@@ -547,6 +567,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 3
 
                 ],
                 [
@@ -559,6 +580,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 4
 
                 ],
                 [
@@ -571,6 +593,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 5
 
                 ],
                 [
@@ -583,6 +606,7 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 6
 
                 ],
                 [
@@ -595,6 +619,8 @@ class ContractController extends Controller
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 20
+
 
                 ],
 
@@ -883,7 +909,7 @@ class ContractController extends Controller
 
         //         if($value === 1 || $value === 2 || $value === 3 ){
         //             $isRegisrted = false;
-                
+
         //         }
         //     }
         //     switch ($bxRqFieldName) {
