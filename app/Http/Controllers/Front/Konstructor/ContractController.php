@@ -615,7 +615,7 @@ class ContractController extends Controller
                     'value' => '',
                     'isRequired' => false,
                     'code' => 'other',
-                    'includes' => ['fiz', 'advokat'],
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
