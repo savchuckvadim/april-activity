@@ -106,6 +106,17 @@ class ContractController extends Controller
         }
     }
 
+    public function getContractDocument(Request $request)
+    {
+        $data = $request->all();
+        return APIController::getSuccess(
+            ['contractData' => $data, 'link' => $data]
+        );
+    }
+
+
+
+    
     public function get($portalContractId) //by id
     {
         try {
@@ -1055,6 +1066,34 @@ class ContractController extends Controller
                 'value' => '',
                 'isRequired' => true,
                 'code' => 'prepayment_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Период в подарок с',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'present_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 3,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Период в подарок по',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'present_finish',
                 'group' => 'contract',
                 'isActive' => true,
                 'isDisable' => false,
