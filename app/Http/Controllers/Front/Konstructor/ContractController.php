@@ -393,7 +393,7 @@ class ContractController extends Controller
                     'order' => 8
 
                 ],
-                
+
 
                 [
                     'type' => 'string',
@@ -633,34 +633,25 @@ class ContractController extends Controller
                     'value' => '',
                     'isRequired' => false,
                     'code' => 'registredAdress',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'includes' => ['org', 'org_state', 'ip', 'advokat'],
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 0,
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Юридический адрес',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'registredAdress',
-                    'includes' => ['org', 'org_state', 'ip'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
 
-                ],
                 [
                     'type' => 'string',
                     'name' => 'Адрес прописки',
                     'value' => '',
                     'isRequired' => true,
                     'code' => 'registredAdress',
-                    'includes' => ['advokat', 'fiz'],
+                    'includes' => ['fiz'],
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 1,
 
                 ],
                 [
@@ -668,11 +659,12 @@ class ContractController extends Controller
                     'name' => 'Фактический адрес',
                     'value' => '',
                     'isRequired' => true,
-                    'code' => 'registredAdress',
+                    'code' => 'primaryAdresss',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 2,
 
                 ],
             ],
@@ -687,6 +679,19 @@ class ContractController extends Controller
                     'group' => 'bank',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 0,
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Адрес банка',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'bankAdress',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat'],
+                    'group' => 'bank',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 1,
                 ],
                 [
                     'type' => 'string',
@@ -698,6 +703,7 @@ class ContractController extends Controller
                     'group' => 'bank',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 2,
                 ],
                 [
                     'type' => 'string',
@@ -709,6 +715,7 @@ class ContractController extends Controller
                     'group' => 'bank',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 3,
                 ],
                 [
                     'type' => 'string',
@@ -720,7 +727,9 @@ class ContractController extends Controller
                     'group' => 'bank',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 4,
                 ],
+
                 [
                     'type' => 'string',
                     'name' => 'Прочие банковские реквизиты',
@@ -731,6 +740,7 @@ class ContractController extends Controller
                     'group' => 'bank',
                     'isActive' => true,
                     'isDisable' => false,
+                    'order' => 5,
                 ],
             ]
         ];
@@ -894,103 +904,102 @@ class ContractController extends Controller
             }
         }
 
-        // $isRegisrted = false;
-        // $isFizRegisrted = false;
-        // if($bxAdressRq['TYPE_ID'] === 6){
-        //     $isRegisrted = true;
-        // }else  if($bxAdressRq['TYPE_ID'] === 4){
-        //     $isFizRegisrted = true;
-        // }
+        $isRegisrted = false;
+        $isFizRegisrted = false;
+        if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
+            $isRegisrted = true;
+
+            if (!empty($bxAdressRq['ADDRESS_1'])) {
+                $advalue = $this->getAddressString($bxAdressRq);
+
+                foreach ($result['address'] as $resultAddress) {
+                    if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
+                        $resultAddress['value'] = $advalue;
+                    }
+                }
+            }
+        } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
+            if (!empty($bxAdressRq['ADDRESS_1'])) {
+                $advalue = $this->getAddressString($bxAdressRq);
+
+                foreach ($result['address'] as $resultAddress) {
+                    if ($resultAddress['code'] == 'registredAdress') {
+                        $resultAddress['value'] = $advalue;
+                    }
+                }
+            }
+        } else {
+            if (!empty($bxAdressRq['ADDRESS_1'])) {
+                $advalue = $this->getAddressString($bxAdressRq);
+
+                foreach ($result['address'] as $resultAddress) {
+                    if ($resultAddress['code'] == 'registredAdress') {
+                        $resultAddress['value'] = $advalue;
+                    }
+                }
+            }
+        }
 
 
-        // foreach ($bxAdressRq as $bxAdressRqFieldName => $value) {
-        //     $isRegisrted = true;
-        //     if($bxAdressRqFieldName === 'TYPE_ID'){
 
-        //         if($value === 1 || $value === 2 || $value === 3 ){
-        //             $isRegisrted = false;
-
-        //         }
-        //     }
-        //     switch ($bxRqFieldName) {
-        //         case 'NAME': //Название реквизита. Обязательное поле.
-        //             foreach ($result['rq'] as $rq) {
-        //                 if ($rq['code'] === 'name') {
-        //                     $rq['value'] = $value;
-        //                 }
-        //             }
-        //             break;
-        //         case 'RQ_NAME': //Ф.И.О.  физлица ип
-        //             # code...
-        //             break;
-        //         case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-        //             # code...
-        //             break;
-        //         case 'RQ_COMPANY_FULL_NAME':
-        //             # code...
-        //             break;
-        //         case 'RQ_DIRECTOR': //Ген. директор.
-        //             # code...
-        //             break;
-        //         case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-        //             # code...
-        //             break;
-        //         case 'RQ_EMAIL':
-        //             # code...
-        //             break;
-        //         case 'RQ_PHONE':
-        //             # code...
-        //             break;
-
-
-        //             //fiz lic
-        //         case 'RQ_IDENT_DOC': //Вид документа.
-        //             # code...
-        //             break;
-        //         case 'RQ_IDENT_DOC_SER': //Серия.
-        //             # code...
-        //             break;
-        //     }
-        // }
-
-
-        // foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
-        //     switch ($bxRqFieldName) {
-        //         case 'NAME': //Название реквизита. Обязательное поле.
-        //             # code...
-        //             break;
-        //         case 'RQ_NAME': //Ф.И.О.  физлица ип
-        //             # code...
-        //             break;
-        //         case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-        //             # code...
-        //             break;
-        //         case 'RQ_COMPANY_FULL_NAME':
-        //             # code...
-        //             break;
-        //         case 'RQ_DIRECTOR': //Ген. директор.
-        //             # code...
-        //             break;
-        //         case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-        //             # code...
-        //             break;
-        //         case 'RQ_EMAIL':
-        //             # code...
-        //             break;
-        //         case 'RQ_PHONE':
-        //             # code...
-        //             break;
-
-
-        //             //fiz lic
-        //         case 'RQ_IDENT_DOC': //Вид документа.
-        //             # code...
-        //             break;
-        //         case 'RQ_IDENT_DOC_SER': //Серия.
-        //             # code...
-        //             break;
-        //     }
-        // }
+        foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
+            switch ($bxRqFieldName) {
+                case 'NAME': //Название реквизита. Обязательное поле.
+                    # code...
+                    break;
+                case 'RQ_BANK_NAME': //Ф.И.О.  физлица ип
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'bank') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                case 'RQ_BANK_ADDR': //Сокращенное наименование организации.
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'bankAdress') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                case 'RQ_BIK':
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'bik') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                case 'RQ_COR_ACC_NUM': //Ген. директор.
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'ks') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                case 'RQ_IBAN': // Гл. бухгалтер.
+                    # code...
+                    break;
+                case 'RQ_ACC_NUM':
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'rs') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                case 'COMMENTS':
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'bankOther') {
+                            $rq['value'] = $value;
+                        }
+                    }
+                    break;
+                default:
+                    foreach ($result['bank'] as $bankRQ) {
+                        if ($bankRQ['code'] === 'bankOther') {
+                            $rq['value'] = $rq['value'] . ' ' . $value;
+                        }
+                    }
+            }
+        }
         return $result;
     }
     protected function getContractGeneralForm()
@@ -1068,5 +1077,37 @@ class ContractController extends Controller
         действующего(-ей) на основании {RequisiteUfCrm1689675325} 
         с другой стороны, заключили настоящий Договор о нижеследующем:';
         return $headerText;
+    }
+
+    protected function getAddressString($bxAdressRq)
+    {
+        $advalue = '';
+
+        if (!empty($bxAdressRq['POSTAL_CODE'])) {
+            $advalue = $advalue . $bxAdressRq['POSTAL_CODE'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['COUNTRY'])) {
+            $advalue = $advalue . $bxAdressRq['COUNTRY'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['PROVINCE'])) {
+            $advalue = $advalue . $bxAdressRq['PROVINCE'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['REGION'])) {
+            $advalue = $advalue . $bxAdressRq['REGION'] . ', ';
+        }
+        if (!empty($bxAdressRq['CITY'])) {
+            $advalue = $advalue . $bxAdressRq['CITY'] . ', ';
+        }
+        if (!empty($bxAdressRq['ADDRESS_1'])) {
+            $advalue = $advalue . $bxAdressRq['ADDRESS_1'] . ', ';
+        }
+        if (!empty($bxAdressRq['ADDRESS_2'])) {
+            $advalue = $advalue . $bxAdressRq['ADDRESS_2'] . ', ';
+        }
+
+        return $advalue;
     }
 }

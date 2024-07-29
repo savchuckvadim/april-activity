@@ -18,7 +18,7 @@ RQ_BANK_ROUTE_NUM	Bank Routing Number.	Да	Да
 RQ_BIK	БИК.	Да	Да
 RQ_MFO	МФО.	Да	Да
 RQ_ACC_NAME	Bank Account Holder Name.	Да	Да
-RQ_ACC_NUM	Bank Account Number.	Да	Да
+RQ_ACC_NUM	Bank Account Number.	Да	Да рс
 RQ_IIK	ИИК.	Да	Да
 RQ_ACC_CURRENCY	Валюта счёта.	Да	Да
 RQ_COR_ACC_NUM	Кор. счёт.	Да	Да
