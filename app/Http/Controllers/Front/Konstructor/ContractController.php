@@ -1003,6 +1003,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 0,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1015,6 +1017,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 1,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1027,6 +1031,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 2,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1039,6 +1045,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 3,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1051,6 +1059,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1063,6 +1073,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
             [
@@ -1075,6 +1087,8 @@ class ContractController extends Controller
                 'isActive' => true,
                 'isDisable' => false,
                 'order' => 6,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
 
             ],
         ];
