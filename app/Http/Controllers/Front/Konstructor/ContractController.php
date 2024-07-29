@@ -1064,7 +1064,7 @@ class ContractController extends Controller
 
             ],
             [
-                'type' => 'money',
+                'type' => 'string',
                 'name' => 'Сумма предоплаты',
                 'value' => '',
                 'isRequired' => true,
@@ -1078,7 +1078,7 @@ class ContractController extends Controller
 
             ],
             [
-                'type' => 'money',
+                'type' => 'string',
                 'name' => 'Сумма в месяц',
                 'value' => '',
                 'isRequired' => true,
