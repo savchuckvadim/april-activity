@@ -42,6 +42,7 @@ class ContractController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
+                'contract' => $this->getContractGeneralForm()
             ];
             $rqMethod = '/crm.requisite.list';
             $rqData = [
@@ -266,7 +267,7 @@ class ContractController extends Controller
 
                     ],
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'base',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 0,
@@ -279,7 +280,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'fullname',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 1,
@@ -294,7 +295,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'shortname',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 2,
@@ -308,7 +309,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'role',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 3
@@ -321,7 +322,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'position',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'order' => 4
                 ],
@@ -332,7 +333,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'position_case',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'order' => 6,
 
@@ -344,7 +345,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'director',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 5,
@@ -357,7 +358,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'director_case',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 7
@@ -371,7 +372,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'based',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'header',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 8
@@ -997,7 +998,11 @@ class ContractController extends Controller
                 'name' => 'Договор от',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'contract_create_date'
+                'code' => 'contract_create_date',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 0,
 
             ],
             [
@@ -1005,7 +1010,11 @@ class ContractController extends Controller
                 'name' => 'Действие договора с',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'contract_start'
+                'code' => 'contract_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 1,
 
             ],
             [
@@ -1013,39 +1022,59 @@ class ContractController extends Controller
                 'name' => 'Действие договора по',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'contract_finish'
+                'code' => 'contract_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 2,
 
             ],
             [
                 'type' => 'date',
-                'name' => 'Действие договора с',
+                'name' => 'Предоплата с',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'prepayment_start'
+                'code' => 'prepayment_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 3,
 
             ],
             [
                 'type' => 'date',
-                'name' => 'Действие договора по',
+                'name' => 'Предоплата по',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'prepayment_finish'
+                'code' => 'prepayment_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
 
             ],
             [
                 'type' => 'money',
-                'name' => 'Действие договора по',
+                'name' => 'Сумма предоплаты',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'prepayment_sum'
+                'code' => 'prepayment_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 5,
 
             ],
             [
                 'type' => 'money',
-                'name' => 'Действие договора по',
+                'name' => 'Сумма в месяц',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'month_sum'
+                'code' => 'month_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 6,
 
             ],
         ];
