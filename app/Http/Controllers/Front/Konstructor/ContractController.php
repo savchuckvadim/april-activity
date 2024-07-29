@@ -979,11 +979,11 @@ class ContractController extends Controller
                     }
                     break;
                 default:
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'bankOther') {
-                            $rq['value'] = $rq['value'] . ' ' . $value;
-                        }
-                    }
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'bankOther') {
+                    //         $rq['value'] = $rq['value'] . ' ' . $value;
+                    //     }
+                    // }
             }
         }
         return $result;
