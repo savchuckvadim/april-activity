@@ -716,7 +716,7 @@ class ContractController extends Controller
                 ],
 
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Прочие банковские реквизиты',
                     'value' => '',
                     'isRequired' => true,
