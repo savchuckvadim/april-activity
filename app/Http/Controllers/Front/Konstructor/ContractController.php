@@ -90,33 +90,17 @@ class ContractController extends Controller
                     $url = $hook . $addressMethod;
                     $responseData = Http::post($url,  $addressData);
                     $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
-                    // {
-                    //     "ID": 1,
-                    //     "NAME": "Фактический адрес"
-                    // },
-                    // {
-                    //     "ID": 4,
-                    //     "NAME": "Адрес регистрации"
-                    // },
-                    // {
-                    //     "ID": 6,
-                    //     "NAME": "Юридический адрес"
-                    // },
-                    // {
-                    //     "ID": 9,
-                    //     "NAME": "Адрес бенефициара"
-                    // }
                 }
             }
             $client = $this->getClientRqForm($result['client']['rq'], $result['client']['address'], $result['client']['address']);
             $result['client'] = $client;
             return APIController::getSuccess(
-                ['init' => $result,]
+                ['init' => $result, 'addressresponse' => $result['client']['address']]
             );
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['companyId' => $companyId, 'domain' => $domain]
+                ['companyId' => $companyId, 'domain' => $domain, 'addressresponse' => $result['client']['address']]
             );
         }
     }
@@ -233,7 +217,7 @@ class ContractController extends Controller
 
 
     //utils
-    protected function getClientRqForm($bxRq, $bxAdressRq, $bxBankRq)
+    protected function getClientRqForm($bxRq, $bxAdressesRq, $bxBankRq)
     {
         $result = [
             'rq' => [
@@ -904,43 +888,45 @@ class ContractController extends Controller
             }
         }
 
-        $isRegisrted = false;
-        $isFizRegisrted = false;
-        if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
-            $isRegisrted = true;
+        if (!empty($bxAdressesRq) && is_array($bxAdressesRq)) {
+            foreach ($bxAdressesRq as $bxAdressRq) {
+                $isRegisrted = false;
+                $isFizRegisrted = false;
+                if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
+                    $isRegisrted = true;
 
-            if (!empty($bxAdressRq['ADDRESS_1'])) {
-                $advalue = $this->getAddressString($bxAdressRq);
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
 
-                foreach ($result['address'] as $resultAddress) {
-                    if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
-                        $resultAddress['value'] = $advalue;
+                        foreach ($result['address'] as $resultAddress) {
+                            if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
+                                $resultAddress['value'] = $advalue;
+                            }
+                        }
                     }
-                }
-            }
-        } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
-            if (!empty($bxAdressRq['ADDRESS_1'])) {
-                $advalue = $this->getAddressString($bxAdressRq);
+                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
 
-                foreach ($result['address'] as $resultAddress) {
-                    if ($resultAddress['code'] == 'registredAdress') {
-                        $resultAddress['value'] = $advalue;
+                        foreach ($result['address'] as $resultAddress) {
+                            if ($resultAddress['code'] == 'registredAdress') {
+                                $resultAddress['value'] = $advalue;
+                            }
+                        }
                     }
-                }
-            }
-        } else {
-            if (!empty($bxAdressRq['ADDRESS_1'])) {
-                $advalue = $this->getAddressString($bxAdressRq);
+                } else {
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
 
-                foreach ($result['address'] as $resultAddress) {
-                    if ($resultAddress['code'] == 'registredAdress') {
-                        $resultAddress['value'] = $advalue;
+                        foreach ($result['address'] as $resultAddress) {
+                            if ($resultAddress['code'] == 'registredAdress') {
+                                $resultAddress['value'] = $advalue;
+                            }
+                        }
                     }
                 }
             }
         }
-
-
 
         foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
             switch ($bxRqFieldName) {
