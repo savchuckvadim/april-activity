@@ -1065,13 +1065,27 @@ class ContractController extends Controller
             ],
             [
                 'type' => 'string',
+                'name' => 'Сумма по договору',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'prepayment_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'string',
                 'name' => 'Сумма предоплаты',
                 'value' => '',
                 'isRequired' => true,
                 'code' => 'prepayment_sum',
                 'group' => 'contract',
                 'isActive' => true,
-                'isDisable' => false,
+                'isDisable' => true,
                 'order' => 5,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
 
