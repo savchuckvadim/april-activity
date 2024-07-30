@@ -176,7 +176,7 @@ class ContractController extends Controller
         } else {
             return APIController::getError(
                 'шаблон не найден',
-                ['contractData' => $data, 'link' => $data, 'template' => $template, 'templateField' => $templateField]
+                ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
             );
         }       // // Создаем экземпляр обработчика шаблона
         // $templateProcessor = new TemplateProcessor($templatePath);
