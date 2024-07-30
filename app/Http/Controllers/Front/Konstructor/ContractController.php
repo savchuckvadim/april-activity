@@ -756,47 +756,69 @@ class ContractController extends Controller
 
                     break;
                 case 'RQ_NAME': //Ф.И.О.  физлица ип
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'fullname') {
-                            $rq['value'] = $value;
-                        }
 
-                        if ($rq['code'] === 'personName') {
-                            $rq['value'] = $value;
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'fullname' || $result['rq'][$i]['code'] === 'personName') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
+
+                    // foreach ($result['rq'] as $rq) {
+
+                    //     if ($rq['code'] === 'fullname') {
+                    //         $rq['value'] = $value;
+                    //     }
+
+                    //     if ($rq['code'] === 'personName') {
+                    //         $rq['value'] = $value;
+                    //     }
+                    // }
                     break;
                 case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'name') {
-                            $rq['value'] = $value;
+                    // foreach ($result['rq'] as $rq) {
+                    //     if ($rq['code'] === 'name') {
+                    //         $rq['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'name') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_COMPANY_FULL_NAME':
-                    Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
+                    // Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
 
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'fullname') {
-                            $rq['value'] = $value;
-                            Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $rq ]);
-
+                    // foreach ($result['rq'] as $rq) {
+                    //     if ($rq['code'] === 'fullname') {
+                    //         $rq['value'] = $value;
+                    //         Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $rq]);
+                    //     }
+                    // }
+                    // Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq']]);
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'fullname') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
-                    Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq'] ]);
-
                     break;
                 case 'RQ_DIRECTOR': //Ген. директор.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'director') {
-                            $rq['value'] = $value;
+                
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'director') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'accountant') {
-                            $rq['value'] = $value;
+                    // foreach ($result['rq'] as $rq) {
+                    //     if ($rq['code'] === 'accountant') {
+                    //         $rq['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'accountant') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
@@ -912,7 +934,7 @@ class ContractController extends Controller
                 default:
                     foreach ($result['rq'] as $rq) {
                         if ($rq['code'] === 'inn') {
-                            $rq['value'] = '$value INN '. $bxRqFieldName;
+                            $rq['value'] = '$value INN ' . $bxRqFieldName;
                         }
                     }
                     break;
