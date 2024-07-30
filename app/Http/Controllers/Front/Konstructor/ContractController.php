@@ -139,6 +139,7 @@ class ContractController extends Controller
 
     public function getContractDocument(Request $request)
     {
+        $contractLink = '';
         $data = $request->all();
         $domain = $data['domain'];
         $companyId = $data['companyId'];
@@ -174,7 +175,12 @@ class ContractController extends Controller
 
             // Теперь $fullPath содержит полный путь к файлу
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+            $templateProcessor->setValue('header', 'John Doe');
             // Дальнейшие действия с документом...
+            $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
+            $resultFileName = 'app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId'];
+            $templateProcessor->saveAs($resultPath);
+            $contractLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
         } else {
             return APIController::getError(
                 'шаблон не найден',
@@ -201,7 +207,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
+            ['contractData' => $data, 'link' => $contractLink, 'template' => $template, 'templateField' => $templateField]
         );
     }
 
