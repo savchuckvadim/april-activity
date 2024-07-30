@@ -673,7 +673,7 @@ class ContractController extends Controller
                     'isRequired' => false,
                     'code' => 'registredAdress',
                     'includes' => ['org', 'org_state', 'ip', 'advokat'],
-                    'group' => 'address',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 0,
@@ -687,7 +687,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'registredAdress',
                     'includes' => ['fiz'],
-                    'group' => 'address',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 1,
@@ -700,7 +700,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'primaryAdresss',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'address',
+                    'group' => 'rq',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 2,
@@ -1001,6 +1001,7 @@ class ContractController extends Controller
                         for ($i = 0; $i < count($result['address']); $i++) {
                             if ($result['address'][$i]['code'] === 'registredAdress'  && $result['address'][$i]['name'] ==  'Адрес прописки') {
                                 $result['address'][$i]['value'] = $advalue;
+                                array_push($result['rq'], $result['address'][$i]);
                             }
                         }
                     }
@@ -1017,6 +1018,8 @@ class ContractController extends Controller
                         for ($i = 0; $i < count($result['address']); $i++) {
                             if ($result['address'][$i]['code'] === 'registredAdress') {
                                 $result['address'][$i]['value'] = $advalue;
+                                array_push($result['rq'], $result['address'][$i]);
+
                             }
                         }
                     }
@@ -1033,6 +1036,9 @@ class ContractController extends Controller
                         for ($i = 0; $i < count($result['address']); $i++) {
                             if ($result['address'][$i]['code'] === 'primaryAdresss') {
                                 $result['address'][$i]['value'] = $advalue;
+                                array_push($result['rq'], $result['address'][$i]);
+
+
                             }
                         }
                     }
@@ -1131,7 +1137,7 @@ class ContractController extends Controller
                     // }
             }
         }
-        return $result;
+        return['rq'=> $result['rq'], 'bank'=> $result['bank']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {
