@@ -120,9 +120,9 @@ class ContractController extends Controller
                     [
                         'init' => $result,
                         // 'addressresponse' => $result['client']['address'],
-                        // 'clientRq' => $clientRq,
-                        // 'clientRqBank' => $clientRqBank,
-                        // 'clientRqAddress' => $clientRqAddress,
+                        'clientRq' => $clientRq,
+                        'clientRqBank' => $clientRqBank,
+                        'clientRqAddress' => $clientRqAddress,
                     ]
                 );
             }
