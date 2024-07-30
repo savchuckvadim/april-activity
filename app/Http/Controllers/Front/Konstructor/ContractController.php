@@ -667,7 +667,7 @@ class ContractController extends Controller
             ],
             'address' => [
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Юридический адрес',
                     'value' => '',
                     'isRequired' => false,
@@ -681,7 +681,7 @@ class ContractController extends Controller
                 ],
 
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Адрес прописки',
                     'value' => '',
                     'isRequired' => true,
@@ -694,7 +694,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Фактический адрес',
                     'value' => '',
                     'isRequired' => true,
