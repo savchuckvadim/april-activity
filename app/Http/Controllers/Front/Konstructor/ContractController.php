@@ -811,109 +811,121 @@ class ContractController extends Controller
                     }
                     break;
                 case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-                    // foreach ($result['rq'] as $rq) {
-                    //     if ($rq['code'] === 'accountant') {
-                    //         $rq['value'] = $value;
-                    //     }
-                    // }
                     for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'accountant') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
+                   
                     break;
                 case 'RQ_EMAIL':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'email') {
-                            $rq['value'] = $value;
+                
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'email') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
+                   
                     break;
                 case 'RQ_PHONE':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'phone') {
-                            $rq['value'] = $value;
+                   
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'phone') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
+                   
                     break;
 
 
                     //fiz lic
                 case 'RQ_IDENT_DOC': //Вид документа.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'document') {
-                            $rq['value'] = $value;
+                  
+                    for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'document') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
+                   
                     break;
                 case 'RQ_IDENT_DOC_SER': //Серия.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'docSer') {
-                            $rq['value'] = $value;
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'docSer') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_IDENT_DOC_NUM': // Номер.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'docNum') {
-                            $rq['value'] = $value;
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'docNum') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_IDENT_DOC_DATE': //Дата выдачи.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'docDate') {
-                            $rq['value'] = $value;
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'docDate') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
                 case 'RQ_IDENT_DOC_ISSUED_BY': //Кем выдан.
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'docIssuedBy') {
-                            $rq['value'] = $value;
+                   
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'docIssuedBy') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
                 case 'RQ_IDENT_DOC_DEP_CODE': //Код подразделения
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'docDepCode') {
-                            $rq['value'] = $value;
+                   
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'docDepCode') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
 
                 case 'RQ_INN':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'inn') {
-                            $rq['value'] = $value;
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'inn') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
                 case 'RQ_KPP':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'kpp') {
-                            $rq['value'] = $value;
+                   
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'kpp') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
                 case 'RQ_OGRN':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'ogrn') {
-                            $rq['value'] = $value;
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'ogrn') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
 
 
                 case 'RQ_OGRNIP':
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'ogrnip') {
-                            $rq['value'] = $value;
+                
+                    
+                      for ($i = 0; $i < count($result['rq']); $i++) {
+                        if ($result['rq'][$i]['code'] === 'ogrnip') {
+                            $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
@@ -932,11 +944,7 @@ class ContractController extends Controller
                     break;
 
                 default:
-                    foreach ($result['rq'] as $rq) {
-                        if ($rq['code'] === 'inn') {
-                            $rq['value'] = '$value INN ' . $bxRqFieldName;
-                        }
-                    }
+                   
                     break;
             }
         }
@@ -951,9 +959,14 @@ class ContractController extends Controller
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
 
-                        foreach ($result['address'] as $resultAddress) {
-                            if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
-                                $resultAddress['value'] = $advalue;
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['address']); $i++) {
+                            if ($result['address'][$i]['code'] === 'registredAdress'  && $result['address'][$i]['name'] ==  'Адрес прописки') {
+                                $result['address'][$i]['value'] = $advalue;
                             }
                         }
                     }
@@ -961,9 +974,15 @@ class ContractController extends Controller
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
 
-                        foreach ($result['address'] as $resultAddress) {
-                            if ($resultAddress['code'] == 'registredAdress') {
-                                $resultAddress['value'] = $advalue;
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'registredAdress') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+
+                        for ($i = 0; $i < count($result['address']); $i++) {
+                            if ($result['address'][$i]['code'] === 'registredAdress' ) {
+                                $result['address'][$i]['value'] = $advalue;
                             }
                         }
                     }
@@ -971,9 +990,15 @@ class ContractController extends Controller
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
 
-                        foreach ($result['address'] as $resultAddress) {
-                            if ($resultAddress['code'] == 'registredAdress') {
-                                $resultAddress['value'] = $advalue;
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'primaryAdresss') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+
+                        for ($i = 0; $i < count($result['address']); $i++) {
+                            if ($result['address'][$i]['code'] === 'primaryAdresss' ) {
+                                $result['address'][$i]['value'] = $advalue;
                             }
                         }
                     }
@@ -987,30 +1012,53 @@ class ContractController extends Controller
                     # code...
                     break;
                 case 'RQ_BANK_NAME': //Ф.И.О.  физлица ип
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'bank') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'bank') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'bank' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
+
                     break;
                 case 'RQ_BANK_ADDR': //Сокращенное наименование организации.
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'bankAdress') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'bankAdress') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'bankAdress' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
+
+
                     break;
                 case 'RQ_BIK':
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'bik') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'bik') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'bik' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_COR_ACC_NUM': //Ген. директор.
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'ks') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'ks') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'ks' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
                     break;
@@ -1018,16 +1066,26 @@ class ContractController extends Controller
                     # code...
                     break;
                 case 'RQ_ACC_NUM':
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'rs') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'rs') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'rs' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'COMMENTS':
-                    foreach ($result['bank'] as $bankRQ) {
-                        if ($bankRQ['code'] === 'bankOther') {
-                            $bankRQ['value'] = $value;
+                    // foreach ($result['bank'] as $bankRQ) {
+                    //     if ($bankRQ['code'] === 'bankOther') {
+                    //         $bankRQ['value'] = $value;
+                    //     }
+                    // }
+                    for ($i = 0; $i < count($result['bank']); $i++) {
+                        if ($result['bank'][$i]['code'] === 'bankOther' ) {
+                            $result['bank'][$i]['value'] = $value;
                         }
                     }
                     break;
