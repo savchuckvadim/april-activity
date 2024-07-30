@@ -128,7 +128,7 @@ class ContractController extends Controller
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['companyId' => $companyId, 'domain' => $domain, 'addressresponse' => $result['client']['address']]
+                ['companyId' => $companyId, 'domain' => $domain, 'products' => $products]
             );
         }
     }
