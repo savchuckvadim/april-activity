@@ -779,6 +779,8 @@ class ContractController extends Controller
                     foreach ($result['rq'] as $rq) {
                         if ($rq['code'] === 'fullname') {
                             $rq['value'] = $value;
+                            Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $rq ]);
+
                         }
                     }
                     Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq'] ]);
