@@ -162,28 +162,28 @@ class ContractController extends Controller
 
         $templatePath = $templateField->value;
 
-        // Создаем экземпляр обработчика шаблона
-        $templateProcessor = new TemplateProcessor($templatePath);
+        // // Создаем экземпляр обработчика шаблона
+        // $templateProcessor = new TemplateProcessor($templatePath);
 
-        // Замена заполнителей простыми значениями
-        $templateProcessor->setValue('name', 'John Doe');
-        $templateProcessor->setValue('address', '123 Main Street');
+        // // Замена заполнителей простыми значениями
+        // $templateProcessor->setValue('name', 'John Doe');
+        // $templateProcessor->setValue('address', '123 Main Street');
 
-        // Предположим, что у нас есть массив данных для таблицы
-        $products = [
-            ['name' => 'Product A', 'quantity' => 2],
-            ['name' => 'Product B', 'quantity' => 5]
-        ];
+        // // Предположим, что у нас есть массив данных для таблицы
+        // $products = [
+        //     ['name' => 'Product A', 'quantity' => 2],
+        //     ['name' => 'Product B', 'quantity' => 5]
+        // ];
 
-        // Добавление строк в таблицу
-        $templateProcessor->cloneRowAndSetValues('product_name', $products);
+        // // Добавление строк в таблицу
+        // $templateProcessor->cloneRowAndSetValues('product_name', $products);
 
-        // Сохраняем измененный документ
-        $savePath = 'path/to/output.docx';
-        $templateProcessor->saveAs($savePath);
+        // // Сохраняем измененный документ
+        // $savePath = 'path/to/output.docx';
+        // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $data, 'templatePath' => $templatePath]
+            ['contractData' => $data, 'link' => $data, 'template' => $template, 'templatePath' => $templatePath]
         );
     }
 
