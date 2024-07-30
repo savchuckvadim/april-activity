@@ -65,6 +65,57 @@ class ContractController extends Controller
                     $arows,
                     $contractQuantity
                 ),
+                'clientType' =>  [
+                    'type' => 'select',
+                    'name' => 'Тип клиента',
+                    'value' =>  [
+                        'id' => 0,
+                        'code' => 'org',
+                        'name' => 'Организация Коммерческая',
+                        'title' => 'Организация Коммерческая'
+                    ],
+                    'isRequired' => true,
+                    'code' => 'type',
+                    'items' => [
+                        [
+                            'id' => 0,
+                            'code' => 'org',
+                            'name' => 'Организация Коммерческая',
+                            'title' => 'Организация Коммерческая'
+                        ],
+                        [
+                            'id' => 1,
+                            'code' => 'org_state',
+                            'name' => 'Организация Бюджетная',
+                            'title' => 'Организация Бюджетная'
+                        ],
+                        [
+                            'id' => 2,
+                            'code' => 'ip',
+                            'name' => 'Индивидуальный предприниматель',
+                            'title' => 'Индивидуальный предприниматель'
+                        ],
+                        // [
+                        //     'id' => 3,
+                        //     'code' => 'advokat',
+                        //     'name' => 'Адвокат',
+                        //     'title' => 'Адвокат'
+                        // ],
+                        [
+                            'id' => 4,
+                            'code' => 'fiz',
+                            'name' => 'Физическое лицо',
+                            'title' => 'Физическое лицо'
+                        ],
+
+                    ],
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 0,
+
+                ],
 
             ];
             $rqMethod = '/crm.requisite.list';
@@ -386,57 +437,7 @@ class ContractController extends Controller
         }
         $result = [
             'rq' => [
-                [
-                    'type' => 'select',
-                    'name' => 'Тип клиента',
-                    'value' =>  [
-                        'id' => 0,
-                        'code' => 'org',
-                        'name' => 'Организация Коммерческая',
-                        'title' => 'Организация Коммерческая'
-                    ],
-                    'isRequired' => true,
-                    'code' => 'type',
-                    'items' => [
-                        [
-                            'id' => 0,
-                            'code' => 'org',
-                            'name' => 'Организация Коммерческая',
-                            'title' => 'Организация Коммерческая'
-                        ],
-                        [
-                            'id' => 1,
-                            'code' => 'org_state',
-                            'name' => 'Организация Бюджетная',
-                            'title' => 'Организация Бюджетная'
-                        ],
-                        [
-                            'id' => 2,
-                            'code' => 'ip',
-                            'name' => 'Индивидуальный предприниматель',
-                            'title' => 'Индивидуальный предприниматель'
-                        ],
-                        [
-                            'id' => 3,
-                            'code' => 'advokat',
-                            'name' => 'Адвокат',
-                            'title' => 'Адвокат'
-                        ],
-                        [
-                            'id' => 4,
-                            'code' => 'fiz',
-                            'name' => 'Физическое лицо',
-                            'title' => 'Физическое лицо'
-                        ],
-
-                    ],
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 0,
-
-                ],
+               
                 [
                     'type' => 'string',
                     'name' => 'Полное наименование организации',
