@@ -160,7 +160,7 @@ class ContractController extends Controller
             ->where('type', 'template')
             ->where('code', 'proxima');
 
-        $templatePath = $templateField->value;
+        $templatePath = $templateField['value'];
 
         // // Создаем экземпляр обработчика шаблона
         // $templateProcessor = new TemplateProcessor($templatePath);
