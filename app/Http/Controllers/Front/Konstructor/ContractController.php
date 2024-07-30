@@ -201,7 +201,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $data, 'template' => $template, 'templateField' => $templateField]
+            ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
         );
     }
 
