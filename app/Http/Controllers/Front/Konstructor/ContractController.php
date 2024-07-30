@@ -157,11 +157,11 @@ class ContractController extends Controller
             ->where('code', 'proxima')
             ->first();
         $templateField = $template->fields()
-            ->where('type', 'template')
-            ->where('code', 'proxima')
+            // ->where('type', 'template')
+            // ->where('code', 'proxima')
             ->first();
 
-        $templatePath = $templateField['value'];
+        // $templatePath = $templateField['value'];
 
         // // Создаем экземпляр обработчика шаблона
         // $templateProcessor = new TemplateProcessor($templatePath);
@@ -184,7 +184,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $data, 'template' => $template, 'templatePath' => $templatePath]
+            ['contractData' => $data, 'link' => $data, 'template' => $template, 'templateField' => $templateField]
         );
     }
 
