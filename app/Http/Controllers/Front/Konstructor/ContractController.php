@@ -10,9 +10,11 @@ use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use App\Models\Portal;
 use App\Models\PortalContract;
+use App\Services\BitrixDealDocumentContractService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class ContractController extends Controller
 {
@@ -58,7 +60,7 @@ class ContractController extends Controller
                 'specification' => $this->getSpecification(
                     $products,
                     $contract,
-                    
+
                     $arows,
                     $contractQuantity
                 ),
@@ -137,8 +139,51 @@ class ContractController extends Controller
     public function getContractDocument(Request $request)
     {
         $data = $request->all();
+        $domain = $data['domain'];
+        $companyId = $data['companyId'];
+        $contractType = $data['contractType'];
+
+        $contract = $data['contract'];
+        $generalContractModel = $contract['contract'];
+        $contractQuantity = $generalContractModel['coefficient'];
+
+        $productSet = $data['productSet'];
+        $products = $data['products'];
+        $productName = $generalContractModel['productName'];
+        $arows = $data['arows'];
+        $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
+        $template = $etalonPortal->templates()
+            ->where('type', 'contract')
+            ->where('code', 'proxima')
+            ->first();
+        $templateField = $template->fields()
+            ->where('type', 'template')
+            ->where('code', 'proxima');
+
+        $templatePath = $templateField->value;
+
+        // Создаем экземпляр обработчика шаблона
+        $templateProcessor = new TemplateProcessor($templatePath);
+
+        // Замена заполнителей простыми значениями
+        $templateProcessor->setValue('name', 'John Doe');
+        $templateProcessor->setValue('address', '123 Main Street');
+
+        // Предположим, что у нас есть массив данных для таблицы
+        $products = [
+            ['name' => 'Product A', 'quantity' => 2],
+            ['name' => 'Product B', 'quantity' => 5]
+        ];
+
+        // Добавление строк в таблицу
+        $templateProcessor->cloneRowAndSetValues('product_name', $products);
+
+        // Сохраняем измененный документ
+        $savePath = 'path/to/output.docx';
+        $templateProcessor->saveAs($savePath);
+
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $data]
+            ['contractData' => $data, 'link' => $data, 'templatePath' => $templatePath]
         );
     }
 
@@ -1019,7 +1064,6 @@ class ContractController extends Controller
                             if ($result['address'][$i]['code'] === 'registredAdress') {
                                 $result['address'][$i]['value'] = $advalue;
                                 array_push($result['rq'], $result['address'][$i]);
-
                             }
                         }
                     }
@@ -1037,8 +1081,6 @@ class ContractController extends Controller
                             if ($result['address'][$i]['code'] === 'primaryAdresss') {
                                 $result['address'][$i]['value'] = $advalue;
                                 array_push($result['rq'], $result['address'][$i]);
-
-
                             }
                         }
                     }
@@ -1137,7 +1179,7 @@ class ContractController extends Controller
                     // }
             }
         }
-        return['rq'=> $result['rq'], 'bank'=> $result['bank']];
+        return ['rq' => $result['rq'], 'bank' => $result['bank']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {

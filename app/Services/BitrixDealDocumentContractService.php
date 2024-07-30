@@ -14,7 +14,7 @@ use morphos\Russian\MoneySpeller;
 use morphos\Russian\TimeSpeller;
 use Ramsey\Uuid\Uuid;
 
-class BitrixDealDocumentService
+class BitrixDealDocumentContractService
 {
     protected $domain;
     protected $placement;
@@ -69,7 +69,23 @@ class BitrixDealDocumentService
         $userId,
         $providerRq,
         $documentNumber,
-        
+        $data,
+        $invoiceDate,
+        $headerData,
+        $doubleHeaderData,
+        $footerData,
+        $letterData,
+        $infoblocksData,
+        $bigDescriptionData,
+        $pricesData,
+        $stampsData,
+        $isTwoLogo,
+        $isGeneralInvoice,
+        $isAlternativeInvoices,
+        $dealId,
+        $withStamps,
+        $withManager,
+        $withHook = false
 
 
 
@@ -79,7 +95,38 @@ class BitrixDealDocumentService
         $this->userId =  $userId;
         $this->providerRq =  $providerRq;
         $this->documentNumber = $documentNumber;
-       
+        $this->data = $data;
+        $this->invoiceDate = $invoiceDate;
+
+        $this->headerData =  $headerData;
+        $this->doubleHeaderData = $doubleHeaderData;
+        $this->footerData = $footerData;
+        $this->letterData =  $letterData;
+        $this->infoblocksData =  $infoblocksData;
+        $this->bigDescriptionData =  $bigDescriptionData;
+        $this->pricesData =  $pricesData;
+        $this->stampsData =  $stampsData;
+        $this->isTwoLogo =  $isTwoLogo;
+
+        $this->isGeneralInvoice =  $isGeneralInvoice;
+        $this->isAlternativeInvoices =  $isAlternativeInvoices;
+
+        $this->dealId =  $dealId;
+        $this->withStamps = $withStamps;
+        $this->withManager = $withManager;
+        $this->isPriceFirst = false; //0 - no 1 -yes
+
+        $this->withHook = $withHook;
+        if (!empty($data['settings'])) {
+            if (!empty($data['settings']['isPriceFirst'])) {
+                if (!empty($data['settings']['isPriceFirst']['current'])) {
+                    if (!empty($data['settings']['isPriceFirst']['current']['id'])) {
+                        $this->isPriceFirst = true; //0 - no 1 -yes
+                    }
+                }
+            }
+        }
+        $this->withPrice = $infoblocksData['withPrice']; // показывает прайс на отдельной странице или в продолжение темы
 
         $this->hook = BitrixController::getHook($domain);
 
@@ -167,7 +214,28 @@ class BitrixDealDocumentService
         //DT156_12:UC_FA778R	КП сформировано //alfacenter
         //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
 
-       
+        if ($domain == 'alfacentr.bitrix24.ru') {
+
+            $this->categoryId = 12;
+
+            if ($isGeneralInvoice) {         //счет
+                $this->stageId = 'DT156_12:UC_I0J7WW';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
+            } else {                            //кп
+                $this->stageId = 'DT156_12:UC_FA778R'; // КП сформировано //alfacenter
+
+            }
+        } else if ($domain == 'april-garant.bitrix24.ru') {
+
+            $this->categoryId = 26;
+
+            if ($isGeneralInvoice) {         //счет
+                $this->stageId = 'DT162_26:UC_4REB8W';   //DT156_12:UC_I0J7WW	Счет сформирован //alfacenter
+            } else {                            //кп
+                $this->stageId = 'DT162_26:UC_R7UBSZ'; // КП сформировано //alfacenter
+
+            }
+        }
+
 
         // Log::channel('telegram')->info('APRIL_ONLINE Service constructor', [
 
@@ -245,7 +313,7 @@ class BitrixDealDocumentService
             //     ]
             // ]);
             //smart
-            if ($this->domain !== 'gsirk.bitrix24.ru') {
+            if ($this->domain !== 'gsirk.bitrix24.ru' && $this->domain !== 'gsr.bitrix24.ru' && $this->domain !== 'april-dev.bitrix24.ru') {
                 $this->smartProccess();
             }
 
@@ -292,12 +360,9 @@ class BitrixDealDocumentService
             ]);
             return  $result;
         }
-     
     }
 
-    protected function createDocumentContract(){
-        
-    }
+
 
     protected function createDocumentOffer()
     {
