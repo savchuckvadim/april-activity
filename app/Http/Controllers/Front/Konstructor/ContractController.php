@@ -24,13 +24,13 @@ class ContractController extends Controller
         $companyId = $data['companyId'];
         $contractType = $data['contractType'];
 
-
         $contract = $data['contract'];
-        $contractQuantity = $contract['coefficient'];
+        $generalContractModel = $contract['contract'];
+        $contractQuantity = $generalContractModel['coefficient'];
 
         $productSet = $data['productSet'];
         $products = $data['products'];
-        $productName = $contract['productName'];
+        $productName = $generalContractModel['productName'];
         $arows = $data['arows'];
 
         $resultClientRq = null;
