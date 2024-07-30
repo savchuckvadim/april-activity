@@ -751,7 +751,6 @@ class ContractController extends Controller
         ];
 
         foreach ($bxRq as $bxRqFieldName => $value) {
-            Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
             switch ($bxRqFieldName) {
                 case 'NAME': //Название реквизита. Обязательное поле.
 
@@ -775,11 +774,15 @@ class ContractController extends Controller
                     }
                     break;
                 case 'RQ_COMPANY_FULL_NAME':
+                    Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
+
                     foreach ($result['rq'] as $rq) {
                         if ($rq['code'] === 'fullname') {
                             $rq['value'] = $value;
                         }
                     }
+                    Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq'] ]);
+
                     break;
                 case 'RQ_DIRECTOR': //Ген. директор.
                     foreach ($result['rq'] as $rq) {
