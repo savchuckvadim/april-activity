@@ -178,6 +178,20 @@ class ContractController extends Controller
             $templateProcessor->setValue('header', 'John Doe');
             // Дальнейшие действия с документом...
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
+
+            if (!file_exists($resultPath)) {
+                // Log::channel('telegram')->error('APRIL_ONLINE', [
+                //     'resultPath' => $resultPath
+                // ]);
+
+                mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+            }
+            if (!is_writable($resultPath)) {
+                Log::channel('telegram')->error('APRIL_ONLINE', [
+                    '!is_writable resultPath' => $resultPath
+                ]);
+                throw new \Exception("Невозможно записать в каталог: $resultPath");
+            }
             $resultFileName = 'contract_test.docx';
             $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
             $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
