@@ -1146,7 +1146,7 @@ class ContractController extends Controller
             if (!empty($row['price'])) {
                 $monthSum = (float)$monthSum  + (float)$row['price']['month'];
                 $prepaymentSum = (float)$prepaymentSum  + (float)$row['price']['sum'];
-                $prepaymentQuantity = (float)$contractQuantity + (float)$row['price']['quantity'];
+                $prepaymentQuantity = (float)$contractQuantity * (float)$row['price']['quantity'];
             }
         }
         $contractsum = $monthSum * 12;
@@ -1385,7 +1385,7 @@ class ContractController extends Controller
             if (!empty($row['price'])) {
                 $monthSum = (float)$monthSum  + (float)$row['price']['month'];
                 $prepaymentSum = (float)$prepaymentSum  + (float)$row['price']['sum'];
-                $prepaymentQuantity = (float)$contractQuantity + (float)$row['price']['quantity'];
+                $prepaymentQuantity = (float)$contractQuantity * (float)$row['price']['quantity'];
             }
         }
         $contractsum = $monthSum * 12;
