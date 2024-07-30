@@ -178,8 +178,8 @@ class ContractController extends Controller
             $templateProcessor->setValue('header', 'John Doe');
             // Дальнейшие действия с документом...
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
-            $resultFileName = 'contract_test.docx' ;
-            $templateProcessor->saveAs($resultPath);
+            $resultFileName = 'contract_test.docx';
+            $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
             $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
         } else {
             return APIController::getError(
