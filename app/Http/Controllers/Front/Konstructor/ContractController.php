@@ -158,7 +158,8 @@ class ContractController extends Controller
             ->first();
         $templateField = $template->fields()
             ->where('type', 'template')
-            ->where('code', 'proxima');
+            ->where('code', 'proxima')
+            ->first();
 
         $templatePath = $templateField['value'];
 
