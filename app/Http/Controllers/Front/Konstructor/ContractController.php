@@ -56,8 +56,9 @@ class ContractController extends Controller
                 ],
                 'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
                 'specification' => $this->getSpecification(
-                    $contract,
                     $products,
+                    $contract,
+                    
                     $arows,
                     $contractQuantity
                 ),
