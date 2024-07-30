@@ -903,7 +903,11 @@ class ContractController extends Controller
                     break;
 
                 default:
-                    # code...
+                    foreach ($result['rq'] as $rq) {
+                        if ($rq['code'] === 'inn') {
+                            $rq['value'] = '$value INN '. $bxRqFieldName;
+                        }
+                    }
                     break;
             }
         }
