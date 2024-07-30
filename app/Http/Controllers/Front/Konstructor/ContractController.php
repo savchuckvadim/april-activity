@@ -22,6 +22,7 @@ class ContractController extends Controller
         $data = $request->all();
         $domain = $data['domain'];
         $companyId = $data['companyId'];
+        $contractType = $data['contractType'];
         $resultClientRq = null;
         $resultClientAdressRq = null;
         $resultClientBankRq = null;
@@ -95,7 +96,7 @@ class ContractController extends Controller
                     $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
                 }
 
-                $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank);
+                $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
                 $result['client'] = $client;
                 return APIController::getSuccess(
                     [
@@ -238,8 +239,23 @@ class ContractController extends Controller
 
 
     //utils
-    protected function getClientRqForm($bxRq, $bxAdressesRq, $bxBankRq)
+    protected function getClientRqForm($bxRq, $bxAdressesRq, $bxBankRq, $contractType)
     {
+        $clientRole = 'Заказчик';
+
+        switch ($contractType) {
+            case 'abon':
+            case 'key':
+                $clientRole = 'Покупатель';
+                break;
+            case 'lic':
+                $clientRole = 'Лицензиат';
+                break;
+            default:
+            $clientRole = 'Заказчик';
+                # code...
+                break;
+        }
         $result = [
             'rq' => [
                 [
@@ -325,7 +341,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Роль клиента в договоре',
-                    'value' => 'Заказчик',
+                    'value' => $clientRole,
                     'isRequired' => true,
                     'code' => 'role',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -803,7 +819,7 @@ class ContractController extends Controller
                     }
                     break;
                 case 'RQ_DIRECTOR': //Ген. директор.
-                
+
                     for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'director') {
                             $result['rq'][$i]['value'] = $value;
@@ -816,57 +832,57 @@ class ContractController extends Controller
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
-                   
+
                     break;
                 case 'RQ_EMAIL':
-                
+
                     for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'email') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
-                   
+
                     break;
                 case 'RQ_PHONE':
-                   
+
                     for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'phone') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
-                   
+
                     break;
 
 
                     //fiz lic
                 case 'RQ_IDENT_DOC': //Вид документа.
-                  
+
                     for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'document') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
-                   
+
                     break;
                 case 'RQ_IDENT_DOC_SER': //Серия.
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'docSer') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_IDENT_DOC_NUM': // Номер.
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'docNum') {
                             $result['rq'][$i]['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_IDENT_DOC_DATE': //Дата выдачи.
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'docDate') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -874,8 +890,8 @@ class ContractController extends Controller
                     break;
 
                 case 'RQ_IDENT_DOC_ISSUED_BY': //Кем выдан.
-                   
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'docIssuedBy') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -883,8 +899,8 @@ class ContractController extends Controller
                     break;
 
                 case 'RQ_IDENT_DOC_DEP_CODE': //Код подразделения
-                   
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'docDepCode') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -893,8 +909,8 @@ class ContractController extends Controller
 
 
                 case 'RQ_INN':
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'inn') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -902,8 +918,8 @@ class ContractController extends Controller
                     break;
 
                 case 'RQ_KPP':
-                   
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'kpp') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -911,8 +927,8 @@ class ContractController extends Controller
                     break;
 
                 case 'RQ_OGRN':
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'ogrn') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -921,9 +937,9 @@ class ContractController extends Controller
 
 
                 case 'RQ_OGRNIP':
-                
-                    
-                      for ($i = 0; $i < count($result['rq']); $i++) {
+
+
+                    for ($i = 0; $i < count($result['rq']); $i++) {
                         if ($result['rq'][$i]['code'] === 'ogrnip') {
                             $result['rq'][$i]['value'] = $value;
                         }
@@ -944,7 +960,7 @@ class ContractController extends Controller
                     break;
 
                 default:
-                   
+
                     break;
             }
         }
@@ -981,7 +997,7 @@ class ContractController extends Controller
                         // }
 
                         for ($i = 0; $i < count($result['address']); $i++) {
-                            if ($result['address'][$i]['code'] === 'registredAdress' ) {
+                            if ($result['address'][$i]['code'] === 'registredAdress') {
                                 $result['address'][$i]['value'] = $advalue;
                             }
                         }
@@ -997,7 +1013,7 @@ class ContractController extends Controller
                         // }
 
                         for ($i = 0; $i < count($result['address']); $i++) {
-                            if ($result['address'][$i]['code'] === 'primaryAdresss' ) {
+                            if ($result['address'][$i]['code'] === 'primaryAdresss') {
                                 $result['address'][$i]['value'] = $advalue;
                             }
                         }
@@ -1018,7 +1034,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bank' ) {
+                        if ($result['bank'][$i]['code'] === 'bank') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
@@ -1031,7 +1047,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bankAdress' ) {
+                        if ($result['bank'][$i]['code'] === 'bankAdress') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
@@ -1045,7 +1061,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bik' ) {
+                        if ($result['bank'][$i]['code'] === 'bik') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
@@ -1057,7 +1073,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'ks' ) {
+                        if ($result['bank'][$i]['code'] === 'ks') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
@@ -1072,7 +1088,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'rs' ) {
+                        if ($result['bank'][$i]['code'] === 'rs') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
@@ -1084,7 +1100,7 @@ class ContractController extends Controller
                     //     }
                     // }
                     for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bankOther' ) {
+                        if ($result['bank'][$i]['code'] === 'bankOther') {
                             $result['bank'][$i]['value'] = $value;
                         }
                     }
