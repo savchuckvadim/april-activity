@@ -12,6 +12,7 @@ use App\Models\Portal;
 use App\Models\PortalContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ContractController extends Controller
 {
@@ -750,6 +751,7 @@ class ContractController extends Controller
         ];
 
         foreach ($bxRq as $bxRqFieldName => $value) {
+            Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
             switch ($bxRqFieldName) {
                 case 'NAME': //Название реквизита. Обязательное поле.
 
