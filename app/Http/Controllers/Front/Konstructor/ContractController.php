@@ -153,6 +153,14 @@ class ContractController extends Controller
         $products = $data['products'];
         $productName = $generalContractModel['productName'];
         $arows = $data['arows'];
+
+
+        $contractClientState = $data['contractClientState']['client'];
+        $clientRq = $contractClientState['rqs']['rq'];
+
+        $providerState = $data['contractProviderState'];
+
+        $providerRq = $providerState['current']['rq'];
         $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
         $template = $etalonPortal->templates()
             ->where('type', 'contract')
@@ -175,7 +183,26 @@ class ContractController extends Controller
 
             // Теперь $fullPath содержит полный путь к файлу
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-            $templateProcessor->setValue('header', 'John Doe');
+
+
+            //templatecontent
+            $header = $this->getContractHeaderText(
+                $contractType,
+                $clientRq,
+                $providerRq,
+                // $clientCompanyFullName,
+                // $clientCompanyDirectorNameCase,   //директор | ип | ''
+                // $clientCompanyDirectorPositionCase,
+                // $clientCompanyBased,
+                // $providerCompanyFullName,
+                // $providerCompanyDirectorNameCase,
+                // $providerCompanyDirectorPositionCase,
+                // $providerCompanyBased,
+            );
+
+
+
+            $templateProcessor->setValue('header', $header);
             // Дальнейшие действия с документом...
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
 
@@ -447,7 +474,7 @@ class ContractController extends Controller
                     'code' => 'role',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'rq',
-                    'isActive' => true,
+                    'isActive' => false,
                     'isDisable' => true,
                     'order' => 3
 
@@ -1834,17 +1861,65 @@ class ContractController extends Controller
             ];
     }
 
-    protected function getContractHeaderText()
-    {
-        $headerText = '{client_fullname}, официальный партнер компании "Гарант", 
-        именуемый в дальнейшем "Исполнитель", в лице {MyCompanyRequisiteRqDirector~Case=0}, 
-        в должности: {MyCompanyRequisiteUfCrm1689675296}, действующего(-ей) на основании 
-        {MyCompanyRequisiteUfCrm1689675325} с одной стороны и   {RequisiteRqCompanyFullName}, 
-        именуемое(-ый) в дальнейшем "Заказчик",  
-        в лице {CompanyRequisiteRqDirector~Case=0},  
-        в должности: {RequisiteUfCrm1689675296}, 
-        действующего(-ей) на основании {RequisiteUfCrm1689675325} 
-        с другой стороны, заключили настоящий Договор о нижеследующем:';
+    protected function getContractHeaderText(
+        $contractType,
+        // $clientCompanyFullName,
+        // $clientCompanyDirectorNameCase,   //директор | ип | ''
+        // $clientCompanyDirectorPositionCase,
+        // $clientCompanyBased,
+        // $providerCompanyFullName,
+        // $providerCompanyDirectorNameCase,
+        // $providerCompanyDirectorPositionCase,
+        // $providerCompanyBased,
+        $clientRq,
+        $providerRq,
+    ) {
+
+        $clientRole = 'Заказчик';
+        $providerRole = 'Исполнитель';
+        switch ($contractType) {
+            case 'abon':
+            case 'key':
+                $clientRole = 'Покупатель';
+                $providerRole = 'Постващик';
+                break;
+            case 'lic':
+                $clientRole = 'Лицензиат';
+                $providerRole = 'Лицензиар';
+                break;
+            default:
+                $clientRole = 'Заказчик';
+                $providerRole = 'Исполнитель';
+                # code...
+                break;
+        }
+        $providerCompanyFullName = $providerRq['fullname'];
+        $providerCompanyDirectorNameCase = $providerRq['director'];
+        $providerCompanyDirectorPositionCase = $providerRq['position'];
+        $providerCompanyBased = 'Устава';
+
+        $clientCompanyFullName = '';
+        $clientCompanyDirectorNameCase = '';
+        $clientCompanyDirectorPositionCase = '';
+        $clientCompanyBased = '';
+
+        foreach ($clientRq as $rqItem) {
+            if ($rqItem['code'] === 'fullname') {
+                $clientCompanyFullName = $rqItem['value'];
+            }else  if ($rqItem['code'] === 'position_case') {
+                $clientCompanyDirectorPositionCase = $rqItem['value'];
+            }else  if ($rqItem['code'] === 'director_case') {
+                $clientCompanyDirectorNameCase = $rqItem['value'];
+            }else  if ($rqItem['code'] === 'based') {
+                $clientCompanyBased = $rqItem['value'];
+            }
+        }
+
+        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант", 
+        именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании'
+            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ', 
+        именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании'
+            . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
         return $headerText;
     }
 
