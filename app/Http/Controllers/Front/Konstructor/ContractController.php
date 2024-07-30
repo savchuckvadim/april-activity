@@ -14,6 +14,7 @@ use App\Services\BitrixDealDocumentContractService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class ContractController extends Controller
@@ -162,8 +163,22 @@ class ContractController extends Controller
             ->first();
 
         $templatePath = $templateField['value'];
+        $relativePath = ltrim($templatePath, '/storage');
 
-        // // Создаем экземпляр обработчика шаблона
+        // Проверяем, существует ли файл
+        if (Storage::disk('public')->exists($relativePath)) {
+            // Строим полный абсолютный путь
+            $fullPath = storage_path('app/public') . '/' . $relativePath;
+
+            // Теперь $fullPath содержит полный путь к файлу
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+            // Дальнейшие действия с документом...
+        } else {
+            return APIController::getError(
+                'шаблон не найден',
+                ['contractData' => $data, 'link' => $data, 'template' => $template, 'templateField' => $templateField]
+            );
+        }       // // Создаем экземпляр обработчика шаблона
         // $templateProcessor = new TemplateProcessor($templatePath);
 
         // // Замена заполнителей простыми значениями
