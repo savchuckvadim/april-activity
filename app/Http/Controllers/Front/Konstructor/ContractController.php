@@ -180,7 +180,7 @@ class ContractController extends Controller
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
             $resultFileName = 'app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId'];
             $templateProcessor->saveAs($resultPath);
-            $contractLink = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+            $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
         } else {
             return APIController::getError(
                 'шаблон не найден',
