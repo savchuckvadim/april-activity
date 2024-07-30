@@ -948,36 +948,36 @@ class ContractController extends Controller
             }
         }
 
-        foreach ($bxBankRq as $bxAdressRqFieldName => $value) {
-            switch ($bxRqFieldName) {
+        foreach ($bxBankRq as $bxBankFieldName => $value) {
+            switch ($bxBankFieldName) {
                 case 'NAME': //Название реквизита. Обязательное поле.
                     # code...
                     break;
                 case 'RQ_BANK_NAME': //Ф.И.О.  физлица ип
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'bank') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_BANK_ADDR': //Сокращенное наименование организации.
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'bankAdress') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_BIK':
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'bik') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
                 case 'RQ_COR_ACC_NUM': //Ген. директор.
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'ks') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
@@ -987,14 +987,14 @@ class ContractController extends Controller
                 case 'RQ_ACC_NUM':
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'rs') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
                 case 'COMMENTS':
                     foreach ($result['bank'] as $bankRQ) {
                         if ($bankRQ['code'] === 'bankOther') {
-                            $rq['value'] = $value;
+                            $bankRQ['value'] = $value;
                         }
                     }
                     break;
