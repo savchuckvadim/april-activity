@@ -53,17 +53,18 @@ class ContractController extends Controller
             ];
             $url = $hook . $rqMethod;
             $responseData = Http::post($url,  $rqData);
-            $result['client']['rq']  = BitrixController::getBitrixResponse($responseData, $rqMethod);
+
+            $rqResponse = BitrixController::getBitrixResponse($responseData, $rqMethod);
 
 
             //bank
-            if (!empty($result['client']['rq'])) {
-                $clientRq = $result['client']['rq'][0];
+            if (!empty($rqResponse)) {
+                $clientRq = $rqResponse[0];
                 if (!empty($clientRq) && isset($clientRq['ID'])) {
 
 
-                    $result['client']['rq']  = $clientRq;
-                    $rqId = $result['client']['rq']['ID'];
+                    $rqResponse  = $clientRq;
+                    $rqId = $rqResponse['ID'];
                     $bankMethod = '/crm.requisite.bankdetail.list';
                     $bankData = [
                         'filter' => [
@@ -73,10 +74,10 @@ class ContractController extends Controller
                     ];
                     $url = $hook . $bankMethod;
                     $responseData = Http::post($url,  $bankData);
-                    $result['client']['bank']  = BitrixController::getBitrixResponse($responseData, $bankMethod);
-                    if (!empty($result['client']['bank'])) {
-                        if (isset($result['client']['bank'][0])) {
-                            $result['client']['bank'] = $result['client']['bank'][0];
+                    $clientRqBank  = BitrixController::getBitrixResponse($responseData, $bankMethod);
+                    if (!empty($clientRqBank)) {
+                        if (isset($clientRqBank[0])) {
+                            $clientRqBank = $clientRqBank[0];
                         }
                     }
 
@@ -90,14 +91,21 @@ class ContractController extends Controller
                     ];
                     $url = $hook . $addressMethod;
                     $responseData = Http::post($url,  $addressData);
-                    $result['client']['address']  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+                    $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
                 }
+
+                $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank);
+                $result['client'] = $client;
+                return APIController::getSuccess(
+                    [
+                        'init' => $result,
+                        'addressresponse' => $result['client']['address'],
+                        'clientRq' => $clientRq,
+                        'clientRqBank' => $clientRqBank,
+                        'clientRqAddress' => $clientRqAddress,
+                    ]
+                );
             }
-            $client = $this->getClientRqForm($result['client']['rq'], $result['client']['address'], $result['client']['address']);
-            $result['client'] = $client;
-            return APIController::getSuccess(
-                ['init' => $result, 'addressresponse' => $result['client']['address']]
-            );
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
@@ -116,7 +124,7 @@ class ContractController extends Controller
 
 
 
-    
+
     public function get($portalContractId) //by id
     {
         try {
