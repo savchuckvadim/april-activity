@@ -119,10 +119,10 @@ class ContractController extends Controller
                 return APIController::getSuccess(
                     [
                         'init' => $result,
-                        'addressresponse' => $result['client']['address'],
-                        'clientRq' => $clientRq,
-                        'clientRqBank' => $clientRqBank,
-                        'clientRqAddress' => $clientRqAddress,
+                        // 'addressresponse' => $result['client']['address'],
+                        // 'clientRq' => $clientRq,
+                        // 'clientRqBank' => $clientRqBank,
+                        // 'clientRqAddress' => $clientRqAddress,
                     ]
                 );
             }
