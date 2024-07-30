@@ -163,7 +163,9 @@ class ContractController extends Controller
             ->first();
 
         $templatePath = $templateField['value'];
-        $relativePath = ltrim($templatePath, '/storage');
+        if (substr($templatePath, 0, 8) === '/storage') {
+            $relativePath = substr($templatePath, 8); // Обрезаем первые 8 символов
+        }
 
         // Проверяем, существует ли файл
         if (Storage::disk('public')->exists($relativePath)) {
