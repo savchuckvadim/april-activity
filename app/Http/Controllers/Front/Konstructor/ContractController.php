@@ -1705,7 +1705,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 19,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['lic', 'abon', 'key']
+                    'contractType' => ['lic', 'abon', 'key'],
+                    'supplies' => ['internet', 'proxima'],
 
 
                 ],
@@ -1735,7 +1736,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 21,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['lic', 'abon', 'key']
+                    'contractType' => ['lic', 'abon', 'key'],
+                    'supplies' => ['internet', 'proxima'],
 
 
                 ],
