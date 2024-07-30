@@ -23,6 +23,16 @@ class ContractController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         $contractType = $data['contractType'];
+
+
+        $contract = $data['contract'];
+        $contractQuantity = $contract['coefficient'];
+
+        $productSet = $data['productSet'];
+        $products = $data['products'];
+        $productName = $contract['productName'];
+        $arows = $data['arows'];
+
         $resultClientRq = null;
         $resultClientAdressRq = null;
         $resultClientBankRq = null;
@@ -44,7 +54,7 @@ class ContractController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
-                'contract' => $this->getContractGeneralForm()
+                'contract' => $this->getContractGeneralForm($arows, $contractQuantity)
             ];
             $rqMethod = '/crm.requisite.list';
             $rqData = [
@@ -252,7 +262,7 @@ class ContractController extends Controller
                 $clientRole = 'Лицензиат';
                 break;
             default:
-            $clientRole = 'Заказчик';
+                $clientRole = 'Заказчик';
                 # code...
                 break;
         }
@@ -1115,9 +1125,25 @@ class ContractController extends Controller
         }
         return $result;
     }
-    protected function getContractGeneralForm()
+    protected function getContractGeneralForm($arows, $contractQuantity)
     {
 
+
+        $prepaymentQuantity = $contractQuantity;
+        $prepaymentSum = 0;
+        $monthSum = 0;
+        $contractsum = 0;
+
+        foreach ($arows as $row) {
+            if (!empty($row['price'])) {
+                $monthSum = (float)$monthSum  + (float)$row['price']['month'];
+                $prepaymentSum = (float)$prepaymentSum  + (float)$row['price']['sum'];
+                $prepaymentQuantity = (float)$contractQuantity + (float)$row['price']['quantity'];
+            }
+        }
+        $contractsum = $monthSum * 12;
+      
+      
         return [
             [
                 'type' => 'date',
@@ -1220,9 +1246,9 @@ class ContractController extends Controller
             [
                 'type' => 'string',
                 'name' => 'Сумма по договору',
-                'value' => '',
+                'value' => $contractsum,
                 'isRequired' => true,
-                'code' => 'prepayment_sum',
+                'code' => 'period_sum',
                 'group' => 'contract',
                 'isActive' => true,
                 'isDisable' => true,
@@ -1234,7 +1260,7 @@ class ContractController extends Controller
             [
                 'type' => 'string',
                 'name' => 'Сумма предоплаты',
-                'value' => '',
+                'value' =>  $prepaymentSum,
                 'isRequired' => true,
                 'code' => 'prepayment_sum',
                 'group' => 'contract',
@@ -1248,7 +1274,171 @@ class ContractController extends Controller
             [
                 'type' => 'string',
                 'name' => 'Сумма в месяц',
+                'value' => $monthSum,
+                'isRequired' => true,
+                'code' => 'month_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 6,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+        ];
+    }
+
+
+    protected function getSpecification($products, $contract)
+    {
+
+
+        // $prepaymentQuantity = $contractQuantity;
+        $prepaymentSum = 0;
+        $monthSum = 0;
+        $contractsum = 0;
+
+        // foreach ($arows as $row) {
+        //     if (!empty($row['price'])) {
+        //         $monthSum = (float)$monthSum  + (float)$row['price']['month'];
+        //         $prepaymentSum = (float)$prepaymentSum  + (float)$row['price']['sum'];
+        //         $prepaymentQuantity = (float)$contractQuantity + (float)$row['price']['quantity'];
+        //     }
+        // }
+        // $contractsum = $monthSum * 12;
+      
+      
+        return [
+            [
+                'type' => 'date',
+                'name' => 'Договор от',
                 'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_create_date',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 0,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Действие договора с',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 1,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Действие договора по',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 2,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Предоплата с',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'prepayment_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 3,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Предоплата по',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'prepayment_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Период в подарок с',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'present_start',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 3,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Период в подарок по',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'present_finish',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Сумма по договору',
+                'value' => $contractsum,
+                'isRequired' => true,
+                'code' => 'period_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Сумма предоплаты',
+                'value' =>  $prepaymentSum,
+                'isRequired' => true,
+                'code' => 'prepayment_sum',
+                'group' => 'contract',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Сумма в месяц',
+                'value' => $monthSum,
                 'isRequired' => true,
                 'code' => 'month_sum',
                 'group' => 'contract',
