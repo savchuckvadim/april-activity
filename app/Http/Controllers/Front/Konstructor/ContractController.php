@@ -1591,7 +1591,8 @@ class ContractController extends Controller
 
 
         if (!empty($currentComplect['lt'])) {
-            $pack = $lt['packages'][count($currentComplect['lt'])];
+            $packWeight = count($currentComplect['lt']);
+            $pack = $lt['packages'][$packWeight];
             if (!empty($pack)) {
                 $freeLtPack =  '$pack[' . ']';
             }
@@ -1603,7 +1604,8 @@ class ContractController extends Controller
             }
         }
         if (!empty($currentComplect['ltInPacket'])) {
-            $pack = $lt['packages'][count($currentComplect['ltInPacket'])];
+            $packWeight = count($currentComplect['ltInPacket']);
+            $pack = $lt['packages'][$packWeight];
             if (!empty($pack)) {
                 $ltPack =  $pack['fullName'];
             }
