@@ -131,7 +131,7 @@ class ContractController extends Controller
                 'lt' => $lt,
                 'starProduct' => $starProduct,
                 'contractType' => $contractType,
-      
+
 
 
 
@@ -1594,7 +1594,7 @@ class ContractController extends Controller
             $packWeight = count($currentComplect['lt']);
             $pack = $lt['packages'][$packWeight];
             // if (!empty($pack)) {
-                $freeLtPack =  '$pack[' . ']';
+            $freeLtPack =  '$pack[' . ']';
             // }
 
             foreach ($lt['value'] as $ltservice) {
@@ -1608,7 +1608,7 @@ class ContractController extends Controller
 
             $pack = $lt['packages'][2];
             // if (!empty($pack)) {
-                $ltPack =  $pack['fullName'];
+            $ltPack =  $pack['fullName'];
             // }
 
             foreach ($lt['value'] as $ltservice) {
@@ -1737,11 +1737,11 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Legal Tech в комплекте',
-                    'value' => '',
+                    'value' => $freeLtPack,
                     'isRequired' => true,
                     'code' => 'specification_lt_free',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => false,
                     'order' => 7,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -1753,7 +1753,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Legal Tech в комплекте',
-                    'value' =>  $freeLtPack . '' .  $freeLtBlocks,
+                    'value' => $freeLtBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
@@ -1769,7 +1769,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Пакет Legal Tech',
-                    'value' => $ltPack . '' .  $ltBlocks,
+                    'value' => $ltPack,
                     'isRequired' => true,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
@@ -1785,7 +1785,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Пакет Legal Tech',
-                    'value' => '',
+                    'value' => $ltBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
