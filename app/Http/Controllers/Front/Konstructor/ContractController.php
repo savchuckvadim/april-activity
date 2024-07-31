@@ -1789,7 +1789,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => true,
                     'order' => 10,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
