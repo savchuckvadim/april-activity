@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front\Konstructor;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CounterController;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
@@ -200,10 +201,18 @@ class ContractController extends Controller
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
 
-        $productSet = $data['productSet'];
-        $products = $data['products'];
-        $productName = $generalContractModel['productName'];
-        $arows = $data['arows'];
+        $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
+
+        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
+        $isProduct = $contractType !== 'service';
+        $contractCoefficient = $contract['prepayment'];
+
+
+
+        $arows = $data['arows']; //все продукты rows из general в виде массива
+        $total = $productSet['total'][0];
+
 
 
         $contractClientState = $data['contractClientState']['client'];
@@ -235,25 +244,27 @@ class ContractController extends Controller
             // Теперь $fullPath содержит полный путь к файлу
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
-
-            //templatecontent
-            $header = $this->getContractHeaderText(
+            $templateData = $this->getDocumentData(
                 $contractType,
                 $clientRq,
                 $providerRq,
-                // $clientCompanyFullName,
-                // $clientCompanyDirectorNameCase,   //директор | ип | ''
-                // $clientCompanyDirectorPositionCase,
-                // $clientCompanyBased,
-                // $providerCompanyFullName,
-                // $providerCompanyDirectorNameCase,
-                // $providerCompanyDirectorPositionCase,
-                // $providerCompanyBased,
+                $arows,
+                $total,
+                $contractProductName,
+                $isProduct,
+                $contractCoefficient
             );
+            //templatecontent
+
+
+            $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
+
+
+            $templateProcessor->setValue('header', $templateData['header']);
+            $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
 
 
 
-            $templateProcessor->setValue('header', $header);
             // Дальнейшие действия с документом...
             $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
 
@@ -437,7 +448,7 @@ class ContractController extends Controller
         }
         $result = [
             'rq' => [
-               
+
                 [
                     'type' => 'string',
                     'name' => 'Полное наименование организации',
@@ -1862,6 +1873,81 @@ class ContractController extends Controller
             ];
     }
 
+
+    protected function getAddressString($bxAdressRq)
+    {
+        $advalue = '';
+
+        if (!empty($bxAdressRq['POSTAL_CODE'])) {
+            $advalue = $advalue . $bxAdressRq['POSTAL_CODE'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['COUNTRY'])) {
+            $advalue = $advalue . $bxAdressRq['COUNTRY'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['PROVINCE'])) {
+            $advalue = $advalue . $bxAdressRq['PROVINCE'] . ', ';
+        }
+
+        if (!empty($bxAdressRq['REGION'])) {
+            $advalue = $advalue . $bxAdressRq['REGION'] . ', ';
+        }
+        if (!empty($bxAdressRq['CITY'])) {
+            $advalue = $advalue . $bxAdressRq['CITY'] . ', ';
+        }
+        if (!empty($bxAdressRq['ADDRESS_1'])) {
+            $advalue = $advalue . $bxAdressRq['ADDRESS_1'] . ', ';
+        }
+        if (!empty($bxAdressRq['ADDRESS_2'])) {
+            $advalue = $advalue . $bxAdressRq['ADDRESS_2'] . ', ';
+        }
+
+        return $advalue;
+    }
+
+
+
+    //contract document data
+    protected function getDocumentData(
+        $contractType,
+        $clientRq,
+        $providerRq,
+        $arows,
+        $total,
+        $contractName,
+        $isProduct,
+        $contractCoefficient
+    ) {
+
+        $products = $this->getProducts(
+            $arows,
+            $contractName,
+            $isProduct,
+            $contractCoefficient
+        );
+        $header = $this->getContractHeaderText(
+            $contractType,
+            $clientRq,
+            $providerRq,
+            // $clientCompanyFullName,
+            // $clientCompanyDirectorNameCase,   //директор | ип | ''
+            // $clientCompanyDirectorPositionCase,
+            // $clientCompanyBased,
+            // $providerCompanyFullName,
+            // $providerCompanyDirectorNameCase,
+            // $providerCompanyDirectorPositionCase,
+            // $providerCompanyBased,
+        );
+
+        return [
+            'products' =>  $products,
+            'header' =>  $header,
+            // 'documentNumber' =>  $documentNumber,
+            // 'contractSum' =>  $contractSum,
+        ];
+    }
+
     protected function getContractHeaderText(
         $contractType,
         // $clientCompanyFullName,
@@ -1907,11 +1993,11 @@ class ContractController extends Controller
         foreach ($clientRq as $rqItem) {
             if ($rqItem['code'] === 'fullname') {
                 $clientCompanyFullName = $rqItem['value'];
-            }else  if ($rqItem['code'] === 'position_case') {
+            } else  if ($rqItem['code'] === 'position_case') {
                 $clientCompanyDirectorPositionCase = $rqItem['value'];
-            }else  if ($rqItem['code'] === 'director_case') {
+            } else  if ($rqItem['code'] === 'director_case') {
                 $clientCompanyDirectorNameCase = $rqItem['value'];
-            }else  if ($rqItem['code'] === 'based') {
+            } else  if ($rqItem['code'] === 'based') {
                 $clientCompanyBased = $rqItem['value'];
             }
         }
@@ -1924,35 +2010,27 @@ class ContractController extends Controller
         return $headerText;
     }
 
-    protected function getAddressString($bxAdressRq)
+    protected function getDocumentNumber()
     {
-        $advalue = '';
-
-        if (!empty($bxAdressRq['POSTAL_CODE'])) {
-            $advalue = $advalue . $bxAdressRq['POSTAL_CODE'] . ', ';
+    }
+    protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient)
+    {
+        $contractFullName = $contractName;
+        if ($isProduct) {
+            $contractFullName = $contractFullName . ' длительность ' . $contractCoefficient . ' мес. ';
         }
 
-        if (!empty($bxAdressRq['COUNTRY'])) {
-            $advalue = $advalue . $bxAdressRq['COUNTRY'] . ', ';
+        $products = [];
+        foreach ($arows as $key => $row) {
+            $product = [
+                'productNumber' => $key + 1,
+                'productName' => $contractFullName . '(' . $row['name'] . ')',
+                'productQuantity' => $row['price']['quantity'],
+                'productMeasure' => $row['price']['measure']['name'],
+                'productPrice' => $row['price']['current'],
+                'productSum' => $row['price']['sum'],
+            ];
+            array_push($products, $product);
         }
-
-        if (!empty($bxAdressRq['PROVINCE'])) {
-            $advalue = $advalue . $bxAdressRq['PROVINCE'] . ', ';
-        }
-
-        if (!empty($bxAdressRq['REGION'])) {
-            $advalue = $advalue . $bxAdressRq['REGION'] . ', ';
-        }
-        if (!empty($bxAdressRq['CITY'])) {
-            $advalue = $advalue . $bxAdressRq['CITY'] . ', ';
-        }
-        if (!empty($bxAdressRq['ADDRESS_1'])) {
-            $advalue = $advalue . $bxAdressRq['ADDRESS_1'] . ', ';
-        }
-        if (!empty($bxAdressRq['ADDRESS_2'])) {
-            $advalue = $advalue . $bxAdressRq['ADDRESS_2'] . ', ';
-        }
-
-        return $advalue;
     }
 }
