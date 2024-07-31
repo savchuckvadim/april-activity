@@ -125,6 +125,30 @@ class ContractController extends Controller
 
                 ],
 
+                'currentComplect' => $currentComplect,
+                'products' => $products,
+                'consaltingProduct' => $consaltingProduct,
+                'lt' => $lt,
+                'starProduct' => $starProduct,
+                'contractType' => $contractType,
+                'contract' => $contract,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             ];
             $rqMethod = '/crm.requisite.list';
             $rqData = [
@@ -1564,33 +1588,33 @@ class ContractController extends Controller
         $ltPack = '';
         $ltBlocks = '';
 
-        if ($ltProduct) {
 
-            if (!empty($currentComplect['lt'])) {
-                $pack = $lt['packages'][count($currentComplect['lt'])];
-                if (!empty($pack)) {
-                    $freeLtPack =  $pack['fullName'];
-                }
 
-                foreach ($lt['value'] as $ltservice) {
-                    if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                        $freeLtBlocks = $freeLtBlocks . ' ' . $ltservice['name'];
-                    }
-                }
+        if (!empty($currentComplect['lt'])) {
+            $pack = $lt['packages'][count($currentComplect['lt'])];
+            if (!empty($pack)) {
+                $freeLtPack =  '$pack[' . ']';
             }
-            if (!empty($currentComplect['ltInPacket'])) {
-                $pack = $lt['packages'][count($currentComplect['ltInPacket'])];
-                if (!empty($pack)) {
-                    $ltPack =  $pack['fullName'];
-                }
 
-                foreach ($lt['value'] as $ltservice) {
-                    if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                        $ltBlocks = $ltBlocks . ' ' . $ltservice['name'];
-                    }
+            foreach ($lt['value'] as $ltservice) {
+                if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                    $freeLtBlocks = $freeLtBlocks . ' ' . $ltservice['name'];
                 }
             }
         }
+        if (!empty($currentComplect['ltInPacket'])) {
+            $pack = $lt['packages'][count($currentComplect['ltInPacket'])];
+            if (!empty($pack)) {
+                $ltPack =  $pack['fullName'];
+            }
+
+            foreach ($lt['value'] as $ltservice) {
+                if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
+                    $ltBlocks = $ltBlocks . ' ' . $ltservice['name'];
+                }
+            }
+        }
+
 
         if (!empty($contract))
 
