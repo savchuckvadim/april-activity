@@ -2007,6 +2007,8 @@ class ContractController extends Controller
             . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ', 
         именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании'
             . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
+
+            
         return $headerText;
     }
 
