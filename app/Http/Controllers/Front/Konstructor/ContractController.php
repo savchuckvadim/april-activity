@@ -1594,7 +1594,7 @@ class ContractController extends Controller
             $packWeight = count($currentComplect['lt']);
             $pack = $lt['packages'][$packWeight];
             // if (!empty($pack)) {
-            $freeLtPack =  '$pack[' . ']';
+            $freeLtPack =  $pack['fullName'];
             // }
 
             foreach ($lt['value'] as $ltservice) {
