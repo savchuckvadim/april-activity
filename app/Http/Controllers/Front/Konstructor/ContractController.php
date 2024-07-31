@@ -26,7 +26,7 @@ class ContractController extends Controller
         $data = $request->all();
         $domain = $data['domain'];
         $companyId = $data['companyId'];
-        $contractType = $data['contractType'];
+        $contractType = $data['contractType']; //service | product
 
         $contract = $data['contract'];
         $generalContractModel = $contract['contract'];
@@ -34,12 +34,14 @@ class ContractController extends Controller
 
         $productSet = $data['productSet'];
         $products = $data['products'];
-        $productName = $generalContractModel['productName'];
+        $contractProductName = $generalContractModel['productName'];
         $arows = $data['arows'];
 
-        $resultClientRq = null;
-        $resultClientAdressRq = null;
-        $resultClientBankRq = null;
+
+        $currentComplect = $data['complect']; //lt  //ltInPacket
+        $consaltingProduct = $data['consalting']['product'];
+        $lt = $data['legalTech'];
+        $starProduct = $data['star']['product'];
 
         try {
             $portal = Portal::where('domain', $domain)->first();
@@ -60,7 +62,12 @@ class ContractController extends Controller
                 ],
                 'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
                 'specification' => $this->getSpecification(
+                    $currentComplect,
                     $products,
+                    $consaltingProduct,
+                    $lt,
+                    $starProduct,
+                    $contractType, //service | product
                     $contract,
 
                     $arows,
@@ -210,13 +217,18 @@ class ContractController extends Controller
 
 
 
+
         $arows = $data['arows']; //все продукты rows из general в виде массива
         $total = $productSet['total'][0];
 
 
 
+
+        $contractGeneralFields = $data['contractBaseState']['items']; //fields array
+
         $contractClientState = $data['contractClientState']['client'];
-        $clientRq = $contractClientState['rqs']['rq'];
+        $clientRq = $contractClientState['rqs']['rq'];                //fields array
+        $clientRqBank = $contractClientState['rqs']['bank'];
 
         $providerState = $data['contractProviderState'];
 
@@ -245,14 +257,28 @@ class ContractController extends Controller
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
             $templateData = $this->getDocumentData(
+
                 $contractType,
-                $clientRq,
+
+                // header
+                $clientRq, //header and rq and general
                 $providerRq,
+
+                //  //specification 2 prices
                 $arows,
                 $total,
                 $contractProductName,
                 $isProduct,
-                $contractCoefficient
+                $contractCoefficient,
+
+                //specification 1 tech fields
+                $products,
+                $contractGeneralFields,
+                // $clientRq,
+                $clientRqBank,
+
+                // general dates and sums at body
+
             );
             //templatecontent
 
@@ -1437,8 +1463,18 @@ class ContractController extends Controller
     }
 
 
-    protected function getSpecification($products, $contract, $arows, $contractQuantity)
-    {
+    protected function getSpecification(
+        $currentComplect,
+        $products, //garant product or products from general garant only
+        $consaltingProduct,
+        $lt,
+        $starProduct,
+        $contractType, //service | product
+        $contract,
+
+        $arows,
+        $contractQuantity
+    ) {
 
         $productType = [
             'abs' => false,
@@ -1504,7 +1540,7 @@ class ContractController extends Controller
         $contractSupplyName = $product['contractSupplyName'];
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
         $contractSupplyPropEmail = $product['contractSupplyPropEmail'];
-        $contractConsaltingComment = $product['contractConsaltingComment'];
+        $consalting =  $contractConsaltingComment = $product['contractConsaltingComment'];
 
         foreach ($arows as $row) {
             if (!empty($row['price'])) {
@@ -1514,6 +1550,47 @@ class ContractController extends Controller
             }
         }
         $contractsum = $monthSum * 12;
+        $products_names = 'Гарант-' . $product['complectName'] . ' ' . $product['supply']['name'];
+        $consalting = '';
+        $consaltingcomment = '';
+        if ($consaltingProduct) {
+            $consalting = $consaltingProduct['contractConsaltingProp'];
+            $consaltingcomment = $consaltingProduct['contractConsaltingComment'];
+        }
+        $ltProduct = $lt['product'];
+
+        $freeLtPack = '';
+        $freeLtBlocks = '';
+        $ltPack = '';
+        $ltBlocks = '';
+
+        if ($ltProduct) {
+
+            if (!empty($currentComplect['lt'])) {
+                $pack = $lt['packages'][count($currentComplect['lt'])];
+                if (!empty($pack)) {
+                    $freeLtPack =  $pack['fullName'];
+                }
+
+                foreach ($lt['value'] as $ltservice) {
+                    if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                        $freeLtBlocks = $freeLtBlocks . ' ' . $ltservice['name'];
+                    }
+                }
+            }
+            if (!empty($currentComplect['ltInPacket'])) {
+                $pack = $lt['packages'][count($currentComplect['ltInPacket'])];
+                if (!empty($pack)) {
+                    $ltPack =  $pack['fullName'];
+                }
+
+                foreach ($lt['value'] as $ltservice) {
+                    if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
+                        $ltBlocks = $ltBlocks . ' ' . $ltservice['name'];
+                    }
+                }
+            }
+        }
 
         if (!empty($contract))
 
@@ -1521,7 +1598,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Наименование  комплекта частей  Справочника',
-                    'value' => '',
+                    'value' => $products_names,
                     'isRequired' => true,
                     'code' => 'contract_spec_products_names',
                     'group' => 'specification',
@@ -1553,7 +1630,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
-                    'value' => '',
+                    'value' => $consalting,
                     'isRequired' => true,
                     'code' => 'specification_pk',
                     'group' => 'specification',
@@ -1569,7 +1646,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Комментарий к ПК/ГЛ',
-                    'value' => $contractConsaltingComment,
+                    'value' => $consaltingcomment,
                     'isRequired' => true,
                     'code' => 'specification_pk_comment',
                     'group' => 'specification',
@@ -1649,11 +1726,11 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Legal Tech в комплекте',
-                    'value' => '',
+                    'value' =>  $freeLtPack . '' .  $freeLtBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => false,
                     'order' => 8,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -1665,11 +1742,11 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Пакет Legal Tech',
-                    'value' => '',
+                    'value' => $ltPack . '' .  $ltBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => true,
                     'order' => 9,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -1911,18 +1988,29 @@ class ContractController extends Controller
     //contract document data
     protected function getDocumentData(
         $contractType,
-        $clientRq,
+
+        // header
+        $clientRq, //header and rq and general
         $providerRq,
+
+        //  //specification 2 prices
         $arows,
         $total,
-        $contractName,
+        $contractProductName,
         $isProduct,
-        $contractCoefficient
+        $contractCoefficient,
+
+        //specification 1 tech fields
+        $products,
+        $contractGeneralFields,
+        // $clientRq,
+        $clientRqBank,
+
     ) {
 
         $products = $this->getProducts(
             $arows,
-            $contractName,
+            $contractProductName,
             $isProduct,
             $contractCoefficient
         );
@@ -1939,6 +2027,7 @@ class ContractController extends Controller
             // $providerCompanyDirectorPositionCase,
             // $providerCompanyBased,
         );
+        // $specification = 
 
         return [
             'products' =>  $products,
