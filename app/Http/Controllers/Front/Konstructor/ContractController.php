@@ -1599,7 +1599,7 @@ class ContractController extends Controller
 
             foreach ($lt['value'] as $ltservice) {
                 // if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                    $freeLtBlocks = $freeLtBlocks . ' ' . $ltservice['name'];
+                    $freeLtBlocks = $ltservice['name'];
                 // }
             }
         }
