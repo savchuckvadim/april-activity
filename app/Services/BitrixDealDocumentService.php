@@ -1033,7 +1033,12 @@ class BitrixDealDocumentService
                 if (isset($smart['crmId'])) {
                     $method = '/crm.item.list.json';
                     $url = $this->hook . $method;
-
+                    Log::channel('telegram')->error('APRIL_ONLINE', [
+                        $smart => [
+                            'smart' => $smart['error'],
+               
+                        ]
+                    ]);
                     if ($companyId) {
                         $data =  [
                             'entityTypeId' => $smart['crmId'],
