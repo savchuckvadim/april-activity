@@ -1597,11 +1597,14 @@ class ContractController extends Controller
             $freeLtPack =  $pack['fullName'];
             // }
 
-            foreach ($lt['value'] as $ltservice) {
-                // if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                    $freeLtBlocks = $ltservice['name'];
-                // }
+            foreach ($currentComplect['lt'] as $ltIndex) {
+                $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
             }
+            // foreach ($lt['value'] as $ltservice) {
+            //     // if (in_array($ltservice['number'], $currentComplect['lt'])) {
+            //         $freeLtBlocks = $ltservice['name'];
+            //     // }
+            // }
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
@@ -1613,9 +1616,14 @@ class ContractController extends Controller
 
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                    $ltBlocks = $ltBlocks . ' ' . $ltservice['name'];
+                    $ltBlocks .=  ' ' . $ltservice['name'];
+                 
                 }
             }
+
+            // foreach ($currentComplect['ltInPacket'] as $ltIndex) {
+            //     $freeLtBlocks .= ' ' . $lt['value'][$ltIndex]['name'];
+            // }
         }
 
 
