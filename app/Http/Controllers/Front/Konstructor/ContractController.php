@@ -1593,9 +1593,9 @@ class ContractController extends Controller
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
             $pack = $lt['packages'][$packWeight];
-            if (!empty($pack)) {
-                $freeLtPack =  '$pack[' . ']';
-            }
+            // if (!empty($pack)) {
+                $freeLtPack =  $pack;
+            // }
 
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['lt'])) {
@@ -1605,10 +1605,11 @@ class ContractController extends Controller
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
-            $pack = $lt['packages'][$packWeight];
-            if (!empty($pack)) {
+
+            $pack = $lt['packages'][2];
+            // if (!empty($pack)) {
                 $ltPack =  $pack['fullName'];
-            }
+            // }
 
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
