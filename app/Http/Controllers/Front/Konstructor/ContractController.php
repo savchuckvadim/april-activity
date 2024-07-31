@@ -131,7 +131,7 @@ class ContractController extends Controller
                 'lt' => $lt,
                 'starProduct' => $starProduct,
                 'contractType' => $contractType,
-                'contract' => $contract,
+      
 
 
 
