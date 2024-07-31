@@ -1598,15 +1598,15 @@ class ContractController extends Controller
             // }
 
             foreach ($lt['value'] as $ltservice) {
-                if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                // if (in_array($ltservice['number'], $currentComplect['lt'])) {
                     $freeLtBlocks = $freeLtBlocks . ' ' . $ltservice['name'];
-                }
+                // }
             }
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
 
-            $pack = $lt['packages'][2];
+            $pack = $lt['packages'][$packWeight];
             // if (!empty($pack)) {
             $ltPack =  $pack['fullName'];
             // }
