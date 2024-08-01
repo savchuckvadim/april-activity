@@ -90,53 +90,13 @@
                 $letterText = str_replace("\\n", "\n", $letterText);
 
                 // Разбиваем по тегам, сохраняя их в результате
-                // $parts = preg_split('/(<color>|<\/red>|<color>|<\/red>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
-                // $inHighlight = false;
-                // $inBold = false;
-                // $inRed = false;
-                $parts = preg_split(
-                    '/(<red>|<\/red>|<blue>|<\/blue>|<bold>|<\/bold>)/',
-                    $salePhraseText,
-                    -1,
-                    PREG_SPLIT_DELIM_CAPTURE,
-                );
-
-                $formattedText = '';
-                $currentTags = [];
-
-                foreach ($parts as $part) {
-                    switch ($part) {
-                        case '<red>':
-                        case '<blue>':
-                        case '<bold>':
-                            array_push($currentTags, trim($part, '<>'));
-                            break;
-                        case '</red>':
-                        case '</blue>':
-                        case '</bold>':
-                            array_pop($currentTags);
-                            break;
-                        default:
-                            // Обработка звездочек в начале строки и после переносов
-                            $part = preg_replace("/(^|\n)\*/m", "$1•", $part);
-                            if (!empty($currentTags)) {
-                                $class = implode(' ', $currentTags);
-                                $formattedText .= '<span class="' . $class . '">' . e($part) . '</span>';
-                            } else {
-                                $formattedText .= e($part);
-                            }
-                            break;
-                    }
-                }
-
-                // Добавление переносов строк
-                $formattedText = nl2br($formattedText);
-
+                $parts = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+                $inHighlight = false;
+                $inBold = false;
+                $inRed = false;
             @endphp
-            <span class="{{ $class }}">
-                {!! $formattedText !!}
-            </span>
-            {{-- @foreach ($parts as $part)
+
+            @foreach ($parts as $part)
                 @php
                     if ($part == '<color>') {
                         $inHighlight = true;
@@ -168,10 +128,11 @@
                     }
                 @endphp
 
+                {{-- Выводим содержимое $part с применением nl2br и экранированием --}}
                 <span class="{{ $class }}">
                     {!! nl2br(e($part)) !!}
                 </span>
-            @endforeach --}}
+            @endforeach
         </div>
     </div>
 </div>
