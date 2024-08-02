@@ -161,6 +161,7 @@ class ContractController extends Controller
             $responseData = Http::post($url,  $rqData);
 
             $rqResponse = BitrixController::getBitrixResponse($responseData, $rqMethod);
+            $clientRq = null;
             $clientRqBank = null;
             $clientRqAddress = null;
             //bank
