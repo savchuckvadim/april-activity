@@ -200,18 +200,21 @@ class ContractController extends Controller
                     $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
                 }
 
-                $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
-                $result['client'] = $client;
-                return APIController::getSuccess(
-                    [
-                        'init' => $result,
-                        // 'addressresponse' => $result['client']['address'],
-                        'clientRq' => $clientRq,
-                        'clientRqBank' => $clientRqBank,
-                        'clientRqAddress' => $clientRqAddress,
-                    ]
-                );
+               
             }
+
+            $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
+            $result['client'] = $client;
+            return APIController::getSuccess(
+                [
+                    'init' => $result,
+                    // 'addressresponse' => $result['client']['address'],
+                    // 'clientRq' => $clientRq,
+                    // 'clientRqBank' => $clientRqBank,
+                    // 'clientRqAddress' => $clientRqAddress,
+                ]
+            );
+
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
