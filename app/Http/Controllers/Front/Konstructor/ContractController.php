@@ -161,8 +161,8 @@ class ContractController extends Controller
             $responseData = Http::post($url,  $rqData);
 
             $rqResponse = BitrixController::getBitrixResponse($responseData, $rqMethod);
-
-
+            $clientRqBank = null;
+            $clientRqAddress = null;
             //bank
             if (!empty($rqResponse)) {
                 $clientRq = $rqResponse[0];
@@ -199,8 +199,6 @@ class ContractController extends Controller
                     $responseData = Http::post($url,  $addressData);
                     $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
                 }
-
-               
             }
 
             $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
@@ -214,7 +212,6 @@ class ContractController extends Controller
                     // 'clientRqAddress' => $clientRqAddress,
                 ]
             );
-
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
@@ -1605,7 +1602,7 @@ class ContractController extends Controller
             // }
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                    $freeLtBlocks .=  ' ' . $ltservice['name']. "\n";
+                    $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
                 }
             }
         }
@@ -1619,7 +1616,7 @@ class ContractController extends Controller
 
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                    $ltBlocks .=  '' . $ltservice['name']. "\n";;
+                    $ltBlocks .=  '' . $ltservice['name'] . "\n";;
                 }
             }
 
