@@ -955,206 +955,207 @@ class ContractController extends Controller
                 ],
             ]
         ];
+        if (!empty($bxRq)) {
 
-        foreach ($bxRq as $bxRqFieldName => $value) {
-            switch ($bxRqFieldName) {
-                case 'NAME': //Название реквизита. Обязательное поле.
+            foreach ($bxRq as $bxRqFieldName => $value) {
+                switch ($bxRqFieldName) {
+                    case 'NAME': //Название реквизита. Обязательное поле.
 
-                    break;
-                case 'RQ_NAME': //Ф.И.О.  физлица ип
+                        break;
+                    case 'RQ_NAME': //Ф.И.О.  физлица ип
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'fullname' || $result['rq'][$i]['code'] === 'personName') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'fullname' || $result['rq'][$i]['code'] === 'personName') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    // foreach ($result['rq'] as $rq) {
+                        // foreach ($result['rq'] as $rq) {
 
-                    //     if ($rq['code'] === 'fullname') {
-                    //         $rq['value'] = $value;
-                    //     }
+                        //     if ($rq['code'] === 'fullname') {
+                        //         $rq['value'] = $value;
+                        //     }
 
-                    //     if ($rq['code'] === 'personName') {
-                    //         $rq['value'] = $value;
-                    //     }
-                    // }
-                    break;
-                case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
-                    // foreach ($result['rq'] as $rq) {
-                    //     if ($rq['code'] === 'name') {
-                    //         $rq['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'name') {
-                            $result['rq'][$i]['value'] = $value;
+                        //     if ($rq['code'] === 'personName') {
+                        //         $rq['value'] = $value;
+                        //     }
+                        // }
+                        break;
+                    case 'RQ_COMPANY_NAME': //Сокращенное наименование организации.
+                        // foreach ($result['rq'] as $rq) {
+                        //     if ($rq['code'] === 'name') {
+                        //         $rq['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'name') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_COMPANY_FULL_NAME':
-                    // Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
+                        break;
+                    case 'RQ_COMPANY_FULL_NAME':
+                        // Log::channel('telegram')->info('ONLINE TEST', [$bxRqFieldName => $value]);
 
-                    // foreach ($result['rq'] as $rq) {
-                    //     if ($rq['code'] === 'fullname') {
-                    //         $rq['value'] = $value;
-                    //         Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $rq]);
-                    //     }
-                    // }
-                    // Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq']]);
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'fullname') {
-                            $result['rq'][$i]['value'] = $value;
+                        // foreach ($result['rq'] as $rq) {
+                        //     if ($rq['code'] === 'fullname') {
+                        //         $rq['value'] = $value;
+                        //         Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $rq]);
+                        //     }
+                        // }
+                        // Log::channel('telegram')->info('ONLINE TEST', ['$result rq' => $result['rq']]);
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'fullname') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_DIRECTOR': //Ген. директор.
+                        break;
+                    case 'RQ_DIRECTOR': //Ген. директор.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'director') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'director') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'accountant') {
-                            $result['rq'][$i]['value'] = $value;
+                        break;
+                    case 'RQ_ACCOUNTANT': // Гл. бухгалтер.
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'accountant') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    break;
-                case 'RQ_EMAIL':
+                        break;
+                    case 'RQ_EMAIL':
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'email') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'email') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    break;
-                case 'RQ_PHONE':
+                        break;
+                    case 'RQ_PHONE':
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'phone') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'phone') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    break;
+                        break;
 
 
-                    //fiz lic
-                case 'RQ_IDENT_DOC': //Вид документа.
+                        //fiz lic
+                    case 'RQ_IDENT_DOC': //Вид документа.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'document') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'document') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    break;
-                case 'RQ_IDENT_DOC_SER': //Серия.
+                        break;
+                    case 'RQ_IDENT_DOC_SER': //Серия.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'docSer') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'docSer') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_IDENT_DOC_NUM': // Номер.
+                        break;
+                    case 'RQ_IDENT_DOC_NUM': // Номер.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'docNum') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'docNum') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_IDENT_DOC_DATE': //Дата выдачи.
+                        break;
+                    case 'RQ_IDENT_DOC_DATE': //Дата выдачи.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'docDate') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'docDate') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'RQ_IDENT_DOC_ISSUED_BY': //Кем выдан.
+                    case 'RQ_IDENT_DOC_ISSUED_BY': //Кем выдан.
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'docIssuedBy') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'docIssuedBy') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'RQ_IDENT_DOC_DEP_CODE': //Код подразделения
+                    case 'RQ_IDENT_DOC_DEP_CODE': //Код подразделения
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'docDepCode') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'docDepCode') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
 
-                case 'RQ_INN':
+                    case 'RQ_INN':
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'inn') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'inn') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'RQ_KPP':
+                    case 'RQ_KPP':
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'kpp') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'kpp') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 'RQ_OGRN':
+                    case 'RQ_OGRN':
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'ogrn') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'ogrn') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
 
-                case 'RQ_OGRNIP':
+                    case 'RQ_OGRNIP':
 
 
-                    for ($i = 0; $i < count($result['rq']); $i++) {
-                        if ($result['rq'][$i]['code'] === 'ogrnip') {
-                            $result['rq'][$i]['value'] = $value;
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+                            if ($result['rq'][$i]['code'] === 'ogrnip') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
 
-                case 'RQ_OKPO':
-                    # code...
-                    break;
+                    case 'RQ_OKPO':
+                        # code...
+                        break;
 
-                case 'RQ_OKTMO':
-                    # code...
-                    break;
+                    case 'RQ_OKTMO':
+                        # code...
+                        break;
 
-                case 'RQ_OKVED':
-                    # code...
-                    break;
+                    case 'RQ_OKVED':
+                        # code...
+                        break;
 
-                default:
+                    default:
 
-                    break;
+                        break;
+                }
             }
         }
-
         if (!empty($bxAdressesRq) && is_array($bxAdressesRq)) {
             foreach ($bxAdressesRq as $bxAdressRq) {
                 $isRegisrted = false;
@@ -1214,96 +1215,98 @@ class ContractController extends Controller
                 }
             }
         }
+        if (!empty($bxBankRq)) {
 
-        foreach ($bxBankRq as $bxBankFieldName => $value) {
-            switch ($bxBankFieldName) {
-                case 'NAME': //Название реквизита. Обязательное поле.
-                    # code...
-                    break;
-                case 'RQ_BANK_NAME': //Ф.И.О.  физлица ип
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'bank') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bank') {
-                            $result['bank'][$i]['value'] = $value;
+            foreach ($bxBankRq as $bxBankFieldName => $value) {
+                switch ($bxBankFieldName) {
+                    case 'NAME': //Название реквизита. Обязательное поле.
+                        # code...
+                        break;
+                    case 'RQ_BANK_NAME': //Ф.И.О.  физлица ип
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'bank') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'bank') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
-                    break;
-                case 'RQ_BANK_ADDR': //Сокращенное наименование организации.
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'bankAdress') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bankAdress') {
-                            $result['bank'][$i]['value'] = $value;
+                        break;
+                    case 'RQ_BANK_ADDR': //Сокращенное наименование организации.
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'bankAdress') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'bankAdress') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
 
 
-                    break;
-                case 'RQ_BIK':
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'bik') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bik') {
-                            $result['bank'][$i]['value'] = $value;
+                        break;
+                    case 'RQ_BIK':
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'bik') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'bik') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_COR_ACC_NUM': //Ген. директор.
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'ks') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'ks') {
-                            $result['bank'][$i]['value'] = $value;
+                        break;
+                    case 'RQ_COR_ACC_NUM': //Ген. директор.
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'ks') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'ks') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'RQ_IBAN': // Гл. бухгалтер.
-                    # code...
-                    break;
-                case 'RQ_ACC_NUM':
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'rs') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'rs') {
-                            $result['bank'][$i]['value'] = $value;
+                        break;
+                    case 'RQ_IBAN': // Гл. бухгалтер.
+                        # code...
+                        break;
+                    case 'RQ_ACC_NUM':
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'rs') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'rs') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                case 'COMMENTS':
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'bankOther') {
-                    //         $bankRQ['value'] = $value;
-                    //     }
-                    // }
-                    for ($i = 0; $i < count($result['bank']); $i++) {
-                        if ($result['bank'][$i]['code'] === 'bankOther') {
-                            $result['bank'][$i]['value'] = $value;
+                        break;
+                    case 'COMMENTS':
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'bankOther') {
+                        //         $bankRQ['value'] = $value;
+                        //     }
+                        // }
+                        for ($i = 0; $i < count($result['bank']); $i++) {
+                            if ($result['bank'][$i]['code'] === 'bankOther') {
+                                $result['bank'][$i]['value'] = $value;
+                            }
                         }
-                    }
-                    break;
-                default:
-                    // foreach ($result['bank'] as $bankRQ) {
-                    //     if ($bankRQ['code'] === 'bankOther') {
-                    //         $rq['value'] = $rq['value'] . ' ' . $value;
-                    //     }
-                    // }
+                        break;
+                    default:
+                        // foreach ($result['bank'] as $bankRQ) {
+                        //     if ($bankRQ['code'] === 'bankOther') {
+                        //         $rq['value'] = $rq['value'] . ' ' . $value;
+                        //     }
+                        // }
+                }
             }
         }
         return ['rq' => $result['rq'], 'bank' => $result['bank']];
