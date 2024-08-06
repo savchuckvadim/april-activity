@@ -538,7 +538,7 @@ class ContractController extends Controller
                     'code' => 'role',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'rq',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => true,
                     'order' => 3
 
