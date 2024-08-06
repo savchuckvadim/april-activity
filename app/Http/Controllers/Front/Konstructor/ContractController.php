@@ -1485,6 +1485,8 @@ class ContractController extends Controller
                 'isDisable' => false,
                 'order' => 6,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service']
 
 
             ],
@@ -1895,7 +1897,7 @@ class ContractController extends Controller
 
 
                 ],
-                
+
                 [
                     'type' => 'text',
                     'name' => 'Носители, используемые при предоставлении услуг',
@@ -1994,7 +1996,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Длительность работы ключа',
-                    'value' => $generalProductQuantity *  $contractCoefficient. ' мес.',
+                    'value' => $generalProductQuantity *  $contractCoefficient . ' мес.',
                     'isRequired' => true,
                     'code' => 'specification_key_period',
                     'group' => 'specification',
@@ -2072,7 +2074,7 @@ class ContractController extends Controller
 
 
                 ],
-               
+
 
 
 
