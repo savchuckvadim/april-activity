@@ -626,7 +626,7 @@ class PDFDocumentController extends Controller
     {
         $isLargeLetterText = false;
 
-        if ($domain == 'april-garant.bitrix24.ru') {
+        if ($domain == 'april-garant.bitrix24.ru' || $domain == 'gsr.bitrix24.ru') {
             $isLargeLetterText = true;
         }
 
