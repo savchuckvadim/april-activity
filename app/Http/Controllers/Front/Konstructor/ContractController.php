@@ -42,7 +42,7 @@ class ContractController extends Controller
         $consaltingProduct = $data['consalting']['product'];
         $lt = $data['legalTech'];
         $starProduct = $data['star']['product'];
-
+        $documentInfoblocks =  $data['documentInfoblocks'];
         try {
             $portal = Portal::where('domain', $domain)->first();
 
@@ -71,7 +71,8 @@ class ContractController extends Controller
                     $contract,
 
                     $arows,
-                    $contractQuantity
+                    $contractQuantity,
+                    $documentInfoblocks
                 ),
                 'clientType' =>  [
                     'type' => 'select',
@@ -1498,10 +1499,15 @@ class ContractController extends Controller
         $lt,
         $starProduct,
         $contractType, //service | product
+        // SERVICE='service',
+        // ABON='abon',
+        // LIC='lic',
+        // KEY='key',
         $contract,
 
         $arows,
-        $contractQuantity
+        $contractQuantity,
+        $documentInfoblocks
     ) {
 
         $productType = [
@@ -1569,7 +1575,7 @@ class ContractController extends Controller
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
         $contractSupplyPropEmail = $product['contractSupplyPropEmail'];
         $consalting =  $contractConsaltingComment = $product['contractConsaltingComment'];
-
+        $supplyType = $product['supply']['type']; //internet | proxima
         foreach ($arows as $row) {
             if (!empty($row['price'])) {
                 $monthSum = (float)$monthSum  + (float)$row['price']['month'];
@@ -1620,7 +1626,7 @@ class ContractController extends Controller
 
             foreach ($lt['value'] as $ltservice) {
                 if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                    $ltBlocks .=  '' . $ltservice['name'] . "\n";;
+                    $ltBlocks .=  '' . $ltservice['name'] . "\n";
                 }
             }
 
@@ -1629,8 +1635,32 @@ class ContractController extends Controller
             // }
         }
 
+        $iblocks = $this->getContractIBlocks($documentInfoblocks);
 
-        if (!empty($contract))
+        if (!empty($contract)) {
+            if (!empty($contract['code'])) {
+                // INTERNET = 'internet',
+                // PROXIMA = 'proxima',
+                // ABON6 = 'abonHalf',
+                // ABON12 = 'abonYear',
+                // ABON24 = 'abonTwoYears',
+                // LIC = 'lic',
+                // LIC6 = 'licHalf',
+                // LIC12 = 'licYear',
+                // LIC24 = 'licTwoYears',
+
+                if ($contractType === 'service') {
+                    if ($contract['code'] == 'internet') {
+                    } else  if ($contract['code'] == 'proxima') {
+                    }
+                } else   if ($contractType === 'abon') {
+                } else   if ($contractType === 'lic') {
+                    if ($supplyType == 'internet') {
+                    } else   if ($supplyType == 'proxima') {
+                    }
+                } else   if ($contractType === 'key') {
+                }
+            }
 
             return [
                 [
@@ -1649,22 +1679,22 @@ class ContractController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Комментарий к наименованию',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'contract_spec_products_names_comment',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 1,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Комментарий к наименованию',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'contract_spec_products_names_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 1,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
@@ -1699,7 +1729,7 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Большие информацмонные блоки',
+                    'name' => 'Большие информационные блоки',
                     'value' => '',
                     'isRequired' => true,
                     'code' => 'specification_ibig',
@@ -1986,6 +2016,79 @@ class ContractController extends Controller
 
 
             ];
+        }
+    }
+
+    protected function getContractIBlocks($infoblocks)
+    {
+        $bigIBlocks = '';
+        $smallIBlocks = '';
+        $freeIBlocks = '';
+        $packIBlocks = '';
+        $starLtBlocks = '';
+
+        foreach ($infoblocks as $group) {
+            $isFree = false;
+            $isLegal = false;
+            $isStar = false;
+            $isConsalting = false;
+            $isERPackConsalting = false;
+            if ($group['groupsName'] == 'Без дополнительной оплаты') {
+                $isFree = true;
+            }
+            if ($group['groupsName'] == 'Legal Tech') {
+                $isLegal = true;
+            }
+            if ($group['groupsName'] == 'Пакет Энциклопедий решений') {
+                $isERPackConsalting = true;
+            }
+            if ($group['groupsName'] == 'Дополнительные программные продукты') {
+                $isStar = true;
+            }
+            if ($group['groupsName'] == 'Правовая Поддержка') {
+                $isConsalting = true;
+            }
+
+            foreach ($group['value'] as $iblock) {
+                $value = $iblock['name'];
+                if (!empty($iblock['title'])) {
+                    $value = $iblock['title'];
+                }
+
+                if (
+                    !$isFree &&
+                    !$isLegal &&
+                    !$isStar &&
+                    !$isConsalting &&
+                    !$isERPackConsalting
+                ) {
+
+
+
+                    if ($iblock['weight'] == 0.5) {
+                        // array_push($smallIBlocks, $value);
+                        $smallIBlocks .=  '' . $value . "\n";
+                    } else if ($iblock['weight'] >= 1) {
+                        $bigIBlocks .=  '' . $value . "\n";
+                        // array_push($bigIBlocks, $value);
+                    }
+                } else if ($isFree) {
+                      $freeIBlocks .=  '' . $value . "\n";
+                    // array_push($freeIBlocks, $value);
+                } else if ($isStar) {
+                      $starLtBlocks .=  '' . $value . "\n";
+                    // array_push($starLtBlocks, $value);
+                }
+            }
+        }
+        return [
+            'bigIBlocks' => $bigIBlocks,
+            'smallIBlocks' => $smallIBlocks,
+            'freeIBlocks' => $freeIBlocks,
+            'starLtBlocks' => $starLtBlocks,
+
+
+        ];
     }
 
 
