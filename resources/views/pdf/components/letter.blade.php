@@ -80,7 +80,7 @@
         @endif
 
         <div class="letter-text-wrapper">
-            @php
+            {{-- @php
                 $letterText = $letterData['text'];
                 $isLargeLetterText = $letterData['isLargeLetterText'];
                 $baseClass = 'text-normal';
@@ -132,10 +132,77 @@
                 @endphp
 
                 {{-- Выводим содержимое $part с применением nl2br и экранированием --}}
+            {{-- <span class="{{ $class }}">
+                {!! nl2br(e($part)) !!}
+            </span> --}}
+            {{-- @endforeach --}}
+
+            @php
+                $letterText = $letterData['text'];
+                $isLargeLetterText = $letterData['isLargeLetterText'];
+                $baseClass = 'text-normal';
+                if (!$isLargeLetterText) {
+                    $baseClass = 'text-large';
+                }
+                $letterText = str_replace("\\n", "\n", $letterText);
+
+                // Разбиваем по тегам, сохраняя их в результате
+                $parts = preg_split(
+                    '/(<color>|<\/color>|<red>|<\/red>|<bold>|<\/bold>)/',
+                    $letterText,
+                    -1,
+                    PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY,
+                );
+
+                // Удаляем пробелы до и после частей, чтобы избежать лишних пробелов
+                $parts = array_map('trim', $parts);
+
+                $inHighlight = false;
+                $inBold = false;
+                $inRed = false;
+            @endphp
+
+            @foreach ($parts as $part)
+                @php
+                    if ($part == '<color>') {
+                        $inHighlight = true;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '</color>') {
+                        $inHighlight = false;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '<red>') {
+                        $inRed = true;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '</red>') {
+                        $inRed = false;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '<bold>') {
+                        $inBold = true;
+                        continue; // Пропускаем сам тег
+                    } elseif ($part == '</bold>') {
+                        $inBold = false;
+                        continue; // Пропускаем сам тег
+                    }
+
+                    // Определяем классы для текущего фрагмента
+                    $class = $baseClass;
+                    if ($inHighlight) {
+                        $class .= ' color';
+                    }
+                    if ($inBold) {
+                        $class .= ' bold'; // Добавляем класс для жирного текста
+                    }
+                    if ($inRed) {
+                        $class .= ' red'; // Добавляем класс для красного текста
+                    }
+                @endphp
+
+                {{-- Выводим содержимое $part с применением nl2br и экранированием --}}
                 <span class="{{ $class }}">
                     {!! nl2br(e($part)) !!}
                 </span>
             @endforeach
+
         </div>
     </div>
 </div>
