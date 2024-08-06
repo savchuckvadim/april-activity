@@ -1860,7 +1860,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'text',
+                    'type' => 'string',
                     'name' => 'Вид Размещения',
                     'value' => $product['contractSupplyName'],
                     'isRequired' => true,
@@ -1996,7 +1996,7 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 20,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => [ 'key'],
+                    'contractType' => ['key'],
                     'supplies' => ['internet', 'proxima'],
 
 
@@ -2035,7 +2035,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
-                    'value' => $contractCoefficient,
+                    'value' => $generalProductQuantity *  $contractCoefficient,
                     'isRequired' => true,
                     'code' => 'abon_long',
                     'group' => 'specification',
@@ -2069,7 +2069,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Срок действия ключа доступа',
-                    'value' => $contractCoefficient,
+                    'value' =>  $generalProductQuantity *  $contractCoefficient,
                     'isRequired' => true,
                     'code' => 'key_long',
                     'group' => 'specification',
