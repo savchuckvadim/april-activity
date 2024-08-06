@@ -1860,7 +1860,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Вид Размещения',
                     'value' => $product['contractSupplyName'],
                     'isRequired' => true,
@@ -1876,7 +1876,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Примечание Вид Размещения',
                     'value' => $product['contractSupplyPropComment'],
                     'isRequired' => true,
@@ -1908,7 +1908,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Примечание Носители',
                     'value' => '',
                     'isRequired' => true,
@@ -1939,7 +1939,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Примечание к способу',
                     'value' => '',
                     'isRequired' => true,
@@ -1970,7 +1970,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Количество логинов и паролей ',
                     'value' => $contractSupplyPropLoginsQuantity,
                     'isRequired' => true,
@@ -1996,7 +1996,7 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 20,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['lic', 'abon', 'key'],
+                    'contractType' => [ 'key'],
                     'supplies' => ['internet', 'proxima'],
 
 
@@ -2017,7 +2017,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Email прмечание',
                     'value' => $contractSupplyPropEmail,
                     'isRequired' => true,
@@ -2051,7 +2051,7 @@ class ContractController extends Controller
 
 
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Срок действия лицензии, количество лицензий',
                     'value' => 'Количество лицензий: ' . $generalProductQuantity . "\n" . 'Срок действия лицензии: ' . $contractCoefficient . ' (месяц) ',
                     'isRequired' => true,
