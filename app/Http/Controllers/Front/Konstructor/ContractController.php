@@ -1929,7 +1929,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Носители дистрибутивов предоставляются следующим способом',
                     'value' => $contractSupplyProp2,
                     'isRequired' => true,
@@ -2018,8 +2018,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 21,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service'],
-                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
 
                 ],
                 [
@@ -2033,8 +2033,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 22,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['lic', 'abon', 'key'],
-                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
 
 
                 ],
