@@ -1902,8 +1902,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 14,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
                 ],
@@ -1918,7 +1918,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 15,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
                 ],
@@ -1933,8 +1934,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 16,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet', 'proxima'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
                 ],
@@ -1949,8 +1950,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 17,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet', 'proxima'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
                 ],
@@ -1965,8 +1966,8 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 18,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service'],
-                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic'],
+                    'supplies' => ['proxima'],
 
                 ],
                 [
