@@ -1749,7 +1749,7 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Малые информацмонные блоки',
+                    'name' => 'Малые информационные блоки',
                     'value' =>  $iblocks['smallIBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_ismall',
@@ -1850,7 +1850,7 @@ class ContractController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_services',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => true,
                     'order' => 11,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
