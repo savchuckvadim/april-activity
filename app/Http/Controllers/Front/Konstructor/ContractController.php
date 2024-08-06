@@ -1574,6 +1574,7 @@ class ContractController extends Controller
         $contractSupplyName = $product['contractSupplyName'];
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
         $contractSupplyPropEmail = $product['contractSupplyPropEmail'];
+
         $consalting =  $contractConsaltingComment = $product['contractConsaltingComment'];
         $supplyType = $product['supply']['type']; //internet | proxima
         foreach ($arows as $row) {
@@ -1730,7 +1731,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Большие информационные блоки',
-                    'value' => '',
+                    'value' => $iblocks['bigIBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_ibig',
                     'group' => 'specification',
@@ -1746,7 +1747,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Малые информацмонные блоки',
-                    'value' => '',
+                    'value' =>  $iblocks['smallIBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_ismall',
                     'group' => 'specification',
@@ -1762,7 +1763,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
-                    'value' => '',
+                    'value' => $iblocks['freeIBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_ifree',
                     'group' => 'specification',
@@ -1842,7 +1843,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Другие сервисы',
-                    'value' =>  '',
+                    'value' =>  $iblocks['starLtBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_services',
                     'group' => 'specification',
@@ -1858,7 +1859,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Вид Размещения',
-                    'value' => '',
+                    'value' => $product['contractSupplyName'],
                     'isRequired' => true,
                     'code' => 'specification_supply',
                     'group' => 'specification',
@@ -1874,7 +1875,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Примечание Вид Размещения',
-                    'value' =>  '',
+                    'value' => $product['contractSupplyPropComment'],
                     'isRequired' => true,
                     'code' => 'specification_supply_comment',
                     'group' => 'specification',
@@ -1998,7 +1999,7 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'string',
-                    'name' => 'Длительность работы ключа',
+                    'name' => 'Email прмечание',
                     'value' => $contractSupplyPropEmail,
                     'isRequired' => true,
                     'code' => 'specification_email_comment',
