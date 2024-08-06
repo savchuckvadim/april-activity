@@ -96,6 +96,11 @@
 
         }
 
+        .letterbold {
+            letter-spacing: 0.1mm;
+            font-weight: 500;
+        }
+
         .bold {
             font-weight: bold;
 
