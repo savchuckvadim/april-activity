@@ -1892,7 +1892,7 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Носители, используемые при предоставлении услуг',
                     'value' => '',
                     'isRequired' => true,
