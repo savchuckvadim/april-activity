@@ -1574,7 +1574,9 @@ class ContractController extends Controller
         $contractSupplyName = $product['contractSupplyName'];
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
         $contractSupplyPropEmail = $product['contractSupplyPropEmail'];
-
+        $contractCoefficient = $product['contractCoefficient'];
+        $generalProductQuantity = 1;
+        $contractSupplyPropLoginsQuantity = $product['contractSupplyPropLoginsQuantity'];
         $consalting =  $contractConsaltingComment = $product['contractConsaltingComment'];
         $supplyType = $product['supply']['type']; //internet | proxima
         foreach ($arows as $row) {
@@ -1582,6 +1584,7 @@ class ContractController extends Controller
                 $monthSum = (float)$monthSum  + (float)$row['price']['month'];
                 $prepaymentSum = (float)$prepaymentSum  + (float)$row['price']['sum'];
                 $prepaymentQuantity = (float)$contractQuantity * (float)$row['price']['quantity'];
+                $generalProductQuantity = (int)$row['price']['quantity'];
             }
         }
         $contractsum = $monthSum * 12;
@@ -1968,6 +1971,22 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'string',
+                    'name' => 'Количество логинов и паролей ',
+                    'value' => $contractSupplyPropLoginsQuantity,
+                    'isRequired' => true,
+                    'code' => 'specification_key_period',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 19,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+
+
+                ],
+                [
+                    'type' => 'string',
                     'name' => 'Длительность работы ключа',
                     'value' => $prepaymentQuantity . 'мес.',
                     'isRequired' => true,
@@ -1975,7 +1994,7 @@ class ContractController extends Controller
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
-                    'order' => 19,
+                    'order' => 20,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['lic', 'abon', 'key'],
                     'supplies' => ['internet', 'proxima'],
@@ -1991,7 +2010,7 @@ class ContractController extends Controller
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
-                    'order' => 20,
+                    'order' => 21,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['service'],
                     'supplies' => ['internet', 'proxima'],
@@ -2006,9 +2025,59 @@ class ContractController extends Controller
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
-                    'order' => 21,
+                    'order' => 22,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['lic', 'abon', 'key'],
+                    'supplies' => ['internet', 'proxima'],
+
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Срок действия абонемента',
+                    'value' => $contractCoefficient,
+                    'isRequired' => true,
+                    'code' => 'abon_long',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 23,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['abon'],
+                    'supplies' => ['internet'],
+
+
+                ],
+
+
+                [
+                    'type' => 'string',
+                    'name' => 'Срок действия лицензии, количество лицензий',
+                    'value' => 'Количество лицензий: ' . $generalProductQuantity . "\n" . 'Срок действия лицензии: ' . $contractCoefficient . ' (месяц) ',
+                    'isRequired' => true,
+                    'code' => 'lic_long',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 23,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['lic',],
+                    'supplies' => ['internet', 'proxima'],
+
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Срок действия ключа доступа',
+                    'value' => $contractCoefficient,
+                    'isRequired' => true,
+                    'code' => 'key_long',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 24,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['key'],
                     'supplies' => ['internet', 'proxima'],
 
 
@@ -2074,10 +2143,10 @@ class ContractController extends Controller
                         // array_push($bigIBlocks, $value);
                     }
                 } else if ($isFree) {
-                      $freeIBlocks .=  '' . $value . "\n";
+                    $freeIBlocks .=  '' . $value . "\n";
                     // array_push($freeIBlocks, $value);
                 } else if ($isStar) {
-                      $starLtBlocks .=  '' . $value . "\n";
+                    $starLtBlocks .=  '' . $value . "\n";
                     // array_push($starLtBlocks, $value);
                 }
             }
