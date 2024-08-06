@@ -1573,10 +1573,14 @@ class ContractController extends Controller
         $product = $products[0];
         $contractSupplyName = $product['contractSupplyName'];
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
-        $contractSupplyPropEmail = $product['contractSupplyPropEmail'];
+        $contractSupplyPropEmail = $product['contractSupplyPropEmail']; //коммент к email для интернет или для носителя флэш
         $contractCoefficient = $product['contractCoefficient'];
         $generalProductQuantity = 1;
         $contractSupplyPropLoginsQuantity = $product['contractSupplyPropLoginsQuantity'];
+        $contractSupplyProp1  = $product['contractSupplyProp1']; //носители
+        $contractSupplyProp2  = $product['contractSupplyProp2']; //способ доставки носителей
+
+
         $consalting =  $contractConsaltingComment = $product['contractConsaltingComment'];
         $supplyType = $product['supply']['type']; //internet | proxima
         foreach ($arows as $row) {
@@ -1891,10 +1895,11 @@ class ContractController extends Controller
 
 
                 ],
+                
                 [
                     'type' => 'text',
                     'name' => 'Носители, используемые при предоставлении услуг',
-                    'value' => '',
+                    'value' => $contractSupplyProp1,
                     'isRequired' => true,
                     'code' => 'specification_distributive',
                     'group' => 'specification',
@@ -1910,7 +1915,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Примечание Носители',
-                    'value' => '',
+                    'value' => $contractSupplyPropEmail,
                     'isRequired' => true,
                     'code' => 'specification_distributive_comment',
                     'group' => 'specification',
@@ -1926,7 +1931,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Носители дистрибутивов предоставляются следующим способом',
-                    'value' => '',
+                    'value' => $contractSupplyProp2,
                     'isRequired' => true,
                     'code' => 'specification_dway',
                     'group' => 'specification',
@@ -1939,22 +1944,22 @@ class ContractController extends Controller
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Примечание к способу',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'specification_dway_comment',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 17,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['proxima'],
-                    'contractType' => ['service', 'lic',  'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Примечание к способу',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'specification_dway_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 17,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['proxima'],
+                //     'contractType' => ['service', 'lic',  'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'Периодичность предоставления услуг',
@@ -1975,7 +1980,7 @@ class ContractController extends Controller
                     'name' => 'Количество логинов и паролей ',
                     'value' => $contractSupplyPropLoginsQuantity,
                     'isRequired' => true,
-                    'code' => 'specification_key_period',
+                    'code' => 'specification_supply_quantity',
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
@@ -1989,7 +1994,7 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'Длительность работы ключа',
-                    'value' => $prepaymentQuantity . 'мес.',
+                    'value' => $generalProductQuantity *  $contractCoefficient. ' мес.',
                     'isRequired' => true,
                     'code' => 'specification_key_period',
                     'group' => 'specification',
@@ -2067,22 +2072,7 @@ class ContractController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Срок действия ключа доступа',
-                    'value' =>  $generalProductQuantity *  $contractCoefficient,
-                    'isRequired' => true,
-                    'code' => 'key_long',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 24,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['key'],
-                    'supplies' => ['internet', 'proxima'],
-
-
-                ],
+               
 
 
 
