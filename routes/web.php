@@ -79,11 +79,11 @@ Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, 
     //     'token' => $token,
     // ]);
 
-    // if ($pass == 'nmbrsdntl' && $domain) {
-    //     return ListController::setLists($token, $domain);
-    // } else {
+    if ($pass == 'nmbrsdntl' && $domain) {
+        return ListController::setLists($token, $domain);
+    } else {
     return 'yo';
-    // }
+    }
 });
 
 
