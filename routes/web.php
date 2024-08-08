@@ -36,11 +36,11 @@ Route::get('/link/{linkId}', function ($linkId) {
 
 Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
-    // if ($pass == 'nmbrsdntl') {
-    //     return InstallDealController::installDealCtaegories($domain, $token);
-    // } else {
-    return 'yo';
-    // }
+    if ($pass == 'nmbrsdntl') {
+        return InstallDealController::installDealCtaegories($domain, $token);
+    } else {
+        return 'yo';
+    }
 });
 
 Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
@@ -79,11 +79,11 @@ Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, 
     //     'token' => $token,
     // ]);
 
-    if ($pass == 'nmbrsdntl' && $domain) {
-        return ListController::setLists($token, $domain);
-    } else {
+    // if ($pass == 'nmbrsdntl' && $domain) {
+    //     return ListController::setLists($token, $domain);
+    // } else {
     return 'yo';
-    }
+    // }
 });
 
 
@@ -95,7 +95,7 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // if ($pass == 'nmbrsdntl') {
     //     return InstallRPAController::installRPA($domain, $token);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
 
