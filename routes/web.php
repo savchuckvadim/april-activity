@@ -47,11 +47,11 @@ Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     // return 'yo';
 
-    // if ($pass == 'nmbrsdntl') {
-    //     return InstallController::installSmart($token);
-    // } else {
-    return 'yo';
-    // }
+    if ($pass == 'nmbrsdntl') {
+        return InstallController::installSmart($token);
+    } else {
+        return 'yo';
+    }
 });
 
 
