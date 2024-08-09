@@ -1731,7 +1731,7 @@ class BitrixController extends Controller
 
 
         if ($domain === 'april-dev.bitrix24.ru') {
-            $stage = "C37:OFFER_CREATE";
+            $stage = "C357:OFFER_CREATE";
         } else if ($domain === 'gsr.bitrix24.ru') {
             $stage = "C91:OFFER_CREATE";
         } else {
