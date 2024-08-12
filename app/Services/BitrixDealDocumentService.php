@@ -242,17 +242,18 @@ class BitrixDealDocumentService
 
     public function getDocuments()
     {
+        $result = [
+            'offerLink' => '',
+            'link' => '',
+            'invoiceLinks' => [],
+            'links' => [],
+        ];
         try {
             //code...
 
 
             $data = $this->data;
-            $result = [
-                'offerLink' => '',
-                'link' => '',
-                'invoiceLinks' => [],
-                'links' => [],
-            ];
+         
             $isNeedPdfOffer = false;
             if (isset($data['isWord'])) {
                 if ($data['isWord'] == true) {
@@ -441,14 +442,14 @@ class BitrixDealDocumentService
     {
 
 
-
+        $link = '';
         try {
             $data = $this->data;
             $documentNumber = $this->documentInvoiceNumber;
             $headerData  = $this->headerData;
             $doubleHeaderData  = $this->doubleHeaderData;
             $stampsData  =   $this->getStampsData(true);
-            $link = '';
+           
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {

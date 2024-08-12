@@ -408,7 +408,7 @@ class BitrixController extends Controller
         $errors = [];
         $responses = [];
         $result = [];
-
+        $batchResults = null;
         try {
             $domain = $request['domain'];
             $userFieldId = $request['filters']['userFieldId'];
@@ -1726,7 +1726,7 @@ class BitrixController extends Controller
     {
         $method = '/crm.deal.update.json';
         // $bitrixController = new BitrixController();
-        if ($domain !== 'april-dev.bitrix24.ru') {
+        if ($domain !== 'april-dev.bitrix24.ru' && $domain !== 'gsr.bitrix24.ru') {
 
             if ($domain === 'april-dev.bitrix24.ru') {
                 $stage = "C363:OFFER_CREATE";
