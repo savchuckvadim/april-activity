@@ -157,7 +157,7 @@ class BitrixController extends Controller
 
     //         if (isset($response['result'])) {
 
-      
+
     //             return $response['result'];
     //         } else {
     //             if (isset($response['error_description'])) {
@@ -615,9 +615,7 @@ class BitrixController extends Controller
 
 
     //protected report inner methods
-    protected function getReportCallings($userId)
-    {
-    }
+    protected function getReportCallings($userId) {}
     protected function getReportLists(
         $domain,
         $userFieldId,
@@ -1528,7 +1526,7 @@ class BitrixController extends Controller
                         'RESPONSIBLE_ID',
                         'CREATED_BY',
                         'TITLE',
-                    
+
                     ],
 
                     // 'RESPONSIBLE_LAST_NAME' => $userId,
@@ -1728,65 +1726,66 @@ class BitrixController extends Controller
     {
         $method = '/crm.deal.update.json';
         // $bitrixController = new BitrixController();
+        if ($domain !== 'april-dev.bitrix24.ru') {
 
-
-        if ($domain === 'april-dev.bitrix24.ru') {
-            $stage = "C363:OFFER_CREATE";
-        } else if ($domain === 'gsr.bitrix24.ru') {
-            $stage = "C97:OFFER_CREATE";
-        } else {
-            if ($stage === 'offer') {
-                $stage = "C6:PREPARATION";
-                if ($domain == 'alfacentr.bitrix24.ru') {
-                    $stage = "C8:PREPARATION";
-                } else if ($domain == 'gsirk.bitrix24.ru') {
-                    $stage = "C3:PREPARATION";
-                } else if ($domain == 'april-garant.bitrix24.ru') {
+            if ($domain === 'april-dev.bitrix24.ru') {
+                $stage = "C363:OFFER_CREATE";
+            } else if ($domain === 'gsr.bitrix24.ru') {
+                $stage = "C97:OFFER_CREATE";
+            } else {
+                if ($stage === 'offer') {
                     $stage = "C6:PREPARATION";
-                }
-            } else   if ($stage === 'invoice') {
-                $stage = "C6:PREPARATION";
-                if ($domain == 'alfacentr.bitrix24.ru') {
-                    $stage = "C8:PREPAYMENT_INVOICE";
-                } else if ($domain == 'gsirk.bitrix24.ru') {
-                    $stage = "C3:1";
-                } else if ($domain == 'april-garant.bitrix24.ru') {
-                    $stage = "C6:13";
-                }
-            }
-        }
-
-        //TODO IF INVOICE
-        // C8:PREPAYMENT_INVOICE
-
-
-
-
-
-        try {
-            $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
-
-            $url = $hook . $method;
-            $fields = [
-                "STAGE_ID" => $stage,
-                // "PROBABILITY" => 70
-            ];
-            $data = [
-                'id' => $dealId,
-                'fields' => $fields
-            ];
-            $response = Http::get($url, $data);
-            if ($response) {
-                if (isset($response['result'])) {
-                    return APIController::getSuccess($response['result']);
-                } else {
-                    if (isset($response['error_description'])) {
-                        return APIController::getError($response['error_description'], ['data' => [$domain, $dealId]]);
+                    if ($domain == 'alfacentr.bitrix24.ru') {
+                        $stage = "C8:PREPARATION";
+                    } else if ($domain == 'gsirk.bitrix24.ru') {
+                        $stage = "C3:PREPARATION";
+                    } else if ($domain == 'april-garant.bitrix24.ru') {
+                        $stage = "C6:PREPARATION";
+                    }
+                } else   if ($stage === 'invoice') {
+                    $stage = "C6:PREPARATION";
+                    if ($domain == 'alfacentr.bitrix24.ru') {
+                        $stage = "C8:PREPAYMENT_INVOICE";
+                    } else if ($domain == 'gsirk.bitrix24.ru') {
+                        $stage = "C3:1";
+                    } else if ($domain == 'april-garant.bitrix24.ru') {
+                        $stage = "C6:13";
                     }
                 }
             }
-        } catch (\Throwable $th) {
-            return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId]]);
+
+            //TODO IF INVOICE
+            // C8:PREPAYMENT_INVOICE
+
+
+
+
+
+            try {
+                $hook = BitrixController::getHook($domain); // Предполагаем, что функция getHookUrl уже определена
+
+                $url = $hook . $method;
+                $fields = [
+                    "STAGE_ID" => $stage,
+                    // "PROBABILITY" => 70
+                ];
+                $data = [
+                    'id' => $dealId,
+                    'fields' => $fields
+                ];
+                $response = Http::get($url, $data);
+                if ($response) {
+                    if (isset($response['result'])) {
+                        return APIController::getSuccess($response['result']);
+                    } else {
+                        if (isset($response['error_description'])) {
+                            return APIController::getError($response['error_description'], ['data' => [$domain, $dealId]]);
+                        }
+                    }
+                }
+            } catch (\Throwable $th) {
+                return APIController::getError($th->getMessage(), ['data' => [$domain, $dealId]]);
+            }
         }
     }
 }
