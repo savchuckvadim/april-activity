@@ -162,8 +162,8 @@ class InstallFieldsController extends Controller
             // Проверка на массив
             // if (!empty($googleData['fields'])) {
             $fields = $googleData['fields'];
-            dd($fields);
-            echo memory_get_usage();
+            // dd($fields);
+            // echo memory_get_usage();
             // foreach ($fields as $field) {
 
             //     $multiple = "N";
