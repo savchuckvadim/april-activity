@@ -62,7 +62,7 @@ Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', fun
     $token,
     $smartId = null
 ) {
-    $url = LinkController::urlForRedirect($linkId);
+    // $url = LinkController::urlForRedirect($linkId);
     if ($pass == 'nmbrsdntl') {
         return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
     } else {
