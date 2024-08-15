@@ -801,37 +801,78 @@ class InstallFieldsController extends Controller
 
                         $resultList = [];
 
+                        // if (!empty($updtedField['LIST'])) {
+                        //     foreach ($updtedField['LIST'] as $currentBtxItem) {
+                        //         $searchingItem = null;
+                        //         foreach ($field['list'] as $gooItem) {
+                        //             // определяем элементы которые надо отредактировать
+                        //             // if(isset($currentBtxItem['XML_ID'])){
+                        //             $gooItem['VALUE'] = preg_replace('/[\x00-\x1F\x7F]/', '', $gooItem['VALUE']);
+                        //             if ($gooItem['VALUE'] === $currentBtxItem['VALUE']) {
+                        //                 // $gooItem['ID'] == $currentBtxItem['ID'];
+                        //                 $searchingItem = [
+                        //                     ...$gooItem,
+                        //                     'ID' => $currentBtxItem['ID']
+                        //                 ];
+                        //             }
+
+                        //             // }
+
+                        //         }
+                        //         if (!$searchingItem) {
+
+                        //             $currentBtxItem['DEL'] = 'Y';
+                        //             $searchingItem = $currentBtxItem;
+                        //         }
+                        //         array_push($resultList, $gooItem);
+                        //     }
+                        //     dd($field['list']);
+                        //     foreach ($field['list'] as $gooItem) {
+                        //         foreach ($resultList as $resItem) {
+                        //             if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
+                        //                 array_push($resultList, $gooItem);
+                        //             }
+                        //         }
+                        //     }
+                        // } 
                         if (!empty($updtedField['LIST'])) {
                             foreach ($updtedField['LIST'] as $currentBtxItem) {
                                 $searchingItem = null;
                                 foreach ($field['list'] as $gooItem) {
-                                    // определяем элементы которые надо отредактировать
-                                    // if(isset($currentBtxItem['XML_ID'])){
+                                    // Очистка значений от не печатных символов
                                     $gooItem['VALUE'] = preg_replace('/[\x00-\x1F\x7F]/', '', $gooItem['VALUE']);
+
                                     if ($gooItem['VALUE'] === $currentBtxItem['VALUE']) {
-                                        // $gooItem['ID'] == $currentBtxItem['ID'];
+                                        // Если значение найдено, создаем обновленный элемент
                                         $searchingItem = [
                                             ...$gooItem,
                                             'ID' => $currentBtxItem['ID']
                                         ];
+                                        break; // Прекращаем цикл, так как элемент найден
                                     }
-
-                                    // }
-
                                 }
-                                if (!$searchingItem) {
 
+                                // Если элемент не найден, помечаем его на удаление
+                                if (!$searchingItem) {
                                     $currentBtxItem['DEL'] = 'Y';
                                     $searchingItem = $currentBtxItem;
                                 }
-                                array_push($resultList, $gooItem);
+
+                                // Добавляем результат в массив
+                                $resultList[] = $searchingItem;
                             }
-                            dd($field['list']);
+
+                            // Оптимизированный проход по массиву
                             foreach ($field['list'] as $gooItem) {
+                                $found = false;
                                 foreach ($resultList as $resItem) {
-                                    if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
-                                        array_push($resultList, $gooItem);
+                                    if ($resItem['XML_ID'] === $gooItem['XML_ID']) {
+                                        $found = true;
+                                        break;
                                     }
+                                }
+                                if (!$found) {
+                                    $resultList[] = $gooItem;
                                 }
                             }
                         } else {
