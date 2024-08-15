@@ -93,7 +93,7 @@ class InstallFieldsController extends Controller
         $responseData = null;
         try {
             $hook = BitrixController::getHook($domain);
-
+            ini_set('memory_limit', '1G');
             // $fields = [ //string
             //     "FIELD_NAME" => "MY_STRING",
             //     "EDIT_FORM_LABEL" => "Моя строка",
