@@ -826,7 +826,7 @@ class InstallFieldsController extends Controller
                                 }
                                 array_push($resultList, $gooItem);
                             }
-
+                            dd($field['list']);
                             foreach ($field['list'] as $gooItem) {
                                 foreach ($resultList as $resItem) {
                                     if ($resItem['XML_ID'] !== $gooItem['XML_ID']) {
