@@ -27,7 +27,7 @@ class InstallFieldsController extends Controller
         $domain,
         $btxSmart = null,
         $portalSmart = null
-        
+
         // $parentType, //deal company lead smart list
         // $type, //select, date, string,
         // $title, //отображаемое имя
@@ -89,7 +89,7 @@ class InstallFieldsController extends Controller
     // portal->deal->where('group', 'sales')->first()
 
     {
-    
+
         $responseData = null;
         try {
             $hook = BitrixController::getHook($domain);
@@ -162,8 +162,8 @@ class InstallFieldsController extends Controller
             // Проверка на массив
             // if (!empty($googleData['fields'])) {
             $fields = $googleData['fields'];
-
-
+            dd($fields);
+            echo memory_get_usage();
             // foreach ($fields as $field) {
 
             //     $multiple = "N";
