@@ -63,11 +63,11 @@ Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', fun
     $smartId = null
 ) {
     // $url = LinkController ::urlForRedirect($linkId);
-    if ($pass == 'nmbrsdntl') {
-        return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
-    } else {
-        return 'yo';
-    }
+    // if ($pass == 'nmbrsdntl') {
+    //     return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
+    // } else {
+    return 'yo';
+    // }
 });
 
 
@@ -95,7 +95,7 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // if ($pass == 'nmbrsdntl') {
     //     return InstallRPAController::installRPA($domain, $token);
     // } else {
-    return 'yo';
+        return 'yo';
     // }
 });
 
