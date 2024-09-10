@@ -142,7 +142,6 @@ class ContractController extends Controller
 
             if (!empty($isSupplyReport)) {
                 $result['supply'] = $this->getSupplyReportData();
-
             }
 
             $rqMethod = '/crm.requisite.list';
@@ -2077,9 +2076,8 @@ class ContractController extends Controller
         }
     }
 
-    protected function getSupplyReportData(
-     
-    ) {
+    protected function getSupplyReportData()
+    {
 
 
 
@@ -2118,9 +2116,34 @@ class ContractController extends Controller
 
             // ],
             [
-                'type' => 'boolean',
+                'type' => 'select',
                 'name' => 'Передана в ОРК',
-                'value' => false,
+
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'Да',
+                    'title' => 'Да'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'yes',
+                        'name' => 'Да',
+                        'title' => 'Да'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
+                    ],
+
+                ],
+
+
                 'isRequired' => true,
                 'code' => 'in_ork',
                 'group' => 'supply',
@@ -2166,9 +2189,32 @@ class ContractController extends Controller
 
             ],
             [
-                'type' => 'bolean',
+                'type' => 'select',
                 'name' => 'Создавался ли Договор',
-                'value' => false,
+                'type' => 'select',
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'Да',
+                    'title' => 'Да'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'yes',
+                        'name' => 'Да',
+                        'title' => 'Да'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
+                    ],
+
+                ],
                 'isRequired' => true,
                 'code' => 'is_contract_done',
                 'group' => 'supply',
@@ -2215,9 +2261,32 @@ class ContractController extends Controller
             ],
 
             [
-                'type' => 'boolean',
+                'type' => 'select',
                 'name' => 'Создавался ли Счет',
-                'value' => false,
+                'type' => 'select',
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'Да',
+                    'title' => 'Да'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'yes',
+                        'name' => 'Да',
+                        'title' => 'Да'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
+                    ],
+
+                ],
                 'isRequired' => true,
                 'code' => 'is_invoice_done',
                 'group' => 'supply',
