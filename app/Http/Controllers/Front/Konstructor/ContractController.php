@@ -473,8 +473,8 @@ class ContractController extends Controller
 
             'sizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
             'sizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
-            'marginLeft' => Converter::inchToTwip(0.5),       // левый отступ
-            'marginRight' => Converter::inchToTwip(0.5),      // правый отступ
+            'marginLeft' => Converter::inchToTwip(0.2),       // левый отступ
+            'marginRight' => Converter::inchToTwip(0.2),      // правый отступ
             'table' => [
                 'borderSize' => $baseBorderSize,
                 'borderColor' => '000000',
