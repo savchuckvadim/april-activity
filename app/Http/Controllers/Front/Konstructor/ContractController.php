@@ -556,11 +556,11 @@ class ContractController extends Controller
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
             // Добавляем ячейку со значением (value)
-            $table->addCell($colWidth, $page['cell']);
+            $cell = $table->addCell($colWidth, $page['cell']);
 
             $innerTable = $cell->addTable($page['inner']['table']);
             $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
+            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
         }
     }
     public function get($portalContractId) //by id
