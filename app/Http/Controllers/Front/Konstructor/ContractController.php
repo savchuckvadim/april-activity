@@ -2598,7 +2598,7 @@ class ContractController extends Controller
 
             ],
             [
-                'type' => 'text',
+                'type' => 'select',
                 'name' => 'Особенности оплаты клиентом счетов',
                 'value' => [
                     'id' => 1,
