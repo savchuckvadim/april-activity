@@ -421,7 +421,14 @@ class ContractController extends Controller
 
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
+        $this->getTable($contractGeneralFields, $section);
+        $section->addPageBreak();
+        $this->getTable($clientRq, $section);
+        $section->addPageBreak();
+        $this->getTable($clientRqBank, $section);
+        $section->addPageBreak();
         $this->getTable($supply, $section);
+        $section->addPageBreak();
         //create document
 
 
