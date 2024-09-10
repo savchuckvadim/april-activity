@@ -433,6 +433,7 @@ class ContractController extends Controller
         foreach ($supply as $item) {
             // Если это первый элемент строки, создаем новую строку
 
+            $table->addRow();
 
             // Добавляем ячейку в текущую строку
             $value = $item['value'];
