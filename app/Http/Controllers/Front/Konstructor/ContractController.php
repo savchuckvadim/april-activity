@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Ramsey\Uuid\Uuid;
 
 class ContractController extends Controller
 {
@@ -215,6 +217,19 @@ class ContractController extends Controller
         }
     }
 
+    public function getDocument(Request $request)
+    {
+
+        $data = $request->all();
+
+        if (!empty($data['isSupplyReport'])) {
+
+            return $this->getSupplyDocument($request);
+        } else {
+
+            return $this->getContractDocument($request);
+        }
+    }
     public function getContractDocument(Request $request)
     {
         $contractLink = '';
@@ -360,7 +375,109 @@ class ContractController extends Controller
     }
 
 
+    public function getSupplyDocument(Request $request)
+    {
+        $contractLink = '';
+        $data = $request->all();
+        $domain = $data['domain'];
+        $companyId = $data['companyId'];
+        $contractType = $data['contractType'];
 
+        $contract = $data['contract'];
+        $generalContractModel = $contract['contract'];
+        $contractQuantity = $generalContractModel['coefficient'];
+
+        $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
+
+        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
+        $isProduct = $contractType !== 'service';
+        $contractCoefficient = $contract['prepayment'];
+
+
+
+
+        $arows = $data['arows']; //все продукты rows из general в виде массива
+        $total = $productSet['total'][0];
+
+
+
+
+        $contractGeneralFields = $data['contractBaseState']['items']; //fields array
+
+        $contractClientState = $data['contractClientState']['client'];
+        $clientRq = $contractClientState['rqs']['rq'];                //fields array
+        $clientRqBank = $contractClientState['rqs']['bank'];
+
+        $providerState = $data['contractProviderState'];
+
+        $providerRq = $providerState['current']['rq'];
+
+        $supply = $data['supplyReport'];
+
+
+        $documentNumber = 780;
+
+        $document = new \PhpOffice\PhpWord\PhpWord();
+
+
+        //create document
+        $section = $document->addSection();
+
+        $table = $section->addTable();
+
+        // Переменная для отслеживания текущего индекса
+        $currentColumn = 0;
+
+        // Перебираем все элементы
+        foreach ($supply as $item) {
+            // Если это первый элемент строки, создаем новую строку
+
+
+            // Добавляем ячейку в текущую строку
+            $value = $item['value'];
+            if (isset($value['title'])) {
+                $value = $value['title'];
+            }
+            // Добавляем ячейку с названием (title)
+            $table->addCell(3000)->addText($item['title']);
+
+            // Добавляем ячейку со значением (value)
+            $table->addCell(3000)->addText($item['value']);
+        }
+
+        // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
+
+
+        // Сохраняем файл Word в формате .docx
+        $uid = Uuid::uuid4()->toString();
+        $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/supplies/' . $data['userId']);
+
+
+
+        if (!file_exists($resultPath)) {
+            mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+        }
+
+        // // Проверить доступность каталога для записи
+        if (!is_writable($resultPath)) {
+            throw new \Exception("Невозможно записать в каталог: $resultPath");
+        }
+        $resultFileName = $documentNumber . '_' . $shortUid . 'supply_report.docx';
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+
+        $objWriter->save($resultPath . '/' . $resultFileName);
+
+        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+        $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+
+        return APIController::getSuccess(
+            ['contractData' => $data, 'link' => $contractLink,]
+        );
+    }
 
     public function get($portalContractId) //by id
     {
@@ -2159,7 +2276,7 @@ class ContractController extends Controller
             [
                 'type' => 'select',
                 'name' => 'Занесена в АРМ',
-              
+
                 'value' =>  [
                     'id' => 0,
                     'code' => 'yes',
