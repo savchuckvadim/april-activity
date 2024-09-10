@@ -43,6 +43,10 @@ class ContractController extends Controller
         $lt = $data['legalTech'];
         $starProduct = $data['star']['product'];
         $documentInfoblocks =  $data['documentInfoblocks'];
+        $isSupplyReport = false;
+        if (!empty($data['isSupplyReport'])) {
+            $isSupplyReport = true;
+        }
         try {
             $portal = Portal::where('domain', $domain)->first();
 
@@ -134,23 +138,13 @@ class ContractController extends Controller
                 'contractType' => $contractType,
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             ];
+
+            if (!empty($isSupplyReport)) {
+                $result['supply'] = $this->getSupplyReportData();
+
+            }
+
             $rqMethod = '/crm.requisite.list';
             $rqData = [
                 'filter' => [
@@ -371,8 +365,9 @@ class ContractController extends Controller
 
     public function get($portalContractId) //by id
     {
+        $portalContract = PortalContract::find($portalContractId);
+
         try {
-            $portalContract = PortalContract::find($portalContractId);
 
             if ($portalContract) {
                 // $resultSmart = new SmartResource($rpa);
@@ -2082,6 +2077,461 @@ class ContractController extends Controller
         }
     }
 
+    protected function getSupplyReportData(
+     
+    ) {
+
+
+
+        return [
+            [
+                'type' => 'date',
+                'name' => 'Дата продажи',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'sale_date',
+
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 0,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'group' => 'supply',
+
+
+            ],
+            // [
+            //     'type' => 'string',
+            //     'name' => 'Комментарий к наименованию',
+            //     'value' => '',
+            //     'isRequired' => true,
+            //     'code' => 'contract_spec_products_names_comment',
+            //     'group' => 'specification',
+            //     'isActive' => true,
+            //     'isDisable' => false,
+            //     'order' => 1,
+            //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+            //     'supplies' => ['internet', 'proxima'],
+            //     'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+            // ],
+            [
+                'type' => 'boolean',
+                'name' => 'Передана в ОРК',
+                'value' => false,
+                'isRequired' => true,
+                'code' => 'in_ork',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 2,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Занесена в АРМ',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'in_arm',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 3,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Менеджер отдела продаж',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'manager',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'bolean',
+                'name' => 'Создавался ли Договор',
+                'value' => false,
+                'isRequired' => true,
+                'code' => 'is_contract_done',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Дата и номер договора',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_number',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 6,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Судьба договора',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_result',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 7,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+
+            [
+                'type' => 'boolean',
+                'name' => 'Создавался ли Счет',
+                'value' => false,
+                'isRequired' => true,
+                'code' => 'is_invoice_done',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 8,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Дата и номер счета',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'invoice_number',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 9,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Его судьба',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'invoice_result',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 10,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Дата оплаты Счета',
+                'value' =>  '',
+                'isRequired' => true,
+                'code' => 'invoice_pay_date',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => true,
+                'order' => 11,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Клиент ждет звонка от менеджера ОРК',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'client_call_date',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 12,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Компания в битрикс',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'bitrix_company',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 13,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+
+            [
+                'type' => 'string',
+                'name' => 'Сделка в битрикс',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'bitrix_deal',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 14,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Источник',
+                'value' => "",
+                'isRequired' => true,
+                'code' => 'source',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 15,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'select',
+                'name' => 'Регион',
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'org',
+                    'name' => 'Организация Коммерческая',
+                    'title' => 'Организация Коммерческая'
+                ],
+                'isRequired' => true,
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'ro',
+                        'name' => 'РО',
+                        'title' => 'РО'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'ko',
+                        'name' => 'KО',
+                        'title' => 'KО'
+                    ],
+                    [
+                        'id' => 2,
+                        'code' => 'sk',
+                        'name' => 'CK',
+                        'title' => 'СК'
+                    ],
+
+                    [
+                        'id' => 3,
+                        'code' => 'lo',
+                        'name' => 'ЛО',
+                        'title' => 'ЛО'
+                    ],
+                    // [
+                    //     'id' => 3,
+                    //     'code' => 'advokat',
+                    //     'name' => 'Адвокат',
+                    //     'title' => 'Адвокат'
+                    // ],
+                    [
+                        'id' => 4,
+                        'code' => 'fiz',
+                        'name' => 'СПБ',
+                        'title' => 'СПБ'
+                    ],
+
+                ],
+                'code' => 'company_type',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 16,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+
+            [
+                'type' => 'text',
+                'name' => 'Описание ситуации, примечания, дополнительные сведения',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'situation_comments',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 18,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Контактные лица',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'company_contacts',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 19,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'string',
+                'name' => 'Наличие конкурентов',
+                'value' =>  '',
+                'isRequired' => true,
+                'code' => 'concurents',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 20,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
+                'type' => 'select',
+                'name' => 'Что известно',
+                'value' => [
+                    'id' => 1,
+                    'code' => 'success',
+                    'name' => 'Обслуживаются',
+                    'title' => 'Обслуживаются'
+                ],
+                'isRequired' => true,
+                'code' => 'supply_information',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 21,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'fail',
+                        'name' => 'Отказались',
+                        'title' => 'Отказались'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'success',
+                        'name' => 'Обслуживаются',
+                        'title' => 'Обслуживаются'
+                    ],
+
+
+                ],
+
+            ],
+            [
+                'type' => 'text',
+                'name' => 'Особенности оплаты клиентом счетов',
+                'value' => [
+                    'id' => 1,
+                    'code' => 'commers',
+                    'name' => 'Коммерческие',
+                    'title' => 'Коммерческие'
+                ],
+                'isRequired' => true,
+                'code' => 'invoice_pay_type',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 22,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'budget',
+                        'name' => 'Бюджетники',
+                        'title' => 'Бюджетники'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'commers',
+                        'name' => 'Коммерческие',
+                        'title' => 'Коммерческие'
+                    ],
+
+
+                ],
+
+            ],
+
+
+        ];
+    }
+
+
+
     protected function getContractIBlocks($infoblocks)
     {
         $bigIBlocks = '';
@@ -2305,9 +2755,7 @@ class ContractController extends Controller
         return $headerText;
     }
 
-    protected function getDocumentNumber()
-    {
-    }
+    protected function getDocumentNumber() {}
     protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient)
     {
         $contractFullName = $contractName;

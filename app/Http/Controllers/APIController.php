@@ -26,6 +26,7 @@ class APIController extends Controller
             'data' => $data
         ]);
     }
+    
     public static function getError($message, $data)
     {
 
