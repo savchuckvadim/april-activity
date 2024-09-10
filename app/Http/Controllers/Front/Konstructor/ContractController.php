@@ -441,7 +441,7 @@ class ContractController extends Controller
         $this->getTable($supply, $section);
 
         $section->addPageBreak();
-        // $documentController->getInvoicePrice($section, $price);
+        $this->getPriceTable($price, $section);
         //create document
 
 
@@ -581,6 +581,119 @@ class ContractController extends Controller
             $innerTable = $cell->addTable($page['inner']['table']);
             $innerTable->addRow();
             $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
+        }
+    }
+    protected function getPriceTable($items, $section)
+    {
+
+        $baseCellMargin = 30;
+        $baseCellMarginSmall = 10;
+
+        $baseBorderSize = 4;
+        $page = [
+            // 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+            // 'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+            // 'marginLeft' => Converter::inchToTwip(0.5),
+            // 'marginRight' => Converter::inchToTwip(0.5),
+
+            'sizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
+            'sizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
+            'marginLeft' => Converter::inchToTwip(0.2),       // левый отступ
+            'marginRight' => Converter::inchToTwip(0.2),      // правый отступ
+            'table' => [
+                'borderSize' => $baseBorderSize,
+                'borderColor' => '000000',
+                // 'cellMargin' =>  $baseCellMarginSmall,
+                // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                // 'cellSpacing' => 20
+            ],
+            'row' => [
+                'cellMargin' =>  $baseCellMarginSmall,
+                'borderSize' => 0,
+                'bgColor' => '66BBFF',
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+            ],
+            'cell' => [
+                // 'valign' => 'center',
+                'borderSize' => $baseBorderSize,
+                // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                'cellMarginTop' => $baseCellMargin,
+                'cellMarginRight' => $baseCellMargin,
+                'cellMarginBottom' => $baseCellMargin,
+                'cellMarginLeft' => $baseCellMargin,
+            ],
+            'inner' => [
+                'cell' => [
+
+                    'borderSize' => 0,
+                    'borderColor' => 'FFFFFF',
+                    'cellMargin' => $baseCellMargin,
+                    // 'valign' => 'bottom',
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    'cellMarginTop' => $baseCellMargin,
+                    'cellMarginRight' => $baseCellMargin,
+                    'cellMarginBottom' => $baseCellMargin,
+                    'cellMarginLeft' => $baseCellMargin,
+                    // ]
+
+                ],
+                'table' => [
+                    'borderSize' => 0,
+                    'borderColor' => 'FFFFFF',
+                    'cellMargin' => $baseCellMargin,
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+
+            ],
+        ];
+        $fancyTableStyleName = 'TableStyle';
+
+
+
+
+        $section->addTableStyle(
+            $fancyTableStyleName,
+            $page['table'],
+            $page['row'],
+
+        );
+        $table = $section->addTable();
+        // Переменная для отслеживания текущего индекса
+        $contentWidth = $page['sizeW'] - $page['marginLeft'] - $page['marginRight'];
+        $colWidth = $contentWidth / 2;
+
+        $innerContentWidth = $contentWidth - 30;
+        $innerColWidth = $innerContentWidth / 2;
+        // Перебираем все элементы
+        foreach ($items as $key => $item) {
+            // Если это первый элемент строки, создаем новую строку
+            // code: "name"
+            // defaultValue: "Гарант-Юрист"
+            // isActive: true
+            // name: "Наименование"
+            // order: 0
+            // target: "general"
+            // type: "string"
+            // value: "Гарант-Юрист Интернет 1 ОД"
+
+            if (!$key) {
+                $table->addRow();
+                $value = $item['name'];
+                $cell = $table->addCell($colWidth, $page['cell']);
+                $innerTable = $cell->addTable($page['inner']['table']);
+                $innerTable->addRow();
+                $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
+
+            }
+
+            $table->addRow();
+            $value = $item['value'];
+            $cell = $table->addCell($colWidth, $page['cell']);
+            $innerTable = $cell->addTable($page['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
+
+
         }
     }
     public function get($portalContractId) //by id
