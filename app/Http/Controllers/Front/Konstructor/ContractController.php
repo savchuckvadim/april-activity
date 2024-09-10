@@ -463,10 +463,12 @@ class ContractController extends Controller
                 'cellMarginLeft' => $baseCellMargin,
             ],
         ];
+        $fancyTableStyleName = 'TableStyle';
         $section->addTableStyle(
-            'supply_table',
+            $fancyTableStyleName,
             $page['table'],
-            $page['row']
+            $page['row'],
+            
         );
         // Переменная для отслеживания текущего индекса
         $contentWidth = $page['sizeW'] - $page['marginLeft'] - $page['marginRight'];
@@ -484,10 +486,10 @@ class ContractController extends Controller
                 $value = $value['name'];
             }
             // Добавляем ячейку с названием (title)
-            $table->addCell($colWidth)->addText($item['name']);
+            $table->addCell($colWidth, $page['cell'])->addText($item['name']);
 
             // Добавляем ячейку со значением (value)
-            $table->addCell($colWidth)->addText($value);
+            $table->addCell($colWidth, $page['cell'])->addText($value);
         }
 
         // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
