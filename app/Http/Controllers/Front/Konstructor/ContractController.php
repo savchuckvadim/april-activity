@@ -419,7 +419,7 @@ class ContractController extends Controller
         $supply = $data['supplyReport'];
 
         $documentPrice = $data['documentPrice'];
-       
+
         $documentNumber = 780;
 
         $documentController = new DocumentController();
@@ -439,9 +439,9 @@ class ContractController extends Controller
         $this->getTable($contractSpecification, $section);
         $section->addPageBreak();
         $this->getTable($supply, $section);
-  
+
         $section->addPageBreak();
-        $documentController->getInvoicePrice($section, $price);
+        // $documentController->getInvoicePrice($section, $price);
         //create document
 
 
@@ -474,7 +474,7 @@ class ContractController extends Controller
         $link = asset('storage/clients/' . $path . '/' . $resultFileName);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $link,]
+            ['contractData' => $data, 'link' => $link, 'price' =>  $price]
         );
     }
 
