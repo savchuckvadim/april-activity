@@ -420,6 +420,8 @@ class ContractController extends Controller
         $documentPrice = $data['documentPrice'];
         $documentNumber = 780;
 
+
+        $contractSpecification = $data['contractSpecificationState']['items'];
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
         $this->getTable($contractGeneralFields, $section);
@@ -428,9 +430,11 @@ class ContractController extends Controller
         $section->addPageBreak();
         $this->getTable($clientRqBank, $section);
         $section->addPageBreak();
+        $this->getTable($contractSpecification, $section);
+        $section->addPageBreak();
         $this->getTable($supply, $section);
-        $documentController = new DocumentController();
-        $documentController->getInvoicePrice($section, $documentPrice['general']);
+        // $documentController = new DocumentController();
+        // $documentController->getInvoicePrice($section, $documentPrice['general']);
         //create document
 
 
