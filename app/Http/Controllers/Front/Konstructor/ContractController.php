@@ -2212,6 +2212,22 @@ class ContractController extends Controller
 
             ],
             [
+                'type' => 'string',
+                'name' => 'Менеджер отдела ТМЦ',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'tmc',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+
+
+            ],
+            [
                 'type' => 'select',
                 'name' => 'Создавался ли Договор',
                 'type' => 'select',
