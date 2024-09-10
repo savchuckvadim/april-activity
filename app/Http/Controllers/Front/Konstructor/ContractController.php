@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Ramsey\Uuid\Uuid;
 
@@ -425,9 +426,51 @@ class ContractController extends Controller
         $section = $document->addSection();
 
         $table = $section->addTable();
+        $baseCellMargin = 30;
+        $baseCellMarginSmall = 10;
 
+        $baseBorderSize = 4;
+        $page = [
+            // 'pageSizeW' => Converter::inchToTwip(8.5), // ширина страницы
+            // 'pageSizeH' => Converter::inchToTwip(11),   // высота страницы
+            // 'marginLeft' => Converter::inchToTwip(0.5),
+            // 'marginRight' => Converter::inchToTwip(0.5),
+
+            'sizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
+            'sizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
+            'marginLeft' => Converter::inchToTwip(0.5),       // левый отступ
+            'marginRight' => Converter::inchToTwip(0.5),      // правый отступ
+            'table' => [
+                'borderSize' => $baseBorderSize,
+                'borderColor' => '000000',
+                // 'cellMargin' =>  $baseCellMarginSmall,
+                // 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                // 'cellSpacing' => 20
+            ],
+            'row' => [
+                'cellMargin' =>  $baseCellMarginSmall,
+                'borderSize' => 0,
+                'bgColor' => '66BBFF',
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+            ],
+            'cell' => [
+                // 'valign' => 'center',
+                'borderSize' => $baseBorderSize,
+                // 'borderColor' => '000000',  // Цвет границы (чёрный)
+                'cellMarginTop' => $baseCellMargin,
+                'cellMarginRight' => $baseCellMargin,
+                'cellMarginBottom' => $baseCellMargin,
+                'cellMarginLeft' => $baseCellMargin,
+            ],
+        ];
+        $section->addTableStyle(
+            'supply_table',
+            $page['table'],
+            $page['row']
+        );
         // Переменная для отслеживания текущего индекса
-        $currentColumn = 0;
+        $contentWidth = $page['sizeW'] - $page['marginLeft'] - $page['marginRight'];
+        $colWidth = $contentWidth / 2;
 
         // Перебираем все элементы
         foreach ($supply as $item) {
@@ -441,10 +484,10 @@ class ContractController extends Controller
                 $value = $value['name'];
             }
             // Добавляем ячейку с названием (title)
-            $table->addCell(3000)->addText($item['name']);
+            $table->addCell($colWidth)->addText($item['name']);
 
             // Добавляем ячейку со значением (value)
-            $table->addCell(3000)->addText($value);
+            $table->addCell($colWidth)->addText($value);
         }
 
         // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
