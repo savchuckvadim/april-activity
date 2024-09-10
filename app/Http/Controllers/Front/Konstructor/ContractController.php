@@ -440,7 +440,7 @@ class ContractController extends Controller
                 $value = $value['title'];
             }
             // Добавляем ячейку с названием (title)
-            $table->addCell(3000)->addText($item['title']);
+            $table->addCell(3000)->addText($item['name']);
 
             // Добавляем ячейку со значением (value)
             $table->addCell(3000)->addText($item['value']);
