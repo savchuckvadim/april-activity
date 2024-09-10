@@ -666,11 +666,11 @@ class ContractController extends Controller
         $innerColWidth = $innerContentWidth / 2;
         // Перебираем все элементы
 
-
+        $table->addRow();
         foreach ($items[0]['cells'] as $cell) {
             # code...
 
-            $table->addRow();
+      
             $value = $cell['name'];
             $cell = $table->addCell($colWidth, $page['cell']);
             $innerTable = $cell->addTable($page['inner']['table']);
