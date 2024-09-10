@@ -441,7 +441,7 @@ class ContractController extends Controller
         $this->getTable($supply, $section);
 
         $section->addPageBreak();
-        $this->getPriceTable($price, $section);
+        // $this->getPriceTable($price, $section);
         //create document
 
 
