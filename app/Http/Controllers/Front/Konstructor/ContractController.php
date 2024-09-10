@@ -420,12 +420,47 @@ class ContractController extends Controller
         $documentNumber = 780;
 
         $document = new \PhpOffice\PhpWord\PhpWord();
-
-
-        //create document
         $section = $document->addSection();
+        $this->getTable($supply, $section);
+        //create document
 
-        $table = $section->addTable();
+
+        // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
+
+
+        // Сохраняем файл Word в формате .docx
+        $uid = Uuid::uuid4()->toString();
+        $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+        $path = $data['domain'] . '/supplies/' . $data['userId'];
+        $resultPath = storage_path('app/public/clients/' . $path);
+
+
+
+        if (!file_exists($resultPath)) {
+            mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
+        }
+
+        // // Проверить доступность каталога для записи
+        if (!is_writable($resultPath)) {
+            throw new \Exception("Невозможно записать в каталог: $resultPath");
+        }
+        $resultFileName = $documentNumber . '_' . $shortUid . '_supply_report.docx';
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
+
+        $objWriter->save($resultPath . '/' . $resultFileName);
+
+        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+        $link = asset('storage/clients/' . $path . '/' . $resultFileName);
+
+        return APIController::getSuccess(
+            ['contractData' => $data, 'link' => $link,]
+        );
+    }
+
+    protected function getTable($items, $section)
+    {
+
         $baseCellMargin = 30;
         $baseCellMarginSmall = 10;
 
@@ -462,20 +497,50 @@ class ContractController extends Controller
                 'cellMarginBottom' => $baseCellMargin,
                 'cellMarginLeft' => $baseCellMargin,
             ],
+            'inner' => [
+                'cell' => [
+
+                    'borderSize' => 0,
+                    'borderColor' => 'FFFFFF',
+                    'cellMargin' => $baseCellMargin,
+                    // 'valign' => 'bottom',
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    'cellMarginTop' => $baseCellMargin,
+                    'cellMarginRight' => $baseCellMargin,
+                    'cellMarginBottom' => $baseCellMargin,
+                    'cellMarginLeft' => $baseCellMargin,
+                    // ]
+
+                ],
+                'table' => [
+                    'borderSize' => 0,
+                    'borderColor' => 'FFFFFF',
+                    'cellMargin' => $baseCellMargin,
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+
+            ],
         ];
         $fancyTableStyleName = 'TableStyle';
+
+
+
+
         $section->addTableStyle(
             $fancyTableStyleName,
             $page['table'],
             $page['row'],
-            
+
         );
+        $table = $section->addTable();
         // Переменная для отслеживания текущего индекса
         $contentWidth = $page['sizeW'] - $page['marginLeft'] - $page['marginRight'];
         $colWidth = $contentWidth / 2;
 
+        $innerContentWidth = $contentWidth - 30;
+        $innerColWidth = $innerContentWidth / 2;
         // Перебираем все элементы
-        foreach ($supply as $item) {
+        foreach ($items as $item) {
             // Если это первый элемент строки, создаем новую строку
 
             $table->addRow();
@@ -486,45 +551,18 @@ class ContractController extends Controller
                 $value = $value['name'];
             }
             // Добавляем ячейку с названием (title)
-            $table->addCell($colWidth, $page['cell'])->addText($item['name']);
-
+            $cell = $table->addCell($colWidth, $page['cell']);
+            $innerTable = $cell->addTable($page['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
             // Добавляем ячейку со значением (value)
-            $table->addCell($colWidth, $page['cell'])->addText($value);
+            $table->addCell($colWidth, $page['cell']);
+
+            $innerTable = $cell->addTable($page['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
         }
-
-        // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
-
-
-        // Сохраняем файл Word в формате .docx
-        $uid = Uuid::uuid4()->toString();
-        $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-        $path = $data['domain'] . '/supplies/' . $data['userId'];
-        $resultPath = storage_path('app/public/clients/' . $path);
-
-
-
-        if (!file_exists($resultPath)) {
-            mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-        }
-
-        // // Проверить доступность каталога для записи
-        if (!is_writable($resultPath)) {
-            throw new \Exception("Невозможно записать в каталог: $resultPath");
-        }
-        $resultFileName = $documentNumber . '_' . $shortUid . '_supply_report.docx';
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
-
-        $objWriter->save($resultPath . '/' . $resultFileName);
-
-        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
-
-        $link = asset('storage/clients/' . $path . '/' . $resultFileName);
-
-        return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $link,]
-        );
     }
-
     public function get($portalContractId) //by id
     {
         $portalContract = PortalContract::find($portalContractId);
