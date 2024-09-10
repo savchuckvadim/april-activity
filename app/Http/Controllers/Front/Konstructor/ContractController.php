@@ -453,8 +453,8 @@ class ContractController extends Controller
         // Сохраняем файл Word в формате .docx
         $uid = Uuid::uuid4()->toString();
         $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-
-        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/supplies/' . $data['userId']);
+        $path = 'app/public/clients/' . $data['domain'] . '/supplies/' . $data['userId'];
+        $resultPath = storage_path($path);
 
 
 
@@ -473,10 +473,10 @@ class ContractController extends Controller
 
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        $link = asset('storage/clients/' . $domain . '/documents/' . $data['userId'] . '/' . $resultFileName);
+        $link = asset($path . '/' . $resultFileName);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $contractLink,]
+            ['contractData' => $data, 'link' => $link,]
         );
     }
 
