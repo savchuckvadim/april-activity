@@ -437,14 +437,14 @@ class ContractController extends Controller
 
             // Добавляем ячейку в текущую строку
             $value = $item['value'];
-            if (isset($value['title'])) {
-                $value = $value['title'];
+            if (isset($value['name'])) {
+                $value = $value['name'];
             }
             // Добавляем ячейку с названием (title)
             $table->addCell(3000)->addText($item['name']);
 
             // Добавляем ячейку со значением (value)
-            $table->addCell(3000)->addText($item['value']);
+            $table->addCell(3000)->addText($value);
         }
 
         // Если последняя строка не заполнена полностью, заполняем оставшиеся ячейки пустыми
