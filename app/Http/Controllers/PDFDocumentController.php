@@ -1213,7 +1213,7 @@ class PDFDocumentController extends Controller
 
         ];
     }
-    protected function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId)
+    public function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];

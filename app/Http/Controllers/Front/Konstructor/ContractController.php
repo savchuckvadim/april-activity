@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\PDFDocumentController;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
@@ -418,11 +419,14 @@ class ContractController extends Controller
         $supply = $data['supplyReport'];
 
         $documentPrice = $data['documentPrice'];
+       
         $documentNumber = 780;
 
         $documentController = new DocumentController();
+        $pdfDocumentController = new PDFDocumentController();
 
-        
+        $price = $pdfDocumentController->getInvoicePricesData($documentPrice, true, 0);
+
         $contractSpecification = $data['contractSpecificationState']['items'];
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
@@ -437,7 +441,7 @@ class ContractController extends Controller
         $this->getTable($supply, $section);
   
         $section->addPageBreak();
-        $documentController->getInvoicePrice($section, $documentPrice['general']);
+        $documentController->getInvoicePrice($section, $price);
         //create document
 
 
