@@ -441,7 +441,7 @@ class ContractController extends Controller
         $this->getTable($supply, $section);
 
         $section->addPageBreak();
-        // $this->getPriceTable($price, $section);
+        $this->getPriceTable($price['allPrices'], $section);
         //create document
 
 
@@ -665,6 +665,19 @@ class ContractController extends Controller
         $innerContentWidth = $contentWidth - 30;
         $innerColWidth = $innerContentWidth / 2;
         // Перебираем все элементы
+
+
+        foreach ($items[0]['cells'] as $cell) {
+            # code...
+
+            $table->addRow();
+            $value = $cell['name'];
+            $cell = $table->addCell($colWidth, $page['cell']);
+            $innerTable = $cell->addTable($page['inner']['table']);
+            $innerTable->addRow();
+            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
+        }
+
         foreach ($items as $key => $item) {
             // Если это первый элемент строки, создаем новую строку
             // code: "name"
@@ -676,24 +689,14 @@ class ContractController extends Controller
             // type: "string"
             // value: "Гарант-Юрист Интернет 1 ОД"
 
-            if (!$key) {
+            foreach ($item['cells'] as $cell) {
                 $table->addRow();
-                $value = $item['name'];
+                $value = $cell['value'];
                 $cell = $table->addCell($colWidth, $page['cell']);
                 $innerTable = $cell->addTable($page['inner']['table']);
                 $innerTable->addRow();
                 $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
-
             }
-
-            $table->addRow();
-            $value = $item['value'];
-            $cell = $table->addCell($colWidth, $page['cell']);
-            $innerTable = $cell->addTable($page['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
-
-
         }
     }
     public function get($portalContractId) //by id
