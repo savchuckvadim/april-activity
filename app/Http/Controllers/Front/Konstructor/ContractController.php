@@ -2148,7 +2148,7 @@ class ContractController extends Controller
                 'code' => 'in_ork',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 2,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
@@ -2157,14 +2157,37 @@ class ContractController extends Controller
 
             ],
             [
-                'type' => 'text',
+                'type' => 'select',
                 'name' => 'Занесена в АРМ',
-                'value' => '',
+              
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'Да',
+                    'title' => 'Да'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'yes',
+                        'name' => 'Да',
+                        'title' => 'Да'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
+                    ],
+
+                ],
                 'isRequired' => true,
                 'code' => 'in_arm',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 3,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
@@ -2291,7 +2314,7 @@ class ContractController extends Controller
                 'code' => 'is_invoice_done',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 8,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
@@ -2307,7 +2330,7 @@ class ContractController extends Controller
                 'code' => 'invoice_number',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 9,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
@@ -2323,7 +2346,7 @@ class ContractController extends Controller
                 'code' => 'invoice_result',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 10,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
@@ -2339,7 +2362,7 @@ class ContractController extends Controller
                 'code' => 'invoice_pay_date',
                 'group' => 'supply',
                 'isActive' => true,
-                'isDisable' => true,
+                'isDisable' => false,
                 'order' => 11,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
