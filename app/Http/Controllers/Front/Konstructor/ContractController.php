@@ -688,9 +688,9 @@ class ContractController extends Controller
             // target: "general"
             // type: "string"
             // value: "Гарант-Юрист Интернет 1 ОД"
-
+            $table->addRow();
             foreach ($item['cells'] as $cell) {
-                $table->addRow();
+               
                 $value = $cell['value'];
                 $cell = $table->addCell($colWidth, $page['cell']);
                 $innerTable = $cell->addTable($page['inner']['table']);
