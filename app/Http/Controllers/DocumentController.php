@@ -2464,7 +2464,7 @@ class DocumentController extends Controller
     ) {
         $section = $this->getInvoiceTopTable($section, $styles, $providerRq);
         $section = $this->getInvoiceMain($section, $styles, $providerRq, $recipient, $invoiceBaseNumber);
-        $section = $this->getInvoicePrice($section, $styles, $price, $target);
+        $section = $this->getInvoicePrice($section, $price, $target);
 
         return $section;
     }
@@ -2975,13 +2975,13 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getInvoicePrice(
+    public function getInvoicePrice(
         $section,
-        $styles,
+       
         $price, //массив продуктов либо general либо alternetive в каждом массиве обхекты product  у каждого пproduct есть cells 
-        $target
+        $target = null
     ) {
-
+        $styles  = $this->documentStyle;
         //data
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
@@ -416,7 +417,7 @@ class ContractController extends Controller
 
         $supply = $data['supplyReport'];
 
-
+        $documentPrice = $data['documentPrice'];
         $documentNumber = 780;
 
         $document = new \PhpOffice\PhpWord\PhpWord();
@@ -428,7 +429,8 @@ class ContractController extends Controller
         $this->getTable($clientRqBank, $section);
         $section->addPageBreak();
         $this->getTable($supply, $section);
-        $section->addPageBreak();
+        $documentController = new DocumentController();
+        $documentController->getInvoicePrice($section, $documentPrice['general']);
         //create document
 
 
