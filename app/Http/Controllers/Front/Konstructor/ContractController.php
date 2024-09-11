@@ -562,25 +562,28 @@ class ContractController extends Controller
         // Перебираем все элементы
         foreach ($items as $item) {
             // Если это первый элемент строки, создаем новую строку
+            if (!empty($item['isActive'])) {
+                $table->addRow();
 
-            $table->addRow();
+                // Добавляем ячейку в текущую строку
+                $value = $item['value'];
+                if (isset($value['name'])) {
+                    $value = $value['name'];
+                }
+                // Добавляем ячейку с названием (title)
+                $cell = $table->addCell($colWidth, $page['cell']);
+                $innerTable = $cell->addTable($page['inner']['table']);
+                $innerTable->addRow();
+                $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
+                // Добавляем ячейку со значением (value)
+                $cell = $table->addCell($colWidth, $page['cell']);
 
-            // Добавляем ячейку в текущую строку
-            $value = $item['value'];
-            if (isset($value['name'])) {
-                $value = $value['name'];
+                $innerTable = $cell->addTable($page['inner']['table']);
+                $innerTable->addRow();
+                $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
+
+
             }
-            // Добавляем ячейку с названием (title)
-            $cell = $table->addCell($colWidth, $page['cell']);
-            $innerTable = $cell->addTable($page['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($item['name']); // Уменьшаем ширину, чтобы создать отступ
-            // Добавляем ячейку со значением (value)
-            $cell = $table->addCell($colWidth, $page['cell']);
-
-            $innerTable = $cell->addTable($page['inner']['table']);
-            $innerTable->addRow();
-            $innerTableCell = $innerTable->addCell($innerColWidth, $page['inner']['cell'])->addText($value); // Уменьшаем ширину, чтобы создать отступ
         }
     }
     protected function getPriceTable($items, $section)
@@ -670,7 +673,7 @@ class ContractController extends Controller
         foreach ($items[0]['cells'] as $cell) {
             # code...
 
-      
+
             $value = $cell['name'];
             $cell = $table->addCell($colWidth, $page['cell']);
             $innerTable = $cell->addTable($page['inner']['table']);
@@ -690,7 +693,7 @@ class ContractController extends Controller
             // value: "Гарант-Юрист Интернет 1 ОД"
             $table->addRow();
             foreach ($item['cells'] as $cell) {
-               
+
                 $value = $cell['value'];
                 $cell = $table->addCell($colWidth, $page['cell']);
                 $innerTable = $cell->addTable($page['inner']['table']);
