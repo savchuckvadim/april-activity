@@ -540,9 +540,17 @@ class ContractController extends Controller
         });
 
         $document = new \PhpOffice\PhpWord\PhpWord();
-     
-        $section = $document->addSection();
+        $page = [
+ 
+            'pageSizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
+            'pageSizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
+            'marginLeft' => Converter::inchToTwip(0.5),       // левый отступ
+            'marginRight' => Converter::inchToTwip(0.5),      // правый отступ
+        ];
+        $section = $document->addSection($page);
         $documentController->getHeader($section, null, $providerRq, false);
+        $section->addText('', $font['h2'], $font['alignment']['start']);
+
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
         $section->addText('Поставщик: '.$providerRq['fullname'], $font['h2'], $font['alignment']['start']);
         
