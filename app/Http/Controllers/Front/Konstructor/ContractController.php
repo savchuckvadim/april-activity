@@ -14,6 +14,7 @@ use App\Models\BitrixfieldItem;
 use App\Models\Portal;
 use App\Models\PortalContract;
 use App\Services\BitrixDealDocumentContractService;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -716,26 +717,9 @@ class ContractController extends Controller
                     $value = $value['name'];
                 }
 
-                $date = strtotime($value);
-                if ($date) {
-                    // Форматируем дату в формат: 1 декабря 2024
-                    $value = (new DateTime($value))->format('j F Y');
-                    // Переводим месяц на русский
-                    $months = [
-                        'January' => 'января',
-                        'February' => 'февраля',
-                        'March' => 'марта',
-                        'April' => 'апреля',
-                        'May' => 'мая',
-                        'June' => 'июня',
-                        'July' => 'июля',
-                        'August' => 'августа',
-                        'September' => 'сентября',
-                        'October' => 'октября',
-                        'November' => 'ноября',
-                        'December' => 'декабря'
-                    ];
-                    $value = str_replace(array_keys($months), array_values($months), $value);
+                if (Carbon::hasFormat($value, 'Y-m-d')) {
+                    // Преобразуем и форматируем дату
+                    $value = Carbon::parse($value)->translatedFormat('j F Y');
                 }
 
 
