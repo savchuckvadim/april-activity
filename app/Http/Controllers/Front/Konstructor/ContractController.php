@@ -404,8 +404,8 @@ class ContractController extends Controller
         $total = $productSet['total'][0];
 
 
-
-
+        $supply = $data['supplyType'];
+        $supplyType = $supply['type'];
         $contractGeneralFields = $data['contractBaseState']['items']; //fields array
 
         $contractClientState = $data['contractClientState']['client'];
@@ -530,6 +530,15 @@ class ContractController extends Controller
 
 
         $contractSpecification = $data['contractSpecificationState']['items'];
+
+
+        $filteredcontractSpecification = array_filter($contractSpecification, function ($item) use ($contractType) {
+            return  in_array($contractType, $item['contractType']);
+        });
+        $filteredcontractSpecification = array_filter($filteredcontractSpecification, function ($item) use ($supplyType) {
+            return  in_array($supplyType, $item['supplies']);
+        });
+
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
@@ -537,7 +546,6 @@ class ContractController extends Controller
 
 
         $this->getTable($filteredClientRq, $section);
-        $section->addPageBreak();
         $this->getTable($filteredClientRqBank, $section);
         $section->addPageBreak();
 
@@ -551,7 +559,6 @@ class ContractController extends Controller
         $section->addPageBreak();
         $this->getTable($supply, $section);
 
-        $section->addPageBreak();
         $this->getPriceTable($price['allPrices'], $section);
         //create document
 
