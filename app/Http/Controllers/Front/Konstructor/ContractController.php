@@ -473,7 +473,7 @@ class ContractController extends Controller
             ],
             'blue' => [
                 'name' => 'Arial',
-                'color' => '#b8e8f6',
+                'color' => '#005fa8',
                 'bold' => true,
                 'size' => 9
             ],
@@ -565,7 +565,7 @@ class ContractController extends Controller
 
         $section->addText('', $font['h2'], $font['alignment']['start']);
         $section->addText('Клиент', $font['h3'], $font['alignment']['start']);
-        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId, 'Компания в битрикс: ' . $companyId, $font['blue'], $font['alignment']['start']);
+        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId.'/', 'Компания в битрикс: ' . $companyId, $font['blue'], $font['alignment']['start']);
 
         $this->getTable($filteredClientRq, $section);
         $this->getTable($filteredClientRqBank, $section);
