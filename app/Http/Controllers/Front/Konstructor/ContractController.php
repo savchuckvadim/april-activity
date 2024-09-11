@@ -404,7 +404,7 @@ class ContractController extends Controller
         $total = $productSet['total'][0];
 
 
-        $supply = $data['supplyType'];
+        $supply = $data['supply'];
         $supplyType = $supply['type'];
         $contractGeneralFields = $data['contractBaseState']['items']; //fields array
 
