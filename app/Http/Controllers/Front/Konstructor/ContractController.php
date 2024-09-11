@@ -551,7 +551,7 @@ class ContractController extends Controller
 
         $section->addText('Комплект', $font['h2'], $font['alignment']['start']);
 
-        $this->getTable($contractSpecification, $section);
+        $this->getTable($filteredcontractSpecification, $section);
         $section->addPageBreak();
         $section->addText('Договор', $font['h2'], $font['alignment']['start']);
 
