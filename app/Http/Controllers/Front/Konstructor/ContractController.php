@@ -411,6 +411,20 @@ class ContractController extends Controller
         $contractClientState = $data['contractClientState']['client'];
         $clientRq = $contractClientState['rqs']['rq'];                //fields array
         $clientRqBank = $contractClientState['rqs']['bank'];
+        $clientType = $contractClientState['type'];
+
+        function filterByClientType($item, $clientType) {
+            return in_array($clientType, $item['includes']);
+        }
+
+        // Фильтрация массивов с использованием array_filter
+        $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
+            return filterByClientType($item, $clientType);
+        });
+
+        $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
+            return filterByClientType($item, $clientType);
+        });
 
         $providerState = $data['contractProviderState'];
 
@@ -432,9 +446,9 @@ class ContractController extends Controller
         $section = $document->addSection();
         $this->getTable($contractGeneralFields, $section);
         $section->addPageBreak();
-        $this->getTable($clientRq, $section);
+        $this->getTable($filteredClientRq, $section);
         $section->addPageBreak();
-        $this->getTable($clientRqBank, $section);
+        $this->getTable($filteredClientRqBank, $section);
         $section->addPageBreak();
         $this->getTable($contractSpecification, $section);
         $section->addPageBreak();
