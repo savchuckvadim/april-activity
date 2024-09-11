@@ -623,6 +623,7 @@ class ContractController extends Controller
 
     protected function getTable($items, $section)
     {
+        Carbon::setLocale('ru');
 
         $baseCellMargin = 30;
         $baseCellMarginSmall = 10;
