@@ -115,15 +115,18 @@ class DocumentController extends Controller
                 ],
                 'h1' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 16
+                    'bold' => true,
+                    'size' => 16
                 ],
                 'h2' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 14
+                    'bold' => true,
+                    'size' => 14
                 ],
                 'h3' => [
                     ...$generalFont,
-                    'bold' => true, 'size' => 12
+                    'bold' => true,
+                    'size' => 12
                 ],
                 'text' => [
                     'small' => [
@@ -206,15 +209,20 @@ class DocumentController extends Controller
                 'table' => [
                     'h1' => [
                         ...$generalFont,
-                        'size' => 11,  'bold' => true, 'lang' => 'ru-RU'
+                        'size' => 11,
+                        'bold' => true,
+                        'lang' => 'ru-RU'
                     ],
                     'h2' => [
                         ...$generalFont,
-                        'size' => 10,  'bold' => true, 'lang' => 'ru-RU'
+                        'size' => 10,
+                        'bold' => true,
+                        'lang' => 'ru-RU'
                     ],
                     'text' => [
                         ...$generalFont,
-                        'size' => 10, 'lang' => 'ru-RU'
+                        'size' => 10,
+                        'lang' => 'ru-RU'
                     ]
                 ]
             ],
@@ -314,7 +322,10 @@ class DocumentController extends Controller
                         // 'cellSpacing' => 20
                     ],
                     'row' => [
-                        'cellMargin' =>  $baseCellMarginSmall, 'borderSize' => 0, 'bgColor' => '66BBFF', 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
+                        'cellMargin' =>  $baseCellMarginSmall,
+                        'borderSize' => 0,
+                        'bgColor' => '66BBFF',
+                        'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
                     ],
                     'cell' => [
                         // 'valign' => 'center',
@@ -767,7 +778,7 @@ class DocumentController extends Controller
                     //         }
                     //     }
                     // } else 
-                    
+
                     if (!$isPriceFirst) {
                         if (!$withPrice) {
                             $section->addPageBreak();
@@ -1949,12 +1960,12 @@ class DocumentController extends Controller
         return $section;
     }
 
-    protected function getHeader($section, $styles, $providerRq, $isTwoLogo)
+    public function getHeader($section, $styles, $providerRq, $isTwoLogo)
     {
         //HEADER
         $header = $section->addHeader();
 
-
+        $styles = $this->documentStyle;
         // create header
 
         $tableHeader = $header->addTable();
@@ -2977,7 +2988,7 @@ class DocumentController extends Controller
 
     public function getInvoicePrice(
         $section,
-       
+
         $price, //массив продуктов либо general либо alternetive в каждом массиве обхекты product  у каждого пproduct есть cells 
         $target = null
     ) {

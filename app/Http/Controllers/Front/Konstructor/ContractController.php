@@ -540,8 +540,12 @@ class ContractController extends Controller
         });
 
         $document = new \PhpOffice\PhpWord\PhpWord();
+     
         $section = $document->addSection();
+        $documentController->getHeader($section, null, $providerRq, false);
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
+        $section->addText('Поставщик: '.$providerRq['fullname'], $font['h2'], $font['alignment']['start']);
+        
         $section->addText('Клиент', $font['h2'], $font['alignment']['start']);
 
 
