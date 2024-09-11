@@ -558,14 +558,12 @@ class ContractController extends Controller
         ];
         $section = $document->addSection($page);
         $documentController->getHeader($section, null, $providerRq, false);
-     
+
 
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
         $section->addText('Поставщик: ' . $providerRq['fullname'], $font['h3'], $font['alignment']['start']);
-
-        $section->addText('', $font['h2'], $font['alignment']['start']);
-        $section->addText('Клиент', $font['h3'], $font['alignment']['start']);
-        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId.'/', 'Компания в битрикс: ' . $companyId, $font['blue'], $font['alignment']['start']);
+        $section->addText('Клиент: ' . $filteredClientRq[0]['value'], $font['h3'], $font['alignment']['start']);
+        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId . '/', 'Компания в битрикс: ' . $companyId, $font['blue'], $font['alignment']['start']);
 
         $this->getTable($filteredClientRq, $section);
         $this->getTable($filteredClientRqBank, $section);
