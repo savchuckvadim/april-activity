@@ -413,7 +413,8 @@ class ContractController extends Controller
         $clientRqBank = $contractClientState['rqs']['bank'];
         $clientType = $contractClientState['type'];
 
-        function filterByClientType($item, $clientType) {
+        function filterByClientType($item, $clientType)
+        {
             return in_array($clientType, $item['includes']);
         }
 
@@ -440,10 +441,99 @@ class ContractController extends Controller
         $pdfDocumentController = new PDFDocumentController();
 
         $price = $pdfDocumentController->getInvoicePricesData($documentPrice, true, 0);
+        $generalFont = [
+            'name' => 'Arial',
+            'color' => '000000',
+            'lang' => 'ru-RU',
+        ];
+
+        $font = [
+            'general' => [
+                'name' => 'Arial',
+                'color' => '000000',
+                'lang' => 'ru-RU',
+            ],
+            'h1' => [
+                ...$generalFont,
+                'bold' => true,
+                'size' => 16
+            ],
+            'h2' => [
+                ...$generalFont,
+                'bold' => true,
+                'size' => 14
+            ],
+            'h3' => [
+                ...$generalFont,
+                'bold' => true,
+                'size' => 12
+            ],
+            'text' => [
+                'small' => [
+                    ...$generalFont,
+                    'size' => 8,
+                    'lineHeight' => 1,
+                    'spaceAfter' => 0,
+                    'spaceBefore' => 0,
+                ],
+                'normal' => [
+                    ...$generalFont,
+                    'size' => 9
+                ],
+                'bold' => [
+                    ...$generalFont,
+                    'bold' => true,
+                    'size' => 10
+                ],
+                'spanBold' => [
+                    ...$generalFont,
+                    'bold' => true,
+                    'size' => 10,
+                    'spaceAfter' => 1,    // Интервал после абзаца
+                    'spaceBefore' => 0,   // Интервал перед абзацем
+                    'lineHeight' => 1.5,  // Высота строки
+                ],
+            ],
+            'alignment' => [
+                'center' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+                'start' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::START,
+                ],
+                'end' =>
+                [
+                    'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END,
+                ],
+
+            ],
+            'valign' => [
+                'center' =>
+                [
+                    'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                ],
+                'top' =>
+                [
+                    'valign' => 'top',
+                ],
+                'bottom' =>
+                [
+                    'valign' => 'bottom',
+                ],
+
+            ]
+
+        ];
+
+
 
         $contractSpecification = $data['contractSpecificationState']['items'];
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
+        $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['start']);
+
         $this->getTable($contractGeneralFields, $section);
         $section->addPageBreak();
         $this->getTable($filteredClientRq, $section);
