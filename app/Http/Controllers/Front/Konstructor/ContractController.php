@@ -532,15 +532,22 @@ class ContractController extends Controller
         $contractSpecification = $data['contractSpecificationState']['items'];
         $document = new \PhpOffice\PhpWord\PhpWord();
         $section = $document->addSection();
-        $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['start']);
+        $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
+        $section->addText('Клиент', $font['h2'], $font['alignment']['start']);
 
-        $this->getTable($contractGeneralFields, $section);
-        $section->addPageBreak();
+
         $this->getTable($filteredClientRq, $section);
         $section->addPageBreak();
         $this->getTable($filteredClientRqBank, $section);
         $section->addPageBreak();
+
+        $section->addText('Комплект', $font['h2'], $font['alignment']['start']);
+
         $this->getTable($contractSpecification, $section);
+        $section->addPageBreak();
+        $section->addText('Договор', $font['h2'], $font['alignment']['start']);
+
+        $this->getTable($contractGeneralFields, $section);
         $section->addPageBreak();
         $this->getTable($supply, $section);
 
