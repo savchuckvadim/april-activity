@@ -445,6 +445,9 @@ class ContractController extends Controller
             'name' => 'Arial',
             'color' => '000000',
             'lang' => 'ru-RU',
+            'spaceAfter' => 0,    // Интервал после абзаца
+            'spaceBefore' => 10,   // Интервал перед абзацем
+            'lineHeight' => 1.15,  // Высота строки
         ];
 
         $font = [
@@ -541,7 +544,7 @@ class ContractController extends Controller
 
         $document = new \PhpOffice\PhpWord\PhpWord();
         $page = [
- 
+
             'pageSizeW' => Converter::inchToTwip(210 / 25.4), // ширина страницы A4 в twips
             'pageSizeH' => Converter::inchToTwip(297 / 25.4), // высота страницы A4 в twips
             'marginLeft' => Converter::inchToTwip(0.5),       // левый отступ
@@ -552,25 +555,30 @@ class ContractController extends Controller
         $section->addText('', $font['h2'], $font['alignment']['start']);
 
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
-        $section->addText('Поставщик: '.$providerRq['fullname'], $font['h2'], $font['alignment']['start']);
-        
-        $section->addText('Клиент', $font['h2'], $font['alignment']['start']);
+        $section->addText('Поставщик: ' . $providerRq['fullname'], $font['h3'], $font['alignment']['start']);
 
+        $section->addText('', $font['h2'], $font['alignment']['start']);
+        $section->addText('Клиент', $font['h3'], $font['alignment']['start']);
+        $section->addText('', $font['h2'], $font['alignment']['start']);
+
+        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId, 'Компания в битрикс', $font['text'], $font['alignment']['start']);
 
         $this->getTable($filteredClientRq, $section);
         $this->getTable($filteredClientRqBank, $section);
         $section->addPageBreak();
 
-        $section->addText('Комплект', $font['h2'], $font['alignment']['start']);
+        $section->addText('Комплект', $font['h3'], $font['alignment']['start']);
 
         $this->getTable($filteredcontractSpecification, $section);
         $section->addPageBreak();
-        $section->addText('Договор', $font['h2'], $font['alignment']['start']);
+        $section->addText('Договор', $font['h3'], $font['alignment']['start']);
 
         $this->getTable($contractGeneralFields, $section);
         $section->addPageBreak();
         $this->getTable($supply, $section);
         $section->addPageBreak();
+        $section->addText('', $font['h2'], $font['alignment']['start']);
+
 
         $this->getPriceTable($price['allPrices'], $section);
         //create document
@@ -647,6 +655,7 @@ class ContractController extends Controller
                 'cellMarginRight' => $baseCellMargin,
                 'cellMarginBottom' => $baseCellMargin,
                 'cellMarginLeft' => $baseCellMargin,
+                'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
             ],
             'inner' => [
                 'cell' => [
@@ -660,6 +669,7 @@ class ContractController extends Controller
                     'cellMarginRight' => $baseCellMargin,
                     'cellMarginBottom' => $baseCellMargin,
                     'cellMarginLeft' => $baseCellMargin,
+                    'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                     // ]
 
                 ],
@@ -668,6 +678,7 @@ class ContractController extends Controller
                     'borderColor' => 'FFFFFF',
                     'cellMargin' => $baseCellMargin,
                     'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                    'valign' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
                 ],
 
             ],
