@@ -446,7 +446,7 @@ class ContractController extends Controller
             'color' => '000000',
             'lang' => 'ru-RU',
             'spaceAfter' => 0,    // Интервал после абзаца
-            'spaceBefore' => 10,   // Интервал перед абзацем
+            'spaceBefore' => 5,   // Интервал перед абзацем
             'lineHeight' => 1.15,  // Высота строки
         ];
 
@@ -470,6 +470,12 @@ class ContractController extends Controller
                 ...$generalFont,
                 'bold' => true,
                 'size' => 12
+            ],
+            'blue' => [
+                'name' => 'Arial',
+                'color' => '#b8e8f6',
+                'bold' => true,
+                'size' => 9
             ],
             'text' => [
                 'small' => [
@@ -552,16 +558,14 @@ class ContractController extends Controller
         ];
         $section = $document->addSection($page);
         $documentController->getHeader($section, null, $providerRq, false);
-        $section->addText('', $font['h2'], $font['alignment']['start']);
+     
 
         $section->addText('Отчет о продаже', $font['h1'], $font['alignment']['center']);
         $section->addText('Поставщик: ' . $providerRq['fullname'], $font['h3'], $font['alignment']['start']);
 
         $section->addText('', $font['h2'], $font['alignment']['start']);
         $section->addText('Клиент', $font['h3'], $font['alignment']['start']);
-        $section->addText('', $font['h2'], $font['alignment']['start']);
-
-        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId, 'Компания в битрикс', $font['text'], $font['alignment']['start']);
+        $section->addLink('https://' . $domain . '/crm/company/details/' . $companyId, 'Компания в битрикс: ' . $companyId, $font['blue'], $font['alignment']['start']);
 
         $this->getTable($filteredClientRq, $section);
         $this->getTable($filteredClientRqBank, $section);
