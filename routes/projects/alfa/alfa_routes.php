@@ -48,9 +48,9 @@ Route::prefix('alfa')->group(function () {
 
 
     Route::get('/specification', function (Request $request) {
-        $alfapath = storage_path('app/public') . '/pojects/alfacontracts/ppk' ;
-
-
+        $alfapath = 'app/public/projects/alfacontracts/ppk';
+    
+        // Используем storage_path только один раз
         $fullPath = storage_path($alfapath . '/specification.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
         $documentNumber = $request->documentNumber;
