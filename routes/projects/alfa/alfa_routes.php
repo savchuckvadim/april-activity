@@ -106,7 +106,7 @@ Route::prefix('alfa')->group(function () {
 
             ],
         ];
-
+        $persons = [];
         foreach ($listItems as $key => $listItem) {
             $person = [
                 'number' => $key + 1,
