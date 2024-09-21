@@ -97,7 +97,7 @@ Route::prefix('alfa')->group(function () {
 
         foreach ($persons as $key => $person) {
             $templateProcessor->cloneRow('personNumber', $key);
-            $templateProcessor->cloneRow('person', $person['NAME']);
+            // $templateProcessor->cloneRow('person', $person['NAME']);
         }
 
         $fileName = 'documents/Приложение к договору.docx';
