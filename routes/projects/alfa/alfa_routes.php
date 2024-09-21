@@ -131,8 +131,8 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor->setValue('director', $director);
 
         $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
-        $templateProcessor->cloneRowAndSetValues('person', $persons);
-        $templateProcessor->cloneRowAndSetValues('product', $persons);
+        // $templateProcessor->cloneRowAndSetValues('person', $persons);
+        // $templateProcessor->cloneRowAndSetValues('product', $persons);
 
         // foreach ($persons as $key => $person) {
         //     $templateProcessor->cloneRow('personNumber', $key);
