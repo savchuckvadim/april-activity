@@ -70,91 +70,91 @@ Route::prefix('alfa')->group(function () {
     });
 
 
-    Route::get('/specification', function (Request $request) {
-        $alfapath = 'app/public/projects/alfacontracts/ppk';
+    // Route::get('/specification', function (Request $request) {
+    //     $alfapath = 'app/public/projects/alfacontracts/ppk';
 
-        // Используем storage_path только один раз
-        $fullPath = storage_path($alfapath . '/specification.docx');
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-        $documentNumber = $request->documentNumber;
-        $documentCreateDate = $request->documentCreateDate;
-        $listItems = [
-            [
-                "ID" => "30020",
-                "IBLOCK_ID" => "48",
-                "NAME" => "Участник семинара №1",
-                "IBLOCK_SECTION_ID" => null,
-                "CREATED_BY" => "502",
-                "BP_PUBLISHED" => "Y",
-                "CODE" => null,
-                "PROPERTY_192" => ["145198" => "1812"],
-                "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
+    //     // Используем storage_path только один раз
+    //     $fullPath = storage_path($alfapath . '/specification.docx');
+    //     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+    //     $documentNumber = $request->documentNumber;
+    //     $documentCreateDate = $request->documentCreateDate;
+    //     $listItems = [
+    //         [
+    //             "ID" => "30020",
+    //             "IBLOCK_ID" => "48",
+    //             "NAME" => "Участник семинара №1",
+    //             "IBLOCK_SECTION_ID" => null,
+    //             "CREATED_BY" => "502",
+    //             "BP_PUBLISHED" => "Y",
+    //             "CODE" => null,
+    //             "PROPERTY_192" => ["145198" => "1812"],
+    //             "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
 
-            ],
+    //         ],
 
-            [
-                "ID" => "30020",
-                "IBLOCK_ID" => "48",
-                "NAME" => "Участник семинара №2",
-                "IBLOCK_SECTION_ID" => null,
-                "CREATED_BY" => "502",
-                "BP_PUBLISHED" => "Y",
-                "CODE" => null,
-                "PROPERTY_192" => ["145198" => "1812"],
-                "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
+    //         [
+    //             "ID" => "30020",
+    //             "IBLOCK_ID" => "48",
+    //             "NAME" => "Участник семинара №2",
+    //             "IBLOCK_SECTION_ID" => null,
+    //             "CREATED_BY" => "502",
+    //             "BP_PUBLISHED" => "Y",
+    //             "CODE" => null,
+    //             "PROPERTY_192" => ["145198" => "1812"],
+    //             "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
 
-            ],
-        ];
-        $persons = [];
-        foreach ($listItems as $key => $listItem) {
-            $person = [
-                'personNumber' => $key + 1 .'. ',
-                'person' => $listItem['NAME'],
+    //         ],
+    //     ];
+    //     $persons = [];
+    //     foreach ($listItems as $key => $listItem) {
+    //         $person = [
+    //             'personNumber' => $key + 1 .'. ',
+    //             'person' => $listItem['NAME'],
 
-            ];
-            foreach ($listItem['PROPERTY_204'] as $key => $value) {
-                $person['product'] = $value;
-            }
-            array_push($persons, $person);
-        }
-        $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
-        $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
+    //         ];
+    //         foreach ($listItem['PROPERTY_204'] as $key => $value) {
+    //             $person['product'] = $value;
+    //         }
+    //         array_push($persons, $person);
+    //     }
+    //     $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
+    //     $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
 
-        $companyName = 'ТЕСТ НАЗВАНИЕ КОМПАНИИ';
-        $position = 'ДИРЕКТОР';
-        $director = 'ТЕСТ ИМЯ РУКОВОДИТЕЛЯ';
-        $templateProcessor->setValue('documentNumber', $documentNumber);
-        $templateProcessor->setValue('documentCreateDate', $documentCreateDate);
-        $templateProcessor->setValue('companyName', $companyName);
-        $templateProcessor->setValue('position', $position);
-        $templateProcessor->setValue('director', $director);
+    //     $companyName = 'ТЕСТ НАЗВАНИЕ КОМПАНИИ';
+    //     $position = 'ДИРЕКТОР';
+    //     $director = 'ТЕСТ ИМЯ РУКОВОДИТЕЛЯ';
+    //     $templateProcessor->setValue('documentNumber', $documentNumber);
+    //     $templateProcessor->setValue('documentCreateDate', $documentCreateDate);
+    //     $templateProcessor->setValue('companyName', $companyName);
+    //     $templateProcessor->setValue('position', $position);
+    //     $templateProcessor->setValue('director', $director);
 
-        $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
-        // $templateProcessor->cloneRowAndSetValues('person', $persons);
-        // $templateProcessor->cloneRowAndSetValues('product', $persons);
+    //     $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
+    //     // $templateProcessor->cloneRowAndSetValues('person', $persons);
+    //     // $templateProcessor->cloneRowAndSetValues('product', $persons);
 
-        // foreach ($persons as $key => $person) {
-        //     $templateProcessor->cloneRow('personNumber', $key);
-        //     // $templateProcessor->cloneRow('person', $person['NAME']);
-        // }
+    //     // foreach ($persons as $key => $person) {
+    //     //     $templateProcessor->cloneRow('personNumber', $key);
+    //     //     // $templateProcessor->cloneRow('person', $person['NAME']);
+    //     // }
 
-        $outputFileName = 'Приложение к договору_заполнено.docx';
-        $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $outputFileName);
+    //     $outputFileName = 'Приложение к договору_заполнено.docx';
+    //     $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $outputFileName);
 
-        // Создаём директорию, если она не существует
-        $outputDir = dirname($outputFilePath);
-        if (!file_exists($outputDir)) {
-            mkdir($outputDir, 0755, true);
-        }
+    //     // Создаём директорию, если она не существует
+    //     $outputDir = dirname($outputFilePath);
+    //     if (!file_exists($outputDir)) {
+    //         mkdir($outputDir, 0755, true);
+    //     }
 
-        $templateProcessor->saveAs($outputFilePath);
+    //     $templateProcessor->saveAs($outputFilePath);
 
-        // Возвращаем ссылку на документ
-        $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
-        // return APIController::getSuccess([
-        //     'link' => $url
-        // ]);
+    //     // Возвращаем ссылку на документ
+    //     $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
+    //     // return APIController::getSuccess([
+    //     //     'link' => $url
+    //     // ]);
 
-        return response()->download($outputFilePath, $outputFileName);
-    });
+    //     return response()->download($outputFilePath, $outputFileName);
+    // });
 });
