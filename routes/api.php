@@ -43,10 +43,10 @@ use function morphos\Russian\inflectName;
 //     });
 // });
 // 'api.key', 
+require __DIR__ . '/projects/alfa/alfa_routes.php';
 
 Route::middleware(['ajax.only', 'api.key'])->group(function () {
-    require __DIR__.'/front/konstructor/contract_routes.php';
-    require __DIR__.'/projects/alfa/alfa_routes.php';
+    require __DIR__ . '/front/konstructor/contract_routes.php';
     //..................................GENERAL FRONT APP ...............................
     Route::post('front/portal', function (Request $request) {
         $domain  = $request->input('domain');

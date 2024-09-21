@@ -32,7 +32,7 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor->setValue('position', $position);
         $templateProcessor->setValue('director', $director);
 
-     
+
         foreach ($persons as $key => $person) {
             $templateProcessor->cloneRow('personNumber', $key);
         }
@@ -45,6 +45,65 @@ Route::prefix('alfa')->group(function () {
             'link' => $url
         ]);
     });
+
+
+    Route::get('/specification', function (Request $request) {
+        $alfapath = 'app/public/pojects/alfacontracts/ppk';
+        $fullPath = storage_path($alfapath . '/specification');
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+        $documentNumber = $request->documentNumber;
+        $documentCreateDate = $request->documentCreateDate;
+        $persons = [
+            [
+                "ID" => "30020",
+                "IBLOCK_ID" => "48",
+                "NAME" => "Участник семинара №1",
+                "IBLOCK_SECTION_ID" => null,
+                "CREATED_BY" => "502",
+                "BP_PUBLISHED" => "Y",
+                "CODE" => null,
+                "PROPERTY_192" => ["145198" => "1812"],
+                "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
+
+            ],
+
+            [
+                "ID" => "30020",
+                "IBLOCK_ID" => "48",
+                "NAME" => "Участник семинара №2",
+                "IBLOCK_SECTION_ID" => null,
+                "CREATED_BY" => "502",
+                "BP_PUBLISHED" => "Y",
+                "CODE" => null,
+                "PROPERTY_192" => ["145198" => "1812"],
+                "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
+
+            ],
+        ];
+        $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
+        $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
+     
+        $companyName = 'ТЕСТ НАЗВАНИЕ КОМПАНИИ';
+        $position = 'ДИРЕКТОР';
+        $director = 'ТЕСТ ИМЯ РУКОВОДИТЕЛЯ';
+        $templateProcessor->setValue('documentNumber', $documentNumber);
+        $templateProcessor->setValue('documentCreateDate', $documentCreateDate);
+        $templateProcessor->setValue('companyName', $companyName);
+        $templateProcessor->setValue('position', $position);
+        $templateProcessor->setValue('director', $director);
+
+
+        foreach ($persons as $key => $person) {
+            $templateProcessor->cloneRow('personNumber', $key);
+            $templateProcessor->cloneRow('person', $person['NAME']);
+        }
+
+        $fileName = 'documents/Приложение к договору.docx';
+        $filePath = storage_path($alfapath . '/' . $fileName);
+        $templateProcessor->saveAs($filePath);
+        $url = Storage::url($fileName);
+        return APIController::getSuccess([
+            'link' => $url
+        ]);
+    });
 });
-
-
