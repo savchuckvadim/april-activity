@@ -17,8 +17,10 @@ Route::prefix('alfa')->group(function () {
 
     // });
     Route::post('/specification', function (Request $request) {
-        $alfapath = 'app/public/pojects/alfacontracts/ppk';
-        $fullPath = storage_path($alfapath . '/specification');
+        $alfapath = 'app/public/projects/alfacontracts/ppk';
+
+        // Используем storage_path только один раз
+        $fullPath = storage_path($alfapath . '/specification.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
         $documentNumber = $request->documentNumber;
         $documentCreateDate = $request->documentCreateDate;
@@ -34,13 +36,22 @@ Route::prefix('alfa')->group(function () {
 
 
         foreach ($persons as $key => $person) {
-            $templateProcessor->cloneRow('personNumber', $key);
+            $templateProcessor->cloneRowAndSetValues('personNumber', $key);
+        }
+        $hash = md5(uniqid(mt_rand(), true));
+        $outputFileName = 'Приложение к договору.docx';
+        $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $hash . '/' . $outputFileName);
+
+        $outputDir = dirname($outputFilePath);
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0755, true);
         }
 
-        $fileName = 'documents/Приложение к договору.docx';
-        $filePath = storage_path($alfapath . '/' . $fileName);
-        $templateProcessor->saveAs($filePath);
-        $url = Storage::url($fileName);
+        $templateProcessor->saveAs($outputFilePath);
+        $url = route('download-document', ['hash' => $hash, 'filename' => $outputFileName]);
+
+        // Возвращаем ссылку на документ
+        // $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
         return APIController::getSuccess([
             'link' => $url
         ]);
@@ -118,6 +129,5 @@ Route::prefix('alfa')->group(function () {
         // ]);
 
         return response()->download($outputFilePath, $outputFileName);
-
     });
 });
