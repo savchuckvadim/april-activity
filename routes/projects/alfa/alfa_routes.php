@@ -45,7 +45,9 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor->setValue('position', $position);
         $templateProcessor->setValue('director', $director);
 
-
+        $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
+        $templateProcessor->cloneRowAndSetValues('person', $persons);
+        $templateProcessor->cloneRowAndSetValues('product', $persons);
         // foreach ($persons as $key => $person) {
         //     $templateProcessor->cloneRowAndSetValues('personNumber', $key);
         // }
