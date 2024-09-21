@@ -49,7 +49,7 @@ Route::prefix('alfa')->group(function () {
 
     Route::get('/specification', function (Request $request) {
         $alfapath = 'app/public/pojects/alfacontracts/ppk';
-        $fullPath = storage_path($alfapath . '/specification');
+        $fullPath = storage_path($alfapath . '/specification.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
         $documentNumber = $request->documentNumber;
         $documentCreateDate = $request->documentCreateDate;
