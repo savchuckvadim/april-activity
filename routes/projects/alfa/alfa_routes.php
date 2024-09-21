@@ -21,7 +21,7 @@ Route::prefix('alfa')->group(function () {
         $alfapath = 'app/public/projects/alfacontracts/ppk';
         $data = $request->all();
         Log::channel('telegram')->info('ONLINE ALFA', [
-            'yo online' =>'yo'
+            'yo online' => 'yo'
         ]);
         Log::channel('telegram')->info('ONLINE ALFA', [
             'data online' => $data
@@ -79,7 +79,7 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
         $documentNumber = $request->documentNumber;
         $documentCreateDate = $request->documentCreateDate;
-        $persons = [
+        $listItems = [
             [
                 "ID" => "30020",
                 "IBLOCK_ID" => "48",
@@ -106,6 +106,18 @@ Route::prefix('alfa')->group(function () {
 
             ],
         ];
+
+        foreach ($listItems as $key => $listItem) {
+            $person = [
+                'number' => $key + 1,
+                'person' => $listItem['NAME'],
+
+            ];
+            foreach ($listItem['PROPERTY_204'] as $key => $value) {
+                $person['product'] = $value;
+            }
+            array_push($persons, $person);
+        }
         $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
         $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
 
@@ -118,6 +130,9 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor->setValue('position', $position);
         $templateProcessor->setValue('director', $director);
 
+        $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
+        $templateProcessor->cloneRowAndSetValues('person', $persons);
+        $templateProcessor->cloneRowAndSetValues('product', $persons);
 
         // foreach ($persons as $key => $person) {
         //     $templateProcessor->cloneRow('personNumber', $key);
