@@ -113,8 +113,11 @@ Route::prefix('alfa')->group(function () {
 
         // Возвращаем ссылку на документ
         $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
-        return APIController::getSuccess([
-            'link' => $url
-        ]);
+        // return APIController::getSuccess([
+        //     'link' => $url
+        // ]);
+
+        return response()->download($outputFilePath, $outputFileName);
+
     });
 });
