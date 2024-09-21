@@ -49,7 +49,7 @@ Route::prefix('alfa')->group(function () {
 
     Route::get('/specification', function (Request $request) {
         $alfapath = 'app/public/projects/alfacontracts/ppk';
-    
+
         // Используем storage_path только один раз
         $fullPath = storage_path($alfapath . '/specification.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
@@ -84,7 +84,7 @@ Route::prefix('alfa')->group(function () {
         ];
         $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
         $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
-     
+
         $companyName = 'ТЕСТ НАЗВАНИЕ КОМПАНИИ';
         $position = 'ДИРЕКТОР';
         $director = 'ТЕСТ ИМЯ РУКОВОДИТЕЛЯ';
@@ -100,10 +100,19 @@ Route::prefix('alfa')->group(function () {
         //     // $templateProcessor->cloneRow('person', $person['NAME']);
         // }
 
-        $fileName = 'documents/Приложение к договору.docx';
-        $filePath = storage_path($alfapath . '/' . $fileName);
-        $templateProcessor->saveAs($filePath);
-        $url = Storage::url($fileName);
+        $outputFileName = 'Приложение к договору_заполнено.docx';
+        $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $outputFileName);
+
+        // Создаём директорию, если она не существует
+        $outputDir = dirname($outputFilePath);
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
+
+        $templateProcessor->saveAs($outputFilePath);
+
+        // Возвращаем ссылку на документ
+        $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
         return APIController::getSuccess([
             'link' => $url
         ]);
