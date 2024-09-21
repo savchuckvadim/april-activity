@@ -33,6 +33,18 @@ Route::get('/link/{linkId}', function ($linkId) {
     return redirect($url);
 });
 
+Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
+    // Путь к файлу на основе хэша
+    $filePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $hash . '/' . $filename);
+
+    // Проверка, существует ли файл
+    if (!file_exists($filePath)) {
+        return response()->json(['error' => 'Файл не найден'], 404);
+    }
+
+    // Отправляем файл для скачивания
+    return response()->download($filePath, $filename);
+})->name('download-document');
 
 Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
