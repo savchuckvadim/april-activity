@@ -3,6 +3,7 @@
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Front\Konstructor\ContractController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,13 @@ Route::prefix('alfa')->group(function () {
     // });
     Route::post('/specification', function (Request $request) {
         $alfapath = 'app/public/projects/alfacontracts/ppk';
-
+        $data = $request->all();
+        Log::channel('telegram')->info('ONLINE ALFA', [
+            'yo online' =>'yo'
+        ]);
+        Log::channel('telegram')->info('ONLINE ALFA', [
+            'data online' => $data
+        ]);
         // Используем storage_path только один раз
         $fullPath = storage_path($alfapath . '/specification.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
@@ -28,6 +35,10 @@ Route::prefix('alfa')->group(function () {
         $companyName = $request->companyName;
         $position = $request->position;
         $director = $request->director;
+
+
+
+
         $templateProcessor->setValue('documentNumber', $documentNumber);
         $templateProcessor->setValue('documentCreateDate', $documentCreateDate);
         $templateProcessor->setValue('companyName', $companyName);
