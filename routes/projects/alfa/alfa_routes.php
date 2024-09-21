@@ -95,10 +95,10 @@ Route::prefix('alfa')->group(function () {
         $templateProcessor->setValue('director', $director);
 
 
-        foreach ($persons as $key => $person) {
-            $templateProcessor->cloneRow('personNumber', $key);
-            // $templateProcessor->cloneRow('person', $person['NAME']);
-        }
+        // foreach ($persons as $key => $person) {
+        //     $templateProcessor->cloneRow('personNumber', $key);
+        //     // $templateProcessor->cloneRow('person', $person['NAME']);
+        // }
 
         $fileName = 'documents/Приложение к договору.docx';
         $filePath = storage_path($alfapath . '/' . $fileName);
