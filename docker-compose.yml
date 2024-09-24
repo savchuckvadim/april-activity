@@ -22,7 +22,8 @@ services:
   webserver:
     image: nginx:alpine
     container_name: webserver
-    restart: unless-stopped
+    # restart: unless-stopped
+    restart: no
     tty: true
     ports:
       - "8081:80"
