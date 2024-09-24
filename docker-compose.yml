@@ -1,64 +1,44 @@
-version: '2.0'
+version: '3.8'
+
 services:
+  # PHP-FPM Service для Laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: garant-app
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - app-network
+    depends_on:
+      - db
+    command: /bin/sh -c "php-fpm & php artisan websockets:serve"
 
-    #PHP Service
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: cloudsigma.com/php
-        container_name: app
-        restart: unless-stopped
-        tty: true
-        environment:
-            SERVICE_NAME: app
-            SERVICE_TAGS: dev
-        working_dir: /var/www/html/
-        volumes:
-            - ./:/var/www/html/
-            - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
-        networks:
-            - app-network
+  # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - app-network
+    depends_on:
+      - app
 
-    #Nginx Service
-    webserver:
-        image: nginx:alpine
-        container_name: webserver
-        restart: unless-stopped
-        tty: true
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./:/var/www/html/
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
-        networks:
-            - app-network
-
-    #MySQL Service
-    db:
-        image: mysql:5.7.32
-        container_name: db
-        restart: unless-stopped
-        tty: true
-        ports:
-            - "3306:3306"
-        environment:
-            MYSQL_DATABASE: sp
-            MYSQL_ROOT_PASSWORD: sp
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
-        volumes:
-            - dbdata:/var/lib/mysql/
-            - ./mysql/my.cnf:/etc/mysql/my.cnf
-        networks:
-            - app-network
-
-#Docker Networks
+# Docker Networks
 networks:
-    app-network:
-        driver: bridge
-#Volumes
-volumes:
-    dbdata:
-        driver: local
+  app-network:
+    driver: bridge
