@@ -16,8 +16,6 @@ services:
       - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
     networks:
       - app-network
-    depends_on:
-      - db
     command: /bin/sh -c "php-fpm & php artisan websockets:serve"
 
   # Nginx Service
