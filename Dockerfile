@@ -37,8 +37,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # COPY . .
 
 # Устанавливаем зависимости через Composer
-RUN composer install --no-dev --optimize-autoloader
-RUN composer dump-autoload
+# RUN composer install --no-dev --optimize-autoloader
+RUN composer install
+# RUN composer dump-autoload
 
 
 
