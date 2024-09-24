@@ -38,7 +38,7 @@ COPY . .
 
 # Устанавливаем зависимости через Composer
 # RUN composer install --no-dev --optimize-autoloader
-RUN composer install
+RUN composer dump-autoload
 
 
 
