@@ -5,7 +5,7 @@ COPY composer.lock composer.json /var/www/html/
 
 # Set working directory
 WORKDIR /var/www/html/
-COPY . .
+
 # Install dependencies for the operating system software
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -34,7 +34,7 @@ RUN docker-php-ext-install gd
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents to the working directory
-# COPY . .
+COPY . /var/www/html/
 
 # Устанавливаем зависимости через Composer
 # RUN composer install --no-dev --optimize-autoloader
