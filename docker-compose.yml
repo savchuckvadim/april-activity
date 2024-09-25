@@ -17,7 +17,7 @@ services:
       - app-network
     depends_on:
       - redis
-    command: /bin/sh -c "php-fpm & php artisan websockets:serve"
+    # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
 
   # Nginx Service
   webserver:
@@ -46,18 +46,18 @@ services:
       - app-network
 
   # Laravel Echo Server
-  echo-server:
-    image: artisan/docker-laravel-echo-server
-    container_name: echo-server
-    restart: "no"
-    tty: true
-    volumes:
-      - .:/var/www/html
-    networks:
-      - app-network
-    ports:
-      - "6001:6001"
-    command: laravel-echo-server start
+  # echo-server:
+  #   image: artisan/docker-laravel-echo-server
+  #   container_name: echo-server
+  #   restart: "no"
+  #   tty: true
+  #   volumes:
+  #     - .:/var/www/html
+  #   networks:
+  #     - app-network
+  #   ports:
+  #     - "6001:6001"
+  #   command: laravel-echo-server start
 
 networks:
   app-network:
