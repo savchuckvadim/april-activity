@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 # Copy composer.lock and composer.json into the working directory
 # COPY composer.lock composer.json /var/www/html/
@@ -39,7 +39,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Устанавливаем зависимости через Composer
 # RUN composer install --no-dev --optimize-autoloader
 RUN composer install
-# RUN composer dump-autoload
+RUN composer dump-autoload
 
 
 
