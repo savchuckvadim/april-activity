@@ -8,8 +8,6 @@ services:
       dockerfile: Dockerfile
     image: cloudsigma.com/php
     container_name: app
-    expose:
-      - "9000"
     restart: "no"
     tty: true
     working_dir: /var/www/html
