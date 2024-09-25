@@ -12,22 +12,23 @@ services:
     tty: true
     working_dir: /var/www/html
     volumes:
-      - .:/var/www/html
+      # - ./:/var/www/html
+      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
     networks:
       - app-network
-    depends_on:
-      - redis
-    command: /bin/sh -c "php-fpm & php artisan websockets:serve"
+    # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
 
   # Nginx Service
   webserver:
     image: nginx:alpine
     container_name: webserver
+    # restart: unless-stopped
     restart: "no"
     tty: true
     ports:
       - "8081:80"
     volumes:
+      # - ./:/var/www/html
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/ssl:/etc/nginx/ssl
     networks:
@@ -35,30 +36,7 @@ services:
     depends_on:
       - app
 
-  # Redis Service
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: "unless-stopped"
-    ports:
-      - "6379:6379"
-    networks:
-      - app-network
-
-  # Laravel Echo Server
-  echo-server:
-    image: artisan/docker-laravel-echo-server
-    container_name: echo-server
-    restart: "no"
-    tty: true
-    volumes:
-      - .:/var/www/html
-    networks:
-      - app-network
-    ports:
-      - "6001:6001"
-    command: laravel-echo-server start
-
+# Docker Networks
 networks:
   app-network:
     driver: bridge
