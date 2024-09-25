@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: garant-app
+    image: cloudsigma.com/php
     container_name: app
     restart: unless-stopped
     tty: true
