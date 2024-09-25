@@ -49,7 +49,7 @@ RUN composer install
 
 RUN chmod -R 777 /var/www/html/bootstrap/cache
 RUN chmod -R 777 /var/www/html/storage
-RUN chmod -R 777 /var/www/html/vendor
+RUN chmod -R 777 /var/www/html/vendor/autoload.php
 
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
