@@ -12,7 +12,7 @@ services:
     tty: true
     working_dir: /var/www/html
     volumes:
-      - .:/var/www/html
+      # - .:/var/www/html
     networks:
       - app-network
     depends_on:
@@ -28,6 +28,7 @@ services:
     ports:
       - "8081:80"
     volumes:
+      - ./:/var/www/html
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/ssl:/etc/nginx/ssl
     networks:

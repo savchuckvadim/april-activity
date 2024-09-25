@@ -1,7 +1,7 @@
 FROM php:8.1-fpm
 
 # Copy composer.lock and composer.json into the working directory
-COPY composer.lock composer.json /var/www/html/
+# COPY composer.lock composer.json /var/www/html/
 
 # Set working directory
 WORKDIR /var/www/html/
@@ -49,8 +49,7 @@ RUN composer install
 
 RUN chmod -R 777 /var/www/html/bootstrap/cache
 RUN chmod -R 777 /var/www/html/storage
-# RUN chmod -R 777 /var/www/html/vendor
-RUN chown -R www-data:www-data /var/www/html/vendor
+RUN chmod -R 777 /var/www/html/vendor/autoload.php
 
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
