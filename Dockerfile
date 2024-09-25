@@ -1,11 +1,11 @@
 FROM php:8.1-fpm
 
 # Copy composer.lock and composer.json into the working directory
-# COPY composer.lock composer.json /var/www/html/
-COPY . /var/www/html/
+COPY composer.lock composer.json /var/www/html/
+
 # Set working directory
 WORKDIR /var/www/html/
-
+COPY . /var/www/html/
 # Install dependencies for the operating system software
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -44,8 +44,13 @@ RUN composer install
 
 
 # Assign permissions of the working directory to the www-data user
-RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage
+# RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+# RUN chown -R www-data:www-data /var/www/html/storage
+
+RUN chmod -R 777 /var/www/html/bootstrap/cache
+RUN chmod -R 777 /var/www/html/storage
+RUN chmod -R 777 /var/www/html/vendor
+
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
