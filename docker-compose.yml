@@ -8,11 +8,11 @@ services:
       dockerfile: Dockerfile
     image: cloudsigma.com/php
     container_name: app
-    restart: unless-stopped
+    restart: "no"
     tty: true
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html
+      # - ./:/var/www/html
       - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
     networks:
       - app-network
