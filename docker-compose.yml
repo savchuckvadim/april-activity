@@ -28,7 +28,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./:/var/www/html
+      # - ./:/var/www/html
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/ssl:/etc/nginx/ssl
     networks:
@@ -46,19 +46,7 @@ services:
     networks:
       - app-network
 
-  # Laravel Echo Server
-  # echo-server:
-  #   image: artisan/docker-laravel-echo-server
-  #   container_name: echo-server
-  #   restart: "no"
-  #   tty: true
-  #   volumes:
-  #     - .:/var/www/html
-  #   networks:
-  #     - app-network
-  #   ports:
-  #     - "6001:6001"
-  #   command: laravel-echo-server start
+
 
 networks:
   app-network:

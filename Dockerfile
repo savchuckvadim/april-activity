@@ -1,8 +1,8 @@
-FROM php:8.2-fpm
+FROM php:8.1-fpm
 
 # Copy composer.lock and composer.json into the working directory
-COPY composer.lock composer.json /var/www/html/
-
+# COPY composer.lock composer.json /var/www/html/
+COPY . /var/www/html/
 # Set working directory
 WORKDIR /var/www/html/
 
@@ -33,11 +33,8 @@ RUN docker-php-ext-install gd
 # Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-
-
 # Copy existing application directory contents to the working directory
-COPY . /var/www/html/
+# COPY . .
 
 # Устанавливаем зависимости через Composer
 # RUN composer install --no-dev --optimize-autoloader
@@ -47,13 +44,8 @@ RUN composer install
 
 
 # Assign permissions of the working directory to the www-data user
-# RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
-# RUN chown -R www-data:www-data /var/www/html/storage
-
-RUN chmod -R 777 /var/www/html/bootstrap/cache
-RUN chmod -R 777 /var/www/html/storage
-RUN chmod -R 777 /var/www/html/vendor/autoload.php
-
+RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
