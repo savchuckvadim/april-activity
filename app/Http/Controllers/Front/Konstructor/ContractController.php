@@ -617,7 +617,7 @@ class ContractController extends Controller
 
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        $url = route('download-supply', ['domain' => $domain, 'hash' => $hash, 'filename' => $outputFileName]);
+        $url = route('download-supply', ['domain' => $domain, 'hash' => $hash, 'filename' => $resultFileName]);
 
 
         // $link = asset('storage/clients/' . $path . '/' . $resultFileName);
