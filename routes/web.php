@@ -46,6 +46,23 @@ Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
     return response()->download($filePath, $filename);
 })->name('download-document');
 
+Route::get('/supply/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
+
+   
+    $path = $domain . '/supplies/' . $hash . '/' ;
+    $filePath = storage_path('app/public/clients/' . $path);
+    // Путь к файлу на основе хэша
+    // $filePath = storage_path('app/public/clients/supply/' . $domain . '/' . $hash . '/' . $filename);
+
+    // Проверка, существует ли файл
+    if (!file_exists($filePath)) {
+        return response()->json(['error' => 'Файл не найден'], 404);
+    }
+
+    // Отправляем файл для скачивания
+    return response()->download($filePath, $filename);
+})->name('download-supply');
+
 Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {
     // $url = LinkController ::urlForRedirect($linkId);
     // if ($pass == 'nmbrsdntl') {
@@ -107,7 +124,7 @@ Route::get('install/rpa/{pass}/{domain}/{token}', function ($pass, $domain, $tok
     // if ($pass == 'nmbrsdntl') {
     //     return InstallRPAController::installRPA($domain, $token);
     // } else {
-        return 'yo';
+    return 'yo';
     // }
 });
 
