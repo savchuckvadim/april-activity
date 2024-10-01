@@ -386,6 +386,11 @@ class ContractController extends Controller
         $data = $request->all();
         $domain = $data['domain'];
         $companyId = $data['companyId'];
+        $dealId = null;
+        if (!empty($data['dealId'])) {
+
+            $dealId = $data['dealId'];
+        }
         $contractType = $data['contractType'];
 
         $contract = $data['contract'];
@@ -615,6 +620,22 @@ class ContractController extends Controller
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
         $link = asset('storage/clients/' . $path . '/' . $resultFileName);
+        $method = '/crm.timeline.comment.add';
+        $hook = BitrixController::getHook($domain);
+
+        $url = $hook . $method;
+
+        $message = '<a href="' . $link . '" target="_blank">' . $resultFileName . '</a>';
+
+        $fields = [
+            "ENTITY_ID" => $dealId,
+            "ENTITY_TYPE" => 'deal',
+            "COMMENT" => $message
+        ];
+        $data = [
+            'fields' => $fields
+        ];
+        $responseBitrix = Http::get($url, $data);
 
         return APIController::getSuccess(
             ['contractData' => $data, 'link' => $link, 'price' =>  $price]
