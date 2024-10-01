@@ -612,7 +612,7 @@ class ContractController extends Controller
         if (!is_writable($resultPath)) {
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = $documentNumber . '_' . $shortUid . '_supply_report.docx';
+        $resultFileName = 'Отчет о продаже_' . $shortUid . '.docx';
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
         $objWriter->save($resultPath . '/' . $resultFileName);
