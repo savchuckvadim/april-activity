@@ -594,9 +594,7 @@ class ContractController extends Controller
         // Сохраняем файл Word в формате .docx
         $uid = Uuid::uuid4()->toString();
         $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
-        $hash = md5(uniqid(mt_rand(), true));
-
-        $path = $data['domain'] . '/supplies/' . $hash . '/' ;
+        $path = $data['domain'] . '/supplies/' . $data['userId'];
         $resultPath = storage_path('app/public/clients/' . $path);
 
 
@@ -609,21 +607,17 @@ class ContractController extends Controller
         if (!is_writable($resultPath)) {
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = 'Отчет о поставке' . '_' . $shortUid . '.docx';
-        $outputFileName  = $resultPath . '/' . $resultFileName;
+        $resultFileName = $documentNumber . '_' . $shortUid . '_supply_report.docx';
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document, 'Word2007');
 
-        $objWriter->save($outputFileName);
+        $objWriter->save($resultPath . '/' . $resultFileName);
 
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        $url = route('download-supply', ['domain' => $domain, 'hash' => $hash, 'filename' => $resultFileName]);
-
-
-        // $link = asset('storage/clients/' . $path . '/' . $resultFileName);
+        $link = asset('storage/clients/' . $path . '/' . $resultFileName);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $url, 'price' =>  $price]
+            ['contractData' => $data, 'link' => $link, 'price' =>  $price]
         );
     }
 
