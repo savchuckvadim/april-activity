@@ -113,5 +113,7 @@ Route::prefix('alfa')->group(function () {
                 }
             }
         }
+        return APIController::getSuccess(['result' => $stampsData]);
+
     });
 });
