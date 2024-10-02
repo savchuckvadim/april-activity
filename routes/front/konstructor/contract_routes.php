@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Front\Konstructor\ContractController;
+use App\Http\Controllers\Front\Konstructor\SupplyController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('konstruct')->group(function () {
@@ -18,6 +19,15 @@ Route::prefix('konstruct')->group(function () {
    
         Route::post('/', [ContractController::class, 'getByPortal']);
     
+    });
+
+
+    Route::prefix('supply')->group(function () {
+        Route::post('init', [SupplyController::class, 'frontInit']);
+        Route::post('/', [SupplyController::class, 'getDocument']);
+
+
+        
     });
 });
 

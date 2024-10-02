@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Front\Konstructor\ContractController;
+use App\Http\Controllers\PortalController;
+use App\Models\Portal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -70,91 +73,45 @@ Route::prefix('alfa')->group(function () {
     });
 
 
-    // Route::get('/specification', function (Request $request) {
-    //     $alfapath = 'app/public/projects/alfacontracts/ppk';
 
-    //     // Используем storage_path только один раз
-    //     $fullPath = storage_path($alfapath . '/specification.docx');
-    //     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-    //     $documentNumber = $request->documentNumber;
-    //     $documentCreateDate = $request->documentCreateDate;
-    //     $listItems = [
-    //         [
-    //             "ID" => "30020",
-    //             "IBLOCK_ID" => "48",
-    //             "NAME" => "Участник семинара №1",
-    //             "IBLOCK_SECTION_ID" => null,
-    //             "CREATED_BY" => "502",
-    //             "BP_PUBLISHED" => "Y",
-    //             "CODE" => null,
-    //             "PROPERTY_192" => ["145198" => "1812"],
-    //             "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
 
-    //         ],
+    Route::get('/stamps/{domain}', function ($domain) {
+        $portal = Portal::where('domain', $domain)->first();
+        $providers = $portal->providers;
+        $provider = $providers[0];
+        $rq = $provider->rq;
+        $signatures = $rq->signatures;
+        $stamps = $rq->stamps;
 
-    //         [
-    //             "ID" => "30020",
-    //             "IBLOCK_ID" => "48",
-    //             "NAME" => "Участник семинара №2",
-    //             "IBLOCK_SECTION_ID" => null,
-    //             "CREATED_BY" => "502",
-    //             "BP_PUBLISHED" => "Y",
-    //             "CODE" => null,
-    //             "PROPERTY_192" => ["145198" => "1812"],
-    //             "PROPERTY_204" => ["145200" => "[]СЕ Семинар"]
+        $stampsData = [
 
-    //         ],
-    //     ];
-    //     $persons = [];
-    //     foreach ($listItems as $key => $listItem) {
-    //         $person = [
-    //             'personNumber' => $key + 1 .'. ',
-    //             'person' => $listItem['NAME'],
+            'stamp' => '',
+            'signature' => '',
+            'signature_accountant' => '',
+            'director' =>  $rq['director'],
+            'accountant' =>  $rq['accountant'],
 
-    //         ];
-    //         foreach ($listItem['PROPERTY_204'] as $key => $value) {
-    //             $person['product'] = $value;
-    //         }
-    //         array_push($persons, $person);
-    //     }
-    //     $documentNumber = 'ТЕСТ НОМЕР ДОКУМЕНТА';
-    //     $documentCreateDate = 'ТЕСТ ДАТА ДОКУМЕНТА';
+        ];
 
-    //     $companyName = 'ТЕСТ НАЗВАНИЕ КОМПАНИИ';
-    //     $position = 'ДИРЕКТОР';
-    //     $director = 'ТЕСТ ИМЯ РУКОВОДИТЕЛЯ';
-    //     $templateProcessor->setValue('documentNumber', $documentNumber);
-    //     $templateProcessor->setValue('documentCreateDate', $documentCreateDate);
-    //     $templateProcessor->setValue('companyName', $companyName);
-    //     $templateProcessor->setValue('position', $position);
-    //     $templateProcessor->setValue('director', $director);
+        // Кодируем содержимое файлов в Base64 для включения в ответ
+        if (!empty($stamps)) {
+            $filePath = storage_path('app/' . $stamps[0]['path']);
+            if (file_exists($filePath)) {
+                $stampsData['stamp'] = base64_encode(file_get_contents($filePath));
+            }
+        }
 
-    //     $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
-    //     // $templateProcessor->cloneRowAndSetValues('person', $persons);
-    //     // $templateProcessor->cloneRowAndSetValues('product', $persons);
-
-    //     // foreach ($persons as $key => $person) {
-    //     //     $templateProcessor->cloneRow('personNumber', $key);
-    //     //     // $templateProcessor->cloneRow('person', $person['NAME']);
-    //     // }
-
-    //     $outputFileName = 'Приложение к договору_заполнено.docx';
-    //     $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $outputFileName);
-
-    //     // Создаём директорию, если она не существует
-    //     $outputDir = dirname($outputFilePath);
-    //     if (!file_exists($outputDir)) {
-    //         mkdir($outputDir, 0755, true);
-    //     }
-
-    //     $templateProcessor->saveAs($outputFilePath);
-
-    //     // Возвращаем ссылку на документ
-    //     $url = Storage::url('projects/alfacontracts/ppk/documents/' . $outputFileName);
-    //     // return APIController::getSuccess([
-    //     //     'link' => $url
-    //     // ]);
-
-    //     return response()->download($outputFilePath, $outputFileName);
-    // });
+        if (!empty($signatures)) {
+            foreach ($signatures as $key => $signature) {
+                $filePath = storage_path('app/' . $signature['path']);
+                if (file_exists($filePath)) {
+                    if ($signature['code'] !== 'signature_accountant') {
+                        $stampsData['signature'] = base64_encode(file_get_contents($filePath));
+                    } else {
+                        $stampsData['signature_accountant'] = base64_encode(file_get_contents($filePath));
+                    }
+                }
+            }
+        }
+    });
 });
