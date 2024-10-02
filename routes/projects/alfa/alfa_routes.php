@@ -75,45 +75,51 @@ Route::prefix('alfa')->group(function () {
 
 
 
-    Route::get('/stamps/{domain}', function ($domain) {
-        $portal = Portal::where('domain', $domain)->first();
-        $providers = $portal->providers;
-        $provider = $providers[0];
-        $rq = $provider->rq;
-        $signatures = $rq->signatures;
-        $stamps = $rq->stamps;
+    Route::get('/stamps', function () {
+        $domain = 'alfacentr.bitrix24.ru';
+        if ($domain === 'alfacentr.bitrix24.ru') {
 
-        $stampsData = [
 
-            'stamp' => '',
-            'signature' => '',
-            'signature_accountant' => '',
-            'director' =>  $rq['director'],
-            'accountant' =>  $rq['accountant'],
 
-        ];
 
-        // Кодируем содержимое файлов в Base64 для включения в ответ
-        if (!empty($stamps)) {
-            $filePath = storage_path('app/' . $stamps[0]['path']);
-            if (file_exists($filePath)) {
-                $stampsData['stamp'] = base64_encode(file_get_contents($filePath));
-            }
-        }
+            $portal = Portal::where('domain', $domain)->first();
+            $providers = $portal->providers;
+            $provider = $providers[0];
+            $rq = $provider->rq;
+            $signatures = $rq->signatures;
+            $stamps = $rq->stamps;
 
-        if (!empty($signatures)) {
-            foreach ($signatures as $key => $signature) {
-                $filePath = storage_path('app/' . $signature['path']);
+            $stampsData = [
+
+                'stamp' => '',
+                'signature' => '',
+                'signature_accountant' => '',
+                'director' =>  $rq['director'],
+                'accountant' =>  $rq['accountant'],
+
+            ];
+
+            // Кодируем содержимое файлов в Base64 для включения в ответ
+            if (!empty($stamps)) {
+                $filePath = storage_path('app/' . $stamps[0]['path']);
                 if (file_exists($filePath)) {
-                    if ($signature['code'] !== 'signature_accountant') {
-                        $stampsData['signature'] = base64_encode(file_get_contents($filePath));
-                    } else {
-                        $stampsData['signature_accountant'] = base64_encode(file_get_contents($filePath));
+                    $stampsData['stamp'] = base64_encode(file_get_contents($filePath));
+                }
+            }
+
+            if (!empty($signatures)) {
+                foreach ($signatures as $key => $signature) {
+                    $filePath = storage_path('app/' . $signature['path']);
+                    if (file_exists($filePath)) {
+                        if ($signature['code'] !== 'signature_accountant') {
+                            $stampsData['signature'] = base64_encode(file_get_contents($filePath));
+                        } else {
+                            $stampsData['signature_accountant'] = base64_encode(file_get_contents($filePath));
+                        }
                     }
                 }
             }
+            return APIController::getSuccess(['result' => $stampsData]);
         }
-                return APIController::getSuccess(['result' => $stampsData]);
-
     });
 });
