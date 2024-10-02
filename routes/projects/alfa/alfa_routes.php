@@ -75,7 +75,8 @@ Route::prefix('alfa')->group(function () {
 
 
 
-    Route::get('/stamps/{domain}', function ($domain) {
+    Route::get('/stamps/', function ($domain) {
+        $domain === 'alfacentr.bitrix24.ru';
         $portal = Portal::where('domain', $domain)->first();
         $providers = $portal->providers;
         $provider = $providers[0];
