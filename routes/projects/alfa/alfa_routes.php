@@ -75,8 +75,7 @@ Route::prefix('alfa')->group(function () {
 
 
 
-    Route::get('/stamps/', function ($domain) {
-        $domain === 'alfacentr.bitrix24.ru';
+    Route::get('/stamps/{domain}', function ($domain) {
         $portal = Portal::where('domain', $domain)->first();
         $providers = $portal->providers;
         $provider = $providers[0];
@@ -114,7 +113,7 @@ Route::prefix('alfa')->group(function () {
                 }
             }
         }
-        return APIController::getSuccess(['result' => $stampsData]);
+                return APIController::getSuccess(['result' => $stampsData]);
 
     });
 });
