@@ -37,7 +37,7 @@ Route::get('portalmeasure/{portalmeasureId}', [PortalMeasureController::class, '
 //...............................................SET RPA
 
 Route::post('portal/{portalId}/portalmeasure', [PortalMeasureController::class, 'store']);
-// Route::post('measure/{measureId}', [PortalMeasure::class, 'store']);
+Route::post('portalmeasure/{measureId}', [PortalMeasureController::class, 'store']);
 
 // ............................................DELETE
 Route::delete('portal/portalmeasure/{portalmeasureId}', [PortalMeasureController::class, 'destroy']);
