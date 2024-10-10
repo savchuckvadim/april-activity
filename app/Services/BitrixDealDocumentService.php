@@ -849,7 +849,25 @@ class BitrixDealDocumentService
                     foreach ($target as $index => $product) {
 
                         if ($product) {
+                            $productContractName = null;
 
+                            if(!empty($isInvoice)){
+                                foreach ($product['cells'] as $cell) {
+                                    if ($cell['code'] === 'contract') {
+                                        if (!empty($cell['value'])) {
+                                            if (!empty($cell['value']['contract'])) {
+                                                if (!empty($cell['value']['contract']['productName'])) {
+                                                    if ($cell['value']['contract']['productName'] !== 'null') {
+                                                        $productContractName = $cell['value']['contract']['productName'];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        
                             if (
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
@@ -870,6 +888,9 @@ class BitrixDealDocumentService
 
                                         if ($cell['code'] === 'name') {
                                             $searchingCell = $cell;
+                                            if(!empty($isInvoice) && !empty($productContractName)){
+                                                $searchingCell['value'] = $productContractName.' ('.$cell['value'].')';
+                                            }
                                         }
 
                                         if ($cell['code'] === 'current') {

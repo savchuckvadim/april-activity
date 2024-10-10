@@ -1350,7 +1350,8 @@ class PDFDocumentController extends Controller
             'allPrices' => $allPrices,
             // 'withPrice' => $withPrice,
             'withTotal' => true,
-            'total' => $fullTotalstring
+            'total' => $fullTotalstring,
+            'contract' => $contract
 
         ];
     }
@@ -1519,7 +1520,20 @@ class PDFDocumentController extends Controller
                     foreach ($target as $index => $product) {
 
                         if ($product) {
-
+                            $productContract = null;
+                            foreach ($product['cells'] as $cell) {
+                                if ($cell['code'] === 'contract') {
+                                    if (!empty($cell['value'])) {
+                                        if (!empty($cell['value']['contract'])) {
+                                            if (!empty($cell['value']['contract']['productName'])) {
+                                                if ($cell['value']['contract']['productName'] !== 'null') {
+                                                    $productContract = $cell['value']['contract'];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             if (
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
@@ -1540,6 +1554,7 @@ class PDFDocumentController extends Controller
 
                                         if ($cell['code'] === 'name') {
                                             $searchingCell = $cell;
+                                            $searchingCell['contract'] =  $productContract;
                                         }
 
                                         if ($cell['code'] === 'current') {

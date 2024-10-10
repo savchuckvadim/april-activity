@@ -50,9 +50,6 @@ Route::prefix('alfa')->group(function () {
 
         $templateProcessor->cloneRowAndSetValues('personNumber', $persons);
 
-        // foreach ($persons as $key => $person) {
-        //     $templateProcessor->cloneRowAndSetValues('personNumber', $key);
-        // }
         $hash = md5(uniqid(mt_rand(), true));
         $outputFileName = 'Приложение к договору.docx';
         $outputFilePath = storage_path('app/public/projects/alfacontracts/ppk/documents/' . $hash . '/' . $outputFileName);
