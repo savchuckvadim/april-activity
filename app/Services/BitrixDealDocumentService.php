@@ -860,7 +860,7 @@ class BitrixDealDocumentService
 
                                                 if (!empty($cell['value']['code'])) {
                                                     if (!empty($cell['value']['code'] == 'lic')) {
-                                                        $licLongString = 'длительность ' . $cell['value']['prepayment'] . 'мес.';
+                                                        $licLongString = 'длительность ' . $cell['value']['prepayment'] . ' мес.';
                                                     }
                                                 }
                                             }
