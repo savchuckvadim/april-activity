@@ -86,7 +86,7 @@ class BitrixDealDocumentService
         $withStamps,
         $withManager,
         $withHook = false
-        
+
 
 
 
@@ -236,7 +236,6 @@ class BitrixDealDocumentService
 
             }
         }
-
     }
 
 
@@ -253,7 +252,7 @@ class BitrixDealDocumentService
 
 
             $data = $this->data;
-         
+
             $isNeedPdfOffer = false;
             if (isset($data['isWord'])) {
                 if ($data['isWord'] == true) {
@@ -354,12 +353,9 @@ class BitrixDealDocumentService
             ]);
             return  $result;
         }
-     
     }
 
-    protected function createDocumentContract(){
-        
-    }
+    protected function createDocumentContract() {}
 
     protected function createDocumentOffer()
     {
@@ -449,7 +445,7 @@ class BitrixDealDocumentService
             $headerData  = $this->headerData;
             $doubleHeaderData  = $this->doubleHeaderData;
             $stampsData  =   $this->getStampsData(true);
-           
+
             if ($data &&  isset($data['template'])) {
                 $template = $data['template'];
                 if ($template && isset($template['id'])) {
@@ -850,8 +846,8 @@ class BitrixDealDocumentService
 
                         if ($product) {
                             $productContractName = null;
-
-                            if(!empty($isInvoice)){
+                            $licLongString = '';
+                            if (!empty($isInvoice)) {
                                 foreach ($product['cells'] as $cell) {
                                     if ($cell['code'] === 'contract') {
                                         if (!empty($cell['value'])) {
@@ -861,13 +857,18 @@ class BitrixDealDocumentService
                                                         $productContractName = $cell['value']['contract']['productName'];
                                                     }
                                                 }
+
+                                                if (!empty($cell['value']['code'])) {
+                                                    if (!empty($cell['value']['code'] == 'lic')) {
+                                                        $licLongString = 'длительность ' . $cell['value']['prepayment'] . 'мес.';
+                                                    }
+                                                }
                                             }
                                         }
                                     }
                                 }
-
                             }
-                        
+
                             if (
                                 is_array($product) && !empty($product) && is_array($product['cells']) && !empty($product['cells'])
                             ) {
@@ -888,8 +889,8 @@ class BitrixDealDocumentService
 
                                         if ($cell['code'] === 'name') {
                                             $searchingCell = $cell;
-                                            if(!empty($isInvoice) && !empty($productContractName)){
-                                                $searchingCell['value'] = $productContractName.' ('.$cell['value'].')';
+                                            if (!empty($isInvoice) && !empty($productContractName)) {
+                                                $searchingCell['value'] = $productContractName . ' ' . $licLongString . ' (' . $cell['value'] . ')';
                                             }
                                         }
 
@@ -1119,7 +1120,7 @@ class BitrixDealDocumentService
                     Log::channel('telegram')->error('APRIL_ONLINE', [
                         $smart => [
                             'smart' => $smart['error'],
-               
+
                         ]
                     ]);
                     if ($companyId) {
