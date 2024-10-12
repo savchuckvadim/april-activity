@@ -118,7 +118,7 @@ class PortalContractController extends Controller
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['portalcontractId' => $portalContract]
+                ['portalcontractId' => $portalContractId]
             );
         }
     }

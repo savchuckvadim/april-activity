@@ -39,6 +39,7 @@ Route::post('portalcontract/{portalcontractId}', [PortalContractController::clas
 
 // ............................................DELETE
 Route::delete('portal/portalcontract/{portalcontractId}', [PortalContractController::class, 'destroy']);
+Route::delete('portalcontract/{portalcontractId}', [PortalContractController::class, 'destroy']);
 
 
 //FIELDS

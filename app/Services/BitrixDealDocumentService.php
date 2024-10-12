@@ -836,6 +836,7 @@ class BitrixDealDocumentService
             'alternative' => [],
             'total' => []
         ];
+
         foreach ($allPrices as $key => $target) {
 
             if ($target) {
@@ -845,6 +846,17 @@ class BitrixDealDocumentService
                     foreach ($target as $index => $product) {
 
                         if ($product) {
+                            $quantityCell = null;
+                            $isLic = false;
+                            foreach ($product['cells'] as $cell) {
+                                $searchingCell = null;
+
+
+                                if ($cell['code'] === 'quantity') {
+                                    $quantityCell = $cell;
+                                }
+                            }
+
                             $productContractName = null;
                             $licLongString = '';
                             if (!empty($isInvoice)) {
@@ -861,6 +873,7 @@ class BitrixDealDocumentService
                                                 if (!empty($cell['value']['code'])) {
                                                     if (!empty($cell['value']['code'] == 'lic')) {
                                                         $licLongString = 'длительность ' . $cell['value']['prepayment'] . ' мес.';
+                                                        $isLic = true;
                                                     }
                                                 }
                                             }
