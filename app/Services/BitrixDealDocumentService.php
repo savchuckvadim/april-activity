@@ -871,8 +871,12 @@ class BitrixDealDocumentService
                                                 }
 
                                                 if (!empty($cell['value']['code'])) {
-                                                    if (!empty($cell['value']['code'] == 'lic')) {
+                                                    if ($cell['value']['code'] == 'lic') {
                                                         $licLongString = 'длительность ' . $cell['value']['prepayment'] . ' мес.';
+                                                        $isLic = true;
+                                                    }
+                                                    if ($cell['value']['code'] == 'key') {
+                                                        $licLongString = 'длительность работы ключа ' . $cell['value']['prepayment'] . ' мес.';
                                                         $isLic = true;
                                                     }
                                                 }
@@ -914,6 +918,9 @@ class BitrixDealDocumentService
                                             $cell['name'] = 'Кол-во';
                                             if (preg_match('/\d+/', (string)$cell['value'], $matches)) {
                                                 $cell['value'] = $matches[0];
+                                            }
+                                            if (!empty($isLic)) {
+                                                $cell['value'] = 1;
                                             }
                                             $searchingCell = $cell;
                                         }
