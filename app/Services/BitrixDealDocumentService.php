@@ -871,12 +871,16 @@ class BitrixDealDocumentService
                                                 }
 
                                                 if (!empty($cell['value']['code'])) {
+                                                    $licLong = $quantityCell['value'];
+                                                    if (preg_match('/\d+/', (string)$quantityCell['value'], $matches)) {
+                                                        $licLong = $matches[0];
+                                                    }
                                                     if ($cell['value']['code'] == 'lic') {
-                                                        $licLongString = 'длительность ' . $cell['value']['prepayment'] . ' мес.';
+                                                        $licLongString = 'длительность ' . $licLong . ' мес.';
                                                         $isLic = true;
                                                     }
                                                     if ($cell['value']['code'] == 'key') {
-                                                        $licLongString = 'длительность работы ключа ' . $cell['value']['prepayment'] . ' мес.';
+                                                        $licLongString = 'длительность работы ключа ' . $licLong . ' мес.';
                                                         $isLic = true;
                                                     }
                                                 }
@@ -919,10 +923,12 @@ class BitrixDealDocumentService
                                             if (preg_match('/\d+/', (string)$cell['value'], $matches)) {
                                                 $cell['value'] = $matches[0];
                                             }
+                                         
+                                            $searchingCell = $cell;
                                             if (!empty($isLic)) {
                                                 $cell['value'] = 1;
+                                                $searchingCell['value'] = 1;
                                             }
-                                            $searchingCell = $cell;
                                         }
                                         if ($cell['code'] === 'measure') {
                                             $searchingCell = $cell;
