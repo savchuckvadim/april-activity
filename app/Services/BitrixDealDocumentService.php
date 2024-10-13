@@ -923,6 +923,10 @@ class BitrixDealDocumentService
                                             if (preg_match('/\d+/', (string)$cell['value'], $matches)) {
                                                 $cell['value'] = $matches[0];
                                             }
+                                            if($isLic){
+                                                $cell['value'] = 1;
+
+                                            }
                                          
                                             $searchingCell = $cell;
                                             if (!empty($isLic)) {
