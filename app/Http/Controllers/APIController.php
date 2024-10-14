@@ -37,6 +37,13 @@ class APIController extends Controller
 
             ]
         ]);
+        Log::error('APRIL_ONLINE', [
+            'apiController' => [
+                'message' => $message,
+                $data
+
+            ]
+        ]);
         return response([
             'resultCode' => 1,
             'message' => $message,

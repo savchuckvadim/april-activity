@@ -224,7 +224,7 @@ class ContractController extends Controller
                 'trace'     => $th->getTraceAsString(),
             ];
             return APIController::getError(
-                $th->getMessage(),
+                $th->getLine(),
                 ['companyId' => $companyId, 'domain' => $domain, 'errorData' => $errorData]
             );
         }
