@@ -2129,37 +2129,44 @@ class ContractController extends Controller
 
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
-            $pack = $lt['packages'][$packWeight];
-            // if (!empty($pack)) {
-            $freeLtPack =  $pack['fullName'];
-            // }
+            if (!empty($lt['packages'])) {
+                if (!empty($lt['packages'][$packWeight])) {
+                    $pack = $lt['packages'][$packWeight];
+                    // if (!empty($pack)) {
+                    $freeLtPack =  $pack['fullName'];
+                    // }
 
-            // foreach ($currentComplect['lt'] as $ltIndex) {
-            //     $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
-            // }
-            foreach ($lt['value'] as $ltservice) {
-                if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                    $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                    // foreach ($currentComplect['lt'] as $ltIndex) {
+                    //     $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
+                    // }
+                    foreach ($lt['value'] as $ltservice) {
+                        if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                            $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                        }
+                    }
                 }
             }
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
+            if (!empty($lt['packages'])) {
+                if (!empty($lt['packages'][$packWeight])) {
+                    $pack = $lt['packages'][$packWeight];
+                    // if (!empty($pack)) {
+                    $ltPack =  $pack['fullName'];
+                    // }
 
-            $pack = $lt['packages'][$packWeight];
-            // if (!empty($pack)) {
-            $ltPack =  $pack['fullName'];
-            // }
+                    foreach ($lt['value'] as $ltservice) {
+                        if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
+                            $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                        }
+                    }
 
-            foreach ($lt['value'] as $ltservice) {
-                if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                    $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                    // foreach ($currentComplect['ltInPacket'] as $ltIndex) {
+                    //     $freeLtBlocks .= ' ' . $lt['value'][$ltIndex]['name'];
+                    // }
                 }
             }
-
-            // foreach ($currentComplect['ltInPacket'] as $ltIndex) {
-            //     $freeLtBlocks .= ' ' . $lt['value'][$ltIndex]['name'];
-            // }
         }
 
         $iblocks = $this->getContractIBlocks($documentInfoblocks);
