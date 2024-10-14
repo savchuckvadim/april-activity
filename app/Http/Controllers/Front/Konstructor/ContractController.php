@@ -217,9 +217,15 @@ class ContractController extends Controller
                 ]
             );
         } catch (\Throwable $th) {
+            $errorData = [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
             return APIController::getError(
                 $th->getMessage(),
-                ['companyId' => $companyId, 'domain' => $domain, 'products' => $products]
+                ['companyId' => $companyId, 'domain' => $domain, 'errorData' => $errorData]
             );
         }
     }
