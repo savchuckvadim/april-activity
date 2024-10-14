@@ -925,13 +925,19 @@ class BitrixDealDocumentService
                                             }
                                             if($isLic){
                                                 $cell['value'] = 1;
+                                                $cell['defaultValue'] = 1;
+
 
                                             }
                                          
                                             $searchingCell = $cell;
                                             if (!empty($isLic)) {
                                                 $cell['value'] = 1;
+                                                $cell['defaultValue'] = 1;
+
                                                 $searchingCell['value'] = 1;
+                                                $searchingCell['defaultValue'] = 1;
+
                                             }
                                         }
                                         if ($cell['code'] === 'measure') {
