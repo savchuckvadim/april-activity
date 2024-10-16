@@ -6,8 +6,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cloudsigma.com/php
-    container_name: app
+      # image: cloudsigma.com/php
+      image: garant_app_image:latest
+
+    container_name: garant_app
     restart: "no"
     tty: true
     working_dir: /var/www/html
@@ -19,7 +21,7 @@ services:
       - redis
     # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
 
-  # Nginx Service
+    # Nginx Service
   webserver:
     image: nginx:alpine
     container_name: webserver
@@ -39,14 +41,26 @@ services:
   # Redis Service
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: garant_app_redis
     restart: "unless-stopped"
     ports:
       - "6379:6379"
     networks:
       - app-network
 
-
+  queue-default:
+    image: garant_app_image:latest
+    command: php /var/www/html/artisan queue:work redis --sleep=3 --tries=1
+    volumes:
+      - .:/var/www/html
+    user: 'www-data'
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - redis
+    deploy:
+      replicas: 1
 
 networks:
   app-network:
