@@ -24,6 +24,10 @@ RUN apt-get update && apt-get install -y \
     git \
     libonig-dev \
     curl \
+    libicu-dev \
+    libcurl4-openssl-dev \
+    pkg-config \
+    libssl-dev \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis
