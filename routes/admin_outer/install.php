@@ -6,9 +6,9 @@ use App\Http\Controllers\APIController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-// Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
+Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
 
-Route::prefix('install')->group(function () {
+    // Route::prefix('install')->group(function () {
     Route::post('list', [ListController::class, 'setLists']);
 
 

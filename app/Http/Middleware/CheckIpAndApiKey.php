@@ -16,15 +16,15 @@ class CheckIpAndApiKey
     public function handle(Request $request, Closure $next): Response
     {
         // Допустимые IP-адреса
-        $allowedIps = explode(',', env('ALLOWED_ORIGINS_IPS'));
+        // $allowedIps = explode(',', env('ALLOWED_ORIGINS_IPS'));
 
-        // Получаем IP-адрес клиента
-        $clientIp = $request->ip();
+        // // Получаем IP-адрес клиента
+        // $clientIp = $request->ip();
 
-        // Проверка IP-адреса
-        if (!in_array($clientIp, $allowedIps)) {
-            return response()->json(['error' => 'Unauthorized IP'], 403);
-        }
+        // // Проверка IP-адреса
+        // if (!in_array($clientIp, $allowedIps)) {
+        //     return response()->json(['error' => 'Unauthorized IP'], 403);
+        // }
 
         // Проверка API-ключа (API-ключ передаётся в заголовке "api-key")
         $apiKey = $request->header('X-OUTER-API-KEY');
