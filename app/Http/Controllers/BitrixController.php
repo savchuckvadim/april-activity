@@ -1279,7 +1279,7 @@ class BitrixController extends Controller
     ) {
         if (!$dealId) {
             $hook = $this->getHook($domain);
-            $method = '/crm.deal.add.json';
+            $method = '/crm.deal.add';
             $url = $hook . $method;
 
 
