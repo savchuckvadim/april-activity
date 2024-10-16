@@ -79,6 +79,8 @@ class Kernel extends HttpKernel
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         'ajax.only' => \App\Http\Middleware\AjaxOnlyMiddleware::class,
         'api.key' => \App\Http\Middleware\CheckApiKey::class,
+        'check.ip.api_key' => \App\Http\Middleware\CheckIpAndApiKey::class,
+
         // 'auth_hook' => \Bitrix24api\HookCheckMemberIdMiddleware::class,
     ];
 }
