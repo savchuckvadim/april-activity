@@ -146,7 +146,7 @@ class BitrixDealUpdateService
 
         // $batchResponse = $response->json(); // Обработка ответа
 
-       
+        $batchResponse = null;
         try {
             $response = Http::post($url, $batchData);
             $batchResponse = $response->json(); // Обработка ответа
