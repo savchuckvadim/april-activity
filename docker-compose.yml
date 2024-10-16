@@ -6,10 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      # image: cloudsigma.com/php
-      image: garant_app_image:latest
-
-    container_name: garant_app
+    image: cloudsigma.com/php
+    container_name: app
     restart: "no"
     tty: true
     working_dir: /var/www/html
@@ -49,7 +47,9 @@ services:
       - app-network
 
   queue-default:
-    image: garant_app_image:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: php /var/www/html/artisan queue:work redis --sleep=3 --tries=1
     volumes:
       - .:/var/www/html
