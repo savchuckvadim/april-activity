@@ -918,7 +918,6 @@ class BitrixDealDocumentService
                                         }
 
                                         if ($cell['code'] === 'current') {
-                                            $searchingCell = $cell;
                                             if ($isLic) {
                                                 foreach ($product['cells'] as $searchSumCell) {
                                                     if ($searchSumCell['code'] === 'prepaymentsum') {
@@ -926,6 +925,8 @@ class BitrixDealDocumentService
                                                     }
                                                 }
                                             }
+                                            $searchingCell = $cell;
+
                                         }
                                         if ($cell['code'] === 'quantity') {
                                             $cell['name'] = 'Кол-во';
