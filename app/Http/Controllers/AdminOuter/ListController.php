@@ -142,7 +142,7 @@ class ListController extends Controller
         }
 
         //install or update fields
-        ListController::setListFields($hook, $list->CODE, $list->fields, $currentPortalList, $portalId);
+        ListController::setListFields($hook, $list->code, $list->fields, $currentPortalList, $portalId);
     }
 
 
