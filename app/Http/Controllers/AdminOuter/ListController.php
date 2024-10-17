@@ -230,7 +230,7 @@ class ListController extends Controller
                         $currentPItem = new BitrixfieldItem();
                         $currentPItem->bitrixfield_id = $currentPortalField['id'];
                     }
-                    $currentPItem->bitrixId = $gItem->bitrixId;
+                    $currentPItem->bitrixId = $gItem->id;
 
                     $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem->value);
                     $currentPItem->name = $itemName;
