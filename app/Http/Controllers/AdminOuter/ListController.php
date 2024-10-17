@@ -187,8 +187,8 @@ class ListController extends Controller
                 $currentPortalField->name = $gField->name;
                 $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField->type;
-                $currentPortalField->bitrixId = $currentBtxField->ID;
-                $currentPortalField->bitrixCamelId = $currentBtxFieldId;
+                $currentPortalField->bitrixId = $gField->ID;
+                $currentPortalField->bitrixCamelId = $gField->bitrixId;
                 $currentPortalField->save();
             }
 
