@@ -41,7 +41,7 @@ class ListController extends Controller
             }
             $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
 
-           
+
 
             $hook = BitrixController::getHook($domain);
             $portal = Portal::where('domain', $domain)->first();
@@ -51,15 +51,18 @@ class ListController extends Controller
             // $group = 'sales';
 
             $portalLists = $portal->lists;
+            $currentPortalList = null;
 
+            if (!empty($portalLists)) {
+                $currentPortalList = $portalLists
+                    ->where('group', $list['group'])
+                    ->where('type', $list['code'])->first();
+            }
 
-
-            $currentPortalList = $portalLists
-                ->where('group', $list['group'])
-                ->where('type', $list['code'])->first();
             return APIController::getSuccess([
                 'currentPortalList' => $currentPortalList,
                 'domain' => $domain,
+                'portal' => $portal,
                 'list' => $list->fields,
             ]);
             // ListController::setList($hook, $list, $currentPortalList, $portalId);
