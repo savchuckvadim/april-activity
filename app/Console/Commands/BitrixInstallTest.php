@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\AdminOuter\ListController;
 use App\Http\Controllers\BitrixController;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -39,16 +40,16 @@ class BitrixInstallTest extends Command
      */
     public function handle()
     {
-        $domain = 'april-garant.bitrix24.ru';
-        $method = '/crm.activity.configurable.add.json';
-        $token = 'AKfycbwhWSztCxZ1G_gw4lqKsMb4Fv5nHVBMM84T0mgI0yjozDaVUSFx_ouNuvck9v1FFKk_Sw';
+        // $domain = 'april-garant.bitrix24.ru';
+        // $method = '/crm.activity.configurable.add.json';
+        // $token = 'AKfycbwhWSztCxZ1G_gw4lqKsMb4Fv5nHVBMM84T0mgI0yjozDaVUSFx_ouNuvck9v1FFKk_Sw';
 
-        $url = 'https://script.google.com/macros/s/' . $token . '/exec';
+        // $url = 'https://script.google.com/macros/s/' . $token . '/exec';
 
-        $response = Http::get($url);
+        // $response = Http::get($url);
 
+        $response = ListController::setLists();
 
-
-        $this->line($response->body());
+        $this->line($response);
     }
 }

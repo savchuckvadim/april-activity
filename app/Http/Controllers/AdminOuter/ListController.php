@@ -17,15 +17,27 @@ use Illuminate\Support\Facades\Log;
 class ListController extends Controller
 {
     public static function setLists(
-        Request $request
+        // Request $request
 
 
-    ) {
+    )
+    {
 
         try {
-            $data = $request->all();
-            $domain = $data['domain'];
-            $list = $data['list'];
+            // $data = $request->all();
+            // $domain = $data['domain'];
+            // $list = $data['list'];
+
+            $jsonFilePath = storage_path('app/public/install/save_return.json');
+
+            // Чтение данных из файла
+            $jsonData = file_get_contents($jsonFilePath);
+            // Преобразование JSON в объект (можно указать true, чтобы получить массив)
+            $data = json_decode($jsonData);
+            // Преобразование JSON в массив
+            $list = $data->result->list; // Если нужен массив: $list = $data['result']['list'];
+            $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
+
 
 
             $hook = BitrixController::getHook($domain);
@@ -38,11 +50,16 @@ class ListController extends Controller
             $portalLists = $portal->lists;
 
 
+
             $currentPortalList = $portalLists
                 ->where('group', $list['group'])
                 ->where('type', $list['code'])->first();
-
-            ListController::setList($hook, $list, $currentPortalList, $portalId);
+            return APIController::getSuccess([
+                'currentPortalList' => $currentPortalList,
+                'domain' => $domain,
+                'list' => $list,
+            ]);
+            // ListController::setList($hook, $list, $currentPortalList, $portalId);
         } catch (\Exception $e) {
             Log::error('Error in install', [
                 'message' => $e->getMessage(),
