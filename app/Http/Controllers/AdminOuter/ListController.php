@@ -238,7 +238,7 @@ class ListController extends Controller
                     $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem->code);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
-                    print_r($currentPItem);
+                    print_r($currentPItem->id);
                 }
             }
         }
