@@ -781,6 +781,8 @@ class BitrixDealDocumentService
 
             }
 
+
+
             if ($cell['code'] === 'measure' && $cell['value']) {
                 if ($cell['isActive']) {
                     // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
@@ -917,19 +919,24 @@ class BitrixDealDocumentService
 
                                         if ($cell['code'] === 'current') {
                                             $searchingCell = $cell;
+                                            if ($isLic) {
+                                                foreach ($product['cells'] as $searchSumCell) {
+                                                    if ($searchSumCell['code'] === 'prepaymentsum') {
+                                                        $cell['value'] = $searchSumCell['value'];
+                                                    }
+                                                }
+                                            }
                                         }
                                         if ($cell['code'] === 'quantity') {
                                             $cell['name'] = 'Кол-во';
                                             if (preg_match('/\d+/', (string)$cell['value'], $matches)) {
                                                 $cell['value'] = $matches[0];
                                             }
-                                            if($isLic){
+                                            if ($isLic) {
                                                 $cell['value'] = 1;
                                                 $cell['defaultValue'] = 1;
-
-
                                             }
-                                         
+
                                             $searchingCell = $cell;
                                             if (!empty($isLic)) {
                                                 $cell['value'] = 1;
@@ -937,7 +944,6 @@ class BitrixDealDocumentService
 
                                                 $searchingCell['value'] = 1;
                                                 $searchingCell['defaultValue'] = 1;
-
                                             }
                                         }
                                         if ($cell['code'] === 'measure') {
