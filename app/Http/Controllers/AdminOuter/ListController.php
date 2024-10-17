@@ -53,14 +53,14 @@ class ListController extends Controller
             $portalLists = $portal->lists;
             $currentPortalList = null;
 
-            if (!empty($portalLists)) {
-                $currentPortalList = $portalLists
-                    ->where('group', $list['group'])
-                    ->where('type', $list['code'])->first();
-            }
+            // if (!empty($portalLists)) {
+            //     $currentPortalList = $portalLists
+            //         ->where('group', $list['group'])
+            //         ->where('type', $list['code'])->first();
+            // }
 
             return APIController::getSuccess([
-                'currentPortalList' => $currentPortalList,
+                'portalLists' => $portalLists,
                 'domain' => $domain,
                 'portal' => $portal,
                 'list' => $list->fields,
