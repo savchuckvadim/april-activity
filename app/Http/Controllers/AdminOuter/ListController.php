@@ -142,34 +142,34 @@ class ListController extends Controller
         }
 
         //install or update fields
-        ListController::setListFields($hook, $list->code, $list->fields, $currentPortalList, $portalId);
+        ListController::setListFields($hook, $list->group, $list->fields, $currentPortalList, $portalId);
     }
 
 
 
-    public static function setListFields($hook, $listBtxCode, $listFields, $currentPortalList, $portalId)
+    public static function setListFields($hook, $listGroup, $listFields, $currentPortalList, $portalId)
     {
 
 
         // сначала обновляем или создаем на битриксе чтобы получить id
         // затем обновляем в портал или создаем и записываем туда id
-        $method = '/lists.field.add';
-        $resultListBtxFields = [];
-        $listFieldSetData = [
-            'IBLOCK_TYPE_ID' => 'lists',
-            'IBLOCK_CODE' => $listBtxCode,
+        // $method = '/lists.field.add';
+        // $resultListBtxFields = [];
+        // $listFieldSetData = [
+        //     'IBLOCK_TYPE_ID' => 'lists',
+        //     'IBLOCK_CODE' => $listBtxCode,
 
 
-        ];
+        // ];
 
-        $currentPortalListFields = $currentPortalList->fields;
+        // $currentPortalListFields = $currentPortalList->fields;
 
 
         foreach ($listFields as $gField) {
             $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
-            $currentFieldCode = $listBtxCode . '_' . $gField->code;
+            $currentFieldCode = $listGroup . '_' . $gField->code;
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
