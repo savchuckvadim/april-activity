@@ -169,7 +169,7 @@ class ListController extends Controller
             $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
-            $currentFieldCode = $list->group . '_' . $list->type . '_' . $gField->code;
+            $currentFieldCode = $list->group . '_' . $list->code . '_' . $gField->code;
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
