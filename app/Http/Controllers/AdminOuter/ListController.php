@@ -36,6 +36,9 @@ class ListController extends Controller
             $data = json_decode($jsonData);
             // Преобразование JSON в массив
             $list = $data->result->list; // Если нужен массив: $list = $data['result']['list'];
+            if (!empty($list[0])) {
+                $list = $list[0];
+            }
             $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
 
             return APIController::getSuccess([
