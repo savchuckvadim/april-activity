@@ -55,8 +55,8 @@ class ListController extends Controller
 
             if (!empty($portalLists) && count($portalLists) > 0) {
                 $currentPortalList = $portalLists
-                    ->where('group', $list['group'])
-                    ->where('type', $list['code'])->first();
+                    ->where('group', $list->group)
+                    ->where('type', $list->code)->first();
             }
 
             // return APIController::getSuccess([
