@@ -142,12 +142,12 @@ class ListController extends Controller
         }
 
         //install or update fields
-        ListController::setListFields($hook, $list->group, $list->fields, $currentPortalList, $portalId);
+        ListController::setListFields($list, $list->fields, $currentPortalList, $portalId);
     }
 
 
 
-    public static function setListFields($hook, $listGroup, $listFields, $currentPortalList, $portalId)
+    public static function setListFields($list, $listFields, $currentPortalList, $portalId)
     {
 
 
@@ -169,7 +169,7 @@ class ListController extends Controller
             $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
-            $currentFieldCode = $listGroup . '_' . $gField->code;
+            $currentFieldCode = $list->group . '_' . $list->type . '_' . $gField->code;
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
