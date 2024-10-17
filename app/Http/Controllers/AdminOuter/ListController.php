@@ -65,7 +65,7 @@ class ListController extends Controller
             //     'portal' => $portal,
             //     'currentPortalList' => $currentPortalList,
             // ]);
-            ListController::setList($hook, $list, $currentPortalList, $portalId);
+           return ListController::setList($hook, $list, $currentPortalList, $portalId);
         } catch (\Exception $e) {
             Log::error('Error in install', [
                 'message' => $e->getMessage(),
@@ -238,6 +238,7 @@ class ListController extends Controller
                     $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem->code);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
+                    print_r($currentPItem);
                 }
             }
         }
