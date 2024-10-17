@@ -59,13 +59,13 @@ class ListController extends Controller
                     ->where('type', $list['code'])->first();
             }
 
-            return APIController::getSuccess([
-                'portalLists' => $portalLists,
-                'domain' => $domain,
-                'portal' => $portal,
-                'currentPortalList' => $currentPortalList,
-            ]);
-            // ListController::setList($hook, $list, $currentPortalList, $portalId);
+            // return APIController::getSuccess([
+            //     'portalLists' => $portalLists,
+            //     'domain' => $domain,
+            //     'portal' => $portal,
+            //     'currentPortalList' => $currentPortalList,
+            // ]);
+            ListController::setList($hook, $list, $currentPortalList, $portalId);
         } catch (\Exception $e) {
             Log::error('Error in install', [
                 'message' => $e->getMessage(),
@@ -127,7 +127,7 @@ class ListController extends Controller
 
         //     $resultList = ListController::getList($hook, $listBtxCode);
         // }
-
+       
         if ($list && !empty($list['ID'])) {
             if (!$currentPortalList) {
                 $currentPortalList = new Bitrixlist();
@@ -140,7 +140,10 @@ class ListController extends Controller
             $currentPortalList->bitrixId = $list['ID'];
             $currentPortalList->save();
         }
-
+        return APIController::getSuccess([
+     
+            'currentPortalList' => $currentPortalList,
+        ]);
         //install or update fields
         ListController::setListFields($hook, $list['CODE'], $list['fields'], $currentPortalList, $portalId);
     }
