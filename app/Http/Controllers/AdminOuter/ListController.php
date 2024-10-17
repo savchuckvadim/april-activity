@@ -128,16 +128,16 @@ class ListController extends Controller
         //     $resultList = ListController::getList($hook, $listBtxCode);
         // }
        
-        if ($list && !empty($list['ID'])) {
+        if (!empty($list) && !empty($list->ID)) {
             if (!$currentPortalList) {
                 $currentPortalList = new Bitrixlist();
                 $currentPortalList->portal_id = $portalId;
-                $currentPortalList->group = $list['group'];
-                $currentPortalList->type = $list['code'];
+                $currentPortalList->group = $list->group;
+                $currentPortalList->type = $list->code;
             }
-            $currentPortalList->name = $list['title'];
-            $currentPortalList->title = $list['title'];
-            $currentPortalList->bitrixId = $list['ID'];
+            $currentPortalList->name = $list->title;
+            $currentPortalList->title = $list->title;
+            $currentPortalList->bitrixId = $list->ID;
             $currentPortalList->save();
         }
         return APIController::getSuccess([
