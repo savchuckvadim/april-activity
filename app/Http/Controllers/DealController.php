@@ -26,7 +26,7 @@ class DealController extends Controller
                 'global' => $request->global,
                 // 'legalTech' => $request->legalTech,
                 'od' => $request->od,
-                'portalId' => $request->portalId,
+                // 'portalId' => $request->portalId,
                 'result' => $request->result,
                 // 'rows' => $request->rows,
 
@@ -40,7 +40,6 @@ class DealController extends Controller
                 'global_long' => $request->global,
                 // 'legalTech' => $request->legalTech,
                 'od_long' => $request->od,
-                'portalId_long' => $request->portalId,
                 'result_long' => $request->result,
                 'rows_long' => $request->rows,
                 // 'product' => $request->product,
