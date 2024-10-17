@@ -41,12 +41,7 @@ class ListController extends Controller
             }
             $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
 
-            return APIController::getSuccess([
-                // 'data' => $data,
-
-                'domain' => $domain,
-                'list' => $list->code,
-            ]);
+           
 
             $hook = BitrixController::getHook($domain);
             $portal = Portal::where('domain', $domain)->first();
@@ -62,11 +57,11 @@ class ListController extends Controller
             $currentPortalList = $portalLists
                 ->where('group', $list['group'])
                 ->where('type', $list['code'])->first();
-            // return APIController::getSuccess([
-            //     'currentPortalList' => $currentPortalList,
-            //     'domain' => $domain,
-            //     'list' => $list,
-            // ]);
+            return APIController::getSuccess([
+                'currentPortalList' => $currentPortalList,
+                'domain' => $domain,
+                'list' => $list->fields,
+            ]);
             // ListController::setList($hook, $list, $currentPortalList, $portalId);
         } catch (\Exception $e) {
             Log::error('Error in install', [
