@@ -45,6 +45,8 @@ use function morphos\Russian\inflectName;
 // 'api.key', 
 require __DIR__ . '/projects/alfa/alfa_routes.php';
 require __DIR__ . '/admin_outer/install.php';
+require __DIR__ . '/client_outer/client.php';
+
 
 Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/contract_routes.php';
