@@ -61,6 +61,7 @@ services:
       - redis
     deploy:
       replicas: 1
+    restart: unless-stopped
 
 networks:
   app-network:
