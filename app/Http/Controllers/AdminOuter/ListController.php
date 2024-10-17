@@ -205,7 +205,7 @@ class ListController extends Controller
                 }
 
 
-                foreach ($gField->list as $gItem) {
+                foreach ($gField->items as $gItem) {
                     $currentPItem = null;
                     // $currentBtxItem = null;
                     // перебрать каждый эллемент списка из обновления
