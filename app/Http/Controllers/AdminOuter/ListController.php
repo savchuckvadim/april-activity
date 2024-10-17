@@ -39,10 +39,10 @@ class ListController extends Controller
             $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
 
             return APIController::getSuccess([
-                'data' => $data,
+                // 'data' => $data,
 
                 'domain' => $domain,
-                'list' => $list,
+                'list' => $list->code,
             ]);
 
             $hook = BitrixController::getHook($domain);
