@@ -127,7 +127,7 @@ class ListController extends Controller
 
         //     $resultList = ListController::getList($hook, $listBtxCode);
         // }
-       
+
         if (!empty($list) && !empty($list->ID)) {
             if (!$currentPortalList) {
                 $currentPortalList = new Bitrixlist();
@@ -140,10 +140,7 @@ class ListController extends Controller
             $currentPortalList->bitrixId = $list->ID;
             $currentPortalList->save();
         }
-        return APIController::getSuccess([
-     
-            'currentPortalList' => $currentPortalList,
-        ]);
+
         //install or update fields
         ListController::setListFields($hook, $list['CODE'], $list['fields'], $currentPortalList, $portalId);
     }
@@ -172,104 +169,104 @@ class ListController extends Controller
             $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
-            $currentFieldCode = $listBtxCode . '_' . $gField['code'];
+            $currentFieldCode = $listBtxCode . '_' . $gField->code;
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
 
 
 
-            if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
+            if (!empty($currentBtxField) && isset($currentBtxField->ID)) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
                     $currentPortalField = new Bitrixfield();
-                    $currentPortalField->entity_id = $currentPortalList['id'];
+                    $currentPortalField->entity_id = $currentPortalList->id;
                     $currentPortalField->entity_type = Bitrixlist::class;
                     $currentPortalField->parent_type = 'list';
                 }
-                $currentPortalField->title = $gField['title'];
-                $currentPortalField->name = $gField['name'];
+                $currentPortalField->title = $gField->title;
+                $currentPortalField->name = $gField->name;
                 $currentPortalField->code = $currentFieldCode;
-                $currentPortalField->type = $gField['type'];
-                $currentPortalField->bitrixId = $currentBtxField['ID'];
+                $currentPortalField->type = $gField->type;
+                $currentPortalField->bitrixId = $currentBtxField->ID;
                 $currentPortalField->bitrixCamelId = $currentBtxFieldId;
                 $currentPortalField->save();
             }
 
             /// TODO SET ITEMS METHOD
-            if ($gField['type'] == 'enumeration') {
+            // if ($gField['type'] == 'enumeration') {
 
 
-                if (!empty($currentBtxField) && !empty($currentBtxField['DISPLAY_VALUES_FORM'])) {
-                    $currentBtxFieldItems = $currentBtxField['DISPLAY_VALUES_FORM'];
-                }
+            //     if (!empty($currentBtxField) && !empty($currentBtxField['DISPLAY_VALUES_FORM'])) {
+            //         $currentBtxFieldItems = $currentBtxField['DISPLAY_VALUES_FORM'];
+            //     }
 
-                if (!empty($currentPortalField) && !empty($currentPortalField->items)) {
-                    $currentPortalFieldItems = $currentPortalField->items;
-                }
-
-
-                foreach ($gField['list'] as $gItem) {
-                    $currentPItem = null;
-                    $currentBtxItem = null;
-                    // перебрать каждый эллемент списка из обновления
-                    // определить текщий pItem по code
-                    // по текущему pItem из его bitrixId найти текущий bitrix Item из списка "itemId": itemValue
-                    // если нашел его - обновить если нет добавить в pushing items
-                    // 
-
-                    //get cur btx and portal items from gItem
-                    if (!empty($currentPortalFieldItems)) {
-                        foreach ($currentPortalFieldItems as $btxId => $pItem) {
-                            if ($pItem['code'] == $gItem['code']) {
-                                $currentPItem = $pItem;
-                            }
-                        }
-                    }
-
-                    if (!empty($currentBtxFieldItems)) {
-                        if (!empty($currentPItem)) {
-
-                            foreach ($currentBtxFieldItems as $btxId => $value) {
-                                if ($btxId == $currentPItem['bitrixId'] || $value == $currentPItem['title'] ||  $value == $gItem['VALUE']) {
-                                    $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
-                                }
-                            }
-                        } else {
-                            foreach ($currentBtxFieldItems as $btxId => $value) {
-                                $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['name']);
-                                $itemValue = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
-                                if ($value == $itemValue  || $value == $itemName) {
-                                    $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
-                                }
-                            }
-                        }
-                    }
+            //     if (!empty($currentPortalField) && !empty($currentPortalField->items)) {
+            //         $currentPortalFieldItems = $currentPortalField->items;
+            //     }
 
 
-                    if (empty($currentPItem)) {
-                        $currentPItem = new BitrixfieldItem();
-                        $currentPItem->bitrixfield_id = $currentPortalField['id'];
-                    }
-                    if (!empty($currentBtxItem)) {
-                        $currentPItem->bitrixId = $currentBtxItem['bitrixId'];
-                        $currentPItem->name = $currentBtxItem['value'];
-                        $currentPItem->title = $currentBtxItem['value'];
-                    } else {
-                        $currentPItem->bitrixId = 0;
-                        $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
-                        $currentPItem->name = $itemName;
-                        $currentPItem->title = $itemName;
-                    }
+            //     foreach ($gField['list'] as $gItem) {
+            //         $currentPItem = null;
+            //         $currentBtxItem = null;
+            //         // перебрать каждый эллемент списка из обновления
+            //         // определить текщий pItem по code
+            //         // по текущему pItem из его bitrixId найти текущий bitrix Item из списка "itemId": itemValue
+            //         // если нашел его - обновить если нет добавить в pushing items
+            //         // 
+
+            //         //get cur btx and portal items from gItem
+            //         if (!empty($currentPortalFieldItems)) {
+            //             foreach ($currentPortalFieldItems as $btxId => $pItem) {
+            //                 if ($pItem['code'] == $gItem['code']) {
+            //                     $currentPItem = $pItem;
+            //                 }
+            //             }
+            //         }
+
+            //         if (!empty($currentBtxFieldItems)) {
+            //             if (!empty($currentPItem)) {
+
+            //                 foreach ($currentBtxFieldItems as $btxId => $value) {
+            //                     if ($btxId == $currentPItem['bitrixId'] || $value == $currentPItem['title'] ||  $value == $gItem['VALUE']) {
+            //                         $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
+            //                     }
+            //                 }
+            //             } else {
+            //                 foreach ($currentBtxFieldItems as $btxId => $value) {
+            //                     $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['name']);
+            //                     $itemValue = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
+            //                     if ($value == $itemValue  || $value == $itemName) {
+            //                         $currentBtxItem = ['bitrixId' => $btxId, 'value' => $value];
+            //                     }
+            //                 }
+            //             }
+            //         }
+
+
+            //         if (empty($currentPItem)) {
+            //             $currentPItem = new BitrixfieldItem();
+            //             $currentPItem->bitrixfield_id = $currentPortalField['id'];
+            //         }
+            //         if (!empty($currentBtxItem)) {
+            //             $currentPItem->bitrixId = $currentBtxItem['bitrixId'];
+            //             $currentPItem->name = $currentBtxItem['value'];
+            //             $currentPItem->title = $currentBtxItem['value'];
+            //         } else {
+            //             $currentPItem->bitrixId = 0;
+            //             $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['VALUE']);
+            //             $currentPItem->name = $itemName;
+            //             $currentPItem->title = $itemName;
+            //         }
 
 
 
-                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
-                    $currentPItem->code = $codeBitrixId;
-                    $currentPItem->save();
+            //         $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
+            //         $currentPItem->code = $codeBitrixId;
+            //         $currentPItem->save();
 
-                    sleep(1);
-                }
-            }
+            //         sleep(1);
+            //     }
+            // }
         }
     }
 
