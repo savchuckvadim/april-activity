@@ -918,14 +918,17 @@ class BitrixDealDocumentService
                                         }
 
                                         if ($cell['code'] === 'current') {
+                                            $searchingCell = $cell;
+
                                             if ($isLic) {
                                                 foreach ($product['cells'] as $searchSumCell) {
                                                     if ($searchSumCell['code'] === 'prepaymentsum') {
                                                         $cell['value'] = $searchSumCell['value'];
+                                                        $searchingCell['value'] = $searchSumCell['value'];
+
                                                     }
                                                 }
                                             }
-                                            $searchingCell = $cell;
 
                                         }
                                         if ($cell['code'] === 'quantity') {
