@@ -225,7 +225,6 @@ class ListController extends Controller
                     print_r('$currentPortalField->id');
                     print_r($currentPortalField->id);
 
-                    print_r(' |          ');
 
                     if (empty($currentPItem)) {
                         $currentPItem = new BitrixfieldItem();
