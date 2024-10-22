@@ -27,7 +27,7 @@ class ListController extends Controller
             
             // $data = $requ['result'];
             $domain = $data['domain'];
-            $lists = $data['lists'];
+            $list = $data['lists'];
 
             // $jsonFilePath = storage_path('app/public/install/save_return.json');
 
@@ -37,8 +37,8 @@ class ListController extends Controller
             // $data = json_decode($jsonData);
             // Преобразование JSON в массив
             // $list = $data->result->list; // Если нужен массив: $list = $data['result']['list'];
-            if (!empty($lists)) {
-                foreach ($lists as $list) {
+            // if (!empty($lists)) {
+            //     foreach ($lists as $list) {
 
 
                     # code...
@@ -73,8 +73,8 @@ class ListController extends Controller
 
                     $result = ListController::setList($hook, $list, $currentPortalList, $portalId);
                     // array_push($result, $results);
-                }
-            }
+            //     }
+            // }
             $portal = Portal::where('domain', $domain)->first();
 
             return APIController::getSuccess(['portal' => $portal]);
