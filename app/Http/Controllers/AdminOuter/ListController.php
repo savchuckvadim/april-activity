@@ -22,7 +22,7 @@ class ListController extends Controller
 
     ) {
         $results = [];
-        $data = $request->json();
+        $data = $request->all();
         try {
             
             // $data = $requ['result'];
