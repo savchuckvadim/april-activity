@@ -187,15 +187,21 @@ class ListController extends Controller
 
 
         foreach ($listFields as $gField) {
-            $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
             $currentFieldCode = $list['group'] . '_' . $list['code'] . '_' . $gField['code'];
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
+            $currentPortalField = $currentPortalList->fields->where('code', $currentFieldCode)->first();
 
 
+            Log::channel('telegram')->info(
+                'tst currentPortalField',
+                [
+                    'currentPortalField' => $currentPortalField
+                ]
+            );
 
             if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
