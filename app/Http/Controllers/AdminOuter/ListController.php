@@ -77,8 +77,13 @@ class ListController extends Controller
                 }
             }
             $portal = Portal::where('domain', $domain)->first();
+            if (!empty($portal)) {
 
-            return APIController::getSuccess(['portal' => $portal]);
+                $portalLists = $portal->lists;
+                return APIController::getSuccess(['portal_lists' => $portalLists]);
+            } else {
+                return APIController::getSuccess(['portal' => null]);
+            }
         } catch (\Exception $e) {
             Log::error('Error in install', [
                 'message' => $e->getMessage(),
