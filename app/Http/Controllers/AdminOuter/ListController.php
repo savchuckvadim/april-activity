@@ -17,55 +17,66 @@ use Illuminate\Support\Facades\Log;
 class ListController extends Controller
 {
     public static function setLists(
-        // Request $request
+        Request $request
 
 
-    )
-    {
-
+    ) {
+        $results = [];
         try {
-            // $data = $request->all();
-            // $domain = $data['domain'];
-            // $list = $data['list'];
+            $data = $request->all();
+            // $data = $requ['result'];
+            $domain = $data['domain'];
+            $lists = $data['lists'];
 
-            $jsonFilePath = storage_path('app/public/install/save_return.json');
+            // $jsonFilePath = storage_path('app/public/install/save_return.json');
 
             // Чтение данных из файла
-            $jsonData = file_get_contents($jsonFilePath);
+            // $jsonData = file_get_contents($jsonFilePath);
             // Преобразование JSON в объект (можно указать true, чтобы получить массив)
-            $data = json_decode($jsonData);
+            // $data = json_decode($jsonData);
             // Преобразование JSON в массив
-            $list = $data->result->list; // Если нужен массив: $list = $data['result']['list'];
-            if (!empty($list[0])) {
-                $list = $list[0];
+            // $list = $data->result->list; // Если нужен массив: $list = $data['result']['list'];
+            if (!empty($lists)) {
+                foreach ($lists as $list) {
+
+
+                    # code...
+
+                    // $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
+
+
+
+
+                    $hook = BitrixController::getHook($domain);
+                    $portal = Portal::where('domain', $domain)->first();
+                    $webhookRestKey = $portal->getHook();
+                    $hook = 'https://' . $domain . '/' . $webhookRestKey;
+                    $portalId = $portal['id'];
+                    // $group = 'sales';
+
+                    $portalLists = $portal->lists;
+                    $currentPortalList = null;
+
+                    if (!empty($portalLists) && count($portalLists) > 0) {
+                        $currentPortalList = $portalLists
+                            ->where('group', $list->group)
+                            ->where('type', $list->code)->first();
+                    }
+
+                    // return APIController::getSuccess([
+                    //     'portalLists' => $portalLists,
+                    //     'domain' => $domain,
+                    //     'portal' => $portal,
+                    //     'currentPortalList' => $currentPortalList,
+                    // ]);
+
+                    $result = ListController::setList($hook, $list, $currentPortalList, $portalId);
+                    // array_push($result, $results);
+                }
             }
-            $domain = $data->result->domain; // Если нужен массив: $list = $data['result']['list'];
-
-
-
-            $hook = BitrixController::getHook($domain);
             $portal = Portal::where('domain', $domain)->first();
-            $webhookRestKey = $portal->getHook();
-            $hook = 'https://' . $domain . '/' . $webhookRestKey;
-            $portalId = $portal['id'];
-            // $group = 'sales';
 
-            $portalLists = $portal->lists;
-            $currentPortalList = null;
-
-            if (!empty($portalLists) && count($portalLists) > 0) {
-                $currentPortalList = $portalLists
-                    ->where('group', $list->group)
-                    ->where('type', $list->code)->first();
-            }
-
-            // return APIController::getSuccess([
-            //     'portalLists' => $portalLists,
-            //     'domain' => $domain,
-            //     'portal' => $portal,
-            //     'currentPortalList' => $currentPortalList,
-            // ]);
-           return ListController::setList($hook, $list, $currentPortalList, $portalId);
+            return APIController::getSuccess(['portal' => $portal]);
         } catch (\Exception $e) {
             Log::error('Error in install', [
                 'message' => $e->getMessage(),
@@ -142,7 +153,7 @@ class ListController extends Controller
         }
 
         //install or update fields
-        ListController::setListFields($list, $list->fields, $currentPortalList, $portalId);
+        return ListController::setListFields($list, $list->fields, $currentPortalList, $portalId);
     }
 
 
