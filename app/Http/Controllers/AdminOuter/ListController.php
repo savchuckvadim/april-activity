@@ -238,8 +238,8 @@ class ListController extends Controller
                             }
                         }
                     }
-                    print_r('$currentPortalField->id');
-                    print_r($currentPortalField['id']);
+                    // print_r('$currentPortalField->id');
+                    // print_r($currentPortalField['id']);
 
 
                     if (empty($currentPItem)) {
