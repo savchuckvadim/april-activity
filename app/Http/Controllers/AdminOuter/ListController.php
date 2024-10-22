@@ -23,8 +23,9 @@ class ListController extends Controller
     ) {
         $results = [];
         $data = $request->all();
+        $domain = '';
         try {
-            
+
             // $data = $requ['result'];
             $domain = $data['domain'];
             $lists = $data['lists'];
@@ -85,7 +86,9 @@ class ListController extends Controller
                 'line' => $e->getLine(),
             ]);
             return APIController::getError('An error occurred during installation', [
+                'domain' => $domain,
                 'comedata' => $data,
+
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
