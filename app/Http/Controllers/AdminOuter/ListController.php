@@ -144,21 +144,21 @@ class ListController extends Controller
         //     $resultList = ListController::getList($hook, $listBtxCode);
         // }
 
-        if (!empty($list) && !empty($list->ID)) {
+        if (!empty($list) && !empty($list['ID'])) {
             if (!$currentPortalList) {
                 $currentPortalList = new Bitrixlist();
                 $currentPortalList->portal_id = $portalId;
-                $currentPortalList->group = $list->group;
-                $currentPortalList->type = $list->code;
+                $currentPortalList->group = $list['group'];
+                $currentPortalList->type = $list['code'];
             }
-            $currentPortalList->name = $list->title;
-            $currentPortalList->title = $list->title;
-            $currentPortalList->bitrixId = $list->ID;
+            $currentPortalList->name = $list['title'];
+            $currentPortalList->title = $list['title'];
+            $currentPortalList->bitrixId = $list['ID'];
             $currentPortalList->save();
         }
 
         //install or update fields
-        return ListController::setListFields($list, $list->fields, $currentPortalList, $portalId);
+        return ListController::setListFields($list, $list['fields'], $currentPortalList, $portalId);
     }
 
 
@@ -185,26 +185,26 @@ class ListController extends Controller
             $currentPortalField = null;
             $currentBtxField = $gField;  //объект field  сданными из bx+googleSheet
             $currentBtxFieldId = null;
-            $currentFieldCode = $list->group . '_' . $list->code . '_' . $gField->code;
+            $currentFieldCode = $list['group'] . '_' . $list['code'] . '_' . $gField['code'];
             $currentBtxFieldItems = [];
             $currentPortalFieldItems = [];
 
 
 
 
-            if (!empty($currentBtxField) && isset($currentBtxField->ID)) {
+            if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
                     $currentPortalField = new Bitrixfield();
-                    $currentPortalField->entity_id = $currentPortalList->id;
+                    $currentPortalField->entity_id = $currentPortalList['id'];
                     $currentPortalField->entity_type = Bitrixlist::class;
                     $currentPortalField->parent_type = 'list';
                 }
-                $currentPortalField->title = $gField->title;
-                $currentPortalField->name = $gField->name;
+                $currentPortalField->title = $gField['title'];
+                $currentPortalField->name = $gField['name'];
                 $currentPortalField->code = $currentFieldCode;
-                $currentPortalField->type = $gField->type;
-                $currentPortalField->bitrixId = $gField->ID;
-                $currentPortalField->bitrixCamelId = $gField->bitrixId;
+                $currentPortalField->type = $gField['type'];
+                $currentPortalField->bitrixId = $gField['ID'];
+                $currentPortalField->bitrixCamelId = $gField['bitrixId'];
                 $currentPortalField->save();
             }
 
@@ -216,12 +216,12 @@ class ListController extends Controller
                 //     $currentBtxFieldItems = $currentBtxField['DISPLAY_VALUES_FORM'];
                 // }
 
-                if (!empty($currentPortalField) && !empty($currentPortalField->items)) {
-                    $currentPortalFieldItems = $currentPortalField->items;
+                if (!empty($currentPortalField) && !empty($currentPortalField['items'])) {
+                    $currentPortalFieldItems = $currentPortalField['items'];
                 }
 
 
-                foreach ($gField->items as $gItem) {
+                foreach ($gField['items'] as $gItem) {
                     $currentPItem = null;
                     // $currentBtxItem = null;
                     // перебрать каждый эллемент списка из обновления
@@ -233,28 +233,28 @@ class ListController extends Controller
                     //get cur btx and portal items from gItem
                     if (!empty($currentPortalFieldItems)) {
                         foreach ($currentPortalFieldItems as $btxId => $pItem) {
-                            if ($pItem['code'] == $gItem->code) {
+                            if ($pItem['code'] == $gItem['code']) {
                                 $currentPItem = $pItem;
                             }
                         }
                     }
                     print_r('$currentPortalField->id');
-                    print_r($currentPortalField->id);
+                    print_r($currentPortalField['id']);
 
 
                     if (empty($currentPItem)) {
                         $currentPItem = new BitrixfieldItem();
-                        $currentPItem->bitrixfield_id = $currentPortalField->id;
+                        $currentPItem->bitrixfield_id = $currentPortalField['id'];
                     }
-                    $currentPItem->bitrixId = $gItem->id;
+                    $currentPItem->bitrixId = $gItem['id'];
 
-                    $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem->value);
+                    $itemName = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['value']);
                     $currentPItem->name = $itemName;
                     $currentPItem->title = $itemName;
-                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem->code);
+                    $codeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $gItem['code']);
                     $currentPItem->code = $codeBitrixId;
                     $currentPItem->save();
-                    print_r($currentPItem->id);
+                    // print_r($currentPItem['id']);
                 }
             }
         }
