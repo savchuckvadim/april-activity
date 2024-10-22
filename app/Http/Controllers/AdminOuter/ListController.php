@@ -209,7 +209,7 @@ class ListController extends Controller
             }
 
             /// TODO SET ITEMS METHOD
-            if ($gField->type == 'enumeration') {
+            if ($gField['type'] == 'enumeration') {
 
 
                 // if (!empty($currentBtxField) && !empty($currentBtxField['DISPLAY_VALUES_FORM'])) {
