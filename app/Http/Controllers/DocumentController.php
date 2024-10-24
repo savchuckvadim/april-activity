@@ -754,7 +754,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     if ($withLetter) {
-                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         // if ($withStamps) {
                         //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     }
@@ -763,13 +763,13 @@ class DocumentController extends Controller
 
                             $section->addPageBreak();
                         }
-                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
+                        // $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
                     }
 
                     $section->addPageBreak();
                     // }
 
-                    $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+                    // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
                     // if ($isPriceFirst) {
                     //     if ($withStamps) {
