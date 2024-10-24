@@ -739,7 +739,7 @@ class DocumentController extends Controller
 
                     //Header
                     $target = 'ganeral'; //or alternative
-                    // $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
+                    $headerSection = $this->getHeader($section, $styles,  $providerRq, $isTwoLogo);
 
                     if ($isTwoLogo) {
 
@@ -753,7 +753,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     if ($withLetter) {
-                        // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         // if ($withStamps) {
                         //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     }
@@ -762,7 +762,7 @@ class DocumentController extends Controller
 
                             $section->addPageBreak();
                         }
-                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
+                        // $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
                     }
 
                     $section->addPageBreak();
