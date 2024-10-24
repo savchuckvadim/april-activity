@@ -657,8 +657,9 @@ class BitrixDealDocumentContractService
             $stampsData['director']  = $this->getShortName($providerRq['director']);
         }
 
-
-        $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
+        if (!empty($providerRq['accountant'])) {
+            $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
+        }
 
 
 

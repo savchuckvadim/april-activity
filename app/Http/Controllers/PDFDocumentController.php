@@ -656,7 +656,7 @@ class PDFDocumentController extends Controller
 
 
 
-        if ($recipient) {
+        if (!empty($recipient)) {
             if (isset($recipient['recipientCase'])) {
 
 
@@ -1726,8 +1726,9 @@ class PDFDocumentController extends Controller
             $stampsData['director']  = $this->getShortName($providerRq['director']);
         }
 
-
-        $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
+        if (!empty($stampsData['accountant'])) {
+            $stampsData['accountant'] = $this->getShortName($providerRq['accountant']);
+        }
 
 
 
