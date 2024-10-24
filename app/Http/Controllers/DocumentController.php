@@ -622,7 +622,8 @@ class DocumentController extends Controller
 
                     $providerRq = $data['provider']['rq'];
                     //document number
-                    $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
+                    $documentNumber = '124';
+                    //  CounterController::getCount($providerRq['id'], 'offer');
 
                     // /invoice base number
                     // $step1 = preg_replace_callback(
@@ -762,7 +763,7 @@ class DocumentController extends Controller
 
                             $section->addPageBreak();
                         }
-                        // $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
+                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
                     }
 
                     $section->addPageBreak();
