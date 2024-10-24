@@ -753,7 +753,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     if ($withLetter) {
-                        // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         // if ($withStamps) {
                         //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     }
@@ -2360,27 +2360,27 @@ class DocumentController extends Controller
         $positionCase = '';
         $recipientNameCase = '';
         if ($recipient) {
-            if (isset($recipient['positionCase'])) {
+            if (!empty($recipient['positionCase'])) {
                 if ($recipient['positionCase']) {
                     $positionCase = $recipient['positionCase'];
                     $letterRecipientell->addText($positionCase, $recipientTextStyle, $rightAlign);
                 }
             }
 
-            if (isset($recipient['companyName'])) {
+            if (!empty($recipient['companyName'])) {
                 if ($recipient['companyName']) {
                     $companyName = $recipient['companyName'];
                     $letterRecipientell->addText($companyName, $recipientTextStyle, $rightAlign);
                 }
             }
-            if (isset($recipient['inn'])) {
+            if (!empty($recipient['inn'])) {
                 if ($recipient['inn']) {
                     $inn = 'ИНН: ' . $recipient['inn'];
                     $letterRecipientell->addText($inn, $recipientTextStyle, $rightAlign);
                 }
             }
 
-            if (isset($recipient['recipientCase'])) {
+            if (!empty($recipient['recipientCase'])) {
                 if ($recipient['recipientCase']) {
                     $recipientCase = $recipient['recipientCase'];
                     $letterRecipientell->addText($recipientCase, $recipientTextStyle, $rightAlign);
@@ -2389,7 +2389,7 @@ class DocumentController extends Controller
         }
 
         // $section->addTextBreak(1);
-        if (isset($recipient['recipient'])) {
+        if (!empty($recipient['recipient'])) {
             if ($recipient['recipient']) {
                 $section->addTextBreak(1);
                 $recipientName = $recipient['recipient'];
