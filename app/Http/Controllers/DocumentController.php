@@ -2437,28 +2437,45 @@ class DocumentController extends Controller
             $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
 
             $currentStyle = $letterTextStyle;
+            $previousPartWasTag = false;
 
-            foreach ($letterText as $part) {
+            foreach ($letterText as $index => $part) {
+                // Проверяем, нужно ли добавить пробел перед текстом, если предыдущий элемент был тегом
+                if ($index > 0 && !$previousPartWasTag && !empty(trim($part))) {
+                    $textRun->addText(' ', $currentStyle); // Добавляем пробел перед новой частью
+                }
+
+                // Определяем стиль для каждой части текста
                 if ($part === '<color>') {
                     $currentStyle = $corporateletterTextStyle;
+                    $previousPartWasTag = true; // Указываем, что это тег
                 } elseif ($part === '</color>') {
                     $currentStyle = $letterTextStyle;
+                    $previousPartWasTag = true;
                 } elseif ($part === '<bold>') {
                     $currentStyle = $boldTextStyle;
+                    $previousPartWasTag = true;
                 } elseif ($part === '</bold>') {
                     $currentStyle = $letterTextStyle;
+                    $previousPartWasTag = true;
                 } elseif ($part === '<red>') {
-                    // Добавляем стиль для "red", если требуется
                     $currentStyle = $redTextStyle;
+                    $previousPartWasTag = true;
                 } elseif ($part === '</red>') {
                     $currentStyle = $letterTextStyle;
+                    $previousPartWasTag = true;
                 } else {
+                    // Это обычный текст, не тег
+                    $previousPartWasTag = false;
+
                     // Разбиваем текст на подчасти по символу новой строки
                     $subparts = explode("\n", $part);
                     foreach ($subparts as $subpart) {
+                        // Добавляем текст
                         $textRun->addText(trim($subpart), $currentStyle);
+
+                        // Добавляем разрыв строки, если это не последний элемент
                         if ($subpart !== end($subparts)) {
-                            // Добавляем разрыв строки между подчастями
                             $textRun->addTextBreak(1);
                         }
                     }
