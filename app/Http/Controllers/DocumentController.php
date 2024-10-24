@@ -2300,7 +2300,6 @@ class DocumentController extends Controller
 
     protected function getLetter($section, $styles, $documentNumber, $fields, $recipient)
     {
-        $documentNumber = '3';
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
@@ -2407,51 +2406,55 @@ class DocumentController extends Controller
 
 
         $letterText = '';
-        foreach ($fields as $field) {
-            if ($field && $field['code']) {
-                if (
-                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
+        // foreach ($fields as $field) {
+        //     if ($field && $field['code']) {
+        //         if (
+        //             $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
 
-                ) {
-                    if (!empty($field['description'])) {
-                        $letterText = $field['description'];
-                        $letterText = str_replace("\\n", "\n", $letterText);
-                        // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
-                        // $letterText = $this->processLineBreaks($letterText);
+        //         ) {
+        //             if ($field['description']) {
+        //                 $letterText = $field['description'];
+        //                 $letterText = str_replace("\\n", "\n", $letterText);
+        //                 // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
+        //                 // $letterText = $this->processLineBreaks($letterText);
+        //             }
+        //         }
+        //     }
+        // }
+
+        if (!empty($letterText)) {
+            $letterText = str_replace("●", "•", $letterText); // Replace "●" with "•"
+            $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+            $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
+
+
+            $textRun = $section->addTextRun();
+
+            $inHighlight = false;
+            $currentStyle = $letterTextStyle;
+            foreach ($letterText as $part) {
+                if ($part === '<color>') {
+                    $currentStyle = $corporateletterTextStyle;
+                } elseif ($part === '</color>') {
+                    $currentStyle = $letterTextStyle;
+                } elseif ($part === '<bold>') {
+                    $currentStyle = $boldTextStyle;
+                } elseif ($part === '</bold>') {
+                    $currentStyle = $letterTextStyle;
+                } else {
+                    // Break part into subparts
+                    $subparts = explode("\n", $part);
+                    foreach ($subparts as $subpart) {
+                        $textRun->addText(trim($subpart), $currentStyle);
+                        if ($subpart !== end($subparts)) {
+                            $textRun->addTextBreak(1);
+                        }
                     }
                 }
             }
         }
-        $letterText = str_replace("●", "•", $letterText); // Replace "●" with "•"
-        $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
-
-
-        // $textRun = $section->addTextRun();
-
-        $inHighlight = false;
-        $currentStyle = $letterTextStyle;
-        foreach ($letterText as $part) {
-            if ($part === '<color>') {
-                $currentStyle = $corporateletterTextStyle;
-            } elseif ($part === '</color>') {
-                $currentStyle = $letterTextStyle;
-            } elseif ($part === '<bold>') {
-                $currentStyle = $boldTextStyle;
-            } elseif ($part === '</bold>') {
-                $currentStyle = $letterTextStyle;
-            } else {
-                // Break part into subparts
-                $subparts = explode("\n", $part);
-                foreach ($subparts as $subpart) {
-                    $textRun->addText(trim($subpart), $currentStyle);
-                    if ($subpart !== end($subparts)) {
-                        $textRun->addTextBreak(1);
-                    }
-                }
-            }
-        }
 
         return $section;
     }
