@@ -2325,7 +2325,12 @@ class DocumentController extends Controller
             'size' => 10,
             'lineHeight' => 1.5
         ];
-
+        $redTextStyle = [
+            ...$styles['fonts']['text']['red'],
+            ...$styles['paragraphs']['align']['both'],
+            'size' => 10,
+            'lineHeight' => 1.5
+        ];
         $fullWidth = $styles['page']['pageSizeW'];
         $marginRight = $section->getStyle()->getMarginRight();
         $marginLeft = $section->getStyle()->getMarginLeft();
@@ -2406,33 +2411,33 @@ class DocumentController extends Controller
 
 
         $letterText = '';
-        // foreach ($fields as $field) {
-        //     if ($field && $field['code']) {
-        //         if (
-        //             $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
+        foreach ($fields as $field) {
+            if ($field && $field['code']) {
+                if (
+                    $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
 
-        //         ) {
-        //             if ($field['description']) {
-        //                 $letterText = $field['description'];
-        //                 $letterText = str_replace("\\n", "\n", $letterText);
-        //                 // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
-        //                 // $letterText = $this->processLineBreaks($letterText);
-        //             }
-        //         }
-        //     }
-        // }
+                ) {
+                    if ($field['description']) {
+                        $letterText = $field['description'];
+                        $letterText = str_replace("\\n", "\n", $letterText);
+                        // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
+                        // $letterText = $this->processLineBreaks($letterText);
+                    }
+                }
+            }
+        }
 
         if (!empty($letterText)) {
-            $letterText = str_replace("●", "•", $letterText); // Replace "●" with "•"
-            $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
+            // Заменяем специальные символы
+            $letterText = str_replace("●", "•", $letterText);
+
+            // Разбиваем текст на части с учётом тегов
+            $letterText = preg_split('/(<color>|<\/color>|<bold>|<\/bold>|<red>|<\/red>)/', $letterText, -1, PREG_SPLIT_DELIM_CAPTURE);
 
             $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
 
-
-            $textRun = $section->addTextRun();
-
-            $inHighlight = false;
             $currentStyle = $letterTextStyle;
+
             foreach ($letterText as $part) {
                 if ($part === '<color>') {
                     $currentStyle = $corporateletterTextStyle;
@@ -2442,12 +2447,18 @@ class DocumentController extends Controller
                     $currentStyle = $boldTextStyle;
                 } elseif ($part === '</bold>') {
                     $currentStyle = $letterTextStyle;
+                } elseif ($part === '<red>') {
+                    // Добавляем стиль для "red", если требуется
+                    $currentStyle = $redTextStyle;
+                } elseif ($part === '</red>') {
+                    $currentStyle = $letterTextStyle;
                 } else {
-                    // Break part into subparts
+                    // Разбиваем текст на подчасти по символу новой строки
                     $subparts = explode("\n", $part);
                     foreach ($subparts as $subpart) {
                         $textRun->addText(trim($subpart), $currentStyle);
                         if ($subpart !== end($subparts)) {
+                            // Добавляем разрыв строки между подчастями
                             $textRun->addTextBreak(1);
                         }
                     }
