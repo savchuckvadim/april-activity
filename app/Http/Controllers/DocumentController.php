@@ -753,7 +753,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     if ($withLetter) {
-                        // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         // if ($withStamps) {
                         //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     }
@@ -2300,6 +2300,7 @@ class DocumentController extends Controller
 
     protected function getLetter($section, $styles, $documentNumber, $fields, $recipient)
     {
+        $documentNumber = '3';
         //FOOTER
         //data
         // Стили для обычного и выделенного текста
@@ -2412,7 +2413,7 @@ class DocumentController extends Controller
                     $field['code'] == 'letter' || $field['bitrixTemplateId'] == 'letter'
 
                 ) {
-                    if ($field['description']) {
+                    if (!empty($field['description'])) {
                         $letterText = $field['description'];
                         $letterText = str_replace("\\n", "\n", $letterText);
                         // $letterText = preg_replace("/\\\\n\s*/", "\n", $letterText);
@@ -2427,7 +2428,7 @@ class DocumentController extends Controller
         $textRun = $section->addTextRun(['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::START]);
 
 
-        $textRun = $section->addTextRun();
+        // $textRun = $section->addTextRun();
 
         $inHighlight = false;
         $currentStyle = $letterTextStyle;
