@@ -622,8 +622,7 @@ class DocumentController extends Controller
 
                     $providerRq = $data['provider']['rq'];
                     //document number
-                    $documentNumber = '124';
-                    //  CounterController::getCount($providerRq['id'], 'offer');
+                    $documentNumber =  CounterController::getCount($providerRq['id'], 'offer');
 
                     // /invoice base number
                     // $step1 = preg_replace_callback(
@@ -754,7 +753,7 @@ class DocumentController extends Controller
                     $inHighlight = false;
 
                     if ($withLetter) {
-                        // $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
+                        $letterSection = $this->getLetter($section, $styles, $documentNumber, $fields, $recipient);
                         // if ($withStamps) {
                         //     $stampsSection = $this->getStamps($section, $styles,  $providerRq);
                     }
@@ -763,7 +762,7 @@ class DocumentController extends Controller
 
                             $section->addPageBreak();
                         }
-                        // $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
+                        $priceSection = $this->getPriceSection($section, $styles,  $data['price'], $salePhrase);
                     }
 
                     $section->addPageBreak();
