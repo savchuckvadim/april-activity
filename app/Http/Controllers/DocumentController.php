@@ -768,7 +768,7 @@ class DocumentController extends Controller
                     $section->addPageBreak();
                     // }
 
-                    // $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
+                    $infoblocksSection = $this->getInfoblocks($section, $styles, $infoblocksOptions, $complect);
 
                     // if ($isPriceFirst) {
                     //     if ($withStamps) {
