@@ -1154,6 +1154,8 @@ class PDFDocumentController extends Controller
                     // Преобразуем результат в число
                     $quantity = intval($numberString);
                     // $licQuantity = $contract['prepayment'] * $quantity;
+                    $licQuantity = $contract['prepayment'];
+
                     $quantityString =  TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
                 } else  if ($contract['shortName'] === 'lic' || $contract['shortName'] !== 'key') {
 
