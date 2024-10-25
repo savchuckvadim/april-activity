@@ -1147,7 +1147,15 @@ class PDFDocumentController extends Controller
             }
 
             if ($cell['code'] === 'quantity' && $cell['value']) {
-                if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima') {
+                if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima' && $contract['shortName'] !== 'lic' && $contract['shortName'] !== 'key') {
+
+                    $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
+
+                    // Преобразуем результат в число
+                    $quantity = intval($numberString);
+                    // $licQuantity = $contract['prepayment'] * $quantity;
+                    $quantityString =  TimeSpeller::spellUnit($quantity, TimeSpeller::MONTH);
+                } else  if ($contract['shortName'] === 'lic' || $contract['shortName'] !== 'key') {
 
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
 
