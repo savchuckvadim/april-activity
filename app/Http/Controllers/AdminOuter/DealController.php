@@ -417,7 +417,7 @@ class DealController extends Controller
         if (!empty($category['stages'])) {
             $stages = $category['stages'];
             foreach ($stages as $stage) {
-
+                $currentPortalStage = null;
 
                 foreach ($portalDealCategoryStages as $portalDealCategoryStage) {
 
@@ -428,7 +428,7 @@ class DealController extends Controller
                         $currentPortalStage = BtxStage::find($portalDealCategoryStage['id']);
                     }
                 }
-                if (!$currentPortalStage) {
+                if (empty($currentPortalStage)) {
                     $currentPortalStage = new BtxStage();
                     $currentPortalStage->btx_category_id = $portalCategoryId;
                 }
