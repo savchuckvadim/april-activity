@@ -2160,8 +2160,10 @@ class ContractController extends Controller
                     // }
 
                     foreach ($lt['value'] as $ltservice) {
-                        if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                            $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                        if (!empty($ltservice['number'])) {
+                            if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
+                                $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                            }
                         }
                     }
 
