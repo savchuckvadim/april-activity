@@ -2142,8 +2142,11 @@ class ContractController extends Controller
                     if (!empty($lt['value'])) {
 
                         foreach ($lt['value'] as $ltservice) {
-                            if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                                $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                            if (!empty($ltservice['name'])) {
+
+                                if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                                    $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                                }
                             }
                         }
                     }
@@ -2160,7 +2163,7 @@ class ContractController extends Controller
                     // }
 
                     foreach ($lt['value'] as $ltservice) {
-                        if (!empty($ltservice['number'])) {
+                        if (!empty($ltservice['name'])) {
                             if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
                                 $ltBlocks .=  '' . $ltservice['name'] . "\n";
                             }
