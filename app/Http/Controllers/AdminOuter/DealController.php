@@ -246,7 +246,7 @@ class DealController extends Controller
                             }
                         }
                     }
-                    if (!$portalCategory) {
+                    if (empty($portalCategory)) {
                         $portalCategory = new BtxCategory();
                         $portalCategory->entity_type = BtxDeal::class;
                         $portalCategory->entity_id = $portalDealId;
