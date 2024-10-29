@@ -2139,9 +2139,12 @@ class ContractController extends Controller
                     // foreach ($currentComplect['lt'] as $ltIndex) {
                     //     $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
                     // }
-                    foreach ($lt['value'] as $ltservice) {
-                        if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                            $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                    if (!empty($lt['value'])) {
+
+                        foreach ($lt['value'] as $ltservice) {
+                            if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                                $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                            }
                         }
                     }
                 }
