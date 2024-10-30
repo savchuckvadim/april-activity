@@ -2232,14 +2232,14 @@ class SupplyController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
+                    'type' => 'text',
                     'name' => 'Вид Размещения',
                     'value' => $contractSupplyName,
                     'isRequired' => true,
                     'code' => 'specification_supply',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 1.5,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
@@ -2263,22 +2263,22 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Комментарий к ПК/ГЛ',
-                    'value' => $consaltingcomment,
-                    'isRequired' => true,
-                    'code' => 'specification_pk_comment',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 3,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Комментарий к ПК/ГЛ',
+                //     'value' => $consaltingcomment,
+                //     'isRequired' => true,
+                //     'code' => 'specification_pk_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 3,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'text',
                     'name' => 'Информационные блоки',
@@ -2287,7 +2287,7 @@ class SupplyController extends Controller
                     'code' => 'specification_ibig',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 4,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
