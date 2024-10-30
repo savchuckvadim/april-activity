@@ -2200,8 +2200,8 @@ class SupplyController extends Controller
 
             return [
                 [
-                    'type' => 'string',
-                    'name' => 'Наименование  комплекта частей  Справочника',
+                    'type' => 'text',
+                    'name' => 'Наименование ',
                     'value' => $products_names,
                     'isRequired' => true,
                     'code' => 'contract_spec_products_names',
