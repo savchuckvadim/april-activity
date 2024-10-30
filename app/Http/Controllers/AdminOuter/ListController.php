@@ -149,7 +149,7 @@ class ListController extends Controller
         //     $resultList = ListController::getList($hook, $listBtxCode);
         // }
 
-        if (!empty($list) && !empty($list['ID'])) {
+        if (!empty($list) && !empty($list['bitrixId'])) {
             if (!$currentPortalList) {
                 $currentPortalList = new Bitrixlist();
                 $currentPortalList->portal_id = $portalId;
@@ -158,7 +158,7 @@ class ListController extends Controller
             }
             $currentPortalList->name = $list['title'];
             $currentPortalList->title = $list['title'];
-            $currentPortalList->bitrixId = $list['ID'];
+            $currentPortalList->bitrixId = $list['bitrixId'];
             $currentPortalList->save();
         }
 
@@ -203,7 +203,7 @@ class ListController extends Controller
                 ]
             );
 
-            if (!empty($currentBtxField) && isset($currentBtxField['ID'])) {
+            if (!empty($currentBtxField) && isset($currentBtxField['bitrixId'])) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
                     $currentPortalField = new Bitrixfield();
                     $currentPortalField->entity_id = $currentPortalList['id'];
@@ -214,8 +214,8 @@ class ListController extends Controller
                 $currentPortalField->name = $gField['name'];
                 $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField['type'];
-                $currentPortalField->bitrixId = $gField['ID'];
-                $currentPortalField->bitrixCamelId = $gField['bitrixId'];
+                $currentPortalField->bitrixId = $gField['bitrixId'];
+                $currentPortalField->bitrixCamelId = $gField['bitrixCamelId'];
                 $currentPortalField->save();
             }
 
