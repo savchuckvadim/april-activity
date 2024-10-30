@@ -71,7 +71,9 @@ class SupplyController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
-                'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
+                // 'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
+                'contract' => [],
+
                 'specification' => $this->getSpecification(
                     $currentComplect,
                     $products,
@@ -2319,7 +2321,7 @@ class SupplyController extends Controller
                     'code' => 'specification_ifree',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => true,
+                    'isDisable' => false,
                     'order' => 6,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
