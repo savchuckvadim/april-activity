@@ -2407,7 +2407,7 @@ class SupplyController extends Controller
 
 
                 ],
-               
+
                 // [
                 //     'type' => 'text',
                 //     'name' => 'Примечание Вид Размещения',
