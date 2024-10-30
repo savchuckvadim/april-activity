@@ -11,14 +11,14 @@ use App\Models\Portal;
 
 class PortalController extends Controller
 {
-    
+
 
 
     public static function get($domain)
     {
         // $cacheKey = 'portal_' . $domain;
         // $cachedPortalData = Cache::get($cacheKey);
-        
+
         // if (!is_null($cachedPortalData)) {
         //     Log::channel('telegram')->info('APRIL_ONLINE', [
         //         'log from cache getPortal'   =>
@@ -43,13 +43,9 @@ class PortalController extends Controller
         $portalData = new PortalFrontResource($portal);
         $portal_data = new PortalOuterResource($portal, $domain);
 
-    
+
 
         // Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
-        return APIController::getSuccess(['portal' => $portalData, 'portal_new' => $portal_data]); // Возвращаем данные в формате response
+        return APIController::getSuccess(['portal_old' => $portalData, 'portal' => $portal_data]); // Возвращаем данные в формате response
     }
-
-
-
-
 }
