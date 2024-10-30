@@ -83,7 +83,8 @@ class SupplyController extends Controller
 
                     $arows,
                     $contractQuantity,
-                    $documentInfoblocks
+                    $documentInfoblocks,
+                    $contractProductName
                 ),
                 'clientType' =>  [
                     'type' => 'select',
@@ -2018,7 +2019,8 @@ class SupplyController extends Controller
 
         $arows,
         $contractQuantity,
-        $documentInfoblocks
+        $documentInfoblocks,
+        $contractProductName
     ) {
 
         $productType = [
@@ -2103,7 +2105,7 @@ class SupplyController extends Controller
             }
         }
         $contractsum = $monthSum * 12;
-        $products_names = 'Гарант-' . $product['complectName'] . ' ' . $product['supply']['name'];
+        $products_names = $contractProductName . 'Гарант-' . $product['complectName'] . ' ' . $product['supply']['name'];
         $consalting = '';
         $consaltingcomment = '';
         if ($consaltingProduct) {
