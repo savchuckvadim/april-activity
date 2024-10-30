@@ -2105,7 +2105,7 @@ class SupplyController extends Controller
             }
         }
         $contractsum = $monthSum * 12;
-        $products_names = $contractProductName . 'Гарант-' . $product['complectName'] . ' ' . $product['supply']['name'];
+        $products_names = $contractProductName . "\n" . 'Гарант-' . $product['complectName'];
         $consalting = '';
         $consaltingcomment = '';
         if ($consaltingProduct) {
@@ -2207,7 +2207,7 @@ class SupplyController extends Controller
                     'code' => 'contract_spec_products_names',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 0,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
@@ -2215,22 +2215,22 @@ class SupplyController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'string',
-                //     'name' => 'Комментарий к наименованию',
-                //     'value' => '',
-                //     'isRequired' => true,
-                //     'code' => 'contract_spec_products_names_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 1,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['internet', 'proxima'],
-                //     'contractType' => ['service', 'lic', 'abon', 'key']
+                [
+                    'type' => 'string',
+                    'name' => 'Вид поставки',
+                    'value' => $product['quantityForKp'],
+                    'isRequired' => true,
+                    'code' => 'contract_spec_products_names_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 1,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                // ],
+                ],
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
@@ -2265,8 +2265,8 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Большие информационные блоки',
-                    'value' => $iblocks['bigIBlocks'],
+                    'name' => 'Информационные блоки',
+                    'value' => $iblocks['allIBlocks'],
                     'isRequired' => true,
                     'code' => 'specification_ibig',
                     'group' => 'specification',
@@ -2279,22 +2279,22 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Малые информационные блоки',
-                    'value' =>  $iblocks['smallIBlocks'],
-                    'isRequired' => true,
-                    'code' => 'specification_ismall',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 5,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Малые информационные блоки',
+                //     'value' =>  $iblocks['smallIBlocks'],
+                //     'isRequired' => true,
+                //     'code' => 'specification_ismall',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 5,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
@@ -3177,6 +3177,7 @@ class SupplyController extends Controller
     {
         $bigIBlocks = '';
         $smallIBlocks = '';
+        $allIBlocks = '';
         $freeIBlocks = '';
         $packIBlocks = '';
         $starLtBlocks = '';
@@ -3222,8 +3223,10 @@ class SupplyController extends Controller
                     if ($iblock['weight'] == 0.5) {
                         // array_push($smallIBlocks, $value);
                         $smallIBlocks .=  '' . $value . "\n";
+                        $allIBlocks .=  '' . $value . "\n";
                     } else if ($iblock['weight'] >= 1) {
                         $bigIBlocks .=  '' . $value . "\n";
+                        $allIBlocks .=  '' . $value . "\n";
                         // array_push($bigIBlocks, $value);
                     }
                 } else if ($isFree) {
@@ -3236,6 +3239,7 @@ class SupplyController extends Controller
             }
         }
         return [
+            'allIBlocks' => $allIBlocks,
             'bigIBlocks' => $bigIBlocks,
             'smallIBlocks' => $smallIBlocks,
             'freeIBlocks' => $freeIBlocks,
