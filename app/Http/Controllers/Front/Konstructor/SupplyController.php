@@ -2233,6 +2233,22 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'string',
+                    'name' => 'Вид Размещения',
+                    'value' => $contractSupplyName,
+                    'isRequired' => true,
+                    'code' => 'specification_supply',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 1.5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'string',
                     'name' => 'ПК/ГЛ',
                     'value' => $consalting,
                     'isRequired' => true,
@@ -2313,7 +2329,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'string',
-                    'name' => 'Legal Tech в комплекте',
+                    'name' => 'Legal Tech в комплекте (бесплатно)',
                     'value' => $freeLtPack,
                     'isRequired' => true,
                     'code' => 'specification_lt_free',
@@ -2329,7 +2345,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Legal Tech в комплекте',
+                    'name' => 'Состав Бесплатных Legal Tech',
                     'value' => $freeLtBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_free_services',
@@ -2361,7 +2377,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Пакет Legal Tech',
+                    'name' => 'Состав Legal Tech',
                     'value' => $ltBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_services',
@@ -2391,22 +2407,7 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Вид Размещения',
-                    'value' => $product['contractSupplyName'],
-                    'isRequired' => true,
-                    'code' => 'specification_supply',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 12,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
-
-                ],
+               
                 // [
                 //     'type' => 'text',
                 //     'name' => 'Примечание Вид Размещения',
