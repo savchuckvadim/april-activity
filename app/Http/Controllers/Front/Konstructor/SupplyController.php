@@ -2121,37 +2121,52 @@ class SupplyController extends Controller
 
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
-            $pack = $lt['packages'][$packWeight];
-            // if (!empty($pack)) {
-            $freeLtPack =  $pack['fullName'];
-            // }
+            if (!empty($lt['packages'])) {
+                if (!empty($lt['packages'][$packWeight])) {
+                    $pack = $lt['packages'][$packWeight];
+                    // if (!empty($pack)) {
+                    $freeLtPack =  $pack['fullName'];
+                    // }
 
-            // foreach ($currentComplect['lt'] as $ltIndex) {
-            //     $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
-            // }
-            foreach ($lt['value'] as $ltservice) {
-                if (in_array($ltservice['number'], $currentComplect['lt'])) {
-                    $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                    // foreach ($currentComplect['lt'] as $ltIndex) {
+                    //     $freeLtBlocks = $freeLtBlocks . ' ' . $lt['value'][$ltIndex]['name'];
+                    // }
+                    if (!empty($lt['value'])) {
+
+                        foreach ($lt['value'] as $ltservice) {
+                            if (!empty($ltservice['name'])) {
+
+                                if (in_array($ltservice['number'], $currentComplect['lt'])) {
+                                    $freeLtBlocks .=  ' ' . $ltservice['name'] . "\n";
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
+            if (!empty($lt['packages'])) {
+                if (!empty($lt['packages'][$packWeight])) {
+                    $pack = $lt['packages'][$packWeight];
+                    // if (!empty($pack)) {
+                    $ltPack =  $pack['fullName'];
+                    // }
 
-            $pack = $lt['packages'][$packWeight];
-            // if (!empty($pack)) {
-            $ltPack =  $pack['fullName'];
-            // }
+                    foreach ($lt['value'] as $ltservice) {
+                        if (!empty($ltservice['name'])) {
+                            if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
+                                $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                            }
+                        }
+                    }
 
-            foreach ($lt['value'] as $ltservice) {
-                if (in_array($ltservice['number'], $currentComplect['ltInPacket'])) {
-                    $ltBlocks .=  '' . $ltservice['name'] . "\n";
+                    // foreach ($currentComplect['ltInPacket'] as $ltIndex) {
+                    //     $freeLtBlocks .= ' ' . $lt['value'][$ltIndex]['name'];
+                    // }
                 }
             }
-
-            // foreach ($currentComplect['ltInPacket'] as $ltIndex) {
-            //     $freeLtBlocks .= ' ' . $lt['value'][$ltIndex]['name'];
-            // }
         }
 
         $iblocks = $this->getContractIBlocks($documentInfoblocks);
@@ -2390,22 +2405,22 @@ class SupplyController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Примечание Вид Размещения',
-                //     'value' => $product['contractSupplyPropComment'],
-                //     'isRequired' => true,
-                //     'code' => 'specification_supply_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 13,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['internet', 'proxima'],
-                //     'contractType' => ['service', 'lic', 'abon', 'key']
+                [
+                    'type' => 'text',
+                    'name' => 'Примечание Вид Размещения',
+                    'value' => $product['contractSupplyPropComment'],
+                    'isRequired' => true,
+                    'code' => 'specification_supply_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 13,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                // ],
+                ],
 
                 [
                     'type' => 'text',
@@ -2423,38 +2438,38 @@ class SupplyController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Примечание Носители',
-                //     'value' => $contractSupplyPropEmail,
-                //     'isRequired' => true,
-                //     'code' => 'specification_distributive_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 15,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['proxima'],
-                //     'contractType' => ['service', 'lic',  'key']
+                [
+                    'type' => 'text',
+                    'name' => 'Примечание Носители',
+                    'value' => $contractSupplyPropEmail,
+                    'isRequired' => true,
+                    'code' => 'specification_distributive_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 15,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
-                // ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Носители дистрибутивов предоставляются следующим способом',
-                //     'value' => $contractSupplyProp2,
-                //     'isRequired' => true,
-                //     'code' => 'specification_dway',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 16,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['proxima'],
-                //     'contractType' => ['service', 'lic',  'key']
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Носители дистрибутивов предоставляются следующим способом',
+                    'value' => $contractSupplyProp2,
+                    'isRequired' => true,
+                    'code' => 'specification_dway',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 16,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key']
 
 
-                // ],
+                ],
                 // [
                 //     'type' => 'text',
                 //     'name' => 'Примечание к способу',
@@ -2533,22 +2548,22 @@ class SupplyController extends Controller
                     'supplies' => ['internet'],
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Email прмечание',
-                //     'value' => $contractSupplyPropEmail,
-                //     'isRequired' => true,
-                //     'code' => 'specification_email_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 22,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'contractType' => ['service', 'lic', 'abon', 'key'],
-                //     'supplies' => ['internet'],
+                [
+                    'type' => 'text',
+                    'name' => 'Email прмечание',
+                    'value' => $contractSupplyPropEmail,
+                    'isRequired' => true,
+                    'code' => 'specification_email_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 22,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
 
 
-                // ],
+                ],
                 [
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
@@ -2590,6 +2605,7 @@ class SupplyController extends Controller
             ];
         }
     }
+
 
     protected function getSupplyReportData()
     {
