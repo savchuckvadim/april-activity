@@ -46,7 +46,7 @@ class FieldsController extends Controller
             $portal = Portal::where('domain', $domain)->first();
             $group = 'sales';
 
-            $portalDeal = $portal->deal();
+            $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
@@ -82,6 +82,14 @@ class FieldsController extends Controller
                 $parentClass = BtxDeal::class;
                 $parentId = $portalDeal['id'];
                 $portalEntityFields =  $portalDealFields;
+
+                Log::channel('telegram')->error("currentPortalField", [
+                    'portalDealFields' => $portalDealFields,
+                
+        
+                ]);
+
+
             } else   if ($entityType === 'company') {
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
