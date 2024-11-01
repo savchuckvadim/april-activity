@@ -59,11 +59,12 @@ class FieldsController extends Controller
             $portalDealFields = [];
             if ((!empty($portalDeal))) {
                 $portalDealFields = $portalDeal->bitrixfields;
-                Log::channel('telegram')->error("currentPortalField", [
-                    'portalDealFields' => $portalDealFields,
-                
-        
-                ]);
+                if (!empty($isRewrite)) {
+                    $portalDeal->bitrixfields()->delete();
+
+                    $portalDeal = $portal->deals->first();
+                    $portalDealFields = $portalDeal->bitrixfields;
+                }
             }
 
             if (!empty($portalLead)) {
@@ -117,6 +118,8 @@ class FieldsController extends Controller
             }
 
             if ($entityType !== 'smart') {
+              
+    
                 $responseData = FieldsController::createFieldsForEntities(
                     $entityType,
                     $fields,
