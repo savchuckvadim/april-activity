@@ -93,11 +93,6 @@ class FieldsController extends Controller
                 $parentId = $portalDeal['id'];
                 $portalEntityFields =  $portalDealFields;
 
-                Log::channel('telegram')->error("currentPortalField", [
-                    'portalDealFields' => $portalDealFields,
-                
-        
-                ]);
 
 
             } else   if ($entityType === 'company') {
@@ -472,16 +467,8 @@ class FieldsController extends Controller
         $parentId,
     ) {
  
-        Log::channel('telegram')->error("currentPortalField", [
-            'portalFields' => $portalFields,
-        
 
-        ]);
-        // Log::channel('telegram')->error("currentPortalField", [
-        //     'fields' => $fields,
-        
 
-        // ]);
         $result_fields = [];
         $isRewrite = false;
         foreach ($fields as   $field) {
@@ -497,33 +484,15 @@ class FieldsController extends Controller
                 if (!empty($portalFields)) {
 
                     foreach ($portalFields as $portalField) {
-                        // Log::channel('telegram')->error("currentPortalField", [
-                        //     'portalField' => $portalField['code'],
-                        //     'portalField' => $portalField,
-    
-                        // ]);
+                      
                         if ($field['code'] === $portalField['code']) {
                             $currentPortalField = $portalField;
-                            Log::channel('telegram')->error("currentPortalField", [
-                                'portalField' => $portalField,
-                                'field' => $field,
-        
-                            ]);
+                       
                         }
                     }
                 }
 
-                // if($index < 10){
-                //     Log::channel('telegram')->error("currentPortalField", [
-                //         'currentPortalField' => $currentPortalField,
-                //         // 'currentPortalField' => $currentPortalField,
 
-                //     ]);
-                // // }
-
-
-
-                // if (!empty($field[$entityType])) {
                 $type = $field['type'] ?? 'string';
                 $multiple = 'N';
 
