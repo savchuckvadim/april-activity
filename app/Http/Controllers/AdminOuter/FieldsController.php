@@ -474,11 +474,11 @@ class FieldsController extends Controller
         
 
         ]);
-        Log::channel('telegram')->error("currentPortalField", [
-            'fields' => $fields,
+        // Log::channel('telegram')->error("currentPortalField", [
+        //     'fields' => $fields,
         
 
-        ]);
+        // ]);
         $result_fields = [];
         $isRewrite = false;
         foreach ($fields as   $field) {
@@ -494,11 +494,11 @@ class FieldsController extends Controller
                 if (!empty($portalFields)) {
 
                     foreach ($portalFields as $portalField) {
-                        Log::channel('telegram')->error("currentPortalField", [
-                            'portalField' => $portalField['code'],
-                            'portalField' => $portalField,
+                        // Log::channel('telegram')->error("currentPortalField", [
+                        //     'portalField' => $portalField['code'],
+                        //     'portalField' => $portalField,
     
-                        ]);
+                        // ]);
                         if ($field['code'] === $portalField['code']) {
                             $currentPortalField = $portalField;
                             Log::channel('telegram')->error("currentPortalField", [
