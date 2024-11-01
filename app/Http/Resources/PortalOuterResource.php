@@ -15,7 +15,8 @@ class PortalOuterResource extends JsonResource
     public function toArray($domain): array
 
     {
-        $access = $this->encryptData($this->C_REST_CLIENT_SECRET, $domain);
+        $client_id =  $this->getClientId();
+        $access = $this->encryptData($client_id, $domain);
         $resultsmarts = [];
         foreach ($this->smarts as $smrt) {
             $smart = new SmartResource($smrt);
