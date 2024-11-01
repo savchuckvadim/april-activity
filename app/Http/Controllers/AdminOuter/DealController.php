@@ -55,8 +55,8 @@ class DealController extends Controller
                 } else {
                     //если сделки у портала не существует - создать
                     $portalDeal = new BtxDeal();
-                    $portalDeal->name = 'Сделка' . $domain;
-                    $portalDeal->title = 'Сделка' . $domain;
+                    $portalDeal->name = 'Сделка ' . $domain;
+                    $portalDeal->title = 'Сделка ' . $domain;
                     $portalDeal->code = 'deal';
                     $portalDeal->portal_id = $portalId;
                     $portalDeal->save();

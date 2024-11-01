@@ -39,7 +39,9 @@ class FieldsController extends Controller
             $entityType =  $data['entity_type'];
             $domain =  $data['domain'];
             $isRewrite = $data['is_rewrite'];
+            $smartId = $data['smart_id'];
 
+            
 
             $portal = Portal::where('domain', $domain)->first();
             $group = 'sales';
@@ -450,24 +452,43 @@ class FieldsController extends Controller
         $parentId,
     ) {
  
+        Log::channel('telegram')->error("currentPortalField", [
+            'portalFields' => $portalFields,
+        
 
+        ]);
+        Log::channel('telegram')->error("currentPortalField", [
+            'fields' => $fields,
+        
+
+        ]);
         $result_fields = [];
         $isRewrite = false;
-        foreach ($fields as  $index => $field) {
+        foreach ($fields as   $field) {
             // $currentBtxField = false;
             // $currentBtxFieldId = false;
             $currentPortalField = false;
 
             if ($field[$entityType]) {
 
-
+              
 
 
                 if (!empty($portalFields)) {
 
                     foreach ($portalFields as $portalField) {
+                        Log::channel('telegram')->error("currentPortalField", [
+                            'portalField' => $portalField['code'],
+                            'portalField' => $portalField,
+    
+                        ]);
                         if ($field['code'] === $portalField['code']) {
                             $currentPortalField = $portalField;
+                            Log::channel('telegram')->error("currentPortalField", [
+                                'portalField' => $portalField,
+                                'field' => $field,
+        
+                            ]);
                         }
                     }
                 }
@@ -492,7 +513,7 @@ class FieldsController extends Controller
                 }
 
 
-                if (!$currentPortalField) {
+                if (empty($currentPortalField)) {
                     $appTypeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['appType']);
 
 

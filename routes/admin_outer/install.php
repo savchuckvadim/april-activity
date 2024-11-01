@@ -18,6 +18,7 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     // entity_type
     // domain
     // is_rewrite
+    
 
     Route::post('test', function (Request $request) {
         $data = $request->all();
