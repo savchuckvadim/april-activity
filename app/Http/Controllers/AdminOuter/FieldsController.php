@@ -41,7 +41,7 @@ class FieldsController extends Controller
             $isRewrite = $data['is_rewrite'];
             $smartId = $data['smart_id'];
 
-            
+
 
             $portal = Portal::where('domain', $domain)->first();
             $group = 'sales';
@@ -52,8 +52,8 @@ class FieldsController extends Controller
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalDeal' => $portalDeal,
-            
-    
+
+
             ]);
 
             $portalDealFields = [];
@@ -64,20 +64,9 @@ class FieldsController extends Controller
                     $portalDeal->save();
 
 
-                    $portal = Portal::where('domain', $domain)->first();        
+                    $portal = Portal::where('domain', $domain)->first();
                     $portalDeal = $portal->deals->first();
                     $portalDealFields = $portalDeal->bitrixfields;
-
-                    Log::channel('telegram')->error("currentPortalField", [
-                        'portalDeal' => $portalDeal,
-                    
-            
-                    ]);
-                    Log::channel('telegram')->error("currentPortalField", [
-                        'portalDealFields' => $portalDealFields,
-                    
-            
-                    ]);
                 }
             }
 
@@ -106,9 +95,6 @@ class FieldsController extends Controller
                 $parentClass = BtxDeal::class;
                 $parentId = $portalDeal['id'];
                 $portalEntityFields =  $portalDealFields;
-
-
-
             } else   if ($entityType === 'company') {
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
@@ -121,14 +107,12 @@ class FieldsController extends Controller
                 $parentClass = Smart::class;
                 if (!empty($portalSmart)) {
                     $portalEntityFields = $portalSmart->fields;
-
-
                 }
             }
 
             if ($entityType !== 'smart') {
-              
-    
+
+
                 $responseData = FieldsController::createFieldsForEntities(
                     $entityType,
                     $fields,
@@ -156,7 +140,7 @@ class FieldsController extends Controller
             $portal = Portal::where('domain', $domain)->first();
             $resultPortal = new PortalOuterResource($portal, $domain);
             return APIController::getSuccess(['updated_portal' => $resultPortal]);
-    
+
             // };
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
@@ -480,7 +464,7 @@ class FieldsController extends Controller
         $parentClass,
         $parentId,
     ) {
- 
+
 
 
         $result_fields = [];
@@ -492,16 +476,15 @@ class FieldsController extends Controller
 
             if ($field[$entityType]) {
 
-              
+
 
 
                 if (!empty($portalFields)) {
 
                     foreach ($portalFields as $portalField) {
-                      
+
                         if ($field['code'] === $portalField['code']) {
                             $currentPortalField = $portalField;
-                       
                         }
                     }
                 }
@@ -553,8 +536,6 @@ class FieldsController extends Controller
             // sleep(2);
         }
         return $result_fields;
-
- 
     }
 
     public static function setFieldItems(
@@ -581,11 +562,11 @@ class FieldsController extends Controller
             }
         }
 
-        $currentPortalItem  = false;
+        $currentPortalItem  = null;
         $currentGooItem  = false;
         if (!empty($fieldItems)) {
             foreach ($fieldItems as $fieldItem) {  //btx items
-       
+
                 //ищем item в db
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
@@ -600,19 +581,19 @@ class FieldsController extends Controller
                                 $currentPortalItem  = $pitem;
                             }
                         }
-                        if (empty($currentPortalItem)) {
-                            $currentPortalItem  =  new BitrixfieldItem();
-                            $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
-
-                            $currentPortalItem->code = $fieldItemCode;
-                        }
-
-                        $currentPortalItem->bitrixId = $fieldItem['bitrixId'];
-
-                        $currentPortalItem->name = $fieldItemValue;
-                        $currentPortalItem->title = $fieldItemValue;
-                        $currentPortalItem->save();
                     }
+                    if (empty($currentPortalItem)) {
+                        $currentPortalItem  =  new BitrixfieldItem();
+                        $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+
+                        $currentPortalItem->code = $fieldItemCode;
+                    }
+
+                    $currentPortalItem->bitrixId = $fieldItem['bitrixId'];
+
+                    $currentPortalItem->name = $fieldItemValue;
+                    $currentPortalItem->title = $fieldItemValue;
+                    $currentPortalItem->save();
                 }
             }
         }
