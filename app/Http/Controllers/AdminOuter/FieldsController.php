@@ -64,6 +64,17 @@ class FieldsController extends Controller
 
                     $portalDeal = $portal->deals->first();
                     $portalDealFields = $portalDeal->bitrixfields;
+
+                    Log::channel('telegram')->error("currentPortalField", [
+                        'portalDeal' => $portalDeal,
+                    
+            
+                    ]);
+                    Log::channel('telegram')->error("currentPortalField", [
+                        'portalDealFields' => $portalDealFields,
+                    
+            
+                    ]);
                 }
             }
 
