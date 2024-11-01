@@ -43,7 +43,8 @@ class PortalOuterResource extends JsonResource
             'rpas' => $this->rpas,
             'company' => $this->company(),
             'lead' => $this->lead(),
-            'access_key' => $access
+            'access_key' => $access,
+            'client_id' => $client_id
             // 'contracts' =>  $this->contracts,
             // 'measures' =>  $this->measures,
         ];
