@@ -61,7 +61,10 @@ class FieldsController extends Controller
                 $portalDealFields = $portalDeal->bitrixfields;
                 if (!empty($isRewrite)) {
                     $portalDeal->bitrixfields()->delete();
+                    $portalDeal->save();
 
+
+                    $portal = Portal::where('domain', $domain)->first();        
                     $portalDeal = $portal->deals->first();
                     $portalDealFields = $portalDeal->bitrixfields;
 
