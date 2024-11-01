@@ -50,11 +50,20 @@ class FieldsController extends Controller
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
-
+            Log::channel('telegram')->error("currentPortalField", [
+                'portalDeal' => $portalDeal,
+            
+    
+            ]);
 
             $portalDealFields = [];
             if ((!empty($portalDeal))) {
-                $portalDealFields = $portalDeal->fields;
+                $portalDealFields = $portalDeal->bitrixfields;
+                Log::channel('telegram')->error("currentPortalField", [
+                    'portalDealFields' => $portalDealFields,
+                
+        
+                ]);
             }
 
             if (!empty($portalLead)) {
