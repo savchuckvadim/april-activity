@@ -553,7 +553,7 @@ class FieldsController extends Controller
 
         }
 
-        $fieldItems =  $field['list'];
+        $fieldItems =  $field['items'];
         if (!empty($currentPortalField)) {
 
 
