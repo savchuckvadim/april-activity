@@ -527,7 +527,10 @@ class FieldsController extends Controller
                 $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
 
                 if ($field['type'] == 'enumeration') {
+                    Log::channel('telegram')->info("smart", [
+                        'field' => $field,
 
+                    ]);
                     FieldsController::setFieldItems($field, $currentPortalField, $isRewrite);
                 }
                 array_push($result_fields, $currentPortalField);
@@ -582,19 +585,19 @@ class FieldsController extends Controller
                             }
                         }
                     }
-                    if (empty($currentPortalItem)) {
-                        $currentPortalItem  =  new BitrixfieldItem();
-                        $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
-
-                        $currentPortalItem->code = $fieldItemCode;
-                    }
-
-                    $currentPortalItem->bitrixId = $fieldItem['bitrixId'];
-
-                    $currentPortalItem->name = $fieldItemValue;
-                    $currentPortalItem->title = $fieldItemValue;
-                    $currentPortalItem->save();
                 }
+                if (empty($currentPortalItem)) {
+                    $currentPortalItem  =  new BitrixfieldItem();
+                    $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
+
+                    $currentPortalItem->code = $fieldItemCode;
+                }
+
+                $currentPortalItem->bitrixId = $fieldItem['bitrixId'];
+
+                $currentPortalItem->name = $fieldItemValue;
+                $currentPortalItem->title = $fieldItemValue;
+                $currentPortalItem->save();
             }
         }
     }
