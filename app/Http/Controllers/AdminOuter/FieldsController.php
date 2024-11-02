@@ -548,6 +548,10 @@ class FieldsController extends Controller
         $isRewrite = false
     ) {
 
+        if(!empty($field['is_rewrite'])){
+            $isRewrite = $field['is_rewrite'];
+
+        }
 
         $fieldItems =  $field['list'];
         if (!empty($currentPortalField)) {
