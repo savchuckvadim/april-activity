@@ -574,12 +574,14 @@ class FieldsController extends Controller
         if (!empty($fieldItems)) {
             foreach ($fieldItems as $fieldItem) {  //btx items
 
+                $fieldItemCode = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['code']);
+                $fieldItemValue = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['value']);
+
+                
                 //ищем item в db
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
-                        $fieldItemCode = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['code']);
-                        $fieldItemValue = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['value']);
-
+                       
                         if ($fieldItemCode == $pitem['code']) {
 
                             if (!empty($pitem['id'])) {
