@@ -48,8 +48,8 @@ Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
 
 Route::get('/supply/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
 
-   
-    $path = $domain . '/supplies/' . $hash . '/' ;
+
+    $path = $domain . '/supplies/' . $hash . '/';
     $filePath = storage_path('app/public/clients/' . $path);
     // Путь к файлу на основе хэша
     // $filePath = storage_path('app/public/clients/supply/' . $domain . '/' . $hash . '/' . $filename);
@@ -92,11 +92,11 @@ Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', fun
     $smartId = null
 ) {
     // $url = LinkController ::urlForRedirect($linkId);
-    // if ($pass == 'nmbrsdntl') {
-    //     return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
-    // } else {
-    return 'yo';
-    // }
+    if ($pass == 'nmbrsdntl') {
+        return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
+    } else {
+        return 'yo';
+    }
 });
 
 
