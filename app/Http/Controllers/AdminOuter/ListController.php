@@ -196,12 +196,12 @@ class ListController extends Controller
             $currentPortalField = $currentPortalList->fields->where('code', $currentFieldCode)->first();
 
 
-            Log::channel('telegram')->info(
-                'tst currentPortalField',
-                [
-                    'currentPortalField' => $currentPortalField
-                ]
-            );
+            // Log::channel('telegram')->info(
+            //     'tst currentPortalField',
+            //     [
+            //         'currentPortalField' => $currentPortalField
+            //     ]
+            // );
 
             if (!empty($currentBtxField) && isset($currentBtxField['bitrixId'])) {
                 if (!$currentPortalField) {          // если нет на портале такого - значит и btx тоже нет - потому что без portal data не будем знать id по которому находить field в btx
@@ -210,12 +210,15 @@ class ListController extends Controller
                     $currentPortalField->entity_type = Bitrixlist::class;
                     $currentPortalField->parent_type = 'list';
                 }
+                
+                $bitrixCamelId = 'PROPERTY_' . $gField['bitrixId'];
+
                 $currentPortalField->title = $gField['title'];
                 $currentPortalField->name = $gField['name'];
                 $currentPortalField->code = $currentFieldCode;
                 $currentPortalField->type = $gField['type'];
                 $currentPortalField->bitrixId = $gField['bitrixId'];
-                $currentPortalField->bitrixCamelId = $gField['bitrixCamelId'];
+                $currentPortalField->bitrixCamelId = $bitrixCamelId;
                 $currentPortalField->save();
             }
 
