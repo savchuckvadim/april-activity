@@ -12,6 +12,16 @@ Route::post('test', function (Request $request) {
     $data = $request->all();
     Log::channel('telegram')->info('data', ['data' => $data]);
 
+    Log::channel('telegram')->info('APRIL_ONLINE', [
+
+        'date_from' => $request['date_from'],
+        // 'название обзвона' => $name,
+        // 'companyId' => $companyId,
+        // 'domain' => $domain,
+        // 'responsibleId' => $responsibleId,
+        // 'btrx response' => $response['error_description']
+
+    ]);
     return APIController::getSuccess($data);
 });
 Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
@@ -24,7 +34,7 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     // entity_type
     // domain
     // is_rewrite
-    
+
     // Route::post('get', function (Request $request) {
     //     $data = $request->all();
     //     Log::channel('telegram')->info('data', ['data' => $data]);
