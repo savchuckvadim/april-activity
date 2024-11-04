@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+Route::post('test', function (Request $request) {
+    $data = $request->all();
+    Log::channel('telegram')->info('data', ['data' => $data]);
+
+    return APIController::getSuccess($data);
+});
 Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
 
     // Route::prefix('install')->group(function () {
@@ -19,11 +25,12 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     // domain
     // is_rewrite
     
+    // Route::post('get', function (Request $request) {
+    //     $data = $request->all();
+    //     Log::channel('telegram')->info('data', ['data' => $data]);
 
-    Route::post('test', function (Request $request) {
-        $data = $request->all();
-        Log::channel('telegram')->info('data', ['data' => $data]);
+    //     return APIController::getSuccess($data);
+    // });
 
-        return APIController::getSuccess($data);
-    });
+
 });
