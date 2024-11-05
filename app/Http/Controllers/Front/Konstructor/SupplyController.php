@@ -304,7 +304,7 @@ class SupplyController extends Controller
 
 
         $hash = md5(uniqid(mt_rand(), true));
-        $outputFileName = 'Отчет о продаже.docx';
+        $outputFileName = 'Отчет_о_продаже.docx';
         $outputFilePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash);
 
 
