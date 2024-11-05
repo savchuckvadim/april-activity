@@ -230,20 +230,19 @@ class SupplyController extends Controller
 
         $data = $request->all();
 
-        if (!empty($data['isSupplyReport'])) {
-
-            return $this->getSupplyDocument($request);
-        } else {
-
-            return $this->getContractDocument($request);
-        }
+        return $this->getSupplyReportTempalteDocument($data);
     }
-    public function getContractDocument(Request $request)
+
+
+    protected function getSupplyReportTempalteDocument($data)
     {
-        $contractLink = '';
-        $data = $request->all();
         $domain = $data['domain'];
         $companyId = $data['companyId'];
+        $dealId = null;
+        if (!empty($data['dealId'])) {
+
+            $dealId = $data['dealId'];
+        }
         $contractType = $data['contractType'];
 
         $contract = $data['contract'];
@@ -264,124 +263,102 @@ class SupplyController extends Controller
         $total = $productSet['total'][0];
 
 
-
-
+        $supply = $data['supply'];
+        $supplyType = $supply['type'];
         $contractGeneralFields = $data['contractBaseState']['items']; //fields array
 
         $contractClientState = $data['contractClientState']['client'];
         $clientRq = $contractClientState['rqs']['rq'];                //fields array
         $clientRqBank = $contractClientState['rqs']['bank'];
+        $clientType = $contractClientState['type'];
+
+        function filterByClientTypePDF($item, $clientType)
+        {
+            return in_array($clientType, $item['includes']);
+        }
+
+        // Фильтрация массивов с использованием array_filter
+        $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
+            return filterByClientTypePDF($item, $clientType);
+        });
+
+        $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
+            return filterByClientTypePDF($item, $clientType);
+        });
 
         $providerState = $data['contractProviderState'];
 
         $providerRq = $providerState['current']['rq'];
-        $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
-        $template = $etalonPortal->templates()
-            ->where('type', 'contract')
-            ->where('code', 'proxima')
-            ->first();
-        $templateField = $template->fields()
-            ->where('type', 'template')
-            ->where('code', 'proxima')
-            ->first();
 
-        $templatePath = $templateField['value'];
-        if (substr($templatePath, 0, 8) === '/storage') {
-            $relativePath = substr($templatePath, 8); // Обрезаем первые 8 символов
+        $supply = $data['supplyReport'];
+
+        $documentPrice = $data['documentPrice'];
+
+        $documentNumber = 780;
+
+        $filePath = 'app/public/konstructor/templates/supply';
+
+        $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+
+
+        $hash = md5(uniqid(mt_rand(), true));
+        $outputFileName = 'Приложение к договору.docx';
+        $outputFilePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $outputFileName);
+
+
+
+        // Сохраняем файл Word в формате .docx
+        $uid = Uuid::uuid4()->toString();
+        $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+
+
+        if (!file_exists($outputFilePath)) {
+            mkdir($outputFilePath, 0775, true); // Создать каталог с правами доступа
         }
 
-        // Проверяем, существует ли файл
-        if (Storage::disk('public')->exists($relativePath)) {
-            // Строим полный абсолютный путь
-            $fullPath = storage_path('app/public') . '/' . $relativePath;
+        // // Проверить доступность каталога для записи
+        if (!is_writable($outputFilePath)) {
+            throw new \Exception("Невозможно записать в каталог: $outputFilePath");
+        }
+        $hash = md5(uniqid(mt_rand(), true));
 
-            // Теперь $fullPath содержит полный путь к файлу
-            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-
-            $templateData = $this->getDocumentData(
-
-                $contractType,
-
-                // header
-                $clientRq, //header and rq and general
-                $providerRq,
-
-                //  //specification 2 prices
-                $arows,
-                $total,
-                $contractProductName,
-                $isProduct,
-                $contractCoefficient,
-
-                //specification 1 tech fields
-                $products,
-                $contractGeneralFields,
-                // $clientRq,
-                $clientRqBank,
-
-                // general dates and sums at body
-
-            );
-            //templatecontent
+        $outputFileName = 'Отчет о продаже.docx';
 
 
-            $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
+        $outputDir = dirname($outputFilePath);
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
 
+        $templateProcessor->saveAs($outputFilePath);
 
-            $templateProcessor->setValue('header', $templateData['header']);
-            $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
+        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
+        $link = route('download-supply-report', ['hash' => $hash, 'filename' => $outputFileName]);
 
+        // $method = '/crm.timeline.comment.add';
+        // $hook = BitrixController::getHook($domain);
 
-            // Дальнейшие действия с документом...
-            $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
+        // $url = $hook . $method;
 
-            if (!file_exists($resultPath)) {
-                // Log::channel('telegram')->error('APRIL_ONLINE', [
-                //     'resultPath' => $resultPath
-                // ]);
+        // $message = '<a href="' . $link . '" target="_blank">' . $outputFileName . '</a>';
 
-                mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-            }
-            if (!is_writable($resultPath)) {
-                Log::channel('telegram')->error('APRIL_ONLINE', [
-                    '!is_writable resultPath' => $resultPath
-                ]);
-                throw new \Exception("Невозможно записать в каталог: $resultPath");
-            }
-            $resultFileName = 'contract_test.docx';
-            $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
-            $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
-        } else {
-            return APIController::getError(
-                'шаблон не найден',
-                ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
-            );
-        }       // // Создаем экземпляр обработчика шаблона
-        // $templateProcessor = new TemplateProcessor($templatePath);
-
-        // // Замена заполнителей простыми значениями
-        // $templateProcessor->setValue('name', 'John Doe');
-        // $templateProcessor->setValue('address', '123 Main Street');
-
-        // // Предположим, что у нас есть массив данных для таблицы
-        // $products = [
-        //     ['name' => 'Product A', 'quantity' => 2],
-        //     ['name' => 'Product B', 'quantity' => 5]
+        // $fields = [
+        //     "ENTITY_ID" => $dealId,
+        //     "ENTITY_TYPE" => 'deal',
+        //     "COMMENT" => $message
         // ];
-
-        // // Добавление строк в таблицу
-        // $templateProcessor->cloneRowAndSetValues('product_name', $products);
-
-        // // Сохраняем измененный документ
-        // $savePath = 'path/to/output.docx';
-        // $templateProcessor->saveAs($savePath);
+        // $data = [
+        //     'fields' => $fields
+        // ];
+        // $responseBitrix = Http::get($url, $data);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $contractLink, 'template' => $template, 'templateField' => $templateField]
+            ['contractData' => $data, 'link' => $link]
         );
     }
-
 
     public function getSupplyDocument(Request $request)
     {
@@ -3188,7 +3165,7 @@ class SupplyController extends Controller
 
 
             // ],
-           
+
 
 
         ];

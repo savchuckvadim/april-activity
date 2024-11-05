@@ -46,6 +46,21 @@ Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
     return response()->download($filePath, $filename);
 })->name('download-document');
 
+
+
+Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
+    // Путь к файлу на основе хэша
+    $filePath =  storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
+    // Проверка, существует ли файл
+    if (!file_exists($filePath)) {
+        return response()->json(['error' => 'Файл не найден'], 404);
+    }
+
+    // Отправляем файл для скачивания
+    return response()->download($filePath, $filename);
+})->name('download-supply-report');
+
+
 Route::get('/supply/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
 
 
