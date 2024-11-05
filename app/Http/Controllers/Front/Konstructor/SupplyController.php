@@ -322,7 +322,7 @@ class SupplyController extends Controller
         if (!is_writable($outputFilePath)) {
             throw new \Exception("Невозможно записать в каталог: $outputFilePath");
         }
-        $hash = md5(uniqid(mt_rand(), true));
+      
 
        
         $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
