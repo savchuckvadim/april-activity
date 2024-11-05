@@ -10,6 +10,7 @@ use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalInstall\InfoblockInstallController;
 use App\Http\Controllers\PortalInstall\TempalteFieldsInstallController;
 use App\Models\Link;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,15 +49,36 @@ Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
 
 
 
+// Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
+//     // Путь к файлу на основе хэша
+//     $filePath =  storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
+//     // Проверка, существует ли файл
+//     if (!file_exists($filePath)) {
+//         return response()->json(['error' => 'Файл не найден'], 404);
+//     }
+
+//     // Отправляем файл для скачивания
+//     return response()->download($filePath, $filename);
+// })->name('download-supply-report');
+
+
 Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
-    // Путь к файлу на основе хэша
-    $filePath =  storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
-    // Проверка, существует ли файл
+    // Декодируем имя файла
+    $filename = urldecode($filename);
+
+    // Путь к файлу
+    $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
+    
+    // Логирование для отладки
+    Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+
+    // Временная проверка
     if (!file_exists($filePath)) {
-        return response()->json(['error' => 'Файл не найден'], 404);
+        Log::channel('telegram')->info("Файл не найден: " . $filePath);
+        return response()->json(['error' => 'Файл не найден', 'path' => $filePath], 404);
     }
 
-    // Отправляем файл для скачивания
+    // Скачивание файла
     return response()->download($filePath, $filename);
 })->name('download-supply-report');
 

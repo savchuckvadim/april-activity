@@ -304,7 +304,7 @@ class SupplyController extends Controller
 
 
         $hash = md5(uniqid(mt_rand(), true));
-        $outputFileName = 'Приложение к договору.docx';
+        $outputFileName = 'Отчет о продаже.docx';
         $outputFilePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash);
 
 
@@ -324,14 +324,14 @@ class SupplyController extends Controller
         }
         $hash = md5(uniqid(mt_rand(), true));
 
-        $outputFileName = 'Отчет о продаже.docx';
+       
         $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
 
 
-        $outputDir = dirname($outputFilePath);
-        if (!file_exists($outputDir)) {
-            mkdir($outputDir, 0755, true);
-        }
+        // $outputDir = dirname($outputFilePath);
+        // if (!file_exists($outputDir)) {
+        //     mkdir($outputDir, 0755, true);
+        // }
 
         $templateProcessor->saveAs($fullOutputFilePath);
 
