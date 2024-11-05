@@ -2632,6 +2632,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'group' => 'supply',
+                'component' => 'base'
 
 
             ],
@@ -2689,6 +2690,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'base'
 
 
             ],
@@ -2728,6 +2730,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'base'
 
 
             ],
@@ -2763,45 +2766,47 @@ class SupplyController extends Controller
 
 
             // ],
-            // [
-            //     'type' => 'select',
-            //     'name' => 'Создавался ли Договор',
-            //     'type' => 'select',
-            //     'value' =>  [
-            //         'id' => 0,
-            //         'code' => 'yes',
-            //         'name' => 'Да',
-            //         'title' => 'Да'
-            //     ],
+            [
+                'type' => 'select',
+                'name' => 'Создавался ли Договор',
+                'type' => 'select',
+                'value' =>  [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'Да',
+                    'title' => 'Да'
+                ],
 
 
-            //     'items' => [
-            //         [
-            //             'id' => 0,
-            //             'code' => 'yes',
-            //             'name' => 'Да',
-            //             'title' => 'Да'
-            //         ],
-            //         [
-            //             'id' => 1,
-            //             'code' => 'no',
-            //             'name' => 'Нет',
-            //             'title' => 'Да'
-            //         ],
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'yes',
+                        'name' => 'Да',
+                        'title' => 'Да'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
+                    ],
 
-            //     ],
-            //     'isRequired' => true,
-            //     'code' => 'is_contract_done',
-            //     'group' => 'supply',
-            //     'isActive' => true,
-            //     'isDisable' => false,
-            //     'order' => 5,
-            //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-            //     'supplies' => ['internet', 'proxima'],
-            //     'contractType' => ['service', 'lic', 'abon', 'key'],
+                ],
+                'isRequired' => true,
+                'code' => 'is_contract_done',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 5,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'contract'
 
 
-            // ],
+
+            ],
             [
                 'type' => 'string',
                 'name' => 'Дата и номер договора',
@@ -2815,6 +2820,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'contract'
 
 
             ],
@@ -2831,6 +2837,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                //   'component' => 'contract'
 
 
             ],
@@ -2871,6 +2878,8 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'invoice'
+
 
 
             ],
@@ -2887,6 +2896,8 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'invoice'
+
 
 
             ],
@@ -2919,6 +2930,8 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'invoice'
+
 
 
             ],
@@ -2935,6 +2948,8 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'client'
+
 
 
             ],
@@ -3131,6 +3146,8 @@ class SupplyController extends Controller
 
 
                 ],
+                'component' => 'client'
+
 
             ],
             [
@@ -3167,6 +3184,8 @@ class SupplyController extends Controller
 
 
                 ],
+                'component' => 'client'
+
 
             ],
 
