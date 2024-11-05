@@ -337,7 +337,7 @@ class SupplyController extends Controller
 
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        $link = route('download-supply-report', ['hash' => $hash, 'filename' => $outputFileName]);
+        $link = route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
 
         // $method = '/crm.timeline.comment.add';
         // $hook = BitrixController::getHook($domain);
