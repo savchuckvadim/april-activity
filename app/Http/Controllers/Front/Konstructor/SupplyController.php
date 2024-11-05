@@ -2885,7 +2885,7 @@ class SupplyController extends Controller
             ],
             [
                 'type' => 'string',
-                'name' => 'Дата и номер договора',
+                'name' => 'Дата и номер',
                 'value' => '',
                 'isRequired' => true,
                 'code' => 'contract_number',
@@ -2961,7 +2961,7 @@ class SupplyController extends Controller
             ],
             [
                 'type' => 'string',
-                'name' => 'Дата и номер счета',
+                'name' => 'Дата и номер',
                 'value' => '',
                 'isRequired' => true,
                 'code' => 'invoice_number',
