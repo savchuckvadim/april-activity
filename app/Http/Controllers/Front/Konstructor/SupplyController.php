@@ -322,9 +322,9 @@ class SupplyController extends Controller
         if (!is_writable($outputFilePath)) {
             throw new \Exception("Невозможно записать в каталог: $outputFilePath");
         }
-      
 
-       
+
+
         $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
 
 
@@ -2788,6 +2788,52 @@ class SupplyController extends Controller
 
 
             ],
+            [
+                'type' => 'select',
+                'name' => 'Как у них с финансами',
+
+                'value' =>   [
+                    'id' => 0,
+                    'code' => 'small',
+                    'name' => 'Мелкий',
+                    'title' => 'Мелкий'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'small',
+                        'name' => 'Мелкий',
+                        'title' => 'Мелкий'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'medium',
+                        'name' => 'Средний',
+                        'title' => 'Средний'
+                    ],
+                    [
+                        'id' => 2,
+                        'code' => 'big',
+                        'name' => 'Крупный',
+                        'title' => 'Крупный'
+                    ],
+
+                ],
+                'isRequired' => true,
+                'code' => 'in_arm',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 4,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'client'
+
+
+            ],
             // [
             //     'type' => 'string',
             //     'name' => 'Менеджер отдела продаж',
@@ -2879,9 +2925,36 @@ class SupplyController extends Controller
 
             ],
             [
-                'type' => 'text',
+                'type' => 'select',
                 'name' => 'Судьба договора',
-                'value' => '',
+                'value' =>     [
+                    'id' => 0,
+                    'code' => 'yes',
+                    'name' => 'На подписи у клиента',
+                    'title' => 'На подписи у клиента'
+                ],
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'in_progress',
+                        'name' => 'На подписи у клиента',
+                        'title' => 'На подписи у клиента'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'done',
+                        'name' => 'Подписан',
+                        'title' => 'Подписан'
+                    ],
+                    [
+                        'id' => 2,
+                        'code' => 'edo',
+                        'name' => 'ЭДОм',
+                        'title' => 'ЭДОм'
+                    ],
+
+                ],
                 'isRequired' => true,
                 'code' => 'contract_result',
                 'group' => 'supply',
@@ -2891,7 +2964,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                //   'component' => 'contract'
+                'component' => 'contract'
 
 
             ],
@@ -2956,9 +3029,31 @@ class SupplyController extends Controller
 
             ],
             [
-                'type' => 'text',
+                'type' => 'select',
                 'name' => 'Его судьба',
-                'value' => '',
+                'value' =>   [
+                    'id' => 0,
+                    'code' => 'done',
+                    'name' => 'Оплачен',
+                    'title' => 'Оплачен'
+                ],
+
+
+                'items' => [
+                    [
+                        'id' => 0,
+                        'code' => 'done',
+                        'name' => 'Оплачен',
+                        'title' => 'Оплачен'
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'in_progress',
+                        'name' => 'На оплате',
+                        'title' => 'На оплате'
+                    ],
+
+                ],
                 'isRequired' => true,
                 'code' => 'invoice_result',
                 'group' => 'supply',
@@ -2968,6 +3063,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'invoice'
 
 
             ],
