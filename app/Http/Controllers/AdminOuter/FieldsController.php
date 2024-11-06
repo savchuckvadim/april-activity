@@ -99,12 +99,12 @@ class FieldsController extends Controller
             if ($entityType === 'deal') {
                
                 $portalDeal = $portal->deals->first();
-                if (!empty($isRewrite)) {
-                    $portalDeal->bitrixfields()->delete();
-                    $portalDeal->save();
+                // if (!empty($isRewrite)) {
+                //     $portalDeal->bitrixfields()->delete();
+                //     $portalDeal->save();
 
 
-                }
+                // }
                 
                 $portal = Portal::where('domain', $domain)->first();
               
@@ -130,13 +130,13 @@ class FieldsController extends Controller
 
 
 
-                if (!empty($isRewrite)) {
-                    $portalCompany->bitrixfields()->delete();
-                    $portalCompany->save();
+                // if (!empty($isRewrite)) {
+                //     $portalCompany->bitrixfields()->delete();
+                //     $portalCompany->save();
 
 
                
-                }
+                // }
 
                
 
