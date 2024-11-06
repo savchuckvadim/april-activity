@@ -2830,7 +2830,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'client'
+                // 'component' => 'client'
 
 
             ],
@@ -2964,7 +2964,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'contract'
+                // 'component' => 'contract'
 
 
             ],
@@ -3063,7 +3063,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'invoice'
+                // 'component' => 'invoice'
 
 
             ],
