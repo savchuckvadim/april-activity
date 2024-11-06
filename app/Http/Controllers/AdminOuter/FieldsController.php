@@ -527,7 +527,7 @@ class FieldsController extends Controller
                 $field['type'] = preg_replace('/[\x00-\x1F\x7F]/', '', $field['type']);
 
                 if ($field['type'] == 'enumeration') {
-                    Log::channel('telegram')->info("smart", [
+                    Log::channel('telegram')->info("enumeration", [
                         'field' => $field,
 
                     ]);
@@ -604,6 +604,7 @@ class FieldsController extends Controller
                 $currentPortalItem->name = $fieldItemValue;
                 $currentPortalItem->title = $fieldItemValue;
                 $currentPortalItem->save();
+                $currentPortalField->save();
             }
         }
     }
