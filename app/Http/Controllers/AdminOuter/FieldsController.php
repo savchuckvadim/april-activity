@@ -48,7 +48,7 @@ class FieldsController extends Controller
 
             $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
-            $portalCompany = $portal->companies->first();
+            $portalCompany = $portal->companies()->first();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalDeal' => $portalDeal,
