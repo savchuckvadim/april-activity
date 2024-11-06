@@ -548,9 +548,8 @@ class FieldsController extends Controller
         $isRewrite = false
     ) {
 
-        if(!empty($field['is_rewrite'])){
+        if (!empty($field['is_rewrite'])) {
             $isRewrite = $field['is_rewrite'];
-
         }
 
         $fieldItems =  $field['items'];
@@ -569,7 +568,7 @@ class FieldsController extends Controller
             }
         }
 
-       
+
         $currentGooItem  = false;
         if (!empty($fieldItems)) {
             foreach ($fieldItems as $fieldItem) {  //btx items
@@ -577,11 +576,11 @@ class FieldsController extends Controller
                 $fieldItemCode = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['code']);
                 $fieldItemValue = preg_replace('/[\x00-\x1F\x7F]/', '', $fieldItem['value']);
                 $currentPortalItem  = null;
-                
+
                 //ищем item в db
                 if (!empty($portalFieldItems)) {
                     foreach ($portalFieldItems as $pitem) {
-                       
+
                         if ($fieldItemCode == $pitem['code']) {
 
                             if (!empty($pitem['id'])) {
@@ -592,6 +591,9 @@ class FieldsController extends Controller
                         }
                     }
                 }
+                Log::channel('telegram')->info('INSTALL', ['currentPortalItem' => $currentPortalItem]);
+
+
                 if (empty($currentPortalItem)) {
                     $currentPortalItem  =  new BitrixfieldItem();
                     $currentPortalItem->bitrixfield_id = $currentPortalField['id'];
@@ -604,6 +606,7 @@ class FieldsController extends Controller
                 $currentPortalItem->name = $fieldItemValue;
                 $currentPortalItem->title = $fieldItemValue;
                 $currentPortalItem->save();
+                $currentPortalField->save();
             }
         }
     }
