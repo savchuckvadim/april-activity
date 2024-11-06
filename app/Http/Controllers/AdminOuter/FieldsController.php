@@ -48,7 +48,7 @@ class FieldsController extends Controller
 
             $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
-            $portalCompany = $portal->company();
+            $portalCompany = $portal->companies->first();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalDeal' => $portalDeal,
@@ -58,16 +58,16 @@ class FieldsController extends Controller
 
             $portalDealFields = [];
             if ((!empty($portalDeal))) {
-                $portalDealFields = $portalDeal->bitrixfields;
-                if (!empty($isRewrite)) {
-                    $portalDeal->bitrixfields()->delete();
-                    $portalDeal->save();
+                // $portalDealFields = $portalDeal->bitrixfields;
+                // if (!empty($isRewrite)) {
+                //     $portalDeal->bitrixfields()->delete();
+                //     $portalDeal->save();
 
 
-                    $portal = Portal::where('domain', $domain)->first();
-                    $portalDeal = $portal->deals->first();
-                    $portalDealFields = $portalDeal->bitrixfields;
-                }
+                //     $portal = Portal::where('domain', $domain)->first();
+                //     $portalDeal = $portal->deals->first();
+                //     $portalDealFields = $portalDeal->bitrixfields;
+                // }
             }
 
             if (!empty($portalLead)) {
@@ -75,6 +75,11 @@ class FieldsController extends Controller
             }
             if (!empty($portalCompany)) {
                 $portalCompanyFields = $portalCompany->fields;
+
+
+
+
+
             }
             // if (!empty($portalsmart)) {
             //     $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт
@@ -92,23 +97,61 @@ class FieldsController extends Controller
 
             $portalEntityFields = null;
             if ($entityType === 'deal') {
+               
+
+                if (!empty($isRewrite)) {
+                    $portalDeal->bitrixfields()->delete();
+                    $portalDeal->save();
+
+
+                }
+                
+                $portal = Portal::where('domain', $domain)->first();
+                $portalDeal = $portal->deals->first();
+                $portalDealFields = $portalDeal->bitrixfields;
+
+
                 $parentClass = BtxDeal::class;
                 $parentId = $portalDeal['id'];
                 $portalEntityFields =  $portalDealFields;
+
+
             } else   if ($entityType === 'company') {
+          
+                // $portalEntityFields =  $portalCompanyFields;
+
+
+
+                if (!empty($isRewrite)) {
+                    $portalDeal->bitrixfields()->delete();
+                    $portalDeal->save();
+
+
+               
+                }
+
+                $portal = Portal::where('domain', $domain)->first();
+                $portalDeal = $portal->company->first();
+                $portalCompanyFields = $portalDeal->bitrixfields;
+
+
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
                 $portalEntityFields =  $portalCompanyFields;
-            } else   if ($entityType === 'lead') {
-                $parentClass = BtxLead::class;
-                $parentId = $portalLead['id'];
-                $portalEntityFields =  $portalLeadFields;
-            } else   if ($entityType === 'smart') {
-                $parentClass = Smart::class;
-                if (!empty($portalSmart)) {
-                    $portalEntityFields = $portalSmart->fields;
-                }
-            }
+
+
+            } 
+            
+            // else   if ($entityType === 'lead') {
+            //     $parentClass = BtxLead::class;
+            //     $parentId = $portalLead['id'];
+            //     $portalEntityFields =  $portalLeadFields;
+            // } else   if ($entityType === 'smart') {
+            //     $parentClass = Smart::class;
+            //     if (!empty($portalSmart)) {
+            //         $portalEntityFields = $portalSmart->fields;
+            //     }
+            // }
 
             if ($entityType !== 'smart') {
 
