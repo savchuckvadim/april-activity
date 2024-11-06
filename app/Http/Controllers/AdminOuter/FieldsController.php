@@ -48,10 +48,10 @@ class FieldsController extends Controller
 
             $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
-            $portalCompany = $portal->companies()->first();
+            $portalCompany = $portal->companies->first();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
-                'portalDeal' => $portalDeal,
+                'portalCompany' => $portalCompany,
 
 
             ]);
@@ -73,14 +73,14 @@ class FieldsController extends Controller
             if (!empty($portalLead)) {
                 $portalLeadFields = $portalLead->fields;
             }
-            if (!empty($portalCompany)) {
-                $portalCompanyFields = $portalCompany->fields;
+            // if (!empty($portalCompany)) {
+            //     $portalCompanyFields = $portalCompany->fields;
 
 
 
 
 
-            }
+            // }
             // if (!empty($portalsmart)) {
             //     $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт
             //     // Log::channel('telegram')->info("smart", [
@@ -117,8 +117,16 @@ class FieldsController extends Controller
 
 
             } else   if ($entityType === 'company') {
-          
+                $portal = Portal::where('domain', $domain)->first();
+                $portalCompanyFields = $portalCompany->bitrixfields;
                 // $portalEntityFields =  $portalCompanyFields;
+                Log::channel('telegram')->info("smart", [
+                    'portalCompany' => $portalCompany,
+                ]);
+
+                Log::channel('telegram')->info("smart", [
+                    'portalCompanyFields' => $portalCompanyFields,
+                ]);
 
 
 
@@ -130,8 +138,7 @@ class FieldsController extends Controller
                
                 }
 
-                $portal = Portal::where('domain', $domain)->first();
-                $portalCompanyFields = $portalCompany->bitrixfields;
+               
 
 
                 $parentClass = BtxCompany::class;
