@@ -310,36 +310,33 @@ class SupplyController extends Controller
 
 
         // $templateProcessor->setValue('documentNumber', $documentNumber);
-        $templateProcessor->setValue('bx_deal', 'bx_deal_VALUE');
-        $templateProcessor->setValue('sale_date', 'sale_date value');
-        $templateProcessor->setValue('complect_fields_left', 'VALUE');
-        $templateProcessor->setValue('invoice_result', 'INVOICE RESULT');
-
-        // foreach ($supplyReport as  $reportItem) {
-        //     $name = $reportItem['code'];
-        //     $value = '';
-
-        //     if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
-
-        //         $value = $reportItem['value'];
-        //     } else {
-
-        //         if (!empty($reportItem['value']) && !empty($reportItem['items'])) {
-        //             foreach ($reportItem['items'] as $item) {
-
-        //                 if ($item['code'] === $reportItem['value']['code']) {
-        //                     $value = $reportItem['name'];
-        //                 }
-        //             }
-        //         }
-        //     }
 
 
-        //     // $templateProcessor->setValue($name, $value);
-        // }
+        foreach ($supplyReport as  $reportItem) {
+            $name = $reportItem['code'];
+            $value = '';
+
+            if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
+
+                $value = $reportItem['value'];
+            } else {
+
+                if (!empty($reportItem['value']) && !empty($reportItem['items'])) {
+                    foreach ($reportItem['items'] as $item) {
+
+                        if ($item['code'] === $reportItem['value']['code']) {
+                            $value = $reportItem['name'];
+                        }
+                    }
+                }
+            }
 
 
-      
+            $templateProcessor->setValue($name, $value);
+        }
+
+
+
 
 
 
