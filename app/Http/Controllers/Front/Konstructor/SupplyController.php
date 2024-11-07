@@ -337,9 +337,23 @@ class SupplyController extends Controller
 
 
 
+        $complects = [];
+        foreach ($arows as $row) {
+            $name = $row['name'];
+            $supply = '';
+            if (!empty($row['supply'])) {
+                if (!empty($row['supply']['name'])) {
+                    $supply = $row['supply']['name'];
+                  
+                }
+            }
+            array_push($complects, [
+                'complect_name' => $name,
+                'complect_sup' => $supply
+            ]);
+        }
 
-
-
+        $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
 
 
 
@@ -2225,7 +2239,23 @@ class SupplyController extends Controller
                     'name' => 'Наименование ',
                     'value' => $products_names,
                     'isRequired' => true,
-                    'code' => 'contract_spec_products_names',
+                    'code' => 'complect_name',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 0,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Наименование ',
+                    'value' => $products_names,
+                    'isRequired' => true,
+                    'code' => 'complect_name',
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => true,
