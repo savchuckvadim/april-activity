@@ -2866,7 +2866,7 @@ class SupplyController extends Controller
 
                 ],
                 'isRequired' => true,
-                'code' => 'in_arm',
+                'code' => 'finance',
                 'group' => 'supply',
                 'isActive' => true,
                 'isDisable' => false,
