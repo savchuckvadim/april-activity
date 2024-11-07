@@ -237,6 +237,11 @@ class SupplyController extends Controller
     protected function getSupplyReportTempalteDocument($data)
     {
         $domain = $data['domain'];
+
+        $bxCompanyItems = $data['bxCompanyItems'];
+        $supplyReport = $data['supplyReport'];
+
+
         $companyId = $data['companyId'];
         $dealId = null;
         if (!empty($data['dealId'])) {
@@ -300,6 +305,43 @@ class SupplyController extends Controller
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+
+
+
+        // $templateProcessor->setValue('documentNumber', $documentNumber);
+
+
+        foreach ($supplyReport as  $reportItem) {
+            $name = '$' . $reportItem['code'];
+            $value = '';
+
+            if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
+
+                $value = $reportItem['value'];
+            } else {
+
+                if (!empty($reportItem['value']) && !empty($reportItem['items'])) {
+                    foreach ($reportItem['items'] as $item) {
+
+                        if ($item['code'] === $reportItem['value']['code']) {
+                            $value = $reportItem['name'];
+                        }
+                    }
+                }
+            }
+
+
+            $templateProcessor->setValue($name, $value);
+        }
+
+
+
+
+
+
+
+
 
 
 
