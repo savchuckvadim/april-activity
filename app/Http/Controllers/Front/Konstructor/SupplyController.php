@@ -325,7 +325,7 @@ class SupplyController extends Controller
                     foreach ($reportItem['items'] as $item) {
 
                         if ($item['code'] === $reportItem['value']['code']) {
-                            $value = $reportItem['name'];
+                            $value = $item['name'];
                         }
                     }
                 }
