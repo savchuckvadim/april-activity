@@ -313,7 +313,7 @@ class SupplyController extends Controller
 
 
         foreach ($supplyReport as  $reportItem) {
-            $name = '$' . $reportItem['code'];
+            $name = $reportItem['code'];
             $value = '';
 
             if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
@@ -336,8 +336,7 @@ class SupplyController extends Controller
         }
 
 
-
-
+        $templateProcessor->setValue('bx_deal', 'bx_deal_VALUE');
 
 
 
