@@ -255,7 +255,10 @@ class SupplyController extends Controller
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
 
-        $providerRq = $data['contractProviderState']['rq'];
+        $providerState = $data['contractProviderState'];
+        $providerRq = $providerState['current']['rq'];
+
+
         $provider_fullname =  $providerRq['fullname'];
 
 
@@ -297,9 +300,7 @@ class SupplyController extends Controller
             return filterByClientTypePDF($item, $clientType);
         });
 
-        $providerState = $data['contractProviderState'];
-
-        $providerRq = $providerState['current']['rq'];
+      
 
         $supply = $data['supplyReport'];
 
