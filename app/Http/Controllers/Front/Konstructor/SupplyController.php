@@ -251,8 +251,14 @@ class SupplyController extends Controller
         $contractType = $data['contractType'];
 
         $contract = $data['contract'];
+        $contract_type = $data['contract']['aprilName'];
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
+
+        $providerRq = $data['contractProviderState']['rq'];
+        $provider_fullname =  $providerRq['fullname'];
+
+
 
         $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
@@ -311,6 +317,11 @@ class SupplyController extends Controller
 
         // $templateProcessor->setValue('documentNumber', $documentNumber);
 
+        $templateProcessor->setValue('contract_type', $contract_type);
+        $templateProcessor->setValue('provider_fullname', $provider_fullname);
+
+
+
 
         foreach ($supplyReport as  $reportItem) {
             $name = $reportItem['code'];
@@ -341,20 +352,35 @@ class SupplyController extends Controller
         foreach ($arows as $row) {
             $name = $row['name'];
             $supply = '';
+            $complect_hdd = '';
             if (!empty($row['supply'])) {
                 if (!empty($row['supply']['name'])) {
                     $supply = $row['supply']['name'];
-                  
+                    $complect_hdd = $row['product']['contractSupplyProp1'];
                 }
             }
             array_push($complects, [
                 'complect_name' => $name,
-                'complect_sup' => $supply
+                'complect_sup' => $supply,
+                'complect_hdd' => $complect_hdd
             ]);
         }
 
         $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
 
+
+        foreach ($bxCompanyItems as $key => $bxCompanyItem) {
+            $value = '';
+            if (!empty($bxCompanyItem['current'])) {
+                if (isset($bxCompanyItem['current']['name'])) {
+                    $value = $bxCompanyItem['current']['name'];
+                } else {
+                    $value = $bxCompanyItem['current'];
+                }
+            }
+
+            $templateProcessor->cloneRowAndSetValues($key, $value);
+        }
 
 
 
