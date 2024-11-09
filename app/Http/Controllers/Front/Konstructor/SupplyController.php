@@ -380,7 +380,7 @@ class SupplyController extends Controller
                 }
             }
 
-            $templateProcessor->cloneRowAndSetValues($key, $value);
+            $templateProcessor->setValue($key, $value);
         }
 
 
