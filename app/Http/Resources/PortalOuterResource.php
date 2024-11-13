@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -60,18 +61,9 @@ class PortalOuterResource extends JsonResource
     //     return base64_encode($iv . $encrypted);
     // }
 
-    protected function encryptData($plaintext, $key) {
-        // Генерируем случайный вектор инициализации (IV)
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
-    
-        // Расширяем ключ до 32 байт
-        $key = str_pad(substr($key, 0, 32), 32, " ");
-    
-        // Шифруем данные
-        $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
-    
-        // Кодируем в Base64 и добавляем IV в начало
-        return base64_encode($iv . $ciphertext);
+    protected function encryptData($payload, $secretKey) {
+        $token = JWT::encode($payload, $secretKey, 'HS256'); // Создание токена с алгоритмом HS256
+        return $token;
     }
     
    
