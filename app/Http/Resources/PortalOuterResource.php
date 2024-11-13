@@ -13,14 +13,14 @@ class PortalOuterResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray($domain): array
+    public function toArray(Request $request): array
 
     {
         $client_id =  $this->getClientId();
         $pay_load = [
             'key' => $client_id
         ];
-        // $access = $this->encryptData($pay_load, $domain);
+        $access = $this->encryptData($pay_load, $this->domain);
         $resultsmarts = [];
         foreach ($this->smarts as $smrt) {
             $smart = new SmartResource($smrt);
@@ -47,9 +47,9 @@ class PortalOuterResource extends JsonResource
             'rpas' => $this->rpas,
             'company' => $this->company(),
             'lead' => $this->lead(),
-            'domain' => $domain,
-            'client_id' => $client_id
-            // 'contracts' =>  $this->contracts,
+            'domain' => $this->domain,
+            'client_id' => $client_id,
+            'access_key' =>  $access,
             // 'measures' =>  $this->measures,
         ];
     }
