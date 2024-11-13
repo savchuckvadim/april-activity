@@ -50,13 +50,30 @@ class PortalOuterResource extends JsonResource
         ];
     }
 
-    protected function encryptData($data, $encryptionKey)
-    {
-        $cipher = 'aes-256-cbc';
-        $iv = random_bytes(openssl_cipher_iv_length($cipher)); // Генерация случайного IV
-        $encrypted = openssl_encrypt($data, $cipher, $encryptionKey, 0, $iv);
+    // protected function encryptData($data, $encryptionKey)
+    // {
+    //     $cipher = 'aes-256-cbc';
+    //     $iv = random_bytes(openssl_cipher_iv_length($cipher)); // Генерация случайного IV
+    //     $encrypted = openssl_encrypt($data, $cipher, $encryptionKey, 0, $iv);
 
-        // Кодируем результат в base64, чтобы передать вместе с IV
-        return base64_encode($iv . $encrypted);
+    //     // Кодируем результат в base64, чтобы передать вместе с IV
+    //     return base64_encode($iv . $encrypted);
+    // }
+
+    protected function encryptData($plaintext, $key) {
+        // Генерируем случайный вектор инициализации (IV)
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+    
+        // Расширяем ключ до 32 байт
+        $key = str_pad(substr($key, 0, 32), 32, " ");
+    
+        // Шифруем данные
+        $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+    
+        // Кодируем в Base64 и добавляем IV в начало
+        return base64_encode($iv . $ciphertext);
     }
+    
+   
+    
 }
