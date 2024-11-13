@@ -17,7 +17,10 @@ class PortalOuterResource extends JsonResource
 
     {
         $client_id =  $this->getClientId();
-        $access = $this->encryptData($client_id, $domain);
+        $pay_load = [
+            'key' => $client_id
+        ];
+        $access = $this->encryptData($pay_load, $domain);
         $resultsmarts = [];
         foreach ($this->smarts as $smrt) {
             $smart = new SmartResource($smrt);
