@@ -2450,7 +2450,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'string',
-                    'name' => 'Пакет Legal Tech',
+                    'name' => 'Платный Пакет Legal Tech',
                     'value' => $ltPack,
                     'isRequired' => true,
                     'code' => 'specification_lt_packet',
@@ -2466,7 +2466,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Состав Legal Tech',
+                    'name' => 'Состав Платного Legal Tech',
                     'value' => $ltBlocks,
                     'isRequired' => true,
                     'code' => 'specification_lt_services',
