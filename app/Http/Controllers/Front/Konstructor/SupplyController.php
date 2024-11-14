@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\Line;
+use PhpOffice\PhpWord\Element\Link;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -244,10 +245,10 @@ class SupplyController extends Controller
 
 
         $companyId = $data['companyId'];
-  
+
         $bxCompanyLink = 'https://' . $domain . '/company/details/' . $companyId . '/';
 
-        $companyLink = new Line($bxCompanyLink, $companyId);
+        $companyLink = new Link($bxCompanyLink, 'Компания ' . $companyId . '');
 
         $dealId = null;
         if (!empty($data['dealId'])) {
