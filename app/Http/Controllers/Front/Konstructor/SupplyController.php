@@ -293,6 +293,8 @@ class SupplyController extends Controller
         $clientRqBank = $contractClientState['rqs']['bank'];
         $clientType = $contractClientState['type'];
 
+
+
         function filterByClientTypePDF($item, $clientType)
         {
             return in_array($clientType, $item['includes']);
@@ -307,7 +309,26 @@ class SupplyController extends Controller
             return filterByClientTypePDF($item, $clientType);
         });
 
+        $contractSpecification = $data['contractSpecificationState']['items'];
 
+
+        $filteredcontractSpecification = array_filter($contractSpecification, function ($item) use ($contractType) {
+            return  in_array($contractType, $item['contractType']);
+        });
+        $filteredcontractSpecification = array_filter($filteredcontractSpecification, function ($item) use ($supplyType) {
+            return  in_array($supplyType, $item['supplies']);
+        });
+
+
+
+        $consaltingString = 'Горячая Линия';
+        if (!empty($data['consalting'])) {
+            if (!empty($data['consalting']['current'])) {
+                if (!empty($data['consalting']['current']['title'])) {
+                    $consaltingString = $data['consalting']['current']['title'];
+                }
+            }
+        }
 
         $supply = $data['supplyReport'];
 
@@ -388,8 +409,7 @@ class SupplyController extends Controller
                 $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
             } else  if ($rqItem['code'] === 'primaryAdresss') {
                 $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
-            }
-            else  if ($rqItem['code'] === 'inn') {
+            } else  if ($rqItem['code'] === 'inn') {
                 $templateProcessor->setValue('client_inn', $rqItem['value']);
             }
         }
@@ -407,6 +427,41 @@ class SupplyController extends Controller
             $templateProcessor->setValue($key, $value);
         }
 
+
+        foreach ($filteredcontractSpecification as $cntrctSpecItem) {
+            $value = '';
+
+            if ($rqItem['code'] === 'specification_email') {
+                $templateProcessor->setValue('email_garant', $rqItem['value']);
+            } else  if ($rqItem['code'] === 'specification_ibig') {
+                $templateProcessor->setValue('complect_fields_left', $rqItem['value']);
+            } else  if ($rqItem['code'] === 'specification_ifree') {
+
+
+                $templateProcessor->setValue('complect_fields_right', $rqItem['value']);
+            } else  if ($rqItem['code'] === 'specification_lt_free') {
+                $value = 'Бесплатный LT ' . $rqItem['value'];
+                foreach ($filteredcontractSpecification as $cntrcItem) {
+                    if ($cntrcItem['code'] === 'specification_lt_free_services') {
+                        $value = $value . ': ' . "\n" . $cntrcItem['code'];
+                    }
+                }
+
+
+                $templateProcessor->setValue('complect_fields_right', $value);
+            } else  if ($rqItem['code'] === 'specification_lt_packet') {
+                $value = $rqItem['name'] . ' ' . $rqItem['value'];
+
+
+                foreach ($filteredcontractSpecification as $cntrcItem) {
+                    if ($cntrcItem['code'] === 'specification_lt_services') {
+                        $value = $value . ': ' . "\n" . $cntrcItem['code'];
+                    }
+                }
+                $templateProcessor->setValue('complect_fields_right', $value);
+            }
+        }
+        $templateProcessor->setValue('complect_pk', $consaltingString);
 
 
         $hash = md5(uniqid(mt_rand(), true));
@@ -2694,7 +2749,7 @@ class SupplyController extends Controller
                     'code' => 'specification_email',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => true,
+                    'isDisable' => false,
                     'order' => 21,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['service', 'lic', 'abon', 'key'],
