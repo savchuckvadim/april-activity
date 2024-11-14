@@ -1126,69 +1126,69 @@ class SupplyController extends Controller
                     'order' => 3
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Должность руководителя организации',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'position',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'order' => 4
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Должность руководителя организации (в лице)',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'position_case',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'order' => 6,
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Должность руководителя организации',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'position',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'order' => 4
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Должность руководителя организации (в лице)',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'position_case',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'order' => 6,
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО руководителя организации',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'director',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 5,
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ФИО руководителя организации',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'director',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 5,
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО руководителя организации (в лице)',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'director_case',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 7
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ФИО руководителя организации (в лице)',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'director_case',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 7
 
-                ],
+                // ],
 
-                [
-                    'type' => 'string',
-                    'name' => 'Действующий на основании',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'based',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 8
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Действующий на основании',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'based',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 8
 
-                ],
+                // ],
 
 
                 [
@@ -1204,74 +1204,74 @@ class SupplyController extends Controller
                     'order' => 9
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'КПП',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'kpp',
-                    'includes' => ['org', 'org_state'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 10
+                // [
+                //     'type' => 'string',
+                //     'name' => 'КПП',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'kpp',
+                //     'includes' => ['org', 'org_state'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 10
 
-                ],
+                // ],
 
-                [
-                    'type' => 'string',
-                    'name' => 'ОГРН',
-                    'value' => '',
-                    'isRequired' => false,
-                    'code' => 'ogrn',
-                    'includes' => ['org', 'org_state'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 11
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ОГРН',
+                //     'value' => '',
+                //     'isRequired' => false,
+                //     'code' => 'ogrn',
+                //     'includes' => ['org', 'org_state'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 11
 
-                ],
+                // ],
 
-                [
-                    'type' => 'string',
-                    'name' => 'ОГРНИП',
-                    'value' => '',
-                    'isRequired' => false,
-                    'code' => 'ogrnip',
-                    'includes' => ['ip'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 12
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ОГРНИП',
+                //     'value' => '',
+                //     'isRequired' => false,
+                //     'code' => 'ogrnip',
+                //     'includes' => ['ip'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 12
 
-                ],
+                // ],
 
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО главного бухгалтера организации',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'accountant',
-                    'includes' => ['org', 'org_state'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 13
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ФИО главного бухгалтера организации',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'accountant',
+                //     'includes' => ['org', 'org_state'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 13
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assigned',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 14
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ФИО ответственного за получение справочника',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'assigned',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 14
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'Телефон ответственного за получение справочника',
@@ -1312,99 +1312,99 @@ class SupplyController extends Controller
                     'order' => 17
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'personName',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'header',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 0
+                // [
+                //     'type' => 'string',
+                //     'name' => 'ФИО',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'personName',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'header',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 0
 
-                ],
+                // ],
 
 
-                [
-                    'type' => 'string',
-                    'name' => 'Вид Документа',
-                    'value' => 'Паспорт',
-                    'isRequired' => true,
-                    'code' => 'document',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 1
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Вид Документа',
+                //     'value' => 'Паспорт',
+                //     'isRequired' => true,
+                //     'code' => 'document',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 1
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Серия Документа',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'docSer',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 2
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Серия Документа',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'docSer',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 2
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Номер Документа',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'docNum',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 3
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Номер Документа',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'docNum',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 3
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Дата Выдачи Документа',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'docDate',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 4
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Дата Выдачи Документа',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'docDate',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 4
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Документ выдан подразделением',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'docDate',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 5
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Документ выдан подразделением',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'docDate',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 5
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Код подразделения',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'docDate',
-                    'includes' => ['fiz', 'advokat'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 6
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Код подразделения',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'docDate',
+                //     'includes' => ['fiz', 'advokat'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 6
 
-                ],
+                // ],
                 [
                     'type' => 'text',
                     'name' => 'Прочие реквизиты',
