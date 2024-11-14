@@ -389,6 +389,9 @@ class SupplyController extends Controller
             } else  if ($rqItem['code'] === 'primaryAdresss') {
                 $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
             }
+            else  if ($rqItem['code'] === 'inn') {
+                $templateProcessor->setValue('client_inn', $rqItem['value']);
+            }
         }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
@@ -3096,7 +3099,7 @@ class SupplyController extends Controller
                 'name' => 'Судьба договора',
                 'value' =>     [
                     'id' => 0,
-                    'code' => 'yes',
+                    'code' => 'in_progress',
                     'name' => 'На подписи у клиента',
                     'title' => 'На подписи у клиента'
                 ],
