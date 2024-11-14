@@ -428,7 +428,7 @@ class SupplyController extends Controller
         }
 
 
-        foreach ($filteredcontractSpecification as $cntrctSpecItem) {
+        foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
             if ($cntrctSpecItem['code'] === 'specification_email') {
