@@ -1288,7 +1288,7 @@ class SupplyController extends Controller
 
                 [
                     'type' => 'string',
-                    'name' => 'Телефон',
+                    'name' => 'Телефон организации',
                     'value' => '',
                     'isRequired' => true,
                     'code' => 'phone',
@@ -2288,22 +2288,22 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Наименование ',
-                    'value' => $products_names,
-                    'isRequired' => true,
-                    'code' => 'complect_name',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 0,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Наименование ',
+                //     'value' => $products_names,
+                //     'isRequired' => true,
+                //     'code' => 'complect_name',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 0,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'Вид поставки',
@@ -2320,22 +2320,22 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Вид Размещения',
-                    'value' => $contractSupplyName,
-                    'isRequired' => true,
-                    'code' => 'specification_supply',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 1.5,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Вид Размещения',
+                //     'value' => $contractSupplyName,
+                //     'isRequired' => true,
+                //     'code' => 'specification_supply',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 1.5,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
@@ -2423,7 +2423,7 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_lt_free',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($freeLtPack),
                     'isDisable' => true,
                     'order' => 7,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -2439,7 +2439,7 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($freeLtBlocks),
                     'isDisable' => true,
                     'order' => 8,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -2455,7 +2455,7 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($ltPack),
                     'isDisable' => true,
                     'order' => 9,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -2471,7 +2471,7 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($ltBlocks),
                     'isDisable' => true,
                     'order' => 10,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -2487,7 +2487,7 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'specification_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($iblocks['starLtBlocks']),
                     'isDisable' => true,
                     'order' => 11,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
