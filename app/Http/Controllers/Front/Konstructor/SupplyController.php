@@ -282,6 +282,17 @@ class SupplyController extends Controller
 
         $arows = $data['arows']; //все продукты rows из general в виде массива
         $total = $productSet['total'][0];
+        $totalSum = 0;
+        $totalMonth = 0;
+
+        $quantity = $total['product']['contractCoefficient'] * $total['price']['quantity'];
+
+
+        foreach ($arows as $arow) {
+            $totalMonth +=  round($arow['price']['month'], 2);
+
+            $totalSum +=  round($arow['price']['current'], 2);
+        }
 
 
         $supply = $data['supply'];
@@ -350,6 +361,12 @@ class SupplyController extends Controller
         $templateProcessor->setValue('provider_fullname', $provider_fullname);
 
         $templateProcessor->setValue('bx_deal', $companyId);
+
+
+        //price
+        $templateProcessor->setValue('total_sum', $totalSum);
+        $templateProcessor->setValue('prepayment_sum', $totalMonth);
+        $templateProcessor->setValue('prepayment_quantity', $quantity);
 
 
 
