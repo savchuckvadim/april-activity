@@ -369,6 +369,17 @@ class SupplyController extends Controller
 
         $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
 
+        foreach ($filteredClientRq as $rqItem) {
+            $value = '';
+         
+            if($rqItem['code'] === 'fullname'){
+                $templateProcessor->setValue('client_company_name', $rqItem['value']);
+            }else  if($rqItem['code'] === 'fullname'){
+                $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+            }
+
+            
+        }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
             $value = '';
@@ -1883,7 +1894,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        return ['rq' => $result['rq'], 'bank' => $result['bank']];
+        return ['rq' => $result['rq'], 'bank' => $result['bank'] , 'address' => $result['address']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {
