@@ -431,16 +431,18 @@ class SupplyController extends Controller
         foreach ($filteredcontractSpecification as $cntrctSpecItem) {
             $value = '';
 
-            if ($rqItem['code'] === 'specification_email') {
-                $templateProcessor->setValue('email_garant', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'specification_ibig') {
-                $templateProcessor->setValue('complect_fields_left', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'specification_ifree') {
+            if ($cntrctSpecItem['code'] === 'specification_email') {
+                $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
+            } else  if ($cntrctSpecItem['code'] === 'specification_ibig') {
+                $templateProcessor->setValue('complect_fields_left', $cntrctSpecItem['value']);
+            } else  if ($cntrctSpecItem['code'] === 'specification_ifree') {
 
 
-                $templateProcessor->setValue('complect_fields_right', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'specification_lt_free') {
-                $value = 'Бесплатный LT ' . $rqItem['value'];
+                $templateProcessor->setValue('complect_fields_right', $cntrctSpecItem['value']);
+            } else  if ($cntrctSpecItem['code'] === 'specification_lt_free') {
+                $value = 'Бесплатный LT ' . $cntrctSpecItem['value'];
+
+
                 foreach ($filteredcontractSpecification as $cntrcItem) {
                     if ($cntrcItem['code'] === 'specification_lt_free_services') {
                         $value = $value . ': ' . "\n" . $cntrcItem['code'];
@@ -449,8 +451,8 @@ class SupplyController extends Controller
 
 
                 $templateProcessor->setValue('complect_fields_right', $value);
-            } else  if ($rqItem['code'] === 'specification_lt_packet') {
-                $value = $rqItem['name'] . ' ' . $rqItem['value'];
+            } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
+                $value = $cntrctSpecItem['name'] . ' ' . $cntrctSpecItem['value'];
 
 
                 foreach ($filteredcontractSpecification as $cntrcItem) {
