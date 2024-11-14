@@ -433,34 +433,36 @@ class SupplyController extends Controller
 
             if ($cntrctSpecItem['code'] === 'specification_email') {
                 $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
+
             } else  if ($cntrctSpecItem['code'] === 'specification_ibig') {
                 $templateProcessor->setValue('complect_fields_left', $cntrctSpecItem['value']);
             } else  if ($cntrctSpecItem['code'] === 'specification_ifree') {
 
 
                 $templateProcessor->setValue('complect_fields_right', $cntrctSpecItem['value']);
+          
             } else  if ($cntrctSpecItem['code'] === 'specification_lt_free') {
                 $value = 'Бесплатный LT ' . $cntrctSpecItem['value'];
 
 
                 foreach ($filteredcontractSpecification as $cntrcItem) {
                     if ($cntrcItem['code'] === 'specification_lt_free_services') {
-                        $value = $value . ': ' . "\n" . $cntrcItem['code'];
+                        $value = $value . ': ' . "\n" . $cntrcItem['value'];
                     }
                 }
 
 
-                $templateProcessor->setValue('complect_fields_right', $value);
+                $templateProcessor->setValue('complect_lt_left', $value);
             } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
                 $value = $cntrctSpecItem['name'] . ' ' . $cntrctSpecItem['value'];
 
 
                 foreach ($filteredcontractSpecification as $cntrcItem) {
                     if ($cntrcItem['code'] === 'specification_lt_services') {
-                        $value = $value . ': ' . "\n" . $cntrcItem['code'];
+                        $value = $value . ': ' . "\n" . $cntrcItem['value'];
                     }
                 }
-                $templateProcessor->setValue('complect_fields_right', $value);
+                $templateProcessor->setValue('complect_lt_right', $value);
             }
         }
         $templateProcessor->setValue('complect_pk', $consaltingString);
