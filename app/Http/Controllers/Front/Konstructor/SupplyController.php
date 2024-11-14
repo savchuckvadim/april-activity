@@ -300,7 +300,7 @@ class SupplyController extends Controller
             return filterByClientTypePDF($item, $clientType);
         });
 
-      
+
 
         $supply = $data['supplyReport'];
 
@@ -371,14 +371,16 @@ class SupplyController extends Controller
 
         foreach ($filteredClientRq as $rqItem) {
             $value = '';
-         
-            if($rqItem['code'] === 'fullname'){
+
+            if ($rqItem['code'] === 'fullname') {
                 $templateProcessor->setValue('client_company_name', $rqItem['value']);
-            }else  if($rqItem['code'] === 'fullname'){
+            } else  if ($rqItem['code'] === 'fullname') {
+                $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+            } else  if ($rqItem['code'] === 'registredAdress') {
+                $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
+            } else  if ($rqItem['code'] === 'primaryAdresss') {
                 $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
             }
-
-            
         }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
@@ -1094,7 +1096,7 @@ class SupplyController extends Controller
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
                         $registredadvalue = $advalue;
-                      
+
                         // foreach ($result['address'] as $resultAddress) {
                         //     if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
                         //         $resultAddress['value'] = $advalue;
@@ -1469,7 +1471,7 @@ class SupplyController extends Controller
                 //     'order' => 6
 
                 // ],
-            
+
                 [
                     'type' => 'text',
                     'name' => 'Юридический адрес',
@@ -1847,7 +1849,7 @@ class SupplyController extends Controller
                 }
             }
         }
-    
+
         if (!empty($bxBankRq)) {
 
             foreach ($bxBankRq as $bxBankFieldName => $value) {
@@ -1942,7 +1944,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        return ['rq' => $result['rq'], 'bank' => $result['bank'] , 'address' => $result['address']];
+        return ['rq' => $result['rq'], 'bank' => $result['bank'], 'address' => $result['address']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {
