@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\Element\Line;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -243,6 +244,11 @@ class SupplyController extends Controller
 
 
         $companyId = $data['companyId'];
+  
+        $bxCompanyLink = 'https://' . $domain . '/company/details/' . $companyId . '/';
+
+        $companyLink = new Line($bxCompanyLink, $companyId);
+
         $dealId = null;
         if (!empty($data['dealId'])) {
 
@@ -321,6 +327,7 @@ class SupplyController extends Controller
         $templateProcessor->setValue('contract_type', $contract_type);
         $templateProcessor->setValue('provider_fullname', $provider_fullname);
 
+        $templateProcessor->setComplexValue('companyLink', $companyLink);
 
 
 
