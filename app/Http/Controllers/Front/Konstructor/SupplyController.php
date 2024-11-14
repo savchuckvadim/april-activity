@@ -1099,33 +1099,33 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Сокращенное наименование организации',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'shortname',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 2,
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Сокращенное наименование организации',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'shortname',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 2,
 
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Роль клиента в договоре',
-                    'value' => $clientRole,
-                    'isRequired' => true,
-                    'code' => 'role',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 3
+                // ],
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Роль клиента в договоре',
+                //     'value' => $clientRole,
+                //     'isRequired' => true,
+                //     'code' => 'role',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 3
 
-                ],
+                // ],
                 // [
                 //     'type' => 'string',
                 //     'name' => 'Должность руководителя организации',
@@ -1272,19 +1272,19 @@ class SupplyController extends Controller
                 //     'order' => 14
 
                 // ],
-                [
-                    'type' => 'string',
-                    'name' => 'Телефон ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assignedPhone',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 15
+                // [
+                //     'type' => 'string',
+                //     'name' => 'Телефон ответственного за получение справочника',
+                //     'value' => '',
+                //     'isRequired' => true,
+                //     'code' => 'assignedPhone',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 15
 
-                ],
+                // ],
 
                 [
                     'type' => 'string',
