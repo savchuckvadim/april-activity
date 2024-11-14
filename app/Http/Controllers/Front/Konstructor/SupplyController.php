@@ -327,7 +327,7 @@ class SupplyController extends Controller
         $templateProcessor->setValue('contract_type', $contract_type);
         $templateProcessor->setValue('provider_fullname', $provider_fullname);
 
-        $templateProcessor->setComplexValue('companyLink', $companyLink);
+        $templateProcessor->setComplexValue('bx_deal', $companyLink);
 
 
 
