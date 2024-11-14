@@ -300,7 +300,7 @@ class SupplyController extends Controller
             return filterByClientTypePDF($item, $clientType);
         });
 
-      
+
 
         $supply = $data['supplyReport'];
 
@@ -371,14 +371,12 @@ class SupplyController extends Controller
 
         foreach ($filteredClientRq as $rqItem) {
             $value = '';
-         
-            if($rqItem['code'] === 'fullname'){
+
+            if ($rqItem['code'] === 'fullname') {
                 $templateProcessor->setValue('client_company_name', $rqItem['value']);
-            }else  if($rqItem['code'] === 'fullname'){
+            } else  if ($rqItem['code'] === 'fullname') {
                 $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
             }
-
-            
         }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
@@ -1405,20 +1403,20 @@ class SupplyController extends Controller
                 //     'order' => 6
 
                 // ],
-                [
-                    'type' => 'text',
-                    'name' => 'Прочие реквизиты',
-                    'value' => '',
-                    'isRequired' => false,
-                    'code' => 'other',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 20
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Прочие реквизиты',
+                //     'value' => '',
+                //     'isRequired' => false,
+                //     'code' => 'other',
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'group' => 'rq',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 20
 
 
-                ],
+                // ],
 
 
             ],
@@ -1800,6 +1798,23 @@ class SupplyController extends Controller
                 }
             }
         }
+
+        array_push($result['address'],         [
+            'type' => 'text',
+            'name' => 'Прочие реквизиты',
+            'value' => '',
+            'isRequired' => false,
+            'code' => 'other',
+            'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+            'group' => 'rq',
+            'isActive' => true,
+            'isDisable' => false,
+            'order' => 20
+
+
+        ]);
+
+
         if (!empty($bxBankRq)) {
 
             foreach ($bxBankRq as $bxBankFieldName => $value) {
@@ -1894,7 +1909,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        return ['rq' => $result['rq'], 'bank' => $result['bank'] , 'address' => $result['address']];
+        return ['rq' => $result['rq'], 'bank' => $result['bank'], 'address' => $result['address']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {
