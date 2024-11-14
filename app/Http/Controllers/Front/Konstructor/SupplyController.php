@@ -289,11 +289,11 @@ class SupplyController extends Controller
 
 
         foreach ($arows as $arow) {
-            $totalMonth +=  round($arow['price']['month'], 2);
+            // $totalMonth +=  round($arow['price']['month'], 2);
 
             $totalSum +=  round($arow['price']['current'], 2);
         }
-
+        $totalMonth = round($totalSum / $quantity, 2);
 
         $supply = $data['supply'];
         $supplyType = $supply['type'];
