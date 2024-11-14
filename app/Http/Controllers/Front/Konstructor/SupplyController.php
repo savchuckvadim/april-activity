@@ -1088,7 +1088,7 @@ class SupplyController extends Controller
             foreach ($bxAdressesRq as $bxAdressRq) {
                 $isRegisrted = false;
                 $isFizRegisrted = false;
-                if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
+                if ($bxAdressRq['TYPE_ID'] == 4) { // Адрес регистрации
                     $isRegisrted = true;
 
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
@@ -1107,7 +1107,7 @@ class SupplyController extends Controller
                         //     }
                         // }
                     }
-                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
+                } else  if ($bxAdressRq['TYPE_ID'] == 6) {  // Юридический адрес 
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
                         $registredadvalue = $advalue;
