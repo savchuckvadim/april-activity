@@ -1481,6 +1481,7 @@ class SupplyController extends Controller
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 0,
+                    'all' => $bxAdressesRq
 
                 ],
 
