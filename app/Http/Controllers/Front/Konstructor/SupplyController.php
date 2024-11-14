@@ -300,7 +300,7 @@ class SupplyController extends Controller
             return filterByClientTypePDF($item, $clientType);
         });
 
-
+      
 
         $supply = $data['supplyReport'];
 
@@ -371,12 +371,14 @@ class SupplyController extends Controller
 
         foreach ($filteredClientRq as $rqItem) {
             $value = '';
-
-            if ($rqItem['code'] === 'fullname') {
+         
+            if($rqItem['code'] === 'fullname'){
                 $templateProcessor->setValue('client_company_name', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'fullname') {
+            }else  if($rqItem['code'] === 'fullname'){
                 $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
             }
+
+            
         }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
@@ -1079,6 +1081,70 @@ class SupplyController extends Controller
                 # code...
                 break;
         }
+
+        $registredadvalue = '';
+        $primaryadvalue = '';
+        if (!empty($bxAdressesRq) && is_array($bxAdressesRq)) {
+            foreach ($bxAdressesRq as $bxAdressRq) {
+                $isRegisrted = false;
+                $isFizRegisrted = false;
+                if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
+                    $isRegisrted = true;
+
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
+                        $registredadvalue = $advalue;
+                      
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+                        // for ($i = 0; $i < count($result['address']); $i++) {
+                        //     if ($result['address'][$i]['code'] === 'registredAdress'  && $result['address'][$i]['name'] ==  'Адрес прописки') {
+                        //         $result['address'][$i]['value'] = $advalue;
+                        //         array_push($result['rq'], $result['address'][$i]);
+                        //     }
+                        // }
+                    }
+                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
+                        $registredadvalue = $advalue;
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'registredAdress') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+
+                        // for ($i = 0; $i < count($result['address']); $i++) {
+                        //     if ($result['address'][$i]['code'] === 'registredAdress') {
+                        //         $result['address'][$i]['value'] = $advalue;
+                        //         array_push($result['rq'], $result['address'][$i]);
+                        //     }
+                        // }
+                    }
+                } else {
+                    if (!empty($bxAdressRq['ADDRESS_1'])) {
+                        $advalue = $this->getAddressString($bxAdressRq);
+                        $primaryadvalue = $advalue;
+                        // foreach ($result['address'] as $resultAddress) {
+                        //     if ($resultAddress['code'] == 'primaryAdresss') {
+                        //         $resultAddress['value'] = $advalue;
+                        //     }
+                        // }
+
+                        // for ($i = 0; $i < count($result['address']); $i++) {
+                        //     if ($result['address'][$i]['code'] === 'primaryAdresss') {
+                        //         $result['address'][$i]['value'] = $advalue;
+                        //         array_push($result['rq'], $result['address'][$i]);
+                        //     }
+                        // }
+                    }
+                }
+            }
+        }
+
         $result = [
             'rq' => [
 
@@ -1403,20 +1469,61 @@ class SupplyController extends Controller
                 //     'order' => 6
 
                 // ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Прочие реквизиты',
-                //     'value' => '',
-                //     'isRequired' => false,
-                //     'code' => 'other',
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'group' => 'rq',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 20
+            
+                [
+                    'type' => 'text',
+                    'name' => 'Юридический адрес',
+                    'value' => $registredadvalue,
+                    'isRequired' => false,
+                    'code' => 'registredAdress',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 0,
+
+                ],
+
+                [
+                    'type' => 'text',
+                    'name' => 'Адрес прописки',
+                    'value' => $registredadvalue,
+                    'isRequired' => true,
+                    'code' => 'registredAdress',
+                    'includes' => ['fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 1,
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Фактический адрес',
+                    'value' =>  $primaryadvalue,
+                    'isRequired' => true,
+                    'code' => 'primaryAdresss',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 2,
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Прочие реквизиты',
+                    'value' => '',
+                    'isRequired' => false,
+                    'code' => 'other',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 20
 
 
-                // ],
+                ],
 
 
             ],
@@ -1739,82 +1846,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        if (!empty($bxAdressesRq) && is_array($bxAdressesRq)) {
-            foreach ($bxAdressesRq as $bxAdressRq) {
-                $isRegisrted = false;
-                $isFizRegisrted = false;
-                if ($bxAdressRq['TYPE_ID'] === 4) { // Адрес регистрации
-                    $isRegisrted = true;
-
-                    if (!empty($bxAdressRq['ADDRESS_1'])) {
-                        $advalue = $this->getAddressString($bxAdressRq);
-
-                        // foreach ($result['address'] as $resultAddress) {
-                        //     if ($resultAddress['code'] == 'registredAdress' && $resultAddress['name'] ==  'Адрес прописки') {
-                        //         $resultAddress['value'] = $advalue;
-                        //     }
-                        // }
-                        for ($i = 0; $i < count($result['address']); $i++) {
-                            if ($result['address'][$i]['code'] === 'registredAdress'  && $result['address'][$i]['name'] ==  'Адрес прописки') {
-                                $result['address'][$i]['value'] = $advalue;
-                                array_push($result['rq'], $result['address'][$i]);
-                            }
-                        }
-                    }
-                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
-                    if (!empty($bxAdressRq['ADDRESS_1'])) {
-                        $advalue = $this->getAddressString($bxAdressRq);
-
-                        // foreach ($result['address'] as $resultAddress) {
-                        //     if ($resultAddress['code'] == 'registredAdress') {
-                        //         $resultAddress['value'] = $advalue;
-                        //     }
-                        // }
-
-                        for ($i = 0; $i < count($result['address']); $i++) {
-                            if ($result['address'][$i]['code'] === 'registredAdress') {
-                                $result['address'][$i]['value'] = $advalue;
-                                array_push($result['rq'], $result['address'][$i]);
-                            }
-                        }
-                    }
-                } else {
-                    if (!empty($bxAdressRq['ADDRESS_1'])) {
-                        $advalue = $this->getAddressString($bxAdressRq);
-
-                        // foreach ($result['address'] as $resultAddress) {
-                        //     if ($resultAddress['code'] == 'primaryAdresss') {
-                        //         $resultAddress['value'] = $advalue;
-                        //     }
-                        // }
-
-                        for ($i = 0; $i < count($result['address']); $i++) {
-                            if ($result['address'][$i]['code'] === 'primaryAdresss') {
-                                $result['address'][$i]['value'] = $advalue;
-                                array_push($result['rq'], $result['address'][$i]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        array_push($result['address'],         [
-            'type' => 'text',
-            'name' => 'Прочие реквизиты',
-            'value' => '',
-            'isRequired' => false,
-            'code' => 'other',
-            'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-            'group' => 'rq',
-            'isActive' => true,
-            'isDisable' => false,
-            'order' => 20
-
-
-        ]);
-
-
+    
         if (!empty($bxBankRq)) {
 
             foreach ($bxBankRq as $bxBankFieldName => $value) {
@@ -1909,7 +1941,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        return ['rq' => $result['rq'], 'bank' => $result['bank'], 'address' => $result['address']];
+        return ['rq' => $result['rq'], 'bank' => $result['bank'] , 'address' => $result['address']];
     }
     protected function getContractGeneralForm($arows, $contractQuantity)
     {
