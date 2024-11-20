@@ -62,7 +62,7 @@ class Portal extends Model
     }
     public function contacts()
     {
-        return $this->hasMany(BtxCompany::class);
+        return $this->hasMany(BtxContact::class);
     }
     public function leads()
     {
