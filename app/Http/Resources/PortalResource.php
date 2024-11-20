@@ -34,6 +34,8 @@ class PortalResource extends JsonResource
             'smarts' => $this->smarts,
             'deals' => $this->deals,
             'companies' => $this->companies,
+            'contacts' => $this->contacts,
+
             'leads' => $this->leads,
             'rpas' => $this->rpas,
             'bitrixlists' => $this->lists,
