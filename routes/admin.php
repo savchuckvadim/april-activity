@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\BtxDealController;
 use App\Http\Controllers\Admin\BtxStageController;
 use App\Http\Controllers\Admin\DepartamentController;
 use App\Http\Controllers\BtxCompanyController;
+use App\Http\Controllers\BtxContactController;
 use App\Http\Controllers\BtxLeadController;
 use App\Http\Controllers\CallingController;
 use App\Http\Controllers\CounterController;
@@ -48,11 +49,12 @@ use App\Models\InfoGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/admin/rpa_routes.php';
-require __DIR__.'/admin/konstructor/measure_routes.php';
-require __DIR__.'/admin/konstructor/portal_measure_routes.php';
-require __DIR__.'/admin/konstructor/contract_routes.php';
-require __DIR__.'/admin/konstructor/portal_contract_routes.php';
+require __DIR__ . '/admin/rpa_routes.php';
+require __DIR__ . '/admin/contacts_routes.php';
+require __DIR__ . '/admin/konstructor/measure_routes.php';
+require __DIR__ . '/admin/konstructor/portal_measure_routes.php';
+require __DIR__ . '/admin/konstructor/contract_routes.php';
+require __DIR__ . '/admin/konstructor/portal_contract_routes.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -374,7 +376,7 @@ Route::middleware(['ajax.only'])->group(function () {
 
     //SET 
     //// specific
- 
+
 
     Route::post('template/{templateId}/fields', function ($templateId, Request $request) {
         $fieldData = [
@@ -942,6 +944,12 @@ Route::middleware(['ajax.only'])->group(function () {
         return BitrixfieldController::getInitial($companyId, 'company');
     });
 
+    //.................... parent - company
+    Route::get('initial/contact/{contactId}/bitrixfield', function ($contactId) {
+
+        return BitrixfieldController::getInitial($contactId, 'contact');
+    });
+
     //.................... parent - lead
     Route::get('initial/lead/{leadId}/bitrixfield', function ($leadId) {
 
@@ -975,6 +983,13 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return BtxCompanyController::getFields($companyId);
     });
+
+    //   // all from parent  company
+    Route::get('contact/{contactId}/bitrixfields', function ($contactId) {
+
+        return BtxContactController::getFields($contactId);
+    });
+
     // all from parent  lead
     Route::get('lead/{leadId}/bitrixfields', function ($leadId) {
 
@@ -1041,6 +1056,12 @@ Route::middleware(['ajax.only'])->group(function () {
         //store = set or uppdate
         return BitrixfieldController::store($request);
     });
+
+    Route::post('contact/{contactId}/bitrixfield', function (Request $request) {
+        //store = set or uppdate
+        return BitrixfieldController::store($request);
+    });
+
 
 
 

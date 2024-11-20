@@ -8,6 +8,7 @@ use App\Http\Resources\BitrixFieldResource;
 use App\Models\Bitrixfield;
 use App\Models\Bitrixlist;
 use App\Models\BtxCompany;
+use App\Models\BtxContact;
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
 use App\Models\Smart;
@@ -74,6 +75,8 @@ class BitrixfieldController extends Controller
                 $parent = BtxCompany::class;
             } else   if ($request['entityType'] == 'lead') {
                 $parent = BtxLead::class;
+            } else   if ($request['entityType'] == 'contact') {
+                $parent = BtxContact::class;
             }
 
             // Заполняем или обновляем поля модели если модель создается
