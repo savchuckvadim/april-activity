@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BtxCompanyResource;
-use App\Models\BtxCompany;
+use App\Http\Resources\BtxContactResource;
+use App\Models\BtxContact;
 use App\Models\Portal;
 use Illuminate\Http\Request;
 
-class BtxCompanyController extends Controller
+class BtxContactController extends Controller
 {
     public static function getInitial($portalId = null)
     {
 
-        $initialData = BtxCompany::getForm($portalId);
+        $initialData = BtxContact::getForm($portalId);
         $data = [
             'initial' => $initialData
         ];
@@ -25,18 +25,18 @@ class BtxCompanyController extends Controller
         $portal = null;
         if (isset($request['id'])) {
             $id = $request['id'];
-            $company = BtxCompany::find($id);
+            $contact = BtxContact::find($id);
         } else {
             if (isset($request['portal_id'])) {
 
                 $portal_id = $request['portal_id'];
                 $portal = Portal::find($portal_id);
-                $company = new BtxCompany();
-                $company->portal_id = $portal_id;
+                $contact = new BtxContact();
+                $contact->portal_id = $portal_id;
             }
         }
         $validatedData = $request->validate([
-            'id' => 'sometimes|integer|exists:btx_companies,id',
+            'id' => 'sometimes|integer|exists:btx_contacts,id',
             'name' => 'required|string',
             'title' => 'required|string',
             'code' => 'required|string',
@@ -44,18 +44,18 @@ class BtxCompanyController extends Controller
             
         ]);
 
-        if ($company) {
+        if ($contact) {
             // Создание нового Counter
-            $company->name = $validatedData['name'];
-            $company->title = $validatedData['title'];
-            $company->code = $validatedData['code'];
-            $company->portal_id = $validatedData['portal_id'];
+            $contact->name = $validatedData['name'];
+            $contact->title = $validatedData['title'];
+            $contact->code = $validatedData['code'];
+            $contact->portal_id = $validatedData['portal_id'];
         
            
-            $company->save(); // Сохранение Counter в базе данных
-            $resultcompany = new BtxCompanyResource($company);
+            $contact->save(); // Сохранение Counter в базе данных
+            $resultcontact = new BtxContactResource($contact);
             return APIController::getSuccess(
-                ['company' => $resultcompany, 'portal' => $portal]
+                ['contact' => $resultcontact, 'portal' => $portal]
             );
         }
 
@@ -65,42 +65,42 @@ class BtxCompanyController extends Controller
 
         );
     }
-    public static function get($companyId)
+    public static function get($contactId)
     {
         try {
-            $company = BtxCompany::find($companyId);
+            $contact = BtxContact::find($contactId);
 
-            if ($company) {
-                $resultcompany = new BtxCompanyResource($company);
+            if ($contact) {
+                $resultcontact = new BtxContactResource($contact);
                 return APIController::getSuccess(
-                    ['company' => $company]
+                    ['contact' => $contact]
                 );
             } else {
                 return APIController::getError(
-                    'lead was not found',
-                    ['company' => $company]
+                    'contact was not found',
+                    ['contact' => $contact]
                 );
             }
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['companyId' => $companyId]
+                ['contactId' => $contactId]
             );
         }
     }
 
-    public static function delete($companyId)
+    public static function delete($contactId)
     {
-        $company = BtxCompany::find($companyId);
+        $contact = BtxContact::find($contactId);
 
-        if ($company) {
+        if ($contact) {
             // Получаем все связанные поля
-            $company->delete();
-            return APIController::getSuccess($company);
+            $contact->delete();
+            return APIController::getSuccess($contact);
         } else {
 
             return APIController::getError(
-                'company not found',
+                'contact not found',
                 null
             );
         }
@@ -111,43 +111,43 @@ class BtxCompanyController extends Controller
 
         // Создание нового Counter
         $portal = Portal::find($portalId);
-        $companies = $portal->companies;
-        if ($companies) {
+        $contacts = $portal->contacts;
+        if ($contacts) {
 
             return APIController::getSuccess(
-                ['companies' => $companies]
+                ['contacts' => $contacts]
             );
         }
 
 
         return APIController::getError(
-            'companies was not found',
+            'contacts was not found',
             ['portal id' => $portalId]
 
         );
     }
 
-    public static function getFields($companyId)
+    public static function getFields($contactId)
     {
 
         try {
-            $company = BtxCompany::find($companyId);
+            $contact = BtxContact::find($contactId);
 
-            if ($company) {
-                $bitrixfields = $company->bitrixfields;
+            if ($contact) {
+                $bitrixfields = $contact->bitrixfields;
                 return APIController::getSuccess(
                     ['bitrixfields' => $bitrixfields]
                 );
             } else {
                 return APIController::getError(
-                    'company was not found',
-                    ['company' => $company]
+                    'contact was not found',
+                    ['contact' => $contact]
                 );
             }
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['companyId' => $companyId]
+                ['contactId' => $contactId]
             );
         }
     }
