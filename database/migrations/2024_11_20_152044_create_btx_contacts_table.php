@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');  // имя в битрикс
             $table->string('title');  // Отображаемое имя
             $table->string('code');  // для APP
-            $table->unsignedBigInteger('portal_id')->after('code'); // Добавить после столбца 'code'
+            $table->unsignedBigInteger('portal_id'); // Добавить после столбца 'code'
             $table->foreign('portal_id')->references('id')->on('portals')->onDelete('cascade');
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\BtxCompanyResource;
+use App\Http\Resources\BtxContactResource;
 use App\Http\Resources\BtxDealResource;
 use App\Http\Resources\BtxLeadResource;
 use App\Http\Resources\SmartResource;
@@ -56,6 +57,10 @@ class Portal extends Model
 
 
     public function companies()
+    {
+        return $this->hasMany(BtxCompany::class);
+    }
+    public function contacts()
     {
         return $this->hasMany(BtxCompany::class);
     }
@@ -173,6 +178,19 @@ class Portal extends Model
         }
 
         return  $company;
+    }
+
+
+    public function contact()
+    {
+        $contact = $this->contacts()->first();
+        if ($contact) {
+            $contact = new BtxContactResource($contact);
+        } else {
+            $contact = null;
+        }
+
+        return  $contact;
     }
 
     public function lead()
