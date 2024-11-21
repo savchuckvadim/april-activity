@@ -83,7 +83,7 @@
         line-height: 10px !important;
         margin: 0 !important;
         padding: 0;
-        display: inline-block; /* Убирает влияние от блочных стилей */
+        /* display: inline-block; Убирает влияние от блочных стилей */
 
         /* Немного больше, чем размер шрифта */
 
