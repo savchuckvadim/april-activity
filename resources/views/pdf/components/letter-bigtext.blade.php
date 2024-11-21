@@ -80,7 +80,11 @@
     .bl-red,
     .bl-blue,
     .bl-bold {
-        line-height: 1px !important;
+        line-height: 10px !important;
+        margin: 0 !important;
+        padding: 0;
+        display: inline-block; /* Убирает влияние от блочных стилей */
+
         /* Немного больше, чем размер шрифта */
 
     }
