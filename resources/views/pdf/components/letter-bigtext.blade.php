@@ -23,23 +23,23 @@
         margin-top: 20px;
     }
 
-    .text-xsmall {
+    .bl-text-xsmall {
         font-size: 9px;
     }
 
-    .text-small {
+    .bl-text-small {
         font-size: 10px;
     }
 
-    .text-normal {
+    .bl-text-normal {
         font-size: 10px;
     }
 
-    .text-large {
+    .bl-text-large {
         font-size: 10px;
     }
 
-    .color {
+    .bl-color {
         font-weight: bold;
         color: rgb(48, 115, 230);
         /* color: rgb(58, 102, 172);  garant */
@@ -47,18 +47,18 @@
 
     }
 
-    .shadow {
+    .bl-shadow {
         /* font-weight: bold; */
         color: rgba(38, 62, 104, 0.775);
 
     }
 
-    .red {
+    .bl-red {
         /* font-weight: bold; */
         color: rgb(220, 26, 33);
     }
 
-    .blue {
+    .bl-blue {
         /* font-weight: bold; */
         color: rgb(48, 115, 230);
         /* color: rgb(58, 102, 172);  garant */
@@ -66,20 +66,20 @@
 
     }
 
-    .bold {
+    .bl-bold {
         font-weight: bold;
 
     }
 
-    .text-xsmall,
-    .text-small,
-    .text-normal,
-    .text-large,
-    .color,
-    .shadow,
-    .red,
-    .blue,
-    .bold {
+    .bl-text-xsmall,
+    .bl-text-small,
+    .bl-text-normal,
+    .bl-text-large,
+    .bl-color,
+    .bl-shadow,
+    .bl-red,
+    .bl-blue,
+    .bl-bold {
         line-height: 1px !important;
         /* Немного больше, чем размер шрифта */
 
@@ -135,7 +135,7 @@
     <div class="letter-text">
         @if ($letterData['appeal'] !== null)
             <div class="letter-title-wrapper">
-                <p class='text-large bold recipientName'>
+                <p class='bl-text-large bold recipientName'>
                     {{ $letterData['appeal'] }}
                 </p>
             </div>
@@ -145,9 +145,9 @@
             @php
                 $letterText = $letterData['text'];
                 $isLargeLetterText = $letterData['isLargeLetterText'];
-                $baseClass = 'text-normal';
+                $baseClass = 'bl-text-normal';
                 if (!$isLargeLetterText) {
-                    $baseClass = 'text-large';
+                    $baseClass = 'bl-text-large';
                 }
                 $letterText = str_replace("\\n", "\n", $letterText);
 
@@ -189,13 +189,13 @@
                     // Определяем классы для текущего фрагмента
                     $class = $baseClass;
                     if ($inHighlight) {
-                        $class .= ' color';
+                        $class .= ' bl-color';
                     }
                     if ($inBold) {
-                        $class .= ' bold'; // Добавляем класс для жирного текста
+                        $class .= ' bl-bold'; // Добавляем класс для жирного текста
                     }
                     if ($inRed) {
-                        $class .= ' red'; // Добавляем класс для жирного текста
+                        $class .= ' bl-red'; // Добавляем класс для жирного текста
                     }
                 @endphp
 
