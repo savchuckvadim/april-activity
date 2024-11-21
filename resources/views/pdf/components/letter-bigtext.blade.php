@@ -70,6 +70,20 @@
         font-weight: bold;
 
     }
+
+    .text-xsmall,
+    .text-small,
+    .text-normal,
+    .text-large,
+    .color,
+    .shadow,
+    .red,
+    .blue,
+    .bold {
+        line-height: 1px !important;
+        /* Немного больше, чем размер шрифта */
+
+    }
 </style>
 
 

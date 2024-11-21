@@ -52,6 +52,8 @@
 
         }
 
+
+
         /* text */
         .text-xsmall {
             font-size: 9px;
