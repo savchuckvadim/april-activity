@@ -124,8 +124,15 @@
     <main>
         <div class="{{ !$headerData['isTwoLogo'] ? 'page-content' : 'letter' }}">
 
-            @component('pdf.components.letter', ['letterData' => $letterData])
-            @endcomponent
+            @if (!empty($letterData['isLargeLetterText']))
+                @component('pdf.components.letter-bigtext', ['letterData' => $letterData])
+                @endcomponent
+            @endif
+            @if (empty($letterData['isLargeLetterText']))
+                @component('pdf.components.letter', ['letterData' => $letterData])
+                @endcomponent
+            @endif
+
             @if ($withStamps && !$isPriceFirst)
                 <div class="stamp">
                     @component('pdf.components.stamp', $stampsData)

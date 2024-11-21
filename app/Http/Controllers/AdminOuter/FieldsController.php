@@ -37,7 +37,7 @@ class FieldsController extends Controller
         try {
             $data = $request->all();
             $fields = $data['fields'];
-            $entityType =  $data['entity_type'];
+            $entityType =  $data['entity_type']; //rpa company
             $domain =  $data['domain'];
             $isRewrite = $data['is_rewrite'];
             $smartId = $data['smart_id'];
@@ -53,7 +53,7 @@ class FieldsController extends Controller
             $portalRPAs = $portal->rpas->all();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
-                'portalCompany' => $portalCompany,
+                'portalRPAs' => $portalRPAs,
 
 
             ]);
