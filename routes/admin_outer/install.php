@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminOuter\DealController;
 use App\Http\Controllers\AdminOuter\FieldsController;
 use App\Http\Controllers\AdminOuter\ListController;
+use App\Http\Controllers\AdminOuter\RPA\RPAController;
 use App\Http\Controllers\APIController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     Route::post('list', [ListController::class, 'setLists']);
     Route::post('deal', [DealController::class, 'setDeals']);
     Route::post('fields', [FieldsController::class, 'setFields']);
+    Route::post('rpa', [RPAController::class, 'installRPA']);
+
     // fields
     // entity_type
     // domain
