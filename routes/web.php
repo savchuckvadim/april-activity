@@ -83,21 +83,49 @@ Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $ha
 })->name('download-supply-report');
 
 
+
+//utf
+Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
+    // Декодируем имя файла
+    $filename = urldecode($filename);
+
+    // Путь к файлу
+    $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
+    
+    // Логирование для отладки
+    Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+
+    // Временная проверка
+    if (!file_exists($filePath)) {
+        Log::channel('telegram')->info("Файл не найден: " . $filePath);
+        return response()->json(['error' => 'Файл не найден', 'path' => $filePath], 404);
+    }
+
+    $fileContent = file_get_contents($filePath);
+    $fileBase64 = base64_encode($fileContent);
+    
+    return response()->json([
+        'file_base64' => $fileBase64,
+        'filename' => $filename,
+        'mime_type' => mime_content_type($filePath),
+    ]);
+})->name('supply-report');
+
 Route::get('/supply/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
 
 
-    $path = $domain . '/supplies/' . $hash . '/';
-    $filePath = storage_path('app/public/clients/' . $path);
-    // Путь к файлу на основе хэша
-    // $filePath = storage_path('app/public/clients/supply/' . $domain . '/' . $hash . '/' . $filename);
+    // $path = $domain . '/supplies/' . $hash . '/';
+    // $filePath = storage_path('app/public/clients/' . $path);
+    // // Путь к файлу на основе хэша
+    // // $filePath = storage_path('app/public/clients/supply/' . $domain . '/' . $hash . '/' . $filename);
 
-    // Проверка, существует ли файл
-    if (!file_exists($filePath)) {
-        return response()->json(['error' => 'Файл не найден'], 404);
-    }
+    // // Проверка, существует ли файл
+    // if (!file_exists($filePath)) {
+    //     return response()->json(['error' => 'Файл не найден'], 404);
+    // }
 
     // Отправляем файл для скачивания
-    return response()->download($filePath, $filename);
+    // return response()->download($filePath, $filename);
 })->name('download-supply');
 
 Route::get('/install/deal/{pass}/{domain}/{token}', function ($pass, $domain, $token) {

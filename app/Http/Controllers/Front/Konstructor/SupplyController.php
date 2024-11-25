@@ -544,6 +544,7 @@ class SupplyController extends Controller
         ];
         $responseBitrix = Http::get($url, $data);
 
+
         return APIController::getSuccess(
             ['contractData' => $data, 'link' => $link]
         );

@@ -148,7 +148,7 @@ class FieldsController extends Controller
 
 
                 $portal = Portal::where('domain', $domain)->first();
-                $rpaCode = 'service';
+                $rpaCode = '';
                 if(!empty($data['rpa_code'])){
                     $rpaCode = $data['rpa_code'];
                 }
