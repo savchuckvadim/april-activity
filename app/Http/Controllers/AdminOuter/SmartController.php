@@ -7,6 +7,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Http\Resources\PortalOuterResource;
 use App\Models\BtxCategory;
 use App\Models\BtxStage;
 use App\Models\Portal;
@@ -91,7 +92,8 @@ class SmartController extends Controller
             ]);
         }
         $portal = Portal::where('domain', $domain)->first();
-        return APIController::getSuccess(['smart' => $result, 'updated_portal' => $portal, 'categories' => $categories]);
+        $resultPortal = new PortalOuterResource($portal, $domain);
+        return APIController::getSuccess(['smart' => $result, 'updated_portal' => $resultPortal, 'categories' => $categories]);
     }
 
 
