@@ -44,7 +44,7 @@ class SmartController extends Controller
 
                 $currentPortalSmart = $portal->smarts()
                     ->where('type', $smart['type'])
-                    ->where('code', $smart['code'])
+                    ->where('group', $smart['group'])
                     ->first();
 
 
