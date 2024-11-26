@@ -213,7 +213,7 @@ class SmartController extends Controller
 
             // Создаем или обновляем стадии
             $stages = SmartController::setStages($category, $category['bitrixId'], $portalSmartCategoryStages, $portalCategoryId);
-            array_push($results,['category' => $portalCategory, 'stages' => $stages]);
+            array_push($results, ['category' => $portalCategory, 'stages' => $stages]);
             # code...
         }
         return $results;
@@ -297,11 +297,11 @@ class SmartController extends Controller
 
 
         $stages = $category['stages'];
-       
+        $resultStages = [];
 
         foreach ($stages  as $stage) {
             $currentPortalStage = null;
-            
+
             foreach ($portalSmartCategoryStages as $portalSmartCategoryStage) {
 
                 if (
