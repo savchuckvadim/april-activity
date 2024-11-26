@@ -179,7 +179,7 @@ class SmartController extends Controller
 
         //обновляем категорию в БД
 
-
+        $results = [];
         $currentPortalCategories = $currentPortalSmart->categories->toArray();
         foreach ($categories as $category) {
 
