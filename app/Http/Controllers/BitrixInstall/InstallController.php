@@ -152,6 +152,7 @@ class InstallController extends Controller
                     $smartInstallResponse = Http::post($url, $hookSmartInstallData);
 
                     $newSmart = BitrixController::getBitrixResponse($smartInstallResponse, 'newSmart');
+              
                     if (isset($newSmart['type'])) {
                         $currentBtxSmart = $newSmart['type'];
                     }
@@ -166,6 +167,8 @@ class InstallController extends Controller
                     if (!empty($currentBtxSmart)) {
                         if (!empty($currentBtxSmart['entityTypeId'] && !empty($currentBtxSmart['code']))) {
                             $currentPortalSmart = $portal->smarts()->where('type', $currentBtxSmart['code'])->first();
+                         
+                         
                             $smartEntityTypeId = $smart['entityTypeId'];
                             if (!$currentPortalSmart) {
 
