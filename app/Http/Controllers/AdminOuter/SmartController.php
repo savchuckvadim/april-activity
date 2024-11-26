@@ -72,7 +72,7 @@ class SmartController extends Controller
                 array_push($result, $currentPortalSmart);
 
                 $categories = SmartController::setCategories($smart['categories'], $currentBtxSmart, $currentPortalSmart);
-                array_push($resultSmarts, $currentBtxSmart);
+         
 
                 // if (!empty($smart['fields'])) {
                 //     FieldsController::setSmartFields($domain,  $currentPortalSmart, $smart['fields']);
