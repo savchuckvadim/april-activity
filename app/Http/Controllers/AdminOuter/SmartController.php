@@ -91,7 +91,7 @@ class SmartController extends Controller
             ]);
         }
         $portal = Portal::where('domain', $domain)->first();
-        return APIController::getSuccess(['smart' => $result, 'portal' => $portal, 'categories' => $categories]);
+        return APIController::getSuccess(['smart' => $result, 'updated_portal' => $portal, 'categories' => $categories]);
     }
 
 
