@@ -250,7 +250,7 @@ class ContractController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         $contractType = $data['contractType'];
-
+        $supplyType = $data['supply']['type']; //internet | proxima
         $contract = $data['contract'];
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
@@ -280,89 +280,97 @@ class ContractController extends Controller
         $providerState = $data['contractProviderState'];
 
         $providerRq = $providerState['current']['rq'];
-        $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
-        $template = $etalonPortal->templates()
-            ->where('type', 'contract')
-            ->where('code', 'proxima')
-            ->first();
-        $templateField = $template->fields()
-            ->where('type', 'template')
-            ->where('code', 'proxima')
-            ->first();
+        // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
+        // $template = $etalonPortal->templates()
+        //     ->where('type', 'contract')
+        //     ->where('code', 'proxima')
+        //     ->first();
+        // $templateField = $template->fields()
+        //     ->where('type', 'template')
+        //     ->where('code', 'proxima')
+        //     ->first();
 
-        $templatePath = $templateField['value'];
-        if (substr($templatePath, 0, 8) === '/storage') {
-            $relativePath = substr($templatePath, 8); // Обрезаем первые 8 символов
+        // $templatePath = $templateField['value'];
+        // if (substr($templatePath, 0, 8) === '/storage') {
+        //     $relativePath = substr($templatePath, 8); // Обрезаем первые 8 символов
+        // }
+
+        // // Проверяем, существует ли файл
+        // // if (Storage::disk('public')->exists($relativePath)) {
+        //     // Строим полный абсолютный путь
+        //     $fullPath = storage_path('app/public') . '/' . $relativePath;
+
+        // Теперь $fullPath содержит полный путь к файлу
+        // $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+
+        $filePath = 'app/public/konstructor/contract/etalon/' . $contractType . '/' . $supplyType . '/commerc';
+
+        $fullPath = storage_path($filePath . '/template.docx');
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+
+
+        $templateData = $this->getDocumentData(
+
+            $contractType,
+
+            // header
+            $clientRq, //header and rq and general
+            $providerRq,
+
+            //  //specification 2 prices
+            $arows,
+            $total,
+            $contractProductName,
+            $isProduct,
+            $contractCoefficient,
+
+            //specification 1 tech fields
+            $products,
+            $contractGeneralFields,
+            // $clientRq,
+            $clientRqBank,
+
+            // general dates and sums at body
+
+        );
+        //templatecontent
+
+
+        $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
+
+
+        $templateProcessor->setValue('header', $templateData['header']);
+        $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
+
+
+
+        // Дальнейшие действия с документом...
+        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
+
+        if (!file_exists($resultPath)) {
+            // Log::channel('telegram')->error('APRIL_ONLINE', [
+            //     'resultPath' => $resultPath
+            // ]);
+
+            mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
         }
-
-        // Проверяем, существует ли файл
-        if (Storage::disk('public')->exists($relativePath)) {
-            // Строим полный абсолютный путь
-            $fullPath = storage_path('app/public') . '/' . $relativePath;
-
-            // Теперь $fullPath содержит полный путь к файлу
-            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-
-            $templateData = $this->getDocumentData(
-
-                $contractType,
-
-                // header
-                $clientRq, //header and rq and general
-                $providerRq,
-
-                //  //specification 2 prices
-                $arows,
-                $total,
-                $contractProductName,
-                $isProduct,
-                $contractCoefficient,
-
-                //specification 1 tech fields
-                $products,
-                $contractGeneralFields,
-                // $clientRq,
-                $clientRqBank,
-
-                // general dates and sums at body
-
-            );
-            //templatecontent
-
-
-            $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
-
-
-            $templateProcessor->setValue('header', $templateData['header']);
-            $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
-
-
-
-            // Дальнейшие действия с документом...
-            $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
-
-            if (!file_exists($resultPath)) {
-                // Log::channel('telegram')->error('APRIL_ONLINE', [
-                //     'resultPath' => $resultPath
-                // ]);
-
-                mkdir($resultPath, 0775, true); // Создать каталог с правами доступа
-            }
-            if (!is_writable($resultPath)) {
-                Log::channel('telegram')->error('APRIL_ONLINE', [
-                    '!is_writable resultPath' => $resultPath
-                ]);
-                throw new \Exception("Невозможно записать в каталог: $resultPath");
-            }
-            $resultFileName = 'contract_test.docx';
-            $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
-            $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
-        } else {
-            return APIController::getError(
-                'шаблон не найден',
-                ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
-            );
-        }       // // Создаем экземпляр обработчика шаблона
+        if (!is_writable($resultPath)) {
+            Log::channel('telegram')->error('APRIL_ONLINE', [
+                '!is_writable resultPath' => $resultPath
+            ]);
+            throw new \Exception("Невозможно записать в каталог: $resultPath");
+        }
+        $resultFileName = 'contract_test.docx';
+        $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
+        // } else {
+        //     return APIController::getError(
+        //         'шаблон не найден',
+        //         ['contractData' => $data, 'link' => $relativePath, 'template' => $template, 'templateField' => $templateField]
+        //     );
+        // }       // // Создаем экземпляр обработчика шаблона
         // $templateProcessor = new TemplateProcessor($templatePath);
 
         // // Замена заполнителей простыми значениями
@@ -383,7 +391,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $contractLink, 'template' => $template, 'templateField' => $templateField]
+            ['contractData' => $data, 'link' => $contractLink,]
         );
     }
 
@@ -3374,9 +3382,9 @@ class ContractController extends Controller
         $providerCompanyDirectorPositionCase = $providerRq['position'];
         $providerCompanyBased = 'Устава';
 
-        $clientCompanyFullName = '';
-        $clientCompanyDirectorNameCase = '';
-        $clientCompanyDirectorPositionCase = '';
+        $clientCompanyFullName = '________________________________________________________________';
+        $clientCompanyDirectorNameCase = '_____________________________________';
+        $clientCompanyDirectorPositionCase = '____________________________________________';
         $clientCompanyBased = '';
 
         foreach ($clientRq as $rqItem) {
