@@ -548,10 +548,12 @@ class SupplyController extends Controller
 
 
         return APIController::getSuccess(
-            ['contractData' => $data,
-             'link' => $link,
-            'document' => $document,
-            'file' => $file,
+            [
+                'result' => ['contractData' => $data,
+                'link' => $link,
+               'document' => $document,
+               'file' => $file,
+               ]
             ]
         );
     }
