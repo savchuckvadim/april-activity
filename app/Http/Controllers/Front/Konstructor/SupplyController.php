@@ -527,6 +527,7 @@ class SupplyController extends Controller
 
         $link = route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
         $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
@@ -547,7 +548,11 @@ class SupplyController extends Controller
 
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $link]
+            ['contractData' => $data,
+             'link' => $link,
+            'document' => $document,
+            'file' => $file,
+            ]
         );
     }
 
