@@ -83,6 +83,28 @@ Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $ha
 })->name('download-supply-report');
 
 
+Route::get('/file/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
+    // Декодируем имя файла
+    $filename = urldecode($filename);
+
+    // Путь к файлу
+    $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
+    
+    // Логирование для отладки
+    Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+
+    // Временная проверка
+    if (!file_exists($filePath)) {
+        Log::channel('telegram')->info("Файл не найден: " . $filePath);
+        return response()->json(['error' => 'Файл не найден', 'path' => $filePath], 404);
+    }
+
+    // Скачивание файла
+    return response()->file($filePath);
+})->name('file-supply-report');
+
+
+
 
 //utf
 Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
@@ -106,10 +128,28 @@ Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $file
     
     return response()->json([
         'file_base64' => $fileBase64,
+        // 'file' => $fileContent,
         'filename' => $filename,
         'mime_type' => mime_content_type($filePath),
     ]);
 })->name('supply-report');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/supply/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
 
