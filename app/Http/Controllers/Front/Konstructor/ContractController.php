@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpWord\Shared\Converter;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ContractController extends Controller
 {
@@ -228,7 +229,7 @@ class ContractController extends Controller
 
 
 
-    public function getDocument(GetContractDocumentRequest $request): JsonResponse
+    public function getDocument(GetContractDocumentRequest $request): Response
     {
         // $data = new ($request->all());
         $data = DocumentContractDataDTO::fromRequest($request);
