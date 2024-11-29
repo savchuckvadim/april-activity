@@ -253,24 +253,24 @@ class ContractController extends Controller
         $products = $data->products;  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
         $contractProductName = $generalContractModel->productName; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
-        $contractCoefficient = $contract['prepayment'];
+        $contractCoefficient = $contract->prepayment;
 
 
 
 
-        $arows = $data['arows']; //все продукты rows из general в виде массива
+        $arows = $data->arows; //все продукты rows из general в виде массива
         // $total = $productSet['total'][0];
 
 
 
 
-        $contractGeneralFields = $data['contractBaseState']['items']; //fields array
+        $contractGeneralFields = $data->contractBaseState['items']; //fields array
 
-        $contractClientState = $data['contractClientState']['client'];
+        $contractClientState = $data->contractClientState['client'];
         $clientRq = $contractClientState['rqs']['rq'];                //fields array
         $clientRqBank = $contractClientState['rqs']['bank'];
 
-        $providerState = $data['contractProviderState'];
+        $providerState = $data->contractProviderState;
 
         $providerRq = $providerState['current']['rq'];
         // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
