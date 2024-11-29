@@ -80,7 +80,7 @@ class ContractDTO
             itemId: $data['itemId'],
             prepayment: (float) $data['prepayment'],
             order: $data['order'],
-            portalMeasure: PortalMeasure::findOrFail($data['portalMeasure']),
+            portalMeasure: PortalMeasure::findOrFail($data['portalMeasure']['id']),
             measureCode: $data['measureCode'],
             measureFullName: $data['measureFullName'],
             measureId: $data['measureId'],
