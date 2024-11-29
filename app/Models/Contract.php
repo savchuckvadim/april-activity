@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     use HasFactory;
-    // protected $with = ['measure', 'portalContracts.portal'];
 
     protected $fillable = ['name', 'number', 'title', 'code', 'type', 'template', 'order', 'coefficient', 'prepayment', 'discount', 'productName', 'withPrepayment'];
 

@@ -243,7 +243,7 @@ class ContractController extends Controller
         $domain = $data->domain;
         $companyId = $data->companyId;
         $contractType = $data->contractType;
-        $supplyType = $data->supply['type']; //internet | proxima
+        $supplyType = $data->supply->type; //internet | proxima
         $contract = $data['contract'];
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
