@@ -340,7 +340,7 @@ class ContractController extends Controller
 
 
         // Дальнейшие действия с документом...
-        $resultPath = storage_path('app/public/clients/' . $data['domain'] . '/documents/contracts/' . $data['userId']);
+        $resultPath = storage_path('app/public/clients/' . $data->domain . '/documents/contracts/' . $data->userId);
 
         if (!file_exists($resultPath)) {
             // Log::channel('telegram')->error('APRIL_ONLINE', [
@@ -357,7 +357,7 @@ class ContractController extends Controller
         }
         $resultFileName = 'contract_test.docx';
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data['userId'] . '/' . $resultFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
         // } else {
         //     return APIController::getError(
         //         'шаблон не найден',
@@ -384,7 +384,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $contractLink,]
+            ['contractData' => $data, 'link' => $contractLink]
         );
     }
 
