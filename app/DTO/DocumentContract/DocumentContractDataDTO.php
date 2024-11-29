@@ -35,7 +35,10 @@ class DocumentContractDataDTO
             contractType: $request->input('contractType'),
             supply: SupplyDTO::fromArray($request->input('supply')),
             contract: ContractDTO::fromArray($request->input('contract')),
-            products: array_map(fn($product) => !empty($product) ?? ProductDTO::fromArray($product), $request->input('products', [])),
+            products: array_map(
+                fn($product) => !empty($product) ? ProductDTO::fromArray($product) : null,
+                $request->input('products', [])
+            ),
             arows: array_map(fn($row) => RowDTO::fromArray($row), $request->input('arows', [])),
             contractBaseState: $request->input('contractBaseState', []),
             contractClientState: $request->input('contractClientState', []),
