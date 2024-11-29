@@ -7,7 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
-use App\DTO\DocumentContractDataDTO;
+use App\DTO\DocumentContract\DocumentContractDataDTO;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Requests\GetContractDocumentRequest;
 use App\Http\Resources\PortalContractResource;

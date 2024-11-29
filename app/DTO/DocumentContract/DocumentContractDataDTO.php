@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\DocumentContract;
 
 use App\Http\Requests\GetContractDocumentRequest;
 
@@ -19,7 +19,7 @@ class DocumentContractDataDTO
         /** @var RowDTO[] */
         public array $arows,
 
-        
+
         public array $contractBaseState,
         public array $contractClientState,
         public array $contractProviderState,
