@@ -13,12 +13,12 @@ class ProductDTO
     public int $complectNumber;
     public string $complectName;
     public bool $withConsalting;
-    public string $complectType;
+    public ?string $complectType;
     public bool $abs;
     public int $supplyNumber;
-    public string $supplyName;
-    public string $supplyType;
-    public string $quantityForKp;
+    public ?string $supplyName;
+    public ?string $supplyType;
+    public ?string $quantityForKp;
     public ?array $supply;
     public ?string $contractSupplyName;
     public ?string $contractSupplyProp1;
