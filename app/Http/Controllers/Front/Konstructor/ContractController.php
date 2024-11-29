@@ -3412,14 +3412,14 @@ class ContractController extends Controller
         }
 
         $products = [];
-        foreach ($arows as $key => $row) {
+        foreach ($arows as $key =>  $row) {
             $product = [
                 'productNumber' => $key + 1,
-                'productName' => $contractFullName . '(' . $row['name'] . ')',
-                'productQuantity' => $row['price']['quantity'],
-                'productMeasure' => $row['price']['measure']['name'],
-                'productPrice' => $row['price']['current'],
-                'productSum' => $row['price']['sum'],
+                'productName' => $contractFullName . '(' . $row->name . ')',
+                'productQuantity' => $row->price->quantity,
+                'productMeasure' => $row->price->measure->name,
+                'productPrice' => $row->price->current,
+                'productSum' => $row->price->sum,
             ];
             array_push($products, $product);
         }
