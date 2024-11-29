@@ -77,19 +77,19 @@ class RowContractDTO
 
 class RowSupplyDTO
 {
-    public string $name;
-    public string $forkp;
+    public ?string $name;
+    public ?string $forkp;
     public int $number;
     public string $type;
-    public string $contractName;
-    public string $contractProp2;
-    public string $contractProp1;
-    public string $contractPropComment;
-    public string $contractPropEmail;
+    public ?string $contractName;
+    public ?string $contractProp2;
+    public ?string $contractProp1;
+    public ?string $contractPropComment;
+    public ?string $contractPropEmail;
 
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
+        $this->name = $data['name'] ?? '';
         $this->forkp = $data['forkp'] ?? '';
         $this->number = $data['number'];
         $this->type = $data['type'];
