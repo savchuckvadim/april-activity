@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Promise\Promise;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
 
 class ALog extends Controller
