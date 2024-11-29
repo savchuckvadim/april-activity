@@ -7,7 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\Front\Konstructor\DTO\DocumentDataDTO;
+use App\DTO\DocumentContractDataDTO;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Requests\GetContractDocumentRequest;
 use App\Http\Resources\PortalContractResource;
@@ -228,20 +228,22 @@ class ContractController extends Controller
 
 
 
-    public function getDocument(Request $request): JsonResponse
+    public function getDocument(GetContractDocumentRequest $request): JsonResponse
     {
-        $data = new GetContractDocumentRequest($request->all());
+        // $data = new ($request->all());
+        $data = DocumentContractDataDTO::fromRequest($request);
+
         $method = $data->isSupplyReport ? 'getSupplyDocument' : 'getContractDocument';
         return $this->$method($data);
     }
-    public function getContractDocument(GetContractDocumentRequest $data)
+    public function getContractDocument(DocumentContractDataDTO $data)
     {
         $contractLink = '';
         // $data = $request->all();
-        $domain = $data['domain'];
-        $companyId = $data['companyId'];
-        $contractType = $data['contractType'];
-        $supplyType = $data['supply']['type']; //internet | proxima
+        $domain = $data->domain;
+        $companyId = $data->companyId;
+        $contractType = $data->contractType;
+        $supplyType = $data->supply['type']; //internet | proxima
         $contract = $data['contract'];
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
