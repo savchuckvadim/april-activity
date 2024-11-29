@@ -19,7 +19,7 @@ class ProductDTO
     public ?string $supplyName;
     public ?string $supplyType;
     public ?string $quantityForKp;
-    public ?array $supply;
+    public array|bool $supply;
     public ?string $contractSupplyName;
     public ?string $contractSupplyProp1;
     public ?string $contractSupplyProp2;
@@ -62,7 +62,7 @@ class ProductDTO
         ?string $supplyName,
         ?string $supplyType,
         ?string $quantityForKp,
-        ?array $supply,
+        array|bool $supply,
         ?string $contractSupplyName,
         ?string $contractSupplyProp1,
         ?string $contractSupplyProp2,
