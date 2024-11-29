@@ -70,7 +70,7 @@ class ProductDTO
         string $contractSupplyPropEmail,
         string $contractSupplyPropLoginsQuantity,
         string $contractSupplyPropSuppliesQuantity,
-        ProductContractDTO $contract,
+        ContractDTO $contract,
         string $contractName,
         string $contractShortName,
         int $contractNumber,
@@ -158,7 +158,7 @@ class ProductDTO
             contractSupplyPropEmail: $data['contractSupplyPropEmail'],
             contractSupplyPropLoginsQuantity: $data['contractSupplyPropLoginsQuantity'],
             contractSupplyPropSuppliesQuantity: $data['contractSupplyPropSuppliesQuantity'],
-            contract: new ProductContractDTO($data['contract']),
+            contract: ContractDTO::fromArray($data['contract']),
             contractName: $data['contractName'],
             contractShortName: $data['contractShortName'],
             contractNumber: $data['contractNumber'],
@@ -183,124 +183,80 @@ class ProductDTO
 }
 
 
-class SupplyDTO
-{
-    public string $contractPropSuppliesQuantity;
-    public bool $lcontractProp2;
-    public bool $lcontractName;
-    public bool $lcontractPropEmail;
-    public string $type;
-    public string $contractPropLoginsQuantity;
-    public int $number;
-    public bool $acontractName;
-    public string $contractPropComment;
-    public string $contractPropEmail;
-    public string $quantityForKp;
-    public string $name;
-    public float $coefficient;
-    public bool $acontractPropComment;
-    public string $contractName;
-    public bool $lcontractPropComment;
-    public string $contractProp2;
-    public string $contractProp1;
+// class ProductContractDTO
+// {
+//     public int $id;
+//     public InnerContractDTO $contract;
+//     public string $code;
+//     public string $shortName;
+//     public int $number;
+//     public string $aprilName;
+//     public string $bitrixName;
+//     public float $discount;
+//     public int $itemId;
+//     public float $prepayment;
+//     public int $order;
+//     public PortalMeasureDTO $portalMeasure;
+//     public int $measureCode;
+//     public string $measureFullName;
+//     public int $measureId;
+//     public string $measureName;
+//     public int $measureNumber;
 
-    public function __construct(array $data)
-    {
-        $this->contractPropSuppliesQuantity = $data['contractPropSuppliesQuantity'];
-        $this->lcontractProp2 = $data['lcontractProp2'];
-        $this->lcontractName = $data['lcontractName'];
-        $this->lcontractPropEmail = $data['lcontractPropEmail'];
-        $this->type = $data['type'];
-        $this->contractPropLoginsQuantity = $data['contractPropLoginsQuantity'];
-        $this->number = $data['number'];
-        $this->acontractName = $data['acontractName'];
-        $this->contractPropComment = $data['contractPropComment'];
-        $this->contractPropEmail = $data['contractPropEmail'];
-        $this->quantityForKp = $data['quantityForKp'];
-        $this->name = $data['name'];
-        $this->coefficient = $data['coefficient'];
-        $this->acontractPropComment = $data['acontractPropComment'];
-        $this->contractName = $data['contractName'];
-        $this->lcontractPropComment = $data['lcontractPropComment'];
-        $this->contractProp2 = $data['contractProp2'];
-        $this->contractProp1 = $data['contractProp1'];
-    }
-}
+//     public function __construct(array $data)
+//     {
+//         $this->id = $data['id'];
+//         $this->contract = new InnerContractDTO($data['contract']);
+//         $this->code = $data['code'];
+//         $this->shortName = $data['shortName'];
+//         $this->number = $data['number'];
+//         $this->aprilName = $data['aprilName'];
+//         $this->bitrixName = $data['bitrixName'];
+//         $this->discount = $data['discount'];
+//         $this->itemId = $data['itemId'];
+//         $this->prepayment = $data['prepayment'];
+//         $this->order = $data['order'];
+//         $this->portalMeasure = new PortalMeasureDTO($data['portalMeasure']);
+//         $this->measureCode = $data['measureCode'];
+//         $this->measureFullName = $data['measureFullName'];
+//         $this->measureId = $data['measureId'];
+//         $this->measureName = $data['measureName'];
+//         $this->measureNumber = $data['measureNumber'];
+//     }
+// }
 
-class ProductContractDTO
-{
-    public int $id;
-    public InnerContractDTO $contract;
-    public string $code;
-    public string $shortName;
-    public int $number;
-    public string $aprilName;
-    public string $bitrixName;
-    public float $discount;
-    public int $itemId;
-    public float $prepayment;
-    public int $order;
-    public PortalMeasureDTO $portalMeasure;
-    public int $measureCode;
-    public string $measureFullName;
-    public int $measureId;
-    public string $measureName;
-    public int $measureNumber;
+// class InnerContractDTO
+// {
+//     public int $id;
+//     public string $name;
+//     public int $number;
 
-    public function __construct(array $data)
-    {
-        $this->id = $data['id'];
-        $this->contract = new InnerContractDTO($data['contract']);
-        $this->code = $data['code'];
-        $this->shortName = $data['shortName'];
-        $this->number = $data['number'];
-        $this->aprilName = $data['aprilName'];
-        $this->bitrixName = $data['bitrixName'];
-        $this->discount = $data['discount'];
-        $this->itemId = $data['itemId'];
-        $this->prepayment = $data['prepayment'];
-        $this->order = $data['order'];
-        $this->portalMeasure = new PortalMeasureDTO($data['portalMeasure']);
-        $this->measureCode = $data['measureCode'];
-        $this->measureFullName = $data['measureFullName'];
-        $this->measureId = $data['measureId'];
-        $this->measureName = $data['measureName'];
-        $this->measureNumber = $data['measureNumber'];
-    }
-}
+//     public function __construct(array $data)
+//     {
+//         $this->id = $data['id'];
+//         $this->name = $data['name'];
+//         $this->number = $data['number'];
+//     }
+// }
 
-class InnerContractDTO
-{
-    public int $id;
-    public string $name;
-    public int $number;
+// class PortalMeasureDTO
+// {
+//     public int $id;
+//     public int $measure_id;
+//     public int $portal_id;
+//     public string $bitrixId;
+//     public string $name;
+//     public string $shortName;
+//     public string $fullName;
 
-    public function __construct(array $data)
-    {
-        $this->id = $data['id'];
-        $this->name = $data['name'];
-        $this->number = $data['number'];
-    }
-}
-
-class PortalMeasureDTO
-{
-    public int $id;
-    public int $measure_id;
-    public int $portal_id;
-    public string $bitrixId;
-    public string $name;
-    public string $shortName;
-    public string $fullName;
-
-    public function __construct(array $data)
-    {
-        $this->id = $data['id'];
-        $this->measure_id = $data['measure_id'];
-        $this->portal_id = $data['portal_id'];
-        $this->bitrixId = $data['bitrixId'];
-        $this->name = $data['name'];
-        $this->shortName = $data['shortName'];
-        $this->fullName = $data['fullName'];
-    }
-}
+//     public function __construct(array $data)
+//     {
+//         $this->id = $data['id'];
+//         $this->measure_id = $data['measure_id'];
+//         $this->portal_id = $data['portal_id'];
+//         $this->bitrixId = $data['bitrixId'];
+//         $this->name = $data['name'];
+//         $this->shortName = $data['shortName'];
+//         $this->fullName = $data['fullName'];
+//     }
+// }
