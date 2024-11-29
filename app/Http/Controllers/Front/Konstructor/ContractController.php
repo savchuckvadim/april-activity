@@ -335,7 +335,7 @@ class ContractController extends Controller
 
 
         $templateProcessor->setValue('header', $templateData['header']);
-        $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
+        // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
 
 
 
