@@ -244,14 +244,14 @@ class ContractController extends Controller
         $companyId = $data->companyId;
         $contractType = $data->contractType;
         $supplyType = $data->supply->type; //internet | proxima
-        $contract = $data['contract'];
-        $generalContractModel = $contract['contract'];
-        $contractQuantity = $generalContractModel['coefficient'];
+        $contract = $data->contract;
+        $generalContractModel = $contract->contract;
+        // $contractQuantity = $generalContractModel['coefficient'];
 
-        $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
+        // $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
-        $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
+        $products = $data->products;  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $contractProductName = $generalContractModel->productName; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract['prepayment'];
 
@@ -259,7 +259,7 @@ class ContractController extends Controller
 
 
         $arows = $data['arows']; //все продукты rows из general в виде массива
-        $total = $productSet['total'][0];
+        // $total = $productSet['total'][0];
 
 
 
@@ -314,7 +314,7 @@ class ContractController extends Controller
 
             //  //specification 2 prices
             $arows,
-            $total,
+            // $total,
             $contractProductName,
             $isProduct,
             $contractCoefficient,
@@ -3297,7 +3297,7 @@ class ContractController extends Controller
 
         //  //specification 2 prices
         $arows,
-        $total,
+        // $total,
         $contractProductName,
         $isProduct,
         $contractCoefficient,
