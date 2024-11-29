@@ -2,6 +2,7 @@
 
 namespace App\DTO\DocumentContract;
 
+use App\Models\Contract;
 use App\Models\PortalContract;
 use App\Models\PortalMeasure;
 
@@ -10,7 +11,7 @@ use App\Models\PortalMeasure;
 class ContractDTO
 {
     public int $id;
-    public PortalContract $contract;
+    public Contract $contract;
     public string $code;
     public string $shortName;
     public int $number;
@@ -29,7 +30,7 @@ class ContractDTO
 
     public function __construct(
         int $id,
-        PortalContract $contract,
+        Contract $contract,
         string $code,
         string $shortName,
         int $number,
@@ -69,7 +70,7 @@ class ContractDTO
     {
         return new self(
             id: $data['id'],
-            contract: PortalContract::findOrFail($data['contract']['id']),
+            contract: Contract::findOrFail($data['contract']['id']),
             code: $data['code'],
             shortName: $data['shortName'],
             number: $data['number'],

@@ -70,7 +70,7 @@ class ProductDTO
         string $contractSupplyPropEmail,
         string $contractSupplyPropLoginsQuantity,
         string $contractSupplyPropSuppliesQuantity,
-        ContractDTO $contract,
+        ProductContractDTO $contract,
         string $contractName,
         string $contractShortName,
         int $contractNumber,
@@ -158,7 +158,7 @@ class ProductDTO
             contractSupplyPropEmail: $data['contractSupplyPropEmail'],
             contractSupplyPropLoginsQuantity: $data['contractSupplyPropLoginsQuantity'],
             contractSupplyPropSuppliesQuantity: $data['contractSupplyPropSuppliesQuantity'],
-            contract: ContractDTO::fromArray($data['contract']),
+            contract: new ProductContractDTO($data['contract']),
             contractName: $data['contractName'],
             contractShortName: $data['contractShortName'],
             contractNumber: $data['contractNumber'],
@@ -227,7 +227,7 @@ class SupplyDTO
     }
 }
 
-class ContractDTO
+class ProductContractDTO
 {
     public int $id;
     public InnerContractDTO $contract;
