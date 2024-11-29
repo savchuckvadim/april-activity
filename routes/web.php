@@ -49,17 +49,7 @@ Route::get('/download/{hash}/{filename}', function ($hash, $filename) {
 
 
 
-// Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
-//     // Путь к файлу на основе хэша
-//     $filePath =  storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
-//     // Проверка, существует ли файл
-//     if (!file_exists($filePath)) {
-//         return response()->json(['error' => 'Файл не найден'], 404);
-//     }
 
-//     // Отправляем файл для скачивания
-//     return response()->download($filePath, $filename);
-// })->name('download-supply-report');
 
 
 Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $hash, $filename) {
@@ -68,7 +58,7 @@ Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $ha
 
     // Путь к файлу
     $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
-    
+
     // Логирование для отладки
     Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
 
@@ -89,7 +79,7 @@ Route::get('/file/report/{domain}/{hash}/{filename}', function ($domain, $hash, 
 
     // Путь к файлу
     $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
-    
+
     // Логирование для отладки
     Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
 
@@ -113,7 +103,7 @@ Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $file
 
     // Путь к файлу
     $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
-    
+
     // Логирование для отладки
     Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
 
@@ -125,7 +115,7 @@ Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $file
 
     $fileContent = file_get_contents($filePath);
     $fileBase64 = base64_encode($fileContent);
-    
+
     return response()->json([
         'file_base64' => $fileBase64,
         // 'file' => $fileContent,
@@ -189,20 +179,20 @@ Route::get('install/smart/{pass}/{token}', function ($pass, $token) {
 });
 
 
-Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', function (
-    $entityType,
-    $pass,
-    $domain,
-    $token,
-    $smartId = null
-) {
-    // $url = LinkController ::urlForRedirect($linkId);
-    if ($pass == 'nmbrsdntl') {
-        return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
-    } else {
-        return 'yo';
-    }
-});
+// Route::get('/install/fields/{entityType}/{pass}/{domain}/{token}/{smartId}', function (
+//     $entityType,
+//     $pass,
+//     $domain,
+//     $token,
+//     $smartId = null
+// ) {
+//     // $url = LinkController ::urlForRedirect($linkId);
+//     if ($pass == 'nmbrsdntl') {
+//         return InstallFieldsController::setFields($token, $entityType, $domain, $smartId);
+//     } else {
+//         return 'yo';
+//     }
+// });
 
 
 Route::get('/install/lists/{pass}/{domain}/{token}/', function ($pass, $domain, $token) {

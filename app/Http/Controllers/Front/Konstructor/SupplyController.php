@@ -525,7 +525,7 @@ class SupplyController extends Controller
 
         // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        $link = route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
         $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
         $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
 
@@ -549,11 +549,12 @@ class SupplyController extends Controller
 
         return APIController::getSuccess(
             [
-                'result' => ['contractData' => $data,
-                'link' => $link,
-               'document' => $document,
-               'file' => $file,
-               ]
+                'result' => [
+                    'contractData' => $data,
+                    'link' => $link,
+                    'document' => $document,
+                    'file' => $file,
+                ]
             ]
         );
     }
