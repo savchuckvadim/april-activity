@@ -108,6 +108,7 @@ class InstallFieldsController extends Controller
             $portalDeal = $portal->deal();
             $portalLead = $portal->lead();
             $portalCompany = $portal->company();
+            $portalContact = $portal->contact();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
 
 
@@ -121,6 +122,9 @@ class InstallFieldsController extends Controller
             }
             if (!empty($portalCompany)) {
                 $portalCompanyFields = $portalCompany->fields;
+            }
+            if (!empty($portalContact)) {
+                $portalContactFields = $portalContact->fields;
             }
             // if (!empty($portalsmart)) {
             //     $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт

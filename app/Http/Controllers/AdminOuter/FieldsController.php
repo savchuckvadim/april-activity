@@ -10,6 +10,8 @@ use App\Http\Resources\PortalOuterResource;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use App\Models\BtxCompany;
+use App\Models\BtxContact;
+
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
 use App\Models\BtxRpa;
@@ -50,6 +52,7 @@ class FieldsController extends Controller
             $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
             $portalCompany = $portal->companies->first();
+            $portalContact = $portal->contact->first();
             $portalRPAs = $portal->rpas->all();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
@@ -144,6 +147,21 @@ class FieldsController extends Controller
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
                 $portalEntityFields =  $portalCompanyFields;
+            }else   if ($entityType === 'contact') {
+                $portal = Portal::where('domain', $domain)->first();
+                $portalContactFields = $portalContact->bitrixfields;
+                // $portalEntityFields =  $portalCompanyFields;
+                Log::channel('telegram')->info("smart", [
+                    'portalContact' => $portalContact,
+                ]);
+
+                Log::channel('telegram')->info("contact", [
+                    'portalContactFields' => $portalContactFields,
+                ]);
+
+                $parentClass = BtxContact::class;
+                $parentId = $portalContact['id'];
+                $portalEntityFields =  $portalContactFields;
             } else   if ($entityType === 'rpa') {
 
 
