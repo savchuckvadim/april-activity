@@ -11,7 +11,7 @@ class HookController extends Controller
     public static function getCalling($domain, $filters)
     {
         try {
-            $baseUrl = 'https://april-hook.ru/api';
+            $baseUrl = 'https://april-app.ru/api';
             $response = Http::timeout(160)->post($baseUrl . '/calling', [
                 'domain' => 'april-garant.bitrix24.ru',
                 'filters' => $filters
