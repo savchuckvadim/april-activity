@@ -52,7 +52,7 @@ class FieldsController extends Controller
             $portalDeal = $portal->deals->first();
             $portalLead = $portal->lead();
             $portalCompany = $portal->companies->first();
-            $portalContact = $portal->contact->first();
+            $portalContact = $portal->contacts->first();
             $portalRPAs = $portal->rpas->all();
             // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
