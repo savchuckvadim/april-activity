@@ -32,6 +32,8 @@ RUN apt-get update && apt-get install -y \
     && pecl install redis \
     && docker-php-ext-enable redis
 
+RUN apt-get update && apt-get install -y php-xml
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
