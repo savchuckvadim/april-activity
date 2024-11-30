@@ -640,9 +640,9 @@ class FieldsController extends Controller
 
 
             //DELETE ALL FIELD ITEMS IN DB
-            if (!empty($isRewrite)) {
-                $currentPortalField->items()->delete();
-            }
+            // if (!empty($isRewrite)) {
+            //     $currentPortalField->items()->delete();
+            // }
 
 
 
