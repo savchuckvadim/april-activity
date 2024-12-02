@@ -2542,7 +2542,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Энциклпоедии Решений',
+                    'name' => 'Энциклопедии Решений',
                     'value' =>  $iblocks['ers'],
                     'isRequired' => true,
                     'code' => 'specification_ers',
@@ -2558,7 +2558,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Пакеты Энциклпоедий Решений',
+                    'name' => 'Пакеты Энциклопедий Решений',
                     'value' =>  $iblocks['erPackets'],
                     'isRequired' => true,
                     'code' => 'specification_ers_packets',
@@ -2574,7 +2574,7 @@ class SupplyController extends Controller
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Состав Пакетов Энциклпоедий Решений',
+                    'name' => 'Состав Пакетов Энциклопедий Решений',
                     'value' =>  $iblocks['ersInPacket'],
                     'isRequired' => true,
                     'code' => 'specification_ers_in_packets',
