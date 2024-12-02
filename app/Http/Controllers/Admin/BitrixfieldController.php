@@ -11,6 +11,7 @@ use App\Models\BtxCompany;
 use App\Models\BtxContact;
 use App\Models\BtxDeal;
 use App\Models\BtxLead;
+use App\Models\BtxRpa;
 use App\Models\Smart;
 use Illuminate\Http\Request;
 
@@ -77,6 +78,8 @@ class BitrixfieldController extends Controller
                 $parent = BtxLead::class;
             } else   if ($request['entityType'] == 'contact') {
                 $parent = BtxContact::class;
+            } else   if ($request['entityType'] == 'rpa') {
+                $parent = BtxRpa::class;
             }
 
             // Заполняем или обновляем поля модели если модель создается

@@ -242,6 +242,7 @@ class ContractController extends Controller
         $contractLink = '';
         // $data = $request->all();
         $domain = $data->domain;
+       
         $companyId = $data->companyId;
         $contractType = $data->contractType;
         $supplyType = $data->supply->type; //internet | proxima
