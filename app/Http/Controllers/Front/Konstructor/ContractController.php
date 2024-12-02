@@ -242,7 +242,7 @@ class ContractController extends Controller
         $contractLink = '';
         // $data = $request->all();
         $domain = $data->domain;
-       
+
         $companyId = $data->companyId;
         $contractType = $data->contractType;
         $supplyType = $data->supply->type; //internet | proxima
@@ -2307,6 +2307,54 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'text',
+                    'name' => 'Энциклпоедии Решений',
+                    'value' =>  $iblocks['ers'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Пакеты Энциклпоедий Решений',
+                    'value' =>  $iblocks['erPackets'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers_packets',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Состав Пакетов Энциклпоедий Решений',
+                    'value' =>  $iblocks['ersInPacket'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers_in_packets',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
                     'value' => $iblocks['freeIBlocks'],
                     'isRequired' => true,
@@ -3189,13 +3237,18 @@ class ContractController extends Controller
         $freeIBlocks = '';
         $packIBlocks = '';
         $starLtBlocks = '';
+        $erPackets = '';
+        $ersInPacket = '';
+        $ers = '';
+        $allIBlocks = '';
 
         foreach ($infoblocks as $group) {
             $isFree = false;
             $isLegal = false;
             $isStar = false;
             $isConsalting = false;
-            $isERPackConsalting = false;
+            $isERPack = false;
+            $isER = false;
             if ($group['groupsName'] == 'Без дополнительной оплаты') {
                 $isFree = true;
             }
@@ -3203,7 +3256,10 @@ class ContractController extends Controller
                 $isLegal = true;
             }
             if ($group['groupsName'] == 'Пакет Энциклопедий решений') {
-                $isERPackConsalting = true;
+                $isERPack = true;
+            }
+            if ($group['groupsName'] == 'Энциклопедии решений') {
+                $isER = true;
             }
             if ($group['groupsName'] == 'Дополнительные программные продукты') {
                 $isStar = true;
@@ -3223,17 +3279,19 @@ class ContractController extends Controller
                     !$isLegal &&
                     !$isStar &&
                     !$isConsalting &&
-                    !$isERPackConsalting
+                    !$isERPack &&
+                    !$isER
                 ) {
 
 
 
                     if ($iblock['weight'] == 0.5) {
-                        // array_push($smallIBlocks, $value);
+                        $allIBlocks .=  '' . $value . "\n";
                         $smallIBlocks .=  '' . $value . "\n";
                     } else if ($iblock['weight'] >= 1) {
+                        $allIBlocks .=  '' . $value . "\n";
                         $bigIBlocks .=  '' . $value . "\n";
-                        // array_push($bigIBlocks, $value);
+                        
                     }
                 } else if ($isFree) {
                     $freeIBlocks .=  '' . $value . "\n";
@@ -3241,14 +3299,31 @@ class ContractController extends Controller
                 } else if ($isStar) {
                     $starLtBlocks .=  '' . $value . "\n";
                     // array_push($starLtBlocks, $value);
+                } else if (!empty($isER)) {
+                    if ($iblock['weight'] == 0.5) {
+                        $ers .=  '' . $value . "\n";
+                    } else if ($iblock['weight'] == 0) {
+                        $ersInPacket .=  '' . $value . "\n";
+                    }
+                } else if (!empty($isERPack)) {
+                    if (!empty($ersInPacket)) {
+                        $erPackets .=  ', ' . $value;
+                    } else {
+                        $erPackets .=  '' . $value;
+                    }
                 }
             }
         }
         return [
+            'allIBlocks' => $allIBlocks,
             'bigIBlocks' => $bigIBlocks,
             'smallIBlocks' => $smallIBlocks,
             'freeIBlocks' => $freeIBlocks,
             'starLtBlocks' => $starLtBlocks,
+            'ers' => $ers,
+            'erPackets' => $erPackets,
+            'ersInPacket' => $ersInPacket,
+           
 
 
         ];

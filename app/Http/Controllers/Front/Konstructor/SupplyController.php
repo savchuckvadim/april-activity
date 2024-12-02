@@ -2338,6 +2338,9 @@ class SupplyController extends Controller
             $consalting = $consaltingProduct['contractConsaltingProp'];
             $consaltingcomment = $consaltingProduct['contractConsaltingComment'];
         }
+        if (empty($consalting)) {
+            $consalting  = 'Горячая Линия';
+        }
         $ltProduct = $lt['product'];
 
         $freeLtPack = '';
@@ -2531,6 +2534,54 @@ class SupplyController extends Controller
                     'isActive' => true,
                     'isDisable' => true,
                     'order' => 4,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Энциклпоедии Решений',
+                    'value' =>  $iblocks['ers'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Пакеты Энциклпоедий Решений',
+                    'value' =>  $iblocks['erPackets'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers_packets',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Состав Пакетов Энциклпоедий Решений',
+                    'value' =>  $iblocks['ersInPacket'],
+                    'isRequired' => true,
+                    'code' => 'specification_ers_in_packets',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 5,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
                     'contractType' => ['service', 'lic', 'abon', 'key']
@@ -3536,17 +3587,21 @@ class SupplyController extends Controller
     {
         $bigIBlocks = '';
         $smallIBlocks = '';
-        $allIBlocks = '';
         $freeIBlocks = '';
         $packIBlocks = '';
         $starLtBlocks = '';
+        $erPackets = '';
+        $ersInPacket = '';
+        $ers = '';
+        $allIBlocks = '';
 
         foreach ($infoblocks as $group) {
             $isFree = false;
             $isLegal = false;
             $isStar = false;
             $isConsalting = false;
-            $isERPackConsalting = false;
+            $isERPack = false;
+            $isER = false;
             if ($group['groupsName'] == 'Без дополнительной оплаты') {
                 $isFree = true;
             }
@@ -3554,7 +3609,10 @@ class SupplyController extends Controller
                 $isLegal = true;
             }
             if ($group['groupsName'] == 'Пакет Энциклопедий решений') {
-                $isERPackConsalting = true;
+                $isERPack = true;
+            }
+            if ($group['groupsName'] == 'Энциклопедии решений') {
+                $isER = true;
             }
             if ($group['groupsName'] == 'Дополнительные программные продукты') {
                 $isStar = true;
@@ -3574,19 +3632,18 @@ class SupplyController extends Controller
                     !$isLegal &&
                     !$isStar &&
                     !$isConsalting &&
-                    !$isERPackConsalting
+                    !$isERPack &&
+                    !$isER
                 ) {
 
 
 
                     if ($iblock['weight'] == 0.5) {
-                        // array_push($smallIBlocks, $value);
+                        $allIBlocks .=  '' . $value . "\n";
                         $smallIBlocks .=  '' . $value . "\n";
-                        $allIBlocks .=  '' . $value . "\n";
                     } else if ($iblock['weight'] >= 1) {
-                        $bigIBlocks .=  '' . $value . "\n";
                         $allIBlocks .=  '' . $value . "\n";
-                        // array_push($bigIBlocks, $value);
+                        $bigIBlocks .=  '' . $value . "\n";
                     }
                 } else if ($isFree) {
                     $freeIBlocks .=  '' . $value . "\n";
@@ -3594,6 +3651,18 @@ class SupplyController extends Controller
                 } else if ($isStar) {
                     $starLtBlocks .=  '' . $value . "\n";
                     // array_push($starLtBlocks, $value);
+                } else if (!empty($isER)) {
+                    if ($iblock['weight'] == 0.5) {
+                        $ers .=  '' . $value . "\n";
+                    } else if ($iblock['weight'] == 0) {
+                        $ersInPacket .=  '' . $value . "\n";
+                    }
+                } else if (!empty($isERPack)) {
+                    if (!empty($ersInPacket)) {
+                        $erPackets .=  ', ' . $value;
+                    } else {
+                        $erPackets .=  '' . $value;
+                    }
                 }
             }
         }
@@ -3603,6 +3672,10 @@ class SupplyController extends Controller
             'smallIBlocks' => $smallIBlocks,
             'freeIBlocks' => $freeIBlocks,
             'starLtBlocks' => $starLtBlocks,
+            'ers' => $ers,
+            'erPackets' => $erPackets,
+            'ersInPacket' => $ersInPacket,
+
 
 
         ];
