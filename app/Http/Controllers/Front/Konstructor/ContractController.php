@@ -275,6 +275,8 @@ class ContractController extends Controller
         $providerState = $data->contractProviderState;
 
         $providerRq = $providerState['current']['rq'];
+        $specification = $data->contractSpecificationState['items'];
+
         // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
         // $template = $etalonPortal->templates()
         //     ->where('type', 'contract')
@@ -323,6 +325,7 @@ class ContractController extends Controller
 
             //specification 1 tech fields
             $products,
+            $specification,
             $contractGeneralFields,
             // $clientRq,
             $clientRqBank,
@@ -339,7 +342,9 @@ class ContractController extends Controller
         $templateProcessor->setValue('header', $templateData['header']);
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
 
-
+        foreach ($templateData['specification'] as $code => $spec) {
+            $templateProcessor->setValue($code, $spec);
+        }
 
         // Дальнейшие действия с документом...
         $resultPath = storage_path('app/public/clients/' . $data->domain . '/documents/contracts/' . $data->userId);
@@ -3291,7 +3296,6 @@ class ContractController extends Controller
                     } else if ($iblock['weight'] >= 1) {
                         $allIBlocks .=  '' . $value . "\n";
                         $bigIBlocks .=  '' . $value . "\n";
-                        
                     }
                 } else if ($isFree) {
                     $freeIBlocks .=  '' . $value . "\n";
@@ -3323,7 +3327,7 @@ class ContractController extends Controller
             'ers' => $ers,
             'erPackets' => $erPackets,
             'ersInPacket' => $ersInPacket,
-           
+
 
 
         ];
@@ -3381,13 +3385,39 @@ class ContractController extends Controller
 
         //specification 1 tech fields
         $products,
+        $specification,
         $contractGeneralFields,
         // $clientRq,
         $clientRqBank,
 
     ) {
+        $documentData = array(
+            'contract_number' => 'yo',
+            'contract_city' => 'yo',
+            'contract_date' => 'yo',
+            'header' => 'yo',
+            'client_assigned_fio' => 'yo',
+            'contract_total_sum' => 'yo',
+            'contract_total_sum_string' => '',
+            'we_rq' => '',
+            'we _role' => '',
+            'we _direct_position' => '',
+            'we _direct_fio' => '',
+            'client_rq' => '',
+            'client _role' => '',
+            'client_direct_position' => '',
+            'client _direct_fio' => '',
+            'infoblocks' => '',
+            'legal_techs' => '',
+            'supply_contract' => '',
+            'logins_quantity' => '',
+            'lic_long' => '',
+            'contract_internet_email' => '',
 
-        $products = $this->getProducts(
+
+        );
+
+        $productRows = $this->getProducts(
             $arows,
             $contractProductName,
             $isProduct,
@@ -3406,11 +3436,16 @@ class ContractController extends Controller
             // $providerCompanyDirectorPositionCase,
             // $providerCompanyBased,
         );
-        // $specification = 
+
+
+
+        $specificationData = $this->getSpecificationCDatareate($specification);
 
         return [
+            'productRows' =>  $productRows,
             'products' =>  $products,
             'header' =>  $header,
+            'specification' =>  $specificationData,
             // 'documentNumber' =>  $documentNumber,
             // 'contractSum' =>  $contractSum,
         ];
@@ -3502,5 +3537,116 @@ class ContractController extends Controller
         }
 
         return $products;
+    }
+
+    protected function getSpecificationCDatareate($specification)
+    {
+        $targetKeys = [
+            'specification_ibig',
+            'specification_ismall',
+            'specification_ers',
+            'specification_ers_packets',
+            'specification_ers_in_packets',
+            'specification_ifree',
+            'specification_lt_free',
+            'specification_lt_free_services',
+            'specification_lt_packet',
+            'specification_lt_services',
+            'specification_services',
+
+
+            'specification_supply', //вид размещения
+            'specification_supply_comment', //Примечание Вид Размещения
+            'specification_distributive' => '', //носители
+            'specification_distributive_comment' => '', //Примечание Носители
+            'specification_dway', //  предоставляются следующим способом
+            'specification_service_period', //Периодичность предоставления услуг
+            'specification_supply_quantity', /// Количество логинов и паролей 
+            'specification_key_period', // Длительность работы ключа
+            'specification_email', //Email для интернет-версии
+            'specification_email_comment', // Email прмечание
+
+            'abon_long', // Срок действия абонемента
+
+            'lic_long' => '', //Срок действия лицензии, количество лицензий
+            'contract_internet_email' => '',
+        ];
+
+
+        $infoblocks = '';
+        $lt = '';
+        $supplyContract = '';
+        $licLong = '';
+        $loginsQuantity = '';
+        $contractInternetEmail = '';
+
+
+        foreach ($specification as $key => $value) {
+
+
+
+
+
+
+            if (
+                $value['code'] === 'specification_ibig' ||
+                $value['code'] === 'specification_ismall' ||
+                $value['code'] === 'specification_ers' ||
+                $value['code'] === 'specification_ers_packets' ||
+                $value['code'] === 'specification_ers_in_packets' ||
+                $value['code'] === 'specification_ifree' ||
+                $value['code'] === 'specification_services'
+
+
+            ) {
+                $infoblocks .= $value['value'] . "\n";
+            }
+
+            if (
+                $value['code'] === 'specification_lt_free' ||
+                $value['code'] === 'specification_lt_free_services' ||
+                $value['code'] === 'specification_lt_packet' ||
+                $value['code'] === 'specification_lt_services'
+            ) {
+                $lt .= $value['value'] . "\n";
+            }
+
+            if (
+                $value['code'] === 'specification_supply' ||
+                $value['code'] === 'specification_supply_comment'
+            ) {
+                $supplyContract .= $value['value'] . "\n";
+            }
+
+            if (
+                $value['code'] === 'lic_long'
+            ) {
+                $licLong = $value['value'];
+            }
+
+            if (
+                $value['code'] === 'specification_supply_quantity'
+            ) {
+                $loginsQuantity = $value['value'];
+            }
+
+            if (
+                $value['code'] === 'contract_internet_email'
+            ) {
+                $contractInternetEmail = $value['value'];
+            }
+        }
+
+
+        $specificationData = [
+            'infoblocks' => $infoblocks,
+            'legal_techs' => $lt,
+            'supply_contract' => $supplyContract,
+            'logins_quantity' => $licLong,
+            'lic_long' => $loginsQuantity,
+            'contract_internet_email' => $contractInternetEmail,
+        ];
+
+        return $specificationData;
     }
 }
