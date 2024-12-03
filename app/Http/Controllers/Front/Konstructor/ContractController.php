@@ -343,7 +343,9 @@ class ContractController extends Controller
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
 
         foreach ($templateData['specification'] as $code => $spec) {
-            $templateProcessor->setValue($code, $spec);
+            $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            $templateProcessor->setValue($code, $formattedSpec);
+            // $templateProcessor->setValue($code, $spec);
         }
 
         // Дальнейшие действия с документом...
