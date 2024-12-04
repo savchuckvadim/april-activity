@@ -336,8 +336,10 @@ class ContractController extends Controller
         //templatecontent
 
 
-        $documentNumber = CounterController::getCount($providerRq['id'], 'offer');
+        $documentNumber = CounterController::getCount($providerRq['id'], 'contract');
 
+        
+        $templateProcessor->setValue('contract_number', $documentNumber);
 
         $templateProcessor->setValue('header', $templateData['header']);
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
@@ -3679,11 +3681,6 @@ class ContractController extends Controller
 
         foreach ($specification as $key => $value) {
 
-
-
-
-
-
             if (
                 $value['code'] === 'specification_ibig' ||
                 $value['code'] === 'specification_ismall' ||
@@ -3746,8 +3743,8 @@ class ContractController extends Controller
             'legal_techs' => $lt,
             'supply_contract' => $supplyContract,
             'supply_comment_1' => $supplyComment,
-            'logins_quantity' => $licLong,
-            'lic_long' => $loginsQuantity,
+            'logins_quantity' => $loginsQuantity, 
+            'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
         ];
 
