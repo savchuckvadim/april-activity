@@ -277,7 +277,7 @@ class ContractController extends Controller
 
         $providerRq = $providerState['current']['rq'];
         $specification = $data->contractSpecificationState['items'];
-        $total = $data['total'];
+        $total = $data->total;
         $contractSum = $total['price']['sum'];
         $contractSum = round($contractSum, 2);
         

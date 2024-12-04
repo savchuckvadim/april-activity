@@ -24,6 +24,7 @@ class DocumentContractDataDTO
         public array $contractClientState,
         public array $contractProviderState,
         public array $contractSpecificationState,
+        public array $total,
         public int $userId,
         public bool $isSupplyReport,
     ) {}
@@ -33,6 +34,7 @@ class DocumentContractDataDTO
         return new self(
             domain: $request->input('domain'),
             contractSpecificationState: $request->input('contractSpecificationState'),
+            total: $request->input('total'),
             companyId: (int)$request->input('companyId'),
             contractType: $request->input('contractType'),
             supply: SupplyDTO::fromArray($request->input('supply')),
