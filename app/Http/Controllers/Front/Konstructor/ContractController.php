@@ -344,13 +344,15 @@ class ContractController extends Controller
 
 
         foreach ($templateData['general'] as $gcode => $g) {
-            $templateProcessor->setValue($gcode, $g);
+            $gformattedSpec = str_replace("\n", '<w:br/>', $g);
 
+            $templateProcessor->setValue($gcode, $gformattedSpec);
         };
 
         foreach ($templateData['rq'] as $rqcode => $rqItem) {
-            $templateProcessor->setValue($rqcode, $rqItem);
+            $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
 
+            $templateProcessor->setValue($rqcode, $rqItemformattedSpec);
         };
 
         foreach ($templateData['specification'] as $code => $spec) {
@@ -3468,17 +3470,16 @@ class ContractController extends Controller
             'contract_date' => $contract_date,
             'contract_city' => '',
         ];
-      
 
-        $we_rq = $providerRq['fullname'] ."\n"."\n"
-        .'Адрес: '. $providerRq['registredAdress']. "\n"
-        ."ИНН: ". $providerRq['inn']. "\n"
-        ."Р/с: ". $providerRq['rs']. "\n"
-        ."К/с: ". $providerRq['ks']. "\n"
-        .$providerRq['bank']. "\n"
-        .'Телефон.: '. $providerRq['phone']. "\n"
-        .'E-mail: '. $providerRq['email']. "\n"
-        ;
+
+        $we_rq = $providerRq['fullname'] . "\n" . "\n"
+            . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
+            . "ИНН: " . $providerRq['inn'] . "\n"
+            . "Р/с: " . $providerRq['rs'] . "\n"
+            . "К/с: " . $providerRq['ks'] . "\n"
+            . $providerRq['bank'] . "\n"
+            . 'Телефон.: ' . $providerRq['phone'] . "\n"
+            . 'E-mail: ' . $providerRq['email'] . "\n";
         $client_rq = '';
 
 
@@ -3504,7 +3505,7 @@ class ContractController extends Controller
             'header' =>  $header,
             'specification' =>  $specificationData,
             'general' =>  $general,
-            'rq'=> $rq,
+            'rq' => $rq,
             // 'documentType' =>  $documentType,
             // 'documentName' =>  $documentName,
             // 'documentDate' =>  $documentDate,
@@ -3582,7 +3583,7 @@ class ContractController extends Controller
 
     protected function getRoles(
         $contractType
-  
+
     ) {
 
         $clientRole = 'Заказчик';
@@ -3608,7 +3609,6 @@ class ContractController extends Controller
             'client' => $clientRole,
         ];
         return $result;
-
     }
 
     protected function getDocumentNumber() {}
@@ -3675,7 +3675,7 @@ class ContractController extends Controller
         $licLong = '';
         $loginsQuantity = '';
         $contractInternetEmail = '_____________________________________________________';
-
+        $supplyComment = '';
 
         foreach ($specification as $key => $value) {
 
@@ -3708,11 +3708,18 @@ class ContractController extends Controller
             }
 
             if (
-                $value['code'] === 'specification_supply' ||
-                $value['code'] === 'specification_supply_comment'
+                $value['code'] === 'specification_supply'
             ) {
                 $supplyContract .= $value['value'] . "\n";
             }
+
+            if (
+
+                $value['code'] === 'specification_supply_comment'
+            ) {
+                $supplyComment .= $value['value'] . "\n";
+            }
+
 
             if (
                 $value['code'] === 'lic_long'
@@ -3738,6 +3745,7 @@ class ContractController extends Controller
             'infoblocks' => $infoblocks,
             'legal_techs' => $lt,
             'supply_contract' => $supplyContract,
+            'supply_comment_1' => $supplyComment,
             'logins_quantity' => $licLong,
             'lic_long' => $loginsQuantity,
             'contract_internet_email' => $contractInternetEmail,
