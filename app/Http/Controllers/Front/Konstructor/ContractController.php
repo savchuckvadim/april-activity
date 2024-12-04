@@ -279,12 +279,14 @@ class ContractController extends Controller
         $specification = $data->contractSpecificationState['items'];
         $total = $data->total[0];
         $contractSum = $total['price']['sum'];
-        $contractSum = round($contractSum, 2);
-        
+        $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
+
         $moneySpeller = new MoneySpeller();
 
         // Преобразуем сумму в строку
         $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
+        $contractSumString = '(' .        $contractSumString . ')';
+        
         // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
         // $template = $etalonPortal->templates()
         //     ->where('type', 'contract')
