@@ -3581,7 +3581,7 @@ class ContractController extends Controller
     }
 
     protected function getRoles(
-        $contractType,
+        $contractType
   
     ) {
 
@@ -3604,8 +3604,8 @@ class ContractController extends Controller
                 break;
         }
         $result = [
-            'provider ' => $providerRole,
-            'client ' => $clientRole,
+            'provider' => $providerRole,
+            'client' => $clientRole,
         ];
         return $result;
 
