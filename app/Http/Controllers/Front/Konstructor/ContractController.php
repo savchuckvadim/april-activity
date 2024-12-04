@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use morphos\Russian\MoneySpeller;
 
 class ContractController extends Controller
 {
@@ -276,7 +277,14 @@ class ContractController extends Controller
 
         $providerRq = $providerState['current']['rq'];
         $specification = $data->contractSpecificationState['items'];
+        $total = $data['total'];
+        $contractSum = $total['price']['sum'];
+        $contractSum = round($contractSum, 2);
+        
+        $moneySpeller = new MoneySpeller();
 
+        // Преобразуем сумму в строку
+        $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
         // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
         // $template = $etalonPortal->templates()
         //     ->where('type', 'contract')
@@ -338,11 +346,17 @@ class ContractController extends Controller
 
         $documentNumber = CounterController::getCount($providerRq['id'], 'contract');
 
-        
+
         $templateProcessor->setValue('contract_number', $documentNumber);
 
         $templateProcessor->setValue('header', $templateData['header']);
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
+        $templateProcessor->setValue('contract_total_sum', $contractSum);
+
+        $templateProcessor->setValue('contract_total_sum_string', $contractSumString);
+
+
+
 
 
         foreach ($templateData['general'] as $gcode => $g) {
@@ -3743,7 +3757,7 @@ class ContractController extends Controller
             'legal_techs' => $lt,
             'supply_contract' => $supplyContract,
             'supply_comment_1' => $supplyComment,
-            'logins_quantity' => $loginsQuantity, 
+            'logins_quantity' => $loginsQuantity,
             'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
         ];
