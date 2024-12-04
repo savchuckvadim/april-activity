@@ -3472,7 +3472,7 @@ class ContractController extends Controller
         ];
 
 
-        $we_rq = $providerRq['fullname'] . "\n" . "\n"
+        $we_rq = $providerRq['name'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
             . "ИНН: " . $providerRq['inn'] . "\n"
             . "Р/с: " . $providerRq['rs'] . "\n"
