@@ -342,6 +342,17 @@ class ContractController extends Controller
         $templateProcessor->setValue('header', $templateData['header']);
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
 
+
+        foreach ($templateData['general'] as $gcode => $g) {
+            $templateProcessor->setValue($gcode, $g);
+
+        };
+
+        foreach ($templateData['rq'] as $rqcode => $rqItem) {
+            $templateProcessor->setValue($rqcode, $rqItem);
+
+        };
+
         foreach ($templateData['specification'] as $code => $spec) {
             $formattedSpec = str_replace("\n", '<w:br/>', $spec);
             $templateProcessor->setValue($code, $formattedSpec);
@@ -3443,13 +3454,65 @@ class ContractController extends Controller
 
         $specificationData = $this->getSpecificationCDatareate($specification);
 
+
+        $contract_date = '';
+        foreach ($contractGeneralFields as $row) {
+            if ($row['code'] == 'contract_create_date') {
+                $contract_date = $row['value'];
+            }
+        }
+        if (!empty($contract_date)) {
+            $contract_date  = Carbon::parse($contract_date)->translatedFormat('j F Y') . ' г.';
+        }
+        $general = [
+            'contract_date' => $contract_date,
+            'contract_city' => '',
+        ];
+      
+
+        $we_rq = $providerRq['fullname'] ."\n"."\n"
+        .'Адрес: '. $providerRq['registredAdress']. "\n"
+        ."ИНН: ". $providerRq['inn']. "\n"
+        ."Р/с: ". $providerRq['rs']. "\n"
+        ."К/с: ". $providerRq['ks']. "\n"
+        .$providerRq['bank']. "\n"
+        .'Телефон.: '. $providerRq['phone']. "\n"
+        .'E-mail: '. $providerRq['email']. "\n"
+        ;
+        $client_rq = '';
+
+
+        $roles = $this->getRoles($contractType);
+        $rq = [
+            'we_rq' => $we_rq,
+            'we_role' => $roles['provider'],
+            'we_direct_position' => '',
+            'we_direct_fio' => '',
+            'client_rq' => $client_rq,
+            'client_role' =>  $roles['client'],
+            'client_direct_position' => '',
+            'client_direct_fio' => '',
+        ];
+
+
+        if (preg_match('/(?:г\.|город)\s+([а-яёА-ЯЁ\s\-]+)/iu', $providerRq['registredAdress'], $matches)) {
+            $general['contract_city'] = trim($matches[1]); // Если найден город
+        }
         return [
             'productRows' =>  $productRows,
             'products' =>  $products,
             'header' =>  $header,
             'specification' =>  $specificationData,
+            'general' =>  $general,
+            'rq'=> $rq,
+            // 'documentType' =>  $documentType,
+            // 'documentName' =>  $documentName,
+            // 'documentDate' =>  $documentDate,
+            // 'documentSign' =>  $documentSign,
             // 'documentNumber' =>  $documentNumber,
             // 'contractSum' =>  $contractSum,
+
+
         ];
     }
 
@@ -3517,6 +3580,37 @@ class ContractController extends Controller
         return $headerText;
     }
 
+    protected function getRoles(
+        $contractType,
+  
+    ) {
+
+        $clientRole = 'Заказчик';
+        $providerRole = 'Исполнитель';
+        switch ($contractType) {
+            case 'abon':
+            case 'key':
+                $clientRole = 'Покупатель';
+                $providerRole = 'Постващик';
+                break;
+            case 'lic':
+                $clientRole = 'Лицензиат';
+                $providerRole = 'Лицензиар';
+                break;
+            default:
+                $clientRole = 'Заказчик';
+                $providerRole = 'Исполнитель';
+                # code...
+                break;
+        }
+        $result = [
+            'provider ' => $providerRole,
+            'client ' => $clientRole,
+        ];
+        return $result;
+
+    }
+
     protected function getDocumentNumber() {}
     protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient)
     {
@@ -3580,7 +3674,7 @@ class ContractController extends Controller
         $supplyContract = '';
         $licLong = '';
         $loginsQuantity = '';
-        $contractInternetEmail = '';
+        $contractInternetEmail = '_____________________________________________________';
 
 
         foreach ($specification as $key => $value) {
