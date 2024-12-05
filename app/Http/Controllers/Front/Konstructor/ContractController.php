@@ -1235,32 +1235,7 @@ class ContractController extends Controller
                     'order' => 13
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'ФИО ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assigned',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 14
 
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Телефон ответственного за получение справочника',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'assignedPhone',
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 15
-
-                ],
 
                 [
                     'type' => 'string',
@@ -2647,13 +2622,44 @@ class ContractController extends Controller
 
                 ],
                 [
+                    'type' => 'string',
+                    'name' => 'ФИО ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assigned',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 21,
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Телефон ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assignedPhone',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 21,
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+                    
+
+                ],
+                [
                     'type' => 'text',
                     'name' => 'Email прмечание',
                     'value' => $contractSupplyPropEmail,
                     'isRequired' => true,
                     'code' => 'specification_email_comment',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => false,
                     'isDisable' => false,
                     'order' => 22,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
