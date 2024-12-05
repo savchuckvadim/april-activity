@@ -286,7 +286,7 @@ class ContractController extends Controller
         // Преобразуем сумму в строку
         $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
         $contractSumString = '(' .        $contractSumString . ')';
-        
+
         // $etalonPortal = Portal::where('domain', 'april-dev.bitrix24.ru')->first();
         // $template = $etalonPortal->templates()
         //     ->where('type', 'contract')
@@ -2683,7 +2683,12 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Срок действия лицензии, количество лицензий',
-                    'value' => 'Количество лицензий: ' . $generalProductQuantity . "\n" . 'Срок действия лицензии: ' . $contractCoefficient . ' (месяц) ',
+                    'value' => 'Количество лицензий: '
+                        .  (min($generalProductQuantity, $contractCoefficient))
+                        . "\n" . 'Срок действия лицензии: '
+                        .  (max($generalProductQuantity, $contractCoefficient))
+                        . ' (месяц) ',
+
                     'isRequired' => true,
                     'code' => 'lic_long',
                     'group' => 'specification',
