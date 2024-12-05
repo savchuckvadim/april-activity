@@ -49,6 +49,8 @@ class ContractController extends Controller
         $starProduct = $data['star']['product'];
         $documentInfoblocks =  $data['documentInfoblocks'];
         $isSupplyReport = false;
+        $total = $data['total'][0];
+
         if (!empty($data['isSupplyReport'])) {
             $isSupplyReport = true;
         }
@@ -81,7 +83,8 @@ class ContractController extends Controller
 
                     $arows,
                     $contractQuantity,
-                    $documentInfoblocks
+                    $documentInfoblocks,
+                    $total
                 ),
                 'clientType' =>  [
                     'type' => 'select',
@@ -279,6 +282,7 @@ class ContractController extends Controller
         $specification = $data->contractSpecificationState['items'];
         $total = $data->total[0];
         $contractSum = $total['price']['sum'];
+        $totalProductName = $total['name'];
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
 
         $moneySpeller = new MoneySpeller();
@@ -339,6 +343,7 @@ class ContractController extends Controller
             $contractGeneralFields,
             // $clientRq,
             $clientRqBank,
+            $totalProductName
 
             // general dates and sums at body
 
@@ -2043,7 +2048,8 @@ class ContractController extends Controller
 
         $arows,
         $contractQuantity,
-        $documentInfoblocks
+        $documentInfoblocks,
+        $total,
     ) {
 
         $productType = [
@@ -2128,8 +2134,15 @@ class ContractController extends Controller
             }
         }
         $contractsum = $monthSum * 12;
-        $products_names = 'Гарант-' . $product['complectName'] . ' ' . $product['supply']['name'];
-        $consalting = '';
+
+        $products_names = '';
+
+        foreach($product as $prdct){
+            $products_names .= $prdct['name']." \n";
+        };
+
+
+        $consalting = 'Горячая Линия';
         $consaltingcomment = '';
         if ($consaltingProduct) {
             $consalting = $consaltingProduct['contractConsaltingProp'];
@@ -2232,6 +2245,22 @@ class ContractController extends Controller
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 0,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Вид Поставки',
+                    'value' => $product['supplyName'],
+                    'isRequired' => true,
+                    'code' => 'specification_supply',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 12,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
                     'contractType' => ['service', 'lic', 'abon', 'key']
@@ -2462,22 +2491,7 @@ class ContractController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Вид Поставки',
-                    'value' => $product['supplyName'],
-                    'isRequired' => true,
-                    'code' => 'specification_supply',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 12,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
 
-
-                ],
                 [
                     'type' => 'string',
                     'name' => 'Вид Размещения',
@@ -2665,7 +2679,7 @@ class ContractController extends Controller
                     'order' => 21,
                     'contractType' => ['service', 'lic', 'abon', 'key'],
                     'supplies' => ['internet'],
-                    
+
 
                 ],
                 [
@@ -3449,6 +3463,7 @@ class ContractController extends Controller
         $contractGeneralFields,
         // $clientRq,
         $clientRqBank,
+        $totalProductName
 
     ) {
         $documentData = array(
