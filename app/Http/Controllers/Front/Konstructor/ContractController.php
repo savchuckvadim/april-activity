@@ -2137,8 +2137,8 @@ class ContractController extends Controller
 
         $products_names = '';
 
-        foreach($products as $prdct){
-            $products_names .= $prdct['name']." \n";
+        foreach ($products as $prdct) {
+            $products_names .= $prdct['name'] . " \n";
         };
 
 
@@ -3474,6 +3474,7 @@ class ContractController extends Controller
             'client_assigned_fio' => 'yo',
             'contract_total_sum' => 'yo',
             'contract_total_sum_string' => '',
+            'contract_pay_date' => 'yo',
             'we_rq' => '',
             'we _role' => '',
             'we _direct_position' => '',
@@ -3518,9 +3519,13 @@ class ContractController extends Controller
 
 
         $contract_date = '';
+        $contract_pay_date = '';
         foreach ($contractGeneralFields as $row) {
             if ($row['code'] == 'contract_create_date') {
                 $contract_date = $row['value'];
+            }
+            if ($row['code'] == 'contract_pay_date') {
+                $contract_pay_date = $row['value'];
             }
         }
         if (!empty($contract_date)) {
@@ -3533,8 +3538,17 @@ class ContractController extends Controller
         $general = [
             'contract_date' => $contract_date,
             'contract_city' => '',
+            'contract_pay_date' => '__________________________________________',
         ];
+        if (!empty($contract_pay_date)) {
+            Carbon::setLocale('ru');
+            $contract_pay_date = mb_strtolower(
+                Carbon::parse($contract_pay_date)
+                    ->translatedFormat('j F Y')
+            ) . ' г.';
 
+            $general['contract_pay_date'] = $contract_pay_date;
+        }
 
         $we_rq = $providerRq['name'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
