@@ -3487,7 +3487,11 @@ class ContractController extends Controller
             }
         }
         if (!empty($contract_date)) {
-            $contract_date  = Carbon::parse($contract_date)->translatedFormat('j F Y') . ' г.';
+            Carbon::setLocale('ru');
+            $contract_date = mb_strtolower(
+                Carbon::parse($contract_date)
+                    ->translatedFormat('j F Y')
+            ) . ' г.';
         }
         $general = [
             'contract_date' => $contract_date,
