@@ -2137,7 +2137,7 @@ class ContractController extends Controller
 
         $products_names = '';
 
-        foreach($product as $prdct){
+        foreach($products as $prdct){
             $products_names .= $prdct['name']." \n";
         };
 
