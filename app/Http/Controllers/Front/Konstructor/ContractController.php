@@ -49,7 +49,12 @@ class ContractController extends Controller
         $starProduct = $data['star']['product'];
         $documentInfoblocks =  $data['documentInfoblocks'];
         $isSupplyReport = false;
-        $total = $data['total'][0];
+        $total = null;
+        if (!empty($data['total'])) {
+            if (!empty($data['total'][0])) {
+                $total = $data['total'][0];
+            }
+        }
 
         if (!empty($data['isSupplyReport'])) {
             $isSupplyReport = true;
@@ -280,7 +285,12 @@ class ContractController extends Controller
 
         $providerRq = $providerState['current']['rq'];
         $specification = $data->contractSpecificationState['items'];
-        $total = $data->total[0];
+        $total = null;
+        if(!empty($data->total)){
+            if(!empty($data->total[0])){
+                $total =  $data->total[0];
+            };
+        };
         $contractSum = $total['price']['sum'];
         $totalProductName = $total['name'];
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
