@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PHP-FPM Service для Laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cloudsigma.com/php
+    container_name: app
+    restart: "no"
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - redis
+    command: /bin/sh -c "sleep 20 && php artisan key:generate && php artisan migrate --force"
+  
+    # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
+  db:
+    image: mysql:8.0
+    container_name: app_db
+    restart: "unless-stopped"
+    environment:
+      MYSQL_ROOT_PASSWORD: cfdx # Задай свой пароль для root
+      MYSQL_DATABASE: bitrix # Название базы данных
+      MYSQL_USER: bitrix # Имя пользователя
+      MYSQL_PASSWORD: cfd123 # Пароль пользователя
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+    # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: "no"
+    tty: true
+    ports:
+      - "8081:80"
+    volumes:
+      # - ./:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  # Redis Service
+  redis:
+    image: redis:alpine
+    container_name: garant_app_redis
+    restart: "unless-stopped"
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  queue-default:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php /var/www/html/artisan queue:work redis --sleep=3 --tries=1
+    volumes:
+      - .:/var/www/html
+    user: 'www-data'
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - redis
+    deploy:
+      replicas: 1
+    restart: unless-stopped
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
