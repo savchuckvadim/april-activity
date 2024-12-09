@@ -9,6 +9,7 @@ class DocumentContractDataDTO
     public function __construct(
         public string $domain,
         public int $companyId,
+        public int $dealId,
         public string $contractType,
         public SupplyDTO $supply,
         public ContractDTO $contract,
@@ -36,6 +37,8 @@ class DocumentContractDataDTO
             contractSpecificationState: $request->input('contractSpecificationState'),
             total: $request->input('total'),
             companyId: (int)$request->input('companyId'),
+            dealId: (int)$request->input('dealId'),
+
             contractType: $request->input('contractType'),
             supply: SupplyDTO::fromArray($request->input('supply')),
             contract: ContractDTO::fromArray($request->input('contract')),

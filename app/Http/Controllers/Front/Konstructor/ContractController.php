@@ -251,7 +251,7 @@ class ContractController extends Controller
         $contractLink = '';
         // $data = $request->all();
         $domain = $data->domain;
-
+        $dealId = $data->dealId;
         $companyId = $data->companyId;
         $contractType = $data->contractType;
         $supplyType = $data->supply->type; //internet | proxima
@@ -286,8 +286,8 @@ class ContractController extends Controller
         $providerRq = $providerState['current']['rq'];
         $specification = $data->contractSpecificationState['items'];
         $total = null;
-        if(!empty($data->total)){
-            if(!empty($data->total[0])){
+        if (!empty($data->total)) {
+            if (!empty($data->total[0])) {
                 $total =  $data->total[0];
             };
         };
@@ -410,9 +410,38 @@ class ContractController extends Controller
             ]);
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = 'contract_test.docx';
+        $resultFileName = $totalProductName . '_' . $contractType . '_договор.docx';
+        $outputFileName = 'Договор ' . $totalProductName . ' ' . $contractType;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
         $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
+
+        $method = '/crm.timeline.comment.add';
+        $hook = BitrixController::getHook($domain);
+
+        $url = $hook . $method;
+
+        $message = '<a href="' . $contractLink . '" target="_blank">' . $outputFileName . '</a>';
+
+        $fields = [
+            "ENTITY_ID" => $dealId,
+            "ENTITY_TYPE" => 'deal',
+            "COMMENT" => $message
+        ];
+        $data = [
+            'fields' => $fields
+        ];
+        $responseBitrix = Http::get($url, $data);
+
+        $fields = [
+            "ENTITY_ID" => $companyId,
+            "ENTITY_TYPE" => 'company',
+            "COMMENT" => $message
+        ];
+        $data = [
+            'fields' => $fields
+        ];
+        $responseBitrix = Http::get($url, $data);
+
         // } else {
         //     return APIController::getError(
         //         'шаблон не найден',
@@ -439,7 +468,7 @@ class ContractController extends Controller
         // $templateProcessor->saveAs($savePath);
 
         return APIController::getSuccess(
-            ['contractData' => $data, 'link' => $contractLink]
+            ['result' => ['contractData' => $data, 'link' => $contractLink]]
         );
     }
 

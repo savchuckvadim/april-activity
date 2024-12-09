@@ -60,7 +60,7 @@ Route::get('/download/report/{domain}/{hash}/{filename}', function ($domain, $ha
     $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
 
     // Логирование для отладки
-    Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+    // Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
 
     // Временная проверка
     if (!file_exists($filePath)) {
@@ -105,7 +105,7 @@ Route::get('/report/{domain}/{hash}/{filename}', function ($domain, $hash, $file
     $filePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash . '/' . $filename);
 
     // Логирование для отладки
-    Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+    // Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
 
     // Временная проверка
     if (!file_exists($filePath)) {
