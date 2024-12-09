@@ -3796,7 +3796,7 @@ class ContractController extends Controller
         $loginsQuantity = '';
         $contractInternetEmail = '_____________________________________________________';
         $supplyComment = '';
-
+        $client_assigned_fio = ' _______________________________________________________________ ';
         foreach ($specification as $key => $value) {
 
             if (
@@ -3853,6 +3853,15 @@ class ContractController extends Controller
             ) {
                 $contractInternetEmail = $value['value'];
             }
+            if (
+                $value['code'] === 'contract_internet_email'
+            ) {
+                if(!empty($value['value'])){
+                    $client_assigned_fio = $value['value'];
+
+
+                }
+            }
         }
 
 
@@ -3864,6 +3873,7 @@ class ContractController extends Controller
             'logins_quantity' => $loginsQuantity,
             'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
+            'client_assigned_fio' => $client_assigned_fio
         ];
 
         return $specificationData;
