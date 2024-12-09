@@ -3030,44 +3030,44 @@ class SupplyController extends Controller
 
 
             ],
-            [
-                'type' => 'select',
-                'name' => 'Что известно',
-                'value' => [
-                    'id' => 1,
-                    'code' => 'success',
-                    'name' => 'Обслуживаются',
-                    'title' => 'Обслуживаются'
-                ],
-                'isRequired' => true,
-                'code' => 'supply_information',
-                'group' => 'supply',
-                'isActive' => true,
-                'isDisable' => false,
-                'order' => 4,
-                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                'supplies' => ['internet', 'proxima'],
-                'contractType' => ['service', 'lic', 'abon', 'key'],
-                'items' => [
-                    [
-                        'id' => 0,
-                        'code' => 'fail',
-                        'name' => 'Отказались',
-                        'title' => 'Отказались'
-                    ],
-                    [
-                        'id' => 1,
-                        'code' => 'success',
-                        'name' => 'Обслуживаются',
-                        'title' => 'Обслуживаются'
-                    ],
+            // [
+            //     'type' => 'select',
+            //     'name' => 'Что известно',
+            //     'value' => [
+            //         'id' => 1,
+            //         'code' => 'success',
+            //         'name' => 'Обслуживаются',
+            //         'title' => 'Обслуживаются'
+            //     ],
+            //     'isRequired' => true,
+            //     'code' => 'supply_information',
+            //     'group' => 'supply',
+            //     'isActive' => true,
+            //     'isDisable' => false,
+            //     'order' => 4,
+            //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+            //     'supplies' => ['internet', 'proxima'],
+            //     'contractType' => ['service', 'lic', 'abon', 'key'],
+            //     'items' => [
+            //         [
+            //             'id' => 0,
+            //             'code' => 'fail',
+            //             'name' => 'Отказались',
+            //             'title' => 'Отказались'
+            //         ],
+            //         [
+            //             'id' => 1,
+            //             'code' => 'success',
+            //             'name' => 'Обслуживаются',
+            //             'title' => 'Обслуживаются'
+            //         ],
 
 
-                ],
-                'component' => 'client'
+            //     ],
+            //     'component' => 'client'
 
 
-            ],
+            // ],
             [
                 'type' => 'select',
                 'name' => 'Особенности оплаты клиентом счетов',
@@ -3286,6 +3286,23 @@ class SupplyController extends Controller
 
 
             ],
+            [
+                'type' => 'file',
+                'name' => 'Текцщий договор',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'contract_current',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 7,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'contract'
+
+
+            ],
 
             [
                 'type' => 'select',
@@ -3382,6 +3399,25 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 // 'component' => 'invoice'
+
+
+            ],
+
+            [
+                'type' => 'file',
+                'name' => 'Текущий счет',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'invoice_current',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 10,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'invoice'
+
 
 
             ],
