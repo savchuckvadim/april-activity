@@ -3677,21 +3677,24 @@ class ContractController extends Controller
         $clientCompanyBased = '';
 
         foreach ($clientRq as $rqItem) {
-            if ($rqItem['code'] === 'fullname') {
-                $clientCompanyFullName = $rqItem['value'];
-            } else  if ($rqItem['code'] === 'position_case') {
-                $clientCompanyDirectorPositionCase = $rqItem['value'];
-            } else  if ($rqItem['code'] === 'director_case') {
-                $clientCompanyDirectorNameCase = $rqItem['value'];
-            } else  if ($rqItem['code'] === 'based') {
-                $clientCompanyBased = $rqItem['value'];
+
+            if (!empty($rqItem['value'])) {
+                if ($rqItem['code'] === 'fullname') {
+                    $clientCompanyFullName = $rqItem['value'];
+                } else  if ($rqItem['code'] === 'position_case') {
+                    $clientCompanyDirectorPositionCase = $rqItem['value'];
+                } else  if ($rqItem['code'] === 'director_case') {
+                    $clientCompanyDirectorNameCase = $rqItem['value'];
+                } else  if ($rqItem['code'] === 'based') {
+                    $clientCompanyBased = $rqItem['value'];
+                }
             }
         }
 
         $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант", 
-        именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании'
+        именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании '
             . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ', 
-        именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании'
+        именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
             . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
 
 
@@ -3816,7 +3819,7 @@ class ContractController extends Controller
                 $value['code'] === 'specification_lt_packet' ||
                 $value['code'] === 'specification_lt_services'
             ) {
-                $lt .= $value['value'] . "\n";
+                $lt .= "\n". $value['value'] . "\n";
             }
 
             if (
