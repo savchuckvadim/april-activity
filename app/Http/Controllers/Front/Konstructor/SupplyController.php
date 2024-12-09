@@ -2429,6 +2429,52 @@ class SupplyController extends Controller
 
             return [
                 [
+                    'type' => 'string',
+                    'name' => 'Email для интернет-версии',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'specification_email',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 0,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'ФИО ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assigned',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 0,
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'Телефон ответственного за получение справочника',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'assignedPhone',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => true,
+                    'isDisable' => false,
+                    'order' => 1,
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+
+
+                ],
+                [
                     'type' => 'text',
                     'name' => 'Наименование ',
                     'value' => $products_names,
@@ -2829,21 +2875,7 @@ class SupplyController extends Controller
 
 
                 ],
-                [
-                    'type' => 'string',
-                    'name' => 'Email для интернет-версии',
-                    'value' => '',
-                    'isRequired' => true,
-                    'code' => 'specification_email',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 21,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
 
-                ],
                 // [
                 //     'type' => 'text',
                 //     'name' => 'Email прмечание',
@@ -2886,7 +2918,7 @@ class SupplyController extends Controller
                         . "\n" . 'Срок действия лицензии: '
                         .  (max($generalProductQuantity, $contractCoefficient))
                         . ' (месяц) ',
-                        
+
                     'isRequired' => true,
                     'code' => 'lic_long',
                     'group' => 'specification',
