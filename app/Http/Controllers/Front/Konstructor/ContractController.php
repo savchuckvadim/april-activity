@@ -2308,7 +2308,7 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 0,
                     'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
+                    'supplies' => ['internet', 'proxima'],
 
                 ],
                 [
@@ -2323,7 +2323,7 @@ class ContractController extends Controller
                     'isDisable' => false,
                     'order' => 1,
                     'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
+                    'supplies' => ['internet', 'proxima'],
 
 
                 ],

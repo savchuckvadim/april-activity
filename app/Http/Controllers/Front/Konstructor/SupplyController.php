@@ -2450,12 +2450,12 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'assigned',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
+                    'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 0,
                     'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
+                    'supplies' => ['internet', 'proxima'],
 
                 ],
                 [
@@ -2465,12 +2465,12 @@ class SupplyController extends Controller
                     'isRequired' => true,
                     'code' => 'assignedPhone',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
+                    'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => false,
                     'order' => 1,
                     'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
+                    'supplies' => ['internet', 'proxima'],
 
 
                 ],
