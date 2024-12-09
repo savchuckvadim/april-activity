@@ -3671,10 +3671,10 @@ class ContractController extends Controller
         $providerCompanyDirectorPositionCase = $providerRq['position'];
         $providerCompanyBased = 'Устава';
 
-        $clientCompanyFullName = '________________________________________________________________';
-        $clientCompanyDirectorNameCase = '_____________________________________';
-        $clientCompanyDirectorPositionCase = '____________________________________________';
-        $clientCompanyBased = '';
+        $clientCompanyFullName = ' ________________________________________________________________ ';
+        $clientCompanyDirectorNameCase = ' _____________________________________ ';
+        $clientCompanyDirectorPositionCase = ' ____________________________________________ ';
+        $clientCompanyBased = ' _________________________________ ';
 
         foreach ($clientRq as $rqItem) {
 
