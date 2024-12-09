@@ -272,7 +272,14 @@ class ContractController extends Controller
         $arows = $data->arows; //все продукты rows из general в виде массива
         // $total = $productSet['total'][0];
 
-
+        $clientType = 'commerc';
+        if (!empty($data->clientType)) {
+            if (!empty($data->clientType['code'])) {
+                if ($data->clientType['code'] == 'org_state') {
+                    $clientType = 'state';
+                }
+            }
+        }
 
 
         $contractGeneralFields = $data->contractBaseState['items']; //fields array
@@ -325,7 +332,7 @@ class ContractController extends Controller
         // $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
-        $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/commerc';
+        $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
         $fullPath = storage_path($filePath . '/template.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
@@ -3819,7 +3826,7 @@ class ContractController extends Controller
                 $value['code'] === 'specification_lt_packet' ||
                 $value['code'] === 'specification_lt_services'
             ) {
-                $lt .= "\n". $value['value'] . "\n";
+                $lt .= "\n" . $value['value'] . "\n";
             }
 
             if (
@@ -3856,10 +3863,8 @@ class ContractController extends Controller
             if (
                 $value['code'] === 'contract_internet_email'
             ) {
-                if(!empty($value['value'])){
+                if (!empty($value['value'])) {
                     $client_assigned_fio = $value['value'];
-
-
                 }
             }
         }

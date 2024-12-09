@@ -19,6 +19,7 @@ class DocumentContractDataDTO
 
         /** @var RowDTO[] */
         public array $arows,
+        public array $clientType,
 
 
         public array $contractBaseState,
@@ -47,6 +48,8 @@ class DocumentContractDataDTO
                 $request->input('products', [])
             ),
             arows: array_map(fn($row) => RowDTO::fromArray($row), $request->input('arows', [])),
+            
+            clientType: $request->input('clientType', []),
             contractBaseState: $request->input('contractBaseState', []),
             contractClientState: $request->input('contractClientState', []),
             contractProviderState: $request->input('contractProviderState', []),
