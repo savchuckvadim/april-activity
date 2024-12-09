@@ -3678,10 +3678,10 @@ class ContractController extends Controller
         $providerCompanyDirectorPositionCase = $providerRq['position'];
         $providerCompanyBased = 'Устава';
 
-        $clientCompanyFullName = ' ________________________________________________________________ ';
-        $clientCompanyDirectorNameCase = ' _____________________________________ ';
-        $clientCompanyDirectorPositionCase = ' ____________________________________________ ';
-        $clientCompanyBased = ' _________________________________ ';
+        $clientCompanyFullName = ' __________________________________________________________ ';
+        $clientCompanyDirectorNameCase = ' _______________________________ ';
+        $clientCompanyDirectorPositionCase = ' ______________________________________ ';
+        $clientCompanyBased = ' ___________________________ ';
 
         foreach ($clientRq as $rqItem) {
 
@@ -3803,7 +3803,7 @@ class ContractController extends Controller
         $loginsQuantity = '';
         $contractInternetEmail = '_____________________________________________________';
         $supplyComment = '';
-        $client_assigned_fio = ' _______________________________________________________________ ';
+        $client_assigned_fio = ' _____________________________ ';
         foreach ($specification as $key => $value) {
 
             if (
