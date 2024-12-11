@@ -261,7 +261,7 @@ class ContractController extends Controller
 
         // $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data->products;  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $products = $data->products;  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
         $contractProductName = $generalContractModel->productName; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract->prepayment;
@@ -500,7 +500,7 @@ class ContractController extends Controller
 
         $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
         $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract['prepayment'];
@@ -1765,7 +1765,7 @@ class ContractController extends Controller
                             }
                         }
                     }
-                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес 
+                } else  if ($bxAdressRq['TYPE_ID'] === 6) {  // Юридический адрес
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
 
@@ -1965,7 +1965,7 @@ class ContractController extends Controller
                 'type' => 'date',
                 'name' => 'Предоплата с',
                 'value' => '',
-                'isRequired' => true,
+                'isRequired' => false,
                 'code' => 'prepayment_start',
                 'group' => 'contract',
                 'isActive' => false,
@@ -1979,7 +1979,7 @@ class ContractController extends Controller
                 'type' => 'date',
                 'name' => 'Предоплата по',
                 'value' => '',
-                'isRequired' => true,
+                'isRequired' => false,
                 'code' => 'prepayment_finish',
                 'group' => 'contract',
                 'isActive' => false,
@@ -1996,7 +1996,7 @@ class ContractController extends Controller
                 'isRequired' => true,
                 'code' => 'contract_pay_date',
                 'group' => 'contract',
-                'isActive' => true,
+                'isActive' => false,
                 'isDisable' => false,
                 'order' => 7,
                 'includes' => ['org',  'ip', 'advokat', 'fiz'],
@@ -2035,6 +2035,7 @@ class ContractController extends Controller
                 'type' => 'string',
                 'name' => 'Сумма по договору',
                 'value' => $contractsum,
+
                 'isRequired' => true,
                 'code' => 'period_sum',
                 'group' => 'contract',
@@ -2331,7 +2332,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Наименование  комплекта частей  Справочника',
                     'value' => $products_names,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'contract_spec_products_names',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2347,7 +2348,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Вид Поставки',
                     'value' => $product['supplyName'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_supply',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2379,7 +2380,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
                     'value' => $consalting,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_pk',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2395,7 +2396,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Комментарий к ПК/ГЛ',
                     'value' => $consaltingcomment,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_pk_comment',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2411,7 +2412,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Большие информационные блоки',
                     'value' => $iblocks['bigIBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ibig',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2427,7 +2428,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Малые информационные блоки',
                     'value' =>  $iblocks['smallIBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ismall',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2443,7 +2444,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Энциклопедии Решений',
                     'value' =>  $iblocks['ers'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2459,7 +2460,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Пакеты Энциклопедий Решений',
                     'value' =>  $iblocks['erPackets'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers_packets',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2475,7 +2476,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Состав Пакетов Энциклопедий Решений',
                     'value' =>  $iblocks['ersInPacket'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers_in_packets',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2491,7 +2492,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
                     'value' => $iblocks['freeIBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ifree',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2507,7 +2508,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Legal Tech в комплекте',
                     'value' => $freeLtPack,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_free',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2523,7 +2524,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Legal Tech в комплекте',
                     'value' => $freeLtBlocks,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2539,7 +2540,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Пакет Legal Tech',
                     'value' => $ltPack,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2555,7 +2556,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Пакет Legal Tech',
                     'value' => $ltBlocks,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2571,7 +2572,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Другие сервисы',
                     'value' =>  $iblocks['starLtBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_services',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2588,7 +2589,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Вид Размещения',
                     'value' => $product['contractSupplyName'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_supply',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2604,7 +2605,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Примечание Вид Размещения',
                     'value' => $product['contractSupplyPropComment'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_supply_comment',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2621,7 +2622,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Носители, используемые при предоставлении услуг',
                     'value' => $contractSupplyProp1,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_distributive',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2637,7 +2638,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Примечание Носители',
                     'value' => $contractSupplyPropEmail,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_distributive_comment',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2653,7 +2654,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Носители дистрибутивов предоставляются следующим способом',
                     'value' => $contractSupplyProp2,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_dway',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2685,7 +2686,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Периодичность предоставления услуг',
                     'value' => '1 неделя',
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_service_period',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2700,7 +2701,7 @@ class ContractController extends Controller
                     'type' => 'text',
                     'name' => 'Количество логинов и паролей ',
                     'value' => $contractSupplyPropLoginsQuantity,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_supply_quantity',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2716,7 +2717,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Длительность работы ключа',
                     'value' => $generalProductQuantity *  $contractCoefficient . ' мес.',
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_key_period',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2728,12 +2729,12 @@ class ContractController extends Controller
 
 
                 ],
-               
+
                 [
                     'type' => 'text',
                     'name' => 'Email прмечание',
                     'value' => $contractSupplyPropEmail,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_email_comment',
                     'group' => 'specification',
                     'isActive' => false,
@@ -2749,7 +2750,7 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
                     'value' => $generalProductQuantity *  $contractCoefficient,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'abon_long',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2772,7 +2773,7 @@ class ContractController extends Controller
                         .  (max($generalProductQuantity, $contractCoefficient))
                         . ' (месяц) ',
 
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'lic_long',
                     'group' => 'specification',
                     'isActive' => true,
@@ -3699,9 +3700,9 @@ class ContractController extends Controller
             }
         }
 
-        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант", 
+        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант",
         именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании '
-            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ', 
+            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ',
         именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
             . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
 
@@ -3785,7 +3786,7 @@ class ContractController extends Controller
             'specification_distributive_comment' => '', //Примечание Носители
             'specification_dway', //  предоставляются следующим способом
             'specification_service_period', //Периодичность предоставления услуг
-            'specification_supply_quantity', /// Количество логинов и паролей 
+            'specification_supply_quantity', /// Количество логинов и паролей
             'specification_key_period', // Длительность работы ключа
             'specification_email', //Email для интернет-версии
             'specification_email_comment', // Email прмечание

@@ -272,7 +272,7 @@ class SupplyController extends Controller
 
         $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
         $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract['prepayment'];
@@ -578,7 +578,7 @@ class SupplyController extends Controller
 
         $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows 
+        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
         $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract['prepayment'];
@@ -1212,7 +1212,7 @@ class SupplyController extends Controller
                         //     }
                         // }
                     }
-                } else  if ($bxAdressRq['TYPE_ID'] == 6) {  // Юридический адрес 
+                } else  if ($bxAdressRq['TYPE_ID'] == 6) {  // Юридический адрес
                     if (!empty($bxAdressRq['ADDRESS_1'])) {
                         $advalue = $this->getAddressString($bxAdressRq);
                         $registredadvalue = $advalue;
@@ -2478,7 +2478,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Наименование ',
                     'value' => $products_names,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'complect_name',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2510,7 +2510,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'Вид поставки',
                     'value' => $product['quantityForKp'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'contract_spec_products_names_comment',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2542,7 +2542,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
                     'value' => $consalting,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_pk',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2574,7 +2574,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Информационные блоки',
                     'value' => $iblocks['allIBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ibig',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2590,7 +2590,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Энциклопедии Решений',
                     'value' =>  $iblocks['ers'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2606,7 +2606,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Пакеты Энциклопедий Решений',
                     'value' =>  $iblocks['erPackets'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers_packets',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2622,7 +2622,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Состав Пакетов Энциклопедий Решений',
                     'value' =>  $iblocks['ersInPacket'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ers_in_packets',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2654,7 +2654,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
                     'value' => $iblocks['freeIBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_ifree',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2670,7 +2670,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'Legal Tech в комплекте (бесплатно)',
                     'value' => $freeLtPack,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_free',
                     'group' => 'specification',
                     'isActive' => !empty($freeLtPack),
@@ -2686,7 +2686,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Состав Бесплатных Legal Tech',
                     'value' => $freeLtBlocks,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
                     'isActive' => !empty($freeLtBlocks),
@@ -2702,7 +2702,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'Платный Пакет Legal Tech',
                     'value' => $ltPack,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
                     'isActive' => !empty($ltPack),
@@ -2718,7 +2718,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Состав Платного Legal Tech',
                     'value' => $ltBlocks,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
                     'isActive' => !empty($ltBlocks),
@@ -2734,7 +2734,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Другие сервисы',
                     'value' =>  $iblocks['starLtBlocks'],
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_services',
                     'group' => 'specification',
                     'isActive' => !empty($iblocks['starLtBlocks']),
@@ -2847,7 +2847,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Количество логинов и паролей ',
                     'value' => $contractSupplyPropLoginsQuantity,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_supply_quantity',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2863,7 +2863,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'Длительность работы ключа',
                     'value' => $generalProductQuantity *  $contractCoefficient . ' мес.',
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'specification_key_period',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2896,7 +2896,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
                     'value' => $generalProductQuantity *  $contractCoefficient,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'abon_long',
                     'group' => 'specification',
                     'isActive' => true,
@@ -2919,7 +2919,7 @@ class SupplyController extends Controller
                         .  (max($generalProductQuantity, $contractCoefficient))
                         . ' (месяц) ',
 
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'lic_long',
                     'group' => 'specification',
                     'isActive' => true,
@@ -3219,7 +3219,6 @@ class SupplyController extends Controller
             [
                 'type' => 'select',
                 'name' => 'Создавался ли Договор',
-                'type' => 'select',
                 'value' =>  [
                     'id' => 0,
                     'code' => 'yes',
@@ -3320,10 +3319,10 @@ class SupplyController extends Controller
             ],
             [
                 'type' => 'file',
-                'name' => 'Текцщий договор',
+                'name' => 'Текyщий договор',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'contract_current',
+                'code' => 'current_contract',
                 'group' => 'supply',
                 'isActive' => true,
                 'isDisable' => false,
@@ -3440,7 +3439,7 @@ class SupplyController extends Controller
                 'name' => 'Текущий счет',
                 'value' => '',
                 'isRequired' => true,
-                'code' => 'invoice_current',
+                'code' => 'current_invoice',
                 'group' => 'supply',
                 'isActive' => true,
                 'isDisable' => false,
@@ -3831,7 +3830,7 @@ class SupplyController extends Controller
             // $providerCompanyDirectorPositionCase,
             // $providerCompanyBased,
         );
-        // $specification = 
+        // $specification =
 
         return [
             'products' =>  $products,
@@ -3895,9 +3894,9 @@ class SupplyController extends Controller
             }
         }
 
-        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант", 
+        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант",
         именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании'
-            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ', 
+            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ',
         именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании'
             . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
 
