@@ -442,7 +442,9 @@ class SupplyController extends Controller
                 }
             }
 
-            $templateProcessor->setValue($key, $value);
+            if (is_string($value) || is_numeric($value)) {
+                $templateProcessor->setValue($key, strval($value));
+            }
         }
 
 
