@@ -390,8 +390,10 @@ class SupplyController extends Controller
                 }
             }
 
-            ALogController::push('templateProcessor_' . $item['code'], ['value' => $value]);
-            $templateProcessor->setValue($name, $value);
+            ALogController::push('templateProcessor', ['code'=> $name ,'value' => $value]);
+            if (is_string($value) || is_numeric($value)) {
+                $templateProcessor->setValue($name, strval($value));
+            }
         }
 
 
