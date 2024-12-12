@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 
-class ALog extends Controller
+class ALogController extends Controller
 {
 
 

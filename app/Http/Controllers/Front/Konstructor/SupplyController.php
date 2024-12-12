@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front\Konstructor;
 
+use App\Http\Controllers\ALogController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
@@ -389,7 +390,7 @@ class SupplyController extends Controller
                 }
             }
 
-
+ALogController::push('templateProcessor',['value' => $value]);
             $templateProcessor->setValue($name, $value);
         }
 
