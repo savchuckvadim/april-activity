@@ -3252,7 +3252,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                 ],
 
 
@@ -3267,7 +3267,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                     ],
 
                 ],
@@ -3372,7 +3372,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                 ],
 
 
@@ -3387,7 +3387,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                     ],
 
                 ],
