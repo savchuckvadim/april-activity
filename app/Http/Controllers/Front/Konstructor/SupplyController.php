@@ -1257,6 +1257,21 @@ class SupplyController extends Controller
 
         $result = [
             'rq' => [
+                [
+                    'type' => 'string',
+                    'name' => 'ID',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'id',
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'group' => 'rq',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 1,
+
+
+
+                ],
 
                 [
                     'type' => 'string',
@@ -1760,6 +1775,15 @@ class SupplyController extends Controller
 
             foreach ($bxRq as $bxRqFieldName => $value) {
                 switch ($bxRqFieldName) {
+                    case 'ID': //Название реквизита. Обязательное поле.
+                        for ($i = 0; $i < count($result['rq']); $i++) {
+
+                        if ($result['rq'][$i]['code'] === 'id') {
+                            $result['rq'][$i]['value'] = $value;
+                        }
+                    };
+                    break;
+
                     case 'NAME': //Название реквизита. Обязательное поле.
 
                         break;
