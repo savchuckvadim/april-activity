@@ -3249,10 +3249,10 @@ class SupplyController extends Controller
                 'type' => 'select',
                 'name' => 'Создавался ли Договор',
                 'value' =>  [
-                    'id' => 0,
-                    'code' => 'yes',
-                    'name' => 'Да',
-                    'title' => 'Да'
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
                 ],
 
 
@@ -3369,10 +3369,10 @@ class SupplyController extends Controller
                 'name' => 'Создавался ли Счет',
                 'type' => 'select',
                 'value' =>  [
-                    'id' => 0,
-                    'code' => 'yes',
-                    'name' => 'Да',
-                    'title' => 'Да'
+                        'id' => 1,
+                        'code' => 'no',
+                        'name' => 'Нет',
+                        'title' => 'Да'
                 ],
 
 
