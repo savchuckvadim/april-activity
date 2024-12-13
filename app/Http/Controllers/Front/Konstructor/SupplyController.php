@@ -1261,7 +1261,7 @@ class SupplyController extends Controller
                     'type' => 'string',
                     'name' => 'ID',
                     'value' => '',
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'id',
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'group' => 'rq',
