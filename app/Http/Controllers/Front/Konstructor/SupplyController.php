@@ -1614,7 +1614,7 @@ class SupplyController extends Controller
                     'type' => 'text',
                     'name' => 'Адрес прописки',
                     'value' => $registredadvalue,
-                    'isRequired' => true,
+                    'isRequired' => false,
                     'code' => 'registredAdress',
                     'includes' => ['fiz'],
                     'group' => 'rq',
