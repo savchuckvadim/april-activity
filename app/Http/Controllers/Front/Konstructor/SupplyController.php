@@ -46,8 +46,10 @@ class SupplyController extends Controller
         $products = $data['products'];
         $contractProductName = $generalContractModel['productName'];
         $arows = $data['arows'];
-
-
+        $total = null;
+        if (!empty($data['total'])) {
+            $total =  $data['total'];
+        }
         $currentComplect = $data['complect']; //lt  //ltInPacket
         $consaltingProduct = $data['consalting']['product'];
         $lt = $data['legalTech'];
@@ -89,7 +91,8 @@ class SupplyController extends Controller
                     $arows,
                     $contractQuantity,
                     $documentInfoblocks,
-                    $contractProductName
+                    $contractProductName,
+                    $total
                 ),
                 'clientType' =>  [
                     'type' => 'select',
@@ -390,7 +393,7 @@ class SupplyController extends Controller
                 }
             }
 
-            ALogController::push('templateProcessor', ['code'=> $name ,'value' => $value]);
+            ALogController::push('templateProcessor', ['code' => $name, 'value' => $value]);
             if (is_string($value) || is_numeric($value)) {
                 $templateProcessor->setValue($name, strval($value));
             }
@@ -1778,11 +1781,11 @@ class SupplyController extends Controller
                     case 'ID': //Название реквизита. Обязательное поле.
                         for ($i = 0; $i < count($result['rq']); $i++) {
 
-                        if ($result['rq'][$i]['code'] === 'id') {
-                            $result['rq'][$i]['value'] = $value;
-                        }
-                    };
-                    break;
+                            if ($result['rq'][$i]['code'] === 'id') {
+                                $result['rq'][$i]['value'] = $value;
+                            }
+                        };
+                        break;
 
                     case 'NAME': //Название реквизита. Обязательное поле.
 
@@ -2275,7 +2278,8 @@ class SupplyController extends Controller
         $arows,
         $contractQuantity,
         $documentInfoblocks,
-        $contractProductName
+        $contractProductName,
+        $total
     ) {
 
         $productType = [
@@ -2361,6 +2365,13 @@ class SupplyController extends Controller
         }
         $contractsum = $monthSum * 12;
         $products_names = $contractProductName . "\n" . 'Гарант-' . $product['complectName'];
+       
+        if(!empty($total)){
+            if(!empty($total['name'])){
+                $products_names = $total['name'];
+            }
+        }
+       
         $consalting = '';
         $consaltingcomment = '';
         if ($consaltingProduct) {
@@ -3262,10 +3273,10 @@ class SupplyController extends Controller
                 'type' => 'select',
                 'name' => 'Создавался ли Договор',
                 'value' =>  [
-                        'id' => 1,
-                        'code' => 'no',
-                        'name' => 'Нет',
-                        'title' => 'Нет'
+                    'id' => 1,
+                    'code' => 'no',
+                    'name' => 'Нет',
+                    'title' => 'Нет'
                 ],
 
 
@@ -3382,10 +3393,10 @@ class SupplyController extends Controller
                 'name' => 'Создавался ли Счет',
                 'type' => 'select',
                 'value' =>  [
-                        'id' => 1,
-                        'code' => 'no',
-                        'name' => 'Нет',
-                        'title' => 'Нет'
+                    'id' => 1,
+                    'code' => 'no',
+                    'name' => 'Нет',
+                    'title' => 'Нет'
                 ],
 
 
