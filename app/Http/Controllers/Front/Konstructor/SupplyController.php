@@ -3020,24 +3020,6 @@ class SupplyController extends Controller
 
 
             ],
-            [
-                'type' => 'date',
-                'name' => 'Клиент ждет звонка от менеджера ОРК',
-                'value' => '',
-                'isRequired' => true,
-                'code' => 'client_call_date',
-                'group' => 'supply',
-                'isActive' => true,
-                'isDisable' => false,
-                'order' => 1,
-                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                'supplies' => ['internet', 'proxima'],
-                'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base'
-
-
-
-            ],
             // [
             //     'type' => 'string',
             //     'name' => 'Комментарий',
@@ -3092,7 +3074,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base_ork'
+                'component' => 'base'
 
 
             ],
@@ -3132,7 +3114,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base_ork'
+                'component' => 'base'
 
 
             ],
@@ -3248,7 +3230,7 @@ class SupplyController extends Controller
                 'isRequired' => true,
                 'code' => 'finance',
                 'group' => 'supply',
-                'isActive' => false,
+                'isActive' => true,
                 'isDisable' => false,
                 'order' => 4,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -3544,7 +3526,24 @@ class SupplyController extends Controller
 
 
             // ],
+            [
+                'type' => 'date',
+                'name' => 'Клиент ждет звонка от менеджера ОРК',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'client_call_date',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 13,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'client'
 
+
+
+            ],
             // [
             //     'type' => 'string',
             //     'name' => 'Компания в битрикс',
