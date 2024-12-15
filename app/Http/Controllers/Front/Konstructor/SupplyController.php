@@ -2579,7 +2579,9 @@ class SupplyController extends Controller
                     'order' => 2,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
+
 
 
                 ],
@@ -2611,7 +2613,9 @@ class SupplyController extends Controller
                     'order' => 4,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
+
 
 
                 ],
