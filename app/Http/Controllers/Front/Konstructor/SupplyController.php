@@ -3248,7 +3248,7 @@ class SupplyController extends Controller
                 'isRequired' => true,
                 'code' => 'finance',
                 'group' => 'supply',
-                'isActive' => true,
+                'isActive' => false,
                 'isDisable' => false,
                 'order' => 4,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
