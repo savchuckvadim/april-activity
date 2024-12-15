@@ -49,7 +49,11 @@ class SupplyController extends Controller
         $total = null;
         if (!empty($data['total'])) {
             $total =  $data['total'];
+            if (!empty($data['total'][0])) {
+                $total =  $data['total'][0];
+            }
         }
+        
         $currentComplect = $data['complect']; //lt  //ltInPacket
         $consaltingProduct = $data['consalting']['product'];
         $lt = $data['legalTech'];
@@ -2365,13 +2369,13 @@ class SupplyController extends Controller
         }
         $contractsum = $monthSum * 12;
         $products_names = $contractProductName . "\n" . 'Гарант-' . $product['complectName'];
-       
-        if(!empty($total)){
-            if(!empty($total['name'])){
-                $products_names = $total['name'];
-            }
-        }
-       
+
+        // if(!empty($total)){
+        //     if(!empty($total['name'])){
+        $products_names = $total['name'];
+        //     }
+        // }
+
         $consalting = '';
         $consaltingcomment = '';
         if ($consaltingProduct) {
