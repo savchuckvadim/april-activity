@@ -53,7 +53,7 @@ class SupplyController extends Controller
                 $total =  $data['total'][0];
             }
         }
-        
+
         $currentComplect = $data['complect']; //lt  //ltInPacket
         $consaltingProduct = $data['consalting']['product'];
         $lt = $data['legalTech'];
@@ -397,7 +397,6 @@ class SupplyController extends Controller
                 }
             }
 
-            ALogController::push('templateProcessor', ['code' => $name, 'value' => $value]);
             if (is_string($value) || is_numeric($value)) {
                 $templateProcessor->setValue($name, strval($value));
             }
