@@ -3016,7 +3016,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'group' => 'supply',
-                'component' => 'base'
+                'component' => 'base_one'
 
 
             ],
@@ -3074,7 +3074,25 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
+                'component' => 'base_one'
+
+
+            ],
+            [
+                'type' => 'date',
+                'name' => 'Клиент ждет звонка от менеджера ОРК',
+                'value' => '',
+                'isRequired' => true,
+                'code' => 'client_call_date',
+                'group' => 'supply',
+                'isActive' => true,
+                'isDisable' => false,
+                'order' => 2,
+                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                'supplies' => ['internet', 'proxima'],
+                'contractType' => ['service', 'lic', 'abon', 'key'],
                 'component' => 'base'
+
 
 
             ],
@@ -3230,7 +3248,7 @@ class SupplyController extends Controller
                 'isRequired' => true,
                 'code' => 'finance',
                 'group' => 'supply',
-                'isActive' => true,
+                'isActive' => false,
                 'isDisable' => false,
                 'order' => 4,
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -3526,24 +3544,7 @@ class SupplyController extends Controller
 
 
             // ],
-            [
-                'type' => 'date',
-                'name' => 'Клиент ждет звонка от менеджера ОРК',
-                'value' => '',
-                'isRequired' => true,
-                'code' => 'client_call_date',
-                'group' => 'supply',
-                'isActive' => true,
-                'isDisable' => false,
-                'order' => 13,
-                'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                'supplies' => ['internet', 'proxima'],
-                'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'client'
-
-
-
-            ],
+       
             // [
             //     'type' => 'string',
             //     'name' => 'Компания в битрикс',
