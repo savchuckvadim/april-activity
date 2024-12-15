@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BxDocumentDeal;
 use App\Models\Deal;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -17,43 +18,48 @@ class DealController extends Controller
                 // 'consalting' => $request->consalting,
                 'contract' => $request->contract,
                 'currentComplect' => $request->currentComplect,
-    
+
                 'dealId' => $request->dealId,
                 'dealName' => $request->dealName,
                 'domain' => $request->domain,
-    
-    
+
+
                 'global' => $request->global,
                 // 'legalTech' => $request->legalTech,
                 'od' => $request->od,
                 'portalId' => $request->portalId,
                 'result' => $request->result,
                 'rows' => $request->rows,
-    
+
                 'userId' => $request->userId,
-    
+
                 // 'product' => $request->product,
-    
+
             ];
-            if(isset($request->regions)){
+            if (isset($request->regions)) {
                 $deal['regions'] = $request->regions;
-
-
             }
-         
+
             $resultDeal = null;
             $resultCode = 1;
             $message = 'something wrong with saving deal';
-    
+
             //search portal
             $searchingPortal = null;
-    
-            //search deal
-            $searchingDeal = Deal::where('dealId', $request->dealId)
+
+            $searchingDeal = BxDocumentDeal::where('dealId', $request->dealId)
                 ->where('domain', $request->domain)
                 ->first();
-    
-            if ($searchingDeal) {
+
+            // if (empty($searchingDeal)) {
+            //     //search deal
+            //     $searchingDeal = Deal::where('dealId', $request->dealId)
+            //         ->where('domain', $request->domain)
+            //         ->first();
+            // }
+
+
+            if (!empty($searchingDeal)) {
                 $searchingDeal->update($deal);
                 $searchingDeal->save();
                 $resultDeal =  $searchingDeal;
@@ -62,18 +68,18 @@ class DealController extends Controller
                 $searchingPortal = Portal::where('domain', $request->domain)
                     ->first();
                 if ($searchingPortal) {
-                    $newDeal = new Deal([...$deal, 'portalId' => $searchingPortal->id]);
+                    $newDeal = new BxDocumentDeal([...$deal, 'portalId' => $searchingPortal->id]);
                     $newDeal->save();
                     $resultDeal = $newDeal;
                 }
             }
-    
-    
+
+
             if ($resultDeal) {
                 $resultCode = 0;
                 $message = '';
             }
-    
+
             return response([
                 'resultCode' =>  $resultCode,
                 'deal' => $resultDeal,
@@ -91,14 +97,14 @@ class DealController extends Controller
                 'DealController.addDeal' => [
                     'message' => $message,
                     $errorMessages
-    
+
                 ]
             ]);
-            
+
             Log::error('APRIL_ONLINE', [
                 'DealController.addDeal' => [
                     'message' => $message,
-    
+
                 ]
             ]);
             return response([
@@ -122,9 +128,15 @@ class DealController extends Controller
         $resultCode = 0;
         $message = '';
 
-        $searchingDeal = Deal::where('dealId', $request->dealId)
+        $searchingDeal = BxDocumentDeal::where('dealId', $request->dealId)
             ->where('domain', $request->domain)
             ->first();
+
+        if (empty($searchingDeal)) {
+            $searchingDeal = Deal::where('dealId', $request->dealId)
+                ->where('domain', $request->domain)
+                ->first();
+        }
 
 
         if (!$searchingDeal) {
