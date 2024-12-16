@@ -22,8 +22,6 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use morphos\Russian\MoneySpeller;
-use PhpOffice\PhpWord\IOFactory;
-
 
 class ContractController extends Controller
 {
@@ -387,20 +385,20 @@ class ContractController extends Controller
 
 
         foreach ($templateData['general'] as $gcode => $g) {
-            // $gformattedSpec = str_replace("\n", '<w:br/>', $g);
+            $gformattedSpec = str_replace("\n", '<w:br/>', $g);
 
-            $templateProcessor->setValue($gcode, $g);
+            $templateProcessor->setValue($gcode, $gformattedSpec);
         };
 
         foreach ($templateData['rq'] as $rqcode => $rqItem) {
-            // $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
+            $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
 
-            $templateProcessor->setValue($rqcode, $rqItem);
+            $templateProcessor->setValue($rqcode, $rqItemformattedSpec);
         };
 
         foreach ($templateData['specification'] as $code => $spec) {
-            // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
-            $templateProcessor->setValue($code, $spec);
+            $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            $templateProcessor->setValue($code, $formattedSpec);
             // $templateProcessor->setValue($code, $spec);
         }
 
@@ -420,37 +418,9 @@ class ContractController extends Controller
             ]);
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = $contractProductTitle . '_договор.rtf';
-        $outputFileName = 'Договор ' . $contractProductTitle;
+        $resultFileName = $contractProductTitle . '_договор.docx';
+        $outputFileName = 'Договор ' . $contractProductTitle . ' ' . $contractType;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
-
-
-        $tempDocxPath = $resultPath . '/tmp/' . $contractProductTitle . '_договор.docx';
-        if (!file_exists(dirname($tempDocxPath))) {
-            mkdir(dirname($tempDocxPath), 0775, true);
-        }
-        
-        // Сохранить заполненный шаблон
-        $templateProcessor->saveAs($tempDocxPath);
-        
-        // Убедиться, что файл создан
-        if (!file_exists($tempDocxPath)) {
-            throw new \Exception("Временный файл не создан: $tempDocxPath");
-        }
-        $phpWord = IOFactory::load($tempDocxPath);
-
-      
-    
-        $rtfFilePath = $resultPath . '/' . $resultFileName;
-
-        // Сохраняем как RTF
-        $rtfWriter = IOFactory::createWriter($phpWord, 'RTF');
-        $rtfWriter->save($rtfFilePath);
-
-        // Удаляем временный файл .docx
-        unlink($tempDocxPath);
-
-
         $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
