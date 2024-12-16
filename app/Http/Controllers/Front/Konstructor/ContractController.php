@@ -426,6 +426,17 @@ class ContractController extends Controller
 
 
         $tempDocxPath = $resultPath . '/tmp/' . $contractProductTitle . '_договор.docx';
+        if (!file_exists(dirname($tempDocxPath))) {
+            mkdir(dirname($tempDocxPath), 0775, true);
+        }
+        
+        // Сохранить заполненный шаблон
+        $templateProcessor->saveAs($tempDocxPath);
+        
+        // Убедиться, что файл создан
+        if (!file_exists($tempDocxPath)) {
+            throw new \Exception("Временный файл не создан: $tempDocxPath");
+        }
         $phpWord = IOFactory::load($tempDocxPath);
 
       
