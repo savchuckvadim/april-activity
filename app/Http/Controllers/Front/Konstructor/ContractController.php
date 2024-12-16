@@ -22,6 +22,8 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use morphos\Russian\MoneySpeller;
+use PhpOffice\PhpWord\IOFactory;
+
 
 class ContractController extends Controller
 {
@@ -418,9 +420,26 @@ class ContractController extends Controller
             ]);
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = $contractProductTitle . '_договор.doc';
+        $resultFileName = $contractProductTitle . '_договор.rtf';
         $outputFileName = 'Договор ' . $contractProductTitle;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
+
+
+        $tempDocxPath = $resultPath . '/tmp/' . $contractProductTitle . '_договор.docx';
+        $phpWord = IOFactory::load($tempDocxPath);
+
+      
+    
+        $rtfFilePath = $resultPath . '/' . $resultFileName;
+
+        // Сохраняем как RTF
+        $rtfWriter = IOFactory::createWriter($phpWord, 'RTF');
+        $rtfWriter->save($rtfFilePath);
+
+        // Удаляем временный файл .docx
+        unlink($tempDocxPath);
+
+
         $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
