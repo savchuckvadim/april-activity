@@ -2376,13 +2376,14 @@ class SupplyController extends Controller
         // }
 
         $consalting = '';
+        $consaltingName = 'Горячая Линия';
         $consaltingcomment = '';
-        if ($consaltingProduct) {
+        if (!empty($consaltingProduct)) {
             $consalting = $consaltingProduct['contractConsaltingProp'];
             $consaltingcomment = $consaltingProduct['contractConsaltingComment'];
-        }
-        if (empty($consalting)) {
-            $consalting  = 'Горячая Линия';
+            if (!empty($consaltingProduct['name'])) {
+                $consaltingName = $consaltingProduct['name'];
+            }
         }
         $ltProduct = $lt['product'];
 
@@ -2584,7 +2585,7 @@ class SupplyController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
-                    'value' => $consalting,
+                    'value' => $consaltingName,
                     'isRequired' => false,
                     'code' => 'specification_pk',
                     'group' => 'specification',
@@ -2593,9 +2594,23 @@ class SupplyController extends Controller
                     'order' => 2,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'isHidden' => true
+                    'contractType' => ['service', 'lic', 'abon', 'key']
 
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'ПК/ГЛ договор',
+                    'value' => $consalting,
+                    'isRequired' => false,
+                    'code' => 'specification_pk_comment1',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => true,
+                    'order' => 2,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
 
 
                 ],

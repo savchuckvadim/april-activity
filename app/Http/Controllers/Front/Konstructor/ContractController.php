@@ -2199,11 +2199,15 @@ class ContractController extends Controller
         };
 
 
-        $consalting = 'Горячая Линия';
+        $consalting = '';
+        $consaltingName = 'Горячая Линия';
         $consaltingcomment = '';
-        if ($consaltingProduct) {
+        if (!empty($consaltingProduct)) {
             $consalting = $consaltingProduct['contractConsaltingProp'];
             $consaltingcomment = $consaltingProduct['contractConsaltingComment'];
+            if (!empty($consaltingProduct['name'])) {
+                $consaltingName = $consaltingProduct['name'];
+            }
         }
         $ltProduct = $lt['product'];
 
@@ -2389,11 +2393,27 @@ class ContractController extends Controller
                 [
                     'type' => 'string',
                     'name' => 'ПК/ГЛ',
-                    'value' => $consalting,
+                    'value' => $consaltingName,
                     'isRequired' => false,
                     'code' => 'specification_pk',
                     'group' => 'specification',
                     'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 2,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'string',
+                    'name' => 'ПК/ГЛ договор',
+                    'value' => $consalting,
+                    'isRequired' => false,
+                    'code' => 'specification_pk_comment1',
+                    'group' => 'specification',
+                    'isActive' => false,
                     'isDisable' => true,
                     'order' => 2,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
