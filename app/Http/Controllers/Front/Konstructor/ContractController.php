@@ -300,7 +300,7 @@ class ContractController extends Controller
         };
         $contractSum = $total['price']['sum'];
         $totalProductName = $total['name'];
-        $contractProductTitle = $products[0]->name;
+        $contractProductTitle = $products[0]->name . '_' . $products[0]->supplyName . '_' . $products[0]->contract->aprilName;
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
 
         $moneySpeller = new MoneySpeller();
@@ -418,8 +418,8 @@ class ContractController extends Controller
             ]);
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = $contractProductTitle . '_' . $contractType . '_договор.docx';
-        $outputFileName = 'Договор ' . $contractProductTitle . ' ' . $contractType;
+        $resultFileName = $contractProductTitle . '_договор.docx';
+        $outputFileName = 'Договор ' . $contractProductTitle;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
         $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
