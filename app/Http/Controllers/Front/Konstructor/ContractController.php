@@ -300,7 +300,7 @@ class ContractController extends Controller
         };
         $contractSum = $total['price']['sum'];
         $totalProductName = $total['name'];
-        $contractProductTitle = $products[0]['name'];
+        $contractProductTitle = $products[0]->name;
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
 
         $moneySpeller = new MoneySpeller();
