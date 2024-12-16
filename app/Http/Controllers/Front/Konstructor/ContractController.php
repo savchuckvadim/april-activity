@@ -337,7 +337,7 @@ class ContractController extends Controller
 
         $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
-        $fullPath = storage_path($filePath . '/template.doc');
+        $fullPath = storage_path($filePath . '/template.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
