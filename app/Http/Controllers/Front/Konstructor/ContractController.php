@@ -335,7 +335,7 @@ class ContractController extends Controller
 
         $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
-        $fullPath = storage_path($filePath . '/template.docx');
+        $fullPath = storage_path($filePath . '/template.doc');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
@@ -385,20 +385,20 @@ class ContractController extends Controller
 
 
         foreach ($templateData['general'] as $gcode => $g) {
-            $gformattedSpec = str_replace("\n", '<w:br/>', $g);
+            // $gformattedSpec = str_replace("\n", '<w:br/>', $g);
 
-            $templateProcessor->setValue($gcode, $gformattedSpec);
+            $templateProcessor->setValue($gcode, $g);
         };
 
         foreach ($templateData['rq'] as $rqcode => $rqItem) {
-            $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
+            // $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
 
-            $templateProcessor->setValue($rqcode, $rqItemformattedSpec);
+            $templateProcessor->setValue($rqcode, $rqItem);
         };
 
         foreach ($templateData['specification'] as $code => $spec) {
-            $formattedSpec = str_replace("\n", '<w:br/>', $spec);
-            $templateProcessor->setValue($code, $formattedSpec);
+            // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            $templateProcessor->setValue($code, $spec);
             // $templateProcessor->setValue($code, $spec);
         }
 
@@ -418,7 +418,7 @@ class ContractController extends Controller
             ]);
             throw new \Exception("Невозможно записать в каталог: $resultPath");
         }
-        $resultFileName = $contractProductTitle . '_договор.docx';
+        $resultFileName = $contractProductTitle . '_договор.doc';
         $outputFileName = 'Договор ' . $contractProductTitle;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
         $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
