@@ -2,7 +2,7 @@
 
 namespace App\DTO\DocumentContract;
 
-use App\Http\Controllers\ALog;
+use App\Http\Controllers\ALogController;
 
 class ProductDTO
 {
@@ -136,7 +136,6 @@ class ProductDTO
 
     public static function fromArray(array $data): self
     {
-        ALog::push('supply from productDTO', $data);
         return new self(
             number: $data['number'],
             name: $data['name'],
