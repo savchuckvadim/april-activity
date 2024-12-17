@@ -3055,11 +3055,11 @@ class SupplyController extends Controller
                 'type' => 'select',
                 'name' => 'Передана в ОРК',
 
-                'value' =>  [
-                    'id' => 0,
-                    'code' => 'yes',
-                    'name' => 'Да',
-                    'title' => 'Да'
+                'value' =>      [
+                    'id' => 1,
+                    'code' => 'no',
+                    'name' => 'Нет',
+                    'title' => 'Нет'
                 ],
 
 
@@ -3074,7 +3074,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                     ],
 
                 ],
@@ -3116,10 +3116,10 @@ class SupplyController extends Controller
                 'name' => 'Занесена в АРМ',
 
                 'value' =>  [
-                    'id' => 0,
-                    'code' => 'yes',
-                    'name' => 'Да',
-                    'title' => 'Да'
+                    'id' => 1,
+                    'code' => 'no',
+                    'name' => 'Нет',
+                    'title' => 'Нет'
                 ],
 
 
@@ -3134,7 +3134,7 @@ class SupplyController extends Controller
                         'id' => 1,
                         'code' => 'no',
                         'name' => 'Нет',
-                        'title' => 'Да'
+                        'title' => 'Нет'
                     ],
 
                 ],
@@ -3559,7 +3559,7 @@ class SupplyController extends Controller
 
 
             // ],
-       
+
             // [
             //     'type' => 'string',
             //     'name' => 'Компания в битрикс',
