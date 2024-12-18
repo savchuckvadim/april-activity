@@ -577,9 +577,6 @@ class FieldsController extends Controller
 
             if ($field[$entityType]) {
 
-
-
-
                 if (!empty($portalFields)) {
 
                     foreach ($portalFields as $portalField) {

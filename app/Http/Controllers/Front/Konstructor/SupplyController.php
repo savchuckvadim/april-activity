@@ -3089,7 +3089,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base_one'
+                // 'component' => 'base_one'
 
 
             ],
@@ -3106,7 +3106,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base'
+                'component' => 'base_one'
 
 
 
@@ -3147,7 +3147,7 @@ class SupplyController extends Controller
                 'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
-                'component' => 'base'
+                // 'component' => 'base'
 
 
             ],
@@ -3461,6 +3461,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'component' => 'invoice'
+                // 'component' => 'contract'
 
 
 
@@ -3479,6 +3480,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'component' => 'invoice'
+                // 'component' => 'contract'
 
 
 
@@ -3519,6 +3521,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'component' => 'invoice'
+                // 'component' => 'contract'
 
 
             ],
@@ -3537,6 +3540,7 @@ class SupplyController extends Controller
                 'supplies' => ['internet', 'proxima'],
                 'contractType' => ['service', 'lic', 'abon', 'key'],
                 'component' => 'invoice'
+                // 'component' => 'contract'
 
 
 
