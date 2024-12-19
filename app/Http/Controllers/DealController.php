@@ -119,6 +119,112 @@ class DealController extends Controller
 
     }
 
+    // public static function copy($request)
+    // {
+    //     try {
+    //         // $deal = [
+    //         //     'app' => $request->app,
+    //         //     // 'consalting' => $request->consalting,
+    //         //     'contract' => $request->contract,
+    //         //     'currentComplect' => $request->currentComplect,
+
+    //         //     'dealId' => $request->dealId,
+    //         //     'dealName' => $request->dealName,
+    //         //     'domain' => $request->domain,
+
+
+    //         //     'global' => $request->global,
+    //         //     // 'legalTech' => $request->legalTech,
+    //         //     'od' => $request->od,
+    //         //     'portalId' => $request->portalId,
+    //         //     'result' => $request->result,
+    //         //     'rows' => $request->rows,
+
+    //         //     'userId' => $request->userId,
+
+    //         //     // 'product' => $request->product,
+
+    //         // ];
+    //         // if (isset($request->regions)) {
+    //         //     $deal['regions'] = $request->regions;
+    //         // }
+
+    //         $resultDeal = null;
+    //         $resultCode = 1;
+    //         $message = 'something wrong with saving deal';
+
+    //         //search portal
+    //         $searchingPortal = null;
+
+    //         $searchingDeal = BxDocumentDeal::where('dealId', $request->dealId)
+    //             ->where('domain', $request->domain)
+    //             ->first();
+
+    //         // if (empty($searchingDeal)) {
+    //         //     //search deal
+    //         //     $searchingDeal = Deal::where('dealId', $request->dealId)
+    //         //         ->where('domain', $request->domain)
+    //         //         ->first();
+    //         // }
+
+
+    //         if (!empty($searchingDeal)) {
+    //             $searchingDeal->update($deal);
+    //             $searchingDeal->save();
+    //             $resultDeal =  $searchingDeal;
+    //         } else {
+    //             //search portal
+    //             $searchingPortal = Portal::where('domain', $request->domain)
+    //                 ->first();
+    //             if ($searchingPortal) {
+    //                 $newDeal = new BxDocumentDeal([...$deal, 'portalId' => $searchingPortal->id]);
+    //                 $newDeal->save();
+    //                 $resultDeal = $newDeal;
+    //             }
+    //         }
+
+
+    //         if ($resultDeal) {
+    //             $resultCode = 0;
+    //             $message = '';
+    //         }
+
+    //         return response([
+    //             'resultCode' =>  $resultCode,
+    //             'deal' => $resultDeal,
+    //             'message' => $message,
+    //             'searchingDeal' => $searchingDeal
+    //         ]);
+    //     } catch (\Throwable $th) {
+    //         $errorMessages =  [
+    //             'message'   => $th->getMessage(),
+    //             'file'      => $th->getFile(),
+    //             'line'      => $th->getLine(),
+    //             'trace'     => $th->getTraceAsString(),
+    //         ];
+    //         Log::channel('telegram')->error('APRIL_ONLINE', [
+    //             'DealController.addDeal' => [
+    //                 'message' => $message,
+    //                 $errorMessages
+
+    //             ]
+    //         ]);
+
+    //         Log::error('APRIL_ONLINE', [
+    //             'DealController.addDeal' => [
+    //                 'message' => $message,
+
+    //             ]
+    //         ]);
+    //         return response([
+    //             'resultCode' =>  $resultCode,
+    //             'deal' => $resultDeal,
+    //             'message' => $message,
+    //             'searchingDeal' => $searchingDeal
+    //         ]);
+    //     }
+    // }
+
     public static function getDeal($request)
     {
 
