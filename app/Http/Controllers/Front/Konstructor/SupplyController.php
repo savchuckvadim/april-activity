@@ -559,8 +559,8 @@ class SupplyController extends Controller
                 if($field['field']['code'] === 'ork_is_most_user'){
                     if(!empty($field['current'])){
                         if(!empty($field['current']['code'])){
-                            if (str_contains($field['current']['code'], 'yes')) {
-                                $contactDataForTemplate .= "\n". '(Основной пользователь)';
+                            if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
+                                $contactDataForTemplate .= "\n" . '(Основной пользователь)';
                             }
 
                         
