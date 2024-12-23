@@ -399,6 +399,8 @@ class SupplyController extends Controller
 
             if (is_string($value) || is_numeric($value)) {
                 $templateProcessor->setValue($name, strval($value));
+            } else {
+                $templateProcessor->setValue($name, ''); // или другая логика
             }
         }
 
