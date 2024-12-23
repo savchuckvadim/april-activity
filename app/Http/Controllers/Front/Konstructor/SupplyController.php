@@ -249,7 +249,7 @@ class SupplyController extends Controller
         $domain = $data['domain'];
 
         $bxCompanyItems = $data['bxCompanyItems'];
-        // $bxContactItems = $data['bxContactItems'];
+        $bxContacts = $data['bxContacts'];
         $bxDealItems = $data['bxDealItems'];
         $supplyReport = $data['supplyReport'];
 
@@ -351,6 +351,8 @@ class SupplyController extends Controller
             }
         }
 
+        $regionName = $data['region']['title'];
+
         $supply = $data['supplyReport'];
 
         $documentPrice = $data['documentPrice'];
@@ -366,6 +368,7 @@ class SupplyController extends Controller
 
 
         // $templateProcessor->setValue('documentNumber', $documentNumber);
+        $templateProcessor->setValue('region', $regionName);
 
         $templateProcessor->setValue('contract_type', $contract_type);
         $templateProcessor->setValue('provider_fullname', $provider_fullname);
@@ -531,6 +534,53 @@ class SupplyController extends Controller
 
                 $templateProcessor->setValue('complect_lt_right', $formattedValue);
             }
+        }
+
+        $condactsData = [
+        ];
+
+        foreach ($bxContacts as $contactData) {
+            $contact = $contactData['contact'];
+            $fields = $contactData['fields'];
+
+            $contactDataForTemplate =  [
+                'contact_name' => $contact['NAME'],
+                'contact_post' => $contact['POST'],
+                'contact_status' => '',
+                'contact_phone' => '',
+                'contact_comment' => $contact['COMMENTS'],
+
+            ];
+
+            foreach($contact['PHONE'] as $phone){
+                $contactDataForTemplate['contact_phone'] .= $phone['VALUE']."\n";
+            }
+            foreach($fields as $field){
+                if($field['field']['code'] === 'ork_is_most_user'){
+                    if(!empty($field['current'])){
+                        if(!empty($field['current']['code'])){
+                            if (str_contains($field['current']['code'], 'yes')) {
+                                $contactDataForTemplate .= "\n". '(Основной пользователь)';
+                            }
+
+                        
+                        }
+                    }
+                }else{
+                    if(!empty($field['field']) && !empty($field['current'])){
+                        $contactDataForTemplate['contact_status'] .= $field['field']['title'].': ';
+                        $contactDataForTemplate['contact_status'] .= $field['current']['title']."\n";
+
+                    }
+                   
+
+                
+                }
+            }
+           
+
+            array_push($condactsData, $contactDataForTemplate);
+
         }
         $templateProcessor->setValue('complect_pk', $consaltingString);
 
