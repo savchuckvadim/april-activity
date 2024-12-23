@@ -489,11 +489,14 @@ class SupplyController extends Controller
             if ($cntrctSpecItem['code'] === 'specification_email') {
                 $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
             } else  if ($cntrctSpecItem['code'] === 'specification_ibig') {
-                $templateProcessor->setValue('complect_fields_left', $cntrctSpecItem['value']);
+                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+                $templateProcessor->setValue('complect_fields_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_ifree') {
+                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
 
-                $templateProcessor->setValue('complect_fields_right', $cntrctSpecItem['value']);
+                $templateProcessor->setValue('complect_fields_right', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_lt_free') {
                 $value = '';
                 if (!empty($cntrctSpecItem['value'])) {
@@ -508,8 +511,9 @@ class SupplyController extends Controller
                 }
 
 
+                $formattedValue = str_replace("\n", '<w:br/>', $value);
 
-                $templateProcessor->setValue('complect_lt_left', $value);
+                $templateProcessor->setValue('complect_lt_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
                 $value = '';
                 if (!empty($cntrctSpecItem['value'])) {
@@ -522,8 +526,10 @@ class SupplyController extends Controller
                         }
                     }
                 }
+                $formattedValue = str_replace("\n", '<w:br/>', $value);
 
-                $templateProcessor->setValue('complect_lt_right', $value);
+
+                $templateProcessor->setValue('complect_lt_right', $formattedValue);
             }
         }
         $templateProcessor->setValue('complect_pk', $consaltingString);
