@@ -536,8 +536,7 @@ class SupplyController extends Controller
             }
         }
 
-        $condactsData = [
-        ];
+        $condactsData = [];
 
         foreach ($bxContacts as $contactData) {
             $contact = $contactData['contact'];
@@ -548,46 +547,42 @@ class SupplyController extends Controller
                 'contact_post' => $contact['POST'],
                 'contact_status' => '',
                 'contact_phone' => '',
-                'contact_comment' => $contact['COMMENTS'],
+                'contact_comment' => '',
 
             ];
 
-            foreach($contact['PHONE'] as $phone){
-                $contactDataForTemplate['contact_phone'] .= $phone['VALUE']."<w:br/>";
+            foreach ($contact['PHONE'] as $phone) {
+                $contactDataForTemplate['contact_phone'] .= $phone['VALUE'] . "<w:br/>";
             }
-            foreach($fields as $field){
-                if($field['field']['code'] === 'ork_is_most_user'){
-                    if(!empty($field['current'])){
-                        if(!empty($field['current']['code'])){
+            foreach ($fields as $field) {
+                if ($field['field']['code'] === 'ork_is_most_user') {
+                    if (!empty($field['current'])) {
+                        if (!empty($field['current']['code'])) {
                             if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
                                 $contactDataForTemplate['contact_name'] .= "<w:br/>" . '(Основной пользователь)';
                             }
-
-                        
                         }
                     }
-                }else{
-                    if(!empty($field['field']) && !empty($field['current'])){
-                        $contactDataForTemplate['contact_status'] .= $field['field']['title'].': ';
-                        $contactDataForTemplate['contact_status'] .= $field['current']['title']."\n";
+                } else if (in_array($field['field']['code'], ['contact_client_status', 'ork_contact_garant', 'ork_contact_concurent', 'ork_needs'])) {
 
+                    if (!empty($field['field']) && !empty($field['current'])) {
+                        $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
+                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "<w:br/>" . "<w:br/>";
                     }
-                   
+                }else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
 
-                
+                    if (!empty($field['field']) && !empty($field['current'])) {
+                        $contactDataForTemplate['contact_comment'] .= $field['field']['title'] . ': ';
+                        $contactDataForTemplate['contact_comment'] .= $field['current']['title'] . "<w:br/>" . "<w:br/>";
+                    }
                 }
             }
-           
+
+            $contactDataForTemplate['contact_comment'] .= $contact['COMMENTS'];
 
             array_push($condactsData, $contactDataForTemplate);
-
         }
-        // foreach ($condactsData as $value) {
-        //     foreach ($value as $k => $v) {
-        //         $v = str_replace("\n", '<w:br/>', $v);
-
-        //     }
-        // }
+       
         $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
 
         $templateProcessor->setValue('complect_pk', $consaltingString);
