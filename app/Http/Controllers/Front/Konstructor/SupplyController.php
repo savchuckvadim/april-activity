@@ -560,7 +560,7 @@ class SupplyController extends Controller
                     if(!empty($field['current'])){
                         if(!empty($field['current']['code'])){
                             if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
-                                $contactDataForTemplate .= "\n" . '(Основной пользователь)';
+                                $contactDataForTemplate['contact_status'] .= "\n" . '(Основной пользователь)';
                             }
 
                         
