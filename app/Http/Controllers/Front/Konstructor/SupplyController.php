@@ -582,6 +582,12 @@ class SupplyController extends Controller
             array_push($condactsData, $contactDataForTemplate);
 
         }
+        foreach ($condactsData as $value) {
+            foreach ($value as $k => $v) {
+                $v = str_replace("\n", '<w:br/>', $v);
+
+            }
+        }
         $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
 
         $templateProcessor->setValue('complect_pk', $consaltingString);
