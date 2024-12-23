@@ -472,7 +472,7 @@ class SupplyController extends Controller
             }
 
             if (is_string($value) || is_numeric($value)) {
-                $value = $bxDealItem['value'];
+             
                 $value = $this->formatDateForWord($value);
                 $templateProcessor->setValue($key, strval($value));
             } else {
