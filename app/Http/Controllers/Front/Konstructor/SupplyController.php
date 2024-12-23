@@ -400,6 +400,8 @@ class SupplyController extends Controller
             }
 
             if (is_string($value) || is_numeric($value)) {
+                $value = $this->formatDateForWord($name, $value) . PHP_EOL;
+
                 $templateProcessor->setValue($name, strval($value));
             } else {
                 $templateProcessor->setValue($name, ''); // или другая логика
@@ -472,8 +474,8 @@ class SupplyController extends Controller
             }
 
             if (is_string($value) || is_numeric($value)) {
-             
-                $value = $this->formatDateForWord($value);
+
+                $value = $this->formatDateForWord($key, $value) . PHP_EOL;
                 $templateProcessor->setValue($key, strval($value));
             } else {
                 $templateProcessor->setValue($key, '');
@@ -595,24 +597,32 @@ class SupplyController extends Controller
         );
     }
 
-    protected function formatDateForWord($date): ?string
+    protected function formatDateForWord($code, $date): ?string
     {
         try {
+            Carbon::setLocale('ru'); // Установить локаль на русский
             $dateTime = Carbon::parse($date);
 
-            // Форматирование даты в зависимости от наличия времени
-            if ($dateTime->format('H:i') === '00:00') {
-                // Только дата
+            // Определяем формат на основе кода
+            if (in_array($code, ['first_pay_date', 'supply_date', 'sale_date'])) {
+                // Для типов "date", возвращаем только дату
                 return $dateTime->translatedFormat('j F Y');
-            } else {
-                // Дата и время
+            } elseif ($code === 'client_call_date') {
+                // Для типа "datetime", добавляем 08:00, если времени нет
+                if ($dateTime->format('H:i') === '00:00') {
+                    $dateTime->setTime(8, 0);
+                }
                 return $dateTime->translatedFormat('j F Y H:i');
             }
+
+            // Если код неизвестен, возвращаем null или исходное значение
+            return $date;
         } catch (\Throwable $th) {
-            // Если дата невалидна
+            // Если дата невалидна, возвращаем исходное значение
             return $date;
         }
     }
+
 
     public function getSupplyDocument(Request $request)
     {
