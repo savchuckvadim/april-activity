@@ -428,7 +428,7 @@ class SupplyController extends Controller
             ]);
         }
 
-        // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
+        $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
 
         foreach ($filteredClientRq as $rqItem) {
             $value = '';
