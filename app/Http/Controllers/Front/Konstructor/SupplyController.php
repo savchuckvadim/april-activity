@@ -553,14 +553,14 @@ class SupplyController extends Controller
             ];
 
             foreach($contact['PHONE'] as $phone){
-                $contactDataForTemplate['contact_phone'] .= $phone['VALUE']."\n";
+                $contactDataForTemplate['contact_phone'] .= $phone['VALUE']."<w:br/>";
             }
             foreach($fields as $field){
                 if($field['field']['code'] === 'ork_is_most_user'){
                     if(!empty($field['current'])){
                         if(!empty($field['current']['code'])){
                             if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
-                                $contactDataForTemplate['contact_name'] .= "\n" . '(Основной пользователь)';
+                                $contactDataForTemplate['contact_name'] .= "<w:br/>" . '(Основной пользователь)';
                             }
 
                         
@@ -582,12 +582,12 @@ class SupplyController extends Controller
             array_push($condactsData, $contactDataForTemplate);
 
         }
-        foreach ($condactsData as $value) {
-            foreach ($value as $k => $v) {
-                $v = str_replace("\n", '<w:br/>', $v);
+        // foreach ($condactsData as $value) {
+        //     foreach ($value as $k => $v) {
+        //         $v = str_replace("\n", '<w:br/>', $v);
 
-            }
-        }
+        //     }
+        // }
         $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
 
         $templateProcessor->setValue('complect_pk', $consaltingString);
