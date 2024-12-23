@@ -249,7 +249,7 @@ class SupplyController extends Controller
         $domain = $data['domain'];
 
         $bxCompanyItems = $data['bxCompanyItems'];
-        $bxContactItems = $data['bxContactItems'];
+        // $bxContactItems = $data['bxContactItems'];
         $bxDealItems = $data['bxDealItems'];
         $supplyReport = $data['supplyReport'];
 
@@ -473,7 +473,7 @@ class SupplyController extends Controller
 
             if (is_string($value) || is_numeric($value)) {
                 $value = $bxDealItem['value'];
-                // $value = $this->formatDateForWord($value);
+                $value = $this->formatDateForWord($value);
                 $templateProcessor->setValue($key, strval($value));
             } else {
                 $templateProcessor->setValue($key, '');
