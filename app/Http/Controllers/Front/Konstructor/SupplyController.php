@@ -249,6 +249,8 @@ class SupplyController extends Controller
         $domain = $data['domain'];
 
         $bxCompanyItems = $data['bxCompanyItems'];
+        $bxContactItems = $data['bxContactItems'];
+        $bxDealItems = $data['bxDealItems'];
         $supplyReport = $data['supplyReport'];
 
 
@@ -454,6 +456,27 @@ class SupplyController extends Controller
 
             if (is_string($value) || is_numeric($value)) {
                 $templateProcessor->setValue($key, strval($value));
+            } else {
+                $templateProcessor->setValue($key, '');
+            }
+        }
+
+        foreach ($bxDealItems as $key => $bxDealItem) {
+            $value = '';
+            if (!empty($bxDealItem['current'])) {
+                if (isset($bxDealItem['current']['name'])) {
+                    $value = $bxDealItem['current']['name'];
+                } else {
+                    $value = $bxDealItem['current'];
+                }
+            }
+
+            if (is_string($value) || is_numeric($value)) {
+                $value = $bxDealItem['value'];
+                $value = $this->formatDateForWord($value);
+                $templateProcessor->setValue($key, strval($value));
+            } else {
+                $templateProcessor->setValue($key, '');
             }
         }
 
@@ -570,6 +593,25 @@ class SupplyController extends Controller
                 ]
             ]
         );
+    }
+
+    protected function formatDateForWord($date): ?string
+    {
+        try {
+            $dateTime = Carbon::parse($date);
+
+            // Форматирование даты в зависимости от наличия времени
+            if ($dateTime->format('H:i') === '00:00') {
+                // Только дата
+                return $dateTime->translatedFormat('j F Y');
+            } else {
+                // Дата и время
+                return $dateTime->translatedFormat('j F Y H:i');
+            }
+        } catch (\Throwable $th) {
+            // Если дата невалидна
+            return $date;
+        }
     }
 
     public function getSupplyDocument(Request $request)
