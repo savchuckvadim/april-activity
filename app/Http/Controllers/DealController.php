@@ -128,13 +128,13 @@ class DealController extends Controller
             $userId = $request->input('userId');
             // Ищем существующую сделку
             // $existingDeal = Deal::where('dealId', $currentDealId)->first();
-            $existingDeal = BxDocumentDeal::where('dealId', $request->currentDealId)
+            $existingDeal = BxDocumentDeal::where('dealId', $currentDealId)
                 ->where('domain', $request->domain)
                 ->first();
 
             if (empty($existingDeal)) {
                 //search deal
-                $existingDeal = Deal::where('dealId', $request->currentDealId)
+                $existingDeal = Deal::where('dealId', $currentDealId)
                     ->where('domain', $request->domain)
                     ->first();
             }
