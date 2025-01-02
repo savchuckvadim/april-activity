@@ -38,7 +38,7 @@ return new class extends Migration
             $table->longText('rows')->nullable();
             $table->longText('regions')->nullable();
             $table->longText('tags')->nullable();
-            $table->string('department')->nullable();
+            $table->string('department')->nullable(); //sales | service
             $table->string('target')->nullable();
             $table->string('promotionName')->nullable();
             $table->longText('promotion')->nullable();

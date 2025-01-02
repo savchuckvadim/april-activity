@@ -555,7 +555,7 @@ class PDFDocumentController extends Controller
             $mobilePhone = '';
             $managerName = '';
             $managerLastName = '';
-
+            $managerEmail = '';
             if (isset($manager['WORK_POSITION'])) {
                 if ($manager['WORK_POSITION']) {
                     $managerPosition = $manager['WORK_POSITION'];
@@ -584,8 +584,12 @@ class PDFDocumentController extends Controller
 
 
 
-            $managerEmail = $manager['EMAIL'];
-            $email = null;
+            $email = '';
+            if (isset($manager['EMAIL'])) {
+                if (!empty($manager['EMAIL'])) {
+                    $managerEmail = $manager['EMAIL'];
+                }
+            }
 
             if ($managerEmail) {
                 $email = 'e-mail: ' . $managerEmail;

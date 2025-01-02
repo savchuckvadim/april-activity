@@ -2163,11 +2163,28 @@ class DocumentController extends Controller
                 $managerPosition = $manager['WORK_POSITION'];
             }
         }
-        $managerName = $manager['NAME'];
-        $managerLastName = $manager['LAST_NAME'];
+        $managerName = '';
+        if (isset($manager['NAME'])) {
+            if (!empty($manager['NAME'])) {
+                $managerName = $manager['NAME'];
+            }
+        }
+        $managerLastName = '';
+        if (isset($manager['LAST_NAME'])) {
+            if (!empty($manager['LAST_NAME'])) {
+                $managerLastName = $manager['LAST_NAME'];
+            }
+        }
         $name =  $managerName . ' ' . $managerLastName;
 
-        $managerEmail = $manager['EMAIL'];
+        $managerEmail = '';
+        if (isset($manager['EMAIL'])) {
+            if (!empty($manager['EMAIL'])) {
+                $managerEmail = $manager['EMAIL'];
+            }
+        }
+
+
         $email = null;
         if ($managerEmail) {
             $email = 'e-mail: ' . $managerEmail;

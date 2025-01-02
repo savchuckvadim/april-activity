@@ -119,111 +119,58 @@ class DealController extends Controller
 
     }
 
-    // public static function copy($request)
-    // {
-    //     try {
-    //         // $deal = [
-    //         //     'app' => $request->app,
-    //         //     // 'consalting' => $request->consalting,
-    //         //     'contract' => $request->contract,
-    //         //     'currentComplect' => $request->currentComplect,
+    public static function copy($request)
+    {
+        $existingDeal = null;
+        try {
+            $currentDealId = $request->input('dealId');
+            $newDealId = $request->input('newDealId');
+            $userId = $request->input('userId');
+            // Ищем существующую сделку
+            // $existingDeal = Deal::where('dealId', $currentDealId)->first();
+            $existingDeal = BxDocumentDeal::where('dealId', $request->dealId)
+                ->where('domain', $request->domain)
+                ->first();
 
-    //         //     'dealId' => $request->dealId,
-    //         //     'dealName' => $request->dealName,
-    //         //     'domain' => $request->domain,
+            if (empty($existingDeal)) {
+                //search deal
+                $existingDeal = Deal::where('dealId', $request->dealId)
+                    ->where('domain', $request->domain)
+                    ->first();
+            }
+            if (empty($existingDeal)) {
+                throw new \Exception('Deal not found');
+            }
 
-
-    //         //     'global' => $request->global,
-    //         //     // 'legalTech' => $request->legalTech,
-    //         //     'od' => $request->od,
-    //         //     'portalId' => $request->portalId,
-    //         //     'result' => $request->result,
-    //         //     'rows' => $request->rows,
-
-    //         //     'userId' => $request->userId,
-
-    //         //     // 'product' => $request->product,
-
-    //         // ];
-    //         // if (isset($request->regions)) {
-    //         //     $deal['regions'] = $request->regions;
-    //         // }
-
-    //         $resultDeal = null;
-    //         $resultCode = 1;
-    //         $message = 'something wrong with saving deal';
-
-    //         //search portal
-    //         $searchingPortal = null;
-
-    //         $searchingDeal = BxDocumentDeal::where('dealId', $request->dealId)
-    //             ->where('domain', $request->domain)
-    //             ->first();
-
-    //         // if (empty($searchingDeal)) {
-    //         //     //search deal
-    //         //     $searchingDeal = Deal::where('dealId', $request->dealId)
-    //         //         ->where('domain', $request->domain)
-    //         //         ->first();
-    //         // }
+            // Создаем копию сделки с новым dealId
+            $newDeal = $existingDeal->replicate();
+            $newDeal->dealId = $newDealId;
+            $newDeal->userId = $userId;
+            $newDeal->department = 'service';
+            $newDeal->save();
 
 
-    //         if (!empty($searchingDeal)) {
-    //             $searchingDeal->update($deal);
-    //             $searchingDeal->save();
-    //             $resultDeal =  $searchingDeal;
-    //         } else {
-    //             //search portal
-    //             $searchingPortal = Portal::where('domain', $request->domain)
-    //                 ->first();
-    //             if ($searchingPortal) {
-    //                 $newDeal = new BxDocumentDeal([...$deal, 'portalId' => $searchingPortal->id]);
-    //                 $newDeal->save();
-    //                 $resultDeal = $newDeal;
-    //             }
-    //         }
+    
 
-
-    //         if ($resultDeal) {
-    //             $resultCode = 0;
-    //             $message = '';
-    //         }
-
-    //         return response([
-    //             'resultCode' =>  $resultCode,
-    //             'deal' => $resultDeal,
-    //             'message' => $message,
-    //             'searchingDeal' => $searchingDeal
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         $errorMessages =  [
-    //             'message'   => $th->getMessage(),
-    //             'file'      => $th->getFile(),
-    //             'line'      => $th->getLine(),
-    //             'trace'     => $th->getTraceAsString(),
-    //         ];
-    //         Log::channel('telegram')->error('APRIL_ONLINE', [
-    //             'DealController.addDeal' => [
-    //                 'message' => $message,
-    //                 $errorMessages
-
-    //             ]
-    //         ]);
-
-    //         Log::error('APRIL_ONLINE', [
-    //             'DealController.addDeal' => [
-    //                 'message' => $message,
-
-    //             ]
-    //         ]);
-    //         return response([
-    //             'resultCode' =>  $resultCode,
-    //             'deal' => $resultDeal,
-    //             'message' => $message,
-    //             'searchingDeal' => $searchingDeal
-    //         ]);
-    //     }
-    // }
+            return APIController::getSuccess([
+                'deal' => $newDeal,
+                'oldDeal' => $existingDeal
+            ]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+       
+            return APIController::getError($message, [
+                'info' => $errorMessages,
+                'searchingDeal' => $existingDeal
+            ]);
+        }
+    }
 
     public static function getDeal($request)
     {
