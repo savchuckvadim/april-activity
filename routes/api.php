@@ -62,6 +62,11 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
         return DealController::addDeal($request);
     });
 
+    Route::post('/bx_deal/copy', function (Request $request) {
+
+        return DealController::copy($request);
+    });
+
     Route::post('/getDeal', function (Request $request) {
 
         return DealController::getDeal($request);
