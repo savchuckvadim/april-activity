@@ -146,7 +146,7 @@ class DealController extends Controller
             $newDeal = $existingDeal->replicate();
             $newDeal->dealId = $newDealId;
             $newDeal->userId = $userId;
-            $newDeal->department = 'service';
+            $newDeal->department = 'sales';
             $newDeal->save();
 
 
