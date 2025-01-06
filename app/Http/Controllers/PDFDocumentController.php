@@ -1633,7 +1633,7 @@ class PDFDocumentController extends Controller
 
 
     protected function getWithTotal(
-        $allPrices,
+        $allPrices
 
     ) {
 
