@@ -422,7 +422,7 @@ class ContractController extends Controller
         $outputFileName = 'Договор ' . $contractProductTitle . ' ' . $contractType;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
 
-        sleep(1);
+        sleep(5);
         // Преобразуем DOCX в RTF
         $rtfFileName = $contractProductTitle . '_договор.odt';
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
