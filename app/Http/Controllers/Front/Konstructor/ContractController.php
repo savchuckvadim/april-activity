@@ -426,7 +426,7 @@ class ContractController extends Controller
         // Преобразуем DOCX в RTF
         $rtfFileName = $contractProductTitle . '_договор.odt';
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
-        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODT');
+        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
 
