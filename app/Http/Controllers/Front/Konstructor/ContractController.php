@@ -425,7 +425,7 @@ class ContractController extends Controller
         sleep(1);
         // Преобразуем DOCX в RTF
         $rtfFileName = $contractProductTitle . '_договор.rtf';
-        $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $rtfFileName);
         $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
