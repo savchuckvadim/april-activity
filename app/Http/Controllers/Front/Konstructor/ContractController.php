@@ -335,7 +335,7 @@ class ContractController extends Controller
 
         $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
-        $fullPath = storage_path($filePath . '/template.docx');
+        $fullPath = storage_path($filePath . '/template_test.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
@@ -422,15 +422,15 @@ class ContractController extends Controller
         $outputFileName = 'Договор ' . $contractProductTitle . ' ' . $contractType;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
 
-        sleep(5);
+        sleep(1);
         // Преобразуем DOCX в RTF
-        $rtfFileName = $contractProductTitle . '_договор.odt';
+        $rtfFileName = $contractProductTitle . '_договор.rtf';
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
-        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
+        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
 
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $rtfFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
