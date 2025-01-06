@@ -424,13 +424,13 @@ class ContractController extends Controller
 
         sleep(1);
         // Преобразуем DOCX в RTF
-        $rtfFileName = $contractProductTitle . '_договор.rtf';
+        $rtfFileName = $contractProductTitle . '_договор.odt';
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
-        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
+        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODT');
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
 
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $rtfFileName);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
