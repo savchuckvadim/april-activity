@@ -430,7 +430,7 @@ class ContractController extends Controller
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
 
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $rtfFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
