@@ -428,10 +428,9 @@ class ContractController extends Controller
         $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
         $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
         $rtfWriter->save($resultPath . '/' . $rtfFileName);
-        sleep(1);
 
 
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $rtfFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
