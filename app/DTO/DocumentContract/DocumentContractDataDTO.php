@@ -23,7 +23,9 @@ class DocumentContractDataDTO
 
 
         public array $contractBaseState,
-        public array $contractClientState,
+        // public array $contractClientState,
+        public array $bxrq,
+
         public array $contractProviderState,
         public array $contractSpecificationState,
         public array $total,
@@ -51,7 +53,8 @@ class DocumentContractDataDTO
             
             clientType: $request->input('clientType', []),
             contractBaseState: $request->input('contractBaseState', []),
-            contractClientState: $request->input('contractClientState', []),
+            // contractClientState: $request->input('contractClientState', []),
+            bxrq: $request->input('bxrq', []),
             contractProviderState: $request->input('contractProviderState', []),
             userId: (int)$request->input('userId'),
             isSupplyReport: (bool)$request->input('isSupplyReport'),

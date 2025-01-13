@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpWord\Shared\Converter;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use morphos\Russian\MoneySpeller;
 
@@ -76,7 +75,8 @@ class ContractController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
-                'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
+                'contract' => '',
+                // $this->getContractGeneralForm($arows, $contractQuantity),
                 'specification' => $this->getSpecification(
                     $currentComplect,
                     $products,
@@ -272,7 +272,7 @@ class ContractController extends Controller
         $arows = $data->arows; //все продукты rows из general в виде массива
         // $total = $productSet['total'][0];
 
-        $clientType = 'commerc';
+        $clientType = 'commerc';  //xz зачем это
         if (!empty($data->clientType)) {
             if (!empty($data->clientType['code'])) {
                 if ($data->clientType['code'] == 'org_state') {
@@ -281,13 +281,19 @@ class ContractController extends Controller
             }
         }
 
+        $currentClientType = 'org';
+        if (!empty($data->clientType)) {
+            if (!empty($data->clientType['code'])) {
+                $currentClientType = $data->clientType['code'];
+            }
+        }
 
         $contractGeneralFields = $data->contractBaseState['items']; //fields array
 
-        $contractClientState = $data->contractClientState['client'];
-        $clientRq = $contractClientState['rqs']['rq'];                //fields array
-        $clientRqBank = $contractClientState['rqs']['bank'];
-
+        // $contractClientState = $data->contractClientState['client'];
+        // $clientRq = $contractClientState['rqs']['rq'];                //fields array
+        // $clientRqBank = $contractClientState['rqs']['bank'];
+        $clientRq = $data->bxrq;
         $providerState = $data->contractProviderState;
 
         $providerRq = $providerState['current']['rq'];
@@ -335,7 +341,7 @@ class ContractController extends Controller
 
         $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
-        $fullPath = storage_path($filePath . '/template_test.docx');
+        $fullPath = storage_path($filePath . '/template.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
@@ -346,6 +352,7 @@ class ContractController extends Controller
 
             // header
             $clientRq, //header and rq and general
+            $currentClientType,
             $providerRq,
 
             //  //specification 2 prices
@@ -360,7 +367,7 @@ class ContractController extends Controller
             $specification,
             $contractGeneralFields,
             // $clientRq,
-            $clientRqBank,
+            // $clientRqBank,
             $totalProductName
 
             // general dates and sums at body
@@ -422,15 +429,15 @@ class ContractController extends Controller
         $outputFileName = 'Договор ' . $contractProductTitle . ' ' . $contractType;
         $templateProcessor->saveAs($resultPath . '/' . $resultFileName);
 
-        sleep(1);
-        // Преобразуем DOCX в RTF
-        $rtfFileName = $contractProductTitle . '_договор.rtf';
-        $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
-        $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
-        $rtfWriter->save($resultPath . '/' . $rtfFileName);
+        // sleep(1);
+        // // Преобразуем DOCX в RTF
+        // $rtfFileName = $contractProductTitle . '_договор.rtf';
+        // $phpWord = \PhpOffice\PhpWord\IOFactory::load($resultPath . '/' . $resultFileName);
+        // $rtfWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
+        // $rtfWriter->save($resultPath . '/' . $rtfFileName);
 
 
-        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $rtfFileName);
+        $contractLink = asset('storage/clients/' . $domain . '/documents/contracts/' . $data->userId . '/' . $resultFileName);
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
@@ -2295,7 +2302,7 @@ class ContractController extends Controller
                 }
             }
 
-      
+
             return [
                 [
                     'type' => 'string',
@@ -3540,6 +3547,7 @@ class ContractController extends Controller
 
         // header
         $clientRq, //header and rq and general
+        $currentClientType, // org org_state ip fiz
         $providerRq,
 
         //  //specification 2 prices
@@ -3554,19 +3562,19 @@ class ContractController extends Controller
         $specification,
         $contractGeneralFields,
         // $clientRq,
-        $clientRqBank,
+        // $clientRqBank,
         $totalProductName
 
     ) {
         $documentData = array(
-            'contract_number' => 'yo',
-            'contract_city' => 'yo',
-            'contract_date' => 'yo',
-            'header' => 'yo',
-            'client_assigned_fio' => 'yo',
-            'contract_total_sum' => 'yo',
+            'contract_number' => '',
+            'contract_city' => '',
+            'contract_date' => '',
+            'header' => '',
+            'client_assigned_fio' => '',
+            'contract_total_sum' => '',
             'contract_total_sum_string' => '',
-            'contract_pay_date' => 'yo',
+            'contract_pay_date' => '',
             'we_rq' => '',
             'we _role' => '',
             'we _direct_position' => '',
@@ -3650,7 +3658,8 @@ class ContractController extends Controller
             . $providerRq['bank'] . "\n"
             . 'Телефон.: ' . $providerRq['phone'] . "\n"
             . 'E-mail: ' . $providerRq['email'] . "\n";
-        $client_rq = '';
+
+        $client_rq = $this->getClientRQ($currentClientType, $clientRq);
 
 
         $roles = $this->getRoles($contractType);
@@ -3687,6 +3696,185 @@ class ContractController extends Controller
         ];
     }
 
+    protected function getClientRQ(
+    
+        $currentClientType,
+        $clientRq,
+
+    ) {
+
+
+
+        $companyName = '____________________________________________________';  // || fio
+
+        $inn = '_____________________________________________________________'; // ||
+        $fizDocument = '_________________________________________________'; // ||
+        $address = '________________________________________________________________________'; //
+        $bank = '______________________________________'; // ||
+        $rs = '________________________________________'; // ||
+        $ks = '_________________________________________'; // ||
+        $phone = '_________________________________'; // ||
+        $email = '__________________________________'; // ||
+
+
+
+
+        foreach ($clientRq['fields'] as $rqItem) {
+
+            if ($rqItem['code'] == 'inn') {
+                if (!empty($rqItem['value'])) {
+                    $inn = $rqItem['value'];
+                }
+            }
+            if ($rqItem['code'] == 'phone') {
+                if (!empty($rqItem['value'])) {
+                    $phone = $rqItem['value'];
+                }
+            }
+            if ($rqItem['code'] == 'email') {
+                if (!empty($rqItem['value'])) {
+                    $email = $rqItem['value'];
+                }
+            }
+
+
+            if ($rqItem['code'] == 'shortname') {  //fullname
+                if ($currentClientType === 'org' || 'org_state') {
+                    if (!empty($rqItem['value'])) {
+                        $companyName = $rqItem['value'];
+                    }
+                }
+            }
+
+            if ($rqItem['code'] == 'personName') {  //fullname
+                if ($currentClientType === 'fiz') {
+                    $companyName = $rqItem['value'];
+                }
+            }
+
+            if ($currentClientType === 'fiz') {
+                if ($rqItem['code'] == 'document') {
+                    if (!empty($rqItem['value'])) {
+                        $fizDocument = $rqItem['value'] . ' ';
+                    }
+                }
+                if ($rqItem['code'] == 'docSer') {
+                    if (!empty($rqItem['value'])) {
+                        $fizDocument .= 'Серия: ' . $rqItem['value'] . ' ';
+                    }
+                }
+                if ($rqItem['code'] == 'docNum') {
+                    if (!empty($rqItem['value'])) {
+                        $fizDocument .= 'Номер: ' . $rqItem['value'] . ' ';
+                    }
+                }
+                if ($rqItem['code'] == 'docDate') {
+                    if (!empty($rqItem['value'])) {
+                        $fizDocument .= 'Дата выдачи: ' . $rqItem['value'];
+                    }
+                }
+            }
+
+            if ($currentClientType === 'org' || 'org_state') {
+            } else if ($currentClientType === 'ip') {
+            } else if ($currentClientType === 'fiz') {
+            }
+        }
+
+        if (!empty($clientRq['address'])) {
+            $searchingAddress = '';
+            if (!empty($clientRq['address']['items'])) {
+                foreach ($clientRq['address']['items'] as $rqAddress) {
+                    if ($rqAddress['type_id'] == 6) {
+                        foreach ($rqAddress['fields'] as $rqAddressField) {
+
+                            if ($rqAddressField['code'] === 'address_country') {
+                                if (!empty($rqAddressField['value'])) {
+
+                                    $searchingAddress = $rqAddressField['value'] . ', ';
+                                }
+                            }
+                            if ($rqAddressField['code'] === 'address_region') {
+                                if (!empty($rqAddressField['value'])) {
+                                    $searchingAddress .= $rqAddressField['value'] . ', ';
+                                }
+                            }
+                            if ($rqAddressField['code'] === 'address_region') {
+                                if (!empty($rqAddressField['value'])) {
+                                    $searchingAddress .= $rqAddressField['value'] . ', ';
+                                }
+                            }
+                            if ($rqAddressField['code'] === 'address_city') {
+                                if (!empty($rqAddressField['value'])) {
+                                    $searchingAddress .= $rqAddressField['value'] . ', ';
+                                }
+                            }
+                            if ($rqAddressField['code'] === 'address_1') {
+                                if (!empty($rqAddressField['value'])) {
+                                    $searchingAddress .= $rqAddressField['value'] . ', ';
+                                }
+                            }
+                            if ($rqAddressField['code'] === 'address_2') {
+                                if (!empty($rqAddressField['value'])) {
+                                    $searchingAddress .= $rqAddressField['value'];
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!empty($searchingAddress)) {
+                    $address = $searchingAddress;
+                }
+            }
+        }
+
+
+        if (!empty($clientRq['bank'])) {
+            if (!empty($clientRq['bank']['items'])) {
+                if (!empty($clientRq['bank']['items'][0])) {
+                    if (!empty($clientRq['bank']['items'][0]['fields'])) {
+                        foreach ($clientRq['bank']['items'][0]['fields'] as $rqBank) {
+
+                            if ($rqItem['code'] == 'bank_name') {
+                                if (!empty($rqBank['value'])) {
+                                    $rs = $rqBank['value'];
+                                }
+                            }
+                            if ($rqItem['code'] == 'rs') {
+                                if (!empty($rqBank['value'])) {
+                                    $rs = $rqBank['value'];
+                                }
+                            }
+                            if ($rqItem['code'] == 'ks') {
+                                if (!empty($rqBank['value'])) {
+                                    $ks = $rqBank['value'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($currentClientType == 'fiz') {
+            $client_rq = $companyName . "\n" . "\n"
+                . 'Адрес: ' . $address . "\n"
+                . "Документ: " . $fizDocument . "\n"
+                . 'Телефон.: ' . $phone . "\n"
+                . 'E-mail: ' . $email . "\n";
+        } else {
+            $client_rq = $companyName . "\n" . "\n"
+                . 'Адрес: ' . $address . "\n"
+                . "ИНН: " . $inn . "\n"
+                . "Р/с: " . $rs . "\n"
+                . "К/с: " . $ks . "\n"
+                . 'Телефон.: ' . $phone . "\n"
+                . 'E-mail: ' . $email . "\n";
+        }
+        return $client_rq;
+    }
+
     protected function getContractHeaderText(
         $contractType,
         // $clientCompanyFullName,
@@ -3698,7 +3886,7 @@ class ContractController extends Controller
         // $providerCompanyDirectorPositionCase,
         // $providerCompanyBased,
         $clientRq,
-        $providerRq,
+        $providerRq
     ) {
 
         $clientRole = 'Заказчик';
@@ -3729,7 +3917,7 @@ class ContractController extends Controller
         $clientCompanyDirectorPositionCase = '';
         $clientCompanyBased = ' ___________________________ ';
 
-        foreach ($clientRq as $rqItem) {
+        foreach ($clientRq['fields'] as $rqItem) {
 
             if (!empty($rqItem['value'])) {
                 if ($rqItem['code'] === 'fullname') {
@@ -3753,6 +3941,7 @@ class ContractController extends Controller
 
         return $headerText;
     }
+
 
     protected function getRoles(
         $contractType
