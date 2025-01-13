@@ -2295,6 +2295,7 @@ class ContractController extends Controller
                 }
             }
 
+      
             return [
                 [
                     'type' => 'string',
@@ -2343,31 +2344,15 @@ class ContractController extends Controller
 
                 ],
                 [
-                    'type' => 'string',
-                    'name' => 'Наименование  комплекта частей  Справочника',
+                    'type' => 'text',
+                    'name' => 'Наименование ',
                     'value' => $products_names,
                     'isRequired' => false,
-                    'code' => 'contract_spec_products_names',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 0,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
-
-                ],
-                [
-                    'type' => 'string',
-                    'name' => 'Вид Поставки',
-                    'value' => $product['supplyName'],
-                    'isRequired' => false,
-                    'code' => 'specification_supply',
+                    'code' => 'complect_name',
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => true,
-                    'order' => 12,
+                    'order' => 0,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
                     'contractType' => ['service', 'lic', 'abon', 'key']
@@ -2376,14 +2361,46 @@ class ContractController extends Controller
                 ],
                 // [
                 //     'type' => 'string',
-                //     'name' => 'Комментарий к наименованию',
-                //     'value' => '',
+                //     'name' => 'Наименование ',
+                //     'value' => $products_names,
                 //     'isRequired' => true,
-                //     'code' => 'contract_spec_products_names_comment',
+                //     'code' => 'complect_name',
                 //     'group' => 'specification',
                 //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 1,
+                //     'isDisable' => true,
+                //     'order' => 0,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                // ],
+                [
+                    'type' => 'string',
+                    'name' => 'Вид поставки',
+                    'value' => $product['quantityForKp'],
+                    'isRequired' => false,
+                    'code' => 'contract_spec_products_names_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 1,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Вид Размещения',
+                //     'value' => $contractSupplyName,
+                //     'isRequired' => true,
+                //     'code' => 'specification_supply',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 1.5,
                 //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                 //     'supplies' => ['internet', 'proxima'],
                 //     'contractType' => ['service', 'lic', 'abon', 'key']
@@ -2418,55 +2435,41 @@ class ContractController extends Controller
                     'order' => 2,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
-
-                ],
-                [
-                    'type' => 'text',
-                    'name' => 'Комментарий к ПК/ГЛ',
-                    'value' => $consaltingcomment,
-                    'isRequired' => false,
-                    'code' => 'specification_pk_comment',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => true,
-                    'order' => 3,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
                 ],
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Комментарий к ПК/ГЛ',
+                //     'value' => $consaltingcomment,
+                //     'isRequired' => true,
+                //     'code' => 'specification_pk_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => true,
+                //     'order' => 3,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                // ],
                 [
                     'type' => 'text',
-                    'name' => 'Большие информационные блоки',
-                    'value' => $iblocks['bigIBlocks'],
+                    'name' => 'Информационные блоки',
+                    'value' => $iblocks['allIBlocks'],
                     'isRequired' => false,
                     'code' => 'specification_ibig',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 4,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
-
-                ],
-                [
-                    'type' => 'text',
-                    'name' => 'Малые информационные блоки',
-                    'value' =>  $iblocks['smallIBlocks'],
-                    'isRequired' => false,
-                    'code' => 'specification_ismall',
-                    'group' => 'specification',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 5,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
 
 
                 ],
@@ -2482,7 +2485,8 @@ class ContractController extends Controller
                     'order' => 5,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
@@ -2498,7 +2502,8 @@ class ContractController extends Controller
                     'order' => 5,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
@@ -2514,10 +2519,27 @@ class ContractController extends Controller
                     'order' => 5,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Малые информационные блоки',
+                //     'value' =>  $iblocks['smallIBlocks'],
+                //     'isRequired' => true,
+                //     'code' => 'specification_ismall',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 5,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                // ],
                 [
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
@@ -2530,71 +2552,76 @@ class ContractController extends Controller
                     'order' => 6,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
                 [
                     'type' => 'string',
-                    'name' => 'Legal Tech в комплекте',
+                    'name' => 'Legal Tech в комплекте (бесплатно)',
                     'value' => $freeLtPack,
                     'isRequired' => false,
                     'code' => 'specification_lt_free',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($freeLtPack),
                     'isDisable' => true,
                     'order' => 7,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Legal Tech в комплекте',
+                    'name' => 'Состав Бесплатных Legal Tech',
                     'value' => $freeLtBlocks,
                     'isRequired' => false,
                     'code' => 'specification_lt_free_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($freeLtBlocks),
                     'isDisable' => true,
                     'order' => 8,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
                 [
                     'type' => 'string',
-                    'name' => 'Пакет Legal Tech',
+                    'name' => 'Платный Пакет Legal Tech',
                     'value' => $ltPack,
                     'isRequired' => false,
                     'code' => 'specification_lt_packet',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($ltPack),
                     'isDisable' => true,
                     'order' => 9,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
                 [
                     'type' => 'text',
-                    'name' => 'Пакет Legal Tech',
+                    'name' => 'Состав Платного Legal Tech',
                     'value' => $ltBlocks,
                     'isRequired' => false,
                     'code' => 'specification_lt_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($ltBlocks),
                     'isDisable' => true,
                     'order' => 10,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
@@ -2605,94 +2632,81 @@ class ContractController extends Controller
                     'isRequired' => false,
                     'code' => 'specification_services',
                     'group' => 'specification',
-                    'isActive' => true,
+                    'isActive' => !empty($iblocks['starLtBlocks']),
                     'isDisable' => true,
                     'order' => 11,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
 
                 ],
 
-                [
-                    'type' => 'string',
-                    'name' => 'Вид Размещения',
-                    'value' => $product['contractSupplyName'],
-                    'isRequired' => false,
-                    'code' => 'specification_supply',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 12,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Примечание Вид Размещения',
+                //     'value' => $product['contractSupplyPropComment'],
+                //     'isRequired' => true,
+                //     'code' => 'specification_supply_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 13,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['internet', 'proxima'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key']
 
 
-                ],
-                [
-                    'type' => 'text',
-                    'name' => 'Примечание Вид Размещения',
-                    'value' => $product['contractSupplyPropComment'],
-                    'isRequired' => false,
-                    'code' => 'specification_supply_comment',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 13,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
-
-                ],
+                // ],
 
                 [
                     'type' => 'text',
                     'name' => 'Носители, используемые при предоставлении услуг',
                     'value' => $contractSupplyProp1,
-                    'isRequired' => false,
+                    'isRequired' => true,
                     'code' => 'specification_distributive',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => true,
+                    'isDisable' => false,
                     'order' => 14,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['proxima'],
-                    'contractType' => ['service', 'lic',  'key']
+                    'contractType' => ['service', 'lic',  'key'],
+                    'isHidden' => true
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Примечание Носители',
-                    'value' => $contractSupplyPropEmail,
-                    'isRequired' => false,
-                    'code' => 'specification_distributive_comment',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 15,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['proxima'],
-                    'contractType' => ['service', 'lic',  'key']
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Примечание Носители',
+                //     'value' => $contractSupplyPropEmail,
+                //     'isRequired' => true,
+                //     'code' => 'specification_distributive_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 15,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'supplies' => ['proxima'],
+                //     'contractType' => ['service', 'lic',  'key']
 
 
-                ],
+                // ],
                 [
                     'type' => 'text',
                     'name' => 'Носители дистрибутивов предоставляются следующим способом',
                     'value' => $contractSupplyProp2,
-                    'isRequired' => false,
+                    'isRequired' => true,
                     'code' => 'specification_dway',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => false,
                     'order' => 16,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['proxima'],
-                    'contractType' => ['service', 'lic',  'key']
+                    'contractType' => ['service', 'lic',  'key'],
+                    'isHidden' => true
 
 
                 ],
@@ -2716,10 +2730,10 @@ class ContractController extends Controller
                     'type' => 'string',
                     'name' => 'Периодичность предоставления услуг',
                     'value' => '1 неделя',
-                    'isRequired' => false,
+                    'isRequired' => true,
                     'code' => 'specification_service_period',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => false,
                     'order' => 18,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
@@ -2735,7 +2749,7 @@ class ContractController extends Controller
                     'code' => 'specification_supply_quantity',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 19,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['service', 'lic', 'abon', 'key'],
@@ -2751,7 +2765,7 @@ class ContractController extends Controller
                     'code' => 'specification_key_period',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 20,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['key'],
@@ -2760,22 +2774,22 @@ class ContractController extends Controller
 
                 ],
 
-                [
-                    'type' => 'text',
-                    'name' => 'Email прмечание',
-                    'value' => $contractSupplyPropEmail,
-                    'isRequired' => false,
-                    'code' => 'specification_email_comment',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 22,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'contractType' => ['service', 'lic', 'abon', 'key'],
-                    'supplies' => ['internet'],
+                // [
+                //     'type' => 'text',
+                //     'name' => 'Email прмечание',
+                //     'value' => $contractSupplyPropEmail,
+                //     'isRequired' => true,
+                //     'code' => 'specification_email_comment',
+                //     'group' => 'specification',
+                //     'isActive' => true,
+                //     'isDisable' => false,
+                //     'order' => 22,
+                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                //     'contractType' => ['service', 'lic', 'abon', 'key'],
+                //     'supplies' => ['internet'],
 
 
-                ],
+                // ],
                 [
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
@@ -2784,7 +2798,7 @@ class ContractController extends Controller
                     'code' => 'abon_long',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 23,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['abon'],
@@ -2807,7 +2821,7 @@ class ContractController extends Controller
                     'code' => 'lic_long',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => false,
+                    'isDisable' => true,
                     'order' => 23,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'contractType' => ['lic',],
