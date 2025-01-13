@@ -185,8 +185,12 @@ class BitrixController extends Controller
     public function getPortalReportData($domain)
     {
         $portal = Portal::where('domain', $domain)->first();
+        $bitrixlistId = $portal->getSalesBitrixListId()->bitrixId;
+        if($domain === 'april-garant.bitrix24.ru'){
+            $bitrixlistId = 86;
+        }
         return [
-            'bitrixlistId' =>  $portal->getSalesBitrixListId()->bitrixId,
+            'bitrixlistId' =>  $bitrixlistId,
             'callingGroupId' =>  $portal->getSalesCallingGroupId()->bitrixId,
             'departamentId' =>  $portal->getSalesDepartamentId()->bitrixId,
         ];
