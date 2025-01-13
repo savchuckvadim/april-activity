@@ -76,7 +76,7 @@ class ContractController extends Controller
                     'address' => [],
                 ],
                 'contract' => '',
-                // $this->getContractGeneralForm($arows, $contractQuantity),
+                $this->getContractGeneralForm($arows, $contractQuantity),
                 'specification' => $this->getSpecification(
                     $currentComplect,
                     $products,
