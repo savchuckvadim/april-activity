@@ -75,8 +75,7 @@ class ContractController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
-                'contract' => '',
-                $this->getContractGeneralForm($arows, $contractQuantity),
+                'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
                 'specification' => $this->getSpecification(
                     $currentComplect,
                     $products,
@@ -3697,7 +3696,7 @@ class ContractController extends Controller
     }
 
     protected function getClientRQ(
-    
+
         $currentClientType,
         $clientRq,
 
