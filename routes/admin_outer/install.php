@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
 
     // Route::prefix('install')->group(function () {
+    Route::post('portals', [ListController::class, 'setLists']);
+
     Route::post('list', [ListController::class, 'setLists']);
     Route::post('deal', [DealController::class, 'setDeals']);
     Route::post('fields', [FieldsController::class, 'setFields']);
@@ -22,7 +24,7 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     // entity_type
     // domain
     // is_rewrite
-    
+
     // Route::post('get', function (Request $request) {
     //     $data = $request->all();
     //     Log::channel('telegram')->info('data', ['data' => $data]);

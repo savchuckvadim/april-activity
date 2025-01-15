@@ -48,4 +48,25 @@ class PortalController extends Controller
         // Cache::put($cacheKey, $portalData, now()->addMinutes(10)); // Кешируем данные портала
         return APIController::getSuccess(['portal_old' => $portalData, 'portal' => $portal_data]); // Возвращаем данные в формате response
     }
+
+    public static function all()
+    {
+
+
+        $portals = Portal::all();
+        if (!$portals) {
+            return response([
+                'resultCode' => 1,
+                'message' => 'portals not found!'
+            ], 404);
+        }
+        $filteredPortals = $portals->map(function ($portal) {
+            return [
+                'id' => $portal->id,
+                'domain' => $portal->domain,
+            ];
+        });
+
+        return APIController::getSuccess(['portals' => $filteredPortals]); // Возвращаем данные в формате response
+    }
 }
