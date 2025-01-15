@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminOuter\ListController;
 use App\Http\Controllers\AdminOuter\RPA\RPAController;
 use App\Http\Controllers\AdminOuter\SmartController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\Outer\PortalController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
 
     // Route::prefix('install')->group(function () {
-    Route::post('portals', [ListController::class, 'setLists']);
+    Route::post('portals', [PortalController::class, 'all']);
 
     Route::post('list', [ListController::class, 'setLists']);
     Route::post('deal', [DealController::class, 'setDeals']);
