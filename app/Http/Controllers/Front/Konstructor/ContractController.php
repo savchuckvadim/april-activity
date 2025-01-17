@@ -3975,18 +3975,23 @@ class ContractController extends Controller
 
         $clientCompanyFullName = ' __________________________________________________________ ';
         $clientCompanyDirectorNameCase = '____________________________________________________';
-        $clientCompanyDirectorPositionCase = '';
+        $clientCompanyDirectorPositionCase = '______________________________________________';
         $clientCompanyBased = 'Устава';
 
         foreach ($clientRq['fields'] as $rqItem) {
 
             if (!empty($rqItem['value'])) {
                 if ($rqItem['code'] === 'fullname') {
+                    
                     $clientCompanyFullName = $rqItem['value'];
+
                 } else  if ($rqItem['code'] === 'position_case') {
                     $clientCompanyDirectorPositionCase = $rqItem['value'];
+
+
                 } else  if ($rqItem['code'] === 'director_case') {
                     $clientCompanyDirectorNameCase = $rqItem['value'];
+
                 } else  if ($rqItem['code'] === 'based') {
                     $clientCompanyBased = $rqItem['value'];
                 }
