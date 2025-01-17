@@ -865,7 +865,7 @@ class FieldsController extends Controller
     public static function deleteFieldsForEntities(
         $entityType,
         $fields,
-        $portalFields,
+        $portalFields
      
     ) {
 
@@ -873,6 +873,7 @@ class FieldsController extends Controller
 
         $result_fields = [];
         $isRewrite = false;
+      
         foreach ($fields as   $field) {
             // $currentBtxField = false;
             // $currentBtxFieldId = false;
@@ -890,7 +891,7 @@ class FieldsController extends Controller
                     }
                 }
 
-                if (!empty($currentPortalField) && !empty($isRewrite)) {
+                if (!empty($currentPortalField)) {
 
                     $currentPortalField->items()->delete();
                     $currentPortalField->delete();
