@@ -887,15 +887,16 @@ class FieldsController extends Controller
 
                         if ($field['code'] === $portalField['code']) {
                             $currentPortalField = $portalField;
+                            if (!empty($currentPortalField)) {
+
+                                $currentPortalField->items()->delete();
+                                $currentPortalField->delete();
+                            }
                         }
                     }
                 }
 
-                if (!empty($currentPortalField)) {
-
-                    $currentPortalField->items()->delete();
-                    $currentPortalField->delete();
-                }
+            
 
                 return $result_fields;
             }
