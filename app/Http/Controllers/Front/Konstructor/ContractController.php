@@ -267,12 +267,12 @@ class ContractController extends Controller
         $contractCoefficient = $contract->prepayment;
 
         $pbxCompanyItems = null;
-        if (isset($data['bxCompanyItems'])) {
+        if (isset($data->bxCompanyItems)) {
             $pbxCompanyItems = $data->bxCompanyItems;
         }
 
         $pbxDealItems = null;
-        if (isset($data['bxDealItems'])) {
+        if (isset($data->bxDealItems)) {
             $pbxDealItems = $data->bxDealItems;
         }
 
