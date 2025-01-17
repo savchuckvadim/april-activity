@@ -3737,6 +3737,10 @@ class ContractController extends Controller
             }
         }
 
+        if (!empty($general['contract_city'])) {
+            $general['contract_city'] = 'г. ' . $general['contract_city'];
+        }
+
         return [
             'productRows' =>  $productRows,
             'products' =>  $products,
