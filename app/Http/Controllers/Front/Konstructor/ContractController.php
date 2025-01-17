@@ -3627,7 +3627,7 @@ class ContractController extends Controller
             }
 
             if (!empty($pbxDealItems['first_pay_date'])) { //Внести оплату не позднее
-                $contract_date = $pbxDealItems['first_pay_date']['current'];
+                $contract_pay_date = $pbxDealItems['first_pay_date']['current'];
             }
         }
         $productRows = $this->getProducts(
