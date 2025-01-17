@@ -3611,6 +3611,7 @@ class ContractController extends Controller
         $contract_pay_date = '___________________________________________';
         $contract_start = '_____________________________________';
         $contract_end = '_____________________________________';
+        $client_assigned_fio = ' _____________________________ ';
 
         if (!empty($pbxDealItems)) {
             if (!empty($pbxDealItems['contract_start']) && !empty($pbxDealItems['contract_start']['current'])) {
@@ -3624,8 +3625,8 @@ class ContractController extends Controller
                 $contract_date = $pbxDealItems['contract_create_date']['current'];
             }
 
-            if (!empty($pbxDealItems['garant_client_assigned_name'])) { //ФИО Ответственного за получение справочника
-
+            if (!empty($pbxDealItems['garant_client_assigned_name']) && !empty($pbxDealItems['garant_client_assigned_name']['current'])) { //ФИО Ответственного за получение справочника
+                $client_assigned_fio = $pbxDealItems['garant_client_assigned_name']['current'];
             }
 
             if (!empty($pbxDealItems['first_pay_date'])) { //Внести оплату не позднее
@@ -3684,6 +3685,7 @@ class ContractController extends Controller
             'contract_pay_date' => $contract_pay_date,
             'contract_start' => $contract_start,
             'contract_end' => $contract_end,
+            'client_assigned_fio' => $client_assigned_fio
         ];
 
 
@@ -3724,9 +3726,12 @@ class ContractController extends Controller
         ];
 
 
-        if (preg_match('/(?:г\.|город)\s+([а-яёА-ЯЁ\s\-]+)/iu', $providerRq['registredAdress'], $matches)) {
-            $general['contract_city'] = trim($matches[1]); // Если найден город
+        if (preg_match('/(?:г(?:\.|ород)?)\s*([а-яёА-ЯЁ\-]+)(?=\s|,|$)/iu', $providerRq['registredAdress'], $matches)) {
+            $general['contract_city'] = trim($matches[1]);
+        } elseif (preg_match('/(?:[а-яёА-ЯЁ]+)\s*г,\s*([а-яёА-ЯЁ\-]+)/iu', $providerRq['registredAdress'], $matches)) {
+            $general['contract_city'] = trim($matches[1]);
         }
+
         return [
             'productRows' =>  $productRows,
             'products' =>  $products,
@@ -4124,7 +4129,6 @@ class ContractController extends Controller
         $loginsQuantity = '';
         $contractInternetEmail = '_____________________________________________________';
         $supplyComment = '';
-        $client_assigned_fio = ' _____________________________ ';
         foreach ($specification as $key => $value) {
 
             if (
@@ -4199,7 +4203,7 @@ class ContractController extends Controller
             'logins_quantity' => $loginsQuantity,
             'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
-            'client_assigned_fio' => $client_assigned_fio
+            // 'client_assigned_fio' => $client_assigned_fio
         ];
 
         return $specificationData;
