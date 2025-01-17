@@ -22,6 +22,8 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Response;
 use morphos\Russian\MoneySpeller;
 use function morphos\Russian\inflectName;
+use morphos\Russian\Cases;
+use morphos\Russian\NounDeclension;
 
 class ContractController extends Controller
 {
@@ -3952,17 +3954,29 @@ class ContractController extends Controller
                 # code...
                 break;
         }
+        $providerType = $providerRq['type'];
+
         $providerCompanyFullName = $providerRq['fullname'];
         $providerCompanyDirectorName = $providerRq['director'];
-        $providerCompanyDirectorPositionCase = $providerRq['position'];
-        $providerCompanyDirectorNameCase = inflectName($providerRq['director'], 'родительный');
+        $providerCompanyDirectorPosition = $providerRq['position'];
+        $providerCompanyDirectorNameCase = inflectName($providerCompanyDirectorName, 'родительный');
+        $providerCompanyDirectorPositionCase = NounDeclension::getCase($providerCompanyDirectorPosition, Cases::GENITIVE); // Используйте DATIVE для дательного падежа
 
-        $providerCompanyBased = 'Устава';
+        $providerCompanyBased = $providerRq['based'];
+        $clientType = 'org';
+        if (!empty($clientRq['preset_id'])) {
+            if ($clientRq['preset_id'] == 3) {
+                $clientType = 'ip';
+            } else  if ($clientRq['preset_id'] == 5) {
+                $clientType = 'fiz';
+            }
+        }
+
 
         $clientCompanyFullName = ' __________________________________________________________ ';
         $clientCompanyDirectorNameCase = '____________________________________________________';
         $clientCompanyDirectorPositionCase = '';
-        $clientCompanyBased = ' ___________________________ ';
+        $clientCompanyBased = 'Устава';
 
         foreach ($clientRq['fields'] as $rqItem) {
 
@@ -3980,10 +3994,23 @@ class ContractController extends Controller
         }
 
         $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант",
-        именуемый в дальнейшем "' . $providerRole . '", в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase . ', действующего(-ей) на основании '
-            . $providerCompanyBased . ' с одной стороны и ' . $clientCompanyFullName . ',
-        именуемое(-ый) в дальнейшем "' . $clientRole . '", в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
-            . $clientCompanyBased . ' с другой стороны, заключили настоящий Договор о нижеследующем:';
+        именуемый в дальнейшем "' . $providerRole;
+
+        if ($providerType == 'org') {
+            $headerText .=  ', в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase .
+                ', действующего(-ей) на основании ' . $providerCompanyBased;
+        }
+
+
+        $headerText .= ' с одной стороны и ' . $clientCompanyFullName . ',
+        именуемое(-ый) в дальнейшем "' . $clientRole;
+        if ($clientType == 'org') {
+            $headerText .=   ', в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
+                . $clientCompanyBased;
+        }
+
+
+        $headerText .= ' с другой стороны, заключили настоящий Договор о нижеследующем:';
 
 
         return $headerText;
