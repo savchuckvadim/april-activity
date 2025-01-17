@@ -3960,6 +3960,9 @@ class ContractController extends Controller
         $providerType = $providerRq['type'];
 
         $providerCompanyFullName = $providerRq['fullname'];
+
+
+
         $providerCompanyDirectorName = $providerRq['director'];
         $providerCompanyDirectorPosition = $providerRq['position'];
         $providerCompanyDirectorNameCase = inflectName($providerCompanyDirectorName, 'родительный');
@@ -3976,9 +3979,17 @@ class ContractController extends Controller
         foreach ($clientRq['fields'] as $rqItem) {
 
             if (!empty($rqItem['value'])) {
-                if ($rqItem['code'] === 'fullname') {
 
-                    $clientCompanyFullName = $rqItem['value'];
+
+                if ($rqItem['code'] === 'fullname') {
+                    if ($clientType == 'ip' || $clientType == 'org') {
+                        $clientCompanyFullName = $rqItem['value'];
+                    }
+                } else if ($rqItem['code'] === 'personName') {
+                    if ($clientType == 'ip' || $clientType == 'fiz') {
+
+                        $clientCompanyFullName = $rqItem['value'];
+                    }
                 } else  if ($rqItem['code'] === 'position_case') {
                     $clientCompanyDirectorPositionCase = $rqItem['value'];
                 } else  if ($rqItem['code'] === 'director_case') {
@@ -3998,7 +4009,7 @@ class ContractController extends Controller
         }
 
 
-        $headerText .= ' с одной стороны и' . $clientCompanyFullName . ',
+        $headerText .= ' с одной стороны и ' . $clientCompanyFullName . ',
         именуемое(-ый) в дальнейшем "' . $clientRole;
         if ($clientType == 'org') {
             $headerText .=   ', в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
