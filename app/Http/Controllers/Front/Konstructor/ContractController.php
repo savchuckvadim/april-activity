@@ -3998,10 +3998,15 @@ class ContractController extends Controller
         }
 
 
-        $headerText .= ' с одной стороны и $clientType' . $clientType . $clientCompanyFullName . ',
+        $headerText .= ' с одной стороны и' . $clientCompanyFullName . ',
         именуемое(-ый) в дальнейшем "' . $clientRole;
         if ($clientType == 'org') {
             $headerText .=   ', в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
+                . $clientCompanyBased;
+        }
+
+        if ($clientType == 'ip') {
+            $headerText .=  ', действующего(-ей) на основании '
                 . $clientCompanyBased;
         }
 
