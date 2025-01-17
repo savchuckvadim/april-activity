@@ -125,4 +125,22 @@ class BtxDeal extends Model
             ]
         ];
     }
+
+
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::deleting(function ($deal) {
+    //         // Удаление связанных категорий
+    //         $deal->categories()->delete();
+
+    //         // Удаление связанных полей и их элементов
+    //         $deal->bitrixfields->each(function ($field) {
+    //             $field->items()->delete(); // Удаляем связанные items
+    //             $field->delete();         // Удаляем поле
+    //         });
+    //     });
+    // }
 }

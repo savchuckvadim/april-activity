@@ -147,7 +147,7 @@ class FieldsController extends Controller
                 $parentClass = BtxCompany::class;
                 $parentId = $portalCompany['id'];
                 $portalEntityFields =  $portalCompanyFields;
-            }else   if ($entityType === 'contact') {
+            } else   if ($entityType === 'contact') {
                 $portal = Portal::where('domain', $domain)->first();
                 $portalContactFields = $portalContact->bitrixfields;
                 // $portalEntityFields =  $portalCompanyFields;
@@ -167,7 +167,7 @@ class FieldsController extends Controller
 
                 $portal = Portal::where('domain', $domain)->first();
                 $rpaCode = '';
-                if(!empty($data['rpa_code'])){
+                if (!empty($data['rpa_code'])) {
                     $rpaCode = $data['rpa_code'];
                 }
                 $currentPRPA =  $portal->rpas->where('code', $rpaCode)->first();
@@ -218,7 +218,8 @@ class FieldsController extends Controller
                     $fields,
                     $portalEntityFields,
                     $parentClass,
-                    $parentId
+                    $parentId,
+                    $isRewrite
 
                 );
             } else {
@@ -268,6 +269,9 @@ class FieldsController extends Controller
         // ID - идентификатор значения. Если он указан, то считается что это обновление существующего значения элемента списка, а не создание нового. Имеет смысл только при вызове методов *.userfield.update.
         // DEL - если равно Y, то существующий элемент списка будет удален. Применяется, если заполнен параметр ID.
     }
+
+
+
 
 
 
@@ -564,6 +568,7 @@ class FieldsController extends Controller
         $portalFields,
         $parentClass,
         $parentId,
+        $isRewrite
     ) {
 
 
@@ -596,6 +601,11 @@ class FieldsController extends Controller
                     $type = 'string';
                 }
 
+                // if (!empty($currentPortalField) && !empty($isRewrite)) {
+
+                //     $currentPortalField->items()->delete();
+                //     $currentPortalField->delete();
+                // }
 
                 if (empty($currentPortalField)) {
                     $appTypeBitrixId = preg_replace('/[\x00-\x1F\x7F]/', '',  $field['appType']);
@@ -637,6 +647,258 @@ class FieldsController extends Controller
             // sleep(2);
         }
         return $result_fields;
+    }
+
+    static function deleteFields(
+        Request $request
+
+
+    ) {
+
+
+
+        $btxSmart = null;
+        $portalSmart = null;
+        $responseData = null;
+        try {
+            $data = $request->all();
+            $fields = $data['fields'];
+            $entityType =  $data['entity_type']; //rpa company
+            $domain =  $data['domain'];
+            $isRewrite = $data['is_rewrite'];
+            $smartId = $data['smart_id'];
+
+
+
+            $portal = Portal::where('domain', $domain)->first();
+            $group = 'sales';
+
+            $portalDeal = $portal->deals->first();
+            $portalLead = $portal->lead();
+            $portalCompany = $portal->companies->first();
+            $portalContact = $portal->contacts->first();
+            $portalRPAs = $portal->rpas->all();
+            // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
+            Log::channel('telegram')->error("currentPortalField", [
+                'portalRPAs' => $portalRPAs,
+
+
+            ]);
+
+            $portalDealFields = [];
+            if ((!empty($portalDeal))) {
+  
+            }
+
+            if (!empty($portalLead)) {
+                $portalLeadFields = $portalLead->fields;
+            }
+
+
+            $portalEntityFields = null;
+            if ($entityType === 'deal') {
+
+                $portalDeal = $portal->deals->first();
+                // if (!empty($isRewrite)) {
+                //     $portalDeal->bitrixfields()->delete();
+                //     $portalDeal->save();
+
+
+                // }
+
+                $portal = Portal::where('domain', $domain)->first();
+
+                $portalDealFields = $portalDeal->bitrixfields;
+
+
+                $parentClass = BtxDeal::class;
+                $parentId = $portalDeal['id'];
+                $portalEntityFields =  $portalDealFields;
+            } else   if ($entityType === 'company') {
+                $portal = Portal::where('domain', $domain)->first();
+                $portalCompanyFields = $portalCompany->bitrixfields;
+                // $portalEntityFields =  $portalCompanyFields;
+                Log::channel('telegram')->info("smart", [
+                    'portalCompany' => $portalCompany,
+                ]);
+
+                Log::channel('telegram')->info("smart", [
+                    'portalCompanyFields' => $portalCompanyFields,
+                ]);
+
+
+
+                // if (!empty($isRewrite)) {
+                //     $portalCompany->bitrixfields()->delete();
+                //     $portalCompany->save();
+
+
+
+                // }
+
+
+
+
+                $parentClass = BtxCompany::class;
+                $parentId = $portalCompany['id'];
+                $portalEntityFields =  $portalCompanyFields;
+            } else   if ($entityType === 'contact') {
+                $portal = Portal::where('domain', $domain)->first();
+                $portalContactFields = $portalContact->bitrixfields;
+                // $portalEntityFields =  $portalCompanyFields;
+                Log::channel('telegram')->info("smart", [
+                    'portalContact' => $portalContact,
+                ]);
+
+                Log::channel('telegram')->info("contact", [
+                    'portalContactFields' => $portalContactFields,
+                ]);
+
+                $parentClass = BtxContact::class;
+                $parentId = $portalContact['id'];
+                $portalEntityFields =  $portalContactFields;
+            } else   if ($entityType === 'rpa') {
+
+
+                $portal = Portal::where('domain', $domain)->first();
+                $rpaCode = '';
+                if (!empty($data['rpa_code'])) {
+                    $rpaCode = $data['rpa_code'];
+                }
+                $currentPRPA =  $portal->rpas->where('code', $rpaCode)->first();
+                $portalRPAFields = $currentPRPA->bitrixfields;
+                // $portalEntityFields =  $portalCompanyFields;
+                Log::channel('telegram')->info("rpa", [
+                    'currentPRPA' => $currentPRPA,
+                ]);
+
+                Log::channel('telegram')->info("rpa", [
+                    'portalRPAFields' => $portalRPAFields,
+                ]);
+
+
+
+                // if (!empty($isRewrite)) {
+                //     $portalCompany->bitrixfields()->delete();
+                //     $portalCompany->save();
+
+
+
+                // }
+
+
+
+
+                $parentClass = BtxRpa::class;
+                $parentId = $currentPRPA['id'];
+                $portalEntityFields =  $portalRPAFields;
+            }
+
+            // else   if ($entityType === 'lead') {
+            //     $parentClass = BtxLead::class;
+            //     $parentId = $portalLead['id'];
+            //     $portalEntityFields =  $portalLeadFields;
+            // } else   if ($entityType === 'smart') {
+            //     $parentClass = Smart::class;
+            //     if (!empty($portalSmart)) {
+            //         $portalEntityFields = $portalSmart->fields;
+            //     }
+            // }
+
+            if ($entityType !== 'smart') {
+
+
+                $responseData = FieldsController::deleteFieldsForEntities(
+                    $entityType,
+                    $fields,
+                    $portalEntityFields,
+
+
+                );
+            } else {
+
+
+                if (!empty($portalSmart)) {
+                    // $responseData = FieldsController::createFieldsForSmartProcesses(
+                    //     $hook,
+                    //     $fields,
+                    //     $group,
+                    //     $portalSmart,
+                    //     $parentClass,
+                    //     $btxSmart,
+
+                    // );
+                }
+            }
+
+            $portal = Portal::where('domain', $domain)->first();
+            $resultPortal = new PortalOuterResource($portal, $domain);
+            return APIController::getSuccess(['updated_portal' => $resultPortal]);
+
+            // };
+        } catch (\Exception $e) {
+            Log::error('Error in installSmart', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            Log::channel('telegram')->info('APRIL_ONLINE TEST', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            return APIController::getError('An error occurred during installation', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        }
+
+
+        // VALUE - значение элемента списка. Поле является обязательным в случае, когда создается новый элемент.
+        // SORT - сортировка.
+        // DEF - если равно Y, то элемент списка является значением по-умолчанию. Для множественного поля допустимо несколько DEF=Y. Для не множественного, дефолтным будет считаться первое.
+        // XML_ID - внешний код значения. Параметр учитывается только при обновлении уже существующих значений элемента списка.
+        // ID - идентификатор значения. Если он указан, то считается что это обновление существующего значения элемента списка, а не создание нового. Имеет смысл только при вызове методов *.userfield.update.
+        // DEL - если равно Y, то существующий элемент списка будет удален. Применяется, если заполнен параметр ID.
+    }
+    public static function deleteFieldsForEntities(
+        $entityType,
+        $fields,
+        $portalFields,
+     
+    ) {
+
+
+
+        $result_fields = [];
+        $isRewrite = false;
+        foreach ($fields as   $field) {
+            // $currentBtxField = false;
+            // $currentBtxFieldId = false;
+            $currentPortalField = false;
+
+            if ($field[$entityType]) {
+
+                if (!empty($portalFields)) {
+
+                    foreach ($portalFields as $portalField) {
+
+                        if ($field['code'] === $portalField['code']) {
+                            $currentPortalField = $portalField;
+                        }
+                    }
+                }
+
+                if (!empty($currentPortalField) && !empty($isRewrite)) {
+
+                    $currentPortalField->items()->delete();
+                    $currentPortalField->delete();
+                }
+
+                return $result_fields;
+            }
+        }
     }
 
     public static function setFieldItems(
@@ -708,4 +970,22 @@ class FieldsController extends Controller
             }
         }
     }
+
+    // public static function dealDelete($domain){
+    //     $portal = Portal::where
+    //     $dealId = Port
+    //     $deal = BtxDeal::find($dealId);
+
+    //     if ($deal) {
+    //         // Удаляем поля и их элементы
+    //         $deal->bitrixfields->each(function ($field) {
+    //             // Удаляем связанные items
+    //             $field->items()->delete();
+
+    //             // Удаляем само поле
+    //             $field->delete();
+    //         });
+    //     }
+
+    // }
 }

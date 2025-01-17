@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Response;
 use morphos\Russian\MoneySpeller;
+use function morphos\Russian\inflectName;
 
 class ContractController extends Controller
 {
@@ -3605,7 +3606,7 @@ class ContractController extends Controller
 
         );
         $contract_date = '';
-        $contract_pay_date = '';
+        $contract_pay_date = '___________________________________________';
         $contract_start = '_____________________________________';
         $contract_end = '_____________________________________';
 
@@ -3676,7 +3677,7 @@ class ContractController extends Controller
         $general = [
             'contract_date' => $contract_date,
             'contract_city' => '',
-            'contract_pay_date' => '__________________________________________',
+            'contract_pay_date' => $contract_pay_date,
             'contract_start' => $contract_start,
             'contract_end' => $contract_end,
         ];
@@ -3952,8 +3953,10 @@ class ContractController extends Controller
                 break;
         }
         $providerCompanyFullName = $providerRq['fullname'];
-        $providerCompanyDirectorNameCase = $providerRq['director'];
+        $providerCompanyDirectorName = $providerRq['director'];
         $providerCompanyDirectorPositionCase = $providerRq['position'];
+        $providerCompanyDirectorNameCase = inflectName($providerRq['director'], 'родительный');
+
         $providerCompanyBased = 'Устава';
 
         $clientCompanyFullName = ' __________________________________________________________ ';

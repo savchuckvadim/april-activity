@@ -19,6 +19,8 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
     Route::post('list', [ListController::class, 'setLists']);
     Route::post('deal', [DealController::class, 'setDeals']);
     Route::post('fields', [FieldsController::class, 'setFields']);
+    Route::post('delete/fields', [FieldsController::class, 'deleteFields']);
+
     Route::post('rpa', [RPAController::class, 'installRPA']);
     Route::post('smarts', [SmartController::class, 'install']);
     // fields
