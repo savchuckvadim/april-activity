@@ -265,7 +265,15 @@ class ContractController extends Controller
         $isProduct = $contractType !== 'service';
         $contractCoefficient = $contract->prepayment;
 
+        $pbxCompanyItems = null;
+        if (isset($data['bxCompanyItems'])) {
+            $pbxCompanyItems = $data['bxCompanyItems'];
+        }
 
+        $pbxDealItems = null;
+        if (isset($data['bxDealItems'])) {
+            $pbxDealItems = $data['bxDealItems'];
+        }
 
 
         $arows = $data->arows; //все продукты rows из general в виде массива
@@ -367,7 +375,10 @@ class ContractController extends Controller
             $contractGeneralFields,
             // $clientRq,
             // $clientRqBank,
-            $totalProductName
+            $totalProductName,
+
+            $pbxCompanyItems,
+            $pbxDealItems,
 
             // general dates and sums at body
 
@@ -3562,7 +3573,9 @@ class ContractController extends Controller
         $contractGeneralFields,
         // $clientRq,
         // $clientRqBank,
-        $totalProductName
+        $totalProductName,
+        $pbxCompanyItems,
+        $pbxDealItems,
 
     ) {
         $documentData = array(
@@ -3591,7 +3604,31 @@ class ContractController extends Controller
 
 
         );
+        $contract_date = '';
+        $contract_pay_date = '';
+        $contract_start = '_____________________________________';
+        $contract_end = '_____________________________________';
 
+        if (!empty($pbxDealItems)) {
+            if (!empty($pbxDealItems['contract_start']) && !empty($pbxDealItems['contract_start']['current'])) {
+                $contract_start = $pbxDealItems['contract_start']['current'];
+            }
+            if (!empty($pbxDealItems['contract_end']) && !empty($pbxDealItems['contract_end']['current'])) {
+                $contract_start = $pbxDealItems['contract_end']['current'];
+            }
+
+            if (!empty($pbxDealItems['contract_create_date']) && !empty($pbxDealItems['contract_create_date']['current'])) { //дата создания договора
+                $contract_date = $pbxDealItems['contract_create_date']['current'];
+            }
+
+            if (!empty($pbxDealItems['garant_client_assigned_name'])) { //ФИО Ответственного за получение справочника
+
+            }
+
+            if (!empty($pbxDealItems['first_pay_date'])) { //Внести оплату не позднее
+                $contract_date = $pbxDealItems['first_pay_date']['current'];
+            }
+        }
         $productRows = $this->getProducts(
             $arows,
             $contractProductName,
@@ -3617,16 +3654,15 @@ class ContractController extends Controller
         $specificationData = $this->getSpecificationCDatareate($specification);
 
 
-        $contract_date = '';
-        $contract_pay_date = '';
-        foreach ($contractGeneralFields as $row) {
-            if ($row['code'] == 'contract_create_date') {
-                $contract_date = $row['value'];
-            }
-            if ($row['code'] == 'contract_pay_date') {
-                $contract_pay_date = $row['value'];
-            }
-        }
+
+        // foreach ($contractGeneralFields as $row) {
+        //     if ($row['code'] == 'contract_create_date') {
+        //         $contract_date = $row['value'];
+        //     }
+        //     if ($row['code'] == 'contract_pay_date') {
+        //         $contract_pay_date = $row['value'];
+        //     }
+        // }
         if (!empty($contract_date)) {
             Carbon::setLocale('ru');
             $contract_date = mb_strtolower(
@@ -3634,11 +3670,20 @@ class ContractController extends Controller
                     ->translatedFormat('j F Y')
             ) . ' г.';
         }
+
+
+
         $general = [
             'contract_date' => $contract_date,
             'contract_city' => '',
             'contract_pay_date' => '__________________________________________',
+            'contract_start' => $contract_start,
+            'contract_end' => $contract_end,
         ];
+
+
+
+
         if (!empty($contract_pay_date)) {
             Carbon::setLocale('ru');
             $contract_pay_date = mb_strtolower(
