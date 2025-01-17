@@ -898,9 +898,10 @@ class FieldsController extends Controller
 
             
 
-                return $result_fields;
+                
             }
         }
+        return $result_fields;
     }
 
     public static function setFieldItems(
