@@ -3726,15 +3726,17 @@ class ContractController extends Controller
         ];
 
 
-        $address = $providerRq['registredAdress'];
-        $parts = preg_split('/,\s*/', $address); // Разделяем адрес на части по запятой
-        
-        foreach ($parts as $part) {
-            if (preg_match('/(?:г(?:\.|ород)?)\s*([а-яёА-ЯЁ\-]+)/iu', $part, $matches)) {
+        if (preg_match('/(?:г(?:\.|ород)?)\s+([а-яёА-ЯЁ\-]+)(?=[,\s]|$)/iu', $providerRq['registredAdress'], $matches)) {
+            $general['contract_city'] = trim($matches[1]);
+        } else {
+            // Альтернативная попытка
+            if (preg_match('/,\s*([а-яёА-ЯЁ\-]+)\s+г[,]/iu', $providerRq['registredAdress'], $matches)) {
                 $general['contract_city'] = trim($matches[1]);
-                break;
+            } else {
+                $general['contract_city'] = null; // Если не удалось найти
             }
         }
+
         return [
             'productRows' =>  $productRows,
             'products' =>  $products,
