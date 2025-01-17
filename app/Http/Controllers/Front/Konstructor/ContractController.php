@@ -268,12 +268,12 @@ class ContractController extends Controller
 
         $pbxCompanyItems = null;
         if (isset($data['bxCompanyItems'])) {
-            $pbxCompanyItems = $data['bxCompanyItems'];
+            $pbxCompanyItems = $data->bxCompanyItems;
         }
 
         $pbxDealItems = null;
         if (isset($data['bxDealItems'])) {
-            $pbxDealItems = $data['bxDealItems'];
+            $pbxDealItems = $data->bxDealItems;
         }
 
 

@@ -25,6 +25,9 @@ class DocumentContractDataDTO
         public array $contractBaseState,
         // public array $contractClientState,
         public array $bxrq,
+        public array $bxCompanyItems,
+        public array $bxDealItems,
+        public array $bxContacts,
 
         public array $contractProviderState,
         public array $contractSpecificationState,
@@ -50,11 +53,15 @@ class DocumentContractDataDTO
                 $request->input('products', [])
             ),
             arows: array_map(fn($row) => RowDTO::fromArray($row), $request->input('arows', [])),
-            
+
             clientType: $request->input('clientType', []),
             contractBaseState: $request->input('contractBaseState', []),
             // contractClientState: $request->input('contractClientState', []),
             bxrq: $request->input('bxrq', []),
+            bxCompanyItems: $request->input('bxCompanyItems', []),
+            bxDealItems: $request->input('bxDealItems', []),
+            bxContacts: $request->input('bxContacts', []),
+
             contractProviderState: $request->input('contractProviderState', []),
             userId: (int)$request->input('userId'),
             isSupplyReport: (bool)$request->input('isSupplyReport'),
