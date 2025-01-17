@@ -3640,8 +3640,10 @@ class ContractController extends Controller
         );
         $header = $this->getContractHeaderText(
             $contractType,
+            $currentClientType,
             $clientRq,
             $providerRq,
+
             // $clientCompanyFullName,
             // $clientCompanyDirectorNameCase,   //директор | ип | ''
             // $clientCompanyDirectorPositionCase,
@@ -3924,6 +3926,7 @@ class ContractController extends Controller
 
     protected function getContractHeaderText(
         $contractType,
+        $clientType,
         // $clientCompanyFullName,
         // $clientCompanyDirectorNameCase,   //директор | ип | ''
         // $clientCompanyDirectorPositionCase,
@@ -3963,14 +3966,6 @@ class ContractController extends Controller
         $providerCompanyDirectorPositionCase = NounDeclension::getCase($providerCompanyDirectorPosition, Cases::GENITIVE); // Используйте DATIVE для дательного падежа
 
         $providerCompanyBased = $providerRq['based'];
-        $clientType = 'org';
-        if (!empty($clientRq['preset_id'])) {
-            if ($clientRq['preset_id'] == 3) {
-                $clientType = 'ip';
-            } else  if ($clientRq['preset_id'] == 5) {
-                $clientType = 'fiz';
-            }
-        }
 
 
         $clientCompanyFullName = ' __________________________________________________________ ';
@@ -3982,16 +3977,12 @@ class ContractController extends Controller
 
             if (!empty($rqItem['value'])) {
                 if ($rqItem['code'] === 'fullname') {
-                    
-                    $clientCompanyFullName = $rqItem['value'];
 
+                    $clientCompanyFullName = $rqItem['value'];
                 } else  if ($rqItem['code'] === 'position_case') {
                     $clientCompanyDirectorPositionCase = $rqItem['value'];
-
-
                 } else  if ($rqItem['code'] === 'director_case') {
                     $clientCompanyDirectorNameCase = $rqItem['value'];
-
                 } else  if ($rqItem['code'] === 'based') {
                     $clientCompanyBased = $rqItem['value'];
                 }
@@ -4007,7 +3998,7 @@ class ContractController extends Controller
         }
 
 
-        $headerText .= ' с одной стороны и ' . $clientCompanyFullName . ',
+        $headerText .= ' с одной стороны и $clientType' . $clientType . $clientCompanyFullName . ',
         именуемое(-ый) в дальнейшем "' . $clientRole;
         if ($clientType == 'org') {
             $headerText .=   ', в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
