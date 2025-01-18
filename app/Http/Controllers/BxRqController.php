@@ -94,9 +94,9 @@ class BxRqController extends Controller
         $bxRqs = $portal->bxRqs;
         $portal_data = new PortalOuterResource($portal, $domain);
 
-        ['portal' => $portal_data, 'rqs' => $bxRqs];
+       $data = ['portal' => $portal_data, 'rqs' => $bxRqs];
         // Вернуть связанные записи
-        return response()->json($bxRqs, 200);
+        return response()->json(['result' => $data] , 200);
     }
 
 
