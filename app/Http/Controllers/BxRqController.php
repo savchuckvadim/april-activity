@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PortalFrontResource;
+use App\Http\Resources\PortalOuterResource;
 use App\Models\BxRq;
 use App\Models\Portal;
 use Illuminate\Http\Request;
@@ -42,19 +44,19 @@ class BxRqController extends Controller
             'is_active' => 'boolean',
             'sort' => 'nullable|integer',
         ]);
-    
+
         // Найти портал по домену
         $portal = Portal::where('domain', $validated['domain'])->first();
-    
+
         if (!$portal) {
             return response()->json(['error' => 'Portal not found'], 404);
         }
-    
+
         // Найти существующую запись BxRq для данного портала по 'code'
         $bxRq = BxRq::where('portal_id', $portal->id)
             ->where('code', $validated['code'])
             ->first();
-    
+
         if ($bxRq) {
             // Если запись найдена, обновить её
             $bxRq->update($validated);
@@ -66,34 +68,36 @@ class BxRqController extends Controller
             $bxRq->save();
             $message = 'Record created successfully';
         }
-    
+
         // Вернуть ответ
         return response()->json([
             'message' => $message,
             'data' => $bxRq,
         ], 201);
     }
-    
-    
+
+
     public function get(Request $request)
-{
-    // Получить домен из запроса
-    $domain = $request->get('domain');
+    {
+        // Получить домен из запроса
+        $domain = $request->get('domain');
 
-    // Найти портал по домену
-    $portal = Portal::where('domain', $domain)->first();
+        // Найти портал по домену
+        $portal = Portal::where('domain', $domain)->first();
 
-    // Проверить, найден ли портал
-    if (!$portal) {
-        return response()->json(['error' => 'Portal not found'], 404);
+        // Проверить, найден ли портал
+        if (!$portal) {
+            return response()->json(['error' => 'Portal not found'], 404);
+        }
+
+        // Получить связанные записи BxRq
+        $bxRqs = $portal->bxRqs->all();
+        $portal_data = new PortalOuterResource($portal, $domain);
+
+        ['portal' => $portal_data, 'rqs' => $bxRqs];
+        // Вернуть связанные записи
+        return response()->json($bxRqs, 200);
     }
-
-    // Получить связанные записи BxRq
-    $bxRqs = $portal->bxRqs;
-
-    // Вернуть связанные записи
-    return response()->json($bxRqs, 200);
-}
 
 
     /**
