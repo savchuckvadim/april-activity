@@ -50,6 +50,7 @@ class PortalOuterResource extends JsonResource
             'lead' => $this->lead(),
             // 'domain' => $this->domain,
             // 'client_id' => $client_id,
+            'bx_rq' => $this->bxRq,
             'access_key' =>  $access,
             // 'measures' =>  $this->measures,
         ];
