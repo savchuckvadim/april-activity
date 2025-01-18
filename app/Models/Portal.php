@@ -27,10 +27,18 @@ class Portal extends Model
 
 
     //relation
+
+    public function bxRq()
+    {
+        return $this->hasMany(BxRq::class);
+    }
+
+
     public function providers()
     {
         return $this->hasMany(Agent::class, 'portalId', 'id');
     }
+
 
 
     public function templates()

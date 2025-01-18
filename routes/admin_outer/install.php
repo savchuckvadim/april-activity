@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminOuter\ListController;
 use App\Http\Controllers\AdminOuter\RPA\RPAController;
 use App\Http\Controllers\AdminOuter\SmartController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\BxRqController;
 use App\Http\Controllers\Outer\PortalController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ Route::prefix('install')->middleware('check.ip.api_key')->group(function () {
 
     // Route::prefix('install')->group(function () {
     Route::post('portals', [PortalController::class, 'all']);
+    Route::post('bx_rq', [BxRqController::class, 'store']);
+    Route::get('bx_rq', [BxRqController::class, 'get']);
 
     Route::post('list', [ListController::class, 'setLists']);
     Route::post('deal', [DealController::class, 'setDeals']);
