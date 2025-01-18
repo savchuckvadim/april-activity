@@ -50,14 +50,30 @@ class BxRqController extends Controller
             return response()->json(['error' => 'Portal not found'], 404);
         }
     
-        // Создать новую запись BxRq и связать с порталом
-        $bxRq = new BxRq($validated);
-        $bxRq->portal()->associate($portal); // Установить связь
-        $bxRq->save();
+        // Найти существующую запись BxRq для данного портала по 'code'
+        $bxRq = BxRq::where('portal_id', $portal->id)
+            ->where('code', $validated['code'])
+            ->first();
     
-        // Вернуть созданную запись
-        return response()->json($bxRq, 201);
+        if ($bxRq) {
+            // Если запись найдена, обновить её
+            $bxRq->update($validated);
+            $message = 'Record updated successfully';
+        } else {
+            // Если запись не найдена, создать новую
+            $bxRq = new BxRq($validated);
+            $bxRq->portal()->associate($portal); // Установить связь
+            $bxRq->save();
+            $message = 'Record created successfully';
+        }
+    
+        // Вернуть ответ
+        return response()->json([
+            'message' => $message,
+            'data' => $bxRq,
+        ], 201);
     }
+    
     
     public function get(Request $request)
 {
