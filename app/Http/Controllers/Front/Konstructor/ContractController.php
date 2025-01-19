@@ -4300,7 +4300,7 @@ class ContractController extends Controller
 
             "specification_pk" =>  $specification_pk, // правовой консалтинг ...
             "specification_pk_comment1" => $specification_pk_comment1, // "Выбранный комплект дополняется информационным блоком «Баз
-            "specification_pk_comment" => $specification_pk, // "* Информационный блок «База знаний службы Правового консалтинга» с
+            "specification_pk_comment" => $specification_pk_comment, // "* Информационный блок «База знаний службы Правового консалтинга» с
             "complect_name" => $complect_name
         ];
 
