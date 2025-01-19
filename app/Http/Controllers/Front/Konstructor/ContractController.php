@@ -7,6 +7,8 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\FileController;
+
 use App\DTO\DocumentContract\DocumentContractDataDTO;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Requests\GetContractDocumentRequest;
@@ -382,6 +384,7 @@ class ContractController extends Controller
 
             $pbxCompanyItems,
             $pbxDealItems,
+            $total,
 
             // general dates and sums at body
 
@@ -416,12 +419,17 @@ class ContractController extends Controller
             $templateProcessor->setValue($rqcode, $rqItemformattedSpec);
         };
 
+        foreach ($templateData['total'] as $code => $totalItemValue) {
+            // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            $templateProcessor->setValue($code, $totalItemValue);
+            // $templateProcessor->setValue($code, $spec);
+        }
+
         foreach ($templateData['specification'] as $code => $spec) {
             $formattedSpec = str_replace("\n", '<w:br/>', $spec);
             $templateProcessor->setValue($code, $formattedSpec);
             // $templateProcessor->setValue($code, $spec);
         }
-
         $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['productRows']);
 
         // Дальнейшие действия с документом...
@@ -3604,6 +3612,7 @@ class ContractController extends Controller
         $totalProductName,
         $pbxCompanyItems,
         $pbxDealItems,
+        $total
 
     ) {
         Carbon::setLocale('ru');
@@ -3671,8 +3680,10 @@ class ContractController extends Controller
             $arows,
             $contractProductName,
             $isProduct,
-            $contractCoefficient
+            $contractCoefficient,
+            $currentClientType
         );
+        $totalData = $this->getTotal($total, $currentClientType);
         $header = $this->getContractHeaderText(
             $contractType,
             $currentClientType,
@@ -3707,7 +3718,7 @@ class ContractController extends Controller
         //     }
         // }
         if (!empty($contract_date)) {
-            
+
             $contract_date = mb_strtolower(
                 Carbon::parse($contract_date)
                     ->translatedFormat('j F Y')
@@ -3785,19 +3796,7 @@ class ContractController extends Controller
             'specification' =>  $specificationData,
             'general' =>  $general,
             'rq' => $rq,
-            'total' => [
-                'total_prepayment_quantity' => '',
-                'total_prepayment_quantity_string' => '',
-                
-                'total_prepayment_sum' => '',
-                'total_prepayment_sum_string' => '',
-                'contract_total_sum' => '', // уже использовалось'
-                'contract_total_sum_string' => '', // уже использовалось'
-                'total_quantity' => '', //всего месяцев действие договора
-                'total_quantity_string' => '', //всего месяцев действие договора
-                'total_month_sum_string' => '',
-                'total_month_sum' => '', // сумма в месяц
-            ]
+            'total' => $totalData
             // 'documentType' =>  $documentType,
             // 'documentName' =>  $documentName,
             // 'documentDate' =>  $documentDate,
@@ -4124,7 +4123,7 @@ class ContractController extends Controller
     }
 
     protected function getDocumentNumber() {}
-    protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient)
+    protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient, $clientType)
     {
         $contractFullName = $contractName;
         if ($isProduct) {
@@ -4133,10 +4132,15 @@ class ContractController extends Controller
 
         $products = [];
         foreach ($arows as $key =>  $row) {
+            if ($clientType == 'org_state') {
+                $productQuantity = 1;
+            } else {
+                $productQuantity = $row->price->quantity;
+            }
             $product = [
                 'productNumber' => $key + 1,
                 'productName' => $contractFullName . '(' . $row->name . ')',
-                'productQuantity' => $row->price->quantity,
+                'productQuantity' => $productQuantity,
                 'productMeasure' => $row->price->measure->name,
                 'productPrice' => $row->price->current,
                 'productSum' => $row->price->sum,
@@ -4145,6 +4149,66 @@ class ContractController extends Controller
         }
 
         return $products;
+    }
+
+    protected function getTotal($total, $clientType)
+    {
+        $contractSum = $total['price']['sum'];
+        $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
+        $totalSumMonth = $total['price']['current'];
+        $totalSumMonth = number_format($totalSumMonth, 2, '.', ''); // "8008.00"
+
+        $totalQuantity = $total['price']['quantity'];
+        $totalQuantityMonth = FileController::getMonthTitleAccusative($totalQuantity);
+        $totalQuantityString = $totalQuantity . ' ' . $totalQuantityMonth;
+
+        $moneySpeller = new MoneySpeller();
+
+
+        // Преобразуем сумму в строку
+        $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
+        $contractSumString = '(' .        $contractSumString . ')';
+        $totalSumMonthString =  '(' .        $totalSumMonth . ')';
+
+
+        $total_month_sum = $totalSumMonth;
+        $total_month_sum_string = $totalSumMonthString;
+
+
+        if ($clientType == 'org_state') {
+            $total_prepayment_quantity = '1';
+            $total_prepayment_quantity_string = '1 месяц';
+            $total_prepayment_sum = $totalSumMonth;
+            $total_prepayment_sum_string = $totalSumMonthString;
+            $total_quantity = $totalQuantity;
+            $total_quantity_string = $totalQuantityString;
+            $contract_total_sum = $contractSum;
+            $contract_total_sum_string = $contractSumString;
+        } else {
+            $total_prepayment_quantity = $totalQuantity;
+            $total_prepayment_quantity_string = $totalQuantityString;
+            $total_prepayment_sum = $contractSum;
+            $total_prepayment_sum_string = $contractSumString;
+            $contract_total_sum = $contractSum; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $contract_total_sum_string = $contractSumString; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $total_quantity = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $total_quantity_string = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+        }
+        $result = [
+            'total_prepayment_quantity' => $total_prepayment_quantity,
+            'total_prepayment_quantity_string' => $total_prepayment_quantity_string,
+            'total_prepayment_sum' => $total_prepayment_sum,
+            'total_prepayment_sum_string' => $total_prepayment_sum_string,
+            'contract_total_sum' => $contract_total_sum, // уже использовалось'
+            'contract_total_sum_string' => $contract_total_sum_string, // уже использовалось'
+            'total_quantity' => $total_quantity, //всего месяцев действие договора
+            'total_quantity_string' => $total_quantity_string, //всего месяцев действие договора
+            'total_month_sum' => $total_month_sum, // сумма в месяц
+            'total_month_sum_string' => $total_month_sum_string,
+
+        ];
+
+        return $result;
     }
 
     protected function getSpecificationCDatareate(
