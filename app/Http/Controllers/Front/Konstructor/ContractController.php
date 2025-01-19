@@ -4203,7 +4203,7 @@ class ContractController extends Controller
                 if (
                     $value['code'] === 'complect_name'
                 ) {
-                    $complect_name = $value['value'];
+                    $complect_name = "\n".$value['value']." \n";
                 }
             }
 
@@ -4273,7 +4273,7 @@ class ContractController extends Controller
             if (
                 $value['code'] === 'specification_pk'
             ) {
-                $specification_pk = $value['value'];
+                $specification_pk = 'Правовая поддержка: '.$value['value'];
             }
             if (
                 $value['code'] === 'specification_pk_comment1'
