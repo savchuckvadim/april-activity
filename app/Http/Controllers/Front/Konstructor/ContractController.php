@@ -2483,7 +2483,7 @@ class ContractController extends Controller
                     'name' => 'Информационные блоки',
                     'value' => $iblocks['allIBlocks'],
                     'isRequired' => false,
-                    'code' => 'specification_ibig',
+                    'code' => 'specification_iblocks',
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => true,

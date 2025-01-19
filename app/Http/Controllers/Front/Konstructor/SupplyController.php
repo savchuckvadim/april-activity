@@ -491,7 +491,7 @@ class SupplyController extends Controller
 
             if ($cntrctSpecItem['code'] === 'specification_email') {
                 $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
-            } else  if ($cntrctSpecItem['code'] === 'specification_ibig') {
+            } else  if ($cntrctSpecItem['code'] === 'specification_iblocks') {
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
                 $templateProcessor->setValue('complect_fields_left', $formattedValue);
@@ -2748,7 +2748,7 @@ class SupplyController extends Controller
                     'name' => 'Информационные блоки',
                     'value' => $iblocks['allIBlocks'],
                     'isRequired' => false,
-                    'code' => 'specification_ibig',
+                    'code' => 'specification_iblocks',
                     'group' => 'specification',
                     'isActive' => true,
                     'isDisable' => true,
