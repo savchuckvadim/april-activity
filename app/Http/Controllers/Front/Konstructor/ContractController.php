@@ -3606,6 +3606,7 @@ class ContractController extends Controller
         $pbxDealItems,
 
     ) {
+        Carbon::setLocale('ru');
         $documentData = array(
             'contract_number' => '',
             'contract_city' => '',
@@ -3641,9 +3642,17 @@ class ContractController extends Controller
         if (!empty($pbxDealItems)) {
             if (!empty($pbxDealItems['contract_start']) && !empty($pbxDealItems['contract_start']['current'])) {
                 $contract_start = $pbxDealItems['contract_start']['current'];
+                $contract_start = mb_strtolower(
+                    Carbon::parse($contract_start)
+                        ->translatedFormat('j F Y')
+                ) . ' г.';
             }
             if (!empty($pbxDealItems['contract_end']) && !empty($pbxDealItems['contract_end']['current'])) {
-                $contract_start = $pbxDealItems['contract_end']['current'];
+                $contract_end = $pbxDealItems['contract_end']['current'];
+                $contract_end = mb_strtolower(
+                    Carbon::parse($contract_end)
+                        ->translatedFormat('j F Y')
+                ) . ' г.';
             }
 
             if (!empty($pbxDealItems['contract_create_date']) && !empty($pbxDealItems['contract_create_date']['current'])) { //дата создания договора
@@ -3698,7 +3707,7 @@ class ContractController extends Controller
         //     }
         // }
         if (!empty($contract_date)) {
-            Carbon::setLocale('ru');
+            
             $contract_date = mb_strtolower(
                 Carbon::parse($contract_date)
                     ->translatedFormat('j F Y')
