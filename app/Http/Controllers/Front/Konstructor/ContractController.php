@@ -4298,10 +4298,10 @@ class ContractController extends Controller
             'contract_internet_email' => $contractInternetEmail,
             // 'client_assigned_fio' => $client_assigned_fio
 
-            "specification_pk" => $complect_name, // правовой консалтинг ...
+            "specification_pk" =>  $specification_pk, // правовой консалтинг ...
             "specification_pk_comment1" => $specification_pk_comment1, // "Выбранный комплект дополняется информационным блоком «Баз
             "specification_pk_comment" => $specification_pk, // "* Информационный блок «База знаний службы Правового консалтинга» с
-            "complect_name" => $specification_pk_comment
+            "complect_name" => $complect_name
         ];
 
         return $specificationData;
