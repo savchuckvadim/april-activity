@@ -399,9 +399,9 @@ class ContractController extends Controller
 
         $templateProcessor->setValue('header', $templateData['header']);
         // $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['products']);
-        $templateProcessor->setValue('contract_total_sum', $contractSum);
+        // $templateProcessor->setValue('contract_total_sum', $contractSum);
 
-        $templateProcessor->setValue('contract_total_sum_string', $contractSumString);
+        // $templateProcessor->setValue('contract_total_sum_string', $contractSumString);
 
 
 
@@ -2424,7 +2424,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Вид Размещения',
-                    'value' => $contractSupplyName,
+                    'value' => $contractSupplyName . ' ОД',
                     'isRequired' => true,
                     'code' => 'specification_supply',
                     'group' => 'specification',
@@ -2728,22 +2728,23 @@ class ContractController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Примечание Носители',
-                //     'value' => $contractSupplyPropEmail,
-                //     'isRequired' => true,
-                //     'code' => 'specification_distributive_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 15,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['proxima'],
-                //     'contractType' => ['service', 'lic',  'key']
+                [
+                    'type' => 'text',
+                    'name' => 'Примечание Носители',
+                    'value' => $contractSupplyPropEmail,
+                    'isRequired' => true,
+                    'code' => 'specification_distributive_comment',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 15,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key'],
+                    'isHidden' => true,
 
 
-                // ],
+                ],
                 [
                     'type' => 'text',
                     'name' => 'Носители дистрибутивов предоставляются следующим способом',
@@ -2761,22 +2762,23 @@ class ContractController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Примечание к способу',
-                //     'value' => '',
-                //     'isRequired' => true,
-                //     'code' => 'specification_dway_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 17,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['proxima'],
-                //     'contractType' => ['service', 'lic',  'key']
+                [
+                    'type' => 'text',
+                    'name' => 'Примечание к способу',
+                    'value' => '',
+                    'isRequired' => true,
+                    'code' => 'specification_dway_comment',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 17,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['proxima'],
+                    'contractType' => ['service', 'lic',  'key'],
+                    'isHidden' => true,
 
 
-                // ],
+                ],
                 [
                     'type' => 'string',
                     'name' => 'Периодичность предоставления услуг',
@@ -3647,7 +3649,7 @@ class ContractController extends Controller
         $contract_start = '_____________________________________';
         $contract_end = '_____________________________________';
         $client_assigned_fio = ' _____________________________ ';
-
+        $garant_client_email = '________________________________';
         if (!empty($pbxDealItems)) {
             if (!empty($pbxDealItems['contract_start']) && !empty($pbxDealItems['contract_start']['current'])) {
                 $contract_start = $pbxDealItems['contract_start']['current'];
@@ -3674,6 +3676,9 @@ class ContractController extends Controller
 
             if (!empty($pbxDealItems['first_pay_date'])) { //Внести оплату не позднее
                 $contract_pay_date = $pbxDealItems['first_pay_date']['current'];
+            }
+            if (!empty($pbxDealItems['garant_client_email'])) { //Внести оплату не позднее
+                $garant_client_email = $pbxDealItems['garant_client_email']['current'];
             }
         }
         $productRows = $this->getProducts(
@@ -3733,7 +3738,8 @@ class ContractController extends Controller
             'contract_pay_date' => $contract_pay_date,
             'contract_start' => $contract_start,
             'contract_end' => $contract_end,
-            'client_assigned_fio' => $client_assigned_fio
+            'client_assigned_fio' => $client_assigned_fio,
+            'garant_client_email' => $garant_client_email
         ];
 
 
@@ -4160,7 +4166,7 @@ class ContractController extends Controller
 
         $totalQuantity = $total['price']['quantity'];
         $totalQuantityMonth = FileController::getMonthTitleAccusative($totalQuantity);
-        $totalQuantityString = $totalQuantity . ' ' . $totalQuantityMonth;
+        $totalQuantityString = $totalQuantityMonth;
 
         $moneySpeller = new MoneySpeller();
 
@@ -4168,7 +4174,10 @@ class ContractController extends Controller
         // Преобразуем сумму в строку
         $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
         $contractSumString = '(' .        $contractSumString . ')';
-        $totalSumMonthString =  '(' .        $totalSumMonth . ')';
+
+        $totalSumMonthString = $moneySpeller->spell($totalSumMonth, 'RUB');
+
+        $totalSumMonthString =  '(' .        $totalSumMonthString . ')';
 
 
         $total_month_sum = $totalSumMonth;
@@ -4239,7 +4248,7 @@ class ContractController extends Controller
             'specification_supply_quantity', /// Количество логинов и паролей
             'specification_key_period', // Длительность работы ключа
             'specification_email', //Email для интернет-версии
-            'specification_email_comment', // Email прмечание
+            // 'specification_email_comment', // Email прмечание
 
             'abon_long', // Срок действия абонемента
 
@@ -4266,6 +4275,8 @@ class ContractController extends Controller
         $specification_pk_comment = '';
         $specification_pk_comment = '';
         $complect_name = '';
+        $specification_email_comment = '';
+
         foreach ($specification as $key => $value) {
             if ($domain == 'april-garant.bitrix24.ru') {
                 if (
@@ -4294,7 +4305,11 @@ class ContractController extends Controller
                 ) {
                     $complect_name = "\n" . $value['value'] . " \n";
                 }
+            } else {
+                $complect_name =  $value['value'];
             }
+
+
 
             if (
                 // $value['code'] === 'specification_ibig' ||
@@ -4374,10 +4389,16 @@ class ContractController extends Controller
             ) {
                 $specification_pk_comment = $value['value'];
             }
+            if (
+                $value['code'] === 'specification_email_comment'
+            ) {
+                $specification_email_comment = $value['value'];
+            }
         }
 
 
         $specificationData = [
+            'complect_name' => $complect_name,
             'infoblocks' => $infoblocks,
             'legal_techs' => $lt,
             'supply_contract' => $supplyContract,
@@ -4386,11 +4407,10 @@ class ContractController extends Controller
             'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
             // 'client_assigned_fio' => $client_assigned_fio
-
+            'specification_email_comment' => $specification_email_comment,
             "specification_pk" =>  $specification_pk, // правовой консалтинг ...
             "specification_pk_comment1" => $specification_pk_comment1, // "Выбранный комплект дополняется информационным блоком «Баз
             "specification_pk_comment" => $specification_pk_comment, // "* Информационный блок «База знаний службы Правового консалтинга» с
-            "complect_name" => $complect_name
         ];
 
         return $specificationData;
