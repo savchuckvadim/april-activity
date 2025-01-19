@@ -2498,6 +2498,39 @@ class ContractController extends Controller
                 ],
                 [
                     'type' => 'text',
+                    'name' => 'Малые информационные блоки',
+                    'value' =>  $iblocks['smallIBlocks'],
+                    'isRequired' => true,
+                    'code' => 'specification_ismall',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'Большие информационные блоки',
+                    'value' =>  $iblocks['bigIBlocks'],
+                    'isRequired' => true,
+                    'code' => 'specification_ibig',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 5,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key']
+
+
+                ],
+
+                [
+                    'type' => 'text',
                     'name' => 'Энциклопедии Решений',
                     'value' =>  $iblocks['ers'],
                     'isRequired' => false,
@@ -2547,38 +2580,7 @@ class ContractController extends Controller
 
 
                 ],
-                [
-                    'type' => 'text',
-                    'name' => 'Большие информационные блоки',
-                    'value' =>  $iblocks['bigIBlocks'],
-                    'isRequired' => true,
-                    'code' => 'specification_ibig',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 5,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
 
-
-                ],
-                [
-                    'type' => 'text',
-                    'name' => 'Малые информационные блоки',
-                    'value' =>  $iblocks['smallIBlocks'],
-                    'isRequired' => true,
-                    'code' => 'specification_ismall',
-                    'group' => 'specification',
-                    'isActive' => false,
-                    'isDisable' => false,
-                    'order' => 5,
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'supplies' => ['internet', 'proxima'],
-                    'contractType' => ['service', 'lic', 'abon', 'key']
-
-
-                ],
                 [
                     'type' => 'text',
                     'name' => 'Бесплатные информационные блоки',
