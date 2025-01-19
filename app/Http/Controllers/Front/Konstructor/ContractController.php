@@ -4015,7 +4015,7 @@ class ContractController extends Controller
 
 
                 if ($rqItem['code'] === 'fullname') {
-                    if ($clientType == 'ip' || $clientType == 'org') {
+                    if ($clientType == 'ip' || $clientType == 'org' || $clientType == 'org_state') {
                         $clientCompanyFullName = $rqItem['value'];
                     }
                 } else if ($rqItem['code'] === 'personName') {
