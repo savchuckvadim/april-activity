@@ -4025,7 +4025,7 @@ class ContractController extends Controller
                         $clientCompanyFullName = $rqItem['value'];
                     }
                 } else if ($rqItem['code'] === 'personName') {
-                    if ($clientType == 'ip' || $clientType == 'fiz') {
+                    if ($clientType == 'fiz') {
 
                         $clientCompanyFullName = $rqItem['value'];
                     }
@@ -4156,6 +4156,12 @@ class ContractController extends Controller
 
             'lic_long' => '', //Срок действия лицензии, количество лицензий
             'contract_internet_email' => '',
+
+            "specification_pk" => '', // правовой консалтинг ...
+            "specification_pk_comment1" => '', // "Выбранный комплект дополняется информационным блоком «Баз
+            "specification_pk_comment" => '', // "* Информационный блок «База знаний службы Правового консалтинга» с
+            "complect_name" => ''
+
         ];
 
 
@@ -4166,6 +4172,11 @@ class ContractController extends Controller
         $loginsQuantity = '';
         $contractInternetEmail = '_____________________________________________________';
         $supplyComment = '';
+        $specification_pk = '';
+        $specification_pk_comment1 = '';
+        $specification_pk_comment = '';
+        $specification_pk_comment = '';
+        $complect_name = '';
         foreach ($specification as $key => $value) {
             if ($domain == 'april-garant.bitrix24.ru') {
                 if (
@@ -4187,6 +4198,15 @@ class ContractController extends Controller
                     $infoblocks .= $value['value'] . "\n";
                 }
             }
+
+            if ($domain !== 'gsr.bitrix24.ru') {
+                if (
+                    $value['code'] === 'complect_name'
+                ) {
+                    $complect_name = $value['value'];
+                }
+            }
+
             if (
                 // $value['code'] === 'specification_ibig' ||
                 // $value['code'] === 'specification_ismall' ||
@@ -4248,6 +4268,23 @@ class ContractController extends Controller
                     $client_assigned_fio = $value['value'];
                 }
             }
+
+
+            if (
+                $value['code'] === 'specification_pk'
+            ) {
+                $specification_pk = $value['value'];
+            }
+            if (
+                $value['code'] === 'specification_pk_comment1'
+            ) {
+                $specification_pk_comment1 = $value['value'];
+            }
+            if (
+                $value['code'] === 'specification_pk_comment'
+            ) {
+                $specification_pk_comment = $value['value'];
+            }
         }
 
 
@@ -4260,6 +4297,11 @@ class ContractController extends Controller
             'lic_long' => $licLong,
             'contract_internet_email' => $contractInternetEmail,
             // 'client_assigned_fio' => $client_assigned_fio
+
+            "specification_pk" => $complect_name, // правовой консалтинг ...
+            "specification_pk_comment1" => $specification_pk_comment1, // "Выбранный комплект дополняется информационным блоком «Баз
+            "specification_pk_comment" => $specification_pk, // "* Информационный блок «База знаний службы Правового консалтинга» с
+            "complect_name" => $specification_pk_comment
         ];
 
         return $specificationData;
