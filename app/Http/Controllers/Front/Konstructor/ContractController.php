@@ -422,6 +422,8 @@ class ContractController extends Controller
             // $templateProcessor->setValue($code, $spec);
         }
 
+        $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['productRows']);
+
         // Дальнейшие действия с документом...
         $resultPath = storage_path('app/public/clients/' . $data->domain . '/documents/contracts/' . $data->userId);
 
@@ -2815,22 +2817,23 @@ class ContractController extends Controller
 
                 ],
 
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Email прмечание',
-                //     'value' => $contractSupplyPropEmail,
-                //     'isRequired' => true,
-                //     'code' => 'specification_email_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => false,
-                //     'order' => 22,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'contractType' => ['service', 'lic', 'abon', 'key'],
-                //     'supplies' => ['internet'],
+                [
+                    'type' => 'text',
+                    'name' => 'Email прмечание',
+                    'value' => $contractSupplyPropEmail,
+                    'isRequired' => true,
+                    'code' => 'specification_email_comment',
+                    'group' => 'specification',
+                    'isActive' => false,
+                    'isDisable' => false,
+                    'order' => 22,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'supplies' => ['internet'],
+                    'isHidden' => true,
 
 
-                // ],
+                ],
                 [
                     'type' => 'string',
                     'name' => 'Срок действия абонемента',
@@ -3773,6 +3776,19 @@ class ContractController extends Controller
             'specification' =>  $specificationData,
             'general' =>  $general,
             'rq' => $rq,
+            'total' => [
+                'total_prepayment_quantity' => '',
+                'total_prepayment_quantity_string' => '',
+                
+                'total_prepayment_sum' => '',
+                'total_prepayment_sum_string' => '',
+                'contract_total_sum' => '', // уже использовалось'
+                'contract_total_sum_string' => '', // уже использовалось'
+                'total_quantity' => '', //всего месяцев действие договора
+                'total_quantity_string' => '', //всего месяцев действие договора
+                'total_month_sum_string' => '',
+                'total_month_sum' => '', // сумма в месяц
+            ]
             // 'documentType' =>  $documentType,
             // 'documentName' =>  $documentName,
             // 'documentDate' =>  $documentDate,
@@ -4203,7 +4219,7 @@ class ContractController extends Controller
                 if (
                     $value['code'] === 'complect_name'
                 ) {
-                    $complect_name = "\n".$value['value']." \n";
+                    $complect_name = "\n" . $value['value'] . " \n";
                 }
             }
 
@@ -4273,7 +4289,7 @@ class ContractController extends Controller
             if (
                 $value['code'] === 'specification_pk'
             ) {
-                $specification_pk = 'Правовая поддержка: '.$value['value'];
+                $specification_pk = 'Правовая поддержка: ' . $value['value'];
             }
             if (
                 $value['code'] === 'specification_pk_comment1'
