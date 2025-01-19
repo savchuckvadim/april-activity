@@ -357,7 +357,7 @@ class ContractController extends Controller
 
 
         $templateData = $this->getDocumentData(
-
+            $domain,
             $contractType,
 
             // header
@@ -3575,6 +3575,7 @@ class ContractController extends Controller
 
     //contract document data
     protected function getDocumentData(
+        $domain,
         $contractType,
 
         // header
@@ -3676,7 +3677,10 @@ class ContractController extends Controller
 
 
 
-        $specificationData = $this->getSpecificationCDatareate($specification);
+        $specificationData = $this->getSpecificationCDatareate(
+            $domain,
+            $specification
+        );
 
 
 
@@ -4116,11 +4120,14 @@ class ContractController extends Controller
         return $products;
     }
 
-    protected function getSpecificationCDatareate($specification)
-    {
+    protected function getSpecificationCDatareate(
+        $domain,
+        $specification
+    ) {
         $targetKeys = [
             'specification_ibig',
             'specification_ismall',
+            'specification_iblocks',
             'specification_ers',
             'specification_ers_packets',
             'specification_ers_in_packets',
@@ -4158,10 +4165,29 @@ class ContractController extends Controller
         $contractInternetEmail = '_____________________________________________________';
         $supplyComment = '';
         foreach ($specification as $key => $value) {
+            if ($domain == 'april-garant.bitrix24.ru') {
+                if (
+                    $value['code'] === 'specification_ibig' ||
+                    $value['code'] === 'specification_ismall'
 
+
+
+                ) {
+                    $infoblocks .= $value['value'] . "\n";
+                }
+            } else {
+                if (
+                    $value['code'] === 'specification_iblocks'
+
+
+
+                ) {
+                    $infoblocks .= $value['value'] . "\n";
+                }
+            }
             if (
-                $value['code'] === 'specification_ibig' ||
-                $value['code'] === 'specification_ismall' ||
+                // $value['code'] === 'specification_ibig' ||
+                // $value['code'] === 'specification_ismall' ||
                 $value['code'] === 'specification_ers' ||
                 $value['code'] === 'specification_ers_packets' ||
                 $value['code'] === 'specification_ers_in_packets' ||
