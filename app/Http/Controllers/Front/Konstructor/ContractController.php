@@ -4298,17 +4298,16 @@ class ContractController extends Controller
                     $infoblocks .= $value['value'] . "\n";
                 }
             }
+            if (
+                $value['code'] === 'complect_name'
+            ) {
+                if ($domain !== 'gsr.bitrix24.ru') {
 
-            if ($domain !== 'gsr.bitrix24.ru') {
-                if (
-                    $value['code'] === 'complect_name'
-                ) {
                     $complect_name = "\n" . $value['value'] . " \n";
+                } else {
+                    $complect_name =  $value['value'];
                 }
-            } else {
-                $complect_name =  $value['value'];
             }
-
 
 
             if (
