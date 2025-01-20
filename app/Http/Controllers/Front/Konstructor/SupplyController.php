@@ -569,7 +569,7 @@ class SupplyController extends Controller
                         $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
                         $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "<w:br/>" . "<w:br/>";
                     }
-                }else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
+                } else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
 
                     if (!empty($field['field']) && !empty($field['current'])) {
                         $contactDataForTemplate['contact_comment'] .= $field['field']['title'] . ': ';
@@ -582,7 +582,7 @@ class SupplyController extends Controller
 
             array_push($condactsData, $contactDataForTemplate);
         }
-       
+
         $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
 
         $templateProcessor->setValue('complect_pk', $consaltingString);
@@ -2498,6 +2498,25 @@ class SupplyController extends Controller
                 $consaltingName = $consaltingProduct['name'];
             }
         }
+        
+        if (empty($consaltingComment)) {
+            foreach ($products as $product) {
+                if (empty($consaltingComment)) {
+                    if (!empty($product)) {
+                        if (!empty($product['withConsalting'])) {
+                            if (!empty($product['contractConsaltingComment'])) {
+                                $consaltingcomment = $product['contractConsaltingComment'];
+                            }
+                            if (!empty($product['contractConsaltingProp'])) {
+                                $consalting = $product['contractConsaltingComment'];
+                                $consaltingName = 'Советы экспертов. Проверки, налоги, право';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         $ltProduct = $lt['product'];
 
         $freeLtPack = '';
@@ -2727,22 +2746,22 @@ class SupplyController extends Controller
 
 
                 ],
-                // [
-                //     'type' => 'text',
-                //     'name' => 'Комментарий к ПК/ГЛ',
-                //     'value' => $consaltingcomment,
-                //     'isRequired' => true,
-                //     'code' => 'specification_pk_comment',
-                //     'group' => 'specification',
-                //     'isActive' => true,
-                //     'isDisable' => true,
-                //     'order' => 3,
-                //     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                //     'supplies' => ['internet', 'proxima'],
-                //     'contractType' => ['service', 'lic', 'abon', 'key']
+                [
+                    'type' => 'text',
+                    'name' => 'Комментарий к ПК/ГЛ',
+                    'value' => $consaltingcomment,
+                    'isRequired' => true,
+                    'code' => 'specification_pk_comment',
+                    'group' => 'specification',
+                    'isActive' => true,
+                    'isDisable' => true,
+                    'order' => 3,
+                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                    'supplies' => ['internet', 'proxima'],
+                    'contractType' => ['service', 'lic', 'abon', 'key'],
+                    'isHidden' => true
 
-
-                // ],
+                ],
                 [
                     'type' => 'text',
                     'name' => 'Информационные блоки',
