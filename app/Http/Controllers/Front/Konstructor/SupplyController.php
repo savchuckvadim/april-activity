@@ -314,6 +314,57 @@ class SupplyController extends Controller
         $clientRqBank = $contractClientState['rqs']['bank'];
         $clientType = $contractClientState['type'];
 
+        $registredString = '';
+        $primaryString = '';
+        $inn = '';
+        $clientCompanyFullName = '';
+        if (!empty($data['bxrq'])) {
+            if (!empty($data['bxrq']['address'])) {
+                if (!empty($data['bxrq']['address']['items'])) {
+                    $addresses = $data['bxrq']['address']['items'];
+                    foreach ($addresses as $address) {
+                        if (!empty($address['fields'])) {
+                            $addresString = '';
+                            foreach ($address['fields'] as $field) {
+                                if (!empty($field['value'])) {
+                                    if ($field['code'] == 'address_postal_code') {
+                                        $addresString .= $field['value'] . ", ";
+                                    } else if ($field['CODE'] == 'address_country') {
+                                        $addresString .= $field['value'] . ", ";
+                                    } else {
+                                        $addresString .= $field['value'] . ", ";
+                                    }
+                                }
+                            }
+
+
+
+                            if ($address['type_id'] == 6) { //юридический
+                                $registredString = $addresString;
+                            }
+                            if ($address['type_id'] == 1) { //фактический
+                                $primaryString = $addresString;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($data['bxrq']['fields'])) {
+                foreach ($data['bxrq']['fields'] as $baseField) {
+                    if(!empty($baseField['value'])){
+                        if ($baseField['code'] == 'inn') {
+                            $inn = $baseField['value'];
+                        }
+                        if ($baseField['code'] == 'fullname') {
+                            $clientCompanyFullName = $baseField['value'];
+                        }
+                    }
+                }
+            }
+        }
+
+
 
 
         function filterByClientTypePDF($item, $clientType)
@@ -321,14 +372,14 @@ class SupplyController extends Controller
             return in_array($clientType, $item['includes']);
         }
 
-        // Фильтрация массивов с использованием array_filter
-        $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
-            return filterByClientTypePDF($item, $clientType);
-        });
+        // // Фильтрация массивов с использованием array_filter
+        // $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
+        //     return filterByClientTypePDF($item, $clientType);
+        // });
 
-        $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
-            return filterByClientTypePDF($item, $clientType);
-        });
+        // $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
+        //     return filterByClientTypePDF($item, $clientType);
+        // });
 
         $contractSpecification = $data['contractSpecificationState']['items'];
 
@@ -363,6 +414,11 @@ class SupplyController extends Controller
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+        $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
+        $templateProcessor->setValue('inn', $inn);
+        $templateProcessor->setValue('client_company_registred_address', $registredString);
+        $templateProcessor->setValue('client_company_primary_address', $primaryString);
 
 
 
@@ -433,21 +489,21 @@ class SupplyController extends Controller
 
         $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
 
-        foreach ($filteredClientRq as $rqItem) {
-            $value = '';
+        // foreach ($filteredClientRq as $rqItem) {
+        //     $value = '';
 
-            if ($rqItem['code'] === 'fullname') {
-                $templateProcessor->setValue('client_company_name', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'fullname') {
-                $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'registredAdress') {
-                $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'primaryAdresss') {
-                $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
-            } else  if ($rqItem['code'] === 'inn') {
-                $templateProcessor->setValue('client_inn', $rqItem['value']);
-            }
-        }
+        //     if ($rqItem['code'] === 'fullname') {
+        //         $templateProcessor->setValue('client_company_name', $rqItem['value']);
+        //     } else  if ($rqItem['code'] === 'fullname') {
+        //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+        //     } else  if ($rqItem['code'] === 'registredAdress') {
+        //         $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
+        //     } else  if ($rqItem['code'] === 'primaryAdresss') {
+        //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+        //     } else  if ($rqItem['code'] === 'inn') {
+        //         $templateProcessor->setValue('client_inn', $rqItem['value']);
+        //     }
+        // }
 
         foreach ($bxCompanyItems as $key => $bxCompanyItem) {
             $value = '';
@@ -504,7 +560,6 @@ class SupplyController extends Controller
 
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
-
             } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
                 $packVal = $cntrctSpecItem['value'] . ": \n";
                 $iblocks .= $packVal;
@@ -517,7 +572,6 @@ class SupplyController extends Controller
 
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
-
             }
         }
         $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
@@ -526,28 +580,7 @@ class SupplyController extends Controller
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
-            // if ($cntrctSpecItem['code'] === 'specification_email') {
-            //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
-            // } else 
-            // if ($cntrctSpecItem['code'] === 'specification_iblocks') {
-            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
-            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            // } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
-            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
-
-            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            // } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
-            //     $packVal = "\n" . $cntrctSpecItem['value'] . ": ";
-            //     $formattedValue = str_replace("\n", '<w:br/>', $packVal);
-
-            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            // } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
-            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
-
-            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            // } else
-            
             if ($cntrctSpecItem['code'] === 'specification_ifree') {
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
