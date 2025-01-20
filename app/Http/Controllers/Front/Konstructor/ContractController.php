@@ -2201,6 +2201,10 @@ class ContractController extends Controller
         $contractsum = 0;
         $product = $products[0];
         $contractSupplyName = $product['contractSupplyName'];
+
+        if($product['supplyType'] === 'internet'){
+            $contractSupplyName .=  ' ОД';
+        }
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
         $contractSupplyPropEmail = $product['contractSupplyPropEmail']; //коммент к email для интернет или для носителя флэш
         $contractCoefficient = $product['contractCoefficient'];
@@ -2443,7 +2447,7 @@ class ContractController extends Controller
                 [
                     'type' => 'text',
                     'name' => 'Вид Размещения',
-                    'value' => $contractSupplyName . ' ОД',
+                    'value' => $contractSupplyName,
                     'isRequired' => true,
                     'code' => 'specification_supply',
                     'group' => 'specification',
@@ -3920,10 +3924,10 @@ class ContractController extends Controller
         }
 
         if (!empty($clientRq['address'])) {
-            $searchingAddress = '';
+
             if (!empty($clientRq['address']['items'])) {
                 foreach ($clientRq['address']['items'] as $rqAddress) {
-
+                    $searchingAddress = '';
                     foreach ($rqAddress['fields'] as $rqAddressField) {
 
                         if ($rqAddressField['code'] === 'address_country') {
@@ -3958,13 +3962,14 @@ class ContractController extends Controller
                             }
                         }
                     }
-                }
 
-                if (!empty($searchingAddress)) {
-                    if ($rqAddress['type_id'] == 6) {
-                        $address = $searchingAddress;
-                    }else{
-                        $client_adress = $searchingAddress;
+
+                    if (!empty($searchingAddress)) {
+                        if ($rqAddress['type_id'] == 6) {
+                            $address = $searchingAddress;
+                        } else {
+                            $client_adress = $searchingAddress;
+                        }
                     }
                 }
             }
