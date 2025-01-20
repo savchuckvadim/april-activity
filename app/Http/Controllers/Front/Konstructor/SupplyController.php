@@ -483,15 +483,21 @@ class SupplyController extends Controller
             } else {
                 $templateProcessor->setValue($key, '');
             }
+
+            if($key === 'garant_client_email'){
+                $templateProcessor->setValue('email_garant', strval($value));
+
+            }
         }
 
 
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
-            if ($cntrctSpecItem['code'] === 'specification_email') {
-                $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
-            } else  if ($cntrctSpecItem['code'] === 'specification_iblocks') {
+            // if ($cntrctSpecItem['code'] === 'specification_email') {
+            //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
+            // } else 
+             if ($cntrctSpecItem['code'] === 'specification_iblocks') {
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
                 $templateProcessor->setValue('complect_fields_left', $formattedValue);
@@ -2516,7 +2522,7 @@ class SupplyController extends Controller
                 }
             }
         }
-        
+
         $ltProduct = $lt['product'];
 
         $freeLtPack = '';
