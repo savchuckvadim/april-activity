@@ -4299,6 +4299,11 @@ class ContractController extends Controller
         $complect_name = '';
         $specification_email_comment = '';
         $specification_services = '';
+        $specification_distributive = '';
+        $specification_distributive_comment = '';
+        $specification_dway = '';
+        $specification_dway_comment = '';
+
         foreach ($specification as $key => $value) {
             if ($domain == 'april-garant.bitrix24.ru') {
                 if (
@@ -4338,16 +4343,16 @@ class ContractController extends Controller
                 $value['code'] === 'specification_ers' ||
                 $value['code'] === 'specification_ers_packets' ||
                 $value['code'] === 'specification_ers_in_packets' ||
-                $value['code'] === 'specification_ifree' 
+                $value['code'] === 'specification_ifree'
 
 
             ) {
                 $infoblocks .= $value['value'] . "\n";
             }
 
-            
+
             if (
-               
+
                 $value['code'] === 'specification_services'
 
 
@@ -4424,6 +4429,27 @@ class ContractController extends Controller
             ) {
                 $specification_email_comment = $value['value'];
             }
+
+            if (
+                $value['code'] === 'specification_distributive'
+            ) {
+                $specification_distributive = $value['value'];
+            }
+            if (
+                $value['code'] === 'specification_distributive_comment'
+            ) {
+                $specification_distributive_comment = $value['value'];
+            }
+            if (
+                $value['code'] === 'specification_dway'
+            ) {
+                $specification_dway = $value['value'];
+            }
+            if (
+                $value['code'] === 'specification_dway_comment'
+            ) {
+                $specification_dway_comment = $value['value'];
+            }
         }
 
 
@@ -4442,6 +4468,11 @@ class ContractController extends Controller
             "specification_pk" =>  $specification_pk, // правовой консалтинг ...
             "specification_pk_comment1" => $specification_pk_comment1, // "Выбранный комплект дополняется информационным блоком «Баз
             "specification_pk_comment" => $specification_pk_comment, // "* Информационный блок «База знаний службы Правового консалтинга» с
+            "specification_distributive" => $specification_distributive,
+            "specification_distributive_comment" => $specification_distributive_comment,
+            "specification_dway" => $specification_dway,
+            "specification_dway_comment" => $specification_dway_comment
+
         ];
 
         return $specificationData;
