@@ -484,37 +484,71 @@ class SupplyController extends Controller
                 $templateProcessor->setValue($key, '');
             }
 
-            if($key === 'garant_client_email'){
+            if ($key === 'garant_client_email') {
                 $templateProcessor->setValue('email_garant', strval($value));
-
             }
         }
-
-
+        $iblocks = '';
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
             // if ($cntrctSpecItem['code'] === 'specification_email') {
             //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
             // } else 
-             if ($cntrctSpecItem['code'] === 'specification_iblocks') {
-                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
-
-                $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            if ($cntrctSpecItem['code'] === 'specification_iblocks') {
+                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                $iblocks .= $cntrctSpecItem['value'] . "\n";
+                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
-                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
-                $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            }else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
-                $packVal = "\n".$cntrctSpecItem['value'].": ";
-                $formattedValue = str_replace("\n", '<w:br/>', $packVal);
+                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                $iblocks .= $cntrctSpecItem['value'] . "\n";
 
-                $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            }else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
-                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+            } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
+                $packVal = $cntrctSpecItem['value'] . ": \n";
+                $iblocks .= $packVal;
 
-                $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            } else if ($cntrctSpecItem['code'] === 'specification_ifree') {
+                // $formattedValue = str_replace("\n", '<w:br/>', $packVal);
+
+                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
+                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                $iblocks .= $cntrctSpecItem['value'] . "\n";
+
+            }
+        }
+        $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
+
+        $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
+        foreach ($contractSpecification as $cntrctSpecItem) {
+            $value = '';
+
+            // if ($cntrctSpecItem['code'] === 'specification_email') {
+            //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
+            // } else 
+            // if ($cntrctSpecItem['code'] === 'specification_iblocks') {
+            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            // } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
+            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            // } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
+            //     $packVal = "\n" . $cntrctSpecItem['value'] . ": ";
+            //     $formattedValue = str_replace("\n", '<w:br/>', $packVal);
+
+            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            // } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
+            //     $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+            //     $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            // } else
+            
+            if ($cntrctSpecItem['code'] === 'specification_ifree') {
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
 
@@ -552,6 +586,11 @@ class SupplyController extends Controller
 
 
                 $templateProcessor->setValue('complect_lt_right', $formattedValue);
+            } else if ($cntrctSpecItem['code'] === 'specification_pk') {
+                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+
+                $templateProcessor->setValue('complect_pk', $formattedValue);
             }
         }
 
@@ -604,7 +643,7 @@ class SupplyController extends Controller
 
         $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
 
-        $templateProcessor->setValue('complect_pk', $consaltingString);
+        // $templateProcessor->setValue('complect_pk', $consaltingString);
 
 
         $hash = md5(uniqid(mt_rand(), true));
@@ -2517,7 +2556,7 @@ class SupplyController extends Controller
                 $consaltingName = $consaltingProduct['name'];
             }
         }
-        
+
         if (empty($consaltingComment)) {
             foreach ($products as $product) {
                 if (empty($consaltingComment)) {
