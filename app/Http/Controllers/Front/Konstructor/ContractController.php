@@ -2202,7 +2202,7 @@ class ContractController extends Controller
         $product = $products[0];
         $contractSupplyName = $product['contractSupplyName'];
 
-        if($product['supplyType'] === 'internet'){
+        if ($product['supplyType'] === 'internet') {
             $contractSupplyName .=  ' ОД';
         }
         $contractSupplyPropComment = $product['contractSupplyPropComment'];
@@ -3667,10 +3667,10 @@ class ContractController extends Controller
 
 
         );
-        $contract_date = '';
+        $contract_date = '«____» _________________ 20__ г.';
         $contract_pay_date = '«____» _________________ 20__ г.';
-        $contract_start = '_____________________________________';
-        $contract_end = '_____________________________________';
+        $contract_start = '«____» _________________ 20__ г.';
+        $contract_end = '«____» _________________ 20__ г.';
         $client_assigned_fio = ' _____________________________ ';
         $garant_client_email = '________________________________';
         if (!empty($pbxDealItems)) {
@@ -3778,7 +3778,8 @@ class ContractController extends Controller
             $general['contract_pay_date'] = $contract_pay_date;
         }
 
-        $we_rq = $providerRq['name'] . "\n" . "\n"
+
+        $we_rq = $providerRq['shortname'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
             . "ИНН: " . $providerRq['inn'] . "\n"
             . "Р/с: " . $providerRq['rs'] . "\n"
@@ -3791,15 +3792,56 @@ class ContractController extends Controller
 
 
         $roles = $this->getRoles($contractType);
+
+        $we_direct_fio = $this->getSurnameAndInitials($providerRq['director']);
+        $providerType = $providerRq['type'];
+        $we_direct_position =  $providerRq['position'];
+        if ($providerType == 'ip') {
+            $we_direct_position = '';
+            $we_direct_fio = $providerRq['shortname'];
+        }
+
+        $client_direct_position = '';
+        $client_direct_fio = '';
+
+        $clientDirectorFullName = '';
+        foreach ($clientRq['fields'] as $rqItem) {
+
+            if (!empty($rqItem['value'])) {
+                if ($currentClientType == 'org' || $currentClientType == 'org_state') {
+                    if ($rqItem['code'] === 'director') {
+
+                        $clientDirectorFullName = $rqItem['value'];
+                        $client_direct_fio = $this->getSurnameAndInitials($clientDirectorFullName);
+                    } else  if ($rqItem['code'] === 'position') {
+                        $client_direct_position = $rqItem['value'];
+                    }
+                } else if ($currentClientType == 'fiz') {
+                    if ($rqItem['code'] === 'personName') {
+
+
+                        $clientDirectorFullName = $rqItem['value'];
+                        $client_direct_fio = $this->getSurnameAndInitials($clientDirectorFullName);
+                    }
+                } else  if ($currentClientType == 'ip') {
+                    if ($rqItem['code'] === 'shortname') {
+
+
+                        $clientDirectorFullName = $rqItem['value'];
+                    }
+                }
+            }
+        }
+
         $rq = [
             'we_rq' => $we_rq,
             'we_role' => $roles['provider'],
-            'we_direct_position' => '',
-            'we_direct_fio' => '',
+            'we_direct_position' => $we_direct_position,
+            'we_direct_fio' => $we_direct_fio,
             'client_rq' => $client_rq['client_rq'],
             'client_role' =>  $roles['client'],
-            'client_direct_position' => '',
-            'client_direct_fio' => '',
+            'client_direct_position' =>   $client_direct_position,
+            'client_direct_fio' => $client_direct_fio,
             'client_adress' => $client_rq['client_adress']
         ];
 
@@ -3837,7 +3879,28 @@ class ContractController extends Controller
 
         ];
     }
+    protected function getSurnameAndInitials($fullName)
+    {
+        // Убираем лишние пробелы
+        $fullName = trim($fullName);
+        // Разбиваем строку на части
+        $parts = explode(' ', $fullName);
 
+        if (count($parts) < 2) {
+            return $fullName; // Если не хватает данных, возвращаем оригинальную строку
+        }
+
+        // Получаем фамилию
+        $surname = $parts[0];
+
+        // Инициал имени
+        $nameInitial = isset($parts[1]) ? mb_substr($parts[1], 0, 1) . '.' : '';
+        // Инициал отчества (если есть)
+        $patronymicInitial = isset($parts[2]) ? mb_substr($parts[2], 0, 1) . '.' : '';
+
+        // Формируем результат
+        return $surname . ' ' . $nameInitial . $patronymicInitial;
+    }
     protected function getClientRQ(
 
         $currentClientType,
