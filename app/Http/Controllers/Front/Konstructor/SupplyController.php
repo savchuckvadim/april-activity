@@ -416,7 +416,7 @@ class SupplyController extends Controller
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
         $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
-        $templateProcessor->setValue('inn', $inn);
+        $templateProcessor->setValue('client_inn', $inn);
         $templateProcessor->setValue('client_company_registred_address', $registredString);
         $templateProcessor->setValue('client_company_primary_address', $primaryString);
 
