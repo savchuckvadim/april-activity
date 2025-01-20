@@ -3792,10 +3792,11 @@ class ContractController extends Controller
             'we_role' => $roles['provider'],
             'we_direct_position' => '',
             'we_direct_fio' => '',
-            'client_rq' => $client_rq,
+            'client_rq' => $client_rq['client_rq'],
             'client_role' =>  $roles['client'],
             'client_direct_position' => '',
             'client_direct_fio' => '',
+            'client_adress' => $client_rq['client_adress']
         ];
 
 
@@ -3852,7 +3853,7 @@ class ContractController extends Controller
         $ks = '_________________________________________'; // ||
         $phone = '_________________________________'; // ||
         $email = '__________________________________'; // ||
-
+        $client_adress = '________________________________';
 
 
 
@@ -3922,46 +3923,49 @@ class ContractController extends Controller
             $searchingAddress = '';
             if (!empty($clientRq['address']['items'])) {
                 foreach ($clientRq['address']['items'] as $rqAddress) {
-                    if ($rqAddress['type_id'] == 6) {
-                        foreach ($rqAddress['fields'] as $rqAddressField) {
 
-                            if ($rqAddressField['code'] === 'address_country') {
-                                if (!empty($rqAddressField['value'])) {
+                    foreach ($rqAddress['fields'] as $rqAddressField) {
 
-                                    $searchingAddress = $rqAddressField['value'] . ', ';
-                                }
+                        if ($rqAddressField['code'] === 'address_country') {
+                            if (!empty($rqAddressField['value'])) {
+
+                                $searchingAddress = $rqAddressField['value'] . ', ';
                             }
-                            if ($rqAddressField['code'] === 'address_region') {
-                                if (!empty($rqAddressField['value'])) {
-                                    $searchingAddress .= $rqAddressField['value'] . ', ';
-                                }
+                        }
+                        if ($rqAddressField['code'] === 'address_region') {
+                            if (!empty($rqAddressField['value'])) {
+                                $searchingAddress .= $rqAddressField['value'] . ', ';
                             }
-                            if ($rqAddressField['code'] === 'address_region') {
-                                if (!empty($rqAddressField['value'])) {
-                                    $searchingAddress .= $rqAddressField['value'] . ', ';
-                                }
+                        }
+                        if ($rqAddressField['code'] === 'address_region') {
+                            if (!empty($rqAddressField['value'])) {
+                                $searchingAddress .= $rqAddressField['value'] . ', ';
                             }
-                            if ($rqAddressField['code'] === 'address_city') {
-                                if (!empty($rqAddressField['value'])) {
-                                    $searchingAddress .= $rqAddressField['value'] . ', ';
-                                }
+                        }
+                        if ($rqAddressField['code'] === 'address_city') {
+                            if (!empty($rqAddressField['value'])) {
+                                $searchingAddress .= $rqAddressField['value'] . ', ';
                             }
-                            if ($rqAddressField['code'] === 'address_1') {
-                                if (!empty($rqAddressField['value'])) {
-                                    $searchingAddress .= $rqAddressField['value'] . ', ';
-                                }
+                        }
+                        if ($rqAddressField['code'] === 'address_1') {
+                            if (!empty($rqAddressField['value'])) {
+                                $searchingAddress .= $rqAddressField['value'] . ', ';
                             }
-                            if ($rqAddressField['code'] === 'address_2') {
-                                if (!empty($rqAddressField['value'])) {
-                                    $searchingAddress .= $rqAddressField['value'];
-                                }
+                        }
+                        if ($rqAddressField['code'] === 'address_2') {
+                            if (!empty($rqAddressField['value'])) {
+                                $searchingAddress .= $rqAddressField['value'];
                             }
                         }
                     }
                 }
 
                 if (!empty($searchingAddress)) {
-                    $address = $searchingAddress;
+                    if ($rqAddress['type_id'] == 6) {
+                        $address = $searchingAddress;
+                    }else{
+                        $client_adress = $searchingAddress;
+                    }
                 }
             }
         }
@@ -3975,7 +3979,7 @@ class ContractController extends Controller
 
                             if ($rqItem['code'] == 'bank_name') {
                                 if (!empty($rqBank['value'])) {
-                                    $rs = $rqBank['value'];
+                                    $bank = $rqBank['value'];
                                 }
                             }
                             if ($rqItem['code'] == 'rs') {
@@ -4004,12 +4008,13 @@ class ContractController extends Controller
             $client_rq = $companyName . "\n" . "\n"
                 . 'Адрес: ' . $address . "\n"
                 . "ИНН: " . $inn . "\n"
+                . "Банк: " . $bank . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
                 . 'Телефон.: ' . $phone . "\n"
                 . 'E-mail: ' . $email . "\n";
         }
-        return $client_rq;
+        return ['client_rq' => $client_rq, 'client_adress' => $client_adress];
     }
 
     protected function getContractHeaderText(
