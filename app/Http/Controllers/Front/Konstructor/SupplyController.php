@@ -329,7 +329,7 @@ class SupplyController extends Controller
                                 if (!empty($field['value'])) {
                                     if ($field['code'] == 'address_postal_code') {
                                         $addresString .= $field['value'] . ", ";
-                                    } else if ($field['CODE'] == 'address_country') {
+                                    } else if ($field['code'] == 'address_country') {
                                         $addresString .= $field['value'] . ", ";
                                     } else {
                                         $addresString .= $field['value'] . ", ";
