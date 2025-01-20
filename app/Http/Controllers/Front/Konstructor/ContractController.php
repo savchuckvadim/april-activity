@@ -4298,7 +4298,7 @@ class ContractController extends Controller
         $specification_pk_comment = '';
         $complect_name = '';
         $specification_email_comment = '';
-
+        $specification_services = '';
         foreach ($specification as $key => $value) {
             if ($domain == 'april-garant.bitrix24.ru') {
                 if (
@@ -4338,12 +4338,21 @@ class ContractController extends Controller
                 $value['code'] === 'specification_ers' ||
                 $value['code'] === 'specification_ers_packets' ||
                 $value['code'] === 'specification_ers_in_packets' ||
-                $value['code'] === 'specification_ifree' ||
-                $value['code'] === 'specification_services'
+                $value['code'] === 'specification_ifree' 
 
 
             ) {
                 $infoblocks .= $value['value'] . "\n";
+            }
+
+            
+            if (
+               
+                $value['code'] === 'specification_services'
+
+
+            ) {
+                $specification_services .= $value['value'] . "\n";
             }
 
             if (
@@ -4421,6 +4430,7 @@ class ContractController extends Controller
         $specificationData = [
             'complect_name' => $complect_name,
             'infoblocks' => $infoblocks,
+            'specification_services' => $specification_services,
             'legal_techs' => $lt,
             'supply_contract' => $supplyContract,
             'supply_comment_1' => $supplyComment,
