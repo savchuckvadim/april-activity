@@ -2250,7 +2250,7 @@ class ContractController extends Controller
                             }
                             if (!empty($product['contractConsaltingProp'])) {
                                 $consalting = $product['contractConsaltingComment'];
-                                $consalting = 'Советы экспертов. Проверки, налоги, право';
+                                $consaltingName = 'Советы экспертов. Проверки, налоги, право';
                             }
                         }
                     }
@@ -2481,7 +2481,7 @@ class ContractController extends Controller
                     'isRequired' => false,
                     'code' => 'specification_pk_comment1',
                     'group' => 'specification',
-                    'isActive' => false,
+                    'isActive' => true,
                     'isDisable' => true,
                     'order' => 2,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
