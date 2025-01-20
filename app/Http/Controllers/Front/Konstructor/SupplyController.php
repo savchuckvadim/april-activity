@@ -501,7 +501,20 @@ class SupplyController extends Controller
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
                 $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            } else  if ($cntrctSpecItem['code'] === 'specification_ifree') {
+            } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
+                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+                $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            }else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
+                $packVal = "\n".$cntrctSpecItem['value'].": ";
+                $formattedValue = str_replace("\n", '<w:br/>', $packVal);
+
+                $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            }else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
+                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+
+                $templateProcessor->setValue('complect_fields_left', $formattedValue);
+            } else if ($cntrctSpecItem['code'] === 'specification_ifree') {
                 $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
 
 
