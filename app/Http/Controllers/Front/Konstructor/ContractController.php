@@ -2136,7 +2136,7 @@ class ContractController extends Controller
         $arows,
         $contractQuantity,
         $documentInfoblocks,
-        $total,
+        $total
     ) {
 
         $productType = [
@@ -2239,6 +2239,25 @@ class ContractController extends Controller
                 $consaltingName = $consaltingProduct['name'];
             }
         }
+
+        if (empty($consaltingComment)) {
+            foreach ($products as $product) {
+                if (empty($consaltingComment)) {
+                    if (!empty($product)) {
+                        if (!empty($product['withConsalting'])) {
+                            if (!empty($product['contractConsaltingComment'])) {
+                                $consaltingcomment = $product['contractConsaltingComment'];
+                            }
+                            if (!empty($product['contractConsaltingProp'])) {
+                                $consalting = $product['contractConsaltingComment'];
+                                $consalting = 'Советы экспертов. Проверки, налоги, право';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $ltProduct = $lt['product'];
 
         $freeLtPack = '';
