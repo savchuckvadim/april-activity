@@ -3664,7 +3664,7 @@ class ContractController extends Controller
 
         );
         $contract_date = '';
-        $contract_pay_date = '___________________________________________';
+        $contract_pay_date = '«____» _________________ 20__ г.';
         $contract_start = '_____________________________________';
         $contract_end = '_____________________________________';
         $client_assigned_fio = ' _____________________________ ';
@@ -4202,7 +4202,7 @@ class ContractController extends Controller
         $total_month_sum = $totalSumMonth;
         $total_month_sum_string = $totalSumMonthString;
 
-
+        $total_measure = $total['price']['measure']['name'];
         if ($clientType == 'org_state') {
             $total_prepayment_quantity = '1';
             $total_prepayment_quantity_string = '1 месяц';
@@ -4219,8 +4219,10 @@ class ContractController extends Controller
             $total_prepayment_sum_string = $contractSumString;
             $contract_total_sum = $contractSum; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
             $contract_total_sum_string = $contractSumString; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
-            $total_quantity = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
-            $total_quantity_string = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            // $total_quantity = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            // $total_quantity_string = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $total_quantity = $totalQuantity;
+            $total_quantity_string = $totalQuantityString;
         }
         $result = [
             'total_prepayment_quantity' => $total_prepayment_quantity,
@@ -4233,6 +4235,7 @@ class ContractController extends Controller
             'total_quantity_string' => $total_quantity_string, //всего месяцев действие договора
             'total_month_sum' => $total_month_sum, // сумма в месяц
             'total_month_sum_string' => $total_month_sum_string,
+            'total_measure' => $total_measure
 
         ];
 
