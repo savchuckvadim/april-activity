@@ -3691,14 +3691,29 @@ class ContractController extends Controller
 
             if (!empty($pbxDealItems['contract_create_date']) && !empty($pbxDealItems['contract_create_date']['current'])) { //дата создания договора
                 $contract_date = $pbxDealItems['contract_create_date']['current'];
+                if (!empty($contract_date)) {
+
+                    $contract_date = mb_strtolower(
+                        Carbon::parse($contract_date)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+                }
             }
 
             if (!empty($pbxDealItems['garant_client_assigned_name']) && !empty($pbxDealItems['garant_client_assigned_name']['current'])) { //ФИО Ответственного за получение справочника
                 $client_assigned_fio = $pbxDealItems['garant_client_assigned_name']['current'];
             }
 
-            if (!empty($pbxDealItems['first_pay_date'])) { //Внести оплату не позднее
+            if (!empty($pbxDealItems['first_pay_date']) && !empty($pbxDealItems['first_pay_date']['current'])) { //Внести оплату не позднее
                 $contract_pay_date = $pbxDealItems['first_pay_date']['current'];
+                if (!empty($contract_pay_date)) {
+                    Carbon::setLocale('ru');
+                    $contract_pay_date = mb_strtolower(
+                        Carbon::parse($contract_pay_date)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+        
+                }
             }
             if (!empty($pbxDealItems['garant_client_email'])) { //Внести оплату не позднее
                 $garant_client_email = $pbxDealItems['garant_client_email']['current'];
@@ -3745,13 +3760,7 @@ class ContractController extends Controller
         //         $contract_pay_date = $row['value'];
         //     }
         // }
-        if (!empty($contract_date)) {
-
-            $contract_date = mb_strtolower(
-                Carbon::parse($contract_date)
-                    ->translatedFormat('j F Y')
-            ) . ' г.';
-        }
+   
 
 
 
@@ -3761,6 +3770,7 @@ class ContractController extends Controller
             'contract_pay_date' => $contract_pay_date,
             'contract_start' => $contract_start,
             'contract_end' => $contract_end,
+            'contract_pay_date' => $contract_pay_date,
             'client_assigned_fio' => $client_assigned_fio,
             'garant_client_email' => $garant_client_email
         ];
@@ -3768,16 +3778,7 @@ class ContractController extends Controller
 
 
 
-        if (!empty($contract_pay_date)) {
-            Carbon::setLocale('ru');
-            $contract_pay_date = mb_strtolower(
-                Carbon::parse($contract_pay_date)
-                    ->translatedFormat('j F Y')
-            ) . ' г.';
-
-            $general['contract_pay_date'] = $contract_pay_date;
-        }
-
+    
 
         $we_rq = $providerRq['shortname'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
