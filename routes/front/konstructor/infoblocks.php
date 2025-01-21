@@ -15,7 +15,7 @@ Route::prefix('konstructor/front')->group(function () {
 
     Route::get('/igroups', function () {
         $controller = new InfoblockFrontController();
-        return $controller->getBlocks();
+        return $controller->getIGroups();
     });
 
 });

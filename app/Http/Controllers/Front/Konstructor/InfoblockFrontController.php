@@ -20,7 +20,11 @@ class InfoblockFrontController extends Controller
     public function getIGroups()
     {
         $iGroups = InfoGroup::all();
-        
-        return APIController::getSuccess($iGroups);
+        $iblocks = Infoblock::all();
+
+        return APIController::getSuccess([
+            'infoblocks' => $iblocks,
+            'groups' =>  $iGroups,
+        ]);
     }
 }
