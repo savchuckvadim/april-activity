@@ -6,9 +6,9 @@ use App\Http\Controllers\Front\Konstructor\InfoblockFrontController;
 use App\Http\Controllers\Front\Konstructor\SupplyController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('konstruct')->group(function () {
+Route::prefix('konstructor/front')->group(function () {
    
-    Route::get('/infoblocks', function () {
+    Route::get('/iblocks', function () {
         $controller = new InfoblockFrontController();
         return $controller->getBlocks();
     });
