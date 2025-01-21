@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Front\Konstructor;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
-use App\Models\Infoblock;
-use App\Models\InfoGroup;
+use App\Models\Garant\Infoblock;
+use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 
 class InfoblockFrontController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Garant;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +9,16 @@ class Infoblock extends Model
 {
     use HasFactory;
 
+    public function complects()
+    {
+        return $this->belongsToMany(Complect::class, 'complect_infoblock');
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(InfoGroup::class, 'infoblock_info_group');
+    }
+    
     protected $fillable = [
         'number',
         'name',
