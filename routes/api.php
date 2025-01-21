@@ -50,6 +50,8 @@ require __DIR__ . '/client_outer/client.php';
 
 Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/contract_routes.php';
+    require __DIR__ . '/front/konstructor/infoblocks.php';
+
     //..................................GENERAL FRONT APP ...............................
     Route::post('front/portal', function (Request $request) {
         $domain  = $request->input('domain');

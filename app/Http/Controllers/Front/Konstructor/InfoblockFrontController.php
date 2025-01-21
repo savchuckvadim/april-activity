@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front\Konstructor;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\Infoblock;
+use App\Models\InfoGroup;
 use Illuminate\Http\Request;
 
 class InfoblockFrontController extends Controller
@@ -14,5 +15,12 @@ class InfoblockFrontController extends Controller
         $iblocks = Infoblock::all();
         
         return APIController::getSuccess($iblocks);
+    }
+
+    public function getIGroups()
+    {
+        $iGroups = InfoGroup::all();
+        
+        return APIController::getSuccess($iGroups);
     }
 }
