@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
-use App\Models\Infoblock;
+use App\Models\Garant\Infoblock;
 use Illuminate\Http\Request;
 
 class InfoblockController extends Controller

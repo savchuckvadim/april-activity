@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\InfoGroup;
+use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 
 class InfoGroupController extends Controller

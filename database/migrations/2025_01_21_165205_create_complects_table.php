@@ -24,9 +24,10 @@ return new class extends Migration
             $table->float('abs')->nullable();
 
             $table->integer('number');
+            $table->string('productType');
             $table->boolean('withABS');
             $table->boolean('withConsalting');
-            $table->string('productType');
+         
             $table->boolean('withServices');
             $table->boolean('withLt');
             $table->boolean('isChanging');

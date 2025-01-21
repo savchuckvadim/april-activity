@@ -44,8 +44,8 @@ use App\Models\BtxLead;
 // use App\Http\Controllers\SmartController;
 // use App\Http\Controllers\TemplateController;
 
-use App\Models\Infoblock;
-use App\Models\InfoGroup;
+use App\Models\Garant\Infoblock;
+use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,7 +55,8 @@ require __DIR__ . '/admin/konstructor/measure_routes.php';
 require __DIR__ . '/admin/konstructor/portal_measure_routes.php';
 require __DIR__ . '/admin/konstructor/contract_routes.php';
 require __DIR__ . '/admin/konstructor/portal_contract_routes.php';
-
+require __DIR__ . '/admin/garant/infoblock_routes.php';
+require __DIR__ . '/admin/garant/complect_routes.php';
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -570,47 +571,6 @@ Route::middleware(['ajax.only'])->group(function () {
     });
     Route::delete('field/{fieldId}', function ($fieldId) {
         return FieldController::deleteField($fieldId);
-    });
-
-
-    ///INFOBLOCKS
-
-    Route::post('infogroups', function (Request $request) {
-        $infogroups  = $request->input('infogroups');
-
-        return InfoGroupController::setInfoGroups($infogroups);
-    });
-
-    Route::post('infoblocks', function (Request $request) {
-        $infoblocks  = $request->input('infoblocks');
-        return InfoblockController::setInfoBlocks($infoblocks);
-    });
-
-    Route::post('infoblock/{infoblockId}', function ($infoblockId, Request $request) {
-        return InfoblockController::updateInfoblock($infoblockId, $request);
-    });
-    Route::post('infoblock', function (Request $request) {
-        return InfoblockController::setInfoblock($request);
-    });
-
-    Route::get('infogroups', function () {
-        $infogroups  = InfoGroup::all();
-        return response([
-            'resultCode' => 0,
-            'infogroups' =>  $infogroups
-        ]);
-    });
-
-    Route::get('infoblocks', function () {
-        $infoblocks  = Infoblock::all();
-        return response([
-            'resultCode' => 0,
-            'infoblocks' =>  $infoblocks
-        ]);
-    });
-
-    Route::get('infoblock/{infoblockId}', function ($infoblockId) {
-        return InfoblockController::getInfoblock($infoblockId);
     });
 
 
