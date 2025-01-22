@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\BitrixDealDocumentJob;
 use App\Models\Counter;
-use App\Models\Infoblock;
+use App\Models\Garant\Infoblock;
 use App\Services\BitrixDealDocumentService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;

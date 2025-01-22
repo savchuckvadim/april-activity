@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Counter;
-use App\Models\Infoblock;
+use App\Models\Garant\Infoblock;
 use Ramsey\Uuid\Uuid;
 use PhpOffice\PhpWord\Shared\Converter;
 use Illuminate\Http\Request;

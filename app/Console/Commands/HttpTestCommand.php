@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Infoblock;
+use App\Models\Garant\Infoblock;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -49,21 +49,21 @@ class HttpTestCommand extends Command
         if ($response->successful()) {
             $infoblocks = $response->json();
             foreach ($infoblocks['infoblocks'] as $infoblockData) {
-               $iblock = Infoblock::create([
-                    'number' => $infoblockData['number'], 
-                    'name' => $infoblockData['name'], 
-                    'code' => $infoblockData['code'], 
-                    'title' => $infoblockData['title'], 
-                    'description' => $infoblockData['description'], 
-                    'descriptionForSale' => $infoblockData['descriptionForSale'], 
-                    'shortDescription' => $infoblockData['shortDescription'], 
-                    'weight' => $infoblockData['weight'], 
-                    'inGroupId' => $infoblockData['inGroupId'], 
-                    'groupId' => $infoblockData['groupId'], 
-                    'isLa' => $infoblockData['isLa'], 
-                    'isFree' => $infoblockData['isFree'], 
-                    'isShowing' => $infoblockData['isShowing'], 
-                    'isSet' => $infoblockData['isSet'], 
+                $iblock = Infoblock::create([
+                    'number' => $infoblockData['number'],
+                    'name' => $infoblockData['name'],
+                    'code' => $infoblockData['code'],
+                    'title' => $infoblockData['title'],
+                    'description' => $infoblockData['description'],
+                    'descriptionForSale' => $infoblockData['descriptionForSale'],
+                    'shortDescription' => $infoblockData['shortDescription'],
+                    'weight' => $infoblockData['weight'],
+                    'inGroupId' => $infoblockData['inGroupId'],
+                    'groupId' => $infoblockData['groupId'],
+                    'isLa' => $infoblockData['isLa'],
+                    'isFree' => $infoblockData['isFree'],
+                    'isShowing' => $infoblockData['isShowing'],
+                    'isSet' => $infoblockData['isSet'],
                 ]);
                 $this->line($iblock['code']);
             }
