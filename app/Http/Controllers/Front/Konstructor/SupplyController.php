@@ -38,7 +38,10 @@ class SupplyController extends Controller
         $companyId = $data['companyId'];
         $contractType = $data['contractType']; //service | product
 
-        $contract = $data['contract'];
+        $contract = [];
+        if(!empty($data['contract'])){
+            $contract =   $data['contract'];
+        }
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
 
