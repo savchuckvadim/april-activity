@@ -83,8 +83,8 @@ class SupplyController extends Controller
                     'bank' => [],
                     'address' => [],
                 ],
-                // 'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
-                'contract' => [],
+                'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
+                // 'contract' => [],
 
                 'specification' => $this->getSpecification(
                     $currentComplect,
