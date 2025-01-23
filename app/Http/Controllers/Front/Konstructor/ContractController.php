@@ -2404,7 +2404,7 @@ class ContractController extends Controller
                     'code' => 'complect_name',
                     'group' => 'specification',
                     'isActive' => true,
-                    'isDisable' => true,
+                    'isDisable' => false,
                     'order' => 0,
                     'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
                     'supplies' => ['internet', 'proxima'],
