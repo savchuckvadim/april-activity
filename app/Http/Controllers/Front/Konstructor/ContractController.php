@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front\Konstructor;
 
+use App\Http\Controllers\ALogController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,14 @@ class ContractController extends Controller
         $contractType = $data['contractType']; //service | product
 
         $contract = $data['contract'];
+
+        $contract =   $data['contract'];
+
+        $generalContractModel = $data['contract'];
+        if (!empty($contract['contract'])) {
+            $generalContractModel =  $contract['contract'];
+        }
+        ALogController::push('old contract', $data);
         $generalContractModel = $contract['contract'];
         $contractQuantity = $generalContractModel['coefficient'];
 
@@ -3712,7 +3721,6 @@ class ContractController extends Controller
                         Carbon::parse($contract_pay_date)
                             ->translatedFormat('j F Y')
                     ) . ' г.';
-        
                 }
             }
             if (!empty($pbxDealItems['garant_client_email'])) { //Внести оплату не позднее
@@ -3760,7 +3768,7 @@ class ContractController extends Controller
         //         $contract_pay_date = $row['value'];
         //     }
         // }
-   
+
 
 
 
@@ -3778,7 +3786,7 @@ class ContractController extends Controller
 
 
 
-    
+
 
         $we_rq = $providerRq['shortname'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"

@@ -42,7 +42,11 @@ class SupplyController extends Controller
         if (!empty($data['contract'])) {
             $contract =   $data['contract'];
 
-            $generalContractModel = $contract['contract'];
+            $generalContractModel = $data['contract'];
+            if(!empty( $contract['contract'])){
+                $generalContractModel =  $contract['contract'];
+            }
+            ALogController::push('old contract', $data);
             $contractQuantity = $generalContractModel['coefficient'];
 
             $productSet = $data['productSet'];
