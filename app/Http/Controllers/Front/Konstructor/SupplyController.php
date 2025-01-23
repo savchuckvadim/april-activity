@@ -39,201 +39,208 @@ class SupplyController extends Controller
         $contractType = $data['contractType']; //service | product
 
         $contract = [];
-        if(!empty($data['contract'])){
+        if (!empty($data['contract'])) {
             $contract =   $data['contract'];
-        }
-        $generalContractModel = $contract['contract'];
-        $contractQuantity = $generalContractModel['coefficient'];
 
-        $productSet = $data['productSet'];
-        $products = $data['products'];
-        $contractProductName = $generalContractModel['productName'];
-        $arows = $data['arows'];
-        $total = null;
-        if (!empty($data['total'])) {
-            $total =  $data['total'];
-            if (!empty($data['total'][0])) {
-                $total =  $data['total'][0];
+            $generalContractModel = $contract['contract'];
+            $contractQuantity = $generalContractModel['coefficient'];
+
+            $productSet = $data['productSet'];
+            $products = $data['products'];
+            $contractProductName = $generalContractModel['productName'];
+            $arows = $data['arows'];
+            $total = null;
+            if (!empty($data['total'])) {
+                $total =  $data['total'];
+                if (!empty($data['total'][0])) {
+                    $total =  $data['total'][0];
+                }
             }
-        }
 
-        $currentComplect = $data['complect']; //lt  //ltInPacket
-        $consaltingProduct = $data['consalting']['product'];
-        $lt = $data['legalTech'];
-        $starProduct = $data['star']['product'];
-        $documentInfoblocks =  $data['documentInfoblocks'];
-        $isSupplyReport = false;
-        if (!empty($data['isSupplyReport'])) {
-            $isSupplyReport = true;
-        }
-        try {
-            $portal = Portal::where('domain', $domain)->first();
+            $currentComplect = $data['complect']; //lt  //ltInPacket
+            $consaltingProduct = $data['consalting']['product'];
+            $lt = $data['legalTech'];
+            $starProduct = $data['star']['product'];
+            $documentInfoblocks =  $data['documentInfoblocks'];
+            $isSupplyReport = false;
+            if (!empty($data['isSupplyReport'])) {
+                $isSupplyReport = true;
+            }
 
-            $providers = $portal->providers;
-            $hook = BitrixController::getHook($domain);
-            $result = [
-                'providers' => $providers,
-                'client' =>  [
-                    'rq' => [],
-                    'bank' => [],
-                    'address' => [],
-                ],
-                'provider' => [
-                    'rq' => [],
-                    'bank' => [],
-                    'address' => [],
-                ],
-                'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
-                // 'contract' => [],
+            try {
+                $portal = Portal::where('domain', $domain)->first();
 
-                'specification' => $this->getSpecification(
-                    $currentComplect,
-                    $products,
-                    $consaltingProduct,
-                    $lt,
-                    $starProduct,
-                    $contractType, //service | product
-                    $contract,
-
-                    $arows,
-                    $contractQuantity,
-                    $documentInfoblocks,
-                    $contractProductName,
-                    $total
-                ),
-                'clientType' =>  [
-                    'type' => 'select',
-                    'name' => 'Тип клиента',
-                    'value' =>  [
-                        'id' => 0,
-                        'code' => 'org',
-                        'name' => 'Организация Коммерческая',
-                        'title' => 'Организация Коммерческая'
+                $providers = $portal->providers;
+                $hook = BitrixController::getHook($domain);
+                $result = [
+                    'providers' => $providers,
+                    'client' =>  [
+                        'rq' => [],
+                        'bank' => [],
+                        'address' => [],
                     ],
-                    'isRequired' => true,
-                    'code' => 'type',
-                    'items' => [
-                        [
+                    'provider' => [
+                        'rq' => [],
+                        'bank' => [],
+                        'address' => [],
+                    ],
+                    'contract' => $this->getContractGeneralForm($arows, $contractQuantity),
+                    // 'contract' => [],
+
+                    'specification' => $this->getSpecification(
+                        $currentComplect,
+                        $products,
+                        $consaltingProduct,
+                        $lt,
+                        $starProduct,
+                        $contractType, //service | product
+                        $contract,
+
+                        $arows,
+                        $contractQuantity,
+                        $documentInfoblocks,
+                        $contractProductName,
+                        $total
+                    ),
+                    'clientType' =>  [
+                        'type' => 'select',
+                        'name' => 'Тип клиента',
+                        'value' =>  [
                             'id' => 0,
                             'code' => 'org',
                             'name' => 'Организация Коммерческая',
                             'title' => 'Организация Коммерческая'
                         ],
-                        [
-                            'id' => 1,
-                            'code' => 'org_state',
-                            'name' => 'Организация Бюджетная',
-                            'title' => 'Организация Бюджетная'
+                        'isRequired' => true,
+                        'code' => 'type',
+                        'items' => [
+                            [
+                                'id' => 0,
+                                'code' => 'org',
+                                'name' => 'Организация Коммерческая',
+                                'title' => 'Организация Коммерческая'
+                            ],
+                            [
+                                'id' => 1,
+                                'code' => 'org_state',
+                                'name' => 'Организация Бюджетная',
+                                'title' => 'Организация Бюджетная'
+                            ],
+                            [
+                                'id' => 2,
+                                'code' => 'ip',
+                                'name' => 'Индивидуальный предприниматель',
+                                'title' => 'Индивидуальный предприниматель'
+                            ],
+                            // [
+                            //     'id' => 3,
+                            //     'code' => 'advokat',
+                            //     'name' => 'Адвокат',
+                            //     'title' => 'Адвокат'
+                            // ],
+                            [
+                                'id' => 4,
+                                'code' => 'fiz',
+                                'name' => 'Физическое лицо',
+                                'title' => 'Физическое лицо'
+                            ],
+
                         ],
-                        [
-                            'id' => 2,
-                            'code' => 'ip',
-                            'name' => 'Индивидуальный предприниматель',
-                            'title' => 'Индивидуальный предприниматель'
-                        ],
-                        // [
-                        //     'id' => 3,
-                        //     'code' => 'advokat',
-                        //     'name' => 'Адвокат',
-                        //     'title' => 'Адвокат'
-                        // ],
-                        [
-                            'id' => 4,
-                            'code' => 'fiz',
-                            'name' => 'Физическое лицо',
-                            'title' => 'Физическое лицо'
-                        ],
+                        'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
+                        'group' => 'rq',
+                        'isActive' => true,
+                        'isDisable' => false,
+                        'order' => 0,
 
                     ],
-                    'includes' => ['org', 'org_state', 'ip', 'advokat', 'fiz'],
-                    'group' => 'rq',
-                    'isActive' => true,
-                    'isDisable' => false,
-                    'order' => 0,
 
-                ],
-
-                'currentComplect' => $currentComplect,
-                'products' => $products,
-                'consaltingProduct' => $consaltingProduct,
-                'lt' => $lt,
-                'starProduct' => $starProduct,
-                'contractType' => $contractType,
+                    'currentComplect' => $currentComplect,
+                    'products' => $products,
+                    'consaltingProduct' => $consaltingProduct,
+                    'lt' => $lt,
+                    'starProduct' => $starProduct,
+                    'contractType' => $contractType,
 
 
-            ];
+                ];
 
-            if (!empty($isSupplyReport)) {
-                $result['supply'] = $this->getSupplyReportData();
-            }
-
-            $rqMethod = '/crm.requisite.list';
-            $rqData = [
-                'filter' => [
-                    'ENTITY_TYPE_ID' => 4,
-                    'ENTITY_ID' => $companyId,
-                ]
-            ];
-            $url = $hook . $rqMethod;
-            $responseData = Http::post($url,  $rqData);
-
-            $rqResponse = BitrixController::getBitrixResponse($responseData, $rqMethod);
-            $clientRq = null;
-            $clientRqBank = null;
-            $clientRqAddress = null;
-            //bank
-            if (!empty($rqResponse)) {
-                $clientRq = $rqResponse[0];
-                if (!empty($clientRq) && isset($clientRq['ID'])) {
-
-
-                    $rqResponse  = $clientRq;
-                    $rqId = $rqResponse['ID'];
-                    $bankMethod = '/crm.requisite.bankdetail.list';
-                    $bankData = [
-                        'filter' => [
-                            // 'ENTITY_TYPE_ID' => 4,
-                            'ENTITY_ID' => $rqId,
-                        ]
-                    ];
-                    $url = $hook . $bankMethod;
-                    $responseData = Http::post($url,  $bankData);
-                    $clientRqBank  = BitrixController::getBitrixResponse($responseData, $bankMethod);
-                    if (!empty($clientRqBank)) {
-                        if (isset($clientRqBank[0])) {
-                            $clientRqBank = $clientRqBank[0];
-                        }
-                    }
-
-                    //address
-                    $addressMethod = '/crm.address.list';
-                    $addressData = [
-                        'filter' => [
-                            'ENTITY_TYPE_ID' => 8,
-                            'ENTITY_ID' =>  $rqId,
-                        ]
-                    ];
-                    $url = $hook . $addressMethod;
-                    $responseData = Http::post($url,  $addressData);
-                    $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+                if (!empty($isSupplyReport)) {
+                    $result['supply'] = $this->getSupplyReportData();
                 }
-            }
 
-            $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
-            $result['client'] = $client;
-            return APIController::getSuccess(
-                [
-                    'init' => $result,
-                    // 'addressresponse' => $result['client']['address'],
-                    // 'clientRq' => $clientRq,
-                    // 'clientRqBank' => $clientRqBank,
-                    // 'clientRqAddress' => $clientRqAddress,
-                ]
-            );
-        } catch (\Throwable $th) {
+                $rqMethod = '/crm.requisite.list';
+                $rqData = [
+                    'filter' => [
+                        'ENTITY_TYPE_ID' => 4,
+                        'ENTITY_ID' => $companyId,
+                    ]
+                ];
+                $url = $hook . $rqMethod;
+                $responseData = Http::post($url,  $rqData);
+
+                $rqResponse = BitrixController::getBitrixResponse($responseData, $rqMethod);
+                $clientRq = null;
+                $clientRqBank = null;
+                $clientRqAddress = null;
+                //bank
+                if (!empty($rqResponse)) {
+                    $clientRq = $rqResponse[0];
+                    if (!empty($clientRq) && isset($clientRq['ID'])) {
+
+
+                        $rqResponse  = $clientRq;
+                        $rqId = $rqResponse['ID'];
+                        $bankMethod = '/crm.requisite.bankdetail.list';
+                        $bankData = [
+                            'filter' => [
+                                // 'ENTITY_TYPE_ID' => 4,
+                                'ENTITY_ID' => $rqId,
+                            ]
+                        ];
+                        $url = $hook . $bankMethod;
+                        $responseData = Http::post($url,  $bankData);
+                        $clientRqBank  = BitrixController::getBitrixResponse($responseData, $bankMethod);
+                        if (!empty($clientRqBank)) {
+                            if (isset($clientRqBank[0])) {
+                                $clientRqBank = $clientRqBank[0];
+                            }
+                        }
+
+                        //address
+                        $addressMethod = '/crm.address.list';
+                        $addressData = [
+                            'filter' => [
+                                'ENTITY_TYPE_ID' => 8,
+                                'ENTITY_ID' =>  $rqId,
+                            ]
+                        ];
+                        $url = $hook . $addressMethod;
+                        $responseData = Http::post($url,  $addressData);
+                        $clientRqAddress  = BitrixController::getBitrixResponse($responseData, $addressMethod);
+                    }
+                }
+
+                $client = $this->getClientRqForm($clientRq, $clientRqAddress, $clientRqBank, $contractType);
+                $result['client'] = $client;
+                return APIController::getSuccess(
+                    [
+                        'init' => $result,
+                        // 'addressresponse' => $result['client']['address'],
+                        // 'clientRq' => $clientRq,
+                        // 'clientRqBank' => $clientRqBank,
+                        // 'clientRqAddress' => $clientRqAddress,
+                    ]
+                );
+            } catch (\Throwable $th) {
+                return APIController::getError(
+                    $th->getMessage(),
+                    ['companyId' => $companyId, 'domain' => $domain, 'products' => $products]
+                );
+            }
+        } else {
             return APIController::getError(
-                $th->getMessage(),
-                ['companyId' => $companyId, 'domain' => $domain, 'products' => $products]
+                'is not full data, contract not found',
+                ['data' => $data]
             );
         }
     }
@@ -355,7 +362,7 @@ class SupplyController extends Controller
 
             if (!empty($data['bxrq']['fields'])) {
                 foreach ($data['bxrq']['fields'] as $baseField) {
-                    if(!empty($baseField['value'])){
+                    if (!empty($baseField['value'])) {
                         if ($baseField['code'] == 'inn') {
                             $inn = $baseField['value'];
                         }
