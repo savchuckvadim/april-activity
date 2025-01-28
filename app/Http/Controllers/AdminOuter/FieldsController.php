@@ -54,7 +54,7 @@ class FieldsController extends Controller
             $portalCompany = $portal->companies->first();
             $portalContact = $portal->contacts->first();
             $portalRPAs = $portal->rpas->all();
-            $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
+            $portalSmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalRPAs' => $portalRPAs,
 
@@ -86,13 +86,13 @@ class FieldsController extends Controller
 
 
             // }
-            // if (!empty($portalsmart)) {
-            //     $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт
-            //     // Log::channel('telegram')->info("smart", [
-            //     //     'portalportalsmartsFields' => $portalsmart,
+            if (!empty($portalSmart)) {
+                // $portalsmart = $portalsmart; //существующие fields в DB привязанные к данному смарт
+                Log::channel('telegram')->info("smart", [
+                    'portalSmart' => $portalSmart,
 
-            //     // ]);
-            // }
+                ]);
+            }
 
 
 
@@ -206,6 +206,8 @@ class FieldsController extends Controller
              else   if ($entityType === 'smart') {
                 $parentClass = Smart::class;
                 if (!empty($portalSmart)) {
+                    $parentId = $portalSmart->id;
+
                     $portalEntityFields = $portalSmart->fields;
                 }
             }
@@ -226,15 +228,15 @@ class FieldsController extends Controller
 
 
                 if (!empty($portalSmart)) {
-                    // $responseData = FieldsController::createFieldsForSmartProcesses(
-                    //     $hook,
-                    //     $fields,
-                    //     $group,
-                    //     $portalSmart,
-                    //     $parentClass,
-                    //     $btxSmart,
-
-                    // );
+                    $responseData = FieldsController::createFieldsForEntities(
+                        $entityType,
+                        $fields,
+                        $portalEntityFields,
+                        $parentClass,
+                        $parentId,
+                        $isRewrite
+    
+                    );
                 }
             }
 
