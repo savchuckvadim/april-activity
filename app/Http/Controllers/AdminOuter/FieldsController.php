@@ -54,7 +54,7 @@ class FieldsController extends Controller
             $portalCompany = $portal->companies->first();
             $portalContact = $portal->contacts->first();
             $portalRPAs = $portal->rpas->all();
-            // $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
+            $portalsmart = $portal->smarts->where('bitrixId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalRPAs' => $portalRPAs,
 
@@ -203,12 +203,12 @@ class FieldsController extends Controller
             //     $parentClass = BtxLead::class;
             //     $parentId = $portalLead['id'];
             //     $portalEntityFields =  $portalLeadFields;
-            // } else   if ($entityType === 'smart') {
-            //     $parentClass = Smart::class;
-            //     if (!empty($portalSmart)) {
-            //         $portalEntityFields = $portalSmart->fields;
-            //     }
-            // }
+             else   if ($entityType === 'smart') {
+                $parentClass = Smart::class;
+                if (!empty($portalSmart)) {
+                    $portalEntityFields = $portalSmart->fields;
+                }
+            }
 
             if ($entityType !== 'smart') {
 

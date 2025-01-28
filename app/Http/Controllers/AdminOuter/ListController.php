@@ -5,7 +5,6 @@ namespace App\Http\Controllers\AdminOuter;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PortalController;
 use App\Models\Bitrixfield;
 use App\Models\BitrixfieldItem;
 use App\Models\Bitrixlist;

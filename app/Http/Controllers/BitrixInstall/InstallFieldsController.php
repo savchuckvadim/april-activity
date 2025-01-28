@@ -13,8 +13,7 @@ use App\Models\BtxDeal;
 use App\Models\BtxLead;
 use App\Models\Portal;
 use App\Models\Smart;
-use FontLib\Table\Type\name;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 

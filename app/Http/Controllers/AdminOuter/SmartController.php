@@ -60,13 +60,13 @@ class SmartController extends Controller
                 $currentPortalSmart->group = $smart['code'];
                 $currentPortalSmart->name = $smart['code'];
                 $currentPortalSmart->title = $smart['title'];
-                $currentPortalSmart->bitrixId = $smartEntityTypeId;
+                $currentPortalSmart->bitrixId = $smart['bitrixId'];
                 $currentPortalSmart->entityTypeId = $smartEntityTypeId;
                 $currentPortalSmart->forStageId = $smartEntityTypeId;
                 $currentPortalSmart->forStage = 'DT' . $smartEntityTypeId . '_';
                 $currentPortalSmart->forFilterId = $smartEntityTypeId;
                 $currentPortalSmart->forFilter = 'DYNAMIC_' . $smartEntityTypeId . '_';
-                $currentPortalSmart->crmId = $smart['bitrixId'];
+                $currentPortalSmart->crmId = $smart['crmId'];
                 $currentPortalSmart->crm = $smart['crm'] . '_';
                 $currentPortalSmart->save();
 

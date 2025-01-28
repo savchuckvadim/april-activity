@@ -6,26 +6,16 @@ use App\Http\Controllers\ALogController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Resources\PortalContractResource;
-use App\Models\Bitrixfield;
-use App\Models\BitrixfieldItem;
 use App\Models\Portal;
 use App\Models\PortalContract;
-use App\Services\BitrixDealDocumentContractService;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpWord\Element\Line;
 use PhpOffice\PhpWord\Element\Link;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Converter;
-use PhpOffice\PhpWord\TemplateProcessor;
 use Ramsey\Uuid\Uuid;
 
 class SupplyController extends Controller
