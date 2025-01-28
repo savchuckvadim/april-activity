@@ -49,6 +49,9 @@ class SmartController extends Controller
                     ->first();
 
 
+                Log::channel('telegram')->info("smart bitrixId", [
+                    'bitrixId' => $smart['bitrixId'],
+                ]);
 
                 $smartEntityTypeId = $smart['entityTypeId'];
                 if (!$currentPortalSmart) {
@@ -73,7 +76,7 @@ class SmartController extends Controller
                 array_push($result, $currentPortalSmart);
 
                 $categories = SmartController::setCategories($smart['categories'], $currentBtxSmart, $currentPortalSmart);
-         
+
 
                 // if (!empty($smart['fields'])) {
                 //     FieldsController::setSmartFields($domain,  $currentPortalSmart, $smart['fields']);
