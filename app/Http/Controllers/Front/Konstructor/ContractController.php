@@ -439,7 +439,10 @@ class ContractController extends Controller
             $templateProcessor->setValue($code, $formattedSpec);
             // $templateProcessor->setValue($code, $spec);
         }
-        $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['productRows']);
+        if($contractType !== 'lic'){
+            $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['productRows']);
+
+        }
 
         // Дальнейшие действия с документом...
         $resultPath = storage_path('app/public/clients/' . $data->domain . '/documents/contracts/' . $data->userId);
@@ -3778,7 +3781,7 @@ class ContractController extends Controller
             'contract_pay_date' => $contract_pay_date,
             'contract_start' => $contract_start,
             'contract_end' => $contract_end,
-            'contract_pay_date' => $contract_pay_date,
+            // 'contract_pay_date' => $contract_pay_date,
             'client_assigned_fio' => $client_assigned_fio,
             'garant_client_email' => $garant_client_email
         ];
