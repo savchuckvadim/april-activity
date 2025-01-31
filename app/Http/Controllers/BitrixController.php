@@ -1223,7 +1223,8 @@ class BitrixController extends Controller
 
                                 $url = $hook . $method;
                                 $data = [
-                                    'id' => $dealId
+                                    'id' => $dealId,
+                                    'select' => ["*"]
                                 ];
 
                                 $response = Http::get($url, $data);
