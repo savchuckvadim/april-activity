@@ -172,7 +172,7 @@ class ComplectController extends Controller
             // Отправляем данные на фронт
             return APIController::getSuccess([
                 'complect' => new ComplectResource($complect),
-                'infoblocks' => $iblockFields,
+                'cinfoblocks' => $iblockFields,
             ]);
     
         } catch (\Throwable $th) {
