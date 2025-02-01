@@ -1225,7 +1225,7 @@ class BitrixController extends Controller
                                 $data = [
                                     'id' => $dealId,
                                     'select' => [
-                                        "*",
+                                      
                                         "UF_CRM_CURRENT_CONTRACT",
                                         "UF_CRM_CURRENT_INVOICE",
 
