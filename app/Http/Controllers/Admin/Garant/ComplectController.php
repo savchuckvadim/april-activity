@@ -36,19 +36,28 @@ class ComplectController extends Controller
         //         $smart->portal_id = $portal_id;
         //     }
         // }
+        $request->merge([
+            'withABS' => filter_var($request->input('withABS'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'withConsalting' => filter_var($request->input('withConsalting'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'withServices' => filter_var($request->input('withServices'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'withLt' => filter_var($request->input('withLt'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'isChanging' => filter_var($request->input('isChanging'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            'withDefault' => filter_var($request->input('withDefault'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+        ]);
+
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:complects,id',
             // 'entity_type' => 'required|string',
             'name' => 'required|string',
             'fullName' => 'required|string',
             'shortName' => 'required|string',
-            'description' => 'sometimes|string',
+            'description' => 'sometimes|nullable|string',
             'code' => 'required|string',
             // 'code' => 'required|string',
             'type' => 'required|string',
-            'color' => 'sometimes|string',
+            'color' => 'sometimes|nullable|string',
             'weight' => 'required|string',
-            'abs' => 'sometimes|string',
+            'abs' => 'sometimes|nullable|string',
             'number' => 'required|string',
             'productType' => 'required|string',
             'withABS' => 'required|boolean',
