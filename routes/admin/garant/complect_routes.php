@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 Route::prefix('')->group(function () {
     Route::get('initial/complect', [ComplectController::class, 'getInitial']);
     Route::get('complects', [ComplectController::class, 'getAll']);
-    Route::get('complectId', [ComplectController::class, 'get']);
+    Route::get('complect/{complectId}', [ComplectController::class, 'get']);
     Route::post('complect', [ComplectController::class, 'store']);
     // Route::delete('{smartId}', [SmartController::class, 'delete']);
 });
