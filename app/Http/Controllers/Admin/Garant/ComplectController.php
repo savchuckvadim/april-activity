@@ -135,24 +135,24 @@ class ComplectController extends Controller
         try {
             // Находим комплект
             $complect = Complect::with('infoblocks')->find($complectId);
-            
+
             if (!$complect) {
                 return APIController::getError('complect was not found', ['complectId' => $complectId]);
             }
-    
+
             // Получаем **все** инфоблоки
             $infoblocks = Infoblock::all();
-    
+
             // Получаем **связанные** инфоблоки (ID-шники)
             $linkedInfoblockIds = $complect->infoblocks->pluck('id')->toArray();
-    
+
             // Формируем массив полей для фронта
             $iblockFields = [];
             foreach ($infoblocks as $key => $infoblock) {
                 array_push(
                     $iblockFields,
                     [
-                        'id' => count($iblockFields) + 2 + $key, 
+                        'id' => count($iblockFields) + 2 + $key,
                         'title' => $infoblock->name,
                         'entityType' => 'complects',
                         'name' => $infoblock->code,
@@ -168,18 +168,73 @@ class ComplectController extends Controller
                     ]
                 );
             }
-    
+
             // Отправляем данные на фронт
             return APIController::getSuccess([
                 'complect' => new ComplectResource($complect),
                 'cinfoblocks' => $iblockFields,
             ]);
-    
         } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
         }
     }
+
+    public static function infoblock($infoblockId)
+    {
+        try {
+            // Находим комплект
+
+
+            // Получаем **все** инфоблоки
+            $infoblock = Infoblock::find($infoblockId);
+            if (!$infoblock) {
+                return APIController::getError('infoblock was not found', ['infoblockId' => $infoblockId]);
+            }
+            // Получаем **связанные** инфоблоки (ID-шники)
+
+
+            $infoblockForm =    [
+                [
+                    'id' => 1,
+                    'title' => 'id',
+                    'entityType' => 'complects',
+                    'name' => 'fullName',
+                    'apiName' => 'fullName',
+                    'type' =>  'string',
+                    'validation' => 'required|max:255',
+                    'initialValue' => $infoblockId,
+                    'isCanAddField' => false,
+                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                ],
+                [
+                    'id' => 1,
+                    'title' => 'В комплекте',
+                    'entityType' => 'complects',
+                    'name' => 'inComplect',
+                    'apiName' => 'inComplect',
+                    'type' =>  'boolean',
+                    'validation' => 'required|max:255',
+                    'initialValue' => '',
+                    'isCanAddField' => false,
+                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
     
+                ],
+           
+            ];
+
+
+
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+    
+                'cinfoblock' => $infoblockForm,
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['infoblockId' => $infoblockId]);
+        }
+    }
+
     // public static function getAll()
     // {
 

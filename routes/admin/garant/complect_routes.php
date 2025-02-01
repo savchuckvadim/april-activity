@@ -11,6 +11,8 @@ Route::prefix('')->group(function () {
     Route::get('complects', [ComplectController::class, 'getAll']);
     Route::get('complect/{complectId}', [ComplectController::class, 'get']);
     Route::get('complect/{complectId}/cinfoblocks', [ComplectController::class, 'infoblocks']);
+    Route::get('cinfoblock/{infoblockId}', [ComplectController::class, 'infoblock']);
+
     Route::post('complect', [ComplectController::class, 'store']);
     // Route::delete('{smartId}', [SmartController::class, 'delete']);
 });
