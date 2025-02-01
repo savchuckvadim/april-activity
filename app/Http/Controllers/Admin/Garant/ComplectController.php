@@ -160,7 +160,7 @@ class ComplectController extends Controller
                         'type' => 'boolean',
                         'validation' => 'required|max:255',
                         'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
-                        'value' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $linkedInfoblockIds) ? 'В комплекте' : '-', // ✅ Помечаем, связан ли инфоблок
 
                         'isCanAddField' => false,
                         'isRequired' => true, // хотя бы одно поле в шаблоне должно быть

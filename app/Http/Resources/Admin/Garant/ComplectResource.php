@@ -35,7 +35,8 @@ class ComplectResource extends JsonResource
             'isChanging' => $this->isChanging,
             'withDefault' => $this->withDefault,
 
-            'infoblocks' => $this->infoblocks
+            'infoblocks' => $this->infoblocks,
+            'cinfoblocks' => $this->infoblocks
 
 
 
