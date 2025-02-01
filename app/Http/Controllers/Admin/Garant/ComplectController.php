@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\Garant\ComplectResource;
 use App\Models\Garant\Complect;
+use App\Models\Garant\Infoblock;
 use Illuminate\Http\Request;
 
 class ComplectController extends Controller
@@ -128,6 +129,57 @@ class ComplectController extends Controller
             );
         }
     }
+
+    public static function infoblocks($complectId)
+    {
+        try {
+            // Находим комплект
+            $complect = Complect::with('infoblocks')->find($complectId);
+            
+            if (!$complect) {
+                return APIController::getError('complect was not found', ['complectId' => $complectId]);
+            }
+    
+            // Получаем **все** инфоблоки
+            $infoblocks = Infoblock::all();
+    
+            // Получаем **связанные** инфоблоки (ID-шники)
+            $linkedInfoblockIds = $complect->infoblocks->pluck('id')->toArray();
+    
+            // Формируем массив полей для фронта
+            $iblockFields = [];
+            foreach ($infoblocks as $key => $infoblock) {
+                array_push(
+                    $iblockFields,
+                    [
+                        'id' => count($iblockFields) + 2 + $key, 
+                        'title' => $infoblock->name,
+                        'entityType' => 'complects',
+                        'name' => $infoblock->code,
+                        'apiName' => $infoblock->id,
+                        'type' => 'boolean',
+                        'validation' => 'required|max:255',
+                        'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+
+                        'isCanAddField' => false,
+                        'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
+                        'isLinked' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                    ]
+                );
+            }
+    
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+                'complect' => new ComplectResource($complect),
+                'infoblocks' => $iblockFields,
+            ]);
+    
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
+        }
+    }
+    
     // public static function getAll()
     // {
 
