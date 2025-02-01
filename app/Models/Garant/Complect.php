@@ -282,7 +282,7 @@ class Complect extends Model
                 ]
             );
         }
-        $fields = array_merge($fields, $iblockFields);
+        // $fields = array_merge($fields, $iblockFields);
 
         return [
             'apiName' => 'complects',
