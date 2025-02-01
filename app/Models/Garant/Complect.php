@@ -49,25 +49,7 @@ class Complect extends Model
     public static function getForm()
     {
         $infoblocks = Infoblock::all();
-        $iblockFields = [];
-        foreach ($infoblocks as $key => $infoblocks) {
-            array_push(
-                $iblockFields,
-                [
-                    'id' => 13 + $key,
-                    'title' => $infoblocks->name,
-                    'entityType' => 'complects',
-                    'name' => $infoblocks->code,
-                    'apiName' => $infoblocks->id,
-                    'type' =>  'boolean',
-                    'validation' => 'required|max:255',
-                    'initialValue' => '',
-                    'isCanAddField' => false,
-                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-
-                ]
-            );
-        }
+      
         $fields = [
             [
                 'id' => 0,
@@ -265,9 +247,41 @@ class Complect extends Model
                 'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
 
             ],
+            [
+                'id' => 14,
+                'title' => 'number',
+                'entityType' => 'complects',
+                'name' => 'number',
+                'apiName' => 'number',
+                'type' =>  'number',
+                'validation' => 'required|max:255',
+                'initialValue' => '',
+                'isCanAddField' => false,
+                'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+            ],
 
 
         ];
+        $iblockFields = [];
+        foreach ($infoblocks as $key => $infoblocks) {
+            array_push(
+                $iblockFields,
+                [
+                    'id' => count($fields) + 2 + $key,
+                    'title' => $infoblocks->name,
+                    'entityType' => 'complects',
+                    'name' => $infoblocks->code,
+                    'apiName' => $infoblocks->id,
+                    'type' =>  'boolean',
+                    'validation' => 'required|max:255',
+                    'initialValue' => '',
+                    'isCanAddField' => false,
+                    'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
+
+                ]
+            );
+        }
         $fields = array_merge($fields, $iblockFields);
 
         return [
