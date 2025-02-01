@@ -186,7 +186,7 @@ class BitrixController extends Controller
     {
         $portal = Portal::where('domain', $domain)->first();
         $bitrixlistId = $portal->getSalesBitrixListId()->bitrixId;
-        if($domain === 'april-garant.bitrix24.ru'){
+        if ($domain === 'april-garant.bitrix24.ru') {
             $bitrixlistId = 86;
         }
         return [
@@ -1224,7 +1224,12 @@ class BitrixController extends Controller
                                 $url = $hook . $method;
                                 $data = [
                                     'id' => $dealId,
-                                    'select' => ["*"]
+                                    'select' => [
+                                        "*",
+                                        "UF_CRM_CURRENT_CONTRACT",
+                                        "UF_CRM_CURRENT_INVOICE",
+
+                                    ]
                                 ];
 
                                 $response = Http::get($url, $data);
