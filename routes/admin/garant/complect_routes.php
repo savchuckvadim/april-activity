@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 Route::prefix('')->group(function () {
     Route::get('initial/complect', [ComplectController::class, 'getInitial']);
-    // Route::get('initial', [ComplectController::class, 'getInitial']);
+    Route::get('complects', [ComplectController::class, 'getInitial']);
     // Route::get('{smartId}', [SmartController::class, 'get']);
     Route::post('complect', [ComplectController::class, 'store']);
     // Route::delete('{smartId}', [SmartController::class, 'delete']);
