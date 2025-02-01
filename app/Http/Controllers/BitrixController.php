@@ -1224,12 +1224,12 @@ class BitrixController extends Controller
                                 $url = $hook . $method;
                                 $data = [
                                     'id' => $dealId,
-                                    'select' => [
+                                    // 'select' => [
                                       
-                                        "UF_CRM_CURRENT_CONTRACT",
-                                        "UF_CRM_CURRENT_INVOICE",
+                                    //     "UF_CRM_CURRENT_CONTRACT",
+                                    //     "UF_CRM_CURRENT_INVOICE",
 
-                                    ]
+                                    // ]
                                 ];
 
                                 $response = Http::get($url, $data);
