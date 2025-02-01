@@ -36,37 +36,37 @@ class ComplectController extends Controller
         //         $smart->portal_id = $portal_id;
         //     }
         // }
-        // $validatedData = $request->validate([
-        //     'id' => 'sometimes|integer|exists:smarts,id',
-        //     // 'entity_type' => 'required|string',
-        //     'type' => 'required|string',
-        //     'group' => 'required|string',
-        //     'name' => 'required|string',
-        //     'title' => 'required|string',
-        //     'entityTypeId' => 'required|string',
-        //     // 'code' => 'required|string',
-        //     'bitrixId' => 'required|string',
-        //     'forStageId' => 'required|string',
-        //     'forFilterId' => 'required|string',
-        //     'crmId' => 'required|string',
-        //     'forStage' => 'required|string',
-        //     'forFilter' => 'required|string',
-        //     'crm' => 'required|string',
-        // ]);
-        // $type = $validatedData['type'];
-        // $group = $validatedData['group'];
-        // $name = $validatedData['name'];
-        // $title = $validatedData['title'];
-        // $bitrixId = $validatedData['bitrixId'];
-        // $entityTypeId = $validatedData['entityTypeId'];
-        // $forStageId = $validatedData['forStageId'];
-        // $forFilterId = $validatedData['forFilterId'];
-        // $crmId = $validatedData['crmId'];
+        $validatedData = $request->validate([
+            'id' => 'sometimes|integer|exists:complects,id',
+            // 'entity_type' => 'required|string',
+            'name' => 'required|string',
+            'fullName' => 'required|string',
+            'shortName' => 'required|string',
+            'description' => 'required|string',
+            'code' => 'required|string',
+            // 'code' => 'required|string',
+            'type' => 'required|string',
+            'color' => 'required|string',
+            'weight' => 'required|string',
+            'abs' => 'required|string',
+            'number' => 'required|string',
+            'productType' => 'required|string',
+            'withABS' => 'required|boolean',
+            'withConsalting' => 'required|boolean',
+            'withServices' => 'required|boolean',
+            'withLt' => 'required|boolean',
+            'isChanging' => 'required|boolean',
+            'withDefault' => 'required|boolean',
+        ]);
+        $currentComplect =  null;
+        if(!empty($validatedData['id'])){
+            $currentComplect = Complect::find($validatedData['id']);
+        }
+      
+        if(empty($currentComplect)){
+            $currentComplect = new Complect($validatedData);
 
-        // $forStage = $request['forStage'];
-        // $forFilter = $validatedData['forFilter'];
-        // $crm = $validatedData['crm'];
-
+        }
 
         // if ($smart) {
         //     // Создание нового Counter

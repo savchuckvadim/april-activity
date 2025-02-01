@@ -11,8 +11,31 @@ class Complect extends Model
 
     protected $fillable = [
         'name',
+        'fullName',
+        'shortName',
         'description',
-        // Добавьте любые другие столбцы, которые есть в таблице `complects`
+        'code',
+        'type',
+        'color',
+        'weight',
+        'abs',
+        'number',
+        'productType',
+        'withABS',
+        'withConsalting',
+        'withServices',
+        'withLt',
+        'isChanging',
+        'withDefault',
+    ];
+
+    protected $casts = [
+        'withABS' => 'boolean',
+        'withConsalting' => 'boolean',
+        'withServices' => 'boolean',
+        'withLt' => 'boolean',
+        'isChanging' => 'boolean',
+        'withDefault' => 'boolean',
     ];
 
     /**
