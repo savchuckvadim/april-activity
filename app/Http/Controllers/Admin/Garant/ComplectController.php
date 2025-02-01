@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Garant;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\Garant\ComplectResource;
 use App\Models\Garant\Complect;
 use Illuminate\Http\Request;
 
@@ -45,7 +46,7 @@ class ComplectController extends Controller
                 'code' => 'required|string',
                 // 'code' => 'required|string',
                 'type' => 'required|string',
-                'color' => 'sometimes|nullable|string',
+                'color' => 'required|string',
                 'weight' => 'required|string',
                 'abs' => 'sometimes|nullable|string',
                 'number' => 'required|string',
@@ -84,26 +85,26 @@ class ComplectController extends Controller
             );
         }
     }
-    public static function get($smartId)
+    public static function get($complectId)
     {
         try {
-            // $smart = Smart::find($smartId);
+            $complect = Complect::find($complectId);
 
-            // if ($smart) {
-            //     $resultSmart = new SmartResource($smart);
-            //     return APIController::getSuccess(
-            //         ['smart' => $resultSmart]
-            //     );
-            // } else {
-            //     return APIController::getError(
-            //         'smart was not found',
-            //         ['smart' => $smart]
-            //     );
-            // }
+            if ($complect) {
+                $complect = new ComplectResource($complect);
+                return APIController::getSuccess(
+                    ['complect' => $complect]
+                );
+            } else {
+                return APIController::getError(
+                    'complect was not found',
+                    ['complect' => $complect]
+                );
+            }
         } catch (\Throwable $th) {
             return APIController::getError(
                 $th->getMessage(),
-                ['smartId' => $smartId]
+                ['complectId' => $complectId]
             );
         }
     }
