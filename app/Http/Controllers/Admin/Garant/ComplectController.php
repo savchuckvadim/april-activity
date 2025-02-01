@@ -152,7 +152,7 @@ class ComplectController extends Controller
                 array_push(
                     $iblockFields,
                     [
-                        'id' => count($iblockFields) + 2 + $key,
+                        'id' => $infoblock->id,
                         'title' => $infoblock->name,
                         'entityType' => 'complects',
                         'name' => $infoblock->code,
