@@ -12,16 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('infoblocks', function (Blueprint $table) {
-            $table->foreignId('parent_id')->nullable()->constrained('infoblocks');
-            $table->foreignId('relation_id')->nullable()->constrained('infoblocks');
-            $table->foreignId('related_id')->nullable()->constrained('infoblocks'); // Связанный инфоблок
-            $table->foreignId('excluded_id')->nullable()->constrained('infoblocks'); // Исключённый инфоблок
-            $table->foreignId('group_id')->nullable()->constrained('info_groups'); // Исключённый инфоблок
-
-            $table->boolean('isProduct')->nullable(); // Исключённый инфоблок
-            $table->boolean('isPackage')->nullable();// Исключённый инфоблок
-            $table->string('tag')->nullable()->constrained('infoblocks'); // Исключённый инфоблок
-
+            if (!Schema::hasColumn('infoblocks', 'parent_id')) {
+                $table->foreignId('parent_id')->nullable()->constrained('infoblocks');
+            }
+            if (!Schema::hasColumn('infoblocks', 'relation_id')) {
+                $table->foreignId('relation_id')->nullable()->constrained('infoblocks');
+            }
+            if (!Schema::hasColumn('infoblocks', 'related_id')) {
+                $table->foreignId('related_id')->nullable()->constrained('infoblocks');
+            }
+            if (!Schema::hasColumn('infoblocks', 'excluded_id')) {
+                $table->foreignId('excluded_id')->nullable()->constrained('infoblocks');
+            }
+            if (!Schema::hasColumn('infoblocks', 'group_id')) {
+                $table->foreignId('group_id')->nullable()->constrained('info_groups');
+            }
+            if (!Schema::hasColumn('infoblocks', 'isProduct')) {
+                $table->boolean('isProduct')->nullable();
+            }
+            if (!Schema::hasColumn('infoblocks', 'isPackage')) {
+                $table->boolean('isPackage')->nullable();
+            }
+            if (!Schema::hasColumn('infoblocks', 'tag')) {
+                $table->string('tag')->nullable();
+            }
         });
     }
 
