@@ -98,11 +98,11 @@ class InfoGroupController extends Controller
                 $infogroup = InfoGroup::find($validatedData['id']);
             }
 
-            if (empty($currentComplect)) {
+            if (empty($infogroup)) {
                 $infogroup = new InfoGroup($validatedData);
             }
 
-            if (!empty($currentComplect)) {
+            if (!empty($infogroup)) {
                 $infogroup->save();
             }
 
