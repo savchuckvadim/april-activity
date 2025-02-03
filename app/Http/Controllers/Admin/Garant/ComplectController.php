@@ -373,8 +373,10 @@ class ComplectController extends Controller
             // ];
             // Отправляем данные на фронт
             return APIController::getSuccess([
-                'complectId' => $complectId,
-                'relationInfoblock' => $relationInfoblock,
+                'result' => [
+                    'complectId' => $complectId,
+                    'relationInfoblock' => $relationInfoblock,
+                ]
             ]);
         } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
