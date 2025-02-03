@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('infoblocks', function (Blueprint $table) {
-            $table->foreignId('parent_id')->nullable()->constrained('infoblocks')->onDelete('cascade');
-            $table->foreignId('relation_id')->nullable()->constrained('infoblocks')->onDelete('cascade');
-            $table->foreignId('infoblock_id')->constrained('infoblocks')->onDelete('cascade');
-            $table->foreignId('related_id')->nullable()->constrained('infoblocks')->onDelete('cascade'); // Связанный инфоблок
-            $table->foreignId('excluded_id')->nullable()->constrained('infoblocks')->onDelete('cascade'); // Исключённый инфоблок
-            $table->foreignId('group_id')->nullable()->constrained('infoblocks')->onDelete('cascade'); // Исключённый инфоблок
+            $table->foreignId('parent_id')->nullable()->constrained('infoblocks');
+            $table->foreignId('relation_id')->nullable()->constrained('infoblocks');
+            $table->foreignId('related_id')->nullable()->constrained('infoblocks'); // Связанный инфоблок
+            $table->foreignId('excluded_id')->nullable()->constrained('infoblocks'); // Исключённый инфоблок
+            $table->foreignId('group_id')->nullable()->constrained('info_groups'); // Исключённый инфоблок
 
-            $table->boolean('isProduct')->nullable()->constrained('infoblocks')->onDelete('cascade'); // Исключённый инфоблок
-            $table->boolean('isPackage')->nullable()->constrained('infoblocks')->onDelete('cascade'); // Исключённый инфоблок
+            $table->boolean('isProduct')->nullable(); // Исключённый инфоблок
+            $table->boolean('isPackage')->nullable();// Исключённый инфоблок
+            $table->string('tag')->nullable()->constrained('infoblocks'); // Исключённый инфоблок
 
         });
     }
@@ -35,8 +35,6 @@ return new class extends Migration
             $table->dropColumn('parent_id');
             $table->dropForeign(['relation_id']);
             $table->dropColumn('relation_id');
-            $table->dropForeign(['infoblock_id']);
-            $table->dropColumn(['infoblock_id']);
             $table->dropForeign(['related_id']);
             $table->dropColumn(['related_id']);
           
@@ -45,6 +43,8 @@ return new class extends Migration
             $table->dropForeign(['excluded_id']);
             $table->dropColumn(['excluded_id']);
             $table->dropColumn(['isProduct']);
+            $table->dropColumn(['tag']);
+
 
         });
     }
