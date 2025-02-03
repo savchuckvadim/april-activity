@@ -218,23 +218,86 @@ class ComplectController extends Controller
                     'initialValue' => '',
                     'isCanAddField' => false,
                     'isRequired' => true, //хотя бы одно поле в шаблоне должно быть
-    
+
                 ],
-           
+
             ];
 
 
 
             // Отправляем данные на фронт
             return APIController::getSuccess([
-    
+
                 'cinfoblock' => $infoblockForm,
             ]);
         } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), ['infoblockId' => $infoblockId]);
         }
     }
+    public static function initRelations($complectId)
+    {
+        try {
+            // Находим комплект
+            $complect = Complect::with('infoblocks')->find($complectId);
 
+            if (!$complect) {
+                return APIController::getError('complect was not found', ['complectId' => $complectId]);
+            }
+
+            // Получаем **все** инфоблоки
+            $infoblocks = Infoblock::all();
+
+            // Получаем **связанные** инфоблоки (ID-шники)
+            $linkedInfoblockIds = $complect->infoblocks->pluck('id')->toArray();
+
+            // Формируем массив полей для фронта
+            $iblockFields = [];
+            foreach ($infoblocks as $key => $infoblock) {
+                array_push(
+                    $iblockFields,
+                    [
+                        'id' => $infoblock->id,
+                        'title' => $infoblock->name,
+                        'entityType' => 'complects',
+                        'name' => $infoblock->code,
+                        'apiName' => $infoblock->id,
+                        'type' => 'boolean',
+                        'validation' => 'required|max:255',
+                        'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $linkedInfoblockIds) ? 'В комплекте' : '-', // ✅ Помечаем, связан ли инфоблок
+
+                        'isCanAddField' => false,
+                        'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
+                        'isLinked' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                    ]
+                );
+            }
+            $relation = [
+                'apiName' => 'complects',
+                'title' => 'Комплект Гарант',
+                'entityType' => 'entity',
+                'groups' => [
+                    [
+                        'groupName' => 'Комплект Гарант',
+                        'entityType' => 'group',
+                        'isCanAddField' => true,
+                        'isCanDeleteField' => true,
+                        'fields' =>  $iblockFields,
+
+                        'relations' => [],
+
+                    ]
+                ]
+            ];
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+                'complect' => new ComplectResource($complect),
+                'relation' => $relation,
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
+        }
+    }
     // public static function getAll()
     // {
 
