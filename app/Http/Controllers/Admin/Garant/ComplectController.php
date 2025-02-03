@@ -258,13 +258,13 @@ class ComplectController extends Controller
                     [
                         'id' => $infoblock->id,
                         'title' => $infoblock->name,
-                        'entityType' => 'complects',
+                        'entityType' => 'infoblock',
                         'name' => $infoblock->code,
                         'apiName' => $infoblock->id,
                         'type' => 'boolean',
                         'validation' => 'required|max:255',
                         'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
-                        'value' => in_array($infoblock->id, $linkedInfoblockIds) ? 'В комплекте' : '-', // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
 
                         'isCanAddField' => false,
                         'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
