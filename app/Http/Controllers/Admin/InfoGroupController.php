@@ -58,18 +58,76 @@ class InfoGroupController extends Controller
         }
         $resultGroups = InfoGroup::all();
 
-        if($resultGroups){
+        if ($resultGroups) {
             $resultCode = 0;
             $message = null;
             $data =  $resultGroups;
         }
 
 
-        
+
         return response([
             'resultCode' => $resultCode,
             'data' => $data,
             'message' => $message
         ]);
+    }
+
+    public static function store(Request $request)
+    {
+
+        try {
+            //code...
+
+            $request->merge([
+                'withABS' => filter_var($request->input('withABS'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'withConsalting' => filter_var($request->input('withConsalting'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'withServices' => filter_var($request->input('withServices'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'withLt' => filter_var($request->input('withLt'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isChanging' => filter_var($request->input('isChanging'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'withDefault' => filter_var($request->input('withDefault'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            ]);
+
+            $validatedData = $request->validate([
+                'id' => 'sometimes|integer|exists:info_groups,id',
+                'name' => 'required|string',
+                'title' => 'required|string',
+
+                'code' => 'required|string',
+                'type' => 'required|string',
+                'description' => 'sometimes|nullable|string',
+                'number' => 'required|integer|string',
+                'descriptionForSale' => 'required|string',
+                'shortDescription' => 'required|string',
+                'productType' => 'required|string',
+
+
+            ]);
+            $currentComplect =  null;
+            if (!empty($validatedData['id'])) {
+                $currentComplect = InfoGroup::find($validatedData['id']);
+            }
+
+            if (empty($currentComplect)) {
+                $currentComplect = new InfoGroup($validatedData);
+            }
+
+            if (!empty($currentComplect)) {
+                $currentComplect->save();
+            }
+
+
+            return APIController::getSuccess(
+                ['complect' => $currentComplect]
+
+            );
+        } catch (\Throwable $th) {
+            //throw $th;
+            return APIController::getError(
+                'complect was not updated',
+                [$th->getMessage()]
+
+            );
+        }
     }
 }

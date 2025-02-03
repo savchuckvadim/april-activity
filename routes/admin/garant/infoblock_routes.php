@@ -49,6 +49,8 @@ use Illuminate\Support\Facades\Route;
     });
 
     Route::get('initial/infogroup', [InfoGroupController::class, 'getInitial']);
+    Route::post('infogroup', [InfoGroupController::class, 'store']);
+
 
 
 
