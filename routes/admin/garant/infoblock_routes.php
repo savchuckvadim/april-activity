@@ -48,5 +48,8 @@ use Illuminate\Support\Facades\Route;
         return InfoblockController::getInfoblock($infoblockId);
     });
 
+    Route::get('initial/infogroup', [InfoGroupController::class, 'getInitial']);
+
+
 
 

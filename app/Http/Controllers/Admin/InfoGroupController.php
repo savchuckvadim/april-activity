@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 
 class InfoGroupController extends Controller
 {
+    public static function getInitial()
+    {
+
+        $initialData = InfoGroup::getForm();
+        $data = [
+            'initial' => $initialData
+        ];
+        return APIController::getSuccess($data);
+    }
+
     public static function setInfoGroups($infogroups)
     {
         $resultGroups = null;
