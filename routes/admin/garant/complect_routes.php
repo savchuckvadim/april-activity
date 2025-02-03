@@ -13,7 +13,7 @@ Route::prefix('')->group(function () {
     Route::get('complect/{complectId}/cinfoblocks', [ComplectController::class, 'infoblocks']);
     Route::get('complect/{complectId}/relation', [ComplectController::class, 'initRelations']);
     Route::get('cinfoblock/{infoblockId}', [ComplectController::class, 'infoblock']);
-
+    Route::post('complect/{complectId}/relation', [ComplectController::class, 'storeRelations']);
     Route::post('complect', [ComplectController::class, 'store']);
     // Route::delete('{smartId}', [SmartController::class, 'delete']);
 });

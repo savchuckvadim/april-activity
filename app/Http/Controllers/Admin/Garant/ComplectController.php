@@ -273,12 +273,13 @@ class ComplectController extends Controller
                 );
             }
             $relation = [
-                'apiName' => 'complects',
+                'apiName' => 'complect',
                 'title' => 'Комплект Гарант',
                 'entityType' => 'entity',
                 'groups' => [
                     [
                         'groupName' => 'Комплект Гарант',
+                        'apiName' => 'infoblock',
                         'entityType' => 'group',
                         'isCanAddField' => true,
                         'isCanDeleteField' => true,
@@ -298,23 +299,85 @@ class ComplectController extends Controller
             return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
         }
     }
-    // public static function getAll()
-    // {
 
-    //     // Создание нового Counter
-    //     $smarts = Smart::all();
-    //     if ($smarts) {
+    public function storeRelations(Request $request, int $complectId)
+    {
+        try {
+            // Находим комплект
+            $complect = Complect::with('infoblocks')->find($complectId);
 
-    //         return APIController::getSuccess(
-    //             ['smarts' => $smarts]
-    //         );
-    //     }
+            if (!$complect) {
+                return APIController::getError('complect was not found', ['complectId' => $complectId]);
+            }
+            $relationGroups = $request->groups;
+            $relationInfoblock = [];
+            foreach ($relationGroups as $group) {
+                if ($group['apiName'] == 'infoblock') {
+                    foreach ($group['fields'] as $field) {
 
+                        if ($field['value']) {
+                            $relationInfoblockId = $field['id'];
+                            array_push($relationInfoblockId);
 
-    //     return APIController::getError(
-    //         'callingGroups was not found',
-    //         null
+                            // $complect->infoblocks()->attach($field['id']);
+                        } else {
+                            // $complect->infoblocks()->detach($field['id']);
+                        }
+                    }
+                }
+            }
+            // Получаем **все** инфоблоки
+            // $infoblocks = Infoblock::all();
 
-    //     );
-    // }
+            // Получаем **связанные** инфоблоки (ID-шники)
+            // $linkedInfoblockIds = $complect->infoblocks->pluck('id')->toArray();
+
+            // // Формируем массив полей для фронта
+            // $iblockFields = [];
+            // foreach ($infoblocks as $key => $infoblock) {
+            //     array_push(
+            //         $iblockFields,
+            //         [
+            //             'id' => $infoblock->id,
+            //             'title' => $infoblock->name,
+            //             'entityType' => 'infoblock',
+            //             'name' => $infoblock->code,
+            //             'apiName' => $infoblock->id,
+            //             'type' => 'boolean',
+            //             'validation' => 'required|max:255',
+            //             'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+            //             'value' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+
+            //             'isCanAddField' => false,
+            //             'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
+            //             'isLinked' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+            //         ]
+            //     );
+            // }
+            // $relation = [
+            //     'apiName' => 'complect',
+            //     'title' => 'Комплект Гарант',
+            //     'entityType' => 'entity',
+            //     'groups' => [
+            //         [
+            //             'groupName' => 'Комплект Гарант',
+            //             'entityType' => 'group',
+            //             'isCanAddField' => true,
+            //             'isCanDeleteField' => true,
+            //             'fields' =>  $iblockFields,
+
+            //             'relations' => [],
+
+            //         ]
+            //     ]
+            // ];
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+                'complectId' => $complectId,
+                'relationInfoblock' => $relationInfoblock,
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['complectId' => $complectId]);
+        }
+    }
 }
