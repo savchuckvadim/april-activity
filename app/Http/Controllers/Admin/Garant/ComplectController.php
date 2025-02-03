@@ -317,7 +317,7 @@ class ComplectController extends Controller
 
                         if ($field['value']) {
                             $relationInfoblockId = $field['id'];
-                            array_push($relationInfoblockId);
+                            array_push( $relationInfoblock, $relationInfoblockId);
 
                             // $complect->infoblocks()->attach($field['id']);
                         } else {
