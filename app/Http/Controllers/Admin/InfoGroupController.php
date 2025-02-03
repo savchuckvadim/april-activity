@@ -79,52 +79,42 @@ class InfoGroupController extends Controller
         try {
             //code...
 
-            $request->merge([
-                'withABS' => filter_var($request->input('withABS'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'withConsalting' => filter_var($request->input('withConsalting'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'withServices' => filter_var($request->input('withServices'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'withLt' => filter_var($request->input('withLt'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isChanging' => filter_var($request->input('isChanging'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'withDefault' => filter_var($request->input('withDefault'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-            ]);
-
             $validatedData = $request->validate([
                 'id' => 'sometimes|integer|exists:info_groups,id',
                 'name' => 'required|string',
                 'title' => 'required|string',
-
                 'code' => 'required|string',
                 'type' => 'required|string',
-                'description' => 'sometimes|nullable|string',
+                'description' => 'nullable|nullable|string',
                 'number' => 'required|integer|string',
-                'descriptionForSale' => 'required|string',
-                'shortDescription' => 'required|string',
+                'descriptionForSale' => 'nullable|string',
+                'shortDescription' => 'nullable|string',
                 'productType' => 'required|string',
 
 
             ]);
-            $currentComplect =  null;
+            $infogroup =  null;
             if (!empty($validatedData['id'])) {
-                $currentComplect = InfoGroup::find($validatedData['id']);
+                $infogroup = InfoGroup::find($validatedData['id']);
             }
 
             if (empty($currentComplect)) {
-                $currentComplect = new InfoGroup($validatedData);
+                $infogroup = new InfoGroup($validatedData);
             }
 
             if (!empty($currentComplect)) {
-                $currentComplect->save();
+                $infogroup->save();
             }
 
 
             return APIController::getSuccess(
-                ['complect' => $currentComplect]
+                ['infogroup' => $infogroup]
 
             );
         } catch (\Throwable $th) {
             //throw $th;
             return APIController::getError(
-                'complect was not updated',
+                'InfoGroup was not updated',
                 [$th->getMessage()]
 
             );
