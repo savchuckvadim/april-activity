@@ -495,6 +495,8 @@ class SupplyController extends Controller
         }
         if ($domain !== 'april-dev.bitrix24.ru') {
             $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
+        }else{
+            
         }
         // foreach ($filteredClientRq as $rqItem) {
         //     $value = '';
