@@ -504,6 +504,12 @@ class SupplyController extends Controller
                     $currentClientType = $data->clientType['code'];
                 }
             }
+            $contractFullTotal = null;
+            if (!empty($data['total'])) {
+                if (!empty($data['total'][0])) {
+                    $contractFullTotal =  $data['total'][0];
+                };
+            };
             $contractController = new ContractController();
             // $contractType;
             // $arows;
@@ -515,7 +521,7 @@ class SupplyController extends Controller
                 $contractCoefficient,
                 $currentClientType
             );
-            $totalData = $contractController->getTotal($total, $currentClientType);
+            $totalData = $contractController->getTotal($contractFullTotal, $currentClientType);
 
             $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
 
