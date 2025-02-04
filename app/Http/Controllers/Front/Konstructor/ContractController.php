@@ -4276,7 +4276,7 @@ class ContractController extends Controller
             }
             $product = [
                 'productNumber' => $key + 1,
-                'productName' => $contractFullName . '(' . $row->name . ')',
+                'productName' => $contractFullName . '(' . $row['name'] . ')',
                 'productQuantity' => $productQuantity,
                 'productMeasure' => $row['price']['measure']['name'],
                 'productPrice' => $row['price']['current'],
