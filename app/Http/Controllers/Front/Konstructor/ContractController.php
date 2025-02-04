@@ -4233,7 +4233,7 @@ class ContractController extends Controller
     }
 
     protected function getDocumentNumber() {}
-    protected function getProducts($arows, $contractName, $isProduct, $contractCoefficient, $clientType)
+    public function getProducts($arows, $contractName, $isProduct, $contractCoefficient, $clientType)
     {
         $contractFullName = $contractName;
         if ($isProduct) {
@@ -4261,7 +4261,7 @@ class ContractController extends Controller
         return $products;
     }
 
-    protected function getTotal($total, $clientType)
+    public function getTotal($total, $clientType)
     {
         $contractSum = $total['price']['sum'];
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"

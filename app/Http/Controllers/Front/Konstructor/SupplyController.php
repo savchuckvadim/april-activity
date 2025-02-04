@@ -11,6 +11,7 @@ use App\Http\Controllers\PDFDocumentController;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Portal;
 use App\Models\PortalContract;
+use App\Http\Controllers\Front\Konstructor\ContractController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -418,6 +419,7 @@ class SupplyController extends Controller
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
         if ($domain == 'april-dev.bitrix24.ru') {
+
             $fullPath = storage_path($filePath . '/sales_report.docx');
         }
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
@@ -495,8 +497,33 @@ class SupplyController extends Controller
         }
         if ($domain !== 'april-dev.bitrix24.ru') {
             $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
-        }else{
-            
+        } else {
+            $currentClientType = 'org';
+            if (!empty($data->clientType)) {
+                if (!empty($data->clientType['code'])) {
+                    $currentClientType = $data->clientType['code'];
+                }
+            }
+            $contractController = new ContractController();
+            // $contractType;
+            // $arows;
+            // $total;
+            $productRows = $contractController->getProducts(
+                $arows,
+                $contractProductName,
+                $isProduct,
+                $contractCoefficient,
+                $currentClientType
+            );
+            $totalData = $contractController->getTotal($total, $currentClientType);
+
+            $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
+
+            foreach ($totalData as $code => $totalItemValue) {
+                // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+                $templateProcessor->setValue($code, $totalItemValue);
+                // $templateProcessor->setValue($code, $spec);
+            }
         }
         // foreach ($filteredClientRq as $rqItem) {
         //     $value = '';
