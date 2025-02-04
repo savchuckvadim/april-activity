@@ -33,7 +33,7 @@ class SupplyController extends Controller
             $contract =   $data['contract'];
 
             $generalContractModel = $data['contract'];
-            if(!empty( $contract['contract'])){
+            if (!empty($contract['contract'])) {
                 $generalContractModel =  $contract['contract'];
             }
             ALogController::push('old contract', $data);
@@ -417,9 +417,8 @@ class SupplyController extends Controller
         $filePath = 'app/public/konstructor/templates/supply';
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
-        if($domain == 'april-dev.bitrix24.ru'){
+        if ($domain == 'april-dev.bitrix24.ru') {
             $fullPath = storage_path($filePath . '/sales_report.docx');
-
         }
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
@@ -494,9 +493,9 @@ class SupplyController extends Controller
                 'complect_hdd' => $complect_hdd
             ]);
         }
-
-        $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
-
+        if ($domain !== 'april-dev.bitrix24.ru') {
+            $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
+        }
         // foreach ($filteredClientRq as $rqItem) {
         //     $value = '';
 
