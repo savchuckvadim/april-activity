@@ -514,7 +514,7 @@ class SupplyController extends Controller
             // $contractType;
             // $arows;
             // $total;
-            $productRows = $contractController->getProducts(
+            $productRows = $contractController->getSupplyProducts(
                 $arows,
                 $contractProductName,
                 $isProduct,

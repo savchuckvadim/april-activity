@@ -4260,7 +4260,33 @@ class ContractController extends Controller
 
         return $products;
     }
+    public function getSupplyProducts($arows, $contractName, $isProduct, $contractCoefficient, $clientType)
+    {
+        $contractFullName = $contractName;
+        if ($isProduct) {
+            $contractFullName = $contractFullName . ' длительность ' . $contractCoefficient . ' мес. ';
+        }
 
+        $products = [];
+        foreach ($arows as $key =>  $row) {
+            if ($clientType == 'org_state') {
+                $productQuantity = 1;
+            } else {
+                $productQuantity = $row['price']['quantity'];
+            }
+            $product = [
+                'productNumber' => $key + 1,
+                'productName' => $contractFullName . '(' . $row->name . ')',
+                'productQuantity' => $productQuantity,
+                'productMeasure' => $row['price']['measure']['name'],
+                'productPrice' => $row['price']['current'],
+                'productSum' => $row['price']['sum'],
+            ];
+            array_push($products, $product);
+        }
+
+        return $products;
+    }
     public function getTotal($total, $clientType)
     {
         $contractSum = $total['price']['sum'];
