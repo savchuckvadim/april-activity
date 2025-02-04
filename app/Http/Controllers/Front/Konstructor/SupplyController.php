@@ -417,6 +417,10 @@ class SupplyController extends Controller
         $filePath = 'app/public/konstructor/templates/supply';
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
+        if($domain == 'april-dev.bitrix24.ru'){
+            $fullPath = storage_path($filePath . '/sales_report.docx');
+
+        }
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
         $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
