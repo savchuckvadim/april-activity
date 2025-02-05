@@ -623,7 +623,7 @@ class SupplyController extends Controller
 
             // $formattedValueIblocks = $iblocks;
         }
-        $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
+        $templateProcessor->setValue('complect_fields_left', nl2br($iblocks));
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
