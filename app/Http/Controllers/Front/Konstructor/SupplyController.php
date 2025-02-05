@@ -619,7 +619,9 @@ class SupplyController extends Controller
         if ($domain !== 'april-dev.bitrix24.ru') {
             $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
         }else{
-            $formattedValueIblocks = $iblocks;
+            $formattedValueIblocks = str_replace("\n", "\v", $iblocks);
+
+            // $formattedValueIblocks = $iblocks;
         }
         $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
         foreach ($contractSpecification as $cntrctSpecItem) {
