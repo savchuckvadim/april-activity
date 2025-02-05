@@ -28,6 +28,11 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     pkg-config \
     libssl-dev \
+    libreoffice \
+    libreoffice-writer \
+    fonts-dejavu \
+    fonts-liberation \
+    openjdk-11-jre \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis
@@ -53,10 +58,11 @@ RUN composer install
 RUN composer dump-autoload
 
 
-
+RUN mkdir -p /var/www/.config/libreoffice
 # Assign permissions of the working directory to the www-data user
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage
+RUN chmod -R 775 /var/www/html/storage /var/www/.config/libreoffice
 
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
