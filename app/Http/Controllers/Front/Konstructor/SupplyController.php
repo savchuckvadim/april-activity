@@ -766,6 +766,7 @@ class SupplyController extends Controller
 
             $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
             exec($command . " 2>&1", $output, $returnCode);
+            ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
 
             if ($returnCode !== 0) {
                 throw new \Exception("Ошибка при конвертации DOCX в PDF");
