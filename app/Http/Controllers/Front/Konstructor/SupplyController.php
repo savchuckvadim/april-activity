@@ -759,9 +759,9 @@ class SupplyController extends Controller
             $docxFile = $fullOutputFilePath;
             $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
 
-            $command = "libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
-            exec($command, $output, $returnCode);
-
+            $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
+            exec($command . " 2>&1", $output, $returnCode);
+            
             if ($returnCode !== 0) {
                 throw new \Exception("Ошибка при конвертации DOCX в PDF");
             }
