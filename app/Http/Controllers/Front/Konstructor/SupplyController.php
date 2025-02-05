@@ -700,7 +700,7 @@ class SupplyController extends Controller
 
                     if (!empty($field['field']) && !empty($field['current'])) {
                         $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
-                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "<w:br/>" . "<w:br/>";
+                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "<w:br/>";
                     }
                 } else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
 
