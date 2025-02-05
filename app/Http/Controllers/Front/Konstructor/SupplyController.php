@@ -753,11 +753,32 @@ class SupplyController extends Controller
 
         $templateProcessor->saveAs($fullOutputFilePath);
 
-        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+        //to pdf
+        if ($domain === 'april-dev.bitrix24.ru') {
 
-        $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            $docxFile = $fullOutputFilePath;
+            $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
+
+            $command = "libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
+            exec($command, $output, $returnCode);
+
+            if ($returnCode !== 0) {
+                throw new \Exception("Ошибка при конвертации DOCX в PDF");
+            }
+
+            $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
+            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+        } else {
+            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        }
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
