@@ -4274,6 +4274,10 @@ class ContractController extends Controller
             } else {
                 $productQuantity = $row['price']['quantity'];
             }
+            $complect_sup = '';
+            if($row['productType'] == 'garant'){
+                $complect_sup = $row['currentSupply']['name'];
+            }
             $product = [
                 'productNumber' => $key + 1,
                 'productName' => $contractFullName . '(' . $row['name'] . ')',
@@ -4281,6 +4285,7 @@ class ContractController extends Controller
                 'productMeasure' => $row['price']['measure']['name'],
                 'productPrice' => $row['price']['current'],
                 'productSum' => $row['price']['sum'],
+                'complect_sup' => $complect_sup
             ];
             array_push($products, $product);
         }
@@ -4336,6 +4341,7 @@ class ContractController extends Controller
             $total_quantity_string = $totalQuantityString;
         }
         $result = [
+            'total_product_name' => $total['name'],
             'total_prepayment_quantity' => $total_prepayment_quantity,
             'total_prepayment_quantity_string' => $total_prepayment_quantity_string,
             'total_prepayment_sum' => $total_prepayment_sum,
