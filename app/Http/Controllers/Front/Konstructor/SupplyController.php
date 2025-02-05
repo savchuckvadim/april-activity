@@ -618,12 +618,12 @@ class SupplyController extends Controller
         }
         if ($domain !== 'april-dev.bitrix24.ru') {
             $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
-        }else{
+        } else {
             $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
 
             // $formattedValueIblocks = $iblocks;
         }
-        $templateProcessor->setValue('complect_fields_left', nl2br($iblocks));
+        $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
 
