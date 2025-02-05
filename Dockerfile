@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
     libreoffice-writer \
     fonts-dejavu \
     fonts-liberation \
-    openjdk-11-jre \
+    default-jre \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis

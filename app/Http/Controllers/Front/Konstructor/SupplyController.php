@@ -616,8 +616,9 @@ class SupplyController extends Controller
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
             }
         }
-        $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
-
+        if ($domain !== 'april-dev.bitrix24.ru') {
+            $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
+        }
         $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
@@ -761,7 +762,7 @@ class SupplyController extends Controller
 
             $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
             exec($command . " 2>&1", $output, $returnCode);
-            
+
             if ($returnCode !== 0) {
                 throw new \Exception("Ошибка при конвертации DOCX в PDF");
             }
