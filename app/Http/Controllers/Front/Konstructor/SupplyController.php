@@ -619,7 +619,7 @@ class SupplyController extends Controller
         if ($domain !== 'april-dev.bitrix24.ru') {
             $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
         }else{
-            $formattedValueIblocks = str_replace("\n", "\v", $iblocks);
+            $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
 
             // $formattedValueIblocks = $iblocks;
         }
