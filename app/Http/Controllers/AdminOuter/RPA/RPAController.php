@@ -264,7 +264,7 @@ class RPAController extends Controller
             $portalCategory = null;
             $currentPortalCategory =  null;
 
-            if (!empty($currentPortalCategories) && is_array($currentPortalCategories)) {
+            if (!empty($currentPortalCategories)) {
 
                 // $currentPortalCategory =   $currentPortalCategories[0];
                 foreach ($currentPortalCategories as $pRpaCategory) {
@@ -278,7 +278,7 @@ class RPAController extends Controller
 
                 
             }
-            if (!$portalCategory) {
+            if (empty($portalCategory)) {
                 $portalCategory = new BtxCategory();
                 $portalCategory->entity_type = BtxRpa::class;
                 $portalCategory->entity_id = $currentPortalRPA->id;

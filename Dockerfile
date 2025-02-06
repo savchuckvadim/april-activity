@@ -64,6 +64,8 @@ RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage
 RUN chmod -R 775 /var/www/html/storage /var/www/.config/libreoffice
 
+ENV HOME=/tmp
+
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
 CMD ["php-fpm"]

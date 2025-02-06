@@ -759,32 +759,32 @@ class SupplyController extends Controller
         $templateProcessor->saveAs($fullOutputFilePath);
 
         //to pdf
-        // if ($domain === 'april-dev.bitrix24.ru') {
+        if ($domain === 'april-dev.bitrix24.ru') {
 
-        //     $docxFile = $fullOutputFilePath;
-        //     $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
+            $docxFile = $fullOutputFilePath;
+            $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
 
-        //     $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
-        //     exec($command . " 2>&1", $output, $returnCode);
-        //     ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
+            $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
+            exec($command . " 2>&1", $output, $returnCode);
+            ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
 
-        //     if ($returnCode !== 0) {
-        //         throw new \Exception("Ошибка при конвертации DOCX в PDF");
-        //     }
+            if ($returnCode !== 0) {
+                throw new \Exception("Ошибка при конвертации DOCX в PDF");
+            }
 
-        //     $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
-        //     // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
+            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
-        //     $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-        //     $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-        //     $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-        // } else {
+            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+        } else {
             // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
 
             $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
             $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
             $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        // }
+        }
 
         $method = '/crm.timeline.comment.add';
         $hook = BitrixController::getHook($domain);
