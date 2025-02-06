@@ -26,11 +26,17 @@ Route::get('/google-auth', function () {
     $client->setRedirectUri(env('GMAIL_REDIRECT'));
     $client->addScope('https://www.googleapis.com/auth/gmail.readonly');
 
+    // Эти параметры нужны для получения refresh_token
+    $client->setAccessType('offline');
+    $client->setPrompt('consent');
+
     $authUrl = $client->createAuthUrl();
     return redirect($authUrl);
 });
 
 // 2. Обработка callback от Google и получение токенов
+
+//
 
 Route::get('/oauth2callback', function () {
     $client = new GoogleClient();
@@ -41,12 +47,15 @@ Route::get('/oauth2callback', function () {
     $code = request('code');
     $token = $client->fetchAccessTokenWithAuthCode($code);
 
-    // Сохраняем токены в БД
+    // Проверка, есть ли refresh_token
+    $refreshToken = $token['refresh_token'] ?? null;
+    $message = $token['refresh_token'] ? 'with refresh' :  'without refresh';
+
     GoogleToken::updateOrCreate([], [
         'access_token' => $token['access_token'],
-        'refresh_token' => $token['refresh_token'],
+        'refresh_token' => $refreshToken,
         'expires_at' => Carbon::now()->addSeconds($token['expires_in']),
     ]);
 
-    return 'Авторизация успешна! Теперь можешь <a href="/fetch-emails">получить письма</a>';
+    return 'Авторизация успешна! ' . $message;
 });
