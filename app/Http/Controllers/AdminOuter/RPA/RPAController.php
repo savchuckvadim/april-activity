@@ -487,8 +487,7 @@ class RPAController extends Controller
                 foreach ($portalSmartCategoryStages as $portalSmartCategoryStage) {
 
                     if (
-                        $portalSmartCategoryStage['code'] === $stage['code'] ||
-                        $portalSmartCategoryStage['bitrixId'] === $stage['bitrixId']
+                        $portalSmartCategoryStage['code'] === $stage['code']
                     ) {
                         $currentPortalStage = BtxStage::find($portalSmartCategoryStage['id']);
                     }
