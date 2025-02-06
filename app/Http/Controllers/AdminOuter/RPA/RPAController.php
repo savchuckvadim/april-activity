@@ -58,55 +58,55 @@ class RPAController extends Controller
             $rpa =    $rpaData;
             // Проверка на массив
 
-           
-
-
-                if (!empty($rpa)) {
-                    if (!empty($rpa['code'])) {
-                        $currentPortalRPA = $portal->rpas()->where('code', $rpa['code'])->first();
-                        // $smartEntityTypeId = $rpa['entityTypeId'];
-                        if (!$currentPortalRPA) {
-
-                            $currentPortalRPA = new BtxRpa();
-                            $currentPortalRPA->portal_id = $portalId;
-                        }
-                        $currentPortalRPA->type = $rpa['type'];
-                        $currentPortalRPA->code = $rpa['code'];
-                        $currentPortalRPA->name = $rpa['name'];
-                        $currentPortalRPA->title = $rpa['title'];
-                        $currentPortalRPA->image = $rpa['image'];
-                        $currentPortalRPA->description = $rpa['bitrixId'];
-                        $currentPortalRPA->typeId = $rpa['bitrixId'];
-
-                        $currentPortalRPA->bitrixId = $rpa['bitrixId'];
-                        $currentPortalRPA->entityTypeId =  $rpa['bitrixId'];
-                        $currentPortalRPA->forStageId = $rpa['bitrixId'];
-
-                        $currentPortalRPA->forFilterId =  $rpa['bitrixId'];
-                        $currentPortalRPA->crmId = $rpa['bitrixId'];
-
-                        $currentPortalRPA->save();
 
 
 
-                        Log::channel('telegram')->info('RPA ONLINE ADMIN', [
-                            'currentPortalRPA' => $currentPortalRPA
-                        ]);
+            if (!empty($rpa)) {
+                if (!empty($rpa['code'])) {
+                    $currentPortalRPA = $portal->rpas()->where('code', $rpa['code'])->first();
+                    // $smartEntityTypeId = $rpa['entityTypeId'];
+                    if (!$currentPortalRPA) {
 
-                        Log::info('RPA ONLINE ADMIN', [
-                            'currentPortalRPA' => $currentPortalRPA
-                        ]);
+                        $currentPortalRPA = new BtxRpa();
+                        $currentPortalRPA->portal_id = $portalId;
                     }
+                    $currentPortalRPA->type = $rpa['type'];
+                    $currentPortalRPA->code = $rpa['code'];
+                    $currentPortalRPA->name = $rpa['name'];
+                    $currentPortalRPA->title = $rpa['title'];
+                    $currentPortalRPA->image = $rpa['image'];
+                    $currentPortalRPA->description = $rpa['bitrixId'];
+                    $currentPortalRPA->typeId = $rpa['bitrixId'];
+
+                    $currentPortalRPA->bitrixId = $rpa['bitrixId'];
+                    $currentPortalRPA->entityTypeId =  $rpa['bitrixId'];
+                    $currentPortalRPA->forStageId = $rpa['bitrixId'];
+
+                    $currentPortalRPA->forFilterId =  $rpa['bitrixId'];
+                    $currentPortalRPA->crmId = $rpa['bitrixId'];
+
+                    $currentPortalRPA->save();
+
+
+
+                    Log::channel('telegram')->info('RPA ONLINE ADMIN', [
+                        'currentPortalRPA' => $currentPortalRPA
+                    ]);
+
+                    Log::info('RPA ONLINE ADMIN', [
+                        'currentPortalRPA' => $currentPortalRPA
+                    ]);
                 }
+            }
 
 
 
 
-                $categories = RPAController::setCategories($hook, $rpa['categories'], $rpa, $currentPortalRPA);
-                // array_push($resultSmarts, $currentBtxSmart);
+            $categories = RPAController::setCategories($hook, $rpa['categories'], $rpa, $currentPortalRPA);
+            // array_push($resultSmarts, $currentBtxSmart);
 
-                // $fields = RPAFieldsController::setFields('rpa', $domain, $rpa, $currentPortalRPA);
-            
+            // $fields = RPAFieldsController::setFields('rpa', $domain, $rpa, $currentPortalRPA);
+
         } catch (\Exception $e) {
             Log::error('Error in installSmart', [
                 'message' => $e->getMessage(),
@@ -266,15 +266,18 @@ class RPAController extends Controller
 
             if (!empty($currentPortalCategories) && is_array($currentPortalCategories)) {
 
-                $currentPortalCategory =   $currentPortalCategories[0];
-            }
-            if (!empty($currentPortalCategory) && isset($currentPortalCategory['code'])) {
-                if ($currentPortalCategory['code'] == $category['code']) {
-
-                    $portalCategory = BtxCategory::find($currentPortalCategory['id']);
+                // $currentPortalCategory =   $currentPortalCategories[0];
+                foreach ($currentPortalCategories as $pRpaCategory) {
+                    if (!empty($pRpaCategory) && isset($pRpaCategory['code'])) {
+                        if ($pRpaCategory['code'] == $category['code']) {
+    
+                            $portalCategory = BtxCategory::find($pRpaCategory['id']);
+                        }
+                    }
                 }
-            }
 
+                
+            }
             if (!$portalCategory) {
                 $portalCategory = new BtxCategory();
                 $portalCategory->entity_type = BtxRpa::class;
