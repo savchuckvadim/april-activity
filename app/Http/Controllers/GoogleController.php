@@ -632,7 +632,7 @@ class GoogleController extends Controller
 
 
                 //document number
-                $documentNumber = CounterController::getCount($templateId);
+                $documentNumber = CounterController::getCount($templateId, 'org');
 
                 // /invoice base number
                 $step1 = preg_replace_callback(

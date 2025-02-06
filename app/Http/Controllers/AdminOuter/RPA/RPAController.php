@@ -501,7 +501,7 @@ class RPAController extends Controller
                 $currentPortalStage->name = $stage['name'];
                 $currentPortalStage->code = $stage['code'];
                 $currentPortalStage->color = $stage['color'];
-                $currentPortalStage->bitrixId = $stage['bitrixStatusId'];
+                $currentPortalStage->bitrixId = $stage['bitrixId'];
                 $currentPortalStage->isActive = $stage['isActive'];
                 $currentPortalStage->save();
 
