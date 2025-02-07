@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 
 // todo replace to client - it is test without api key
-require __DIR__ . '/gmail/google-mail.php';
+// require __DIR__ . '/gmail/google-mail.php';
 
 
 Route::prefix('client')->middleware('check.ip.api_key')->group(function () {
