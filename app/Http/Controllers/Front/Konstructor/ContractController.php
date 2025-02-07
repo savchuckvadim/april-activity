@@ -4375,7 +4375,7 @@ class ContractController extends Controller
         $contractSum = $total['price']['sum'];
         $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
         $totalSumCurrent = $total['price']['current'];
-        $totalSumMonth = round($totalSumCurrent / $totalQuantity, 2);
+        $totalSumMonth = round($totalSumCurrent / $productContractCoefficient, 2);
         $totalSumMonth = number_format($totalSumMonth, 2, '.', ''); // "8008.00"
 
       
