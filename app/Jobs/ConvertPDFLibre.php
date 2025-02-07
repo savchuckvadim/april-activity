@@ -63,7 +63,7 @@ class ConvertPDFLibre implements ShouldQueue
         $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
 
         // $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
-        $command = "/usr/bin/libreoffice --headless --nologo --nofirststartwizard --invisible --convert-to pdf:writer_pdf_Export --outdir " 
+        $command = "/usr/bin/libreoffice --headless --nologo --nofirststartwizard --invisible --convert-to pdf --outdir " 
         . escapeshellarg(dirname($pdfFilePath)) 
         . " " . escapeshellarg($docxFile);
        
@@ -82,7 +82,7 @@ class ConvertPDFLibre implements ShouldQueue
 
         $url = $this->hook . $method;
 
-        $message = '<a href="' . $link . '" target="_blank">' . $this->outputFileName . '</a>';
+        $message = '<a href="' . $link . '" target="_blank">' . 'Отчет_о_продаже'. '</a>';
 
         $fields = [
             "ENTITY_ID" => $this->dealId,
