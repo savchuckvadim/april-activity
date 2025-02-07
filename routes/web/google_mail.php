@@ -42,6 +42,7 @@ Route::get('/fetch-emails', function () {
     $gmailService = new Gmail($client);
     $messages = $gmailService->users_messages->listUsersMessages('me', ['maxResults' => 10]);
     $subjects = [];
+    $files = [];
     foreach ($messages->getMessages() as $message) {
         $msg = $gmailService->users_messages->get('me', $message->getId());
 
@@ -49,10 +50,11 @@ Route::get('/fetch-emails', function () {
         $subject = collect($msg->getPayload()->getHeaders())
             ->firstWhere('name', 'Subject')
             ->value;
-        array_push($subjects, $subject);
 
         // Проверка по теме письма
-        if (str_contains($subject, 'Отчет')) {
+        if (str_contains($subject, 'Отчет СКАП')) {
+            array_push($subjects, $subject);
+
             foreach ($msg->getPayload()->getParts() as $part) {
                 if ($part->getFilename() && $part->getBody()->getAttachmentId()) {
                     $attachmentId = $part->getBody()->getAttachmentId();
@@ -62,6 +64,7 @@ Route::get('/fetch-emails', function () {
                     $fileData = base64_decode($attachment->getData());
                     $filePath = storage_path('app/gmail' . $part->getFilename());
                     file_put_contents($filePath, $fileData);
+                    array_push($files, $fileData);
 
                     // Здесь отправляем файл дальше по API
                 }
@@ -71,6 +74,7 @@ Route::get('/fetch-emails', function () {
 
     // return 'Письма обработаны!';
     return APIController::getSuccess([
-        'subjects' => $subjects
+        'subjects' => $subjects,
+        'files' => $files, 
     ]);
 });
