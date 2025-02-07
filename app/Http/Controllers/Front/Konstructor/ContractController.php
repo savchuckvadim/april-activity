@@ -4103,11 +4103,10 @@ class ContractController extends Controller
             $client_rq = $companyName . "\n" . "\n"
                 . 'Адрес: ' . $address . "\n"
                 . "ИНН: " . $inn . "\n"
-                . "Банк: " . $bank . "\n"
-                . "БИК: " . $bik . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
                 . (!empty($bankOther) ? $bankOther . "\n" : '')
+                . "Банк: " . $bank . "\n"
                 . 'Телефон.: ' . $phone . "\n"
                 . 'E-mail: ' . $email . "\n";
         }
