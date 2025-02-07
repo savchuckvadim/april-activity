@@ -496,7 +496,7 @@ class SupplyController extends Controller
                 'complect_hdd' => $complect_hdd
             ]);
         }
-        if ($domain !== 'april-dev.bitrix24.ru') {
+        if ($domain !== 'april-dev.bitrix24.ru' || $domain !== 'april-garant.bitrix24.ru') {
             $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         } else {
             $currentClientType = 'org';
