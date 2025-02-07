@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\APIController;
 use App\Models\Google\GoogleToken;
 use Illuminate\Support\Facades\Route;
 use Google\Client as GoogleClient;
@@ -40,14 +41,15 @@ Route::get('/fetch-emails', function () {
     // Работа с Gmail API
     $gmailService = new Gmail($client);
     $messages = $gmailService->users_messages->listUsersMessages('me', ['maxResults' => 10]);
-
+    $subjects = [];
     foreach ($messages->getMessages() as $message) {
         $msg = $gmailService->users_messages->get('me', $message->getId());
 
         // Извлекаем тему письма
         $subject = collect($msg->getPayload()->getHeaders())
-                     ->firstWhere('name', 'Subject')
-                     ->value;
+            ->firstWhere('name', 'Subject')
+            ->value;
+        array_push($subjects, $subject);
 
         // Проверка по теме письма
         if (str_contains($subject, 'Отчет')) {
@@ -67,5 +69,8 @@ Route::get('/fetch-emails', function () {
         }
     }
 
-    return 'Письма обработаны!';
+    // return 'Письма обработаны!';
+    return APIController::getSuccess([
+        'subjects' => $subjects
+    ]);
 });
