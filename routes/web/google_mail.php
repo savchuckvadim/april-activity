@@ -62,9 +62,15 @@ Route::get('/fetch-emails', function () {
                         ->get('me', $message->getId(), $attachmentId);
 
                     $fileData = base64_decode($attachment->getData());
-                    $filePath = storage_path('app/gmail' . $part->getFilename());
+                    $hash = md5(uniqid(mt_rand(), true));
+
+                    $filePath = storage_path('app/public/skap/test/lastreport/'. $hash . '/' . $part->getFilename());
                     file_put_contents($filePath, $fileData);
-                    array_push($files, $filePath);
+
+
+                    $link =   route('download-skap-report', ['hash' => $hash, 'filename' => $part->getFilename()]);
+
+                    array_push($files, $link);
 
                     // Здесь отправляем файл дальше по API
                 }
@@ -75,6 +81,27 @@ Route::get('/fetch-emails', function () {
     // return 'Письма обработаны!';
     return APIController::getSuccess([
         'subjects' => $subjects,
-        'files' => $files, 
+        'files' => $files,
     ]);
 });
+
+
+Route::get('/download/skap/{hash}/{filename}', function ($hash, $filename) {
+    // Декодируем имя файла
+    $filename = urldecode($filename);
+
+    // Путь к файлу
+    $filePath = storage_path('app/public/skap/test/lastreport/' . $hash . '/' . $filename);
+
+    // Логирование для отладки
+    // Log::channel('telegram')->info("Проверка пути к файлу: " . $filePath);
+
+    // Временная проверка
+    if (!file_exists($filePath)) {
+        // Log::channel('telegram')->info("Файл не найден: " . $filePath);
+        return response()->json(['error' => 'Файл не найден', 'path' => $filePath], 404);
+    }
+
+    // Скачивание файла
+    return response()->download($filePath, $filename);
+})->name('download-skap-report');
