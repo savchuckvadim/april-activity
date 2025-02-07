@@ -22,9 +22,15 @@ class GmailController extends Controller
 
         if (count($zipFiles) > 0) {
             $zip = $zipFiles[count($zipFiles) - 1];
+         
             return Response::make($zip['content'], 200, [
                 'Content-Type' => 'application/zip',
                 'Content-Disposition' => 'attachment; filename="' . $zip['filename'] . '"',
+                'Content-Transfer-Encoding' => 'binary',
+                'Content-Length' => strlen($zip['content']),
+                'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                'Pragma' => 'public',
+                'Expires' => '0'
             ]);
         }
 
