@@ -26,8 +26,7 @@ class TestLibreOfficeConversion extends Command
         $pdfFilePath = str_replace('.docx', '.pdf', $outputFilePath);
         $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($outputFilePath);
         
-        // Добавляем переменные окружения для LibreOffice
-        // putenv('HOME=/tmp');
+
         exec($command . " 2>&1", $output, $returnCode);
 
         // Логирование вывода команды

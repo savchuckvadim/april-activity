@@ -15,6 +15,16 @@ Route::get('/fetch-emails', function () {
     $client->setClientSecret(env('GMAIL_SECRET_ID'));
     $client->setRedirectUri(env('GMAIL_REDIRECT'));
 
+    // if ($client->isAccessTokenExpired()) {
+    //     $client->fetchAccessTokenWithRefreshToken($refreshToken);
+    //     if ($client->getAccessToken()) {
+    //         // Успешное обновление токена
+    //     } else {
+    //         // Ошибка, нужно переавторизоваться
+    //     }
+    // }
+
+
     // Проверяем, истек ли токен
     if (now()->gte($tokenData->expires_at)) {
         $client->refreshToken($tokenData->refresh_token);  // Обновляем токен

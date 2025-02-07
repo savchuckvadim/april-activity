@@ -760,6 +760,8 @@ class SupplyController extends Controller
 
         //to pdf
         if ($domain === 'april-dev.bitrix24.ru') {
+            // Добавляем переменную окружения для LibreOffice
+            putenv('HOME=/tmp');
 
             $docxFile = $fullOutputFilePath;
             $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
