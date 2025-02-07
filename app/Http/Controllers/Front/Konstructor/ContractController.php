@@ -3915,7 +3915,7 @@ class ContractController extends Controller
     protected function getClientRQ(
 
         $currentClientType,
-        $clientRq,
+        $clientRq
 
     ) {
 
@@ -3929,6 +3929,8 @@ class ContractController extends Controller
         $bank = '__________________________'; // ||
         $rs = '_________________________________'; // ||
         $ks = '______________________________________'; // ||
+        $bankOther = ''; // ||
+
         $phone = '_________________________________'; // ||
         $email = '__________________________________'; // ||
         $client_adress = '________________________________';
@@ -4049,26 +4051,33 @@ class ContractController extends Controller
             }
         }
 
+        ALogController::push('clientRq', $clientRq);
 
         if (!empty($clientRq['bank'])) {
+
             if (!empty($clientRq['bank']['items'])) {
                 if (!empty($clientRq['bank']['items'][0])) {
                     if (!empty($clientRq['bank']['items'][0]['fields'])) {
                         foreach ($clientRq['bank']['items'][0]['fields'] as $rqBank) {
 
-                            if ($rqItem['code'] == 'bank_name') {
+                            if ($rqBank['code'] == 'bank_name') {
                                 if (!empty($rqBank['value'])) {
                                     $bank = $rqBank['value'];
                                 }
                             }
-                            if ($rqItem['code'] == 'rs') {
+                            if ($rqBank['code'] == 'rs') {
                                 if (!empty($rqBank['value'])) {
                                     $rs = $rqBank['value'];
                                 }
                             }
-                            if ($rqItem['code'] == 'ks') {
+                            if ($rqBank['code'] == 'ks') {
                                 if (!empty($rqBank['value'])) {
                                     $ks = $rqBank['value'];
+                                }
+                            }
+                            if ($rqBank['code'] == 'comments') {
+                                if (!empty($rqBank['value'])) {
+                                    $bankOther = $rqBank['value'];
                                 }
                             }
                         }
@@ -4090,6 +4099,7 @@ class ContractController extends Controller
                 . "Банк: " . $bank . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
+                . $bankOther . "\n"
                 . 'Телефон.: ' . $phone . "\n"
                 . 'E-mail: ' . $email . "\n";
         }
@@ -4286,10 +4296,10 @@ class ContractController extends Controller
                 'productQuantity' => $productQuantity,
                 'productMeasure' => $row['price']['measure']['name'],
                 'productPrice' => $productPrice,
-                'productSum' =>  $productSum ,
+                'productSum' =>  $productSum,
                 'complect_sup' => $complect_sup,
                 'complectName' => $row['name'],
-                'productPriceDefault' => $productPriceDefault 
+                'productPriceDefault' => $productPriceDefault
 
             ];
             array_push($products, $product);
