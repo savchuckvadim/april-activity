@@ -439,9 +439,8 @@ class ContractController extends Controller
             $templateProcessor->setValue($code, $formattedSpec);
             // $templateProcessor->setValue($code, $spec);
         }
-        if($contractType !== 'lic'){
+        if ($contractType !== 'lic') {
             $templateProcessor->cloneRowAndSetValues('productNumber', $templateData['productRows']);
-
         }
 
         // Дальнейшие действия с документом...
@@ -4269,23 +4268,25 @@ class ContractController extends Controller
 
         $products = [];
         foreach ($arows as $key =>  $row) {
-            if ($clientType == 'org_state') {
-                $productQuantity = 1;
-            } else {
-                $productQuantity = $row['price']['quantity'];
-            }
+
+            $productQuantity = $row['price']['quantity'];
+            $productContractCoefficient = $row['product']['contractCoefficient'];
+            $quantity = $productQuantity * $productContractCoefficient;
             $complect_sup = '';
-            if($row['productType'] == 'garant'){
+            if ($row['productType'] == 'garant') {
                 $complect_sup = $row['currentSupply']['name'];
             }
             $product = [
                 'productNumber' => $key + 1,
                 'productName' => $contractFullName . '(' . $row['name'] . ')',
-                'productQuantity' => $productQuantity,
+                'productQuantity' => $quantity,
                 'productMeasure' => $row['price']['measure']['name'],
                 'productPrice' => $row['price']['current'],
                 'productSum' => $row['price']['sum'],
-                'complect_sup' => $complect_sup
+                'complect_sup' => $complect_sup,
+                'complectName' => $row['name'],
+                'productPriceDefault' => $row['price']['default']
+
             ];
             array_push($products, $product);
         }
@@ -4299,7 +4300,11 @@ class ContractController extends Controller
         $totalSumMonth = $total['price']['current'];
         $totalSumMonth = number_format($totalSumMonth, 2, '.', ''); // "8008.00"
 
-        $totalQuantity = $total['price']['quantity'];
+        $productQuantity = $total['price']['quantity'];
+        $productContractCoefficient = $total['product']['contractCoefficient'];
+        $totalQuantity = $productQuantity * $productContractCoefficient;
+
+
         $totalQuantityMonth = FileController::getMonthTitleAccusative($totalQuantity);
         $totalQuantityString = $totalQuantityMonth;
 
