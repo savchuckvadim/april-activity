@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Resources\PortalContractResource;
+use App\Jobs\ConvertPDFLibre;
 use App\Models\Portal;
 use App\Models\PortalContract;
 use App\Http\Controllers\Front\Konstructor\ContractController;
@@ -759,37 +760,49 @@ class SupplyController extends Controller
         $templateProcessor->saveAs($fullOutputFilePath);
 
         //to pdf
+        $hook = BitrixController::getHook($domain);
         if ($domain === 'april-dev.bitrix24.ru') {
             // Добавляем переменную окружения для LibreOffice
-            putenv('HOME=/tmp');
+            dispatch(new ConvertPDFLibre(
+                $domain,
+                $hook,
+                $hash,
+                $dealId,
+                $fullOutputFilePath,
+                $outputFileName,
 
-            $docxFile = $fullOutputFilePath;
-            $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
+            ));
 
-            $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
-            exec($command . " 2>&1", $output, $returnCode);
-            ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
+            // putenv('HOME=/tmp');
 
-            if ($returnCode !== 0) {
-                throw new \Exception("Ошибка при конвертации DOCX в PDF");
-            }
+            // $docxFile = $fullOutputFilePath;
+            // $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
 
-            $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
-            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            // $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
+            // exec($command . " 2>&1", $output, $returnCode);
+            // ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
 
-            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-        } else {
-            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            // if ($returnCode !== 0) {
+            //     throw new \Exception("Ошибка при конвертации DOCX в PDF");
+            // }
 
-            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            // $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
+            // // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+            // $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            // $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            // $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
         }
+        // else {
+        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+        $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+        // }
 
         $method = '/crm.timeline.comment.add';
-        $hook = BitrixController::getHook($domain);
+
 
         $url = $hook . $method;
 
