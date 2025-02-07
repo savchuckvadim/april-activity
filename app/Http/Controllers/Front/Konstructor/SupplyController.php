@@ -522,7 +522,7 @@ class SupplyController extends Controller
                 $contractCoefficient,
                 $currentClientType
             );
-            $totalData = $contractController->getTotal($contractFullTotal, $currentClientType);
+            $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
 
             $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
 
