@@ -64,7 +64,17 @@ Route::get('/fetch-emails', function () {
                     $fileData = base64_decode($attachment->getData());
                     $hash = md5(uniqid(mt_rand(), true));
 
-                    $filePath = storage_path('app/public/skap/test/lastreport/'. $hash . '/' . $part->getFilename());
+                    $directoryPath = storage_path('app/public/skap/test/lastreport/' . $hash);
+
+                    // Проверяем, существует ли директория
+                    if (!file_exists($directoryPath)) {
+                        mkdir($directoryPath, 0775, true);  // Создаём папку с правами 0775
+                    }
+
+                    // Полный путь к файлу
+                    $filePath = $directoryPath . '/' . $part->getFilename();
+
+                    // $filePath = storage_path('app/public/skap/test/lastreport/' . $hash . '/' . $part->getFilename());
                     file_put_contents($filePath, $fileData);
 
 
