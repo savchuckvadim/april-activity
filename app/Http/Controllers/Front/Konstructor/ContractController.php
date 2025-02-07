@@ -4279,7 +4279,7 @@ class ContractController extends Controller
             $product = [
                 'productNumber' => $key + 1,
                 'productName' => $contractFullName . '(' . $row['name'] . ')',
-                'productQuantity' => $quantity,
+                'productQuantity' => $productQuantity,
                 'productMeasure' => $row['price']['measure']['name'],
                 'productPrice' => $row['price']['current'],
                 'productSum' => $row['price']['sum'],
@@ -4345,6 +4345,81 @@ class ContractController extends Controller
             $total_quantity = $totalQuantity;
             $total_quantity_string = $totalQuantityString;
         }
+        $result = [
+            'total_product_name' => $total['name'],
+            'total_prepayment_quantity' => $total_prepayment_quantity,
+            'total_prepayment_quantity_string' => $total_prepayment_quantity_string,
+            'total_prepayment_sum' => $total_prepayment_sum,
+            'total_prepayment_sum_string' => $total_prepayment_sum_string,
+            'contract_total_sum' => $contract_total_sum, // уже использовалось'
+            'contract_total_sum_string' => $contract_total_sum_string, // уже использовалось'
+            'total_quantity' => $total_quantity, //всего месяцев действие договора
+            'total_quantity_string' => $total_quantity_string, //всего месяцев действие договора
+            'total_month_sum' => $total_month_sum, // сумма в месяц
+            'total_month_sum_string' => $total_month_sum_string,
+            'total_measure' => $total_measure
+
+        ];
+
+        return $result;
+    }
+
+    public function getSupplyTotal($total, $clientType)
+    {
+        $productQuantity = $total['price']['quantity'];
+        $productContractCoefficient = $total['product']['contractCoefficient'];
+        $totalQuantity = $productQuantity * $productContractCoefficient;
+
+
+
+        $contractSum = $total['price']['sum'];
+        $contractSum = number_format($contractSum, 2, '.', ''); // "8008.00"
+        $totalSumCurrent = $total['price']['current'];
+        $totalSumMonth = round($totalSumCurrent / $totalQuantity, 2);
+        $totalSumMonth = number_format($totalSumMonth, 2, '.', ''); // "8008.00"
+
+      
+
+        $totalQuantityMonth = FileController::getMonthTitleAccusative($totalQuantity);
+        $totalQuantityString = $totalQuantityMonth;
+
+        $moneySpeller = new MoneySpeller();
+
+
+        // Преобразуем сумму в строку
+        $contractSumString = $moneySpeller->spell($contractSum, 'RUB');
+        $contractSumString = '(' .        $contractSumString . ')';
+
+        $totalSumMonthString = $moneySpeller->spell($totalSumMonth, 'RUB');
+
+        $totalSumMonthString =  '(' .        $totalSumMonthString . ')';
+
+
+        $total_month_sum = $totalSumMonth;
+        $total_month_sum_string = $totalSumMonthString;
+
+        $total_measure = $total['price']['measure']['name'];
+        // if ($clientType == 'org_state') {
+        //     $total_prepayment_quantity = '1';
+        //     $total_prepayment_quantity_string = '1 месяц';
+        //     $total_prepayment_sum = $totalSumMonth;
+        //     $total_prepayment_sum_string = $totalSumMonthString;
+        //     $total_quantity = $totalQuantity;
+        //     $total_quantity_string = $totalQuantityString;
+        //     $contract_total_sum = $contractSum;
+        //     $contract_total_sum_string = $contractSumString;
+        // } else {
+            $total_prepayment_quantity = $totalQuantity;
+            $total_prepayment_quantity_string = $totalQuantityString;
+            $total_prepayment_sum = $contractSum;
+            $total_prepayment_sum_string = $contractSumString;
+            $contract_total_sum = $contractSum; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $contract_total_sum_string = $contractSumString; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            // $total_quantity = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            // $total_quantity_string = ''; //для коммерсов надо будет вычислить из суммы за весь период обслуживания
+            $total_quantity = $totalQuantity;
+            $total_quantity_string = $totalQuantityString;
+        // }
         $result = [
             'total_product_name' => $total['name'],
             'total_prepayment_quantity' => $total_prepayment_quantity,
