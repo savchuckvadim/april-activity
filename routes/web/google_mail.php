@@ -64,7 +64,7 @@ Route::get('/fetch-emails', function () {
                     $fileData = base64_decode($attachment->getData());
                     $filePath = storage_path('app/gmail' . $part->getFilename());
                     file_put_contents($filePath, $fileData);
-                    array_push($files, $fileData);
+                    array_push($files, $filePath);
 
                     // Здесь отправляем файл дальше по API
                 }
