@@ -3926,9 +3926,11 @@ class ContractController extends Controller
         $inn = '___________________________'; // ||
         $fizDocument = '________________________________'; // ||
         $address = '_____________________________________________'; //
-        $bank = '__________________________'; // ||
+        $bank = '________________________________'; // ||
         $rs = '_________________________________'; // ||
         $ks = '______________________________________'; // ||
+        $bik = '______________________________________'; // ||
+
         $bankOther = ''; // ||
 
         $phone = '_________________________________'; // ||
@@ -4065,14 +4067,19 @@ class ContractController extends Controller
                                     $bank = $rqBank['value'];
                                 }
                             }
-                            if ($rqBank['code'] == 'rs') {
+                            if ($rqBank['code'] == 'rs' || $rqBank['code'] == 'bank_pc') {
                                 if (!empty($rqBank['value'])) {
                                     $rs = $rqBank['value'];
                                 }
                             }
-                            if ($rqBank['code'] == 'ks') {
+                            if ($rqBank['code'] == 'ks' || $rqBank['code'] == 'bank_kc') {
                                 if (!empty($rqBank['value'])) {
                                     $ks = $rqBank['value'];
+                                }
+                            }
+                            if ($rqBank['code'] == 'bik' || $rqBank['code'] == 'bank_bik') {
+                                if (!empty($rqBank['value'])) {
+                                    $bik = $rqBank['value'];
                                 }
                             }
                             if ($rqBank['code'] == 'comments') {
@@ -4097,9 +4104,10 @@ class ContractController extends Controller
                 . 'Адрес: ' . $address . "\n"
                 . "ИНН: " . $inn . "\n"
                 . "Банк: " . $bank . "\n"
+                . "БИК: " . $bik . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
-                . $bankOther . "\n"
+                . (!empty($bankOther) ? $bankOther . "\n" : '')
                 . 'Телефон.: ' . $phone . "\n"
                 . 'E-mail: ' . $email . "\n";
         }
