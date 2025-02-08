@@ -248,6 +248,7 @@ class InfoGroupController extends Controller
                     }
                 }
             }
+            $infogroup = InfoGroup::with('infoblocks')->find($infogroupId);
 
             return APIController::getSuccess([
                 'result' => [
