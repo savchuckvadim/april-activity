@@ -44,6 +44,8 @@ use Illuminate\Support\Facades\Route;
     //INFO GROUP
     Route::get('initial/infogroup', [InfoGroupController::class, 'getInitial']);
     Route::post('infogroup', [InfoGroupController::class, 'store']);
+    Route::post('infogroup/{infogroupId}', [InfoGroupController::class, 'store']);
+
     Route::get('infogroups', function () {
         $infogroups  = InfoGroup::all();
         return response([
