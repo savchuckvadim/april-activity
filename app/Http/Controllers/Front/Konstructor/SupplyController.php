@@ -527,7 +527,7 @@ class SupplyController extends Controller
             $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
 
             foreach ($totalData as $code => $totalItemValue) {
-                // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+                // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
                 $templateProcessor->setValue($code, $totalItemValue);
                 // $templateProcessor->setValue($code, $spec);
             }
@@ -595,11 +595,11 @@ class SupplyController extends Controller
             //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
             // } else 
             if ($cntrctSpecItem['code'] === 'specification_iblocks') {
-                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
-                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
 
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
@@ -607,18 +607,18 @@ class SupplyController extends Controller
                 $packVal = $cntrctSpecItem['value'] . ": \n";
                 $iblocks .= $packVal;
 
-                // $formattedValue = str_replace("\n", '<w:br/>', $packVal);
+                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $packVal);
 
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
-                // $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
 
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
             }
         }
         if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
-            $formattedValueIblocks = str_replace("\n", '<w:br/>', $iblocks);
+            $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
         } else {
             $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
 
@@ -630,7 +630,7 @@ class SupplyController extends Controller
 
 
             if ($cntrctSpecItem['code'] === 'specification_ifree') {
-                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
 
 
                 $templateProcessor->setValue('complect_fields_right', $formattedValue);
@@ -648,7 +648,7 @@ class SupplyController extends Controller
                 }
 
 
-                $formattedValue = str_replace("\n", '<w:br/>', $value);
+                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
 
                 $templateProcessor->setValue('complect_lt_left', $formattedValue);
             } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
@@ -663,12 +663,12 @@ class SupplyController extends Controller
                         }
                     }
                 }
-                $formattedValue = str_replace("\n", '<w:br/>', $value);
+                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
 
 
                 $templateProcessor->setValue('complect_lt_right', $formattedValue);
             } else if ($cntrctSpecItem['code'] === 'specification_pk') {
-                $formattedValue = str_replace("\n", '<w:br/>', $cntrctSpecItem['value']);
+                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
 
 
                 $templateProcessor->setValue('complect_pk', $formattedValue);
@@ -691,14 +691,14 @@ class SupplyController extends Controller
             ];
 
             foreach ($contact['PHONE'] as $phone) {
-                $contactDataForTemplate['contact_phone'] .= $phone['VALUE'] . "<w:br/>";
+                $contactDataForTemplate['contact_phone'] .= $phone['VALUE'] . "</w:t><w:br/><w:t>";
             }
             foreach ($fields as $field) {
                 if ($field['field']['code'] === 'ork_is_most_user') {
                     if (!empty($field['current'])) {
                         if (!empty($field['current']['code'])) {
                             if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
-                                $contactDataForTemplate['contact_name'] .= "<w:br/>" . '(Основной пользователь)';
+                                $contactDataForTemplate['contact_name'] .= "</w:t><w:br/><w:t>" . '(Основной пользователь)';
                             }
                         }
                     }
@@ -706,13 +706,13 @@ class SupplyController extends Controller
 
                     if (!empty($field['field']) && !empty($field['current'])) {
                         $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
-                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "<w:br/>";
+                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "</w:t><w:br/><w:t>";
                     }
                 } else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
 
                     if (!empty($field['field']) && !empty($field['current'])) {
                         $contactDataForTemplate['contact_comment'] .= $field['field']['title'] . ': ';
-                        $contactDataForTemplate['contact_comment'] .= $field['current']['title'] . "<w:br/>" . "<w:br/>";
+                        $contactDataForTemplate['contact_comment'] .= $field['current']['title'] . "</w:t><w:br/><w:t>" . "</w:t><w:br/><w:t>";
                     }
                 }
             }

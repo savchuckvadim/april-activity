@@ -57,7 +57,7 @@ class ConvertPDFLibre implements ShouldQueue
     public function handle()
     {
         putenv('HOME=/tmp');
-        putenv('JAVA_TOOL_OPTIONS=-Djava.awt.headless=true');
+        // putenv('JAVA_TOOL_OPTIONS=-Djava.awt.headless=true');
 
         $docxFile = $this->fullOutputFilePath;
         $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);

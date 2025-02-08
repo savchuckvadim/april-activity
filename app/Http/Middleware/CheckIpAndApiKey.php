@@ -25,7 +25,7 @@ class CheckIpAndApiKey
         // if (!in_array($clientIp, $allowedIps)) {
         //     return response()->json(['error' => 'Unauthorized IP'], 403);
         // }
-
+        
         // Проверка API-ключа (API-ключ передаётся в заголовке "api-key")
         $apiKey = $request->header('X-OUTER-API-KEY');
         $validApiKey = env('API_OUTER_KEY');
