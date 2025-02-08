@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('infoblock/{infoblockId}', function ($infoblockId) {
         return InfoblockController::getInfoblock($infoblockId);
     });
-
+    //INFO GROUP
     Route::get('initial/infogroup', [InfoGroupController::class, 'getInitial']);
     Route::post('infogroup', [InfoGroupController::class, 'store']);
     Route::get('infogroups', function () {
@@ -50,6 +50,9 @@ use Illuminate\Support\Facades\Route;
             'resultCode' => 0,
             'infogroups' =>  $infogroups
         ]);
+    });
+    Route::get('infogroup/{infogroupId}', function ($infogroupId) {
+        return InfoGroupController::get($infogroupId);
     });
 
 
