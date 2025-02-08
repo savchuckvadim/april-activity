@@ -565,6 +565,12 @@ class SupplyController extends Controller
             }
         }
 
+        $contract_start = '«____» _________________ 20__ г.';
+        $contract_end = '«____» _________________ 20__ г.';
+        $contract_present_start = '';
+        $contract_present_end = '';
+        $present_period = '';
+     
         foreach ($bxDealItems as $key => $bxDealItem) {
             $value = '';
             if (!empty($bxDealItem['current'])) {
@@ -584,9 +590,61 @@ class SupplyController extends Controller
             }
 
             if ($key === 'garant_client_email') {
-                $templateProcessor->setValue('email_garant', strval($value));
+                if(!empty($value)){
+                    $value = 'Email для интернет версии: '.$value;
+                    $templateProcessor->setValue('email_garant', strval($value));
+
+                }
+            }
+            if ($key === 'contract_start') {
+                if(!empty($value)){
+                    $contract_start = mb_strtolower(
+                        Carbon::parse($value)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+
+                }
+
+            }
+            if ($key === 'contract_end') {
+                if(!empty($value)){
+                    $contract_end = mb_strtolower(
+                        Carbon::parse($value)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+
+                }
+
+            }
+            if ($key === 'contract_present_start') {
+                if(!empty($value)){
+                    $contract_present_start = mb_strtolower(
+                        Carbon::parse($value)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+
+                }
+
+            }
+            if ($key === 'contract_present_end') {
+                if(!empty($value)){
+                    $contract_present_end = mb_strtolower(
+                        Carbon::parse($value)
+                            ->translatedFormat('j F Y')
+                    ) . ' г.';
+
+                }
+
             }
         }
+        $templateProcessor->setValue('contract_start', $contract_start);
+        $templateProcessor->setValue('contract_end', $contract_end);
+
+        if(!empty($contract_present_start) && !empty($contract_present_end)){
+            $present_period = 'Период в подарок с '.$contract_present_start.' по '.$contract_present_end;
+        }
+        $templateProcessor->setValue('present_period', $present_period);
+
         $iblocks = '';
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
@@ -604,8 +662,11 @@ class SupplyController extends Controller
                 // $templateProcessor->setValue('complect_fields_left', $formattedValue);
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
             } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
-                $packVal = $cntrctSpecItem['value'] . ": \n";
-                $iblocks .= $packVal;
+                if(!empty($cntrctSpecItem['value'])){
+                    $packVal = $cntrctSpecItem['value'] . ": \n";
+                    $iblocks .= $packVal;
+                }
+     
 
                 // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $packVal);
 
@@ -617,13 +678,13 @@ class SupplyController extends Controller
                 $iblocks .= $cntrctSpecItem['value'] . "\n";
             }
         }
-        if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
-            $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
-        } else {
+        // if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
+        //     $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
+        // } else {
             $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
 
             // $formattedValueIblocks = $iblocks;
-        }
+        // }
         $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
         foreach ($contractSpecification as $cntrctSpecItem) {
             $value = '';
