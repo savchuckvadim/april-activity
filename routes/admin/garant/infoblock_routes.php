@@ -62,7 +62,7 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('infogroup/{infogroupId}/relation', [InfoGroupController::class, 'initRelations']);
 
-    // Route::post('complect/{complectId}/relation', [ComplectController::class, 'storeRelations']);
+    Route::post('infogroup/{infogroupId}/relation', [InfoGroupController::class, 'storeRelations']);
 
 
 

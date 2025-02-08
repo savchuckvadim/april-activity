@@ -219,4 +219,44 @@ class InfoGroupController extends Controller
             );
         }
     }
+
+    public function storeRelations(Request $request, int $infogroupId)
+    {
+        try {
+            // Находим комплект
+            $infogroup = InfoGroup::with('infoblocks')->find($infogroupId);
+
+            if (!$infogroup) {
+                return APIController::getError('infogroup was not found', ['infogroupId' => $infogroupId]);
+            }
+            $relationGroups = $request->groups;
+            $relationInfoblock = [];
+            foreach ($relationGroups as $group) {
+                if ($group['apiName'] == 'infoblock') {
+                    foreach ($group['fields'] as $field) {
+                        $infoblock = Infoblock::find($field['id']);
+
+                        if ($field['value']) {
+
+                            array_push($relationInfoblock, $field);
+                            $infogroup->infoblocks()->save($infoblock);  // Для hasMany связи в InfoGroup
+
+                        } else {
+                            $infoblock->group()->dissociate();  // Удаляем связь с группой
+                            $infoblock->save();
+                        }
+                    }
+                }
+            }
+
+            return APIController::getSuccess([
+                'result' => [
+                    'infogroupId' => $infogroupId,
+                    'relationInfoblock' => $relationInfoblock,
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['infogroupId' => $infogroupId]);
+        }
+    }
 }
