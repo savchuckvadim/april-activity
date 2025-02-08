@@ -86,7 +86,7 @@ class InfoGroupController extends Controller
                 'code' => 'required|string',
                 'type' => 'required|string',
                 'description' => 'nullable|string',
-                'number' => 'required|integer',
+                'number' => 'required|numeric',
                 'descriptionForSale' => 'nullable|string',
                 'shortDescription' => 'nullable|string',
                 'productType' => 'required|string',
