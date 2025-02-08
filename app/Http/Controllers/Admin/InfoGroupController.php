@@ -120,4 +120,33 @@ class InfoGroupController extends Controller
             );
         }
     }
+
+    public static function get($infoGroupId)
+    {
+        try {
+
+            $infogroup = InfoGroup::find($infoGroupId);
+
+
+            if (!$infogroup) {
+                return response([
+                    'resultCode' => 1,
+                    'infoGroupId' => $infoGroupId,
+                    'message' => 'infoGroup not found'
+                ]);
+            }
+
+            return APIController::getResponse(
+                0,
+                'success',
+                ['infogroup' => $infogroup]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
 }
