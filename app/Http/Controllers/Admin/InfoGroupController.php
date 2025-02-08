@@ -190,12 +190,12 @@ class InfoGroupController extends Controller
                 );
             }
             $relation = [
-                'apiName' => 'infoblock',
+                'apiName' => 'infogroup',
                 'title' => 'Группа инфоблоков',
                 'entityType' => 'entity',
                 'groups' => [
                     [
-                        'groupName' => 'Группа инфоблоков',
+                        'groupName' => 'Инфоблоки',
                         'apiName' => 'infoblock',
                         'entityType' => 'group',
                         'isCanAddField' => true,
