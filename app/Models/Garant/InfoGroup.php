@@ -24,9 +24,9 @@ class InfoGroup extends Model
 
     public function infoblocks()
     {
-        return $this->belongsToMany(Infoblock::class, 'infoblock_info_group');
+        return $this->hasMany(Infoblock::class, 'group_id');
     }
-
+    
     public static function getForm()
     {
 

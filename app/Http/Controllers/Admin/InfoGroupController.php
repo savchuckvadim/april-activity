@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
+use App\Models\Garant\Infoblock;
 use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 
@@ -146,6 +147,75 @@ class InfoGroupController extends Controller
                 1,
                 $th->getMessage(),
                 null
+            );
+        }
+    }
+
+    public static function initRelations($infogroupId)
+    {
+        try {
+            // Находим InfoGroup
+            $infogroup = InfoGroup::with('infoblocks')->find($infogroupId);
+
+            if (!$infogroup) {
+                return APIController::getError('infogroup was not found', ['infogroupId' => $infogroupId]);
+            }
+
+            // Получаем **все** инфоблоки
+            $infoblocks = Infoblock::all();
+
+            // Получаем **связанные** инфоблоки (ID-шники)
+            $linkedInfoblockIds = $infogroup->infoblocks->pluck('id')->toArray();
+
+            // Формируем массив полей для фронта
+            $iblockFields = [];
+            foreach ($infoblocks as $key => $infoblock) {
+                array_push(
+                    $iblockFields,
+                    [
+                        'id' => $infoblock->id,
+                        'title' => $infoblock->name,
+                        'entityType' => 'infoblock',
+                        'name' => $infoblock->code,
+                        'apiName' => $infoblock->id,
+                        'type' => 'boolean',
+                        'validation' => 'required|max:255',
+                        'initialValue' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+
+                        'isCanAddField' => false,
+                        'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
+                        'isLinked' => in_array($infoblock->id, $linkedInfoblockIds), // ✅ Помечаем, связан ли инфоблок
+                    ]
+                );
+            }
+            $relation = [
+                'apiName' => 'infogroup',
+                'title' => 'Группа инфоблоков',
+                'entityType' => 'entity',
+                'groups' => [
+                    [
+                        'groupName' => 'Группа инфоблоков',
+                        'apiName' => 'infogroup',
+                        'entityType' => 'group',
+                        'isCanAddField' => true,
+                        'isCanDeleteField' => true,
+                        'fields' =>  $iblockFields,
+
+                        'relations' => [],
+
+                    ]
+                ]
+            ];
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+                'infogroup' =>  $infogroup,
+                'relation' => $relation,
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['infogroupId' => $infogroupId]
             );
         }
     }

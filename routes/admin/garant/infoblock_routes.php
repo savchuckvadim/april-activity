@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\Route;
 
     ///INFOBLOCKS
 
-    Route::post('infogroups', function (Request $request) {
-        $infogroups  = $request->input('infogroups');
-
-        return InfoGroupController::setInfoGroups($infogroups);
-    });
-
     Route::post('infoblocks', function (Request $request) {
         $infoblocks  = $request->input('infoblocks');
         return InfoblockController::setInfoBlocks($infoblocks);
@@ -41,7 +35,16 @@ use Illuminate\Support\Facades\Route;
     Route::get('infoblock/{infoblockId}', function ($infoblockId) {
         return InfoblockController::getInfoblock($infoblockId);
     });
+
+
     //INFO GROUP
+    
+    Route::post('infogroups', function (Request $request) {
+        $infogroups  = $request->input('infogroups');
+
+        return InfoGroupController::setInfoGroups($infogroups);
+    });
+
     Route::get('initial/infogroup', [InfoGroupController::class, 'getInitial']);
     Route::post('infogroup', [InfoGroupController::class, 'store']);
     Route::post('infogroup/{infogroupId}', [InfoGroupController::class, 'store']);
@@ -57,6 +60,9 @@ use Illuminate\Support\Facades\Route;
         return InfoGroupController::get($infogroupId);
     });
 
+    Route::get('infogroup/{infogroupId}/relation', [InfoGroupController::class, 'initRelations']);
+
+    // Route::post('complect/{complectId}/relation', [ComplectController::class, 'storeRelations']);
 
 
 

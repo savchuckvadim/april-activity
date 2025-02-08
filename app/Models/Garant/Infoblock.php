@@ -14,11 +14,12 @@ class Infoblock extends Model
         return $this->belongsToMany(Complect::class, 'complect_infoblock');
     }
 
-    public function groups()
+    // Отношение: Инфоблок принадлежит одной группе
+    public function group()
     {
-        return $this->belongsToMany(InfoGroup::class, 'infoblock_info_group');
+        return $this->belongsTo(InfoGroup::class, 'group_id');
     }
-    
+
     protected $fillable = [
         'number',
         'name',
@@ -100,8 +101,8 @@ class Infoblock extends Model
                         'isCanAddField' => false,
 
                     ],
-              
-                    
+
+
                     [
                         'title' => 'description',
                         'entityType' => 'infoblock',
@@ -218,7 +219,7 @@ class Infoblock extends Model
                         'isCanAddField' => false,
 
                     ],
-                   
+
                 ],
                 'relations' => [],
             ]]

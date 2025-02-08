@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('relation_id')->nullable()->constrained('infoblocks');
             $table->foreignId('related_id')->nullable()->constrained('infoblocks'); // Связанный инфоблок
             $table->foreignId('excluded_id')->nullable()->constrained('infoblocks'); // Исключённый инфоблок
-            $table->foreignId('group_id')->nullable()->constrained('info_groups'); // Исключённый инфоблок
+            $table->foreignId('group_id')->nullable()->constrained('info_groups'); // группа
 
             $table->boolean('isProduct')->nullable(); // Исключённый инфоблок
             $table->boolean('isPackage')->nullable();// Исключённый инфоблок
