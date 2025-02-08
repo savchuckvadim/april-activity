@@ -253,6 +253,7 @@ class InfoGroupController extends Controller
                 'result' => [
                     'infogroupId' => $infogroupId,
                     'relationInfoblock' => $relationInfoblock,
+                    'infoblocks' =>  $infogroup->infoblocks
                 ]
             ]);
         } catch (\Throwable $th) {
