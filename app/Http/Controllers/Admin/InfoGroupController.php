@@ -268,13 +268,17 @@ class InfoGroupController extends Controller
                         $infoblock = Infoblock::find($field['id']);
 
                         if ($field['value']) {
-
                             array_push($relationInfoblock, $field);
-                            $infogroup->infoblocks()->save($infoblock);  // Для hasMany связи в InfoGroup
-
-                        } else {
-                            $infoblock->group()->dissociate();  // Удаляем связь с группой
+                            
+                            // Привязка инфоблока к группе
+                            $infoblock->group_id = $infogroup->id;
                             $infoblock->save();
+                        } else {
+                            // Удаление связи с группой
+                            if ($infoblock->group_id == $infogroup->id) {
+                                $infoblock->group_id = null;
+                                $infoblock->save();
+                            }
                         }
                     }
                 }
