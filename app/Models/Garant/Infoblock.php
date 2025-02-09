@@ -9,10 +9,20 @@ class Infoblock extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'number', 'name', 'title', 'description', 
-        'descriptionForSale', 'shortDescription', 
-        'weight', 'code', 'isLa', 'isFree', 
-        'isShowing', 'isSet', 'isProduct', 'isPackage'  
+        'number',
+        'name',
+        'title',
+        'description',
+        'descriptionForSale',
+        'shortDescription',
+        'weight',
+        'code',
+        'isLa',
+        'isFree',
+        'isShowing',
+        'isSet',
+        'isProduct',
+        'isPackage'
     ];
 
     public function complects()
@@ -26,17 +36,17 @@ class Infoblock extends Model
         return $this->belongsTo(InfoGroup::class, 'group_id');
     }
 
-      /**
+    /**
      * Получение родительского инфоблока (если есть).
      */
-    public function parentPackage()
+    public function parentPackages()
     {
-        return $this->belongsTo(Infoblock::class, 'parent_id');
+        return $this->belongsToMany(Infoblock::class, 'infoblock_package', 'infoblock_id', 'package_id');
     }
 
     public function inPackage()
     {
-        return $this->hasMany(Infoblock::class, 'parent_id');
+        return $this->belongsToMany(Infoblock::class, 'infoblock_package', 'package_id', 'infoblock_id');
     }
 
     /**
@@ -46,7 +56,7 @@ class Infoblock extends Model
     // {
     //     return $this->belongsTo(Infoblock::class, 'parent_id')->where('isPackage', true);
     // }
- 
+
 
     public static function getForm()
     {
