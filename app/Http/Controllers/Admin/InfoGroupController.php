@@ -109,7 +109,7 @@ class InfoGroupController extends Controller
 
 
             return APIController::getSuccess(
-                $infogroup
+               ['infogroup' => $infogroup]
 
             );
         } catch (\Throwable $th) {
