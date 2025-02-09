@@ -151,6 +151,37 @@ class InfoGroupController extends Controller
         }
     }
 
+    public static function delete($infoGroupId)
+    {
+        try {
+
+            $infogroup = InfoGroup::find($infoGroupId);
+
+
+            if (!$infogroup) {
+                return response([
+                    'resultCode' => 1,
+                    'infoGroupId' => $infoGroupId,
+                    'message' => 'infoGroup not found'
+                ]);
+            }
+            $infogroup->delete();
+            $infogroup = InfoGroup::find($infoGroupId);
+
+            return APIController::getResponse(
+                0,
+                'success infogroup was successfully deleted',
+                ['infogroup' => $infogroup]
+            );
+        } catch (\Throwable $th) {
+            return APIController::getResponse(
+                1,
+                $th->getMessage(),
+                null
+            );
+        }
+    }
+
     public static function initRelations($infogroupId)
     {
         try {

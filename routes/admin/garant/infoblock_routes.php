@@ -66,6 +66,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('infogroup/{infogroupId}', function ($infogroupId) {
         return InfoGroupController::get($infogroupId);
     });
+    Route::delete('infogroup/{infogroupId}', [InfoGroupController::class, 'delete']);
 
     Route::get('infogroup/{infogroupId}/relation', [InfoGroupController::class, 'initRelations']);
 
