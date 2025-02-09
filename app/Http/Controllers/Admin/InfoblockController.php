@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\Garant\Infoblock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class InfoblockController extends Controller
 {
@@ -104,37 +105,52 @@ class InfoblockController extends Controller
 
 
         try {
+            // Преобразуем строковые значения в булевые перед валидацией
+            $request->merge([
+                'isLa' => filter_var($request->input('isLa'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isFree' => filter_var($request->input('isFree'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isShowing' => filter_var($request->input('isShowing'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isSet' => filter_var($request->input('isSet'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isProduct' => filter_var($request->input('isProduct'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isPackage' => filter_var($request->input('isPackage'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            ]);
+            // Валидация данных
+            $validatedData = Validator::make($request->all(), [
+                'number' => 'required|integer',
+                'name' => 'required|string',
+                'title' => 'nullable|string',
+                'description' => 'nullable|string',
+                'descriptionForSale' => 'nullable|string',
+                'shortDescription' => 'nullable|string',
+                'weight' => 'required|string',
+                'code' => 'required|string',
+                'isLa' => 'required|boolean',
+                'isFree' => 'required|boolean',
+                'isShowing' => 'required|boolean',
+                'isSet' => 'required|boolean',
+                'isProduct' => 'nullable|boolean',
+                'isPackage' => 'nullable|boolean',
+            ]);
+
+            if ($validatedData->fails()) {
+                return APIController::getError('Validation failed', $validatedData->errors());
+            }
+
             $infoblock = Infoblock::find($infoblockId);
 
             if ($infoblock) {
-                $block = $request;
-                $title = $block['title'];
-                if ($block['title'] === 'null') {
-                    $title = null;
-                }
-                $data = [
-                    'number' => $block['number'],
-                    'name' => $block['name'],
-                    'title' => $block['title'],
-                    'description' => $block['description'],
-                    'descriptionForSale' => $block['descriptionForSale'],
-                    'shortDescription' => $block['shortDescription'],
-                    'weight' => $block['weight'],
-                    'code' => $block['code'],
-                    'inGroupId' => $block['inGroupId'],
-                    'groupId' => $block['groupId'],
-                    'isLa' => $block['isLa'],
-                    'isFree' => $block['isFree'],
-                    'isShowing' => $block['isShowing'],
-                    'isSet' => $block['isSet'],
-                ];
+                $data = $validatedData->validated();
 
+                // Обработка значения 'null' для поля title
+                if ($request->input('title') === 'null') {
+                    $data['title'] = null;
+                }
 
                 $infoblock->update($data);
+
                 return APIController::getSuccess(['infoblock' => $infoblock]);
             } else {
-
-                return APIController::getError('infoblock was not found', ['infoblockId' => $infoblockId]);
+                return APIController::getError('Infoblock was not found', ['infoblockId' => $infoblockId]);
             }
         } catch (\Throwable $th) {
             return APIController::getError(
