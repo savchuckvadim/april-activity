@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Infoblock extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'number', 'name', 'title', 'description', 
+        'descriptionForSale', 'shortDescription', 
+        'weight', 'code', 'isLa', 'isFree', 
+        'isShowing', 'isSet', 'isProduct', 'isPackage'  
+    ];
 
     public function complects()
     {
@@ -40,22 +46,7 @@ class Infoblock extends Model
     // {
     //     return $this->belongsTo(Infoblock::class, 'parent_id')->where('isPackage', true);
     // }
-    protected $fillable = [
-        'number',
-        'name',
-        'code',
-        'title',
-        'description',
-        'descriptionForSale',
-        'shortDescription',
-        'weight',
-        'inGroupId',
-        'groupId',
-        'isLa',
-        'isFree',
-        'isShowing',
-        'isSet',
-    ];
+ 
 
     public static function getForm()
     {

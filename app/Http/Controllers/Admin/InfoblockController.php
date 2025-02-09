@@ -107,12 +107,12 @@ class InfoblockController extends Controller
         try {
             // Преобразуем строковые значения в булевые перед валидацией
             $request->merge([
-                'isLa' => filter_var($request->input('isLa'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isFree' => filter_var($request->input('isFree'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isShowing' => filter_var($request->input('isShowing'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isSet' => filter_var($request->input('isSet'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isProduct' => filter_var($request->input('isProduct'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
-                'isPackage' => filter_var($request->input('isPackage'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'isLa' => in_array($request->input('isLa'), ['true', '1', 1, true], true),
+                'isFree' => in_array($request->input('isFree'), ['true', '1', 1, true], true),
+                'isShowing' => in_array($request->input('isShowing'), ['true', '1', 1, true], true),
+                'isSet' => in_array($request->input('isSet'), ['true', '1', 1, true], true),
+                'isProduct' => in_array($request->input('isProduct'), ['true', '1', 1, true], true),
+                'isPackage' => in_array($request->input('isPackage'), ['true', '1', 1, true], true),
             ]);
             // Валидация данных
             $validatedData = Validator::make($request->all(), [
