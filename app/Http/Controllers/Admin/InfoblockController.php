@@ -280,27 +280,24 @@ class InfoblockController extends Controller
             $inPackageIds = $infoblock->inPackage->pluck('id')->toArray();
 
             // Формируем массив полей для фронта инфоблоки в пакете
-            $inPackageFields = [];
-            foreach ($infoblocks as $key => $infoblock) {
-                array_push(
-                    $inPackageFields,
-                    [
-                        'id' => $infoblock->id,
-                        'title' => $infoblock->name,
-                        'entityType' => 'inPackage',
-                        'name' => $infoblock->code,
-                        'apiName' => $infoblock->id,
-                        'type' => 'boolean',
-                        'validation' => 'required|max:255',
-                        'initialValue' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
-                        'value' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
-
-                        'isCanAddField' => false,
-                        'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
-                        'isLinked' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
-                    ]
-                );
-            }
+            $inPackageFields = $infoblocks->map(function ($block) use ($inPackageIds) {
+                $isLinked = in_array($block->id, $inPackageIds);
+                return [
+                    'id' => $block->id,
+                    'title' => $block->name,
+                    'entityType' => 'inPackage',
+                    'name' => $block->code,
+                    'apiName' => $block->id,
+                    'type' => 'boolean',
+                    'validation' => 'required|max:255',
+                    'initialValue' => $isLinked,  // Отмечаем, связан ли инфоблок
+                    'value' => $isLinked,
+                    'isCanAddField' => false,
+                    'isRequired' => true,
+                    'isLinked' => $isLinked
+                ];
+            });
+         
             $relation = [
                 'apiName' => 'infoblock',
                 'title' => 'инфоблок',
