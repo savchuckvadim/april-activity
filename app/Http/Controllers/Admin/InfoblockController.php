@@ -342,23 +342,20 @@ class InfoblockController extends Controller
             $relationInfoblock = [];
             foreach ($relationGroups as $group) {
                 if ($group['apiName'] == 'inPackage') {
+                    $attachIds = [];
                     foreach ($group['fields'] as $field) {
-                        $childrenInfoblock = Infoblock::find($field['id']);
-
                         if ($field['value']) {
-
                             array_push($relationInfoblock, $field);
-                            // Привязка дочернего инфоблока к пакету
-                            $childrenInfoblock->parentPackage()->associate($infoblock);
-                            $childrenInfoblock->save();
-                        } else {
-                            // Удаление дочернего инфоблока из пакета
-                            $childrenInfoblock->parentPackage()->dissociate();
-                            $childrenInfoblock->save();
+                            $attachIds[] = $field['id'];
                         }
                     }
+
+                    // Сохраняем связи (удаляет старые и добавляет новые)
+                    $infoblock->inPackage()->sync($attachIds);
                 }
             }
+
+
             $infoblock = Infoblock::with('inPackage')->find($infoblockId);
 
             return APIController::getSuccess([
