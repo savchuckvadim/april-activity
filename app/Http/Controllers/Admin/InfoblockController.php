@@ -109,9 +109,8 @@ class InfoblockController extends Controller
             if ($infoblock) {
                 $block = $request;
                 $title = $block['title'];
-                if($block['title'] === 'null'){
+                if ($block['title'] === 'null') {
                     $title = null;
-
                 }
                 $data = [
                     'number' => $block['number'],
@@ -156,23 +155,23 @@ class InfoblockController extends Controller
                 $isShowing = false;
                 $isSet = false;
 
-                if(isset($request['isLa'])){
-                    if($request['isLa'] == 'true' || $request['isLa'] == '1'){
+                if (isset($request['isLa'])) {
+                    if ($request['isLa'] == 'true' || $request['isLa'] == '1') {
                         $isLa = true;
                     }
                 }
-                if(isset($request['isFree'])){
-                    if($request['isFree'] == 'true' || $request['isFree'] == '1'){
+                if (isset($request['isFree'])) {
+                    if ($request['isFree'] == 'true' || $request['isFree'] == '1') {
                         $isFree = true;
                     }
                 }
-                if(isset($request['isShowing'])){
-                    if($request['isShowing'] == 'true' || $request['isShowing'] == '1'){
+                if (isset($request['isShowing'])) {
+                    if ($request['isShowing'] == 'true' || $request['isShowing'] == '1') {
                         $isShowing = true;
                     }
                 }
-                if(isset($request['isSet'])){
-                    if($request['isSet'] == 'true' || $request['isSet'] == '1'){
+                if (isset($request['isSet'])) {
+                    if ($request['isSet'] == 'true' || $request['isSet'] == '1') {
                         $isSet = true;
                     }
                 }
@@ -246,5 +245,118 @@ class InfoblockController extends Controller
             'resultCode' => 0,
             'infoblocks' => $result
         ]);
+    }
+
+    public static function initRelations($infoblockId)
+    {
+        try {
+            // Находим InfoGroup
+            $infoblock = Infoblock::with('inPackage')->find($infoblockId);
+
+            if (!$infoblock) {
+                return APIController::getError('infoblock was not found', ['infoblockId' => $infoblockId]);
+            }
+
+            // Получаем **все** инфоблоки
+            $infoblocks = Infoblock::all();
+
+            // Получаем **связанные** инфоблоки (ID-шники)
+            $inPackageIds = $infoblock->inPackage->pluck('id')->toArray();
+
+            // Формируем массив полей для фронта инфоблоки в пакете
+            $inPackageFields = [];
+            foreach ($infoblocks as $key => $infoblock) {
+                array_push(
+                    $inPackageFields,
+                    [
+                        'id' => $infoblock->id,
+                        'title' => $infoblock->name,
+                        'entityType' => 'inPackage',
+                        'name' => $infoblock->code,
+                        'apiName' => $infoblock->id,
+                        'type' => 'boolean',
+                        'validation' => 'required|max:255',
+                        'initialValue' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
+                        'value' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
+
+                        'isCanAddField' => false,
+                        'isRequired' => true, // хотя бы одно поле в шаблоне должно быть
+                        'isLinked' => in_array($infoblock->id, $inPackageIds), // ✅ Помечаем, связан ли инфоблок
+                    ]
+                );
+            }
+            $relation = [
+                'apiName' => 'infoblock',
+                'title' => 'инфоблок',
+                'entityType' => 'entity',
+                'groups' => [
+                    [
+                        'groupName' => 'инфоблок в пакете',
+                        'apiName' => 'inPackage',
+                        'entityType' => 'group',
+                        'isCanAddField' => true,
+                        'isCanDeleteField' => true,
+                        'fields' =>  $inPackageFields,
+
+                        'relations' => [],
+
+                    ]
+                ]
+            ];
+            // Отправляем данные на фронт
+            return APIController::getSuccess([
+                'infoblock' =>  $infoblock,
+                'relation' => $relation,
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError(
+                $th->getMessage(),
+                ['infoblockId' => $infoblockId]
+            );
+        }
+    }
+
+    public function storeRelations(Request $request, int $infoblockId)
+    {
+        try {
+            // Находим Infoblock
+            $infoblock = Infoblock::with('inPackage')->find($infoblockId);
+
+            if (!$infoblock) {
+                return APIController::getError('infoblock was not found', ['infoblockId' => $infoblockId]);
+            }
+            $relationGroups = $request->groups;
+            $relationInfoblock = [];
+            foreach ($relationGroups as $group) {
+                if ($group['apiName'] == 'inPackage') {
+                    foreach ($group['fields'] as $field) {
+                        $childrenInfoblock = Infoblock::find($field['id']);
+
+                        if ($field['value']) {
+
+                            array_push($relationInfoblock, $field);
+                            // Привязка дочернего инфоблока к пакету
+                            $childrenInfoblock->parentPackage()->associate($infoblock);
+                            $childrenInfoblock->save();
+                        } else {
+                            // Удаление дочернего инфоблока из пакета
+                            $childrenInfoblock->parentPackage()->dissociate();
+                            $childrenInfoblock->save();
+                        }
+                    }
+                }
+            }
+            $infoblock = Infoblock::with('inPackage')->find($infoblockId);
+
+            return APIController::getSuccess([
+                'result' => [
+                    'infoblockId' => $infoblockId,
+                    'relationInfoblock' => $relationInfoblock,
+                    'inPackage' =>  $infoblock->inPackage
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            return APIController::getError($th->getMessage(), ['infoblockId' => $infoblockId]);
+        }
     }
 }

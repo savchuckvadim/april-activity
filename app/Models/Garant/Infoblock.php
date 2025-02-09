@@ -20,6 +20,26 @@ class Infoblock extends Model
         return $this->belongsTo(InfoGroup::class, 'group_id');
     }
 
+      /**
+     * Получение родительского инфоблока (если есть).
+     */
+    public function parentPackage()
+    {
+        return $this->belongsTo(Infoblock::class, 'parent_id');
+    }
+
+    public function inPackage()
+    {
+        return $this->hasMany(Infoblock::class, 'parent_id');
+    }
+
+    /**
+     * Пакеты (если инфоблок является частью пакета).
+     */
+    // public function package()
+    // {
+    //     return $this->belongsTo(Infoblock::class, 'parent_id')->where('isPackage', true);
+    // }
     protected $fillable = [
         'number',
         'name',

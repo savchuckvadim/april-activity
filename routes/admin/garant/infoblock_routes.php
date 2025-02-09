@@ -37,6 +37,13 @@ use Illuminate\Support\Facades\Route;
     });
 
 
+    //INFOBLOCK RECURSIVE RELATIONS
+    Route::get('infoblock/{infoblockId}/relation', [InfoblockController::class, 'initRelations']);
+
+    Route::post('infoblock/{infoblockId}/relation', [InfoblockController::class, 'storeRelations']);
+
+
+
     //INFO GROUP
     
     Route::post('infogroups', function (Request $request) {
