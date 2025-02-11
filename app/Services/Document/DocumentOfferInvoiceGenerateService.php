@@ -75,13 +75,13 @@ class DocumentOfferInvoiceGenerateService
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
-            // foreach ($group['infoblocks'] as $iblock) {
-            //     if (is_object($iblock)) {
-            //         $iblock = (array) $iblock;
-            //     }
-            //     ALogController::push('iblock', $iblock);
+            foreach ($group['infoblocks'] as $iblock) {
+                if (is_object($iblock)) {
+                    $iblock = (array) $iblock;
+                }
+                ALogController::push('iblock', $iblock);
 
-            // }
+            }
             // Устанавливаем имя группы
             $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
 
