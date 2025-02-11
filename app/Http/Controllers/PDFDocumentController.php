@@ -954,6 +954,39 @@ class PDFDocumentController extends Controller
 
         return $result;
     }
+    protected function determineItemsPerPage($descriptionMode, $styleMode)
+    {
+        $itemsPerPage = 20;
+
+        if ($styleMode === 'list') {
+
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
+                $itemsPerPage = 32;
+            } else if ($descriptionMode === 1) {
+                $itemsPerPage = 10;
+            } else if ($descriptionMode === 2) {
+                $itemsPerPage = 8;
+            }
+        } else if ($styleMode === 'table') {
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
+                $itemsPerPage = 60;
+            } else if ($descriptionMode === 1) {
+                $itemsPerPage = 16;
+            } else  if ($descriptionMode === 2) {
+                $itemsPerPage = 8;
+            }
+        } else {
+            if ($descriptionMode === 0 || $descriptionMode === 3) {
+                $itemsPerPage = 24;
+            } else if ($descriptionMode === 1) {
+                $itemsPerPage = 9;
+            } else if ($descriptionMode === 2) {
+                $itemsPerPage = 8;
+            }
+        }
+
+        return $itemsPerPage;
+    }
 
     protected function getBigDescriptionData($complect, $complectName)
     {
