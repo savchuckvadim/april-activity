@@ -302,7 +302,10 @@ class DocumentInfoblocksDataService
                         }
                     }
                     if ($infoblockData) {
-                        $groupItems[] = $infoblockData;
+                        $iblock = $infoblockData;
+                        $iblock['infoblock_title'] = $infoblockData['name'];
+                        $iblock['infoblock_description'] = $infoblockData['descriptionForSale'];
+                        $groupItems[] = $iblock;
                     }
                 }
                 $resultGroup = $group;
