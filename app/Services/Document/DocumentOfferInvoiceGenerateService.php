@@ -86,7 +86,7 @@ class DocumentOfferInvoiceGenerateService
             $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
 
             // Клонируем инфоблоки внутри группы
-            $templateProcessor->cloneRow("infoblock_title#{$groupNumber}", count($group['infoblocks']));
+            $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
         
             foreach ($group['infoblocks'] as $infoblockIndex => $infoblock) {
                 if (is_object($infoblock)) {
