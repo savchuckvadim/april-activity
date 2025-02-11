@@ -387,7 +387,7 @@ class DocumentOfferDataService
     }
     protected function getLetterText($fields)
     {
-        $this->letterText = '';
+        $letterText = '';
         foreach ($fields as $field) {
             if ($field && $field['code']) {
                 if (
