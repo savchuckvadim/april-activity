@@ -112,7 +112,7 @@ class DocumentOfferInvoiceGenerateService
 
 
 
-        $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
+        $fullOutputFilePath = $outputFilePath . $outputFileName;
         $templateProcessor->saveAs($fullOutputFilePath);
    
         return ['file' => $fullOutputFilePath];
