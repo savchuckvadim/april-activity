@@ -39,34 +39,35 @@ class DocumentOfferInvoiceGenerateService
         // ]
         //         ${infoblock_group}
         // ${infoblock_title} - ${infoblock_description}
-        $groups = [
-            [
-                'groupName' => 'name1',
-                'infoblocks' => [
-                    [
-                        'title' => '',
-                        'description' => ''
-                    ],
-                    [
-                        'title' => '',
-                        'description' => ''
-                    ],
-                ]
-            ],
-            [
-                'groupName' => 'name2',
-                'infoblocks' => [
-                    [
-                        'title' => '',
-                        'description' => ''
-                    ],
-                    [
-                        'title' => '',
-                        'description' => ''
-                    ],
-                ]
-            ]
-        ];
+        // $groups = [
+        //     [
+        //         'groupName' => 'name1',
+        //         'infoblocks' => [
+        //             [
+        //                 'title' => '',
+        //                 'description' => ''
+        //             ],
+        //             [
+        //                 'title' => '',
+        //                 'description' => ''
+        //             ],
+        //         ]
+        //     ],
+        //     [
+        //         'groupName' => 'name2',
+        //         'infoblocks' => [
+        //             [
+        //                 'title' => '',
+        //                 'description' => ''
+        //             ],
+        //             [
+        //                 'title' => '',
+        //                 'description' => ''
+        //             ],
+        //         ]
+        //     ]
+        // ];
+        $groups = $data['infoblock']['infoblocks'];
         // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         // $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
         $templateProcessor->cloneRow('infoblock_group', count($groups));
