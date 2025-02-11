@@ -75,7 +75,10 @@ class DocumentOfferInvoiceGenerateService
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
-            ALogController::push($group['groupsName'], $group['infoblocks']);
+            foreach ($group['infoblocks'] as $iblock) {
+                ALogController::push('iblock', $iblock);
+
+            }
             // Устанавливаем имя группы
             $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupsName']);
         
