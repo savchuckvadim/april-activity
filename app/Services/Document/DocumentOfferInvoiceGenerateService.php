@@ -75,25 +75,28 @@ class DocumentOfferInvoiceGenerateService
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
-            foreach ($group['infoblocks'] as $iblock) {
-                ALogController::push('iblock', $iblock);
+            // foreach ($group['infoblocks'] as $iblock) {
+            //     if (is_object($iblock)) {
+            //         $iblock = (array) $iblock;
+            //     }
+            //     ALogController::push('iblock', $iblock);
 
-            }
-            // Устанавливаем имя группы
-            $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupsName']);
-        
-            $templateProcessor->cloneRowAndSetValues('infoblock_title', $group['infoblocks']);
-
-            // Клонируем элементы внутри группы (убрал индекс, если он не нужен)
-            // $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
-        
-            // foreach ($group['infoblocks'] as $itemIndex => $item) {
-            //     $itemNumber = $itemIndex + 1;
-        
-            //     // Устанавливаем значения для каждого элемента в группе
-            //     $templateProcessor->setValue("infoblock_title#{$itemNumber}", $item['title']);
-            //     $templateProcessor->setValue("infoblock_description#{$itemNumber}", $item['description']);
             // }
+            // Устанавливаем имя группы
+            $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
+
+            // Клонируем инфоблоки внутри группы
+            $templateProcessor->cloneRow("infoblock_title#{$groupNumber}", count($group['infoblocks']));
+        
+            foreach ($group['infoblocks'] as $infoblockIndex => $infoblock) {
+                if (is_object($infoblock)) {
+                    $infoblock = (array) $infoblock;
+                }
+                $infoblockNumber = $infoblockIndex + 1;
+        
+                // $templateProcessor->setValue("infoblock_title#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_title']);
+                // $templateProcessor->setValue("infoblock_description#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_description']);
+            }
         }
         
         // Сохраняем итоговый документ
