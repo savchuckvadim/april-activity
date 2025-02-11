@@ -42,7 +42,7 @@ class DocumentOfferInvoiceGenerateService
         $groups = [
             [
                 'groupName' => 'name1',
-                'items' => [
+                'infoblocks' => [
                     [
                         'title' => '',
                         'description' => ''
@@ -55,7 +55,7 @@ class DocumentOfferInvoiceGenerateService
             ],
             [
                 'groupName' => 'name2',
-                'items' => [
+                'infoblocks' => [
                     [
                         'title' => '',
                         'description' => ''
@@ -69,27 +69,26 @@ class DocumentOfferInvoiceGenerateService
         ];
         // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         // $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
-        // Клонируем группы
         $templateProcessor->cloneRow('infoblock_group', count($groups));
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
-
+        
             // Устанавливаем имя группы
             $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupName']);
-
-            // Клонируем элементы внутри группы
-            $templateProcessor->cloneRow("infoblock_title#{$groupNumber}", count($group['items']));
-
-            foreach ($group['items'] as $itemIndex => $item) {
+        
+            // Клонируем элементы внутри группы (убрал индекс, если он не нужен)
+            $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
+        
+            foreach ($group['infoblocks'] as $itemIndex => $item) {
                 $itemNumber = $itemIndex + 1;
-
+        
                 // Устанавливаем значения для каждого элемента в группе
-                $templateProcessor->setValue("infoblock_title#{$groupNumber}_{$itemNumber}", $item['title']);
-                $templateProcessor->setValue("infoblock_description#{$groupNumber}_{$itemNumber}", $item['description']);
+                $templateProcessor->setValue("infoblock_title#{$itemNumber}", $item['title']);
+                $templateProcessor->setValue("infoblock_description#{$itemNumber}", $item['description']);
             }
         }
-
+        
         // Сохраняем итоговый документ
         $hash = md5(uniqid(mt_rand(), true));
         $outputFileName = 'offer_result.docx';
