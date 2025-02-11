@@ -418,8 +418,11 @@ class SupplyController extends Controller
 
         $filePath = 'app/public/konstructor/templates/supply';
 
+        $isNewTemplate = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsr.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
+        $isWhiteTemplate = false;
+
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
-        if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
+        if ($isNewTemplate) {
 
             $fullPath = storage_path($filePath . '/sales_report.docx');
         }
@@ -496,7 +499,7 @@ class SupplyController extends Controller
                 'complect_hdd' => $complect_hdd
             ]);
         }
-        if ($domain !== 'april-dev.bitrix24.ru' && $domain !== 'april-garant.bitrix24.ru') {
+        if (!$isNewTemplate) {
             $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         } else {
             $currentClientType = 'org';
@@ -820,7 +823,7 @@ class SupplyController extends Controller
 
         //to pdf
         $hook = BitrixController::getHook($domain);
-        if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
+        if ($isNewTemplate) {
             // Добавляем переменную окружения для LibreOffice
             dispatch(new ConvertPDFLibre(
                 $domain,
