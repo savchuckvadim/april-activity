@@ -418,7 +418,7 @@ class SupplyController extends Controller
 
         $filePath = 'app/public/konstructor/templates/supply';
 
-        $isNewTemplate = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsr.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
+        $isNewTemplate = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
         $isWhiteTemplate = false;
 
         $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
