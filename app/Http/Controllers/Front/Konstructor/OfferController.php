@@ -212,7 +212,14 @@ class OfferController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            return APIController::getError($th->getMessage(), ['data' => $data]);
+            $errorData = [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError($th->getMessage(), $errorData);
         }
     }
 
