@@ -71,7 +71,7 @@ class DocumentOfferInvoiceGenerateService
         $groups = $data['infoblock']['infoblocks'];
         // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         // $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
-        $templateProcessor->cloneRow('infoblock_group', count($groups));
+        // $templateProcessor->cloneRow('infoblock_group', count($groups));
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
@@ -83,7 +83,7 @@ class DocumentOfferInvoiceGenerateService
 
             }
             // Устанавливаем имя группы
-            $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
+            // $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
 
             // Клонируем инфоблоки внутри группы
             $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
