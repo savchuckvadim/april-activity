@@ -94,7 +94,7 @@ class DocumentOfferInvoiceGenerateService
         // Сохраняем итоговый документ
         $hash = md5(uniqid(mt_rand(), true));
         $outputFileName = 'offer_result.docx';
-        $outputFilePath = storage_path('app/public/konstructor/result_test/' . $hash);
+        $outputFilePath = storage_path('app/public/konstructor/result_test/');
 
 
 
