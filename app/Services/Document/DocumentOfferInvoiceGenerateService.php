@@ -76,7 +76,7 @@ class DocumentOfferInvoiceGenerateService
             $groupNumber = $groupIndex + 1;
         
             // Устанавливаем имя группы
-            $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupName']);
+            $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupsName']);
         
             // $templateProcessor->cloneRowAndSetValues('infoblock_title', $group['infoblocks']);
 
