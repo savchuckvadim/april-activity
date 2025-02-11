@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Document;
+use App\Http\Controllers\ALogController;
 
 
 class DocumentOfferInvoiceGenerateService
@@ -74,7 +75,7 @@ class DocumentOfferInvoiceGenerateService
 
         foreach ($groups as $groupIndex => $group) {
             $groupNumber = $groupIndex + 1;
-        
+            ALogController::push($group['groupsName'], $group['infoblocks']);
             // Устанавливаем имя группы
             $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupsName']);
         
