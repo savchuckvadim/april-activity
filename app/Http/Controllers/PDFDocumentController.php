@@ -198,10 +198,6 @@ class PDFDocumentController extends Controller
                         $regions = $data['regions'];
                     }
 
-                    if($domain == 'april-dev.bitrix24.ru'){
-
-                        
-                    }
 
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);

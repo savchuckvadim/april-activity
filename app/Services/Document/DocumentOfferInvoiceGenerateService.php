@@ -7,7 +7,6 @@ class DocumentOfferInvoiceGenerateService
 {
 
     public static function getGenerateDocumentFromTemplate(
-        $domain,
         $data
         // $data = [
         //     'infoblock' => $infoblockService->getInfoblocksData(),
@@ -92,7 +91,29 @@ class DocumentOfferInvoiceGenerateService
         }
 
         // Сохраняем итоговый документ
-        $templateProcessor->saveAs('result.docx');
-        return $data;
+        $hash = md5(uniqid(mt_rand(), true));
+        $outputFileName = 'offer_result.docx';
+        $outputFilePath = storage_path('app/public/konstructor/result_test/' . $hash);
+
+
+
+        // Сохраняем файл Word в формате .docx
+     
+
+        if (!file_exists($outputFilePath)) {
+            mkdir($outputFilePath, 0775, true); // Создать каталог с правами доступа
+        }
+
+        // // Проверить доступность каталога для записи
+        if (!is_writable($outputFilePath)) {
+            throw new \Exception("Невозможно записать в каталог: $outputFilePath");
+        }
+
+
+
+        $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
+        $templateProcessor->saveAs($fullOutputFilePath);
+   
+        return ['file' => $fullOutputFilePath];
     }
 }

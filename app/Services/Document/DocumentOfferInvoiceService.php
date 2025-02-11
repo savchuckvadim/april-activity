@@ -5,7 +5,7 @@ namespace App\Services\Document;
 class DocumentOfferInvoiceService
 {
 
-    public static function getDocumentData(
+    public static function getDocument(
         $infoblocksOptions,
         $complectName,
         $productsCount,
@@ -35,32 +35,34 @@ class DocumentOfferInvoiceService
 
     ) {
 
-        $data = DocumentOfferInvoiceDataService::getDocumentData(  $infoblocksOptions,
-        $complectName,
-        $productsCount,
-        $region,
-        $salePhrase,
-        $withStamps,
-        $priceFirst,
-        $regions,
-        $contract,
-        $documentType,
-        $complect,
+        $data = DocumentOfferInvoiceDataService::getDocumentData(
+            $infoblocksOptions,
+            $complectName,
+            $productsCount,
+            $region,
+            $salePhrase,
+            $withStamps,
+            $priceFirst,
+            $regions,
+            $contract,
+            $documentType,
+            $complect,
 
 
 
-        $domain,
-        $providerRq,
-        $isTwoLogo,
-        $manager,
-        $documentNumber,
-        $fields, //template fields
-        $recipient,
+            $domain,
+            $providerRq,
+            $isTwoLogo,
+            $manager,
+            $documentNumber,
+            $fields, //template fields
+            $recipient,
 
 
-        $price,
-        $alternativeSetId);
+            $price,
+            $alternativeSetId
+        );
 
-        return $data;
+       return DocumentOfferInvoiceGenerateService::getGenerateDocumentFromTemplate($data);
     }
 }

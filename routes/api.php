@@ -8,6 +8,7 @@ use App\Http\Controllers\BitrixTelephony;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Front\Konstructor\InfoblockFrontController;
+use App\Http\Controllers\Front\Konstructor\OfferController;
 use App\Http\Controllers\Front\Konstructor\TemplateFrontController;
 use App\Http\Controllers\PDFDocumentController;
 use App\Http\Controllers\PortalController;
@@ -93,7 +94,17 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
         //     'get/document userId' => $data['userId'],
         //     'get/document manager' => $data['manager']['NAME'],
         // ]);
+        if (isset($data['template'])) {
+            if (isset($data['template']['portal'])) {
+                $domain = $data['template']['portal'];
 
+                if($domain == 'april-dev.bitrix24.ru'){
+                    $documentController = new OfferController;
+                    $result = $documentController->getDocument($data);
+                    return $result;
+                }
+            }
+        }
         $documentController = new PDFDocumentController;
         $result = $documentController->getDocument($data);
 
