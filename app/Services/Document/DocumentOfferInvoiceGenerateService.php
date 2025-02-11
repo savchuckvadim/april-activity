@@ -77,16 +77,18 @@ class DocumentOfferInvoiceGenerateService
             // Устанавливаем имя группы
             $templateProcessor->setValue("infoblock_group#{$groupNumber}", $group['groupName']);
         
+            // $templateProcessor->cloneRowAndSetValues('infoblock_title', $group['infoblocks']);
+
             // Клонируем элементы внутри группы (убрал индекс, если он не нужен)
-            $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
+            // $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
         
-            foreach ($group['infoblocks'] as $itemIndex => $item) {
-                $itemNumber = $itemIndex + 1;
+            // foreach ($group['infoblocks'] as $itemIndex => $item) {
+            //     $itemNumber = $itemIndex + 1;
         
-                // Устанавливаем значения для каждого элемента в группе
-                $templateProcessor->setValue("infoblock_title#{$itemNumber}", $item['title']);
-                $templateProcessor->setValue("infoblock_description#{$itemNumber}", $item['description']);
-            }
+            //     // Устанавливаем значения для каждого элемента в группе
+            //     $templateProcessor->setValue("infoblock_title#{$itemNumber}", $item['title']);
+            //     $templateProcessor->setValue("infoblock_description#{$itemNumber}", $item['description']);
+            // }
         }
         
         // Сохраняем итоговый документ
