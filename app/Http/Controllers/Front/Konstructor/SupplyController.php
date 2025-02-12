@@ -252,645 +252,662 @@ class SupplyController extends Controller
 
     protected function getSupplyReportTempalteDocument($data)
     {
-        $domain = $data['domain'];
-
-        $bxCompanyItems = $data['bxCompanyItems'];
-        $bxContacts = $data['bxContacts'];
-        $bxDealItems = $data['bxDealItems'];
-        $supplyReport = $data['supplyReport'];
-
-
-        $companyId = $data['companyId'];
-
-        $bxCompanyLink = 'https://' . $domain . '/company/details/' . $companyId . '/';
-
-        $companyLink = new Link($bxCompanyLink, 'Компания ' . $companyId . '');
-
         $dealId = null;
-        if (!empty($data['dealId'])) {
+        $domain = '';
+        $companyId = null;
+        try {
+            $domain = $data['domain'];
 
-            $dealId = $data['dealId'];
-        }
-        $contractType = $data['contractType'];
-
-        $contract = $data['contract'];
-        $contract_type = $data['contract']['aprilName'];
-        $generalContractModel = $contract['contract'];
-        $contractQuantity = $generalContractModel['coefficient'];
-
-        $providerState = $data['contractProviderState'];
-        $providerRq = $providerState['current']['rq'];
+            $bxCompanyItems = $data['bxCompanyItems'];
+            $bxContacts = $data['bxContacts'];
+            $bxDealItems = $data['bxDealItems'];
+            $supplyReport = $data['supplyReport'];
 
 
-        $provider_fullname =  $providerRq['fullname'];
+            $companyId = $data['companyId'];
+
+            $bxCompanyLink = 'https://' . $domain . '/company/details/' . $companyId . '/';
+
+            $companyLink = new Link($bxCompanyLink, 'Компания ' . $companyId . '');
+
+          
+            if (!empty($data['dealId'])) {
+
+                $dealId = $data['dealId'];
+            }
+            $contractType = $data['contractType'];
+
+            $contract = $data['contract'];
+            $contract_type = $data['contract']['aprilName'];
+            $generalContractModel = $contract['contract'];
+            $contractQuantity = $generalContractModel['coefficient'];
+
+            $providerState = $data['contractProviderState'];
+            $providerRq = $providerState['current']['rq'];
+
+
+            $provider_fullname =  $providerRq['fullname'];
 
 
 
-        $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
+            $productSet = $data['productSet']; //все продукты rows из general в виде исходного стэйт объекта
 
-        $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
-        $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
-        $isProduct = $contractType !== 'service';
-        $contractCoefficient = $contract['prepayment'];
-
-
+            $products = $data['products'];  //productsFromRows  объекты продуктов с полями для договоров полученные из rows
+            $contractProductName = $generalContractModel['productName']; // приставка к имени продукта из current contract
+            $isProduct = $contractType !== 'service';
+            $contractCoefficient = $contract['prepayment'];
 
 
-        $arows = $data['arows']; //все продукты rows из general в виде массива
-        $total = $productSet['total'][0];
-        $totalSum = 0;
-        $totalMonth = 0;
-
-        $quantity = $total['product']['contractCoefficient'] * $total['price']['quantity'];
 
 
-        foreach ($arows as $arow) {
-            // $totalMonth +=  round($arow['price']['month'], 2);
+            $arows = $data['arows']; //все продукты rows из general в виде массива
+            $total = $productSet['total'][0];
+            $totalSum = 0;
+            $totalMonth = 0;
 
-            $totalSum +=  round($arow['price']['sum'], 2);
-        }
-        $totalMonth = round($totalSum / $quantity, 2);
+            $quantity = $total['product']['contractCoefficient'] * $total['price']['quantity'];
 
-        $supply = $data['supply'];
-        $supplyType = $supply['type'];
-        $contractGeneralFields = $data['contractBaseState']['items']; //fields array
 
-        $contractClientState = $data['contractClientState']['client'];
-        $clientRq = $contractClientState['rqs']['rq'];                //fields array
-        $clientRqBank = $contractClientState['rqs']['bank'];
-        $clientType = $contractClientState['type'];
+            foreach ($arows as $arow) {
+                // $totalMonth +=  round($arow['price']['month'], 2);
 
-        $registredString = '';
-        $primaryString = '';
-        $inn = '';
-        $clientCompanyFullName = '';
-        if (!empty($data['bxrq'])) {
-            if (!empty($data['bxrq']['address'])) {
-                if (!empty($data['bxrq']['address']['items'])) {
-                    $addresses = $data['bxrq']['address']['items'];
-                    foreach ($addresses as $address) {
-                        if (!empty($address['fields'])) {
-                            $addresString = '';
-                            foreach ($address['fields'] as $field) {
-                                if (!empty($field['value'])) {
-                                    if ($field['code'] == 'address_postal_code') {
-                                        $addresString .= $field['value'] . ", ";
-                                    } else if ($field['code'] == 'address_country') {
-                                        $addresString .= $field['value'] . ", ";
-                                    } else {
-                                        $addresString .= $field['value'] . ", ";
+                $totalSum +=  round($arow['price']['sum'], 2);
+            }
+            $totalMonth = round($totalSum / $quantity, 2);
+
+            $supply = $data['supply'];
+            $supplyType = $supply['type'];
+            $contractGeneralFields = $data['contractBaseState']['items']; //fields array
+
+            $contractClientState = $data['contractClientState']['client'];
+            $clientRq = $contractClientState['rqs']['rq'];                //fields array
+            $clientRqBank = $contractClientState['rqs']['bank'];
+            $clientType = $contractClientState['type'];
+
+            $registredString = '';
+            $primaryString = '';
+            $inn = '';
+            $clientCompanyFullName = '';
+            if (!empty($data['bxrq'])) {
+                if (!empty($data['bxrq']['address'])) {
+                    if (!empty($data['bxrq']['address']['items'])) {
+                        $addresses = $data['bxrq']['address']['items'];
+                        foreach ($addresses as $address) {
+                            if (!empty($address['fields'])) {
+                                $addresString = '';
+                                foreach ($address['fields'] as $field) {
+                                    if (!empty($field['value'])) {
+                                        if ($field['code'] == 'address_postal_code') {
+                                            $addresString .= $field['value'] . ", ";
+                                        } else if ($field['code'] == 'address_country') {
+                                            $addresString .= $field['value'] . ", ";
+                                        } else {
+                                            $addresString .= $field['value'] . ", ";
+                                        }
                                     }
                                 }
+
+
+
+                                if ($address['type_id'] == 6) { //юридический
+                                    $registredString = $addresString;
+                                }
+                                if ($address['type_id'] == 1) { //фактический
+                                    $primaryString = $addresString;
+                                }
                             }
+                        }
+                    }
+                }
 
-
-
-                            if ($address['type_id'] == 6) { //юридический
-                                $registredString = $addresString;
+                if (!empty($data['bxrq']['fields'])) {
+                    foreach ($data['bxrq']['fields'] as $baseField) {
+                        if (!empty($baseField['value'])) {
+                            if ($baseField['code'] == 'inn') {
+                                $inn = $baseField['value'];
                             }
-                            if ($address['type_id'] == 1) { //фактический
-                                $primaryString = $addresString;
+                            if ($baseField['code'] == 'fullname') {
+                                $clientCompanyFullName = $baseField['value'];
                             }
                         }
                     }
                 }
             }
 
-            if (!empty($data['bxrq']['fields'])) {
-                foreach ($data['bxrq']['fields'] as $baseField) {
-                    if (!empty($baseField['value'])) {
-                        if ($baseField['code'] == 'inn') {
-                            $inn = $baseField['value'];
-                        }
-                        if ($baseField['code'] == 'fullname') {
-                            $clientCompanyFullName = $baseField['value'];
-                        }
-                    }
-                }
+
+
+
+            function filterByClientTypePDF($item, $clientType)
+            {
+                return in_array($clientType, $item['includes']);
             }
-        }
+
+            // // Фильтрация массивов с использованием array_filter
+            // $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
+            //     return filterByClientTypePDF($item, $clientType);
+            // });
+
+            // $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
+            //     return filterByClientTypePDF($item, $clientType);
+            // });
+
+            $contractSpecification = $data['contractSpecificationState']['items'];
+
+
+            $filteredcontractSpecification = array_filter($contractSpecification, function ($item) use ($contractType) {
+                return  in_array($contractType, $item['contractType']);
+            });
+            $filteredcontractSpecification = array_filter($filteredcontractSpecification, function ($item) use ($supplyType) {
+                return  in_array($supplyType, $item['supplies']);
+            });
 
 
 
-
-        function filterByClientTypePDF($item, $clientType)
-        {
-            return in_array($clientType, $item['includes']);
-        }
-
-        // // Фильтрация массивов с использованием array_filter
-        // $filteredClientRq = array_filter($clientRq, function ($item) use ($clientType) {
-        //     return filterByClientTypePDF($item, $clientType);
-        // });
-
-        // $filteredClientRqBank = array_filter($clientRqBank, function ($item) use ($clientType) {
-        //     return filterByClientTypePDF($item, $clientType);
-        // });
-
-        $contractSpecification = $data['contractSpecificationState']['items'];
-
-
-        $filteredcontractSpecification = array_filter($contractSpecification, function ($item) use ($contractType) {
-            return  in_array($contractType, $item['contractType']);
-        });
-        $filteredcontractSpecification = array_filter($filteredcontractSpecification, function ($item) use ($supplyType) {
-            return  in_array($supplyType, $item['supplies']);
-        });
-
-
-
-        $consaltingString = 'Горячая Линия';
-        if (!empty($data['consalting'])) {
-            if (!empty($data['consalting']['current'])) {
-                if (!empty($data['consalting']['current']['title'])) {
-                    $consaltingString = $data['consalting']['current']['title'];
-                }
-            }
-        }
-
-        $regionName = $data['region']['title'];
-
-        $supply = $data['supplyReport'];
-
-        $documentPrice = $data['documentPrice'];
-
-        $documentNumber = 780;
-
-        $filePath = 'app/public/konstructor/templates/supply';
-
-        $isNewTemplate = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
-        $isWhiteTemplate = false;
-
-        $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
-        if ($isNewTemplate) {
-
-            $fullPath = storage_path($filePath . '/sales_report.docx');
-        }
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-
-        $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
-        $templateProcessor->setValue('client_inn', $inn);
-        $templateProcessor->setValue('client_company_registred_address', $registredString);
-        $templateProcessor->setValue('client_company_primary_address', $primaryString);
-
-
-
-
-        // $templateProcessor->setValue('documentNumber', $documentNumber);
-        $templateProcessor->setValue('region', $regionName);
-
-        $templateProcessor->setValue('contract_type', $contract_type);
-        $templateProcessor->setValue('provider_fullname', $provider_fullname);
-
-        $templateProcessor->setValue('bx_deal', $companyId);
-
-
-        //price
-        $templateProcessor->setValue('total_sum', $totalSum);
-        $templateProcessor->setValue('prepayment_sum', $totalMonth);
-        $templateProcessor->setValue('prepayment_quantity', $quantity);
-
-
-
-        foreach ($supplyReport as  $reportItem) {
-            $name = $reportItem['code'];
-            $value = '';
-
-            if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
-
-                $value = $reportItem['value'];
-            } else {
-
-                if (!empty($reportItem['value']) && !empty($reportItem['items'])) {
-                    foreach ($reportItem['items'] as $item) {
-
-                        if ($item['code'] === $reportItem['value']['code']) {
-                            $value = $item['name'];
-                        }
+            $consaltingString = 'Горячая Линия';
+            if (!empty($data['consalting'])) {
+                if (!empty($data['consalting']['current'])) {
+                    if (!empty($data['consalting']['current']['title'])) {
+                        $consaltingString = $data['consalting']['current']['title'];
                     }
                 }
             }
 
-            if (is_string($value) || is_numeric($value)) {
-                $value = $this->formatDateForWord($name, $value) . PHP_EOL;
+            $regionName = $data['region']['title'];
 
-                $templateProcessor->setValue($name, strval($value));
-            } else {
-                $templateProcessor->setValue($name, ''); // или другая логика
+            $supply = $data['supplyReport'];
+
+            $documentPrice = $data['documentPrice'];
+
+            $documentNumber = 780;
+
+            $filePath = 'app/public/konstructor/templates/supply';
+
+            $isNewTemplate = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
+            $isWhiteTemplate = false;
+
+            $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
+            if ($isNewTemplate) {
+
+                $fullPath = storage_path($filePath . '/sales_report.docx');
             }
-        }
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+
+            $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
+            $templateProcessor->setValue('client_inn', $inn);
+            $templateProcessor->setValue('client_company_registred_address', $registredString);
+            $templateProcessor->setValue('client_company_primary_address', $primaryString);
 
 
 
-        $complects = [];
-        foreach ($arows as $row) {
-            $name = $row['name'];
-            $supply = '';
-            $complect_hdd = '';
-            if (!empty($row['supply'])) {
-                if (!empty($row['supply']['name'])) {
-                    $supply = $row['supply']['name'];
-                    $complect_hdd = $row['product']['contractSupplyProp1'];
-                }
-            }
-            array_push($complects, [
-                'complect_name' => $name,
-                'complect_sup' => $supply,
-                'complect_hdd' => $complect_hdd
-            ]);
-        }
-        if (!$isNewTemplate) {
-            $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
-        } else {
-            $currentClientType = 'org';
-            if (!empty($data->clientType)) {
-                if (!empty($data->clientType['code'])) {
-                    $currentClientType = $data->clientType['code'];
-                }
-            }
-            $contractFullTotal = null;
-            if (!empty($data['total'])) {
-                if (!empty($data['total'][0])) {
-                    $contractFullTotal =  $data['total'][0];
-                };
-            };
-            $contractController = new ContractController();
-            // $contractType;
-            // $arows;
-            // $total;
-            $productRows = $contractController->getSupplyProducts(
-                $arows,
-                $contractProductName,
-                $isProduct,
-                $contractCoefficient,
-                $currentClientType
-            );
-            $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
 
-            $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
+            // $templateProcessor->setValue('documentNumber', $documentNumber);
+            $templateProcessor->setValue('region', $regionName);
 
-            foreach ($totalData as $code => $totalItemValue) {
-                // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
-                $templateProcessor->setValue($code, $totalItemValue);
-                // $templateProcessor->setValue($code, $spec);
-            }
-        }
-        // foreach ($filteredClientRq as $rqItem) {
-        //     $value = '';
+            $templateProcessor->setValue('contract_type', $contract_type);
+            $templateProcessor->setValue('provider_fullname', $provider_fullname);
 
-        //     if ($rqItem['code'] === 'fullname') {
-        //         $templateProcessor->setValue('client_company_name', $rqItem['value']);
-        //     } else  if ($rqItem['code'] === 'fullname') {
-        //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
-        //     } else  if ($rqItem['code'] === 'registredAdress') {
-        //         $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
-        //     } else  if ($rqItem['code'] === 'primaryAdresss') {
-        //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
-        //     } else  if ($rqItem['code'] === 'inn') {
-        //         $templateProcessor->setValue('client_inn', $rqItem['value']);
-        //     }
-        // }
+            $templateProcessor->setValue('bx_deal', $companyId);
 
-        foreach ($bxCompanyItems as $key => $bxCompanyItem) {
-            $value = '';
-            if (!empty($bxCompanyItem['current'])) {
-                if (isset($bxCompanyItem['current']['name'])) {
-                    $value = $bxCompanyItem['current']['name'];
+
+            //price
+            $templateProcessor->setValue('total_sum', $totalSum);
+            $templateProcessor->setValue('prepayment_sum', $totalMonth);
+            $templateProcessor->setValue('prepayment_quantity', $quantity);
+
+
+
+            foreach ($supplyReport as  $reportItem) {
+                $name = $reportItem['code'];
+                $value = '';
+
+                if ($reportItem['type'] !== 'select' && $reportItem['type'] !== 'enumeration') {
+
+                    $value = $reportItem['value'];
                 } else {
-                    $value = $bxCompanyItem['current'];
+
+                    if (!empty($reportItem['value']) && !empty($reportItem['items'])) {
+                        foreach ($reportItem['items'] as $item) {
+
+                            if ($item['code'] === $reportItem['value']['code']) {
+                                $value = $item['name'];
+                            }
+                        }
+                    }
                 }
-            }
 
-            if (is_string($value) || is_numeric($value)) {
-                $templateProcessor->setValue($key, strval($value));
-            } else {
-                $templateProcessor->setValue($key, '');
-            }
-        }
-
-        $contract_start = '«____» _________________ 20__ г.';
-        $contract_end = '«____» _________________ 20__ г.';
-        $contract_present_start = '';
-        $contract_present_end = '';
-        $present_period = '';
-
-        foreach ($bxDealItems as $key => $bxDealItem) {
-            $value = '';
-            if (!empty($bxDealItem['current'])) {
-                if (isset($bxDealItem['current']['name'])) {
-                    $value = $bxDealItem['current']['name'];
-                } else {
-                    $value = $bxDealItem['current'];
-                }
-            }
-            if (
-                $key !== 'garant_client_email' &&
-                $key !== 'contract_start' &&
-                $key !== 'contract_end' &&
-                $key !== 'contract_present_start' &&
-                $key !== 'contract_present_end'
-            ) {
                 if (is_string($value) || is_numeric($value)) {
+                    $value = $this->formatDateForWord($name, $value) . PHP_EOL;
 
-                    $value = $this->formatDateForWord($key, $value) . PHP_EOL;
+                    $templateProcessor->setValue($name, strval($value));
+                } else {
+                    $templateProcessor->setValue($name, ''); // или другая логика
+                }
+            }
+
+
+
+            $complects = [];
+            foreach ($arows as $row) {
+                $name = $row['name'];
+                $supply = '';
+                $complect_hdd = '';
+                if (!empty($row['supply'])) {
+                    if (!empty($row['supply']['name'])) {
+                        $supply = $row['supply']['name'];
+                        $complect_hdd = $row['product']['contractSupplyProp1'];
+                    }
+                }
+                array_push($complects, [
+                    'complect_name' => $name,
+                    'complect_sup' => $supply,
+                    'complect_hdd' => $complect_hdd
+                ]);
+            }
+            if (!$isNewTemplate) {
+                $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
+            } else {
+                $currentClientType = 'org';
+                if (!empty($data->clientType)) {
+                    if (!empty($data->clientType['code'])) {
+                        $currentClientType = $data->clientType['code'];
+                    }
+                }
+                $contractFullTotal = null;
+                if (!empty($data['total'])) {
+                    if (!empty($data['total'][0])) {
+                        $contractFullTotal =  $data['total'][0];
+                    };
+                };
+                $contractController = new ContractController();
+                // $contractType;
+                // $arows;
+                // $total;
+                $productRows = $contractController->getSupplyProducts(
+                    $arows,
+                    $contractProductName,
+                    $isProduct,
+                    $contractCoefficient,
+                    $currentClientType
+                );
+                $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
+
+                $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
+
+                foreach ($totalData as $code => $totalItemValue) {
+                    // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
+                    $templateProcessor->setValue($code, $totalItemValue);
+                    // $templateProcessor->setValue($code, $spec);
+                }
+            }
+            // foreach ($filteredClientRq as $rqItem) {
+            //     $value = '';
+
+            //     if ($rqItem['code'] === 'fullname') {
+            //         $templateProcessor->setValue('client_company_name', $rqItem['value']);
+            //     } else  if ($rqItem['code'] === 'fullname') {
+            //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+            //     } else  if ($rqItem['code'] === 'registredAdress') {
+            //         $templateProcessor->setValue('client_company_registred_address', $rqItem['value']);
+            //     } else  if ($rqItem['code'] === 'primaryAdresss') {
+            //         $templateProcessor->setValue('client_company_primary_address', $rqItem['value']);
+            //     } else  if ($rqItem['code'] === 'inn') {
+            //         $templateProcessor->setValue('client_inn', $rqItem['value']);
+            //     }
+            // }
+
+            foreach ($bxCompanyItems as $key => $bxCompanyItem) {
+                $value = '';
+                if (!empty($bxCompanyItem['current'])) {
+                    if (isset($bxCompanyItem['current']['name'])) {
+                        $value = $bxCompanyItem['current']['name'];
+                    } else {
+                        $value = $bxCompanyItem['current'];
+                    }
+                }
+
+                if (is_string($value) || is_numeric($value)) {
                     $templateProcessor->setValue($key, strval($value));
                 } else {
                     $templateProcessor->setValue($key, '');
                 }
             }
 
-            if ($key === 'garant_client_email') {
-                if (!empty($value)) {
-                    $value = 'Email для интернет версии: ' . $value;
-                    $templateProcessor->setValue('email_garant', strval($value));
-                }
-            }
-            if ($key === 'contract_start') {
-                if (!empty($value)) {
-                    $contract_start = mb_strtolower(
-                        Carbon::parse($value)
-                            ->translatedFormat('j F Y')
-                    ) . ' г.';
-                }
-            }
-            if ($key === 'contract_end') {
-                if (!empty($value)) {
-                    $contract_end = mb_strtolower(
-                        Carbon::parse($value)
-                            ->translatedFormat('j F Y')
-                    ) . ' г.';
-                }
-            }
-            if ($key === 'contract_present_start') {
-                if (!empty($value)) {
-                    $contract_present_start = mb_strtolower(
-                        Carbon::parse($value)
-                            ->translatedFormat('j F Y')
-                    ) . ' г.';
-                }
-            }
-            if ($key === 'contract_present_end') {
-                if (!empty($value)) {
-                    $contract_present_end = mb_strtolower(
-                        Carbon::parse($value)
-                            ->translatedFormat('j F Y')
-                    ) . ' г.';
-                }
-            }
-        }
-        $templateProcessor->setValue('contract_start', $contract_start);
-        $templateProcessor->setValue('contract_end', $contract_end);
+            $contract_start = '«____» _________________ 20__ г.';
+            $contract_end = '«____» _________________ 20__ г.';
+            $contract_present_start = '';
+            $contract_present_end = '';
+            $present_period = '';
 
-        if (!empty($contract_present_start) && !empty($contract_present_end)) {
-            $present_period = 'Период в подарок с ' . $contract_present_start . ' по ' . $contract_present_end;
-        }
-        $templateProcessor->setValue('present_period', $present_period);
-
-        $iblocks = '';
-        foreach ($contractSpecification as $cntrctSpecItem) {
-            $value = '';
-
-            // if ($cntrctSpecItem['code'] === 'specification_email') {
-            //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
-            // } else 
-            if ($cntrctSpecItem['code'] === 'specification_iblocks') {
-                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
-                $iblocks .= $cntrctSpecItem['value'] . "\n";
-                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
-                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
-
-                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
-                $iblocks .= $cntrctSpecItem['value'] . "\n";
-            } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
-                if (!empty($cntrctSpecItem['value'])) {
-                    $packVal = $cntrctSpecItem['value'] . ": \n";
-                    $iblocks .= $packVal;
-                }
-
-
-                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $packVal);
-
-                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
-            } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
-                // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
-
-                // $templateProcessor->setValue('complect_fields_left', $formattedValue);
-                $iblocks .= $cntrctSpecItem['value'] . "\n";
-            }
-        }
-        // if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
-        //     $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
-        // } else {
-        $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
-
-        // $formattedValueIblocks = $iblocks;
-        // }
-        $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
-        foreach ($contractSpecification as $cntrctSpecItem) {
-            $value = '';
-
-
-            if ($cntrctSpecItem['code'] === 'specification_ifree') {
-                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
-
-
-                $templateProcessor->setValue('complect_fields_right', $formattedValue);
-            } else  if ($cntrctSpecItem['code'] === 'specification_lt_free') {
+            foreach ($bxDealItems as $key => $bxDealItem) {
                 $value = '';
-                if (!empty($cntrctSpecItem['value'])) {
-                    $value = 'Бесплатный LT ' . $cntrctSpecItem['value'];
+                if (!empty($bxDealItem['current'])) {
+                    if (isset($bxDealItem['current']['name'])) {
+                        $value = $bxDealItem['current']['name'];
+                    } else {
+                        $value = $bxDealItem['current'];
+                    }
+                }
+                if (
+                    $key !== 'garant_client_email' &&
+                    $key !== 'contract_start' &&
+                    $key !== 'contract_end' &&
+                    $key !== 'contract_present_start' &&
+                    $key !== 'contract_present_end'
+                ) {
+                    if (is_string($value) || is_numeric($value)) {
 
-
-                    foreach ($filteredcontractSpecification as $cntrcItem) {
-                        if ($cntrcItem['code'] === 'specification_lt_free_services') {
-                            $value = $value . ': ' . "\n" . $cntrcItem['value'];
-                        }
+                        $value = $this->formatDateForWord($key, $value) . PHP_EOL;
+                        $templateProcessor->setValue($key, strval($value));
+                    } else {
+                        $templateProcessor->setValue($key, '');
                     }
                 }
 
-
-                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
-
-                $templateProcessor->setValue('complect_lt_left', $formattedValue);
-            } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
-                $value = '';
-                if (!empty($cntrctSpecItem['value'])) {
-                    $value = $cntrctSpecItem['name'] . ' ' . $cntrctSpecItem['value'];
-
-
-                    foreach ($filteredcontractSpecification as $cntrcItem) {
-                        if ($cntrcItem['code'] === 'specification_lt_services') {
-                            $value = $value . ': ' . "\n" . $cntrcItem['value'];
-                        }
+                if ($key === 'garant_client_email') {
+                    if (!empty($value)) {
+                        $value = 'Email для интернет версии: ' . $value;
+                        $templateProcessor->setValue('email_garant', strval($value));
                     }
                 }
-                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
-
-
-                $templateProcessor->setValue('complect_lt_right', $formattedValue);
-            } else if ($cntrctSpecItem['code'] === 'specification_pk') {
-                $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
-
-
-                $templateProcessor->setValue('complect_pk', $formattedValue);
+                if ($key === 'contract_start') {
+                    if (!empty($value)) {
+                        $contract_start = mb_strtolower(
+                            Carbon::parse($value)
+                                ->translatedFormat('j F Y')
+                        ) . ' г.';
+                    }
+                }
+                if ($key === 'contract_end') {
+                    if (!empty($value)) {
+                        $contract_end = mb_strtolower(
+                            Carbon::parse($value)
+                                ->translatedFormat('j F Y')
+                        ) . ' г.';
+                    }
+                }
+                if ($key === 'contract_present_start') {
+                    if (!empty($value)) {
+                        $contract_present_start = mb_strtolower(
+                            Carbon::parse($value)
+                                ->translatedFormat('j F Y')
+                        ) . ' г.';
+                    }
+                }
+                if ($key === 'contract_present_end') {
+                    if (!empty($value)) {
+                        $contract_present_end = mb_strtolower(
+                            Carbon::parse($value)
+                                ->translatedFormat('j F Y')
+                        ) . ' г.';
+                    }
+                }
             }
-        }
+            $templateProcessor->setValue('contract_start', $contract_start);
+            $templateProcessor->setValue('contract_end', $contract_end);
 
-        $condactsData = [];
-
-        foreach ($bxContacts as $contactData) {
-            $contact = $contactData['contact'];
-            $fields = $contactData['fields'];
-
-            $contactDataForTemplate =  [
-                'contact_name' => $contact['NAME'],
-                'contact_post' => $contact['POST'],
-                'contact_status' => '',
-                'contact_phone' => '',
-                'contact_comment' => '',
-
-            ];
-
-            foreach ($contact['PHONE'] as $phone) {
-                $contactDataForTemplate['contact_phone'] .= $phone['VALUE'] . "</w:t><w:br/><w:t>";
+            if (!empty($contract_present_start) && !empty($contract_present_end)) {
+                $present_period = 'Период в подарок с ' . $contract_present_start . ' по ' . $contract_present_end;
             }
-            foreach ($fields as $field) {
-                if ($field['field']['code'] === 'ork_is_most_user') {
-                    if (!empty($field['current'])) {
-                        if (!empty($field['current']['code'])) {
-                            if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
-                                $contactDataForTemplate['contact_name'] .= "</w:t><w:br/><w:t>" . '(Основной пользователь)';
+            $templateProcessor->setValue('present_period', $present_period);
+
+            $iblocks = '';
+            foreach ($contractSpecification as $cntrctSpecItem) {
+                $value = '';
+
+                // if ($cntrctSpecItem['code'] === 'specification_email') {
+                //     $templateProcessor->setValue('email_garant', $cntrctSpecItem['value']);
+                // } else 
+                if ($cntrctSpecItem['code'] === 'specification_iblocks') {
+                    // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
+                    $iblocks .= $cntrctSpecItem['value'] . "\n";
+                    // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                } else  if ($cntrctSpecItem['code'] === 'specification_ers') {
+                    // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
+
+                    // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                    $iblocks .= $cntrctSpecItem['value'] . "\n";
+                } else  if ($cntrctSpecItem['code'] === 'specification_ers_packets') {
+                    if (!empty($cntrctSpecItem['value'])) {
+                        $packVal = $cntrctSpecItem['value'] . ": \n";
+                        $iblocks .= $packVal;
+                    }
+
+
+                    // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $packVal);
+
+                    // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                } else  if ($cntrctSpecItem['code'] === 'specification_ers_in_packets') {
+                    // $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
+
+                    // $templateProcessor->setValue('complect_fields_left', $formattedValue);
+                    $iblocks .= $cntrctSpecItem['value'] . "\n";
+                }
+            }
+            // if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
+            //     $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
+            // } else {
+            $formattedValueIblocks = str_replace("\n", '</w:t><w:br/><w:t>', $iblocks);
+
+            // $formattedValueIblocks = $iblocks;
+            // }
+            $templateProcessor->setValue('complect_fields_left', $formattedValueIblocks);
+            foreach ($contractSpecification as $cntrctSpecItem) {
+                $value = '';
+
+
+                if ($cntrctSpecItem['code'] === 'specification_ifree') {
+                    $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
+
+
+                    $templateProcessor->setValue('complect_fields_right', $formattedValue);
+                } else  if ($cntrctSpecItem['code'] === 'specification_lt_free') {
+                    $value = '';
+                    if (!empty($cntrctSpecItem['value'])) {
+                        $value = 'Бесплатный LT ' . $cntrctSpecItem['value'];
+
+
+                        foreach ($filteredcontractSpecification as $cntrcItem) {
+                            if ($cntrcItem['code'] === 'specification_lt_free_services') {
+                                $value = $value . ': ' . "\n" . $cntrcItem['value'];
                             }
                         }
                     }
-                } else if (in_array($field['field']['code'], ['contact_client_status', 'ork_contact_garant', 'ork_contact_concurent', 'ork_needs'])) {
 
-                    if (!empty($field['field']) && !empty($field['current'])) {
-                        $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
-                        $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "</w:t><w:br/><w:t>";
-                    }
-                } else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
 
-                    if (!empty($field['field']) && !empty($field['current'])) {
-                        $contactDataForTemplate['contact_comment'] .= $field['field']['title'] . ': ';
-                        $contactDataForTemplate['contact_comment'] .= $field['current']['title'] . "</w:t><w:br/><w:t>" . "</w:t><w:br/><w:t>";
+                    $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
+
+                    $templateProcessor->setValue('complect_lt_left', $formattedValue);
+                } else  if ($cntrctSpecItem['code'] === 'specification_lt_packet') {
+                    $value = '';
+                    if (!empty($cntrctSpecItem['value'])) {
+                        $value = $cntrctSpecItem['name'] . ' ' . $cntrctSpecItem['value'];
+
+
+                        foreach ($filteredcontractSpecification as $cntrcItem) {
+                            if ($cntrcItem['code'] === 'specification_lt_services') {
+                                $value = $value . ': ' . "\n" . $cntrcItem['value'];
+                            }
+                        }
                     }
+                    $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $value);
+
+
+                    $templateProcessor->setValue('complect_lt_right', $formattedValue);
+                } else if ($cntrctSpecItem['code'] === 'specification_pk') {
+                    $formattedValue = str_replace("\n", '</w:t><w:br/><w:t>', $cntrctSpecItem['value']);
+
+
+                    $templateProcessor->setValue('complect_pk', $formattedValue);
                 }
             }
 
-            $contactDataForTemplate['contact_comment'] .= $contact['COMMENTS'];
+            $condactsData = [];
 
-            array_push($condactsData, $contactDataForTemplate);
-        }
+            foreach ($bxContacts as $contactData) {
+                $contact = $contactData['contact'];
+                $fields = $contactData['fields'];
 
-        $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
+                $contactDataForTemplate =  [
+                    'contact_name' => $contact['NAME'],
+                    'contact_post' => $contact['POST'],
+                    'contact_status' => '',
+                    'contact_phone' => '',
+                    'contact_comment' => '',
 
-        // $templateProcessor->setValue('complect_pk', $consaltingString);
+                ];
+
+                foreach ($contact['PHONE'] as $phone) {
+                    $contactDataForTemplate['contact_phone'] .= $phone['VALUE'] . "</w:t><w:br/><w:t>";
+                }
+                foreach ($fields as $field) {
+                    if ($field['field']['code'] === 'ork_is_most_user') {
+                        if (!empty($field['current'])) {
+                            if (!empty($field['current']['code'])) {
+                                if (is_string($field['current']['code']) && str_contains($field['current']['code'], 'yes')) {
+                                    $contactDataForTemplate['contact_name'] .= "</w:t><w:br/><w:t>" . '(Основной пользователь)';
+                                }
+                            }
+                        }
+                    } else if (in_array($field['field']['code'], ['contact_client_status', 'ork_contact_garant', 'ork_contact_concurent', 'ork_needs'])) {
+
+                        if (!empty($field['field']) && !empty($field['current'])) {
+                            $contactDataForTemplate['contact_status'] .= $field['field']['title'] . ': ';
+                            $contactDataForTemplate['contact_status'] .= $field['current']['title'] . "</w:t><w:br/><w:t>";
+                        }
+                    } else if (in_array($field['field']['code'], ['ork_call_frequency'])) {
+
+                        if (!empty($field['field']) && !empty($field['current'])) {
+                            $contactDataForTemplate['contact_comment'] .= $field['field']['title'] . ': ';
+                            $contactDataForTemplate['contact_comment'] .= $field['current']['title'] . "</w:t><w:br/><w:t>" . "</w:t><w:br/><w:t>";
+                        }
+                    }
+                }
+
+                $contactDataForTemplate['contact_comment'] .= $contact['COMMENTS'];
+
+                array_push($condactsData, $contactDataForTemplate);
+            }
+
+            $templateProcessor->cloneRowAndSetValues('contact_name', $condactsData);
+
+            // $templateProcessor->setValue('complect_pk', $consaltingString);
 
 
-        $hash = md5(uniqid(mt_rand(), true));
-        $outputFileName = 'Отчет_о_продаже.docx';
-        $outputFilePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash);
+            $hash = md5(uniqid(mt_rand(), true));
+            $outputFileName = 'Отчет_о_продаже.docx';
+            $outputFilePath = storage_path('app/public/clients/' . $domain . '/supplies/' . $hash);
 
 
 
-        // Сохраняем файл Word в формате .docx
-        $uid = Uuid::uuid4()->toString();
-        $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
+            // Сохраняем файл Word в формате .docx
+            $uid = Uuid::uuid4()->toString();
+            $shortUid = substr($uid, 0, 4); // Получение первых 4 символов
 
 
-        if (!file_exists($outputFilePath)) {
-            mkdir($outputFilePath, 0775, true); // Создать каталог с правами доступа
-        }
+            if (!file_exists($outputFilePath)) {
+                mkdir($outputFilePath, 0775, true); // Создать каталог с правами доступа
+            }
 
-        // // Проверить доступность каталога для записи
-        if (!is_writable($outputFilePath)) {
-            throw new \Exception("Невозможно записать в каталог: $outputFilePath");
-        }
-
-
-
-        $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
+            // // Проверить доступность каталога для записи
+            if (!is_writable($outputFilePath)) {
+                throw new \Exception("Невозможно записать в каталог: $outputFilePath");
+            }
 
 
-        // $outputDir = dirname($outputFilePath);
-        // if (!file_exists($outputDir)) {
-        //     mkdir($outputDir, 0755, true);
-        // }
 
-        $templateProcessor->saveAs($fullOutputFilePath);
+            $fullOutputFilePath = $outputFilePath . '/' . $outputFileName;
 
-        //to pdf
-        $hook = BitrixController::getHook($domain);
-        if ($isNewTemplate) {
-            // Добавляем переменную окружения для LibreOffice
-            dispatch(new ConvertPDFLibre(
-                $domain,
-                $hook,
-                $hash,
-                $dealId,
-                $fullOutputFilePath,
-                $outputFileName,
 
-            ));
-
-            // putenv('HOME=/tmp');
-
-            // $docxFile = $fullOutputFilePath;
-            // $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
-
-            // $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
-            // exec($command . " 2>&1", $output, $returnCode);
-            // ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
-
-            // if ($returnCode !== 0) {
-            //     throw new \Exception("Ошибка при конвертации DOCX в PDF");
+            // $outputDir = dirname($outputFilePath);
+            // if (!file_exists($outputDir)) {
+            //     mkdir($outputDir, 0755, true);
             // }
 
-            // $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
-            // // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            $templateProcessor->saveAs($fullOutputFilePath);
 
-            // $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-            // $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-            // $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
-        }
-        // else {
-        // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+            //to pdf
+            $hook = BitrixController::getHook($domain);
+            if ($isNewTemplate) {
+                // Добавляем переменную окружения для LibreOffice
+                dispatch(new ConvertPDFLibre(
+                    $domain,
+                    $hook,
+                    $hash,
+                    $dealId,
+                    $fullOutputFilePath,
+                    $outputFileName,
 
-        $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
-        // }
+                ));
 
-        $method = '/crm.timeline.comment.add';
+                // putenv('HOME=/tmp');
+
+                // $docxFile = $fullOutputFilePath;
+                // $pdfFilePath = str_replace('.docx', '.pdf', $docxFile);
+
+                // $command = "/usr/bin/libreoffice --headless --convert-to pdf --outdir " . escapeshellarg(dirname($pdfFilePath)) . " " . escapeshellarg($docxFile);
+                // exec($command . " 2>&1", $output, $returnCode);
+                // ALogController::push("LibreOffice Output: " . implode("\n", $output), [$output]); // Логируем вывод команды
+
+                // if ($returnCode !== 0) {
+                //     throw new \Exception("Ошибка при конвертации DOCX в PDF");
+                // }
+
+                // $linkToPDF = route('download-supply-report', ['domain' => $domain, 'hash' => $hash, 'filename' => basename($pdfFilePath)]);
+                // // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+                // $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+                // $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+                // $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' =>  basename($pdfFilePath)]);
+            }
+            // else {
+            // // //ГЕНЕРАЦИЯ ССЫЛКИ НА ДОКУМЕНТ
+
+            $link =   route('download-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            $document = route('supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            $file = route('file-supply-report', ['domain' => $domain,  'hash' => $hash, 'filename' => $outputFileName]);
+            // }
+
+            $method = '/crm.timeline.comment.add';
 
 
-        $url = $hook . $method;
+            $url = $hook . $method;
 
-        $message = '<a href="' . $link . '" target="_blank">' . $outputFileName . '</a>';
+            $message = '<a href="' . $link . '" target="_blank">' . $outputFileName . '</a>';
 
-        $fields = [
-            "ENTITY_ID" => $dealId,
-            "ENTITY_TYPE" => 'deal',
-            "COMMENT" => $message
-        ];
-        $data = [
-            'fields' => $fields
-        ];
-        $responseBitrix = Http::get($url, $data);
+            $fields = [
+                "ENTITY_ID" => $dealId,
+                "ENTITY_TYPE" => 'deal',
+                "COMMENT" => $message
+            ];
+            $data = [
+                'fields' => $fields
+            ];
+            $responseBitrix = Http::get($url, $data);
 
 
-        return APIController::getSuccess(
-            [
-                'result' => [
-                    'contractData' => $data,
-                    'link' => $link,
-                    'document' => $document,
-                    'file' => $file,
+            return APIController::getSuccess(
+                [
+                    'result' => [
+                        'contractData' => $data,
+                        'link' => $link,
+                        'document' => $document,
+                        'file' => $file,
+                    ]
                 ]
-            ]
-        );
+            );
+        } catch (\Throwable $th) {
+            $errorData = [
+                'company' => $companyId,
+                'dealId' => $dealId,
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+            AlogController::push('supply document '.$domain, $errorData);
+
+            return APIController::getError($th->getMessage(), null);
+        }
     }
 
     protected function formatDateForWord($code, $date): ?string
