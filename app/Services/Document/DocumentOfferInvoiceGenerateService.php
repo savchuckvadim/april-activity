@@ -46,11 +46,11 @@ class DocumentOfferInvoiceGenerateService
                 'infoblocks' => [
                     [
                         'infoblock_title' => 'sdf',
-                        'description' => ''
+                        'infoblock_description' => 'sdh5w54444'
                     ],
                     [
                         'infoblock_title' => '43trt',
-                        'description' => ''
+                        'infoblock_description' => 'gsgw45y345y'
                     ],
                 ]
             ],
@@ -59,11 +59,11 @@ class DocumentOfferInvoiceGenerateService
                 'infoblocks' => [
                     [
                         'infoblock_title' => '345345',
-                        'description' => ''
+                        'infoblock_description' => 'igdi7tgdkjd'
                     ],
                     [
                         'infoblock_title' => '34535',
-                        'description' => ''
+                        'infoblock_description' => '7igdasdbasd'
                     ],
                 ]
             ]
