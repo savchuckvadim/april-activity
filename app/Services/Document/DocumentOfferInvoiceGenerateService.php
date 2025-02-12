@@ -69,7 +69,7 @@ class DocumentOfferInvoiceGenerateService
 
         // Теперь клонируем строки для каждой группы
         $groupIndex = 0;
-        foreach ($data as $groupName => $infoblocks) {
+        foreach ($groups as $groupName => $infoblocks) {
             $rows = [];
 
             foreach ($infoblocks as $infoblock) {
