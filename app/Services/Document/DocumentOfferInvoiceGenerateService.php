@@ -86,6 +86,8 @@ class DocumentOfferInvoiceGenerateService
         if ($withPrice) {
             // Вставляем блок с ценой
             $processor->cloneBlock('if_letterWithPrice', 1, true, false, );
+            $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
+
             // $processor->deleteBlock('if_letterWithoutPrice');
         } else {
             // Вставляем блок без цены
