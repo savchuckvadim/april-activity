@@ -92,7 +92,7 @@ class DocumentOfferInvoiceGenerateService
             $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
             $processor->deleteBlock('if_letterWithPrice');
         }
-        $processor->setValue('sale_text_1', 'Скидка 20% на весь ассортимент!');
+        $processor->setValue('sale_text', 'Скидка 20% на весь ассортимент!');
 
     }
     protected function processInfoblocks()
