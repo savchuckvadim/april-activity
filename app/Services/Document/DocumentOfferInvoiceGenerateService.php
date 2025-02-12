@@ -85,13 +85,15 @@ class DocumentOfferInvoiceGenerateService
         // Условная вставка блоков
         if ($withPrice) {
             // Вставляем блок с ценой
-            $processor->cloneBlock('if_letterWithPrice', 0, true, false);
+            $processor->cloneBlock('if_letterWithPrice', 0, true, false, );
             $processor->deleteBlock('if_letterWithoutPrice');
         } else {
             // Вставляем блок без цены
             $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
             $processor->deleteBlock('if_letterWithPrice');
         }
+        $processor->setValue('sale_text', 'Скидка 20% на весь ассортимент!');
+
     }
     protected function processInfoblocks()
     {
