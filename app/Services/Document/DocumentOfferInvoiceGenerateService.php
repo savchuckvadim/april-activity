@@ -58,7 +58,7 @@ class DocumentOfferInvoiceGenerateService
 
         foreach ($groups as $groupName => $infoblocks) {
             $replacements[] = [
-                'group' => $groupName,
+                'infoblock_group' => $groupName,
                 'infoblock_title_0' => '${infoblock_title_' . $groupIndex . '}',
                 'infoblock_description_0' => '${infoblock_description_' . $groupIndex . '}'
             ];
