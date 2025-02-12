@@ -55,7 +55,7 @@ class DocumentOfferInvoiceGenerateService
         $outputFileName = 'offer_result.docx';
         $outputFilePath = storage_path('app/public/konstructor/result_test/');
 
-        $this->letterWithPrice();
+        // $this->letterWithPrice();
         $this->processInfoblocks();
         // Сохраняем файл Word в формате .docx
 
