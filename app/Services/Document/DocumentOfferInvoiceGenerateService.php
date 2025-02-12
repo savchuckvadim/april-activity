@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Document;
+
 use App\Http\Controllers\ALogController;
 
 
@@ -40,65 +41,49 @@ class DocumentOfferInvoiceGenerateService
         // ]
         //         ${infoblock_group}
         // ${infoblock_title} - ${infoblock_description}
-        $groups = [
+        $groups =
             [
-                'groupName' => 'name1',
-                'infoblocks' => [
-                    [
-                        'infoblock_title' => 'sdf',
-                        'infoblock_description' => 'sdh5w54444'
-                    ],
-                    [
-                        'infoblock_title' => '43trt',
-                        'infoblock_description' => 'gsgw45y345y'
-                    ],
+                'Нормативно-правовые акты' => [
+                    ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
+                    ['infoblock_title' => 'Отраслевое законодательство', 'infoblock_description' => 'Блок содержит ...'],
+                ],
+                'Энциклопедии решений' => [
+                    ['infoblock_title' => 'Энциклопедия 1', 'infoblock_description' => 'Описание Э1'],
+                    ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
                 ]
-            ],
-            [
-                'groupName' => 'name2',
-                'infoblocks' => [
-                    [
-                        'infoblock_title' => '345345',
-                        'infoblock_description' => 'igdi7tgdkjd'
-                    ],
-                    [
-                        'infoblock_title' => '34535',
-                        'infoblock_description' => '7igdasdbasd'
-                    ],
-                ]
-            ]
-        ];
-        // $groups = $data['infoblock']['infoblocks'];
-        // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
-        // $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
-        // $templateProcessor->cloneRow('infoblock_group', count($groups));
+            ];
+        // Клонируем блоки групп
+        $replacements = [];
+        $groupIndex = 0;
 
-        foreach ($groups as $groupIndex => $group) {
-            $groupNumber = $groupIndex + 1;
-            foreach ($group['infoblocks'] as $iblock) {
-                if (is_object($iblock)) {
-                    $iblock = (array) $iblock;
-                }
-                ALogController::push('iblock', $iblock);
-
-            }
-            // Устанавливаем имя группы
-            // $templateProcessor->setValue("group_name#{$groupNumber}", $group['groupsName']);
-
-            // Клонируем инфоблоки внутри группы
-            $templateProcessor->cloneRow("infoblock_title", count($group['infoblocks']));
-        
-            foreach ($group['infoblocks'] as $infoblockIndex => $infoblock) {
-                if (is_object($infoblock)) {
-                    $infoblock = (array) $infoblock;
-                }
-                $infoblockNumber = $infoblockIndex + 1;
-        
-                $templateProcessor->setValue("infoblock_title#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_title']);
-                $templateProcessor->setValue("infoblock_description#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_description']);
-            }
+        foreach ($groups as $groupName => $infoblocks) {
+            $replacements[] = [
+                'group' => $groupName,
+                'infoblock_title_0' => '${infoblock_title_' . $groupIndex . '}',
+                'infoblock_description_0' => '${infoblock_description_' . $groupIndex . '}'
+            ];
+            $groupIndex++;
         }
-        
+
+        $templateProcessor->cloneBlock('block_group', 0, true, false, $replacements);
+
+        // Теперь клонируем строки для каждой группы
+        $groupIndex = 0;
+        foreach ($data as $groupName => $infoblocks) {
+            $rows = [];
+
+            foreach ($infoblocks as $infoblock) {
+                $rows[] = [
+                    'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
+                    'infoblock_description_' . $groupIndex => $infoblock['infoblock_description']
+                ];
+            }
+
+            // Клонируем строки таблицы внутри каждой группы
+            $templateProcessor->cloneRowAndSetValues('infoblock_title_' . $groupIndex, $rows);
+
+            $groupIndex++;
+        }
         // Сохраняем итоговый документ
         $hash = md5(uniqid(mt_rand(), true));
         $outputFileName = 'offer_result.docx';
@@ -107,7 +92,7 @@ class DocumentOfferInvoiceGenerateService
 
 
         // Сохраняем файл Word в формате .docx
-     
+
 
         if (!file_exists($outputFilePath)) {
             mkdir($outputFilePath, 0775, true); // Создать каталог с правами доступа
@@ -122,7 +107,7 @@ class DocumentOfferInvoiceGenerateService
 
         $fullOutputFilePath = $outputFilePath . $outputFileName;
         $templateProcessor->saveAs($fullOutputFilePath);
-   
+
         return ['file' => $fullOutputFilePath];
     }
 }
