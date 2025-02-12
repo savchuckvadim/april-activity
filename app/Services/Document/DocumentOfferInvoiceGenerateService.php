@@ -80,7 +80,7 @@ class DocumentOfferInvoiceGenerateService
     protected function letterWithPrice()
     {
         // Пример условия
-        $withPrice = true;
+        $withPrice = false;
         $processor = $this->processor;
         // Условная вставка блоков
         if ($withPrice) {
@@ -91,8 +91,8 @@ class DocumentOfferInvoiceGenerateService
             // $processor->deleteBlock('if_letterWithoutPrice');
         } else {
             // Вставляем блок без цены
-            $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
-            $processor->deleteBlock('if_letterWithPrice');
+            $processor->cloneBlock('if_letterWithPrice', 0, true, false, );
+            $processor->cloneBlock('if_letterWithoutPrice', 1, true, false);
         }
         $processor->setValue('sale_text', 'Скидка 20% на весь ассортимент!');
 
