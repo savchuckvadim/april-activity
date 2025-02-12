@@ -40,35 +40,35 @@ class DocumentOfferInvoiceGenerateService
         // ]
         //         ${infoblock_group}
         // ${infoblock_title} - ${infoblock_description}
-        // $groups = [
-        //     [
-        //         'groupName' => 'name1',
-        //         'infoblocks' => [
-        //             [
-        //                 'title' => '',
-        //                 'description' => ''
-        //             ],
-        //             [
-        //                 'title' => '',
-        //                 'description' => ''
-        //             ],
-        //         ]
-        //     ],
-        //     [
-        //         'groupName' => 'name2',
-        //         'infoblocks' => [
-        //             [
-        //                 'title' => '',
-        //                 'description' => ''
-        //             ],
-        //             [
-        //                 'title' => '',
-        //                 'description' => ''
-        //             ],
-        //         ]
-        //     ]
-        // ];
-        $groups = $data['infoblock']['infoblocks'];
+        $groups = [
+            [
+                'groupName' => 'name1',
+                'infoblocks' => [
+                    [
+                        'infoblock_title' => 'sdf',
+                        'description' => ''
+                    ],
+                    [
+                        'infoblock_title' => '43trt',
+                        'description' => ''
+                    ],
+                ]
+            ],
+            [
+                'groupName' => 'name2',
+                'infoblocks' => [
+                    [
+                        'infoblock_title' => '345345',
+                        'description' => ''
+                    ],
+                    [
+                        'infoblock_title' => '34535',
+                        'description' => ''
+                    ],
+                ]
+            ]
+        ];
+        // $groups = $data['infoblock']['infoblocks'];
         // $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
         // $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
         // $templateProcessor->cloneRow('infoblock_group', count($groups));
@@ -94,8 +94,8 @@ class DocumentOfferInvoiceGenerateService
                 }
                 $infoblockNumber = $infoblockIndex + 1;
         
-                // $templateProcessor->setValue("infoblock_title#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_title']);
-                // $templateProcessor->setValue("infoblock_description#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_description']);
+                $templateProcessor->setValue("infoblock_title#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_title']);
+                $templateProcessor->setValue("infoblock_description#{$groupNumber}_{$infoblockNumber}", $infoblock['infoblock_description']);
             }
         }
         
