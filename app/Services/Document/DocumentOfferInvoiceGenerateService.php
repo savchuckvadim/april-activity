@@ -7,9 +7,30 @@ use App\Http\Controllers\ALogController;
 
 class DocumentOfferInvoiceGenerateService
 {
+    protected $processor;
+    protected $infoblocks;
+    public function __construct($domain,   $data)
+    {
+        $filePath = 'app/public/konstructor/templates/offer/gsr.bitrix24.ru';
 
-    public static function getGenerateDocumentFromTemplate(
-        $data
+        $fullPath = storage_path($filePath . '/offer.docx');
+
+        $this->processor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
+        // $this->infoblocks = $data['infoblock'];
+        $this->infoblocks = [
+            'Нормативно-правовые акты' => [
+                ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
+                ['infoblock_title' => 'Отраслевое законодательство', 'infoblock_description' => 'Блок содержит ...'],
+            ],
+            'Энциклопедии решений' => [
+                ['infoblock_title' => 'Энциклопедия 1', 'infoblock_description' => 'Описание Э1'],
+                ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
+            ]
+        ];
+    }
+
+    public function getGenerateDocumentFromTemplate(
+
         // $data = [
         //     'infoblock' => $infoblockService->getInfoblocksData(),
         //     'offer' => $offerService->getOfferData(),
@@ -20,77 +41,22 @@ class DocumentOfferInvoiceGenerateService
         //     // 'supply' => $documentType,
         // ];
 
-    ) {
-
-        $filePath = 'app/public/konstructor/templates/offer/gsr.bitrix24.ru';
-
-        $fullPath = storage_path($filePath . '/offer.docx');
-
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-
-        $iblockData = $data['infoblock'];
-        // $result = [
-        //     'styleMode' => $styleMode,
-        //     'descriptionMode' => $descriptionMode,
-        //     'pages' => $pages,
-        //     'withPrice' => $withPrice,
-        //     'complectName' => $complectName,
-        //       'infoblocks' => $this->getAllInfoblocks()
+    )
+    {
 
 
-        // ]
-        //         ${infoblock_group}
-        // ${infoblock_title} - ${infoblock_description}
-        $groups =
-            [
-                'Нормативно-правовые акты' => [
-                    ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
-                    ['infoblock_title' => 'Отраслевое законодательство', 'infoblock_description' => 'Блок содержит ...'],
-                ],
-                'Энциклопедии решений' => [
-                    ['infoblock_title' => 'Энциклопедия 1', 'infoblock_description' => 'Описание Э1'],
-                    ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
-                ]
-            ];
+
+
+
         // Клонируем блоки групп
-        $replacements = [];
-        $groupIndex = 0;
 
-        foreach ($groups as $groupName => $infoblocks) {
-            $replacements[] = [
-                'infoblock_group' => $groupName,
-                'infoblock_title_0' => '${infoblock_title_' . $groupIndex . '}',
-                'infoblock_description_0' => '${infoblock_description_' . $groupIndex . '}'
-            ];
-            $groupIndex++;
-        }
-
-        $templateProcessor->cloneBlock('block_group', 0, true, false, $replacements);
-
-        // Теперь клонируем строки для каждой группы
-        $groupIndex = 0;
-        foreach ($groups as $groupName => $infoblocks) {
-            $rows = [];
-
-            foreach ($infoblocks as $infoblock) {
-                $rows[] = [
-                    'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
-                    'infoblock_description_' . $groupIndex => $infoblock['infoblock_description']
-                ];
-            }
-
-            // Клонируем строки таблицы внутри каждой группы
-            $templateProcessor->cloneRowAndSetValues('infoblock_title_' . $groupIndex, $rows);
-
-            $groupIndex++;
-        }
         // Сохраняем итоговый документ
         $hash = md5(uniqid(mt_rand(), true));
         $outputFileName = 'offer_result.docx';
         $outputFilePath = storage_path('app/public/konstructor/result_test/');
 
-
-
+        $this->letterWithPrice();
+        $this->processInfoblocks();
         // Сохраняем файл Word в формате .docx
 
 
@@ -106,8 +72,60 @@ class DocumentOfferInvoiceGenerateService
 
 
         $fullOutputFilePath = $outputFilePath . $outputFileName;
-        $templateProcessor->saveAs($fullOutputFilePath);
+        $this->processor->saveAs($fullOutputFilePath);
 
         return ['file' => $fullOutputFilePath];
+    }
+
+    protected function letterWithPrice()
+    {
+        // Пример условия
+        $withPrice = true;
+        $processor = $this->processor;
+        // Условная вставка блоков
+        if ($withPrice) {
+            // Вставляем блок с ценой
+            $processor->cloneBlock('if_letterWithPrice', 0, true, false);
+            $processor->deleteBlock('if_letterWithoutPrice');
+        } else {
+            // Вставляем блок без цены
+            $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
+            $processor->deleteBlock('if_letterWithPrice');
+        }
+    }
+    protected function processInfoblocks()
+    {
+
+        $replacements = [];
+        $groupIndex = 0;
+
+        foreach ($this->infoblocks as $groupName => $infoblocks) {
+            $replacements[] = [
+                'infoblock_group' => $groupName,
+                'infoblock_title_0' => '${infoblock_title_' . $groupIndex . '}',
+                'infoblock_description_0' => '${infoblock_description_' . $groupIndex . '}'
+            ];
+            $groupIndex++;
+        }
+
+        $this->processor->cloneBlock('block_group', 0, true, false, $replacements);
+
+        // Теперь клонируем строки для каждой группы
+        $groupIndex = 0;
+        foreach ($this->infoblocks as $groupName => $infoblocks) {
+            $rows = [];
+
+            foreach ($infoblocks as $infoblock) {
+                $rows[] = [
+                    'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
+                    'infoblock_description_' . $groupIndex => $infoblock['infoblock_description']
+                ];
+            }
+
+            // Клонируем строки таблицы внутри каждой группы
+            $this->processor->cloneRowAndSetValues('infoblock_title_' . $groupIndex, $rows);
+
+            $groupIndex++;
+        }
     }
 }
