@@ -27,7 +27,7 @@ class DocumentOfferPriceDataService
         $this->isInvoice = $isInvoice;
         $this->priceCellsService = new ProccessPriceCellsService($price['cells'], false);
     }
-    protected function getPricesData()
+    public function getPricesData()
     {
         $price = $this->price;
         $salePhrase = $this->salePhrase;

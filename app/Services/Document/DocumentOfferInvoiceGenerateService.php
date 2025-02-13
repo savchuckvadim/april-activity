@@ -3,12 +3,16 @@
 namespace App\Services\Document;
 
 use App\Http\Controllers\ALogController;
-
+use OfferHeaderDTO;
 
 class DocumentOfferInvoiceGenerateService
 {
     protected $processor;
     protected $infoblocks;
+   
+    protected $price;
+    protected $offer;
+    protected OfferHeaderDTO $header;
     public function __construct($domain,   $data)
     {
         $filePath = 'app/public/konstructor/templates/offer/gsr.bitrix24.ru';
@@ -27,6 +31,24 @@ class DocumentOfferInvoiceGenerateService
         //         ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
         //     ]
         // ];
+        $this->offer = $data['offer']; 
+        $this->header = new OfferHeaderDTO($data['offer']['header']);
+    //         'isTwoLogo' => $this->isTwoLogo,
+    //         'rq' => '',
+    //         'logo_1' => null,
+    //         'logo_2' => null,
+    //  'doubleHeader' => $this->getDoubleHeaderData(),
+    //  'footer' => $this->getFooterData(),
+    //  'letter' => $this->getLetterData(),
+        $this->price = $data['price']; 
+           // 'isTable' => $isTable,
+           // 'isInvoice' => $isInvoice,
+           // 'allPrices' => $allPrices,
+           // 'withPrice' => $withPrice,
+           // 'withTotal' => $withTotal,
+           // 'total' => $fullTotalstring,
+           // 'salePhrase' => $salePhrase
+
     }
 
     public function getGenerateDocumentFromTemplate(
@@ -85,17 +107,16 @@ class DocumentOfferInvoiceGenerateService
         // Условная вставка блоков
         if ($withPrice) {
             // Вставляем блок с ценой
-            $processor->cloneBlock('if_letterWithPrice', 1, true, false, );
+            $processor->cloneBlock('if_letterWithPrice', 1, true, false,);
             $processor->cloneBlock('if_letterWithoutPrice', 0, true, false);
 
             // $processor->deleteBlock('if_letterWithoutPrice');
         } else {
             // Вставляем блок без цены
-            $processor->cloneBlock('if_letterWithPrice', 0, true, false, );
+            $processor->cloneBlock('if_letterWithPrice', 0, true, false,);
             $processor->cloneBlock('if_letterWithoutPrice', 1, true, false);
         }
         $processor->setValue('sale_text', 'Скидка 20% на весь ассортимент!');
-
     }
     protected function processInfoblocks()
     {
@@ -124,7 +145,7 @@ class DocumentOfferInvoiceGenerateService
 
                 $rows[] = [
                     'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
-                    'infoblock_description_' . $groupIndex => $description 
+                    'infoblock_description_' . $groupIndex => $description
                 ];
             }
 
@@ -133,5 +154,17 @@ class DocumentOfferInvoiceGenerateService
 
             $groupIndex++;
         }
+    }
+    protected function proccessHeader() {
+        $rq = str_replace("\n", "</w:t><w:br/><w:t>", $this->header->rq);
+        $this->processor->setValue('header',  $rq);
+
+        $this->processor->setImageValue('logo', [
+            'path' => $this->header->logo_1,
+            'width' => 200,
+            'height' => 100,
+            'ratio' => true, // Сохранять пропорции
+        ]);
+
     }
 }
