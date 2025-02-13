@@ -122,7 +122,7 @@ class DocumentOfferInvoiceGenerateService
             foreach ($group['infoblocks'] as $infoblock) {
                 $rows[] = [
                     'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
-                    'infoblock_description_' . $groupIndex => $infoblock['infoblock_description']
+                    'infoblock_description_' . $groupIndex => str_replace("\n", "\r\n", $infoblock['infoblock_description']) 
                 ];
             }
 
