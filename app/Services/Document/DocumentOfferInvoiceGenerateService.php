@@ -104,14 +104,25 @@ class DocumentOfferInvoiceGenerateService
     protected function processPrice()
     {
         $general = $this->price['allPrices']['general'];
+        $total = $this->price['allPrices']['total'];
+        foreach ($total as $totaltarget) {
+            foreach ($totaltarget['cells'] as $key => $cell) {
+            
+                if ($cell['code'] === 'name') {
+                    $this->processor->setValue('product_name', $cell['value']);
+                }
+            }
+        }
+
+        
         foreach ($general as $target) {
             foreach ($target['cells'] as $key => $cell) {
                 $cellIndex = $key + 1;
-                if($key == 0){
-                    if ($cell['code'] === 'name') {
-                        $this->processor->setValue('productName', $cell['value']);
-                    }
+
+                if ($cell['code'] === 'name') {
+                    $this->processor->setValue('product_name', $cell['value']);
                 }
+
                 $this->processor->setValue(
                     'cell_value_' . $cellIndex,
                     $cell['value']
