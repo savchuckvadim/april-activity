@@ -100,8 +100,8 @@ class DocumentOfferPriceDataService
                 }
             }
 
-            if ($cell['code'] === 'measure' && $cell['value']) {
-                if ($cell['isActive']) {
+            if ($cell->code === 'measure' && $cell->value) {
+                if ($cell->isActive) {
                     // foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
                     //     if ($contractCell['code'] === 'contract') {
                     //         $measureString = $contractCell['value']['measureFullName'];
@@ -116,12 +116,12 @@ class DocumentOfferPriceDataService
 
 
         if ($foundCell) {
-            $totalSum = $foundCell['value'];
+            $totalSum = $foundCell->value;
             $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
             $total = '<color>' . $totalSum . '</color> ';
         }
 
-        $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
+        $result = MoneySpeller::spell($foundCell->value, MoneySpeller::RUBLE);
         $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
         $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
 
