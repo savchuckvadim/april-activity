@@ -417,25 +417,25 @@ class ContractController extends Controller
 
 
         foreach ($templateData['general'] as $gcode => $g) {
-            $gformattedSpec = str_replace("\n", '<w:br/>', $g);
+            $gformattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $g);
 
             $templateProcessor->setValue($gcode, $gformattedSpec);
         };
 
         foreach ($templateData['rq'] as $rqcode => $rqItem) {
-            $rqItemformattedSpec = str_replace("\n", '<w:br/>', $rqItem);
+            $rqItemformattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $rqItem);
 
             $templateProcessor->setValue($rqcode, $rqItemformattedSpec);
         };
 
         foreach ($templateData['total'] as $code => $totalItemValue) {
-            // $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
             $templateProcessor->setValue($code, $totalItemValue);
             // $templateProcessor->setValue($code, $spec);
         }
 
         foreach ($templateData['specification'] as $code => $spec) {
-            $formattedSpec = str_replace("\n", '<w:br/>', $spec);
+            $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
             $templateProcessor->setValue($code, $formattedSpec);
             // $templateProcessor->setValue($code, $spec);
         }
