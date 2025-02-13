@@ -302,9 +302,16 @@ class DocumentInfoblocksDataService
                         }
                     }
                     if ($infoblockData) {
-                        $iblock = $infoblockData;
+                        $iblock = [];
                         $iblock['infoblock_title'] = $infoblockData['name'];
-                        $iblock['infoblock_description'] = $infoblockData['descriptionForSale'];
+                        $iblock['infoblock_description'] = $infoblockData['shortDescription'];
+                        if ($descriptionMode == 0) {
+                            $iblock['infoblock_description'] = $infoblockData['shortDescription'];
+                        } else if ($descriptionMode == 1) {
+                            $iblock['infoblock_description'] = $infoblockData['descriptionForSale'];
+                        } else if ($descriptionMode == 2) {
+                            $iblock['infoblock_description'] = $infoblockData['description'];
+                        }
                         $groupItems[] = $iblock;
                     }
                 }

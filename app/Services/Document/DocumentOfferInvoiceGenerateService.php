@@ -16,17 +16,17 @@ class DocumentOfferInvoiceGenerateService
         $fullPath = storage_path($filePath . '/offer.docx');
 
         $this->processor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-        // $this->infoblocks = $data['infoblock'];
-        $this->infoblocks = [
-            'Нормативно-правовые акты' => [
-                ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
-                ['infoblock_title' => 'Отраслевое законодательство', 'infoblock_description' => 'Блок содержит ...'],
-            ],
-            'Энциклопедии решений' => [
-                ['infoblock_title' => 'Энциклопедия 1', 'infoblock_description' => 'Описание Э1'],
-                ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
-            ]
-        ];
+        $this->infoblocks = $data['infoblock']; //['groupsName'=> '', infoblocks]
+        // $this->infoblocks = [
+        //     'Нормативно-правовые акты' => [
+        //         ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
+        //         ['infoblock_title' => 'Отраслевое законодательство', 'infoblock_description' => 'Блок содержит ...'],
+        //     ],
+        //     'Энциклопедии решений' => [
+        //         ['infoblock_title' => 'Энциклопедия 1', 'infoblock_description' => 'Описание Э1'],
+        //         ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
+        //     ]
+        // ];
     }
 
     public function getGenerateDocumentFromTemplate(
@@ -103,9 +103,9 @@ class DocumentOfferInvoiceGenerateService
         $replacements = [];
         $groupIndex = 0;
 
-        foreach ($this->infoblocks as $groupName => $infoblocks) {
+        foreach ($this->infoblocks as  $group) {
             $replacements[] = [
-                'infoblock_group' => $groupName,
+                'infoblock_group' => $group['groupsName'],
                 'infoblock_title_0' => '${infoblock_title_' . $groupIndex . '}',
                 'infoblock_description_0' => '${infoblock_description_' . $groupIndex . '}'
             ];
@@ -116,10 +116,10 @@ class DocumentOfferInvoiceGenerateService
 
         // Теперь клонируем строки для каждой группы
         $groupIndex = 0;
-        foreach ($this->infoblocks as $groupName => $infoblocks) {
+        foreach ($this->infoblocks as  $group) {
             $rows = [];
 
-            foreach ($infoblocks as $infoblock) {
+            foreach ($group['infoblocks'] as $infoblock) {
                 $rows[] = [
                     'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
                     'infoblock_description_' . $groupIndex => $infoblock['infoblock_description']
