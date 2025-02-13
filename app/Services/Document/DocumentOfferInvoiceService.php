@@ -62,7 +62,7 @@ class DocumentOfferInvoiceService
             $price,
             $alternativeSetId
         );
-        $generateDocumentService = new DocumentOfferInvoiceGenerateService('domain', $documentNumber);
+        $generateDocumentService = new DocumentOfferInvoiceGenerateService('domain', $data);
         $result = $generateDocumentService->getGenerateDocumentFromTemplate();
 
         return $result;
