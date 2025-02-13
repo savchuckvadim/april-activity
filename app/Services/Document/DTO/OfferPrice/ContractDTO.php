@@ -10,6 +10,7 @@ class ContractDTO
     public function __construct(
         public int $id,
         public string $name,
+        
         public string $title,
         public string $code,
         public string $type,

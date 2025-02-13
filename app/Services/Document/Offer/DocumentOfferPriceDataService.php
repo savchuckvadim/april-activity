@@ -61,18 +61,18 @@ class DocumentOfferPriceDataService
         $totalGroup = $comePrices->total[0];
 
         foreach ($totalGroup->cells as $contractCell) {
-            if ($contractCell['code'] === 'contract') {
-                $contract = $contractCell['value'];
+            if ($contractCell->code === 'contract') {
+                $contract = $contractCell->value;
             }
         }
         // if ($withTotal) {
         $foundCell = null;
         foreach ($comePrices->total[0]->cells as $cell) {
-            if ($cell['code'] === 'prepaymentsum') {
+            if ($cell->code === 'prepaymentsum') {
                 $foundCell = $cell;
             }
 
-            if ($cell->code === 'quantity' && $cell['value']) {
+            if ($cell->code === 'quantity' && $cell->value) {
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima' && $contract['shortName'] !== 'lic' && $contract['shortName'] !== 'key') {
 
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
