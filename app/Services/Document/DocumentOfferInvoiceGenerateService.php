@@ -9,7 +9,7 @@ class DocumentOfferInvoiceGenerateService
 {
     protected $processor;
     protected $infoblocks;
-   
+
     protected $price;
     protected $offer;
     protected OfferHeaderDTO $header;
@@ -31,23 +31,23 @@ class DocumentOfferInvoiceGenerateService
         //         ['infoblock_title' => 'Энциклопедия 2', 'infoblock_description' => 'Описание Э2'],
         //     ]
         // ];
-        $this->offer = $data['offer']; 
+        $this->offer = $data['offer'];
         $this->header = new OfferHeaderDTO($data['offer']['header']);
-    //         'isTwoLogo' => $this->isTwoLogo,
-    //         'rq' => '',
-    //         'logo_1' => null,
-    //         'logo_2' => null,
-    //  'doubleHeader' => $this->getDoubleHeaderData(),
-    //  'footer' => $this->getFooterData(),
-    //  'letter' => $this->getLetterData(),
-        $this->price = $data['price']; 
-           // 'isTable' => $isTable,
-           // 'isInvoice' => $isInvoice,
-           // 'allPrices' => $allPrices,
-           // 'withPrice' => $withPrice,
-           // 'withTotal' => $withTotal,
-           // 'total' => $fullTotalstring,
-           // 'salePhrase' => $salePhrase
+        //         'isTwoLogo' => $this->isTwoLogo,
+        //         'rq' => '',
+        //         'logo_1' => null,
+        //         'logo_2' => null,
+        //  'doubleHeader' => $this->getDoubleHeaderData(),
+        //  'footer' => $this->getFooterData(),
+        //  'letter' => $this->getLetterData(),
+        $this->price = $data['price'];
+        // 'isTable' => $isTable,
+        // 'isInvoice' => $isInvoice,
+        // 'allPrices' => $allPrices,
+        // 'withPrice' => $withPrice,
+        // 'withTotal' => $withTotal,
+        // 'total' => $fullTotalstring,
+        // 'salePhrase' => $salePhrase
 
     }
 
@@ -142,7 +142,7 @@ class DocumentOfferInvoiceGenerateService
             $rows = [];
 
             foreach ($group['infoblocks'] as $infoblock) {
-                $description = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['infoblock_description']);
+                $description = $this->stringSpaceReplace($infoblock['infoblock_description']);
 
                 $rows[] = [
                     'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
@@ -156,8 +156,9 @@ class DocumentOfferInvoiceGenerateService
             $groupIndex++;
         }
     }
-    protected function proccessHeader() {
-        $rq = str_replace("\n", "</w:t><w:br/><w:t>", $this->header->rq);
+    protected function proccessHeader()
+    {
+        $rq = $this->stringSpaceReplace($this->header->rq);
         $this->processor->setValue('header',  $rq);
 
         $this->processor->setImageValue('logo', [
@@ -166,6 +167,13 @@ class DocumentOfferInvoiceGenerateService
             'height' => 100,
             'ratio' => true, // Сохранять пропорции
         ]);
+    }
 
+
+
+    //general
+    protected function stringSpaceReplace($string): string
+    {
+        return str_replace("\n", "</w:t><w:br/><w:t>", $string);
     }
 }

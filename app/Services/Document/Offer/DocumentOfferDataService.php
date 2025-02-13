@@ -69,20 +69,20 @@ class DocumentOfferDataService
 
             $rq = $companyName;
             if ($providerRq['inn']) {
-                $rq = $rq . ', \n ИНН: ' . $providerRq['inn'];
+                $rq = $rq . ", \n ИНН: " . $providerRq['inn'];
             }
             if ($providerRq['kpp']) {
                 $rq = $rq . ', КПП: ' . $providerRq['kpp'];
             }
 
-            $rq = $rq . ', \n ' . $providerRq['primaryAdresss'];
+            $rq = $rq . ", \n " . $providerRq['primaryAdresss'];
             if ($providerRq['phone']) {
                 // Нормализация номера телефона
                 $normalizedPhone = preg_replace('/^8/', '7', $providerRq['phone']); // Заменяем первую цифру 8 на 7
                 $normalizedPhone = preg_replace('/^7/', '+7', $normalizedPhone); // Заменяем первую цифру 7 на +7
                 // $normalizedPhone = preg_replace('/[^\d+]/', '', $normalizedPhone); // Удаляем все недопустимые символы
 
-                $rq = $rq . ', \n' . $normalizedPhone;
+                $rq = $rq . ", \n" . $normalizedPhone;
             }
             if ($providerRq['email']) {
                 $rq = $rq . ', ' . $providerRq['email'];
@@ -123,16 +123,16 @@ class DocumentOfferDataService
 
         $first = $companyName;
         if ($providerRq['inn']) {
-            $first = $first . ', \n  ИНН: ' . $providerRq['inn'];
+            $first = $first . ", \n  ИНН: " . $providerRq['inn'];
         }
         if ($providerRq['kpp']) {
             $first = $first . ', КПП: ' . $providerRq['kpp'];
         }
         if ($providerRq['primaryAdresss']) {
-            $first = $first . ', \n' . $providerRq['primaryAdresss'];
+            $first = $first . ", \n" . $providerRq['primaryAdresss'];
         }
         if ($providerRq['rs']) {
-            $first = $first . ', \n  р/c: ' . $providerRq['rs'];
+            $first = $first . ", \n  р/c: " . $providerRq['rs'];
         }
 
         $second = '';
