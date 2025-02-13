@@ -3,8 +3,7 @@
 namespace App\Services\Document;
 
 use App\Http\Controllers\ALogController;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Style\Font;
+
 
 class DocumentOfferInvoiceGenerateService
 {
@@ -121,16 +120,11 @@ class DocumentOfferInvoiceGenerateService
             $rows = [];
 
             foreach ($group['infoblocks'] as $infoblock) {
-                $textRun = new TextRun();
-                $lines = explode("\n", $infoblock['infoblock_description']);
-        
-                foreach ($lines as $line) {
-                    $textRun->addText($line, ['size' => 12]); 
-                    $textRun->addTextBreak(); // Перенос строки
-                }
+                $description = str_replace("\n", "</w:t><w:br/><w:t>", $infoblock['infoblock_description']);
+
                 $rows[] = [
                     'infoblock_title_' . $groupIndex => $infoblock['infoblock_title'],
-                    'infoblock_description_' . $groupIndex => $textRun 
+                    'infoblock_description_' . $groupIndex => $description 
                 ];
             }
 
