@@ -112,7 +112,7 @@ class DocumentOfferInvoiceGenerateService
                         $this->processor->setValue('productName', $cell['value']);
                     }
                 }
-                $this->processor->cloneRowAndSetValues(
+                $this->processor->setValue(
                     'cell_value_' . $cellIndex,
                     $cell['value']
                 );
