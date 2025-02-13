@@ -3,7 +3,7 @@
 namespace App\Services\Document;
 
 use App\Http\Controllers\ALogController;
-use OfferHeaderDTO;
+use App\Services\Document\DTO\OfferHeaderDTO;
 
 class DocumentOfferInvoiceGenerateService
 {

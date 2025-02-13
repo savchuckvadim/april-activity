@@ -1,4 +1,6 @@
 <?php
+namespace App\Services\Document\DTO;
+
 class OfferHeaderDTO
 {
     public bool $isTwoLogo;
