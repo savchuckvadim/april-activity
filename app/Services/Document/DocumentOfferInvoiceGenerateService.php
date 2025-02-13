@@ -16,7 +16,7 @@ class DocumentOfferInvoiceGenerateService
         $fullPath = storage_path($filePath . '/offer.docx');
 
         $this->processor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
-        $this->infoblocks = $data['infoblock']; //['groupsName'=> '', infoblocks]
+        $this->infoblocks = $data['infoblock']['infoblocks']; //['groupsName'=> '', infoblocks]
         // $this->infoblocks = [
         //     'Нормативно-правовые акты' => [
         //         ['infoblock_title' => 'Законодательство России', 'infoblock_description' => 'Блок, который содержит ...'],
