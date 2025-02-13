@@ -37,7 +37,7 @@ class DocumentOfferPriceDataService
 
         $isTable = $price['isTable'];
 
-        
+
         /** @var OfferPriceDTO $comePrices */
         $comePrices =  OfferPriceDTO::fromArray($price['cells']);
        
@@ -169,16 +169,16 @@ class DocumentOfferPriceDataService
                     $result = true;
                 }
 
-                foreach ($general[0]['cells'] as $key => $cell) {
-                    if ($cell['code'] === 'quantity') {            //если есть количество
-                        if ($cell['value'] > 1) {
+                foreach ($general[0]->cells as $key => $cell) {
+                    if ($cell->code === 'quantity') {            //если есть количество
+                        if ($cell->value > 1) {
                             $result = true;
                         }
                     }
 
-                    if ($cell['code'] === 'contract') {              //если какой-нибудь навороченный контракт
-                        if (isset($cell['value']) && isset($cell['value']['shortName'])) {
-                            if ($cell['value']['shortName'] !== 'internet' && $cell['value']['shortName'] !== 'proxima') {
+                    if ($cell->code === 'contract') {              //если какой-нибудь навороченный контракт
+                        if (isset($cell->value) && isset($cell->value['shortName'])) {
+                            if ($cell->value['shortName'] !== 'internet' && $cell->value['shortName'] !== 'proxima') {
                                 $result = true;
                             }
                         }
