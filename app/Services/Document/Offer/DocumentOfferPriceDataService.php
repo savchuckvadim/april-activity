@@ -46,7 +46,7 @@ class DocumentOfferPriceDataService
         $totalSum = 0;        //SORT CELLS
 
         $sortActivePrices = $this->priceCellsService->getSortActivePrices();
-        $allPrices =  $sortActivePrices;
+        // $allPrices =  $sortActivePrices;
 
 
         //IS WITH TOTAL 
@@ -138,7 +138,7 @@ class DocumentOfferPriceDataService
         return [
             'isTable' => $isTable,
             'isInvoice' => $isInvoice,
-            'allPrices' => $allPrices,
+            'allPrices' => $sortActivePrices,
             'withPrice' => $withPrice,
             'withTotal' => $withTotal,
             'total' => $fullTotalstring,

@@ -79,6 +79,7 @@ class DocumentOfferInvoiceGenerateService
 
         $this->proccessHeader();
         $this->letterWithPrice();
+        $this->processPrice();
         $this->processInfoblocks();
         // Сохраняем файл Word в формате .docx
 
@@ -100,6 +101,24 @@ class DocumentOfferInvoiceGenerateService
         return ['file' => $fullOutputFilePath];
     }
 
+    protected function processPrice()
+    {
+        $general = $this->price['allPrices']['general'];
+        foreach ($general as $target) {
+            foreach ($target['cells'] as $key => $cell) {
+                $cellIndex = $key + 1;
+                if($key == 0){
+                    if ($cell['code'] === 'name') {
+                        $this->processor->setValue('productName', $cell['value']);
+                    }
+                }
+                $this->processor->cloneRowAndSetValues(
+                    'cell_value_' . $cellIndex,
+                    $cell['value']
+                );
+            }
+        }
+    }
     protected function letterWithPrice()
     {
         // Пример условия
