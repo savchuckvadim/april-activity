@@ -2,13 +2,14 @@
 
 namespace App\Services\Document\Offer;
 
+use App\Services\Document\DTO\OfferPrice\OfferPriceDTO;
 use App\Services\Document\General\ProccessPriceCellsService;
 use morphos\Russian\MoneySpeller;
 use morphos\Russian\TimeSpeller;
 
 class DocumentOfferPriceDataService
 {
-    protected $price;
+    protected  $price;
     protected $salePhrase;
     protected $withPrice;
     protected $isInvoice;
@@ -35,7 +36,11 @@ class DocumentOfferPriceDataService
         $isInvoice = $this->isInvoice;
 
         $isTable = $price['isTable'];
-        $comePrices = $price['cells'];
+
+        
+        /** @var OfferPriceDTO $comePrices */
+        $comePrices =  OfferPriceDTO::fromArray($price['cells']);
+       
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
@@ -51,19 +56,23 @@ class DocumentOfferPriceDataService
         $quantityString = '';
         $measureString = '';
         $contract = null;
-        foreach ($price['cells']['total'][0]['cells'] as $contractCell) {
+
+        /** @var GroupCellsDTO $totalGroup */
+        $totalGroup = $comePrices->total[0];
+
+        foreach ($totalGroup->cells as $contractCell) {
             if ($contractCell['code'] === 'contract') {
                 $contract = $contractCell['value'];
             }
         }
         // if ($withTotal) {
         $foundCell = null;
-        foreach ($price['cells']['total'][0]['cells'] as $cell) {
+        foreach ($comePrices->total[0]->cells as $cell) {
             if ($cell['code'] === 'prepaymentsum') {
                 $foundCell = $cell;
             }
 
-            if ($cell['code'] === 'quantity' && $cell['value']) {
+            if ($cell->code === 'quantity' && $cell['value']) {
                 if ($contract['shortName'] !== 'internet' && $contract['shortName'] !== 'proxima' && $contract['shortName'] !== 'lic' && $contract['shortName'] !== 'key') {
 
                     $numberString = filter_var($cell['value'], FILTER_SANITIZE_NUMBER_INT);
@@ -141,13 +150,13 @@ class DocumentOfferPriceDataService
 
 
     protected function getWithTotal(
-        $allPrices
+       OfferPriceDTO $allPrices
 
     ) {
 
         $result = false;
-        $alternative =  $allPrices['alternative'];
-        $general =  $allPrices['general'];
+        $alternative =  $allPrices->alternative;
+        $general =  $allPrices->general;
 
 
 

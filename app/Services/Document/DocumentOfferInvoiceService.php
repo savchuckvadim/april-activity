@@ -2,6 +2,8 @@
 
 namespace App\Services\Document;
 
+use App\Services\Document\DTO\OfferPrice\OfferPriceDTO;
+
 class DocumentOfferInvoiceService
 {
 

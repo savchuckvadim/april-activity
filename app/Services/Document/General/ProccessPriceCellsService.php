@@ -1,8 +1,8 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Services\Document\General;
 
-
+use App\Services\Document\DTO\OfferPrice\SortedProductDTO;
 
 class ProccessPriceCellsService
 {
@@ -21,6 +21,10 @@ class ProccessPriceCellsService
 
     }
  
+    /**
+     * @return array<string, SortedProductDTO[]>
+     */
+
     public function getSortActivePrices()
     {
 
