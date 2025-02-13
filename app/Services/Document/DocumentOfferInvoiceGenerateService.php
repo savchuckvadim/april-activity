@@ -104,7 +104,20 @@ class DocumentOfferInvoiceGenerateService
     protected function processPrice()
     {
         $general = $this->price['allPrices']['general'];
+        $alternative = $this->price['allPrices']['alternative'];
         $total = $this->price['allPrices']['total'];
+        $prices = [
+            [
+                'cell_value_name' => '', // name
+                'cell_value_supply' => '', // supply
+                'cell_value_sale_supply' => '', // supply
+                'cell_value_lic_supply_comment' => '', // supply
+                'cell_value_price_current' => '', // supply
+                'cell_value_quantity_measure' => '', // при внесении предоплаты от | при оплате лицензии от | количество, шт | при заключении договора от
+                'cell_value_prepayment' => '', // сумма за весь период | сумма
+            ]
+
+        ];
         foreach ($total as $totaltarget) {
             foreach ($totaltarget['cells'] as $key => $cell) {
             
@@ -114,7 +127,7 @@ class DocumentOfferInvoiceGenerateService
             }
         }
 
-        
+
         foreach ($general as $target) {
             foreach ($target['cells'] as $key => $cell) {
                 $cellIndex = $key + 1;
