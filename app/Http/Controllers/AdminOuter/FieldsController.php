@@ -43,7 +43,7 @@ class FieldsController extends Controller
             $domain =  $data['domain'];
             $isRewrite = $data['is_rewrite'];
             $smartId = $data['smart_id'];
-
+            // $entity_typeId = $data['entity_type_id'];
 
 
             $portal = Portal::where('domain', $domain)->first();
@@ -54,7 +54,7 @@ class FieldsController extends Controller
             $portalCompany = $portal->companies->first();
             $portalContact = $portal->contacts->first();
             $portalRPAs = $portal->rpas->all();
-            $portalSmart = $portal->smarts->where('bitrixId', $smartId)->first();
+            $portalSmart = $portal->smarts->where('entityTypeId', $smartId)->first();
             Log::channel('telegram')->error("currentPortalField", [
                 'portalRPAs' => $portalRPAs,
 

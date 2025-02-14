@@ -59,8 +59,8 @@ class SmartController extends Controller
                     $currentPortalSmart = new Smart();
                     $currentPortalSmart->portal_id = $portalId;
                 }
-                $currentPortalSmart->type = $smart['code'];
-                $currentPortalSmart->group = $smart['code'];
+                $currentPortalSmart->type = $smart['type'];
+                $currentPortalSmart->group = $smart['group'];
                 $currentPortalSmart->name = $smart['code'];
                 $currentPortalSmart->title = $smart['title'];
                 $currentPortalSmart->bitrixId = $smart['bitrixId'];
