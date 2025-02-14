@@ -12,12 +12,16 @@ class FavoriteController extends Controller
 {
     //
 
-    public function getFavorites( $domain, $userId,)
+    public function getFavorites($domain, $userId,)
     {
         $favorites = [];
         try {
             $portal = Portal::where('domain', $domain)->first();
-            $favorites = BxDocumentDeal::where('userId', $userId)->where('portalId', $portal->id)->get();
+            $favorites = BxDocumentDeal::where('portalId', $portal->id)
+                ->where('userId', $userId)
+                ->where('isFavorite', true)->get();
+
+                
             $result = [
                 'favorites' => $favorites
             ];
@@ -32,8 +36,8 @@ class FavoriteController extends Controller
 
             return APIController::getError('favorites get', [
                 'error' =>  $errorMessages,
-                'domain' =>$domain,
-                'userId' =>$userId,
+                'domain' => $domain,
+                'userId' => $userId,
 
             ]);
         }
@@ -78,10 +82,8 @@ class FavoriteController extends Controller
             //search portal
             $searchingPortal = null;
             $searchingDeal = null;
-            if(!empty($favoriteId)){
+            if (!empty($favoriteId)) {
                 $searchingDeal = BxDocumentDeal::find($favoriteId);
-
-
             }
 
 
