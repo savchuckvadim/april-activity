@@ -21,10 +21,13 @@ class BxDocumentDeal extends Model
         'result',
         'rows',
         'userId',
-        'regions'    
+        'regions',
+
+        'isFavorite',
+        'clientType'
         // 'product',
-      
-        
+
+
     ];
 
     public function portal()
