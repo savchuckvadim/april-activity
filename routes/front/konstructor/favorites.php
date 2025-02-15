@@ -12,6 +12,10 @@ Route::prefix('konstructor/front')->group(function () {
         '/favorites/{domain}/{userId}',
         [FavoriteController::class, 'getFavorites']
     );
+    Route::get(
+        '/favorite/{id}',
+        [FavoriteController::class, 'get']
+    );
     Route::post(
         '/favorite',
         [FavoriteController::class, 'store']

@@ -63,7 +63,32 @@ class FavoriteController extends Controller
         }
     }
 
-    public function get() {}
+    public function get($id)
+    {
+        $favorite = null;
+        try {
+            $favorite = BxDocumentDeal::find($id);
+
+            $result = [
+                'favorite' => $favorite
+            ];
+            return APIController::getSuccess($result);
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('favorite get', [
+                'error' =>  $errorMessages,
+                'id' => $id,
+                'favorite' => $favorite,
+
+            ]);
+        }
+    }
     public function store(Request $request)
     {
         $resultDeal = null;
