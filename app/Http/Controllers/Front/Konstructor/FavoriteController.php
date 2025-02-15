@@ -21,7 +21,7 @@ class FavoriteController extends Controller
                 ->where('userId', $userId)
                 ->where('isFavorite', true)->get();
 
-                
+
             $result = [
                 'favorites' => $favorites
             ];
@@ -128,5 +128,31 @@ class FavoriteController extends Controller
     }
 
 
-    public function delete($itemId) {}
+    public function delete($id)
+    {
+
+        try {
+            $favorite = BxDocumentDeal::find($id);
+            $favorite->delete();
+            $favoriteResult = BxDocumentDeal::find($id);
+            $result = [
+                'favorite' => $favoriteResult
+            ];
+            return APIController::getSuccess($result);
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('favorites get', [
+                'error' =>  $errorMessages,
+                'id' => $id,
+                'favorite' => $favorite,
+
+            ]);
+        }
+    }
 }

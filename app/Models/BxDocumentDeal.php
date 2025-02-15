@@ -22,7 +22,7 @@ class BxDocumentDeal extends Model
         'rows',
         'userId',
         'regions',
-
+        'title',
         'isFavorite',
         'clientType'
         // 'product',
