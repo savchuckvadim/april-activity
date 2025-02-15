@@ -16,5 +16,9 @@ Route::prefix('konstructor/front')->group(function () {
         '/favorite',
         [FavoriteController::class, 'store']
     );
+    Route::delete(
+        '/favorite/{id}',
+        [FavoriteController::class, 'delete']
+    );
 
 });
