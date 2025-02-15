@@ -12,7 +12,7 @@ class FavoriteController extends Controller
 {
     //
 
-    public function getFavorites($domain, $userId,)
+    public function getFavorites($domain, $userId)
     {
         $favorites = [];
         try {
@@ -123,6 +123,47 @@ class FavoriteController extends Controller
                 'deal' => $resultDeal,
 
                 'searchingDeal' => $searchingDeal
+            ]);
+        }
+    }
+    public function saveName(Request $request)
+    {
+        $resultDeal = null;
+        try {
+            $favoriteId = $request->id;
+            $title = $request->name;
+            if (!empty($favoriteId)) {
+                $searchingDeal = BxDocumentDeal::find($favoriteId);
+                $searchingDeal->title = $title;
+                $searchingDeal->save();
+                $result = BxDocumentDeal::find($favoriteId);
+
+
+                return APIController::getSuccess([
+
+                    'favorite' => $result,
+
+                ]);
+            } else {
+                return APIController::getError(
+                    'favorite was not found',
+                    [
+                        'id' => $favoriteId,
+
+                    ]
+                );
+            }
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('favorite save name', [
+                'error' =>  $errorMessages,
+                'searchingDeal' => $resultDeal
             ]);
         }
     }
