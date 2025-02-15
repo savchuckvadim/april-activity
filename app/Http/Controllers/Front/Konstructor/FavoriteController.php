@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front\Konstructor;
 
+use App\DTO\DocumentContract\RowDTO;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\BxDocumentDeal;
@@ -23,12 +24,22 @@ class FavoriteController extends Controller
             $resultFavorites = [];
 
             foreach ($favorites as $favorite) {
+                $rows = $this->parseJson($favorite['rows']);
+                $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
+                $alternatives = $rows['sets']['alternative'];
+                $comprasions = '';
+
+                foreach ($alternatives as $alternative) {
+                    $alt = new RowDTO($alternative['total'][0]);
+                    $comprasions .= "\n" . $alt->name;
+                }
                 array_push($resultFavorites, [
                     'id' => $favorite->id,
+                    'title' => $favorite->title,
+                    'productName' => $total->name,
                     'portalId' => $favorite->portalId,
+                    'alternative' => $comprasions,
                     'userId' => $favorite->userId,
-                    'dealId' => $favorite->dealId,
-                    'dealName' => $favorite->dealName,
                 ]);
             }
             $result = [
@@ -51,6 +62,7 @@ class FavoriteController extends Controller
             ]);
         }
     }
+
     public function get() {}
     public function store(Request $request)
     {
@@ -204,5 +216,11 @@ class FavoriteController extends Controller
 
             ]);
         }
+    }
+
+    protected function parseJson(string $json, array $default = []): array
+    {
+        $decoded = json_decode($json, true);
+        return json_last_error() === JSON_ERROR_NONE ? $decoded : $default;
     }
 }
