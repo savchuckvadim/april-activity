@@ -24,23 +24,8 @@ class FavoriteController extends Controller
             $resultFavorites = [];
 
             foreach ($favorites as $favorite) {
-                $rows = $this->parseJson($favorite['rows']);
-                $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
-                $alternatives = $rows['sets']['alternative'];
-                $comprasions = '';
-
-                foreach ($alternatives as $alternative) {
-                    $alt = new RowDTO($alternative['total'][0]);
-                    $comprasions .= "\n" . $alt->name;
-                }
-                array_push($resultFavorites, [
-                    'id' => $favorite->id,
-                    'title' => $favorite->title,
-                    'productName' => $total->name,
-                    'portalId' => $favorite->portalId,
-                    'alternative' => $comprasions,
-                    'userId' => $favorite->userId,
-                ]);
+                $lightFavorite = $this->getLightFavorite($favorite);
+                array_push($resultFavorites, $lightFavorite);
             }
             $result = [
                 'favorites' => $resultFavorites
@@ -149,11 +134,11 @@ class FavoriteController extends Controller
                 }
             }
 
-
+            $lightFavorite = $this->getLightFavorite($resultDeal);
 
             return APIController::getSuccess([
 
-                'favorite' => $resultDeal,
+                'favorite' => $lightFavorite,
 
             ]);
         } catch (\Throwable $th) {
@@ -184,10 +169,11 @@ class FavoriteController extends Controller
                 $searchingDeal->save();
                 $result = BxDocumentDeal::find($favoriteId);
 
+                $lightFavorite = $this->getLightFavorite($result);
 
                 return APIController::getSuccess([
 
-                    'favorite' => $result,
+                    'favorite' => $lightFavorite,
 
                 ]);
             } else {
@@ -247,5 +233,26 @@ class FavoriteController extends Controller
     {
         $decoded = json_decode($json, true);
         return json_last_error() === JSON_ERROR_NONE ? $decoded : $default;
+    }
+
+    protected function getLightFavorite($favorite)
+    {
+        $rows = $this->parseJson($favorite['rows']);
+        $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
+        $alternatives = $rows['sets']['alternative'];
+        $comprasions = '';
+
+        foreach ($alternatives as $alternative) {
+            $alt = new RowDTO($alternative['total'][0]);
+            $comprasions .= "\n" . $alt->name;
+        }
+        return [
+            'id' => $favorite->id,
+            'title' => $favorite->title,
+            'productName' => $total->name,
+            'portalId' => $favorite->portalId,
+            'alternative' => $comprasions,
+            'userId' => $favorite->userId,
+        ];
     }
 }
