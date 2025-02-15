@@ -20,10 +20,19 @@ class FavoriteController extends Controller
             $favorites = BxDocumentDeal::where('portalId', $portal->id)
                 ->where('userId', $userId)
                 ->where('isFavorite', true)->get();
+            $resultFavorites = [];
 
-
+            foreach ($favorites as $favorite) {
+                array_push($resultFavorites, [
+                    'id' => $favorite->id,
+                    'portalId' => $favorite->portalId,
+                    'userId' => $favorite->userId,
+                    'dealId' => $favorite->dealId,
+                    'dealName' => $favorite->dealName,
+                ]);
+            }
             $result = [
-                'favorites' => $favorites
+                'favorites' => $resultFavorites
             ];
             return APIController::getSuccess($result);
         } catch (\Throwable $th) {
