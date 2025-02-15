@@ -9,6 +9,13 @@ class DealDocumentOption extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'domain',
+        'portalId',
+        'bxUserId',
+        'domain',
+        'offer_template_id',
+        'actionId',
+        
         'dealId',
         'dealDocumentFavoriteId',
         'salePhrase',
@@ -21,11 +28,11 @@ class DealDocumentOption extends Model
         'priceDiscount',
         'priceYear',
         'priceDefault',
-        'priceSupply'    ,
+        'priceSupply',
         'priceOptions',
         'otherPrice',
-        'otherSettings' 
-      
+        'otherSettings'
+
     ];
 
     public function favorites()
