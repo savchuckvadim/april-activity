@@ -25,16 +25,24 @@ class DealDocumentOptionController extends Controller
                 'priceDiscount' => 'required|string',
                 'priceYear' => 'required|string',
                 'priceOptions' => 'required|string',
+
+                'salePhrase' => 'required|nullable|string',
+                'withStamp' => 'required|string',
+                'isPriceFirst' => 'required|string',
+                'withManager' => 'required|string',
+                'iblocksStyle' => 'required|string',
+                'describStyle' => 'required|string',
             ]);
 
             $validatedData['portalId'] = $portal->id;
-
+            $validatedData['otherStyle'] = '_';
+            $validatedData['otherPrice'] = '_';
             $priceOptions = DealDocumentOption::findOrCreateOptions($validatedData, $portal);
 
             return APIController::getSuccess(['priceOptions' => $priceOptions]);
         } catch (\Throwable $th) {
             return APIController::getError(
-                'priceOptions update failed '.$domain,
+                'priceOptions update failed ' . $domain,
                 [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
@@ -103,7 +111,7 @@ class DealDocumentOptionController extends Controller
             return APIController::getSuccess(['options' => $options]);
         } catch (\Throwable $th) {
             return APIController::getError(
-                'Failed to get options '. $domain,
+                'Failed to get options ' . $domain,
                 [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
