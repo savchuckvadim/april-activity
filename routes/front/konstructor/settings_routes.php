@@ -19,8 +19,8 @@ Route::prefix('konstructor/front')->group(function () {
     //     [FavoriteController::class, 'store']
     // );
     Route::post(
-        'offer/price_options',
-        [DealDocumentOptionController::class, 'priceOptionstore']
+        'offer/options',
+        [DealDocumentOptionController::class, 'store']
     );
     Route::post(
         'offer/iblock_options',

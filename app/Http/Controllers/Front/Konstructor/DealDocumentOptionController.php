@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class DealDocumentOptionController extends Controller
 {
-    public static function priceOptionstore(Request $request)
+    public static function store(Request $request)
     {
         $domain = '';
         try {
@@ -37,12 +37,12 @@ class DealDocumentOptionController extends Controller
             $validatedData['portalId'] = $portal->id;
             $validatedData['otherStyle'] = '_';
             $validatedData['otherPrice'] = '_';
-            $priceOptions = DealDocumentOption::findOrCreateOptions($validatedData, $portal);
+            $options = DealDocumentOption::findOrCreateOptions($validatedData, $portal);
 
-            return APIController::getSuccess(['priceOptions' => $priceOptions]);
+            return APIController::getSuccess(['options' => $options]);
         } catch (\Throwable $th) {
             return APIController::getError(
-                'priceOptions update failed ' . $domain,
+                'options update failed ' . $domain,
                 [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
