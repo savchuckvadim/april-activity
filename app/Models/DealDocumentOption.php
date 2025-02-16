@@ -45,7 +45,8 @@ class DealDocumentOption extends Model
         } else {
             // Иначе ищем по пользователю и порталу
             $query->where('portalId', $portal->id)
-                ->where('bxUserId', $validatedData['bxUserId']);
+                ->where('bxUserId', $validatedData['bxUserId'])
+                ->whereNull('dealDocumentFavoriteId'); // Условие: только записи, где favoriteId пустое;
         }
 
         $options = $query->first();
@@ -68,7 +69,8 @@ class DealDocumentOption extends Model
         } else {
             // Иначе ищем по пользователю и порталу
             $query->where('portalId', $portal->id)
-                ->where('bxUserId', $validatedData['bxUserId']);
+                ->where('bxUserId', $validatedData['bxUserId'])
+                ->whereNull('dealDocumentFavoriteId'); // Условие: только записи, где favoriteId пустое;
         }
 
         return $query->first();

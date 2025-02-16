@@ -54,40 +54,40 @@ class DealDocumentOptionController extends Controller
     }
 
 
-    public static function infoblockOptionstore(Request $request)
-    {
-        try {
-            $domain = $request->domain;
-            $portal = Portal::where('domain', $domain)->firstOrFail();
+    // public static function infoblockOptionstore(Request $request)
+    // {
+    //     try {
+    //         $domain = $request->domain;
+    //         $portal = Portal::where('domain', $domain)->firstOrFail();
 
-            $validatedData = $request->validate([
-                'bxUserId' => 'required|numeric',
-                'dealDocumentFavoriteId' => 'sometimes|nullable|string', // Теперь учитываем favoriteId
-                'salePhrase' => 'required|nullable|string',
-                'withStamp' => 'required|string',
-                'isPriceFirst' => 'required|string',
-                'withManager' => 'required|string',
-                'iblocksStyle' => 'required|string',
-                'describStyle' => 'required|string',
-            ]);
+    //         $validatedData = $request->validate([
+    //             'bxUserId' => 'required|numeric',
+    //             'dealDocumentFavoriteId' => 'sometimes|nullable|string', // Теперь учитываем favoriteId
+    //             'salePhrase' => 'required|nullable|string',
+    //             'withStamp' => 'required|string',
+    //             'isPriceFirst' => 'required|string',
+    //             'withManager' => 'required|string',
+    //             'iblocksStyle' => 'required|string',
+    //             'describStyle' => 'required|string',
+    //         ]);
 
-            $validatedData['portalId'] = $portal->id;
+    //         $validatedData['portalId'] = $portal->id;
 
-            $infoblockOptions = DealDocumentOption::findOrCreateOptions($validatedData, $portal);
+    //         $infoblockOptions = DealDocumentOption::findOrCreateOptions($validatedData, $portal);
 
-            return APIController::getSuccess(['infoblockOptions' => $infoblockOptions]);
-        } catch (\Throwable $th) {
-            return APIController::getError(
-                'infoblockOptions update failed',
-                [
-                    'message' => $th->getMessage(),
-                    'file' => $th->getFile(),
-                    'line' => $th->getLine(),
-                    'trace' => $th->getTraceAsString(),
-                ]
-            );
-        }
-    }
+    //         return APIController::getSuccess(['infoblockOptions' => $infoblockOptions]);
+    //     } catch (\Throwable $th) {
+    //         return APIController::getError(
+    //             'infoblockOptions update failed',
+    //             [
+    //                 'message' => $th->getMessage(),
+    //                 'file' => $th->getFile(),
+    //                 'line' => $th->getLine(),
+    //                 'trace' => $th->getTraceAsString(),
+    //             ]
+    //         );
+    //     }
+    // }
 
     public static function getOptions(Request $request)
     {

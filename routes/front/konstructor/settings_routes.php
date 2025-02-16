@@ -22,10 +22,10 @@ Route::prefix('konstructor/front')->group(function () {
         'offer/options',
         [DealDocumentOptionController::class, 'store']
     );
-    Route::post(
-        'offer/iblock_options',
-        [DealDocumentOptionController::class, 'infoblockOptionstore']
-    );
+    // Route::post(
+    //     'offer/iblock_options',
+    //     [DealDocumentOptionController::class, 'infoblockOptionstore']
+    // );
     Route::post(
         'offer/get/options',
         [DealDocumentOptionController::class, 'getOptions']
