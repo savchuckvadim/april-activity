@@ -12,9 +12,10 @@ class DealDocumentOptionController extends Controller
 {
     public static function priceOptionstore(Request $request)
     {
+        $domain = '';
         try {
             $domain = $request->domain;
-            $portal = Portal::where('domain', $domain)->firstOrFail();
+            $portal = Portal::where('domain', $domain)->first();
 
             $validatedData = $request->validate([
                 'bxUserId' => 'required|numeric',
@@ -33,7 +34,7 @@ class DealDocumentOptionController extends Controller
             return APIController::getSuccess(['priceOptions' => $priceOptions]);
         } catch (\Throwable $th) {
             return APIController::getError(
-                'priceOptions update failed',
+                'priceOptions update failed '.$domain,
                 [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
