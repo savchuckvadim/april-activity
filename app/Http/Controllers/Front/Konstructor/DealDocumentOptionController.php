@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front\Konstructor;
 
+use App\Http\Controllers\APIController;
+use App\Http\Controllers\Controller;
 use App\Models\DealDocumentOption;
 use App\Models\Portal;
 use Illuminate\Http\Request;
