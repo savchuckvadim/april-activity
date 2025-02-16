@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('bxUserId')->nullable();
             $table->integer('offer_template_id')->nullable();
             $table->integer('actionId')->nullable();
+
         });
     }
 

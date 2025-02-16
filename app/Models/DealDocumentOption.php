@@ -15,7 +15,7 @@ class DealDocumentOption extends Model
         'domain',
         'offer_template_id',
         'actionId',
-        
+
         'dealId',
         'dealDocumentFavoriteId',
         'salePhrase',
@@ -34,6 +34,45 @@ class DealDocumentOption extends Model
         'otherSettings'
 
     ];
+
+    public static function findOrCreateOptions(array $validatedData, Portal $portal)
+    {
+        $query = self::query();
+
+        if (!empty($validatedData['dealDocumentFavoriteId'])) {
+            // Если передан favoriteId – ищем только по нему
+            $query->where('dealDocumentFavoriteId', $validatedData['dealDocumentFavoriteId']);
+        } else {
+            // Иначе ищем по пользователю и порталу
+            $query->where('portalId', $portal->id)
+                ->where('bxUserId', $validatedData['bxUserId']);
+        }
+
+        $options = $query->first();
+
+        if (!$options) {
+            return self::create($validatedData);
+        }
+
+        $options->update($validatedData);
+        return $options;
+    }
+
+    public static function getOptions(array $validatedData, Portal $portal)
+    {
+        $query = self::query();
+
+        if (!empty($validatedData['dealDocumentFavoriteId'])) {
+            // Если передан favoriteId – ищем только по нему
+            $query->where('dealDocumentFavoriteId', $validatedData['dealDocumentFavoriteId']);
+        } else {
+            // Иначе ищем по пользователю и порталу
+            $query->where('portalId', $portal->id)
+                ->where('bxUserId', $validatedData['bxUserId']);
+        }
+
+        return $query->first();
+    }
 
     public function favorites()
     {
