@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\DealDocumentOptionController;
-use App\Http\Controllers\Front\Konstructor\FavoriteController;
+use App\Http\Controllers\Front\Konstructor\DealDocumentOptionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('konstructor/front')->group(function () {
