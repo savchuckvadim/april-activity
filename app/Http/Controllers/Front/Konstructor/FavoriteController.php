@@ -26,7 +26,7 @@ class FavoriteController extends Controller
 
             foreach ($favorites as $favorite) {
                 $lightFavorite = $this->getLightFavorite($favorite);
-              
+
                 array_push($resultFavorites, $lightFavorite);
             }
             $result = [
@@ -247,11 +247,11 @@ class FavoriteController extends Controller
         $comprasions = [];
         $salePhrase = '';
         $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
-        if(!empty($options)){
-            if(!empty($options['salePhrase'])){
+        if (!empty($options)) {
+            if (!empty($options['salePhrase'])) {
                 $salePhraseData = $this->parseJson($options['salePhrase']);
-                if(!empty($salePhraseData)){
-                    if(!empty($salePhraseData['value'])){
+                if (!empty($salePhraseData)) {
+                    if (!empty($salePhraseData['value'])) {
                         $salePhrase = $salePhraseData['value'];
                     }
                 }
@@ -260,10 +260,11 @@ class FavoriteController extends Controller
 
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
-            $comprasions[] = $alt->name.' • '
-            .$alt->product->supplyName
-            .' • Договор: '.$alt->product->contract->aprilName
-            .' • Единица: '.$alt->product->measureFullName;
+            $comprasions[] =
+                '•  ' . $alt->name .
+                ' • ' . $alt->product->supplyName .
+                ' • Договор: ' . $alt->product->contract->aprilName .
+                ' • Единица: ' . $alt->product->measureFullName;
         }
         return [
             'id' => $favorite->id,
