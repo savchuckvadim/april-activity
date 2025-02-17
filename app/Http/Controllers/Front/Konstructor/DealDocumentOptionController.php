@@ -19,7 +19,7 @@ class DealDocumentOptionController extends Controller
 
             $validatedData = $request->validate([
                 'bxUserId' => 'required|numeric',
-                'dealDocumentFavoriteId' => 'sometimes|nullable|string', // Теперь учитываем favoriteId
+                'dealDocumentFavoriteId' => 'sometimes|nullable|numeric', // Теперь учитываем favoriteId
                 'priceSupply' => 'required|nullable|string',
                 'priceDefault' => 'required|string',
                 'priceDiscount' => 'required|string',
