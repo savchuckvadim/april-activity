@@ -26,8 +26,7 @@ class FavoriteController extends Controller
 
             foreach ($favorites as $favorite) {
                 $lightFavorite = $this->getLightFavorite($favorite);
-                $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
-                $lightFavorite['options'] = $options;
+              
                 array_push($resultFavorites, $lightFavorite);
             }
             $result = [
@@ -245,12 +244,18 @@ class FavoriteController extends Controller
         $rows = $this->parseJson($favorite['rows']);
         $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
         $alternatives = $rows['sets']['alternative'];
-        $comprasions = '';
-
-
+        $comprasions = [];
+        $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
+        $salePhraseData = $this->parseJson($options['salePhrase']);;
+        $salePhrase = '';
+        if(!empty($salePhraseData)){
+            if(!empty($salePhraseData['value'])){
+                $salePhrase = $salePhraseData['value'];
+            }
+        }
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
-            $comprasions .= "\n" . $alt->name;
+            $comprasions = $alt->name.' • '.$alt->product->supplyName.' • '.$alt->product->contract->shortName;
         }
         return [
             'id' => $favorite->id,
@@ -260,6 +265,7 @@ class FavoriteController extends Controller
             'alternative' => $comprasions,
             'userId' => $favorite->userId,
             'options' => $favorite->options,
+            'salePhrase' => $salePhrase
         ];
     }
 }
