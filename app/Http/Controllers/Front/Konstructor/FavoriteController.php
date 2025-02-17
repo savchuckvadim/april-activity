@@ -246,7 +246,7 @@ class FavoriteController extends Controller
         $alternatives = $rows['sets']['alternative'];
         $comprasions = [];
         $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
-        $salePhraseData = $this->parseJson($options['salePhrase']);;
+        // $salePhraseData = $this->parseJson($options['salePhrase']);;
         $salePhrase = $options['salePhrase'];
         // if(!empty($salePhraseData)){
         //     if(!empty($salePhraseData['value'])){
