@@ -18,8 +18,8 @@ class FavoriteController extends Controller
         $favorites = [];
         try {
             $portal = Portal::where('domain', $domain)->first();
-            $favorites = BxDocumentDeal::where('portalId', $portal->id)
-                ->where('userId', $userId)
+            $favorites = BxDocumentDeal::where('userId', $userId)
+                // ->where('userId', $userId)
                 ->where('isFavorite', true)->get();
             $resultFavorites = [];
 
