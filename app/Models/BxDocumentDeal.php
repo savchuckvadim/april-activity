@@ -35,8 +35,8 @@ class BxDocumentDeal extends Model
         return $this->belongsTo(Portal::class);
     }
 
-    public function favorites()
+    public function options()
     {
-        return $this->hasMany(DealDocumentFavorite::class, 'dealId');
+        return $this->hasOne(DealDocumentOption::class, 'dealDocumentFavoriteId', 'id');
     }
 }

@@ -53,7 +53,8 @@ class FavoriteController extends Controller
         $favorite = null;
         try {
             $favorite = BxDocumentDeal::find($id);
-
+            $options = $favorite->options;
+            $favorite['options'] = $options;
             $result = [
                 'favorite' => $favorite
             ];
@@ -241,6 +242,7 @@ class FavoriteController extends Controller
         $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
         $alternatives = $rows['sets']['alternative'];
         $comprasions = '';
+      
 
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
@@ -253,6 +255,7 @@ class FavoriteController extends Controller
             'portalId' => $favorite->portalId,
             'alternative' => $comprasions,
             'userId' => $favorite->userId,
+            'options' => $favorite->options,
         ];
     }
 }
