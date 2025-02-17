@@ -245,14 +245,19 @@ class FavoriteController extends Controller
         $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
         $alternatives = $rows['sets']['alternative'];
         $comprasions = [];
+        $salePhrase = '';
         $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
-        // $salePhraseData = $this->parseJson($options['salePhrase']);;
-        // $salePhrase = $options['salePhrase'];
-        // if(!empty($salePhraseData)){
-        //     if(!empty($salePhraseData['value'])){
-        //         $salePhrase = $salePhraseData['value'];
-        //     }
-        // }
+        if(!empty($options)){
+            if(!empty($options['salePhrase'])){
+                $salePhraseData = $this->parseJson($options['salePhrase']);
+                if(!empty($salePhraseData)){
+                    if(!empty($salePhraseData['value'])){
+                        $salePhrase = $salePhraseData['value'];
+                    }
+                }
+            }
+        }
+
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
             $comprasions = $alt->name.' • '
@@ -268,7 +273,7 @@ class FavoriteController extends Controller
             'alternative' => $comprasions,
             'userId' => $favorite->userId,
             'options' => $options,
-            // 'salePhrase' => $salePhrase
+            'salePhrase' => $salePhrase
         ];
     }
 }
