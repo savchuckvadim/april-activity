@@ -246,13 +246,13 @@ class FavoriteController extends Controller
         $alternatives = $rows['sets']['alternative'];
         $comprasions = [];
         $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
-        $salePhraseData = $this->parseJson($options['salePhrase']);;
+        // $salePhraseData = $this->parseJson($options['salePhrase']);;
         $salePhrase = '';
-        if(!empty($salePhraseData)){
-            if(!empty($salePhraseData['value'])){
-                $salePhrase = $salePhraseData['value'];
-            }
-        }
+        // if(!empty($salePhraseData)){
+        //     if(!empty($salePhraseData['value'])){
+        //         $salePhrase = $salePhraseData['value'];
+        //     }
+        // }
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
             $comprasions = $alt->name.' • '
