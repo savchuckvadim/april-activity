@@ -94,7 +94,6 @@ class FavoriteController extends Controller
                 'global' => $request->global,
                 // 'legalTech' => $request->legalTech,
                 'od' => $request->od,
-                'portalId' => $request->portalId,
                 'result' => $request->result,
                 'rows' => $request->rows,
 
@@ -138,8 +137,10 @@ class FavoriteController extends Controller
             $lightFavorite = $this->getLightFavorite($resultDeal);
 
             return APIController::getSuccess([
-
+                'favoriteId' => $favoriteId,
+                '$request->domain' => $request->domain,
                 'favorite' => $lightFavorite,
+                'searchingDeal' => $searchingDeal
 
             ]);
         } catch (\Throwable $th) {
@@ -242,7 +243,7 @@ class FavoriteController extends Controller
         $total = new RowDTO($rows['sets']['general'][0]['total'][0]);
         $alternatives = $rows['sets']['alternative'];
         $comprasions = '';
-      
+
 
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
