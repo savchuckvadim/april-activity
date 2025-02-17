@@ -247,7 +247,7 @@ class FavoriteController extends Controller
         $comprasions = [];
         $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
         // $salePhraseData = $this->parseJson($options['salePhrase']);;
-        $salePhrase = $options['salePhrase'];
+        // $salePhrase = $options['salePhrase'];
         // if(!empty($salePhraseData)){
         //     if(!empty($salePhraseData['value'])){
         //         $salePhrase = $salePhraseData['value'];
@@ -268,7 +268,7 @@ class FavoriteController extends Controller
             'alternative' => $comprasions,
             'userId' => $favorite->userId,
             'options' => $options,
-            'salePhrase' => $salePhrase
+            // 'salePhrase' => $salePhrase
         ];
     }
 }
