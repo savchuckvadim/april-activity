@@ -6,6 +6,7 @@ use App\DTO\DocumentContract\RowDTO;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\BxDocumentDeal;
+use App\Models\DealDocumentOption;
 use App\Models\Portal;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,8 @@ class FavoriteController extends Controller
 
             foreach ($favorites as $favorite) {
                 $lightFavorite = $this->getLightFavorite($favorite);
+                $options = DealDocumentOption::where('dealDocumentFavoriteId', $favorite->id)->first();
+                $lightFavorite['options'] = $options;
                 array_push($resultFavorites, $lightFavorite);
             }
             $result = [
