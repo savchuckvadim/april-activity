@@ -593,7 +593,9 @@ class SupplyController extends Controller
                     $key !== 'contract_start' &&
                     $key !== 'contract_end' &&
                     $key !== 'contract_present_start' &&
-                    $key !== 'contract_present_end'
+                    $key !== 'contract_present_end' &&
+                    $key !== 'garant_client_assigned_name' &&
+                    $key !== 'garant_client_assigned_phone'
                 ) {
                     if (is_string($value) || is_numeric($value)) {
 
@@ -603,7 +605,18 @@ class SupplyController extends Controller
                         $templateProcessor->setValue($key, '');
                     }
                 }
-
+                if ($key === 'garant_client_assigned_name') {
+                    if (!empty($value)) {
+                        $value = 'Контактное лицо по Гаранту: ' . $value;
+                        $templateProcessor->setValue('garant_client_assigned_name', strval($value));
+                    }
+                }
+                if ($key === 'garant_client_assigned_phone') {
+                    if (!empty($value)) {
+                        $value = ' ' . $value;
+                        $templateProcessor->setValue('garant_client_assigned_phone', strval($value));
+                    }
+                }
                 if ($key === 'garant_client_email') {
                     if (!empty($value)) {
                         $value = 'Email для интернет версии: ' . $value;
