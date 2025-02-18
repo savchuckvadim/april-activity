@@ -16,7 +16,7 @@ class OfferZakupkiSettingsController extends Controller
         try {
             $portal = Portal::where('domain', $domain)->first();
             $settings = OfferZakupkiSettings::where('domain', $domain)
-                ->where('userId', $userId)
+                ->where('bxUserId', $userId)
                 ->first();
 
             if (!$settings) {
