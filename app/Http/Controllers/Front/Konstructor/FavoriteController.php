@@ -261,10 +261,10 @@ class FavoriteController extends Controller
         foreach ($alternatives as $alternative) {
             $alt = new RowDTO($alternative['total'][0]);
             $comprasions[] =
-                '•  ' . $alt->name .
-                ' • ' . $alt->product->supplyName .
-                ' • Договор: ' . $alt->product->contract->aprilName .
-                ' • Единица: ' . $alt->product->measureFullName;
+                '•   ' . $alt->name .
+                '  •  ' . $alt->product->supplyName .
+                '  •  Договор: ' . $alt->product->contract->aprilName .
+                '  •  Единица: ' . $alt->product->measureFullName;
         }
         return [
             'id' => $favorite->id,
