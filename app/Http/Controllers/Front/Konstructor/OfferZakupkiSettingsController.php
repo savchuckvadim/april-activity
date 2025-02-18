@@ -14,7 +14,7 @@ class OfferZakupkiSettingsController extends Controller
     {
         $favorites = [];
         try {
-            $result = [
+            $status = [
                 'isFromUser' => true,
                 'isDefault' => false,
                 'isNew' => false,
@@ -28,7 +28,7 @@ class OfferZakupkiSettingsController extends Controller
             if (!$settings) {
                 $settings = OfferZakupkiSettings::where('domain', $domain)
                     ->first();
-                $result = [
+                $status = [
                     'isFromUser' => false,
                     'isDefault' => true,
                     'isNew' => false,
@@ -37,7 +37,7 @@ class OfferZakupkiSettingsController extends Controller
             }
             if (!$settings) {
                 $settings = $this->createDefaultSettings($domain);
-                $result = [
+                $status = [
                     'isFromUser' => false,
                     'isDefault' => true,
                     'isNew' => true,
@@ -49,12 +49,15 @@ class OfferZakupkiSettingsController extends Controller
                 'id' => $settings->id,
                 'domain' => $settings->domain,
                 'bxUserId' => $settings->bxUserId,
+                'isFromUser' => $status['isFromUser'],
+                'isDefault' => $status['isDefault'],
+                'isNew' => $status['isNew'],
 
             ];
-            $result['providers'] = $form;
-            $result = [
-                'settings' => $settings
-            ];
+            $result['settings']['providers'] = $form;
+            // $result = [
+            //     'settings' => $result
+            // ];
             return APIController::getSuccess($result);
         } catch (\Throwable $th) {
             $errorMessages =  [
