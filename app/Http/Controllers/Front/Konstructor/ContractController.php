@@ -4443,6 +4443,7 @@ class ContractController extends Controller
         // }
         $result = [
             'total_product_name' => $total['name'],
+            'total_supply_name' => $total['supply']['name'],
             'total_prepayment_quantity' => $total_prepayment_quantity,
             'total_prepayment_quantity_string' => $total_prepayment_quantity_string,
             'total_prepayment_sum' => $total_prepayment_sum,

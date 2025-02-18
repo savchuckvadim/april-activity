@@ -353,7 +353,7 @@ class SupplyController extends Controller
                                     $registredString = $addresString;
                                 }
                                 if ($address['type_id'] == 1) { //фактический
-                                    $primaryString = $addresString;
+                                    $primaryString = 'Фактический адрес: '.$addresString;
                                 }
                             }
                         }
