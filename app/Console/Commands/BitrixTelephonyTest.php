@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\BitrixController;
+use Aws\Exception\AwsException;
+use Aws\S3\S3Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -89,7 +91,10 @@ class BitrixTelephonyTest extends Command
                     ]);
                     if ($responseFile['result']) {
                         $downloadUrl = $responseFile['result']['DOWNLOAD_URL'];
-                        $this->getYascribation($downloadUrl);
+
+
+
+                        // $this->getYascribation($downloadUrl);
                         // Получаем содержимое файла
                         $fileResponse = Http::get($downloadUrl);
 
@@ -98,6 +103,9 @@ class BitrixTelephonyTest extends Command
                         $filename = 'audio/' . "file.mp3";
 
                         Storage::disk('public')->put($filename, $fileResponse->body());
+                        $localFilePath = storage_path('app/public/' . $filename);
+                        $yaFileUri = $this->putYaFile($localFilePath);
+                        $this->line('yaFileUri: ' . $yaFileUri);
 
                         // Выводим путь к файлу
                         $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
@@ -145,7 +153,35 @@ class BitrixTelephonyTest extends Command
         }
     }
 
+    protected function putYaFile($localFilePath)
+    {
+        $yaAccessKeyId = env('YA_ACCESS_KEY_KEY_ID');
+        $yaAccessSecret = env('YA_ACCESS_KEY_SECRET');
 
+        $s3Client = new S3Client([
+            'version' => 'latest',
+            'region'  => 'ru-central1',
+            'endpoint' => 'https://storage.yandexcloud.net',
+            'credentials' => [
+                'key'    => $yaAccessKeyId,
+                'secret' => $yaAccessSecret,
+            ],
+        ]);
+        $fileUri = '';
+        try {
+            $result = $s3Client->putObject([
+                'Bucket' => 'april-test',
+                'Key'    => 'test/audio.mp3',
+                'SourceFile' => $localFilePath,
+            ]);
+            $this->line("Файл успешно загружен: " . $result['ObjectURL'] . "\n");
+            $fileUri = $result['ObjectURL'];
+            return $fileUri;
+        } catch (AwsException $e) {
+            $this->line("Ошибка загрузки файла: " . $e->getMessage() . "\n");
+            return $fileUri;
+        }
+    }
     protected function getYascribation($fileUri)
     {
         $iamToken = env('I_AM');
