@@ -73,7 +73,7 @@ class BitrixTelephonyTest extends Command
         if (!empty($responseData['result'])) {
             // $this->line(json_encode($responseData));
             foreach ($responseData['result'] as $activity) { //for list
-                // $this->line(json_encode($activity));
+                $this->line(json_encode($activity['ID']));
                 if (isset($activity['FILES'])) { //for list
 
                     foreach ($activity['FILES'] as  $file) {
