@@ -44,14 +44,14 @@ class BitrixTelephonyTest extends Command
     {
         $domain = 'april-garant.bitrix24.ru';
         // $method = '/crm.activity.list.json';
-        $method = '/crm.activity.get';
+        $method = '/crm.activity.list';
         // $hook = env('TEST_HOOK');
         $hook = BitrixController::getHook($domain);
         $dealId = 12202;
         $fields =
             [
-                'OWNER_TYPE_ID' => 2, // 2- deal 3 - company
-                'OWNER_ID' => 12198, // 2976,
+                'OWNER_TYPE_ID' => 3, // 2- deal 3 - company
+                'OWNER_ID' => 9063, // 2976,
                 "TYPE_ID" => 2 // Тип активности - Звонок
             ];
 
@@ -59,7 +59,7 @@ class BitrixTelephonyTest extends Command
         $data = [
             // "ownerTypeId" => 2,
             // "ownerId" => $dealId,
-            'id' => 645286,
+            // 'id' => 645286,
             'filter' => $fields,
             "order" => [
                 "START_TIME" => "ASC" // Например, сортировать по времени начала звонка
@@ -71,7 +71,8 @@ class BitrixTelephonyTest extends Command
         $response = Http::get($url, $data);
         $responseData = $response->json();
         if (!empty($responseData['result'])) {
-            // $this->line(json_encode($responseData));
+            $this->line(json_encode($responseData));
+            $this->line(json_encode($responseData->body()));
             // foreach ($responseData['result'] as $activity) {
             // $this->line(json_encode($activity));
             if (isset($responseData['result']['FILES'])) {
@@ -111,7 +112,7 @@ class BitrixTelephonyTest extends Command
                             $this->getYascribation($yaFileUri);
                         }
                         // Выводим путь к файлу
-                        $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
+                        return $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
                     }
                     // $this->line(json_encode('responseFile result'));
                     // $this->line(json_encode($responseFile['result']));
@@ -250,6 +251,7 @@ class BitrixTelephonyTest extends Command
                 if ($operationStatusResponse->successful()) {
                     $operationStatus = $operationStatusResponse->json();
                     if (!$operationStatus['done']) {
+                        sleep(10);
                         // Логирование, что операция все еще в процессе
                         // $this->line("Попытка {$attempt}: операция {$operationId} все еще выполняется.");
                     } else {
@@ -265,18 +267,20 @@ class BitrixTelephonyTest extends Command
                     // Логирование ошибки запроса к API
                     // $this->line("Ошибка опроса статуса операции: " . $operationStatusResponse->body());
                 }
-                sleep(10);
+                // sleep(10);
                 $attempt++;
             }
+            $text = '';
+            
             if ($done) {
                 $chunks = $operationStatusResponse['response']['chunks'];
 
                 foreach ($chunks as $chunk) {
                     foreach ($chunk['alternatives'] as $alternative) {
                         // Выводим текст каждого фрагмента разговора
-                        echo "Текст: " . $alternative['text'] . "\n";
-                        echo "Уверенность: " . $alternative['confidence'] . "\n";
-
+                        // echo "Текст: " . $alternative['text'] . "\n";
+                        // echo "Уверенность: " . $alternative['confidence'] . "\n";
+                        $text .= $alternative['text'] . "\n";
                         // Проходим по каждому слову для анализа временных меток
                         // foreach ($alternative['words'] as $word) {
                         //     echo "Слово: " . $word['word'] . ", время начала: " . $word['startTime'] . ", время окончания: " . $word['endTime'] . "\n";
@@ -284,7 +288,7 @@ class BitrixTelephonyTest extends Command
                     }
                 }
             }
-
+            $this->line("TEXT: " . $text);
             // }
         } else {
             $this->error("Ошибка запроса! Статус: " . $response->status());
