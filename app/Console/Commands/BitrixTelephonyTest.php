@@ -107,7 +107,7 @@ class BitrixTelephonyTest extends Command
                         $yaFileUri = $this->putYaFile($localFilePath);
                         $this->line('yaFileUri: ' . $yaFileUri);
 
-                        if($yaFileUri){
+                        if ($yaFileUri) {
                             $this->getYascribation($yaFileUri);
                         }
                         // Выводим путь к файлу
@@ -228,7 +228,7 @@ class BitrixTelephonyTest extends Command
             $resultTextRespones = null;
             while (!$done) {
                 $responseData = $response->json();
-                $this->line($responseData);
+                // $this->line($responseData);
 
 
                 $operation = $response->json();
@@ -251,21 +251,21 @@ class BitrixTelephonyTest extends Command
                     $operationStatus = $operationStatusResponse->json();
                     if (!$operationStatus['done']) {
                         // Логирование, что операция все еще в процессе
-                        $this->line("Попытка {$attempt}: операция {$operationId} все еще выполняется.");
+                        // $this->line("Попытка {$attempt}: операция {$operationId} все еще выполняется.");
                     } else {
                         if (isset($operationStatus['response']['results'])) {
                             // Операция завершена успешно, обработка результатов
                             $this->line("Операция {$operationId} завершена.");
                         } elseif (isset($operationStatus['error'])) {
                             // Ошибка в процессе выполнения операции
-                            $this->line("Ошибка операции: " . $operationStatus['error']['message']);
+                            // $this->line("Ошибка операции: " . $operationStatus['error']['message']);
                         }
                     }
                 } else {
                     // Логирование ошибки запроса к API
-                    $this->line("Ошибка опроса статуса операции: " . $operationStatusResponse->body());
+                    // $this->line("Ошибка опроса статуса операции: " . $operationStatusResponse->body());
                 }
-
+                sleep(10);
                 $attempt++;
             }
             if ($done) {
