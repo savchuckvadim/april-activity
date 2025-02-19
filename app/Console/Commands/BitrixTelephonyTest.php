@@ -61,9 +61,7 @@ class BitrixTelephonyTest extends Command
             // "ownerId" => $dealId,
             // 'id' => 645286,
             'filter' => $fields,
-            "order" => [
-                "START_TIME" => "ASC" // Например, сортировать по времени начала звонка
-            ]
+            'order' => [ 'ID' => 'DESC' ],
 
 
         ];
