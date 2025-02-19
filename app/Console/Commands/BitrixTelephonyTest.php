@@ -104,14 +104,14 @@ class BitrixTelephonyTest extends Command
 
                             Storage::disk('public')->put($filename, $fileResponse->body());
                             $localFilePath = storage_path('app/public/' . $filename);
-                            $yaFileUri = $this->putYaFile($localFilePath);
+                            $yaFileUri = $this->putYaFile($localFilePath, $filename);
                             $this->line('yaFileUri: ' . $yaFileUri);
 
                             if ($yaFileUri) {
                                 $this->getYascribation($yaFileUri);
                             }
                             // Выводим путь к файлу
-                            return $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
+                            return $this->line('yaFileUri: ' . $yaFileUri);
                         }
                         // $this->line(json_encode('responseFile result'));
                         // $this->line(json_encode($responseFile['result']));
@@ -156,7 +156,7 @@ class BitrixTelephonyTest extends Command
         }
     }
 
-    protected function putYaFile($localFilePath)
+    protected function putYaFile($localFilePath, $filename)
     {
         $yaAccessKeyId = env('YA_ACCESS_KEY_KEY_ID');
         $yaAccessSecret = env('YA_ACCESS_KEY_SECRET');
@@ -174,7 +174,7 @@ class BitrixTelephonyTest extends Command
         try {
             $result = $s3Client->putObject([
                 'Bucket' => 'april-test',
-                'Key'    => 'test/audio.mp3',
+                'Key'    => 'test/'.$filename,
                 'SourceFile' => $localFilePath,
             ]);
             $this->line("Файл успешно загружен: " . $result['ObjectURL'] . "\n");
