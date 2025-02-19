@@ -107,6 +107,9 @@ class BitrixTelephonyTest extends Command
                         $yaFileUri = $this->putYaFile($localFilePath);
                         $this->line('yaFileUri: ' . $yaFileUri);
 
+                        if($yaFileUri){
+                            $this->getYascribation($yaFileUri);
+                        }
                         // Выводим путь к файлу
                         $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
                     }
