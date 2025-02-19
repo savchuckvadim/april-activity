@@ -280,19 +280,31 @@ class BitrixTelephonyTest extends Command
             $text = '';
 
             if ($done) {
-                $chunks = $operationStatusResponse['response']['chunks'];
+                if (!empty($operationStatusResponse['response'])) {
+                    if (!empty($operationStatusResponse['response']['chunks'])) {
+                        $chunks = $operationStatusResponse['response']['chunks'];
 
-                foreach ($chunks as $chunk) {
-                    foreach ($chunk['alternatives'] as $alternative) {
-                        // Выводим текст каждого фрагмента разговора
-                        // echo "Текст: " . $alternative['text'] . "\n";
-                        // echo "Уверенность: " . $alternative['confidence'] . "\n";
-                        $text .= $alternative['text'] . "\n";
-                        // Проходим по каждому слову для анализа временных меток
-                        // foreach ($alternative['words'] as $word) {
-                        //     echo "Слово: " . $word['word'] . ", время начала: " . $word['startTime'] . ", время окончания: " . $word['endTime'] . "\n";
-                        // }
+                        foreach ($chunks as $chunk) {
+                            foreach ($chunk['alternatives'] as $alternative) {
+                                // Выводим текст каждого фрагмента разговора
+                                // echo "Текст: " . $alternative['text'] . "\n";
+                                // echo "Уверенность: " . $alternative['confidence'] . "\n";
+                                $text .= $alternative['text'] . "\n";
+                                // Проходим по каждому слову для анализа временных меток
+                                // foreach ($alternative['words'] as $word) {
+                                //     echo "Слово: " . $word['word'] . ", время начала: " . $word['startTime'] . ", время окончания: " . $word['endTime'] . "\n";
+                                // }
+                            }
+                        }
+                    } else {
+                        $this->line(json_encode('no chunks'));
+
+                        $this->line(json_encode($operationStatusResponse['response']));
                     }
+                } else {
+                    $this->line(json_encode('no response'));
+
+                    $this->line(json_encode($operationStatusResponse));
                 }
             }
             $this->line("TEXT: " . $text);
