@@ -258,7 +258,7 @@ class BitrixTelephonyTest extends Command
                 if ($operationStatusResponse->successful()) {
                     $operationStatus = $operationStatusResponse->json();
                     if (!$operationStatus['done']) {
-                        sleep(10);
+                        sleep(1);
                         // Логирование, что операция все еще в процессе
                         // $this->line("Попытка {$attempt}: операция {$operationId} все еще выполняется.");
                     } else {
