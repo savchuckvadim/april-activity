@@ -118,7 +118,7 @@ class BitrixTelephonyTest extends Command
                                 $this->getYascribation($yaFileUri);
                             }
                             // Выводим путь к файлу
-                            return $this->line('yaFileUri: ' . $yaFileUri);
+                            $this->line('yaFileUri: ' . $yaFileUri);
                         }
                         // $this->line(json_encode('responseFile result'));
                         // $this->line(json_encode($responseFile['result']));
@@ -161,6 +161,7 @@ class BitrixTelephonyTest extends Command
                 }
             }
         }
+        $this->line('success!');
     }
 
     protected function putYaFile($localFilePath, $filename)
