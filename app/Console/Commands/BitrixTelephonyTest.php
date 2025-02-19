@@ -52,7 +52,7 @@ class BitrixTelephonyTest extends Command
             [
                 'OWNER_TYPE_ID' => 3, // 2- deal 3 - company
                 'OWNER_ID' => 9063, // 2976,
-                "TYPE_ID" => 2 // Тип активности - Звонок
+                // "TYPE_ID" => 2 // Тип активности - Звонок
             ];
 
         $url = $hook . $method;
