@@ -88,8 +88,10 @@ class BitrixTelephonyTest extends Command
                     $hook = BitrixController::getHook($domain); // Это твой вебхук
                     $fileUrlWithHook = $fileUrl . '&' . parse_url($hook, PHP_URL_QUERY);
                     $response = Http::withOptions(['allow_redirects' => true])->get($fileUrlWithHook);
-                    $this->line(json_encode($response));
 
+                    $this->line("Status Code: " . $response->status());
+                    $this->line("Headers: " . json_encode($response->headers()));
+                    $this->line("Body: " . substr($response->body(), 0, 500));
 
 
                     $fileContent = Http::get($fileUrl);
