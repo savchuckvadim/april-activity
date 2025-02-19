@@ -42,9 +42,9 @@ class BitrixTelephonyTest extends Command
     {
         $domain = 'april-garant.bitrix24.ru';
         // $method = '/crm.activity.list.json';
-        $method = '/crm.activity.get.json';
-        $hook = env('TEST_HOOK');
-        // $hook = BitrixController::getHook($domain);
+        $method = '/crm.activity.get';
+        // $hook = env('TEST_HOOK');
+        $hook = BitrixController::getHook($domain);
         $dealId = 12202;
         $fields =
             [
