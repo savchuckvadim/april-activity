@@ -84,30 +84,30 @@ class BitrixTelephonyTest extends Command
                         $this->line(json_encode($fileUrl));
 
                         // Здесь ваш код для обработки URL файла
-                        // $fileContent = Http::get($fileUrl);
-                        // if ($fileContent->successful()) {
+                        $fileContent = Http::get($fileUrl);
+                        if ($fileContent->successful()) {
                         //     // Замените 'path/to/your/directory/' на путь к каталогу, где вы хотите сохранить файлы
-                        //     $fileName = $fileId;
-                        //     $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
-                        //     $directoryPath = dirname($path);
-                        //     if (!file_exists($directoryPath)) {
-                        //         mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
-                        //     }
+                            $fileName = $fileId;
+                            $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
+                            $directoryPath = dirname($path);
+                            if (!file_exists($directoryPath)) {
+                                mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
+                            }
                         //     // Открытие файла для записи в бинарном режиме
-                        //     $fileHandle = fopen($path, 'wb');
-                        //     if ($fileHandle === false) {
-                        //         // Обработка ошибки открытия файла
-                        //         $this->line("Unable to open file for writing: " . $path);
-                        //         return;
-                        //     }
+                            $fileHandle = fopen($path, 'wb');
+                            if ($fileHandle === false) {
+                                // Обработка ошибки открытия файла
+                                $this->line("Unable to open file for writing: " . $path);
+                                return;
+                            }
 
-                        //     // Запись содержимого в файл
-                        //     fwrite($fileHandle, $fileContent->body());
-                        //     fclose($fileHandle);
-                        //     $this->line("File saved: " . $fileUrl);
-                        // } else {
-                        //     $this->line("Failed to download file with ID: " . $fileId);
-                        // }
+                            // Запись содержимого в файл
+                            fwrite($fileHandle, $fileContent->body());
+                            fclose($fileHandle);
+                            $this->line("File saved: " . $fileUrl);
+                        } else {
+                            $this->line("Failed to download file with ID: " . $fileId);
+                        }
                     }
                 }
             // }
