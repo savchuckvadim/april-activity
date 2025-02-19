@@ -77,7 +77,12 @@ class BitrixTelephonyTest extends Command
                     foreach ($activity['FILES'] as  $file) {
                         $fileId = $file['id'];
                         $fileUrl = $file['url'];
+                        $this->line(json_encode('file'));
                         $this->line(json_encode($file));
+
+                        $this->line(json_encode('url'));
+                        $this->line(json_encode($fileUrl));
+
                         // Здесь ваш код для обработки URL файла
                         // $fileContent = Http::get($fileUrl);
                         // if ($fileContent->successful()) {
