@@ -99,8 +99,8 @@ class BitrixTelephonyTest extends Command
                             $fileResponse = Http::get($downloadUrl);
 
                             // Сохраняем файл в storage/app/public/записи
-                            // $filename = 'audio/' . $responseFile['result']['NAME'];
-                            $filename = 'audio/' . "file.mp3";
+                            $filename = 'audio/' . $responseFile['result']['NAME'];
+                            // $filename = 'audio/' . "file.mp3";
 
                             Storage::disk('public')->put($filename, $fileResponse->body());
                             $localFilePath = storage_path('app/public/' . $filename);
@@ -243,7 +243,7 @@ class BitrixTelephonyTest extends Command
                 $operationStatusResponse = Http::withHeaders([
                     'Authorization' => "Bearer {$iamToken}",
                 ])->get("https://operation.api.cloud.yandex.net/operations/{$operationId}");
-                echo ($operationStatusResponse);
+                // echo ($operationStatusResponse);
                 $done = $operationStatusResponse['done'];
 
 
