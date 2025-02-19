@@ -61,98 +61,98 @@ class BitrixTelephonyTest extends Command
             // "ownerId" => $dealId,
             // 'id' => 645286,
             'filter' => $fields,
-            'order' => [ 'ID' => 'DESC' ],
+            'order' => ['ID' => 'DESC'],
 
 
         ];
 
         $response = Http::get($url, $data);
         $responseData = $response->json();
-        $this->line(json_encode($responseData));
+        // $this->line(json_encode($responseData));
 
         if (!empty($responseData['result'])) {
-            $this->line(json_encode($responseData));
-            // foreach ($responseData['result'] as $activity) {
-            // $this->line(json_encode($activity));
-            if (isset($responseData['result']['FILES'])) {
+            // $this->line(json_encode($responseData));
+            foreach ($responseData['result'] as $activity) { //for list
+                // $this->line(json_encode($activity));
+                if (isset($activity['FILES'])) { //for list
 
-                foreach ($responseData['result']['FILES'] as  $file) {
-                    $fileId = $file['id'];
-                    $fileUrl = $file['url'];
-                    $this->line(json_encode('file'));
-                    // $this->line(json_encode($file));
-                    $this->line(json_encode($fileId));
-                    $this->line(json_encode('url'));
-                    $this->line(json_encode($fileUrl));
-                    $getFileMethod = '/disk.file.get';
-                    $url = $hook . $getFileMethod;
-                    $responseFile = Http::get($url, [
-                        'id' => $fileId
-                    ]);
-                    if ($responseFile['result']) {
-                        $downloadUrl = $responseFile['result']['DOWNLOAD_URL'];
+                    foreach ($activity['FILES'] as  $file) {
+                        $fileId = $file['id'];
+                        $fileUrl = $file['url'];
+                        $this->line(json_encode('file'));
+                        // $this->line(json_encode($file));
+                        $this->line(json_encode($fileId));
+                        $this->line(json_encode('url'));
+                        $this->line(json_encode($fileUrl));
+                        $getFileMethod = '/disk.file.get';
+                        $url = $hook . $getFileMethod;
+                        $responseFile = Http::get($url, [
+                            'id' => $fileId
+                        ]);
+                        if ($responseFile['result']) {
+                            $downloadUrl = $responseFile['result']['DOWNLOAD_URL'];
 
 
 
-                        // $this->getYascribation($downloadUrl);
-                        // Получаем содержимое файла
-                        $fileResponse = Http::get($downloadUrl);
+                            // $this->getYascribation($downloadUrl);
+                            // Получаем содержимое файла
+                            $fileResponse = Http::get($downloadUrl);
 
-                        // Сохраняем файл в storage/app/public/записи
-                        // $filename = 'audio/' . $responseFile['result']['NAME'];
-                        $filename = 'audio/' . "file.mp3";
+                            // Сохраняем файл в storage/app/public/записи
+                            // $filename = 'audio/' . $responseFile['result']['NAME'];
+                            $filename = 'audio/' . "file.mp3";
 
-                        Storage::disk('public')->put($filename, $fileResponse->body());
-                        $localFilePath = storage_path('app/public/' . $filename);
-                        $yaFileUri = $this->putYaFile($localFilePath);
-                        $this->line('yaFileUri: ' . $yaFileUri);
+                            Storage::disk('public')->put($filename, $fileResponse->body());
+                            $localFilePath = storage_path('app/public/' . $filename);
+                            $yaFileUri = $this->putYaFile($localFilePath);
+                            $this->line('yaFileUri: ' . $yaFileUri);
 
-                        if ($yaFileUri) {
-                            $this->getYascribation($yaFileUri);
+                            if ($yaFileUri) {
+                                $this->getYascribation($yaFileUri);
+                            }
+                            // Выводим путь к файлу
+                            return $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
                         }
-                        // Выводим путь к файлу
-                        return $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
+                        // $this->line(json_encode('responseFile result'));
+                        // $this->line(json_encode($responseFile['result']));
+                        // Здесь ваш код для обработки URL файла
+
+                        // $hook = BitrixController::getHook($domain); // Это твой вебхук
+                        // $fileUrlWithHook = $fileUrl . '&' . parse_url($hook, PHP_URL_QUERY);
+                        // $response = Http::withOptions(['allow_redirects' => true])->get($fileUrlWithHook);
+
+                        // $this->line("Status Code: " . $responseFile->status());
+                        // $this->line("Headers: " . json_encode($responseFile->headers()));
+                        // $this->line("Body: " . substr($responseFile->body(), 0, 500));
+
+
+                        // $fileContent = Http::get($fileUrl);
+                        // if ($fileContent->successful()) {
+                        //     //     // Замените 'path/to/your/directory/' на путь к каталогу, где вы хотите сохранить файлы
+                        //     $fileName = $fileId;
+                        //     $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
+                        //     $directoryPath = dirname($path);
+                        //     if (!file_exists($directoryPath)) {
+                        //         mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
+                        //     }
+                        //     //     // Открытие файла для записи в бинарном режиме
+                        //     $fileHandle = fopen($path, 'wb');
+                        //     if ($fileHandle === false) {
+                        //         // Обработка ошибки открытия файла
+                        //         $this->line("Unable to open file for writing: " . $path);
+                        //         return;
+                        //     }
+
+                        //     // Запись содержимого в файл
+                        //     fwrite($fileHandle, $fileContent->body());
+                        //     fclose($fileHandle);
+                        //     $this->line("File saved: " . $fileUrl);
+                        // } else {
+                        //     $this->line("Failed to download file with ID: " . $fileId);
+                        // }
                     }
-                    // $this->line(json_encode('responseFile result'));
-                    // $this->line(json_encode($responseFile['result']));
-                    // Здесь ваш код для обработки URL файла
-
-                    // $hook = BitrixController::getHook($domain); // Это твой вебхук
-                    // $fileUrlWithHook = $fileUrl . '&' . parse_url($hook, PHP_URL_QUERY);
-                    // $response = Http::withOptions(['allow_redirects' => true])->get($fileUrlWithHook);
-
-                    // $this->line("Status Code: " . $responseFile->status());
-                    // $this->line("Headers: " . json_encode($responseFile->headers()));
-                    // $this->line("Body: " . substr($responseFile->body(), 0, 500));
-
-
-                    // $fileContent = Http::get($fileUrl);
-                    // if ($fileContent->successful()) {
-                    //     //     // Замените 'path/to/your/directory/' на путь к каталогу, где вы хотите сохранить файлы
-                    //     $fileName = $fileId;
-                    //     $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
-                    //     $directoryPath = dirname($path);
-                    //     if (!file_exists($directoryPath)) {
-                    //         mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
-                    //     }
-                    //     //     // Открытие файла для записи в бинарном режиме
-                    //     $fileHandle = fopen($path, 'wb');
-                    //     if ($fileHandle === false) {
-                    //         // Обработка ошибки открытия файла
-                    //         $this->line("Unable to open file for writing: " . $path);
-                    //         return;
-                    //     }
-
-                    //     // Запись содержимого в файл
-                    //     fwrite($fileHandle, $fileContent->body());
-                    //     fclose($fileHandle);
-                    //     $this->line("File saved: " . $fileUrl);
-                    // } else {
-                    //     $this->line("Failed to download file with ID: " . $fileId);
-                    // }
                 }
             }
-            // }
         }
     }
 
@@ -270,7 +270,7 @@ class BitrixTelephonyTest extends Command
                 $attempt++;
             }
             $text = '';
-            
+
             if ($done) {
                 $chunks = $operationStatusResponse['response']['chunks'];
 
