@@ -72,6 +72,13 @@ class BitrixTelephonyTest extends Command
 
         if (!empty($responseData['result'])) {
             // $this->line(json_encode($responseData));
+            foreach ($responseData['result'] as $key => $activity) { //for list
+                $this->line($key);
+                $this->line(json_encode($activity['ID']));
+            }
+        }
+        if (!empty($responseData['result'])) {
+            // $this->line(json_encode($responseData));
             foreach ($responseData['result'] as $activity) { //for list
                 $this->line(json_encode($activity['ID']));
                 if (isset($activity['FILES'])) { //for list
@@ -174,7 +181,7 @@ class BitrixTelephonyTest extends Command
         try {
             $result = $s3Client->putObject([
                 'Bucket' => 'april-test',
-                'Key'    => 'test/'.$filename,
+                'Key'    => 'test/' . $filename,
                 'SourceFile' => $localFilePath,
             ]);
             $this->line("Файл успешно загружен: " . $result['ObjectURL'] . "\n");
