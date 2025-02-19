@@ -70,7 +70,7 @@ class BitrixTelephonyTest extends Command
 
         $response = Http::get($url, $data);
         $responseData = $response->json();
-        $this->line(json_encode($responseData->body()));
+        $this->line(json_encode($responseData));
 
         if (!empty($responseData['result'])) {
             $this->line(json_encode($responseData));
