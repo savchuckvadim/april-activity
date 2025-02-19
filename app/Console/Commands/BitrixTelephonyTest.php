@@ -69,16 +69,16 @@ class BitrixTelephonyTest extends Command
         $response = Http::get($url, $data);
         $responseData = $response->json();
         if (!empty($responseData['result'])) {
-            $this->line(json_encode($responseData));
-            foreach ($responseData['result'] as $activity) {
-                $this->line(json_encode($activity));
-                if (isset($activity['FILES'])) {
+            // $this->line(json_encode($responseData));
+            // foreach ($responseData['result'] as $activity) {
+                // $this->line(json_encode($activity));
+                if (isset($responseData['result']['FILES'])) {
                    
-                    foreach ($activity['FILES'] as  $file) {
+                    foreach ($responseData['result']['FILES'] as  $file) {
                         $fileId = $file['id'];
                         $fileUrl = $file['url'];
                         $this->line(json_encode('file'));
-                        $this->line(json_encode($file));
+                        // $this->line(json_encode($file));
 
                         $this->line(json_encode('url'));
                         $this->line(json_encode($fileUrl));
@@ -110,7 +110,7 @@ class BitrixTelephonyTest extends Command
                         // }
                     }
                 }
-            }
+            // }
         }
     }
 }
