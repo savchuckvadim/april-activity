@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\BeelineController;
 use App\Http\Controllers\BitrixController;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class BitrixTelephonyTest extends Command
 {
@@ -87,8 +87,21 @@ class BitrixTelephonyTest extends Command
                     $responseFile = Http::get($url, [
                         'id' => $fileId
                     ]);
-                    $this->line(json_encode('responseFile result'));
-                    $this->line(json_encode($responseFile['result']));
+                    if ($responseFile['result']) {
+                        $downloadUrl = $responseFile['result']['DOWNLOAD_URL'];
+
+                        // Получаем содержимое файла
+                        $fileResponse = Http::get($downloadUrl);
+
+                        // Сохраняем файл в storage/app/public/записи
+                        $filename = 'audio/records/' . $responseFile['result']['NAME'];
+                        Storage::disk('public')->put($filename, $fileResponse->body());
+
+                        // Выводим путь к файлу
+                        $this->line('Файл сохранён: ' . storage_path('app/public/' . $filename));
+                    }
+                    // $this->line(json_encode('responseFile result'));
+                    // $this->line(json_encode($responseFile['result']));
                     // Здесь ваш код для обработки URL файла
 
                     // $hook = BitrixController::getHook($domain); // Это твой вебхук
