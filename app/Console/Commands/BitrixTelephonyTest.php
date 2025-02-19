@@ -71,45 +71,53 @@ class BitrixTelephonyTest extends Command
         if (!empty($responseData['result'])) {
             // $this->line(json_encode($responseData));
             // foreach ($responseData['result'] as $activity) {
-                // $this->line(json_encode($activity));
-                if (isset($responseData['result']['FILES'])) {
-                   
-                    foreach ($responseData['result']['FILES'] as  $file) {
-                        $fileId = $file['id'];
-                        $fileUrl = $file['url'];
-                        $this->line(json_encode('file'));
-                        // $this->line(json_encode($file));
-                        $this->line(json_encode($fileId));
-                        $this->line(json_encode('url'));
-                        $this->line(json_encode($fileUrl));
+            // $this->line(json_encode($activity));
+            if (isset($responseData['result']['FILES'])) {
 
-                        // Здесь ваш код для обработки URL файла
-                        $fileContent = Http::get($fileUrl);
-                        if ($fileContent->successful()) {
+                foreach ($responseData['result']['FILES'] as  $file) {
+                    $fileId = $file['id'];
+                    $fileUrl = $file['url'];
+                    $this->line(json_encode('file'));
+                    // $this->line(json_encode($file));
+                    $this->line(json_encode($fileId));
+                    $this->line(json_encode('url'));
+                    $this->line(json_encode($fileUrl));
+
+                    // Здесь ваш код для обработки URL файла
+
+                    $hook = BitrixController::getHook($domain); // Это твой вебхук
+                    $fileUrlWithHook = $fileUrl . '&' . parse_url($hook, PHP_URL_QUERY);
+                    $response = Http::withOptions(['allow_redirects' => true])->get($fileUrlWithHook);
+                    $this->line(json_encode($response));
+
+
+
+                    $fileContent = Http::get($fileUrl);
+                    if ($fileContent->successful()) {
                         //     // Замените 'path/to/your/directory/' на путь к каталогу, где вы хотите сохранить файлы
-                            $fileName = $fileId;
-                            $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
-                            $directoryPath = dirname($path);
-                            if (!file_exists($directoryPath)) {
-                                mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
-                            }
-                        //     // Открытие файла для записи в бинарном режиме
-                            $fileHandle = fopen($path, 'wb');
-                            if ($fileHandle === false) {
-                                // Обработка ошибки открытия файла
-                                $this->line("Unable to open file for writing: " . $path);
-                                return;
-                            }
-
-                            // Запись содержимого в файл
-                            fwrite($fileHandle, $fileContent->body());
-                            fclose($fileHandle);
-                            $this->line("File saved: " . $fileUrl);
-                        } else {
-                            $this->line("Failed to download file with ID: " . $fileId);
+                        $fileName = $fileId;
+                        $path = storage_path('app' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . $fileName);
+                        $directoryPath = dirname($path);
+                        if (!file_exists($directoryPath)) {
+                            mkdir($directoryPath, 0777, true); // Рекурсивное создание директорий
                         }
+                        //     // Открытие файла для записи в бинарном режиме
+                        $fileHandle = fopen($path, 'wb');
+                        if ($fileHandle === false) {
+                            // Обработка ошибки открытия файла
+                            $this->line("Unable to open file for writing: " . $path);
+                            return;
+                        }
+
+                        // Запись содержимого в файл
+                        fwrite($fileHandle, $fileContent->body());
+                        fclose($fileHandle);
+                        $this->line("File saved: " . $fileUrl);
+                    } else {
+                        $this->line("Failed to download file with ID: " . $fileId);
                     }
                 }
+            }
             // }
         }
     }
