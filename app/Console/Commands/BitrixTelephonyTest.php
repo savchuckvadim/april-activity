@@ -79,7 +79,7 @@ class BitrixTelephonyTest extends Command
                         $fileUrl = $file['url'];
                         $this->line(json_encode('file'));
                         // $this->line(json_encode($file));
-
+                        $this->line(json_encode($fileId));
                         $this->line(json_encode('url'));
                         $this->line(json_encode($fileUrl));
 
