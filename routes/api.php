@@ -19,6 +19,8 @@ use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use morphos\Russian\Cases;
 use morphos\Russian\NounDeclension;
 use function morphos\Russian\inflectName;
@@ -35,8 +37,155 @@ use function morphos\Russian\inflectName;
 |
 */
 
+Route::get('/generate', function () {
+    return response()->stream(function () {
+        $data = ["Первый ответ", "Второй ответ", "Третий ответ", "Готово!"];
+
+        // **Выключаем Laravel буферизацию**
+        if (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+
+        // **Настройка вывода без буферизации**
+        ini_set('output_buffering', 'off');
+        ini_set('zlib.output_compression', 'off');
+        ini_set('implicit_flush', '1');
+
+        // **Очищаем все буферы**
+        for ($i = 0; $i < ob_get_level(); $i++) {
+            ob_end_flush();
+        }
+        flush();
+
+        // **Отправляем данные чанками**
+        foreach ($data as $item) {
+            echo "data: " . json_encode(["message" => $item]) . "\n\n";
+            flush();
+            sleep(2); // **Имитируем задержку**
+        }
+
+       
+        echo "event: done\n";
+
+        echo "data: {}\n\n";
+        flush();
+
+    }, 200, [
+        "Content-Type" => "text/event-stream",
+        "Cache-Control" => "no-cache",
+        "X-Accel-Buffering" => "no",
+        "Connection" => "keep-alive",
+    ]);
+});
+Route::post('/ollama', function (Request $request) {
+    set_time_limit(0);
+
+    $ollamaUrl = 'http://localhost:11434/api/generate';
+
+    $data = [
+        "model" => "llama3",
+        "prompt" => $request->input("prompt"),
+        "stream" => true
+    ];
+
+    try {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->timeout(0)->withOptions(['stream' => true])->post($ollamaUrl, $data);
+
+        if (!$response->successful()) {
+            return response()->json(['error' => 'Ошибка запроса в Ollama'], $response->status());
+        }
+
+        if (ob_get_level() > 0) {
+            @ob_end_clean();
+        }
+
+        return response()->stream(function () use ($response) {
+            $body = $response->toPsrResponse()->getBody();
+            $buffer = "";
+
+            while (!$body->eof()) {
+                $chunk = trim($body->read(1024));
+                if (!empty($chunk)) {
+                    $buffer .= $chunk;
+
+                    // Проверяем, есть ли завершенный JSON-объект
+                    while (strpos($buffer, "}\n") !== false) {
+                        $pos = strpos($buffer, "}\n") + 1;
+                        $jsonPart = substr($buffer, 0, $pos);
+                        $buffer = substr($buffer, $pos + 1);
+
+                        $decoded = json_decode($jsonPart, true);
+                        if ($decoded && isset($decoded["response"])) {
+                            echo "data: " . json_encode(["message" => $decoded["response"]]) . "\n\n";
+                            @ob_flush();
+                            flush();
+                        }
+                    }
+                }
+            }
+
+            echo "event: done\n";
+            echo "data: {}\n\n";
+            @ob_flush();
+            flush();
+
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache',
+            'X-Accel-Buffering' => 'no',
+            'Connection' => 'keep-alive',
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
 
 
+
+// Route::post('/generate', function (Request $request) {
+//     set_time_limit(0);
+//     // URL Ollama API
+//     $url = 'http://localhost:11434/api/generate';
+
+//     try {
+//         // Открываем потоковый запрос к Ollama API
+//         $response = Http::withHeaders([
+//             'Content-Type' => 'application/json',
+//             'Accept' => 'application/json',
+//         ])->timeout(120)->withOptions(['stream' => true])->post($url, $request->all());
+
+//         // Проверяем успешность запроса
+//         if (!$response->successful()) {
+//             return response()->json(['error' => 'Ошибка запроса'], $response->status());
+//         }
+
+//         // Очищаем буферизацию Laravel
+//         ob_end_clean();
+
+//         // Отправляем поток обратно
+//         return response()->stream(function () use ($response) {
+//             $body = $response->toPsrResponse()->getBody();
+//             while (!$body->eof()) {
+//                 echo $body->read(1024);
+//                 ob_flush();
+//                 flush();
+//             }
+//         }, 200, [
+//             'Content-Type' => 'application/json',
+//             'Cache-Control' => 'no-cache',
+//             'Transfer-Encoding' => 'chunked',
+//             'X-Accel-Buffering' => 'no',
+//             'Connection' => 'keep-alive', // 
+//         ]);
+
+//     } catch (\Exception $e) {
+//         return response()->json(['error' => $e->getMessage()], 500);
+//     }
+// });
 
 // Route::middleware('auth_hook')->group(function () {
 //     Route::post('hooktest', function (Request $request) {
@@ -102,7 +251,7 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
             if (isset($data['template']['portal'])) {
                 $domain = $data['template']['portal'];
 
-                if($domain == 'april-dev.bitrix24.ru'){
+                if ($domain == 'april-dev.bitrix24.ru') {
                     $documentController = new OfferController;
                     $result = $documentController->getDocument($data);
                     return $result;
