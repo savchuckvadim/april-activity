@@ -83,7 +83,7 @@ Route::post('/ollama', function (Request $request) {
     $ollamaUrl = 'http://localhost:11434/api/generate';
 
     $data = [
-        "model" => "llama3",
+        "model" => "llama3.3",
         "prompt" => $request->input("prompt"),
         "stream" => true
     ];
