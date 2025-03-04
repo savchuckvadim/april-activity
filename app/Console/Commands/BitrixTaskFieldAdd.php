@@ -39,7 +39,7 @@ class BitrixTaskFieldAdd extends Command
      */
     public function handle()
     {
-        $domain = 'april-garant.bitrix24.ru';
+        $domain = 'alfacentr.bitrix24.ru';
         // $method = '/task.item.userfield.getlist';
         $method = '/task.item.userfield.add';
 
