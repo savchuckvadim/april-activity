@@ -13,8 +13,8 @@ class BitrixTaskFieldAdd extends Command
      *
      * @var string
      */
-    protected $signature = 'btx_task:field_add';
-
+    // protected $signature = 'btx_task:field_add';
+    protected $signature = 'btx_task:fields';
     /**
      * The console command description.
      *
@@ -40,8 +40,8 @@ class BitrixTaskFieldAdd extends Command
     public function handle()
     {
         $domain = 'gsirk.bitrix24.ru';
-        // $method = '/rpa.stage.listForType.json';
-        $method = '/task.item.userfield.add';
+        $method = '/task.item.userfield.getlist';
+        // $method = '/task.item.userfield.add';
 
         // $hook = env('TEST_HOOK');
         $hook = BitrixController::getHook($domain);
@@ -59,7 +59,7 @@ class BitrixTaskFieldAdd extends Command
         ];
         $url = $hook . $method;
 
-        $response = Http::get($url, $data);
+        $response = Http::get($url);
 
         $this->line($response->body());
     }
