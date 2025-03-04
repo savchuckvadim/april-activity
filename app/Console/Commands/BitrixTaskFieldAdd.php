@@ -13,7 +13,7 @@ class BitrixTaskFieldAdd extends Command
      *
      * @var string
      */
-    // protected $signature = 'btx_task:field_add';
+    protected $signature = 'btx_task:field_add';
     // protected $signature = 'btx_task:fields';
     /**
      * The console command description.
