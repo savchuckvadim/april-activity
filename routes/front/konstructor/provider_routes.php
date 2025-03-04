@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Front\Konstructor\DealDocumentOptionController;
+
 use App\Http\Controllers\Front\Konstructor\ProviderCurrentController;
 use Illuminate\Support\Facades\Route;
 
