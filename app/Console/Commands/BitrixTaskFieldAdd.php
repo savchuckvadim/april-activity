@@ -59,7 +59,7 @@ class BitrixTaskFieldAdd extends Command
         ];
         $url = $hook . $method;
 
-        $response = Http::get($url);
+        $response = Http::get($url, $data);
 
         $this->line($response->body());
     }
