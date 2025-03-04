@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('portalId')->nullable();
             $table->integer('bxUserId')->nullable();
             $table->integer('agentId')->nullable();
-            $table->integer('providerName')->nullable();
+            $table->integer('providerName')->nullable();            $table->integer('providerName')->nullable();
+
         });
     }
 

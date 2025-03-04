@@ -61,7 +61,7 @@ class ProviderCurrentController extends Controller
                 [
                     'portalId' => $portalId,
                     'agentId' => $request->agentId,
-                    'providerName' => $request->providerName
+                    'name' => $request->providerName
                 ]
             );
 

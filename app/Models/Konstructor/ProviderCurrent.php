@@ -15,6 +15,7 @@ class ProviderCurrent extends Model
         'bxUserId',
         'agentId',
         'providerName',
+        'name'
 
     ];
 }
