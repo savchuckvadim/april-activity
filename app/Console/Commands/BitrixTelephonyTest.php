@@ -50,7 +50,7 @@ class BitrixTelephonyTest extends Command
         $dealId = 12202;
         $fields =
             [
-                'OWNER_TYPE_ID' => 2, // 2- deal 3 - company
+                'OWNER_TYPE_ID' => 2, // 2- deal 3 - contact 4 - company
                 'OWNER_ID' => 20424, // 2976,
                 "TYPE_ID" => 2 // Тип активности - Звонок
             ];
