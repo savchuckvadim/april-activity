@@ -2,7 +2,7 @@
 
 namespace App\Models\Konstructor;
 
-use App\Models\Konctructor\OfferTemplate;
+use App\Models\Konstructor\OfferTemplate;
 use App\Models\Portal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

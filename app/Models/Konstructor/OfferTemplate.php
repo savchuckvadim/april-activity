@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Konctructor;
+namespace App\Models\Konstructor;
 
 use App\Models\Konstructor\UserSelectedTemplate;
 use App\Models\Portal;
