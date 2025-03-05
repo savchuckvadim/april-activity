@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Gmail;
 
 use App\Models\Google\GoogleToken;
@@ -59,7 +60,12 @@ class GmailService
                             $attachment = $this->gmailService->users_messages_attachments
                                 ->get('me', $message->getId(), $attachmentId);
 
-                            $fileData = base64_decode($attachment->getData());
+                            // Используем строгий base64 декодинг
+                            $fileData = base64_decode(str_replace(['-', '_'], ['+', '/'], $attachment->getData()), true);
+
+                            if ($fileData === false) {
+                                throw new \Exception("Ошибка декодирования ZIP-файла: {$part->getFilename()}");
+                            }
 
                             $zipFiles[] = [
                                 'filename' => $part->getFilename(),
@@ -73,6 +79,42 @@ class GmailService
 
         return $zipFiles;
     }
+
+
+    // public function getMails($subjectFilter = 'Отчет СКАП')
+    // {
+    //     $messages = $this->gmailService->users_messages->listUsersMessages('me', ['maxResults' => 10]);
+    //     $zipFiles = [];
+
+    //     foreach ($messages->getMessages() as $message) {
+    //         $msg = $this->gmailService->users_messages->get('me', $message->getId());
+
+    //         $subject = collect($msg->getPayload()->getHeaders())
+    //             ->firstWhere('name', 'Subject')
+    //             ->value;
+
+    //         if (str_contains($subject, $subjectFilter)) {
+    //             foreach ($msg->getPayload()->getParts() as $part) {
+    //                 if ($part->getFilename() && $part->getBody()->getAttachmentId()) {
+    //                     if (pathinfo($part->getFilename(), PATHINFO_EXTENSION) === 'zip') {
+    //                         $attachmentId = $part->getBody()->getAttachmentId();
+    //                         $attachment = $this->gmailService->users_messages_attachments
+    //                             ->get('me', $message->getId(), $attachmentId);
+
+    //                         $fileData = base64_decode($attachment->getData());
+
+    //                         $zipFiles[] = [
+    //                             'filename' => $part->getFilename(),
+    //                             'content' => $fileData
+    //                         ];
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return $zipFiles;
+    // }
 
     public function combineZipFiles(array $zipFiles)
     {
@@ -94,4 +136,3 @@ class GmailService
         return null;
     }
 }
-
