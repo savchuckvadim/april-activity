@@ -26,7 +26,12 @@ class GmailController extends Controller
             file_put_contents(storage_path('test.zip'), $zip['content']);
 
             return response()->streamDownload(function () use ($zip) {
-                echo $zip['content'];
+                // echo $zip['content'];
+                $stream = fopen('php://memory', 'wb+');
+                fwrite($stream, $zip['content']);
+                rewind($stream);
+                fpassthru($stream);
+                fclose($stream);
             }, $zip['filename'], [
                 'Content-Type' => 'application/zip',
                 'Content-Disposition' => 'attachment; filename="' . $zip['filename'] . '"',
