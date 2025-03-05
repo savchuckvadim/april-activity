@@ -66,7 +66,6 @@ class GmailService
                             if ($fileData === false) {
                                 throw new \Exception("Ошибка декодирования ZIP-файла: {$part->getFilename()}");
                             }
-
                             $zipFiles[] = [
                                 'filename' => $part->getFilename(),
                                 'content' => $fileData

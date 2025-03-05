@@ -23,6 +23,7 @@ class GmailController extends Controller
 
         if (count($zipFiles) > 0) {
             $zip = $zipFiles[count($zipFiles) - 1];
+            file_put_contents(storage_path('test.zip'), $zip['content']);
 
             return response()->streamDownload(function () use ($zip) {
                 echo $zip['content'];
