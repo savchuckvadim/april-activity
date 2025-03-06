@@ -17,6 +17,7 @@ class ProviderCurrentController extends Controller
 
         try {
             $domain = $request->domain;
+            $userId = $request->userId;
             $provider = ProviderCurrent::where('domain', $domain)
                 ->where('bxUserId', $userId)
                 ->first();
