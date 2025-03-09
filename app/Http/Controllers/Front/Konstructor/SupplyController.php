@@ -325,9 +325,9 @@ class SupplyController extends Controller
             $clientType = $contractClientState['type'];
 
             $currentClientType = 'org';
-            if (!empty($data->clientType)) {
-                if (!empty($data->clientType['code'])) {
-                    $currentClientType = $data->clientType['code'];
+            if (!empty($data['clientType'])) {
+                if (!empty($data['clientType']['code'])) {
+                    $currentClientType = $data['clientType']['code'];
                 }
             }
 
