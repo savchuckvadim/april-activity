@@ -448,10 +448,10 @@ class SupplyController extends Controller
 
                 $fullPath = storage_path($filePath . '/sales_report.docx');
             }
-            $withRq = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru';
-            if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
-                $fullPath = storage_path($filePath . '/sales_report_test.docx');
-            }
+            $withRq =  false;
+            // $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru';
+         
+
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
             $templateProcessor->setValue('client_company_name', $clientCompanyFullName);
