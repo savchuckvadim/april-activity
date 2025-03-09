@@ -4099,7 +4099,13 @@ class ContractController extends Controller
                 . 'Адрес: ' . $address . "\n"
                 . "Документ: " . $fizDocument . "\n"
                 . 'Телефон.: ' . $phone . "\n"
-                . 'E-mail: ' . $email . "\n";
+                . 'E-mail: ' . $email . "\n"
+                . "Р/с: " . $rs . "\n"
+                . "К/с: " . $ks . "\n"
+                . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
+                . (!empty($bankOther) ? $bankOther . "\n" : '')
+                . "Банк: " . $bank . "\n";
+             
         } else {
             $client_rq = $companyName . "\n" . "\n"
                 . 'Адрес: ' . $address . "\n"
