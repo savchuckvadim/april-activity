@@ -4053,7 +4053,7 @@ class ContractController extends Controller
             }
         }
 
-      
+
 
         if (!empty($clientRq['bank'])) {
 
@@ -4095,17 +4095,16 @@ class ContractController extends Controller
 
         if ($currentClientType == 'fiz') {
             $client_rq = $companyName . "\n" . "\n"
+                . "Документ: " . $fizDocument . "\n"
                 . "ИНН: " . $inn . "\n"
                 . 'Адрес: ' . $address . "\n"
-                . "Документ: " . $fizDocument . "\n"
                 . 'Телефон.: ' . $phone . "\n"
                 // . 'E-mail: ' . $email . "\n"
+                . "Банк: " . $bank . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
                 . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
-                . (!empty($bankOther) ? $bankOther . "\n" : '')
-                . "Банк: " . $bank . "\n";
-             
+                . (!empty($bankOther) ? $bankOther . "\n" : '');
         } else {
             $client_rq = $companyName . "\n" . "\n"
                 . 'Адрес: ' . $address . "\n"
@@ -4116,7 +4115,7 @@ class ContractController extends Controller
                 . "К/с: " . $ks . "\n"
                 . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
                 . (!empty($bankOther) ? $bankOther . "\n" : '');
-                // . 'E-mail: ' . $email . "\n";
+            // . 'E-mail: ' . $email . "\n";
         }
         return ['client_rq' => $client_rq, 'client_adress' => $client_adress];
     }
