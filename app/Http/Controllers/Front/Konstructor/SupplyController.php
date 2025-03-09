@@ -547,11 +547,9 @@ class SupplyController extends Controller
                 $currentClientType
             );
             $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
-            ALogController::push('withRq', $withRq);
             if ($withRq) {
                 
                 $clientRqData = $contractController->getClientRQ($currentClientType, $data['bxrq']); //['client_rq' => $client_rq, 'client_adress' => $client_adress]
-                ALogController::push('result rq', $clientRqData['client_rq']);
                 if (!empty($clientRqData) && !empty($clientRqData['client_rq'])) {
                     $resultRq = str_replace("\n", '</w:t><w:br/><w:t>', $clientRqData['client_rq']);
                     $templateProcessor->cloneBlock('client_rq_block', 1, true, false);

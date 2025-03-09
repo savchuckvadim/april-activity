@@ -4099,7 +4099,7 @@ class ContractController extends Controller
                 . 'Адрес: ' . $address . "\n"
                 . "Документ: " . $fizDocument . "\n"
                 . 'Телефон.: ' . $phone . "\n"
-                . 'E-mail: ' . $email . "\n"
+                // . 'E-mail: ' . $email . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
                 . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
@@ -4109,16 +4109,15 @@ class ContractController extends Controller
         } else {
             $client_rq = $companyName . "\n" . "\n"
                 . 'Адрес: ' . $address . "\n"
+                . 'Телефон.: ' . $phone . "\n"
                 . "ИНН: " . $inn . "\n"
+                . "Банк: " . $bank . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
                 . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
-                . (!empty($bankOther) ? $bankOther . "\n" : '')
-                . "Банк: " . $bank . "\n"
-                . 'Телефон.: ' . $phone . "\n"
-                . 'E-mail: ' . $email . "\n";
+                . (!empty($bankOther) ? $bankOther . "\n" : '');
+                // . 'E-mail: ' . $email . "\n";
         }
-        ALogController::push('clientRq', $clientRq);
         return ['client_rq' => $client_rq, 'client_adress' => $client_adress];
     }
 
