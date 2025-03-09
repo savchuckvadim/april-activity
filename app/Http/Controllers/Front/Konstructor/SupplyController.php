@@ -324,6 +324,14 @@ class SupplyController extends Controller
             $clientRqBank = $contractClientState['rqs']['bank'];
             $clientType = $contractClientState['type'];
 
+            $currentClientType = 'org';
+            if (!empty($data->clientType)) {
+                if (!empty($data->clientType['code'])) {
+                    $currentClientType = $data->clientType['code'];
+                }
+            }
+
+
             $registredString = '';
             $primaryString = '';
             $inn = '';
@@ -353,9 +361,8 @@ class SupplyController extends Controller
                                     $registredString = $addresString;
                                 }
                                 if ($address['type_id'] == 1) { //фактический
-                                    if(!empty($addresString)){
-                                        $primaryString = 'Фактический адрес: '.$addresString;
-
+                                    if (!empty($addresString)) {
+                                        $primaryString = 'Фактический адрес: ' . $addresString;
                                     }
                                 }
                             }
@@ -369,7 +376,11 @@ class SupplyController extends Controller
                             if ($baseField['code'] == 'inn') {
                                 $inn = $baseField['value'];
                             }
-                            if ($baseField['code'] == 'fullname') {
+                            if ($baseField['code'] == 'fullname' && $currentClientType !== 'fiz') {
+                                $clientCompanyFullName = $baseField['value'];
+                            }
+
+                            if ($baseField['code'] == 'personName' && $currentClientType === 'fiz') {
                                 $clientCompanyFullName = $baseField['value'];
                             }
                         }
@@ -434,7 +445,7 @@ class SupplyController extends Controller
 
                 $fullPath = storage_path($filePath . '/sales_report.docx');
             }
-            if($domain == 'april-dev.bitrix24.ru'){
+            if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
                 $fullPath = storage_path($filePath . '/sales_report_test.docx');
             }
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
@@ -510,42 +521,37 @@ class SupplyController extends Controller
                     'complect_hdd' => $complect_hdd
                 ]);
             }
-            if (!$isNewTemplate) {
-                $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
-            } else {
-                $currentClientType = 'org';
-                if (!empty($data->clientType)) {
-                    if (!empty($data->clientType['code'])) {
-                        $currentClientType = $data->clientType['code'];
-                    }
-                }
-                $contractFullTotal = null;
-                if (!empty($data['total'])) {
-                    if (!empty($data['total'][0])) {
-                        $contractFullTotal =  $data['total'][0];
-                    };
+            // if (!$isNewTemplate) {
+            //     $templateProcessor->cloneRowAndSetValues('complect_name', $complects);
+            // } else {
+
+            $contractFullTotal = null;
+            if (!empty($data['total'])) {
+                if (!empty($data['total'][0])) {
+                    $contractFullTotal =  $data['total'][0];
                 };
-                $contractController = new ContractController();
-                // $contractType;
-                // $arows;
-                // $total;
-                $productRows = $contractController->getSupplyProducts(
-                    $arows,
-                    $contractProductName,
-                    $isProduct,
-                    $contractCoefficient,
-                    $currentClientType
-                );
-                $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
+            };
+            $contractController = new ContractController();
+            // $contractType;
+            // $arows;
+            // $total;
+            $productRows = $contractController->getSupplyProducts(
+                $arows,
+                $contractProductName,
+                $isProduct,
+                $contractCoefficient,
+                $currentClientType
+            );
+            $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
 
-                $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
+            $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
 
-                foreach ($totalData as $code => $totalItemValue) {
-                    // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
-                    $templateProcessor->setValue($code, $totalItemValue);
-                    // $templateProcessor->setValue($code, $spec);
-                }
+            foreach ($totalData as $code => $totalItemValue) {
+                // $formattedSpec = str_replace("\n", '</w:t><w:br/><w:t>', $spec);
+                $templateProcessor->setValue($code, $totalItemValue);
+                // $templateProcessor->setValue($code, $spec);
             }
+            // }
             // foreach ($filteredClientRq as $rqItem) {
             //     $value = '';
 
@@ -2278,7 +2284,7 @@ class SupplyController extends Controller
                         break;
 
 
-                        //fiz lic
+                    //fiz lic
                     case 'RQ_IDENT_DOC': //Вид документа.
 
                         for ($i = 0; $i < count($result['rq']); $i++) {
