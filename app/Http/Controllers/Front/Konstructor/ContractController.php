@@ -4053,7 +4053,7 @@ class ContractController extends Controller
             }
         }
 
-        ALogController::push('clientRq', $clientRq);
+      
 
         if (!empty($clientRq['bank'])) {
 
@@ -4112,6 +4112,7 @@ class ContractController extends Controller
                 . 'Телефон.: ' . $phone . "\n"
                 . 'E-mail: ' . $email . "\n";
         }
+        ALogController::push('clientRq', $clientRq);
         return ['client_rq' => $client_rq, 'client_adress' => $client_adress];
     }
 
