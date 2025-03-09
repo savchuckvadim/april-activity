@@ -388,7 +388,10 @@ class SupplyController extends Controller
                 }
             }
 
-
+            ALogController::push('tst supply report', [
+                '$currentClientType' => $currentClientType,
+                'clientCompanyFullName' => $clientCompanyFullName
+            ]);
 
 
             function filterByClientTypePDF($item, $clientType)
