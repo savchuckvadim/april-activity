@@ -327,7 +327,7 @@ class SupplyController extends Controller
             $currentClientType = 'org';
             if (!empty($data['clientType'])) {
                 if (!empty($data['clientType']['code'])) {
-                    $currentClientType = $data['clientType']['code'];
+                    $currentClientType = $data['clientType']['code']; //org org_state fiz ip
                 }
             }
 
@@ -448,6 +448,7 @@ class SupplyController extends Controller
 
                 $fullPath = storage_path($filePath . '/sales_report.docx');
             }
+            $withRq = $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru';
             if ($domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru') {
                 $fullPath = storage_path($filePath . '/sales_report_test.docx');
             }
@@ -547,6 +548,17 @@ class SupplyController extends Controller
             );
             $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
 
+            if ($withRq) {
+                $clientRqData = $contractController->getClientRQ($currentClientType, $data['bxrq']); //['client_rq' => $client_rq, 'client_adress' => $client_adress]
+                if (!empty($clientRqData) && !empty($clientRqData['client_rq'])) {
+                    $templateProcessor->cloneBlock('client_rq_block', 0, true, false);
+                    $templateProcessor->setValue('client_rq', $clientRqData['client_rq']);
+                } else {
+                    $templateProcessor->cloneBlock('client_rq_block', 0, true, false);
+                }
+            } else {
+                $templateProcessor->cloneBlock('client_rq_block', 0, true, false);
+            }
             $templateProcessor->cloneRowAndSetValues('productNumber', $productRows);
 
             foreach ($totalData as $code => $totalItemValue) {

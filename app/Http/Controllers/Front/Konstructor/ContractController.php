@@ -1683,7 +1683,7 @@ class ContractController extends Controller
                         break;
 
 
-                        //fiz lic
+                    //fiz lic
                     case 'RQ_IDENT_DOC': //Вид документа.
 
                         for ($i = 0; $i < count($result['rq']); $i++) {
@@ -3912,7 +3912,7 @@ class ContractController extends Controller
         // Формируем результат
         return $surname . ' ' . $nameInitial . $patronymicInitial;
     }
-    protected function getClientRQ(
+    public function getClientRQ(
 
         $currentClientType,
         $clientRq
@@ -3929,7 +3929,7 @@ class ContractController extends Controller
         $bank = '________________________________'; // ||
         $rs = '_________________________________'; // ||
         $ks = '______________________________________'; // ||
-        $bik = '______________________________________'; // ||
+        $bik = ''; // ||
 
         $bankOther = ''; // ||
 
@@ -4095,6 +4095,7 @@ class ContractController extends Controller
 
         if ($currentClientType == 'fiz') {
             $client_rq = $companyName . "\n" . "\n"
+                . "ИНН: " . $inn . "\n"
                 . 'Адрес: ' . $address . "\n"
                 . "Документ: " . $fizDocument . "\n"
                 . 'Телефон.: ' . $phone . "\n"
@@ -4105,6 +4106,7 @@ class ContractController extends Controller
                 . "ИНН: " . $inn . "\n"
                 . "Р/с: " . $rs . "\n"
                 . "К/с: " . $ks . "\n"
+                . (!empty($bik) ? "БИК: " . $bik . "\n" : '')
                 . (!empty($bankOther) ? $bankOther . "\n" : '')
                 . "Банк: " . $bank . "\n"
                 . 'Телефон.: ' . $phone . "\n"
