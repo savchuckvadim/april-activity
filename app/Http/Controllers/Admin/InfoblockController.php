@@ -210,6 +210,7 @@ class InfoblockController extends Controller
                     'isFree' => $isFree,
                     'isShowing' => $isShowing,
                     'isSet' => $isSet,
+                    'infoblock_id' => 0,
                 ];
 
                 $infoblockNumber = $block['number'];
