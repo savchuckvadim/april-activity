@@ -22,7 +22,9 @@ class Infoblock extends Model
         'isShowing',
         'isSet',
         'isProduct',
-        'isPackage'
+        'isPackage',
+        'inGroupId',
+        'groupId'
     ];
 
     public function complects()

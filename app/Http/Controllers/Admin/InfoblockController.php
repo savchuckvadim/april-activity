@@ -130,6 +130,9 @@ class InfoblockController extends Controller
                 'isSet' => 'required|boolean',
                 'isProduct' => 'nullable|boolean',
                 'isPackage' => 'nullable|boolean',
+                //
+                'inGroupId' => 'required|numeric',
+                'groupId' => 'required|numeric',
             ]);
 
             if ($validatedData->fails()) {
