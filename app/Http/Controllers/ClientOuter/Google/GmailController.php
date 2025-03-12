@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ClientOuter\Google;
 
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Services\Gmail\GmailService;
 use Illuminate\Http\Request;
@@ -19,29 +20,38 @@ class GmailController extends Controller
 
     public function fetchEmails()
     {
-        $zipFiles = $this->gmailService->getMails();
+        try {
+            $zipFiles = $this->gmailService->getMails();
 
-        if (count($zipFiles) > 0) {
-            $zip = $zipFiles[count($zipFiles) - 1];
-            file_put_contents(storage_path('test.zip'), $zip['content']);
+            if (count($zipFiles) > 0) {
+                $zip = $zipFiles[count($zipFiles) - 1];
+                file_put_contents(storage_path('test.zip'), $zip['content']);
 
-            return response()->streamDownload(function () use ($zip) {
-                // echo $zip['content'];
-                $stream = fopen('php://memory', 'wb+');
-                fwrite($stream, $zip['content']);
-                rewind($stream);
-                fpassthru($stream);
-                fclose($stream);
-            }, $zip['filename'], [
-                'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'attachment; filename="' . $zip['filename'] . '"',
-                'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-                'Pragma' => 'public',
-                'Expires' => '0'
+                return response()->streamDownload(function () use ($zip) {
+                    // echo $zip['content'];
+                    $stream = fopen('php://memory', 'wb+');
+                    fwrite($stream, $zip['content']);
+                    rewind($stream);
+                    fpassthru($stream);
+                    fclose($stream);
+                }, $zip['filename'], [
+                    'Content-Type' => 'application/zip',
+                    'Content-Disposition' => 'attachment; filename="' . $zip['filename'] . '"',
+                    'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                    'Pragma' => 'public',
+                    'Expires' => '0'
+                ]);
+            }
+
+            return response()->json(['message' => 'Нет ZIP-файлов'], 404);
+        } catch (\Exception $e) {
+            return APIController::getError('Ошибка получения писем', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ]);
+            // return response()->json(['message' => 'Ошибка получения писем: ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['message' => 'Нет ZIP-файлов'], 404);
     }
 
 
