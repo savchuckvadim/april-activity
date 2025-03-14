@@ -20,7 +20,8 @@ class ReportSettingsController extends Controller
         try {
             $portal = Portal::where('domain', $domain)->first();
             $settings = ReportSettings::where('portalId', $portal->id)
-                ->where('bxUserId', $userId);
+                ->where('bxUserId', $userId)
+                ->first();
 
             if ($settings) {
                 if (!empty($settings->filter)) {
@@ -75,7 +76,8 @@ class ReportSettingsController extends Controller
 
 
             $searchingSettings = ReportSettings::where('portalId', $portal->id)
-                ->where('bxUserId', $userId);
+                ->where('bxUserId', $userId)
+                ->first();
 
 
 
