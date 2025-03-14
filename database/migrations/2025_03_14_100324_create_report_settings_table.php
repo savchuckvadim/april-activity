@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_currents', function (Blueprint $table) {
+        Schema::create('report_settings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('domain')->nullable();
             $table->integer('portalId')->nullable();
             $table->integer('bxUserId')->nullable();
-            $table->integer('agentId')->nullable();
-            $table->integer('providerName')->nullable();
-            // $table->integer('providerName')->nullable();
+            $table->longText('filter')->nullable();
+            $table->longText('filters')->nullable();
+            $table->longText('grafics')->nullable();
+            $table->longText('department')->nullable();
+            $table->longText('date')->nullable();
+            $table->longText('dates')->nullable();
+            $table->longText('other')->nullable();
         });
     }
 
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_currents');
+        Schema::dropIfExists('report_settings');
     }
 };
