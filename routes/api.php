@@ -205,6 +205,7 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/settings_routes.php';
     require __DIR__ . '/front/konstructor/offer_zakupki_routes.php';
     require __DIR__ . '/front/konstructor/provider_routes.php';
+    require __DIR__ . '/front/report/routes.php';
 
     //..................................GENERAL FRONT APP ...............................
 
