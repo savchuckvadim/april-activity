@@ -6,6 +6,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\Controller;
 use App\Models\Portal;
 use App\Models\Report\ReportSettings;
+use Exception;
 use Illuminate\Http\Request;
 
 class ReportSettingsController extends Controller
@@ -59,44 +60,48 @@ class ReportSettingsController extends Controller
             $userId = $request->userId;
             $portal = Portal::where('domain', $domain)->first();
 
-            $settings = [
-                'domain' => $request->app,
-                // 'consalting' => $request->consalting,
-                'portalId' => $request->contract,
-                'bxUserId' => $request->currentComplect,
+            if ($portal) {
 
 
-                'filter' => $request->dealName,
+                $settings = [
+                    'domain' => $domain,
+                    // 'consalting' => $request->consalting,
+                    'portalId' => $portal->id,
+                    'bxUserId' => $userId,
 
 
-            ];
+                    'filter' => $request->filter,
 
 
-
-
-
-            $searchingSettings = ReportSettings::where('portalId', $portal->id)
-                ->where('bxUserId', $userId)
-                ->first();
+                ];
 
 
 
-            if (!empty($searchingSettings)) {
-                $searchingSettings->update($settings);
-                $searchingSettings->save();
-                $resultSettings =  $searchingSettings;
-            } else {
-                //search portal
 
-                $newSettings = new ReportSettings($settings);
-                $newSettings->save();
-                $newSettings = ReportSettings::where('portalId', $portal->id)
+
+                $searchingSettings = ReportSettings::where('portalId', $portal->id)
                     ->where('bxUserId', $userId)
                     ->first();
-                $resultSettings = $newSettings;
+
+
+
+                if (!empty($searchingSettings)) {
+                    $searchingSettings->update($settings);
+                    $searchingSettings->save();
+                    $resultSettings =  $searchingSettings;
+                } else {
+                    //search portal
+
+                    $newSettings = new ReportSettings($settings);
+                    $newSettings->save();
+                    $newSettings = ReportSettings::where('portalId', $portal->id)
+                        ->where('bxUserId', $userId)
+                        ->first();
+                    $resultSettings = $newSettings;
+                }
+            }else{
+                throw new Exception('portal was not found');
             }
-
-
             return APIController::getSuccess([
                 'filter' => $filter,
                 'settings' => $resultSettings
