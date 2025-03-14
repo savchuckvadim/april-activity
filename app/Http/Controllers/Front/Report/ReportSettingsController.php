@@ -87,11 +87,13 @@ class ReportSettingsController extends Controller
                 $resultSettings =  $searchingSettings;
             } else {
                 //search portal
-              
-                    $newSettings = new ReportSettings($settings);
-                    // $newSettings->save();
-                    $resultSettings = $newSettings;
-                
+
+                $newSettings = new ReportSettings($settings);
+                $newSettings->save();
+                $newSettings = ReportSettings::where('portalId', $portal->id)
+                    ->where('bxUserId', $userId)
+                    ->first();
+                $resultSettings = $newSettings;
             }
 
 
