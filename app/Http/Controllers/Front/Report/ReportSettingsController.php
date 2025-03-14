@@ -87,7 +87,7 @@ class ReportSettingsController extends Controller
                 //search portal
               
                     $newSettings = new ReportSettings($settings);
-                    $newSettings->save();
+                    // $newSettings->save();
                     $resultSettings = $newSettings;
                 
             }
@@ -95,6 +95,7 @@ class ReportSettingsController extends Controller
 
             return APIController::getSuccess([
                 'filter' => $filter,
+                'settings' => $resultSettings
 
 
             ]);
