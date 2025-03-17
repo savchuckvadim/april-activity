@@ -41,9 +41,9 @@ class AuthService
     public function getIamToken()
     {
         // Проверяем кеш
-        // if (Cache::has('iam_token')) {
-        //     return Cache::get('iam_token');
-        // }
+        if (Cache::has('iam_token')) {
+            return Cache::get('iam_token');
+        }
 
         // Генерируем JWT
         $jwt = $this->generateJwt();
