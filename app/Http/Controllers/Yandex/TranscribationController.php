@@ -44,10 +44,10 @@ class TranscribationController extends Controller
                 $userId
             ));
 
-            return APIController::getSuccess([
+            return APIController::getSuccess(['result' => [
                 'taskId' => $taskId,
                 'status' => 'started'
-            ]);
+            ]]);
         } catch (\Throwable $th) {
             return APIController::getError($th->getMessage(), [
                 'message'   => $th->getMessage(),
