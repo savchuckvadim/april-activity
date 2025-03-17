@@ -26,10 +26,10 @@ class TranscribationController extends Controller
 
             // Проверяем, есть ли уже такая задача в Redis
             if (Redis::exists($redisKey)) {
-                return APIController::getSuccess([
+                return APIController::getSuccess(['result' => [
                     'taskId' => $taskId,
                     'status' => 'already_processing'
-                ]);
+                ]]);
             }
 
             // Записываем в Redis, что задача выполняется (ставим TTL на 1 час)
