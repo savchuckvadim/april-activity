@@ -13,6 +13,8 @@ class TranscribationController extends Controller
     public function getTranscribation(Request $request)
     {
         try {
+            ini_set('max_execution_time', 900); // 5 минут
+
             $fileUrl = $request->fileUrl;
             $fileName = $request->fileName;
             $yandexService = new TranscribationService();
