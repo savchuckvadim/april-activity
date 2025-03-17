@@ -7,6 +7,7 @@ use App\Services\Yandex\AuthService;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -20,8 +21,20 @@ class TranscribationService
     protected S3Client $s3Client;
     
 
-    public function __construct()
+
+    protected string $taskId;
+    protected string $domain;
+    protected string $userId;
+
+    public function __construct(
+        $taskId,
+        $domain,
+        $userId,
+    )
     {
+        $this->taskId = $taskId;
+        $this->domain = $domain;
+        $this->userId = $userId;
         // Получаем IAM-токен через AuthService
         $auth = new AuthService();
         $this->iamToken = $auth->getIamToken();
@@ -29,8 +42,9 @@ class TranscribationService
         // Загружаем переменные окружения
         $this->iamFolder = env('YA_FOLDER_ID');
         if (empty($this->iamFolder)) {
-            ALogController::push('$this->iamFolder', ['$this->iamFolder' => $this->iamFolder]);
-
+            // ALogController::push('$this->iamFolder', ['$this->iamFolder' => $this->iamFolder]);
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Проблемы с Яндекс Folder");
             throw new \Exception("YA_FOLDER_ID is not set in .env file");
         }
         $this->yaS3Bucket = env('YA_BUCKET_NAME', 'april-test');
@@ -55,6 +69,8 @@ class TranscribationService
     {
         $fileContent = Http::get($fileUrl)->body();
         if (!$fileContent) {
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Ошибка загрузки файла");
             ALogController::push('Ошибка загрузки файла', ['fileUrl' => $fileUrl]);
             return null;
         }
@@ -67,7 +83,7 @@ class TranscribationService
         if (!$fileUri) {
             return null;
         }
-        ALogController::push('Загружаем в Yandex S3 и получаем URL', ['fileUri' => $fileUri]);
+        // ALogController::push('Загружаем в Yandex S3 и получаем URL', ['fileUri' => $fileUri]);
 
 
         // Отправляем на транскрибацию
@@ -79,7 +95,7 @@ class TranscribationService
      */
     private function saveLocalFile($fileContent, $fileName): string
     {
-        $filePath = "audio/{$fileName}";
+        $filePath = "audio/{$this->domain}/{$this->userId}/{$fileName}";
         Storage::disk('public')->put($filePath, $fileContent);
 
         return storage_path("app/public/{$filePath}");
@@ -93,12 +109,14 @@ class TranscribationService
         try {
             $result = $this->s3Client->putObject([
                 'Bucket' => $this->yaS3Bucket,
-                'Key'    => "test/{$fileName}",
+                'Key'    => "audio/{$this->domain}/{$this->userId}/{$fileName}",
                 'SourceFile' => $localFilePath,
             ]);
 
             return $result['ObjectURL'] ?? null;
         } catch (\Exception $e) {
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Ошибка загрузки в S3");
             ALogController::push('Ошибка загрузки в S3', ['error' => $e->getMessage()]);
             return null;
         }
@@ -137,9 +155,11 @@ class TranscribationService
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Ошибка отправки на распознавание");
             return null;
         }
-        ALogController::push('transcribeAudio', ['response' => $response->json()]);
+        // ALogController::push('transcribeAudio', ['response' => $response->json()]);
 
         $operationId = $response->json()['id'] ?? null;
         ALogController::push('operationId', ['operationId' => $operationId]);
@@ -168,16 +188,18 @@ class TranscribationService
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
+                Redis::set("transcription:{$this->taskId}:status", "error");
+                Redis::set("transcription:{$this->taskId}:error", "Ошибка получения результата");
                 return null;
             }
-            ALogController::push('получение результата', [
-                'response' => $response,
+            // ALogController::push('получение результата', [
+            //     'response' => $response,
               
-            ]);
-            ALogController::push('получение результата', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+            // ]);
+            // ALogController::push('получение результата', [
+            //     'status' => $response->status(),
+            //     'body' => $response->body(),
+            // ]);
             $operationData = $response->json();
             if (!empty($operationData['done']) && $operationData['done'] === true) {
                 return $this->extractTranscriptionText($operationData);
@@ -197,6 +219,8 @@ class TranscribationService
     {
         if (empty($operationData['response']['chunks'])) {
             ALogController::push('Нет данных в транскрибации', ['response' => $operationData['response']]);
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Нет данных в транскрибации");
             return null;
         }
 
@@ -206,6 +230,8 @@ class TranscribationService
                 $text .= $alternative['text'] . "\n";
             }
         }
+        Redis::set("transcription:{$this->taskId}:text", $text);
+        Redis::set("transcription:{$this->taskId}:status", "done");
 
         return trim($text);
     }
