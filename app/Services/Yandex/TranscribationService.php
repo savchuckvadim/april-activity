@@ -28,6 +28,11 @@ class TranscribationService
 
         // Загружаем переменные окружения
         $this->iamFolder = env('YA_FOLDER_ID');
+        if (empty($this->iamFolder)) {
+            ALogController::push('$this->iamFolder', ['$this->iamFolder' => $this->iamFolder]);
+
+            throw new \Exception("YA_FOLDER_ID is not set in .env file");
+        }
         $this->yaS3Bucket = env('YA_BUCKET_NAME', 'april-test');
         $this->yaS3Endpoint = 'https://storage.yandexcloud.net';
 
