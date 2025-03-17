@@ -26,7 +26,7 @@ class AuthService
         $this->tokensUrl = 'https://iam.api.cloud.yandex.net/iam/v1/tokens';
 
         // Путь к JSON-файлу с ключами
-        $this->keyJsonPath = base_path('keys/private.pem');
+        $this->keyJsonPath = base_path('keys/key.json');
 
         // Загружаем JSON-файл с ключами
         if (!file_exists($this->keyJsonPath)) {
