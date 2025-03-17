@@ -67,6 +67,8 @@ class TranscribationService
         if (!$fileUri) {
             return null;
         }
+        ALogController::push('Загружаем в Yandex S3 и получаем URL', ['fileUri' => $fileUri]);
+
 
         // Отправляем на транскрибацию
         return $this->transcribeAudio($fileUri);
@@ -79,6 +81,7 @@ class TranscribationService
     {
         $filePath = "audio/{$fileName}";
         Storage::disk('public')->put($filePath, $fileContent);
+
         return storage_path("app/public/{$filePath}");
     }
 
@@ -136,8 +139,11 @@ class TranscribationService
             ]);
             return null;
         }
+        ALogController::push('transcribeAudio', ['response' => $response->json()]);
 
         $operationId = $response->json()['id'] ?? null;
+        ALogController::push('operationId', ['operationId' => $operationId]);
+
         return $operationId ? $this->getTranscriptionResult($operationId) : null;
     }
 
@@ -164,7 +170,14 @@ class TranscribationService
                 ]);
                 return null;
             }
-
+            ALogController::push('получение результата', [
+                'response' => $response,
+              
+            ]);
+            ALogController::push('получение результата', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
             $operationData = $response->json();
             if (!empty($operationData['done']) && $operationData['done'] === true) {
                 return $this->extractTranscriptionText($operationData);

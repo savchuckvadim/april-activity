@@ -58,7 +58,7 @@ class AuthService
 
             // Сохраняем токен в кэш на 11 часов 55 минут (чтобы обновлять заранее)
             Cache::put('iam_token', $iamToken, now()->addHours(11)->addMinutes(55));
-            ALogController::push('IAM Error', [ 'iamToken' => $iamToken]);
+            ALogController::push('IAM GOOD', ['iamToken' => 'yo']);
 
             return $iamToken;
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
