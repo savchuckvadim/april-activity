@@ -4,7 +4,6 @@ namespace App\Services\Yandex;
 
 use App\Http\Controllers\ALogController;
 use App\Services\Yandex\AuthService;
-use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;

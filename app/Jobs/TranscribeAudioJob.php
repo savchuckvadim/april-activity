@@ -22,7 +22,7 @@ class TranscribeAudioJob implements ShouldQueue
     protected string $taskId;
     protected string $domain;
     protected string $userId;
-    protected  $service;
+
     public function __construct(
         $fileUrl,
         $fileName,
@@ -36,12 +36,7 @@ class TranscribeAudioJob implements ShouldQueue
         $this->taskId = $taskId;
         $this->domain = $domain;
         $this->userId = $userId;
-        $this->service = new TranscribationService(
-            $taskId,
-            $domain,
-            $userId,
-    
-        );
+       
     }
 
     /**
@@ -54,8 +49,13 @@ class TranscribeAudioJob implements ShouldQueue
             'transribe job',
             ['message' => "Запущена транскрибация для taskId: {$this->taskId}"]
         );
-
-        $transcription = $this->service->transcribe(
+        $service = new TranscribationService(
+            $this->taskId,
+            $this->domain,
+            $this->userId,
+    
+        );
+        $transcription = $service->transcribe(
             $this->fileUrl,
             $this->fileName
         );
