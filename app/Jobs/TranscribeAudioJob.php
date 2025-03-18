@@ -59,5 +59,9 @@ class TranscribeAudioJob implements ShouldQueue
             $this->fileUrl,
             $this->fileName
         );
+        ALogController::push(
+            'transribe job',
+            ['transcription result' => $transcription]
+        );
     }
 }

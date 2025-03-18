@@ -30,6 +30,10 @@ class AuthService
 
         // Загружаем JSON-файл с ключами
         if (!file_exists($this->keyJsonPath)) {
+            ALogController::push(
+                'Key file not found',
+                ['keyJsonPath' => $this->keyJsonPath]
+            );
             throw new \Exception("Key file not found: {$this->keyJsonPath}");
         }
         $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
@@ -42,6 +46,8 @@ class AuthService
     {
         // Проверяем кеш
         if (Cache::has('iam_token')) {
+            ALogController::push('IAM GOOD Cache has', ['iamToken' => 'yo']);
+
             return Cache::get('iam_token');
         }
 
@@ -102,6 +108,7 @@ class AuthService
             ->withPayload($payload)
             ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
             ->build();
+        ALogController::push('IAM GOOD', ['jws' => $jws]);
 
         return (new CompactSerializer())->serialize($jws, 0);
     }

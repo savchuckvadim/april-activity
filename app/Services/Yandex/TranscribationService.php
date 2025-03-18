@@ -37,7 +37,10 @@ class TranscribationService
         // Получаем IAM-токен через AuthService
         $auth = new AuthService();
         $this->iamToken = $auth->getIamToken();
-
+        ALogController::push(
+            'transribe job',
+            ['transcription iamToken' => $this->iamToken]
+        );
         // Загружаем переменные окружения
         $this->iamFolder = env('YA_FOLDER_ID');
         if (empty($this->iamFolder)) {
@@ -82,7 +85,7 @@ class TranscribationService
         if (!$fileUri) {
             return null;
         }
-        // ALogController::push('Загружаем в Yandex S3 и получаем URL', ['fileUri' => $fileUri]);
+        ALogController::push('Загружаем в Yandex S3 и получаем URL', ['fileUri' => $fileUri]);
 
 
         // Отправляем на транскрибацию
@@ -111,7 +114,10 @@ class TranscribationService
                 'Key'    => "audio/{$this->domain}/{$this->userId}/{$fileName}",
                 'SourceFile' => $localFilePath,
             ]);
-
+            ALogController::push(
+                'transribe job',
+                ['uploadFileToStorage' => $result]
+            );
             return $result['ObjectURL'] ?? null;
         } catch (\Exception $e) {
             Redis::set("transcription:{$this->taskId}:status", "error");
