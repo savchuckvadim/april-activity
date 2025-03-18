@@ -11,17 +11,18 @@ use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Redis;
 
 class AuthService
 {
     protected string $tokensUrl;
     protected string $keyJsonPath;
     protected array $keyData;
-   
+    protected string $taskId;
 
-    public function __construct()
+    public function __construct($taskId)
     {
+        $this->taskId = $taskId;
         // URL API для получения IAM-токена
         $this->tokensUrl = 'https://iam.api.cloud.yandex.net/iam/v1/tokens';
 
@@ -42,7 +43,7 @@ class AuthService
         $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
 
         // Инициализируем Guzzle клиент
-        
+
     }
 
     public function getIamToken()
@@ -87,42 +88,49 @@ class AuthService
 
     private function generateJwt(): string
     {
-        $algorithm = 'PS256';
-        // $privateKeyPEM = $this->keyData['private_key'];
-        $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
-        ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
+        try {
+            $algorithm = 'PS256';
+            // $privateKeyPEM = $this->keyData['private_key'];
+            $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+            ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
 
-        $keyId = $this->keyData['id'];
-        ALogController::push('keyId', ['keyId' => $keyId]);
-        // Генерируем ключ
-        $key = JWKFactory::createFromKey($privateKeyPEM, null, [
-            'alg' => $algorithm,
-            'kid' => $keyId,
-            'use' => 'sig',
-            'kty' => 'RSA'
-        ]);
+            $keyId = $this->keyData['id'];
+            ALogController::push('keyId', ['keyId' => $keyId]);
+            // Генерируем ключ
+            $key = JWKFactory::createFromKey($privateKeyPEM, null, [
+                'alg' => $algorithm,
+                'kid' => $keyId,
+                'use' => 'sig',
+                'kty' => 'RSA'
+            ]);
+            ALogController::push('JWKFactory', ['key' => $key]);
+            // Создаем алгоритм подписания
+            $algorithmManagerFactory = new AlgorithmManagerFactory();
+            $algorithmManagerFactory->add($algorithm, new PS256());
+            $signatureAlgorithmManager = $algorithmManagerFactory->create([$algorithm]);
 
-        // Создаем алгоритм подписания
-        $algorithmManagerFactory = new AlgorithmManagerFactory();
-        $algorithmManagerFactory->add($algorithm, new PS256());
-        $signatureAlgorithmManager = $algorithmManagerFactory->create([$algorithm]);
+            // Подготовка JWS
+            $jwsBuilder = new JWSBuilder($signatureAlgorithmManager);
+            $payload = json_encode([
+                'iss' => $this->keyData['service_account_id'],
+                'aud' => $this->tokensUrl,
+                'iat' => time(),
+                'exp' => time() + 3600, // 1 час
+            ]);
+            ALogController::push('JWKFactory', ['payload' => $payload]);
+            // Подписываем JWS
+            $jws = $jwsBuilder->create()
+                ->withPayload($payload)
+                ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
+                ->build();
+            ALogController::push('jws', ['jws' => $jws]);
 
-        // Подготовка JWS
-        $jwsBuilder = new JWSBuilder($signatureAlgorithmManager);
-        $payload = json_encode([
-            'iss' => $this->keyData['service_account_id'],
-            'aud' => $this->tokensUrl,
-            'iat' => time(),
-            'exp' => time() + 3600, // 1 час
-        ]);
-
-        // Подписываем JWS
-        $jws = $jwsBuilder->create()
-            ->withPayload($payload)
-            ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
-            ->build();
-        ALogController::push('jws', ['jws' => $jws]);
-
-        return (new CompactSerializer())->serialize($jws, 0);
+            return (new CompactSerializer())->serialize($jws, 0);
+        } catch (\Exception $e) {
+            ALogController::push('JWK error', ['error' => $e->getMessage()]);
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Проблемы с JWK");
+            throw $e;
+        }
     }
 }

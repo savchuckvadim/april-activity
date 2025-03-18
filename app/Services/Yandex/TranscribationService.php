@@ -35,7 +35,7 @@ class TranscribationService
         $this->domain = $domain;
         $this->userId = $userId;
         // Получаем IAM-токен через AuthService
-        $auth = new AuthService();
+        $auth = new AuthService($taskId);
         $this->iamToken = $auth->getIamToken();
         ALogController::push(
             'transribe job',
