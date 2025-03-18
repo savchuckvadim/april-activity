@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\Algorithm\PS256;
 use Jose\Component\Signature\JWSBuilder;
@@ -112,6 +113,8 @@ class TestYandexGetIamCommand extends Command
             ]);
         
             $responseData = json_decode($response->getBody()->getContents(), true);
+            Cache::put('iam_token', $responseData['iamToken'], now()->addHours(11)->addMinutes(55));
+
             echo "IAM Token: " . $responseData['iamToken'];
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             echo "Ошибка: " . $e->getMessage();
