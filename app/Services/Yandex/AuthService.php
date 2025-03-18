@@ -123,7 +123,7 @@ class AuthService
                 ->withPayload($payload)
                 ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
                 ->build();
-            ALogController::push('jws', ['jws' => $jws]);
+            // ALogController::push('jws', ['jws' => $jws]);
 
             return (new CompactSerializer())->serialize($jws, 0);
         } catch (\Exception $e) {
