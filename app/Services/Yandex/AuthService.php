@@ -53,7 +53,8 @@ class AuthService
         );
         // Проверяем кеш
         if (Cache::has('iam_token')) {
-            ALogController::push('IAM GOOD Cache has', ['iamToken' => 'yo']);
+            $key = Cache::get('iam_token');
+            ALogController::push('IAM GOOD Cache has', ['iamToken' => $key]);
 
             return Cache::get('iam_token');
         }
