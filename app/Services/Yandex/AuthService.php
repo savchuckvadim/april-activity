@@ -69,6 +69,7 @@ class AuthService
 
             $responseData = json_decode($response->getBody()->getContents(), true);
             $iamToken = $responseData['iamToken'];
+            ALogController::push('IAM GOOD Cache generate', ['iamToken' => $iamToken]);
 
             // Сохраняем токен в кэш на 11 часов 55 минут (чтобы обновлять заранее)
             Cache::put('iam_token', $iamToken, now()->addHours(11)->addMinutes(55));
@@ -84,12 +85,12 @@ class AuthService
     private function generateJwt(): string
     {
         $algorithm = 'PS256';
-        // $privateKeyPEM = $this->keyData['private_key'];
-        $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+        $privateKeyPEM = $this->keyData['private_key'];
+        // $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
         ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
 
         $keyId = $this->keyData['id'];
-
+        ALogController::push('keyId', ['keyId' => $keyId]);
         // Генерируем ключ
         $key = JWKFactory::createFromKey($privateKeyPEM, null, [
             'alg' => $algorithm,
