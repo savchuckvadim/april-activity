@@ -18,7 +18,7 @@ class AuthService
     protected string $tokensUrl;
     protected string $keyJsonPath;
     protected array $keyData;
-    protected Client $client;
+   
 
     public function __construct()
     {
@@ -42,7 +42,7 @@ class AuthService
         $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
 
         // Инициализируем Guzzle клиент
-        $this->client = new Client();
+        
     }
 
     public function getIamToken()
@@ -63,11 +63,14 @@ class AuthService
         $jwt = $this->generateJwt();
 
         try {
-            $response = $this->client->request('POST', $this->tokensUrl, [
+            $client = new Client();
+            $response = $client->request('POST', $this->tokensUrl, [
                 'json' => ['jwt' => $jwt]
             ]);
+            ALogController::push('IAM response', ['response' => $response]);
 
             $responseData = json_decode($response->getBody()->getContents(), true);
+            ALogController::push('IAM responseData', ['responseData' => $responseData]);
             $iamToken = $responseData['iamToken'];
             ALogController::push('IAM GOOD Cache generate', ['iamToken' => $iamToken]);
 
