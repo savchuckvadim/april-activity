@@ -27,7 +27,10 @@ class AuthService
 
         // Путь к JSON-файлу с ключами
         $this->keyJsonPath = base_path('keys/key.json');
-
+        ALogController::push(
+            'AuthService',
+            ['message' => "keyJsonPath: {$this->keyJsonPath}"]
+        );
         // Загружаем JSON-файл с ключами
         if (!file_exists($this->keyJsonPath)) {
             ALogController::push(
@@ -44,6 +47,10 @@ class AuthService
 
     public function getIamToken()
     {
+        ALogController::push(
+            'getIamToken',
+            ['message' => "keyJsonPath: pre cache iam_token"]
+        );
         // Проверяем кеш
         if (Cache::has('iam_token')) {
             ALogController::push('IAM GOOD Cache has', ['iamToken' => 'yo']);
@@ -78,6 +85,7 @@ class AuthService
         $algorithm = 'PS256';
         // $privateKeyPEM = $this->keyData['private_key'];
         $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+        ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
 
         $keyId = $this->keyData['id'];
 
@@ -108,7 +116,7 @@ class AuthService
             ->withPayload($payload)
             ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
             ->build();
-        ALogController::push('IAM GOOD', ['jws' => $jws]);
+        ALogController::push('jws', ['jws' => $jws]);
 
         return (new CompactSerializer())->serialize($jws, 0);
     }
