@@ -96,11 +96,11 @@ class AuthService
         try {
             $keyId = $this->keyData['id'];
             $algorithm = 'PS256';
-            $privateKeyPEM = $this->keyData['private_key'];
+            $PEM = $this->keyData['private_key'];
             // $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
-            $startPrivateKey = strpos($privateKeyPEM, "-----BEGIN PRIVATE KEY-----");
-            $endPrivateKey = strpos($privateKeyPEM, "-----END PRIVATE KEY-----") + strlen("-----END PRIVATE KEY-----");
-            $cleanPrivateKey = substr($privateKeyPEM, $startPrivateKey, $endPrivateKey - $startPrivateKey);
+            $startPrivateKey = strpos($PEM, "-----BEGIN PRIVATE KEY-----");
+            $endPrivateKey = strpos($PEM, "-----END PRIVATE KEY-----") + strlen("-----END PRIVATE KEY-----");
+            $privateKeyPEM = substr($PEM, $startPrivateKey, $endPrivateKey - $startPrivateKey);
            
            
             ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
