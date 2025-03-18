@@ -61,9 +61,12 @@ class AuthService
         }
 
         // Генерируем JWT
-        $jwt = $this->generateJwt();
+ 
 
         try {
+            $jwt = $this->generateJwt();
+            ALogController::push('jwt', ['jwt' => $jwt]);
+
             $client = new Client();
             $response = $client->request('POST', $this->tokensUrl, [
                 'json' => ['jwt' => $jwt]
@@ -82,6 +85,8 @@ class AuthService
             return $iamToken;
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             ALogController::push('IAM Error', ['error' => $e->getMessage(), 'from' => 'get IAM token']);
+            Redis::set("transcription:{$this->taskId}:status", "error");
+            Redis::set("transcription:{$this->taskId}:error", "Проблемы с tokens");
             return null;
         }
     }
@@ -123,7 +128,7 @@ class AuthService
                 ->withPayload($payload)
                 ->addSignature($key, ['alg' => $algorithm, 'kid' => $keyId])
                 ->build();
-            // ALogController::push('jws', ['jws' => $jws]);
+            
 
             return (new CompactSerializer())->serialize($jws, 0);
         } catch (\Exception $e) {
