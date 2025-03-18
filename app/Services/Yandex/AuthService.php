@@ -40,8 +40,9 @@ class AuthService
             );
             throw new \Exception("Key file not found: {$this->keyJsonPath}");
         }
-        $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
-
+        // $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
+        $keyJson = file_get_contents($this->keyJsonPath);
+        $this->keyData = json_decode($keyJson, true);
         // Инициализируем Guzzle клиент
 
     }
@@ -94,12 +95,18 @@ class AuthService
     private function generateJwt(): string
     {
         try {
+            $keyId = $this->keyData['id'];
             $algorithm = 'PS256';
-            // $privateKeyPEM = $this->keyData['private_key'];
-            $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+            $privateKeyPEM = $this->keyData['private_key'];
+            // $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+            $startPrivateKey = strpos($privateKeyPEM, "-----BEGIN PRIVATE KEY-----");
+            $endPrivateKey = strpos($privateKeyPEM, "-----END PRIVATE KEY-----") + strlen("-----END PRIVATE KEY-----");
+            $cleanPrivateKey = substr($privateKeyPEM, $startPrivateKey, $endPrivateKey - $startPrivateKey);
+           
+           
             ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
 
-            $keyId = $this->keyData['id'];
+           
             ALogController::push('keyId', ['keyId' => $keyId]);
             // Генерируем ключ
             $key = JWKFactory::createFromKey($privateKeyPEM, null, [
