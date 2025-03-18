@@ -40,9 +40,8 @@ class AuthService
             );
             throw new \Exception("Key file not found: {$this->keyJsonPath}");
         }
-        // $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
-        $keyJson = file_get_contents($this->keyJsonPath);
-        $this->keyData = json_decode($keyJson, true);
+        $this->keyData = json_decode(file_get_contents($this->keyJsonPath), true);
+
         // Инициализируем Guzzle клиент
 
     }
