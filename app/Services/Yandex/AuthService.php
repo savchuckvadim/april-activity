@@ -85,8 +85,8 @@ class AuthService
     private function generateJwt(): string
     {
         $algorithm = 'PS256';
-        $privateKeyPEM = $this->keyData['private_key'];
-        // $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
+        // $privateKeyPEM = $this->keyData['private_key'];
+        $privateKeyPEM = preg_replace('/^PLEASE DO NOT REMOVE THIS LINE!.*\n/', '', $this->keyData['private_key']);
         ALogController::push('IAM GOOD', ['privateKeyPEM' => $privateKeyPEM]);
 
         $keyId = $this->keyData['id'];
