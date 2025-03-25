@@ -123,6 +123,7 @@ class AgentController extends Controller
             'number' => 'required|string',
             'code' => 'required|string',
             'type' => 'required|string',
+            'withTax' => 'required|string',
             // 'portal_id' => 'required|string',
 
         ]);

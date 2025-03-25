@@ -12,7 +12,7 @@ class Agent extends Model
     protected $with = ['rq'];
     protected $fillable = [
         'number', 'type',
-        'portalId', 'name', 'code'
+        'portalId', 'name', 'code', 'withTax'
 
     ];
 
