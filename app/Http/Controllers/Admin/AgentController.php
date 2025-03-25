@@ -123,10 +123,12 @@ class AgentController extends Controller
             'number' => 'required|string',
             'code' => 'required|string',
             'type' => 'required|string',
-            'withTax' => 'required|string',
+            'withTax' => 'sometimes|in:0,1,true,false', // расширенно
+
             // 'portal_id' => 'required|string',
 
         ]);
+        $validatedData['withTax'] = filter_var($request->input('withTax', false), FILTER_VALIDATE_BOOLEAN);
 
         if ($agent) {
             // Создание нового Counter
@@ -134,6 +136,7 @@ class AgentController extends Controller
             $agent->number = (string)$validatedData['number'];
             $agent->code = $validatedData['code'];
             $agent->type = $validatedData['type'];
+            $agent->withTax = $validatedData['withTax'];
             if(!empty($portalId)){
                 $agent->portalId = $portalId;
             }
