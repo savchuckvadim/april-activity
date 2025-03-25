@@ -24,7 +24,7 @@ class ProviderResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'type' => $this->type,
-
+            'withTax' => $this->withTax,
             'rq' =>  $rqResource
         ];
     }
