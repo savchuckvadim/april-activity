@@ -17,6 +17,9 @@ Route::prefix('konstructor/front')->group(function () {
         'provider',
         [ProviderCurrentController::class, 'store']
     );
-
+    Route::post(
+        'get/providers',
+        [ProviderCurrentController::class, 'providers']
+    );
 
 });
