@@ -3,6 +3,7 @@
 namespace App\Services\Gmail;
 
 use App\Models\Google\GoogleToken;
+use Carbon\Carbon;
 use Google\Client as GoogleClient;
 use Google\Service\Gmail;
 use ZipArchive;
@@ -29,7 +30,7 @@ class GmailService
         // Установить токен (в любом случае, даже если протух)
         $this->client->setAccessToken([
             'access_token' => $tokenData->access_token,
-            'expires_in' => $tokenData->expires_at->diffInSeconds(now()),
+            'expires_in' => Carbon::parse($tokenData->expires_at)->diffInSeconds(now()),
             'refresh_token' => $tokenData->refresh_token,
         ]);
 
