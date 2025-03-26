@@ -26,19 +26,33 @@ class GmailService
         $this->client->setClientSecret(env('GMAIL_SECRET_ID'));
         $this->client->setRedirectUri(env('GMAIL_REDIRECT'));
 
-        if (now()->gte($tokenData->expires_at)) {
-            $this->client->refreshToken($tokenData->refresh_token);
-            $newToken = $this->client->getAccessToken();
+        // Установить токен (в любом случае, даже если протух)
+        $this->client->setAccessToken([
+            'access_token' => $tokenData->access_token,
+            'expires_in' => $tokenData->expires_at->diffInSeconds(now()),
+            'refresh_token' => $tokenData->refresh_token,
+        ]);
+
+        // Проверка: если токен протух — обновить
+        if ($this->client->isAccessTokenExpired()) {
+            $newToken = $this->client->fetchAccessTokenWithRefreshToken($tokenData->refresh_token);
+
+            // Иногда refresh может не сработать, добавь защиту
+            if (!isset($newToken['access_token'])) {
+                throw new \Exception('Не удалось обновить токен Gmail');
+            }
+
+            $this->client->setAccessToken($newToken);
+
             $tokenData->update([
                 'access_token' => $newToken['access_token'],
                 'expires_at' => now()->addSeconds($newToken['expires_in']),
             ]);
-        } else {
-            $this->client->setAccessToken($tokenData->access_token);
         }
 
         $this->gmailService = new Gmail($this->client);
     }
+
 
     public function getMails($subjectFilter = 'Отчет СКАП')
     {
