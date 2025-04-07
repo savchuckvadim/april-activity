@@ -27,8 +27,8 @@ Route::get('/google-auth', function () {
     $client->addScope('https://www.googleapis.com/auth/gmail.readonly');
 
     // Эти параметры нужны для получения refresh_token
-    $client->setAccessType('offline');
-    $client->setPrompt('consent');
+    // $client->setAccessType('offline');
+    // $client->setPrompt('consent');
 
     $authUrl = $client->createAuthUrl();
     return redirect($authUrl);

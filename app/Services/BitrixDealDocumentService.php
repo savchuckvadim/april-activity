@@ -455,8 +455,11 @@ class BitrixDealDocumentService
                     $domain = $data['template']['portal'];
                     $dealId = $data['dealId'];
                     $providerRq = $data['provider']['rq'];
+                    $withTax = false;
 
-
+                    if (!empty($data['provider']['withTax'])) {
+                        $withTax = true;
+                    }
 
 
 
@@ -478,7 +481,7 @@ class BitrixDealDocumentService
 
                     //document data
 
-                    $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price, $isGeneral, $alternativeSetId);
+                    $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $withTax, $recipient, $price, $isGeneral, $alternativeSetId);
 
                     // ГЕНЕРАЦИЯ ДОКУМЕНТА СЧЕТ
                     $pdf = Pdf::loadView('pdf.invoice', [
@@ -539,13 +542,14 @@ class BitrixDealDocumentService
     protected function getInvoiceData(
         $invoiceBaseNumber,
         $providerRq,
+        $withTax,
         $recipient,
         $price,
         $isGeneral,
         $alternativeSetId,
 
     ) {
-        $pricesData  =   $this->getInvoicePricesData($price, $isGeneral, $alternativeSetId);
+        $pricesData  =   $this->getInvoicePricesData($price, $isGeneral, $alternativeSetId, $withTax);
         $date = $this->getToday();
         $invoiceNumber = 'Счет на оплату № ' . $invoiceBaseNumber . ' от ' .  $date;
         $withQr = false;
@@ -678,7 +682,7 @@ class BitrixDealDocumentService
         return $shortName; // Вывод: Иванов П.С.
     }
 
-    protected function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId)
+    protected function getInvoicePricesData($price, $isGeneral = true, $alternativeSetId, $withTax)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
@@ -814,6 +818,10 @@ class BitrixDealDocumentService
 
 
         $text = ' (' . $firstChar . $restOfText . ') без НДС';
+        if($withTax){
+            $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';  
+        }
+        
         $textTotalSum = $text;
 
         $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
@@ -925,11 +933,9 @@ class BitrixDealDocumentService
                                                     if ($searchSumCell['code'] === 'prepaymentsum') {
                                                         $cell['value'] = $searchSumCell['value'];
                                                         $searchingCell['value'] = $searchSumCell['value'];
-
                                                     }
                                                 }
                                             }
-
                                         }
                                         if ($cell['code'] === 'quantity') {
                                             $cell['name'] = 'Кол-во';

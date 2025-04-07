@@ -197,7 +197,11 @@ class PDFDocumentController extends Controller
                     if (isset($data['regions'])) {
                         $regions = $data['regions'];
                     }
+                    $withTax = false;
 
+                    if (!empty($data['provider']['withTax'])) {
+                        $withTax = true;
+                    }
 
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
@@ -207,7 +211,7 @@ class PDFDocumentController extends Controller
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps, $priceFirst, $regions);
                     //testing       // $bigDescriptionData  = $this->getBigDescriptionData($complect, $complectName);
                     $bigDescriptionData = [];
-                    $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false);
+                    $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false, $withTax);
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
                     //testing
@@ -1118,7 +1122,7 @@ class PDFDocumentController extends Controller
     }
 
 
-    protected function getPricesData($price,  $salePhrase, $withPrice = false,  $isInvoice = null)
+    protected function getPricesData($price,  $salePhrase, $withPrice = false,  $isInvoice = null, $withTax = false)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
@@ -1207,6 +1211,9 @@ class PDFDocumentController extends Controller
 
 
         $text = ' (' . $firstChar . $restOfText . ') без НДС';
+        if($withTax){
+            $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';  
+        }
         $textTotalSum = $text;
 
         $fullTotalstring = $total . ' ' . $textTotalSum . $quantityMeasureString;
