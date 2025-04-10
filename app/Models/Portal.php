@@ -7,10 +7,10 @@ use App\Http\Resources\BtxContactResource;
 use App\Http\Resources\BtxDealResource;
 use App\Http\Resources\BtxLeadResource;
 use App\Http\Resources\SmartResource;
+use App\Models\Bitrix\BitrixApp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
 
 class Portal extends Model
 {
@@ -27,6 +27,11 @@ class Portal extends Model
 
 
     //relation
+    public function bitrixApps()
+    {
+        return $this->hasMany(BitrixApp::class);
+    }
+
 
     public function bxRq()
     {
@@ -132,11 +137,11 @@ class Portal extends Model
             ->orWhere('group', 'tmc')->get();
 
         $resultSmarts    = [];
-     
+
 
         if (!empty($smarts)) {
             foreach ($smarts as $smart) {
-               
+
                 if ($smart) {
                     $smartResource = new SmartResource($smart);
                     array_push($resultSmarts, $smart);
@@ -220,13 +225,15 @@ class Portal extends Model
         return $this->lists;
     }
 
-   
 
-    public function measures() {
+
+    public function measures()
+    {
         return $this->hasMany(PortalMeasure::class);
     }
 
-    public function contracts() {
+    public function contracts()
+    {
         return $this->hasMany(PortalContract::class);
     }
 
