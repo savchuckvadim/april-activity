@@ -19,7 +19,6 @@ class AppController extends Controller
                 'code' => 'required|string',
                 'group' => 'required|string',
                 'type' => 'required|string',
-                'status' => 'required|string',
                 'client_id' => 'required|string',
                 'client_secret' => 'required|string',
 

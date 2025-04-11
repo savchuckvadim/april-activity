@@ -15,7 +15,7 @@ class BitrixAppSecret extends Model
         'group',
         'type',
         'code',
-        'status',
+    
         'client_id',
         'client_secret'
     ];
