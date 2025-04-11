@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('bitrix_tokens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('client_id');
-            $table->string('client_secret');
-            $table->string('access_token');
-            $table->string('refresh_token');
+            $table->longText('client_id');
+            $table->longText('client_secret');
+            $table->longText('access_token');
+            $table->longText('refresh_token');
             $table->timestamp('expires_at');
-            $table->string('application_token')->nullable();
+            $table->longText('application_token')->nullable();
            
             $table->unsignedBigInteger('bitrix_app_id');
             $table->foreign('bitrix_app_id')->references('id')->on('bitrix_apps')->onDelete('cascade');

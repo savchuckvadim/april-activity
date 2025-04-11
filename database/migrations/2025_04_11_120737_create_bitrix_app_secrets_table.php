@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('group')->nullable();
             $table->string('type')->nullable();
             $table->string('code');
-            $table->string('client_id');    
-            $table->string('client_secret');
+            $table->longText('client_id');    
+            $table->longText('client_secret');
            
         });
     }
