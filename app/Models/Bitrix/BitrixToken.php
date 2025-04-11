@@ -4,6 +4,8 @@ namespace App\Models\Bitrix;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
+
 
 class BitrixToken extends Model
 {
@@ -11,7 +13,7 @@ class BitrixToken extends Model
 
     protected $fillable = [
         'bitrix_app_id',
-        
+    
         'client_id',
         'client_secret',
         'access_token',
@@ -23,5 +25,32 @@ class BitrixToken extends Model
     public function bitrixApp()
     {
         return $this->belongsTo(BitrixApp::class);
+    }
+
+
+
+
+    public function getClientId()
+    {
+        return Crypt::decryptString($this->client_id);
+    }
+
+    public function getSecret()
+    {
+        return Crypt::decryptString($this->client_secret);
+    }
+    
+
+    public function getAccessToken()
+    {
+        return Crypt::decryptString($this->access_token);
+    }
+    public function getRefreshToken()
+    {
+        return Crypt::decryptString($this->refresh_token);
+    }
+    public function getApplicationToken()
+    {
+        return Crypt::decryptString($this->application_token);
     }
 }

@@ -8,6 +8,10 @@ use App\Models\Bitrix\BitrixApp;
 use App\Models\Bitrix\BitrixToken;
 use App\Models\Portal;
 use Illuminate\Http\Request;
+use App\Models\Bitrix\BitrixAppSecret;
+use Exception;
+use Illuminate\Support\Facades\Crypt;
+
 
 
 class BitrixAppController extends Controller
@@ -23,8 +27,7 @@ class BitrixAppController extends Controller
                 'type' => 'required|string',
                 'status' => 'required|string',
 
-                'token.client_id' => 'required|string',
-                'token.client_secret' => 'required|string',
+
                 'token.access_token' => 'required|string',
                 'token.refresh_token' => 'required|string',
                 'token.expires_at' => 'required|date',
@@ -32,6 +35,29 @@ class BitrixAppController extends Controller
             ]);
 
             $domain = $data['domain'];
+            $appSecret = BitrixAppSecret::where('code', $data['code'])->first();
+
+            if (empty($appSecret)) {
+                throw new Exception('app secret для приложения не найден');
+            }
+            $clientId = null;
+            $secretId = null;
+            if (!empty($bitrixApp)) {
+                if (!empty($bitrixApp->getClientId())) {
+                    $clientId = $bitrixApp->getClientId();
+                }
+                if (!empty($bitrixApp->getSecret())) {
+                    $secretId = $bitrixApp->getSecret();
+                }
+            }
+
+
+            $clientId = Crypt::encryptString($clientId);
+            $secretId = Crypt::encryptString($secretId);
+            $access_token = Crypt::encryptString($data['token']['access_token']);
+            $refresh_token = Crypt::encryptString($data['token']['refresh_token']);
+            $application_token = Crypt::encryptString($data['token']['application_token']);
+
             // 1. Найти портал
             $portal = Portal::where('domain', $domain)->firstOrFail();
 
@@ -52,15 +78,15 @@ class BitrixAppController extends Controller
             BitrixToken::updateOrCreate(
                 ['bitrix_app_id' => $bitrixApp->id],
                 [
-                    'client_id' => $data['token']['client_id'],
-                    'client_secret' => $data['token']['client_secret'],
-                    'access_token' => $data['token']['access_token'],
-                    'refresh_token' => $data['token']['refresh_token'],
+                    'client_id' => $clientId,
+                    'client_secret' => $secretId,
+                    'access_token' => $access_token,
+                    'refresh_token' => $refresh_token,
                     'expires_at' => $data['token']['expires_at'],
-                    'application_token' => $data['token']['application_token'] ?? null,
+                    'application_token' => $application_token ?? null,
                 ]
             );
-      
+
             return APIController::getSuccess([
                 'message' => 'Bitrix App and Token saved',
                 'app_id' => $bitrixApp->id,
@@ -102,7 +128,7 @@ class BitrixAppController extends Controller
                 'token.application_token' => 'nullable|string',
             ]);
 
-          
+
 
             return APIController::getSuccess([
                 'message' => 'Bitrix App setup check',
