@@ -57,7 +57,9 @@ class BitrixAppController extends Controller
             $access_token = Crypt::encryptString($data['token']['access_token']);
             $refresh_token = Crypt::encryptString($data['token']['refresh_token']);
             $application_token = Crypt::encryptString($data['token']['application_token']);
+            $member_id = Crypt::encryptString($data['token']['member_id']);
 
+            
             // 1. Найти портал
             $portal = Portal::where('domain', $domain)->firstOrFail();
 
@@ -84,15 +86,20 @@ class BitrixAppController extends Controller
                     'refresh_token' => $refresh_token,
                     'expires_at' => $data['token']['expires_at'],
                     'application_token' => $application_token ?? null,
+                    'member_id' => $member_id
                 ]
             );
 
-            return APIController::getSuccess([
-                'message' => 'Bitrix App and Token saved',
-                'app_id' => $bitrixApp->id,
-                'app' => $bitrixApp,
-                'domain' => $domain,
-            ]);
+            return APIController::getSuccess(
+                [
+                    'result' => [
+                        'message' => 'Bitrix App and Token saved',
+                        'app_id' => $bitrixApp->id,
+                        'app' => $bitrixApp,
+                        'domain' => $domain,
+                    ]
+                ]
+            );
         } catch (\Throwable $th) {
             $errorMessages =  [
                 'message'   => $th->getMessage(),
@@ -120,21 +127,24 @@ class BitrixAppController extends Controller
                 'type' => 'required|string',
                 'status' => 'required|string',
 
-                'token.client_id' => 'required|string',
-                'token.client_secret' => 'required|string',
+                // 'token.client_id' => 'required|string',
+                // 'token.client_secret' => 'required|string',
                 'token.access_token' => 'required|string',
                 'token.refresh_token' => 'required|string',
                 'token.expires_at' => 'required|date',
                 'token.application_token' => 'nullable|string',
+                'token.member_id' => 'nullable|string',
             ]);
 
 
 
             return APIController::getSuccess([
-                'message' => 'Bitrix App setup check',
-                'data' => $data,
-                'request' => $request,
-                'domain' => $domain,
+                'result' => [
+                    'message' => 'Bitrix App setup check',
+                    'data' => $data,
+                    'request' => $request,
+                    'domain' => $domain,
+                ]
             ]);
         } catch (\Throwable $th) {
             $errorMessages =  [

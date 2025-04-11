@@ -19,7 +19,8 @@ class BitrixToken extends Model
         'access_token',
         'refresh_token',
         'expires_at',
-        'application_token'
+        'application_token',
+        'member_id'
     ];
 
     public function bitrixApp()
@@ -39,7 +40,7 @@ class BitrixToken extends Model
     {
         return Crypt::decryptString($this->client_secret);
     }
-    
+
 
     public function getAccessToken()
     {
@@ -53,4 +54,10 @@ class BitrixToken extends Model
     {
         return Crypt::decryptString($this->application_token);
     }
+    public function getMemberId()
+    {
+        return Crypt::decryptString($this->member_id);
+    }
+
+    
 }

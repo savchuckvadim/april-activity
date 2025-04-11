@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('refresh_token');
             $table->timestamp('expires_at');
             $table->longText('application_token')->nullable();
-           
+            $table->longText('member_id')->nullable();
             $table->unsignedBigInteger('bitrix_app_id');
             $table->foreign('bitrix_app_id')->references('id')->on('bitrix_apps')->onDelete('cascade');
         });
