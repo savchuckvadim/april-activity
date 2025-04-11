@@ -35,7 +35,6 @@ class AppController extends Controller
                 [
                     'group' => $data['group'],
                     'type' => $data['type'],
-                    'status' => $data['status'],
                     'client_id' => $data['client_id'],
                     'client_secret' => $data['client_secret'],
                 ]
@@ -47,6 +46,8 @@ class AppController extends Controller
                 'message' => 'Bitrix App  saved',
                 'app_id' => $bitrixApp->id,
                 'app' => $bitrixApp,
+                'client_id' => $bitrixApp->client_id,
+                'client_secret' => $bitrixApp->client_secret,
 
             ]);
         } catch (\Throwable $th) {
