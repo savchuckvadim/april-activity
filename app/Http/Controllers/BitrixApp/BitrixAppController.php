@@ -60,7 +60,7 @@ class BitrixAppController extends Controller
                     'application_token' => $data['token']['application_token'] ?? null,
                 ]
             );
-
+      
             return APIController::getSuccess([
                 'message' => 'Bitrix App and Token saved',
                 'app_id' => $bitrixApp->id,

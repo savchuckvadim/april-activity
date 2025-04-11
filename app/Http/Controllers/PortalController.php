@@ -8,11 +8,8 @@ use App\Http\Resources\PortalResource;
 use App\Http\Resources\ProviderCollection;
 use App\Http\Resources\TemplateCollection;
 use App\Models\Portal;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
+
 
 class PortalController extends Controller
 {
