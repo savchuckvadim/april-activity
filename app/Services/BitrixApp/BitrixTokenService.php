@@ -14,9 +14,9 @@ class BitrixTokenService
      */
     public static function refreshIfExpired(BitrixToken $token): void
     {
-        if (!$token->expires_at || Carbon::parse($token->expires_at)->isFuture()) {
-            return; // Токен ещё валиден
-        }
+        // if (!$token->expires_at || Carbon::parse($token->expires_at)->isFuture()) {
+        //     return; // Токен ещё валиден
+        // }
 
         $clientId = $token->getClientId();
         $clientSecret = $token->getSecret();
