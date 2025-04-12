@@ -11,10 +11,9 @@ use Illuminate\Http\Request;
 use App\Models\Bitrix\BitrixAppSecret;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
-
 use App\Http\Resources\BitrixApp\BitrixAppResource;
 use App\Services\BitrixApp\BitrixAppService;
-
+use Carbon\Carbon;
 
 class BitrixAppController extends Controller
 {
@@ -86,7 +85,7 @@ class BitrixAppController extends Controller
                     'client_secret' => $secretId,
                     'access_token' => $access_token,
                     'refresh_token' => $refresh_token,
-                    'expires_at' => $data['token']['expires_at'],
+                    'expires_at' => Carbon::parse($data['token']['expires_at']),
                     'application_token' => $application_token ?? null,
                     'member_id' => $member_id
                 ]
