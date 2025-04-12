@@ -190,6 +190,7 @@ class BitrixAppController extends Controller
     public function getByPortal(Request $request)
     {
         $domain = null;
+        $portal = null;
         try {
             $data = $request->validate([
                 'domain' => 'required|string',
@@ -200,8 +201,8 @@ class BitrixAppController extends Controller
             $portal = Portal::where('domain', $data['domain'])
                 ->first();
 
-            $app = $portal->bitrixApps->where('code', $data['code'])
-                ->where('domain', $data['domain'])
+            $app = $portal->bitrixApps()
+                ->where('code', $data['code'])
                 ->first();
 
             if (empty($app)) {
@@ -232,6 +233,7 @@ class BitrixAppController extends Controller
                 'domain' => $domain,
                 'request' => $request,
                 'details' => $errorMessages,
+                'portal' => $portal
             ]);
         }
     }
