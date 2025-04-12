@@ -26,7 +26,7 @@ class BitrixAppResource extends JsonResource
             'code' => $this->code,
             'status' => $this->status,
             'placements' => $this->whenLoaded('placements'),
-            'portal' => new PortalResource($this->whenLoaded('portal')),
+            // 'portal' => new PortalResource($this->whenLoaded('portal')),
     
             // Токен-данные (можно тоже сделать отдельным ресурсом)
             'token' => new BitrixAppTokenResource($this->whenLoaded('token')),
