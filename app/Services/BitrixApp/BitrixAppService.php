@@ -26,9 +26,26 @@ class BitrixAppService
             throw new Exception('Токен не найден');
         }
 
-        return [
-            'app' =>  new BitrixAppResource($app),
-            'token' => $app->token
-        ];
+        $result = new BitrixAppResource($app);
+        return $result;
+    }
+
+    public static function getPortalAppsWithToken(string $domain)
+    {
+        $portal = Portal::where('domain', $domain)
+            ->firstOrFail();
+
+        if (empty($portal)) {
+            throw new Exception('portal не найден');
+        }
+        $apps = $portal->bitrixApps()->with(['token', 'portal', 'placements'])->get();
+
+
+
+        if (empty($apps)) {
+            throw new Exception('apps не найден');
+        }
+        $result = BitrixAppResource::collection($apps);
+        return $result;
     }
 }

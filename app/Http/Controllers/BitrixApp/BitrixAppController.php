@@ -213,13 +213,14 @@ class BitrixAppController extends Controller
             // if (empty($token)) {
             //     throw new Exception('token не найден');
             // }
-            $appData = BitrixAppService::getAppWithToken($data['code'], $data['domain']);
-            $apps = $portal->bitrixApps()->with(['token', 'portal', 'placements'])->get();
+            $app = BitrixAppService::getAppWithToken($data['code'], $data['domain']);
+            // $apps = $portal->bitrixApps()->with(['token', 'portal', 'placements'])->get();
+            $apps =  BitrixAppService::getPortalAppsWithToken($data['domain']);
 
             return APIController::getSuccess([
                 'result' => [
-                    'app' => $appData['app'],
-                    'apps' => BitrixAppResource::collection($apps)
+                    'app' => $app,
+                    'apps' => $apps
 
                 ]
             ]);
