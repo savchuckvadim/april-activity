@@ -12,6 +12,8 @@ use App\Models\Bitrix\BitrixAppSecret;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
 
+use App\Http\Resources\BitrixApp\BitrixAppResource;
+use App\Services\BitrixApp\BitrixAppService;
 
 
 class BitrixAppController extends Controller
@@ -59,7 +61,7 @@ class BitrixAppController extends Controller
             $application_token = Crypt::encryptString($data['token']['application_token']);
             $member_id = Crypt::encryptString($data['token']['member_id']);
 
-            
+
             // 1. Найти портал
             $portal = Portal::where('domain', $domain)->firstOrFail();
 
@@ -111,6 +113,71 @@ class BitrixAppController extends Controller
             return APIController::getError('Bitrix App and Token failed', [
                 'domain' => $domain,
                 'request' => $request,
+                'details' => $errorMessages,
+            ]);
+        }
+    }
+
+    public function get(Request $request)
+    {
+        $domain = null;
+        try {
+            $data = $request->validate([
+                'domain' => 'required|string',
+                'code' => 'required|string',
+            ]);
+
+            $domain = $data['domain'];
+            $app = BitrixApp::where('code', $data['code'])
+                ->where('domain', $data['domain'])
+                ->first();
+
+            if (empty($app)) {
+                throw new Exception('app не найден');
+            }
+            $token = $app->token;
+            if (empty($token)) {
+                throw new Exception('token не найден');
+            }
+            $appData = BitrixAppService::getAppWithToken($data['code'], $data['domain']);
+
+            return APIController::getSuccess([
+                'result' => new BitrixAppResource($appData['app'])
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Bitrix App or Token not found', [
+                'domain' => $domain,
+                'request' => $request,
+                'details' => $errorMessages,
+            ]);
+        }
+    }
+
+    public function all()
+    {
+        try {
+            $apps = BitrixApp::with('token')->get();
+
+            return APIController::getSuccess([
+                'result' => BitrixAppResource::collection($apps)
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages =  [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Bitrix Apps or Tokens not found', [
+
                 'details' => $errorMessages,
             ]);
         }

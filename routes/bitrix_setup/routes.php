@@ -19,3 +19,12 @@ Route::prefix('bitrix-setup')->group(function () {
     Route::post('/secret/get', [AppController::class, 'getByCode']);
 
 });
+
+Route::prefix('bitrix-app')->group(function () {
+
+    Route::post('/app/get', [BitrixAppController::class, 'get']);
+    Route::get('/apps', [BitrixAppController::class, 'all']);
+
+    Route::post('/secret/get', [AppController::class, 'getByCode']);
+
+});
