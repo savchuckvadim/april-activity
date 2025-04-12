@@ -28,12 +28,12 @@ class BitrixAppController extends Controller
                 'group' => 'required|string',
                 'type' => 'required|string',
                 'status' => 'required|string',
-
-
                 'token.access_token' => 'required|string',
                 'token.refresh_token' => 'required|string',
                 'token.expires_at' => 'required|date',
-                'token.application_token' => 'nullable|string',
+                'token.application_token' => 'required|string',
+                'token.member_id' => 'required|string',
+                
             ]);
 
             $domain = $data['domain'];
@@ -112,8 +112,12 @@ class BitrixAppController extends Controller
 
             return APIController::getError('Bitrix App and Token failed', [
                 'domain' => $domain,
-                'request' => $request,
-                'details' => $errorMessages,
+                'request' => $request->all(),
+              
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
             ]);
         }
     }

@@ -51,17 +51,17 @@ class AppController extends Controller
 
             ]);
         } catch (\Throwable $th) {
-            $errorMessages =  [
-                'message'   => $th->getMessage(),
-                'file'      => $th->getFile(),
-                'line'      => $th->getLine(),
-                'trace'     => $th->getTraceAsString(),
-            ];
+            // $errorMessages =  [
+            //     'message'   => $th->getMessage(),
+            //     'file'      => $th->getFile(),
+            //     'line'      => $th->getLine(),
+            //     'trace'     => $th->getTraceAsString(),
+            // ];
 
             return APIController::getError('Bitrix App failed', [
 
                 'request' => $request->all(),
-                'details' => $errorMessages,
+            
                 'message'   => $th->getMessage(),
                 'file'      => $th->getFile(),
                 'line'      => $th->getLine(),
