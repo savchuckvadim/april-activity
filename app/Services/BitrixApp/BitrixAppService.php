@@ -1,17 +1,20 @@
 <?php
+
 namespace App\Services\BitrixApp;
 
-use App\Models\Bitrix\BitrixApp;
+use App\Models\Portal;
 use Exception;
 
 class BitrixAppService
 {
     public static function getAppWithToken(string $code, string $domain)
     {
-        $app = BitrixApp::with('token')
+        $portal = Portal::where('domain', $domain)
+            ->firstOrFail();
+
+        $app = $portal->bitrixApps()
             ->where('code', $code)
-            ->where('domain', $domain)
-            ->first();
+            ->firstOrFail();
 
         if (empty($app)) {
             throw new Exception('Bitrix App не найден');
@@ -22,8 +25,8 @@ class BitrixAppService
         }
 
         return [
-          'app' =>  $app,
-          'token' => $app->token
+            'app' =>  $app,
+            'token' => $app->token
         ];
     }
 }

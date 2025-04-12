@@ -199,11 +199,11 @@ class BitrixAppController extends Controller
 
             $domain = $data['domain'];
             $portal = Portal::where('domain', $data['domain'])
-                ->first();
+                ->firstOrFail();
 
             $app = $portal->bitrixApps()
                 ->where('code', $data['code'])
-                ->first();
+                ->firstOrFail();
 
             if (empty($app)) {
                 throw new Exception('app не найден');
