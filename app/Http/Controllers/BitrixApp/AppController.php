@@ -60,8 +60,12 @@ class AppController extends Controller
 
             return APIController::getError('Bitrix App failed', [
 
-                'request' => $request,
+                'request' => $request->all(),
                 'details' => $errorMessages,
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
             ]);
         }
     }
