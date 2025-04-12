@@ -5,7 +5,7 @@ namespace App\Services\BitrixApp;
 use App\Models\Portal;
 use Exception;
 use App\Http\Resources\BitrixApp\BitrixAppResource;
-
+use App\Services\BitrixApp\BitrixTokenService;
 class BitrixAppService
 {
     public static function getAppWithToken(string $code, string $domain)
@@ -25,7 +25,9 @@ class BitrixAppService
         if (empty($app->token)) {
             throw new Exception('Токен не найден');
         }
-
+        if ($app->token) {
+            BitrixTokenService::refreshIfExpired($app->token);
+        }
         $result = new BitrixAppResource($app);
         return $result;
     }
