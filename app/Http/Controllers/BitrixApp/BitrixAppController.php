@@ -218,7 +218,7 @@ class BitrixAppController extends Controller
             return APIController::getSuccess([
                 'result' => [
                     'app' => new BitrixAppResource($appData['app']),
-                    'apps' => BitrixAppResource::collection($portal->bitrixApps->with(['token', 'portal', 'placements']))
+                    'apps' => BitrixAppResource::collection($portal->bitrixApps()->with(['token', 'portal', 'placements']))
 
                 ]
             ]);
