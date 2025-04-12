@@ -201,24 +201,25 @@ class BitrixAppController extends Controller
             $portal = Portal::where('domain', $data['domain'])
                 ->firstOrFail();
 
-            $app = $portal->bitrixApps()
-                ->where('code', $data['code'])
-                ->with(['token', 'portal', 'placements'])
-                ->firstOrFail();
+            // $app = $portal->bitrixApps()
+            //     ->where('code', $data['code'])
+            //     ->with(['token', 'portal', 'placements'])
+            //     ->firstOrFail();
 
-            if (empty($app)) {
-                throw new Exception('app не найден');
-            }
-            $token = $app->token;
-            if (empty($token)) {
-                throw new Exception('token не найден');
-            }
+            // if (empty($app)) {
+            //     throw new Exception('app не найден');
+            // }
+            // $token = $app->token;
+            // if (empty($token)) {
+            //     throw new Exception('token не найден');
+            // }
             $appData = BitrixAppService::getAppWithToken($data['code'], $data['domain']);
+            $apps = $portal->bitrixApps()->with(['token', 'portal', 'placements'])->get();
 
             return APIController::getSuccess([
                 'result' => [
-                    'app' => new BitrixAppResource($appData['app']),
-                    'apps' => BitrixAppResource::collection($portal->bitrixApps)
+                    'app' => $appData['app'],
+                    'apps' => BitrixAppResource::collection($apps)
 
                 ]
             ]);

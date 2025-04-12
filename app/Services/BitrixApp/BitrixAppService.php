@@ -4,6 +4,7 @@ namespace App\Services\BitrixApp;
 
 use App\Models\Portal;
 use Exception;
+use App\Http\Resources\BitrixApp\BitrixAppResource;
 
 class BitrixAppService
 {
@@ -14,6 +15,7 @@ class BitrixAppService
 
         $app = $portal->bitrixApps()
             ->where('code', $code)
+            ->with(['token', 'portal', 'placements'])
             ->firstOrFail();
 
         if (empty($app)) {
@@ -25,7 +27,7 @@ class BitrixAppService
         }
 
         return [
-            'app' =>  $app,
+            'app' =>  new BitrixAppResource($app),
             'token' => $app->token
         ];
     }
