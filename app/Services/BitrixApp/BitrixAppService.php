@@ -28,7 +28,7 @@ class BitrixAppService
         if ($app->token) {
             BitrixTokenService::refreshIfExpired($app->token);
         }
-        $result = new BitrixAppResource($app);
+        $result = new BitrixAppResource($app->fresh('token'));
         return $result;
     }
 
