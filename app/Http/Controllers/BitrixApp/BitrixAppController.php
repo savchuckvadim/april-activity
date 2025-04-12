@@ -190,7 +190,6 @@ class BitrixAppController extends Controller
     public function getByPortal(Request $request)
     {
         $domain = null;
-        $portal = null;
         try {
             $data = $request->validate([
                 'domain' => 'required|string',
@@ -198,23 +197,8 @@ class BitrixAppController extends Controller
             ]);
 
             $domain = $data['domain'];
-            $portal = Portal::where('domain', $data['domain'])
-                ->firstOrFail();
-
-            // $app = $portal->bitrixApps()
-            //     ->where('code', $data['code'])
-            //     ->with(['token', 'portal', 'placements'])
-            //     ->firstOrFail();
-
-            // if (empty($app)) {
-            //     throw new Exception('app не найден');
-            // }
-            // $token = $app->token;
-            // if (empty($token)) {
-            //     throw new Exception('token не найден');
-            // }
+    
             $app = BitrixAppService::getAppWithToken($data['code'], $data['domain']);
-            // $apps = $portal->bitrixApps()->with(['token', 'portal', 'placements'])->get();
             $apps =  BitrixAppService::getPortalAppsWithToken($data['domain']);
 
             return APIController::getSuccess([
@@ -236,7 +220,6 @@ class BitrixAppController extends Controller
                 'domain' => $domain,
                 'request' => $request,
                 'details' => $errorMessages,
-                'portal' => $portal
             ]);
         }
     }
