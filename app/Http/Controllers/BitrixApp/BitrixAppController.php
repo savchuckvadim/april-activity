@@ -43,12 +43,12 @@ class BitrixAppController extends Controller
             }
             $clientId = null;
             $secretId = null;
-            if (!empty($bitrixApp)) {
-                if (!empty($bitrixApp->getClientId())) {
-                    $clientId = $bitrixApp->getClientId();
+            if (!empty($appSecret)) {
+                if (!empty($appSecret->getClientId())) {
+                    $clientId = $appSecret->getClientId();
                 }
-                if (!empty($bitrixApp->getSecret())) {
-                    $secretId = $bitrixApp->getSecret();
+                if (!empty($appSecret->getSecret())) {
+                    $secretId = $appSecret->getSecret();
                 }
             }
 
