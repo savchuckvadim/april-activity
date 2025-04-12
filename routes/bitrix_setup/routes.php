@@ -26,5 +26,6 @@ Route::prefix('bitrix-app')->group(function () {
     Route::get('/apps', [BitrixAppController::class, 'all']);
 
     Route::post('/secret/get', [AppController::class, 'getByCode']);
+    Route::post('/apps/portal/get', [BitrixAppController::class, 'getByPortal']);
 
 });
