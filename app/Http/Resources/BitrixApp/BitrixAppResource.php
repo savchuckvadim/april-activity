@@ -4,6 +4,10 @@ namespace App\Http\Resources\BitrixApp;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\PortalResource;
+use App\Http\Resources\BitrixApp\BitrixAppTokenResource;
+
+
 
 class BitrixAppResource extends JsonResource
 {
@@ -18,18 +22,15 @@ class BitrixAppResource extends JsonResource
 
         return [
             'app_id' => $this->id,
-            'domain' => $this->domain,
+            'domain' => $this->portal?->domain, // domain из Portal
             'code' => $this->code,
             'status' => $this->status,
-            'placements' => $this->placements,
-            'portal' => $this->portal,
+            'placements' => $this->whenLoaded('placements'),
+            'portal' => new PortalResource($this->whenLoaded('portal')),
+    
             // Токен-данные (можно тоже сделать отдельным ресурсом)
-            'client_id' => $token?->getClientId(),
-            'client_secret' => $token?->getSecret(),
-            'access_token' => $token?->getAccessToken(),
-            'refresh_token' => $token?->getRefreshToken(),
-            'application_token' => $token?->getApplicationToken(),
-            'member_id' => $token?->getMemberId(),
+            'token' => new BitrixAppTokenResource($this->whenLoaded('token')),
+
         ];
     }
 }

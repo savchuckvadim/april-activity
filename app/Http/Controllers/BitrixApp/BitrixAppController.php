@@ -203,6 +203,7 @@ class BitrixAppController extends Controller
 
             $app = $portal->bitrixApps()
                 ->where('code', $data['code'])
+                ->with(['token', 'portal', 'placements'])
                 ->firstOrFail();
 
             if (empty($app)) {
