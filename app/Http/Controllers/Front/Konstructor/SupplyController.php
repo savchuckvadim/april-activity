@@ -4325,7 +4325,7 @@ class SupplyController extends Controller
         $products,
         $contractGeneralFields,
         // $clientRq,
-        $clientRqBank,
+        $clientRqBank
 
     ) {
 
@@ -4369,7 +4369,7 @@ class SupplyController extends Controller
         // $providerCompanyDirectorPositionCase,
         // $providerCompanyBased,
         $clientRq,
-        $providerRq,
+        $providerRq
     ) {
 
         $clientRole = 'Заказчик';

@@ -105,7 +105,7 @@ class BitrixController extends Controller
 
     public static function getHook($domain)
     {
-        $hook = null;
+        $hook = '';
         $portalResponse = null;
         try {
 

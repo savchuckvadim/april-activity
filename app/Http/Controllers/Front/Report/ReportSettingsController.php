@@ -16,7 +16,9 @@ class ReportSettingsController extends Controller
         $domain = $request->domain;
         $userId = $request->userId;
         $result = [
-            'filter' => []
+            'filter' => [],
+            'department' => null,
+            'dates' => null,
         ];
         try {
             $portal = Portal::where('domain', $domain)->first();
@@ -29,9 +31,19 @@ class ReportSettingsController extends Controller
                     $resultSettings = json_decode($settings->filter, true);
                     $result['filter'] = $resultSettings;
                 }
+
+                if (!empty($settings->department)) {
+                    $resultSettingsDepartment = json_decode($settings->department, true);
+                    $result['department'] = $resultSettingsDepartment;
+                }
+
+                if (!empty($settings->dates)) {
+                    $resultSettingsDates = json_decode($settings->dates, true);
+                    $result['dates'] = $resultSettingsDates;
+                }
             }
 
-            return APIController::getSuccess($result);
+            return APIController::getSuccess(['result' => $result]);
         } catch (\Throwable $th) {
             $errorMessages =  [
                 'message'   => $th->getMessage(),
@@ -55,7 +67,11 @@ class ReportSettingsController extends Controller
     {
         $resultDeal = null;
         try {
-            $filter = $request->filter;
+            $actions = $request->filter['actions'];
+            $department = $request->filter['department'];
+            $dates = $request->filter['dates'];
+
+
             $domain = $request->domain;
             $userId = $request->userId;
             $portal = Portal::where('domain', $domain)->first();
@@ -70,8 +86,9 @@ class ReportSettingsController extends Controller
                     'bxUserId' => $userId,
 
 
-                    'filter' => $request->filter,
-
+                    'filter' => $actions,
+                    'department' => $department,
+                    'dates' => $dates,
 
                 ];
 
@@ -99,11 +116,16 @@ class ReportSettingsController extends Controller
                         ->first();
                     $resultSettings = $newSettings;
                 }
-            }else{
+            } else {
                 throw new Exception('portal was not found');
             }
             return APIController::getSuccess([
-                'filter' => $filter,
+                'filter' => [
+                    'filter' => $actions,
+                    'department' => $department,
+                    'dates' => $dates,
+                ],
+
                 'settings' => $resultSettings
 
 
