@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('client_secret');
             $table->longText('access_token');
             $table->longText('refresh_token');
-            $table->timestamp('expires_at');
+            $table->timestamp('expires_at')->nullable();
             $table->longText('application_token')->nullable();
             $table->longText('member_id')->nullable();
             $table->unsignedBigInteger('bitrix_app_id');

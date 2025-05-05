@@ -264,15 +264,15 @@ class Complect extends Model
 
         ];
         $iblockFields = [];
-        foreach ($infoblocks as $key => $infoblocks) {
+        foreach ($infoblocks as $key => $infoblock) {
             array_push(
                 $iblockFields,
                 [
                     'id' => count($fields) + 2 + $key,
-                    'title' => $infoblocks->name,
+                    'title' => $infoblock->name,
                     'entityType' => 'complects',
-                    'name' => $infoblocks->code,
-                    'apiName' => $infoblocks->id,
+                    'name' => $infoblock->code,
+                    'apiName' => $infoblock->id,
                     'type' =>  'boolean',
                     'validation' => 'required|max:255',
                     'initialValue' => '',

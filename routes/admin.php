@@ -1,6 +1,6 @@
 <?php
 
-// use App\Http\Controllers\AgentController;
+
 
 use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\BitrixfieldController;
@@ -8,8 +8,6 @@ use App\Http\Controllers\Admin\BitrixfieldItemController;
 use App\Http\Controllers\Admin\BitrixlistController;
 use App\Http\Controllers\Admin\FieldController;
 use App\Http\Controllers\Admin\FItemController;
-use App\Http\Controllers\Admin\InfoblockController;
-use App\Http\Controllers\Admin\InfoGroupController;
 use App\Http\Controllers\Admin\RqController;
 use App\Http\Controllers\Admin\SmartController;
 use App\Http\Controllers\Admin\TemplateController;
@@ -24,28 +22,9 @@ use App\Http\Controllers\BtxLeadController;
 use App\Http\Controllers\CallingController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\FileController;
-// use App\Http\Controllers\BitrixfieldController;
-// use App\Http\Controllers\BitrixfieldItemController;
-// use App\Http\Controllers\BitrixlistController;
-// use App\Http\Controllers\CounterController;
-
-// use App\Http\Controllers\FieldController;
-// use App\Http\Controllers\FileController;
-// use App\Http\Controllers\FItemController;
-
-// use App\Http\Controllers\InfoblockController;
-// use App\Http\Controllers\InfoGroupController;
 
 use App\Http\Controllers\PortalController;
-use App\Http\Controllers\PortalInstall\TempalteFieldsInstallController;
-use App\Models\BtxCategory;
-use App\Models\BtxLead;
-// use App\Http\Controllers\RqController;
-// use App\Http\Controllers\SmartController;
-// use App\Http\Controllers\TemplateController;
 
-use App\Models\Garant\Infoblock;
-use App\Models\Garant\InfoGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +36,9 @@ require __DIR__ . '/admin/konstructor/contract_routes.php';
 require __DIR__ . '/admin/konstructor/portal_contract_routes.php';
 require __DIR__ . '/admin/garant/infoblock_routes.php';
 require __DIR__ . '/admin/garant/complect_routes.php';
+require __DIR__ . '/admin/garant/package_routes.php';
+require __DIR__ . '/admin/garant/prof_price_routes.php';
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -316,63 +298,6 @@ Route::middleware(['ajax.only'])->group(function () {
     });
 
 
-    // Route::get('{entityType}', function ($entityType) {
-    //     return BaseController::getCollection($entityType, null, null);
-    // });
-
-
-
-    //GET ITEM
-    //// no specific
-    // Route::get('template/{templateId}', function ($templateId) {
-    //     return TemplateController::getTemplate($templateId);
-    // });
-
-    // Route::get('field/{fieldId}', function ($fieldId) {
-    //     return FieldController::getField($fieldId);
-    // });
-    // Route::get('item/{fitemId}', function ($fitemId) {
-    //     return FItemController::getFitem($fitemId);
-    // });
-
-
-    //INITIAL SET
-    //// specific
-    // Route::get('initial/template/{templateId}/field', function ($templateId) {
-    //     return FieldController::getInitialField();
-    // });
-    // Route::get('initial/field/{fieldId}/item', function () {
-    //     return FItemController::getInitialFitem();
-    // });
-
-    //// no specific
-
-    // Route::get('initial/template', function (Request $request) {
-
-    //     return TemplateController::initialTemplate();
-    // });
-
-    // Route::get('initial/field', function () {
-    //     return FieldController::getInitialField();
-    // });
-    // Route::get('initial/item', function () {
-    //     return FItemController::getInitialFitem();
-    // });
-
-    // Route::get('initial/logo', function () {
-    //     return FileController::getInitial();
-    // });
-    // Route::get('initial/stamp', function () {
-    //     return FileController::getInitial();
-    // });
-    // Route::get('initial/signature', function () {
-    //     return FileController::getInitial();
-    // });
-    // Route::get('initial/file', function () {
-    //     return FileController::getInitial();
-    // });
-
-
 
 
     //SET 
@@ -541,23 +466,7 @@ Route::middleware(['ajax.only'])->group(function () {
     });
     Route::post('field/{fieldId}', function ($fieldId, Request $request) {
 
-        // $field = [
-        //     'number' => $request['number'],
-        //     'name' => $request['name'],
-        //     'type' => $request['type'],
-        //     'code' => $request['code'],
-        //     'value' => $request['value'],
-        //     'description' => $request['description'],
-        //     'bitixId' => $request['bitixId'],
-        //     'bitrixTemplateId' => $request['bitrixTemplateId'],
-        //     'isGeneral' => $request['isGeneral'],
-        //     'isDefault' => $request['isDefault'],
-        //     'isRequired' => $request['isRequired'],
-        //     'isActive' => $request['isActive'],
-        //     'isPlural' => $request['isPlural'],
-        //     'isClient' => $request['isClient'],
 
-        // ];
 
         $controller = new FieldController;
 
