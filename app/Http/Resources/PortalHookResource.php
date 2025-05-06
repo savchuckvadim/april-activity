@@ -27,6 +27,7 @@ class PortalHookResource extends JsonResource
             array_push($bitrixLists, $bitrixList);
         }
         $company = $this->company();
+   
         $companyResource =  new BtxCompanyResource($company);
         return [
             'id' => $this->id,
@@ -47,6 +48,7 @@ class PortalHookResource extends JsonResource
             'deals' => $this->deals,
             'rpas' => $this->rpas,
             'company' => $company,
+            'contact' => $this->contact(),
             'lead' => $this->lead(),
             'contracts' =>  $this->contracts,
             'measures' =>  $this->measures,
