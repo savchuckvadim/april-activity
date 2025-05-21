@@ -25,7 +25,7 @@ class Infoblock extends Model
         'isPackage',
         'inGroupId',
         'groupId',
-        // 'infoblock_id'
+        'infoblock_id'
     ];
 
     public function complects()
