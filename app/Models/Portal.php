@@ -44,6 +44,10 @@ class Portal extends Model
         return $this->hasMany(Agent::class, 'portalId', 'id');
     }
 
+    public function transcriptions()
+    {
+        return $this->hasMany(Transcription::class, 'portal_id', 'id');
+    }
 
 
     public function templates()

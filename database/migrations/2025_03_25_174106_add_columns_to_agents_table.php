@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('agents', function (Blueprint $table) {
             $table->boolean('withTax')->default(false);
-
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('agents', function (Blueprint $table) {
-            $table->dropColum('withTax'); // Откат изменений
+            $table->dropColumn('withTax'); // Откат изменений
 
         });
     }

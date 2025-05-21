@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # PHP-FPM Service для Laravel
+ 
+  
+    # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
+  db:
+    image: mysql:8.0
+    container_name: app_db
+    restart: "unless-stopped"
+    environment:
+      MYSQL_ROOT_PASSWORD: cfdx # Задай свой пароль для root
+      MYSQL_DATABASE: bitrix # Название базы данных
+      MYSQL_USER: root # Имя пользователя
+      MYSQL_PASSWORD: cfdx # Пароль пользователя
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+ 
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
