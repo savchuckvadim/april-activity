@@ -64,12 +64,11 @@ Route::get('/generate', function () {
             sleep(2); // **Имитируем задержку**
         }
 
-       
+
         echo "event: done\n";
 
         echo "data: {}\n\n";
         flush();
-
     }, 200, [
         "Content-Type" => "text/event-stream",
         "Cache-Control" => "no-cache",
@@ -131,14 +130,12 @@ Route::post('/ollama', function (Request $request) {
             echo "data: {}\n\n";
             @ob_flush();
             flush();
-
         }, 200, [
             'Content-Type' => 'text/event-stream',
             'Cache-Control' => 'no-cache',
             'X-Accel-Buffering' => 'no',
             'Connection' => 'keep-alive',
         ]);
-
     } catch (\Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
@@ -198,8 +195,7 @@ require __DIR__ . '/admin_outer/install.php';
 require __DIR__ . '/client_outer/client.php';
 require __DIR__ . '/yandex/routes.php';
 require __DIR__ . '/bitrix_setup/routes.php';
-require __DIR__ . '/transcription/routes.php';
-require __DIR__ . '/ai/routes.php';
+
 
 Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/contract_routes.php';
@@ -209,7 +205,9 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/offer_zakupki_routes.php';
     require __DIR__ . '/front/konstructor/provider_routes.php';
     require __DIR__ . '/front/report/routes.php';
-    
+    require __DIR__ . '/transcription/routes.php';
+    require __DIR__ . '/ai/routes.php';
+
 
     //..................................GENERAL FRONT APP ...............................
 
