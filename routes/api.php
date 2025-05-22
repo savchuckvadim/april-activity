@@ -195,6 +195,7 @@ require __DIR__ . '/admin_outer/install.php';
 require __DIR__ . '/client_outer/client.php';
 require __DIR__ . '/yandex/routes.php';
 require __DIR__ . '/bitrix_setup/routes.php';
+require __DIR__ . '/konstructor/complect_routes.php';
 
 
 Route::middleware(['ajax.only', 'api.key'])->group(function () {
@@ -204,7 +205,6 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
     require __DIR__ . '/front/konstructor/settings_routes.php';
     require __DIR__ . '/front/konstructor/offer_zakupki_routes.php';
     require __DIR__ . '/front/konstructor/provider_routes.php';
-    require __DIR__ . '/admin/konstructor/complect_routes.php';
     require __DIR__ . '/front/report/routes.php';
     require __DIR__ . '/transcription/routes.php';
     require __DIR__ . '/ai/routes.php';
