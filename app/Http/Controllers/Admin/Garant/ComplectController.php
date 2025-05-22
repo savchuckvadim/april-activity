@@ -116,8 +116,8 @@ class ComplectController extends Controller
     {
         $complects = null;
         try {
-            $complects = Complect::all();
-
+            // $complects = Complect::all();
+            $complects = Complect::with(['infoblocks:id,title'])->get();
             return APIController::getSuccess(
                 ['complects' => $complects]
 
