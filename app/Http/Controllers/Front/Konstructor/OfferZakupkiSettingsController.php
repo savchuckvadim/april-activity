@@ -232,7 +232,7 @@ class OfferZakupkiSettingsController extends Controller
                     'placeholder' => 'Текст сопроводительного письма. Используйте {{period}} - для отображения даты действия договора и {{product_name}} для отображения названия комплекта в тексте письма',
                     'code' => 'provider2_letter_text',
                     'value' => $settings->provider2_letter_text,
-                    'type' => 'string',
+                    'type' => 'text',
                     'isRequired' => false,
                 ],
                 [
