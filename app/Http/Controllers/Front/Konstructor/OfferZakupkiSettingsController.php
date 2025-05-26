@@ -103,7 +103,7 @@ class OfferZakupkiSettingsController extends Controller
                     'placeholder' => '12345...',
                     'code' => 'provider1_inn',
                     'value' => $settings->provider1_inn,
-                    'type' => 'text',
+                    'type' => 'string',
                     'isRequired' => false,
                 ],
                 [
@@ -187,7 +187,7 @@ class OfferZakupkiSettingsController extends Controller
                     'placeholder' => '12345...',
                     'code' => 'provider2_inn',
                     'value' => $settings->provider2_inn,
-                    'type' => 'text',
+                    'type' => 'string',
                     'isRequired' => false,
                 ],
                 [
