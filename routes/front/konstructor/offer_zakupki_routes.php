@@ -11,15 +11,27 @@ Route::prefix('konstructor/front')->group(function () {
         '/zakupki/{domain}/{userId}',
         [OfferZakupkiSettingsController::class, 'get']
     );
+    Route::post(
+        '/zakupki/store',
+        [OfferZakupkiSettingsController::class, 'store']
+    );
+    Route::put(
+        '/zakupki/update/{id}',
+        [OfferZakupkiSettingsController::class, 'update']
+    );
+    Route::delete(
+        '/zakupki/delete/{id}',
+        [OfferZakupkiSettingsController::class, 'delete']
+    );
     // Route::post(
     //     'offer/options',
     //     [OfferZakupkiSettingsController::class, 'store']
     // );
- 
+
     // Route::post(
     //     'offer/get/options',
     //     [OfferZakupkiSettingsController::class, 'getOptions']
     // );
-  
+
 
 });

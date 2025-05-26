@@ -135,7 +135,7 @@ class OfferZakupkiSettingsController extends Controller
                 ],
                 [
                     'id' => 7,
-                    'name' => 'Имя руководителя организации',
+                    'name' => 'Должность руководителя организации',
                     'placeholder' => 'Директор',
                     'code' => 'provider1_position',
                     'value' => $settings->provider1_position,
@@ -144,18 +144,18 @@ class OfferZakupkiSettingsController extends Controller
                 ],
                 [
                     'id' => 8,
-                    'name' => 'Имя руководителя организации',
+                    'name' => 'Текст сопроводительного письма',
                     'placeholder' => 'Текст сопроводительного письма. Используйте {{period}} - для отображения даты действия договора и {{product_name}} для отображения названия комплекта в тексте письма',
                     'code' => 'provider1_letter_text',
                     'value' => $settings->provider1_letter_text,
-                    'type' => 'string',
+                    'type' => 'text',
                     'isRequired' => false,
                 ],
                 [
                     'id' => 9,
                     'name' => 'Разница в цене',
                     'placeholder' => '',
-                    'code' => 'provider1_price_coefficientм',
+                    'code' => 'provider1_price_coefficient',
                     'value' => $settings->provider1_price_coefficient,
                     'type' => 'string',
                     'isRequired' => false,
@@ -219,7 +219,7 @@ class OfferZakupkiSettingsController extends Controller
                 ],
                 [
                     'id' => 7,
-                    'name' => 'Имя руководителя организации',
+                    'name' => 'Должность руководителя организации',
                     'placeholder' => 'Директор',
                     'code' => 'provider2_position',
                     'value' => $settings->provider2_position,
@@ -228,7 +228,7 @@ class OfferZakupkiSettingsController extends Controller
                 ],
                 [
                     'id' => 8,
-                    'name' => 'Имя руководителя организации',
+                    'name' => 'Текст сопроводительного письма',
                     'placeholder' => 'Текст сопроводительного письма. Используйте {{period}} - для отображения даты действия договора и {{product_name}} для отображения названия комплекта в тексте письма',
                     'code' => 'provider2_letter_text',
                     'value' => $settings->provider2_letter_text,
@@ -239,7 +239,7 @@ class OfferZakupkiSettingsController extends Controller
                     'id' => 9,
                     'name' => 'Разница в цене',
                     'placeholder' => '',
-                    'code' => 'provider2_price_coefficientм',
+                    'code' => 'provider2_price_coefficient',
                     'value' => $settings->provider2_price_coefficient,
                     'type' => 'string',
                     'isRequired' => false,
@@ -260,13 +260,200 @@ class OfferZakupkiSettingsController extends Controller
             'domain' => $domain,
             'name' => 'Настройки по умолчанию',
             'provider1_letter_text' => 'Имеем честь предложить заключить контракт на период {{period}} на следующий комплект: ',
-
             'provider2_letter_text' => 'Имеем честь предложить заключить контракт на период с  {{period}}  года на следующий комплект: ',
             'is_default' => true,
-
         );
         $settings = new OfferZakupkiSettings($data);
         $settings->save();
         return $settings;
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $data = $request->all();
+
+            // Validate required fields
+            $request->validate([
+                'domain' => 'required|string',
+                'bxUserId' => 'required|integer',
+                'name' => 'required|string',
+                'portal_id' => 'required|exists:portals,id',
+
+                // Provider 1 fields
+                // 'provider1_id' => 'nullable|integer',
+                // 'provider1_name' => 'nullable|string|max:255',
+                'provider1_shortname' => 'nullable|string|max:255',
+                'provider1_address' => 'nullable|string',
+                'provider1_phone' => 'nullable|string|max:20',
+                'provider1_email' => 'nullable|email|max:255',
+                'provider1_letter_text' => 'nullable|string',
+                'provider1_inn' => 'nullable|string|max:12',
+                'provider1_director' => 'nullable|string|max:255',
+                'provider1_position' => 'nullable|string|max:255',
+           
+                // 'provider1_logo' => 'nullable|string|max:255',
+                // 'provider1_stamp' => 'nullable|string|max:255',
+                // 'provider1_signature' => 'nullable|string|max:255',
+                'provider1_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider1_price_settings' => 'nullable|string',
+
+                // Provider 2 fields
+                // 'provider2_id' => 'nullable|integer',
+                // 'provider2_name' => 'nullable|string|max:255',
+                'provider2_shortname' => 'nullable|string|max:255',
+                'provider2_address' => 'nullable|string',
+                'provider2_phone' => 'nullable|string|max:20',
+                'provider2_email' => 'nullable|email|max:255',
+                'provider2_letter_text' => 'nullable|string',
+                'provider2_inn' => 'nullable|string|max:12',
+                'provider2_director' => 'nullable|string|max:255',
+                'provider2_position' => 'nullable|string|max:255',
+                // 'provider2_logo' => 'nullable|string|max:255',
+                // 'provider2_stamp' => 'nullable|string|max:255',
+                // 'provider2_signature' => 'nullable|string|max:255',
+                'provider2_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider2_price_settings' => 'nullable|string',
+
+                // Settings flags
+                'is_default' => 'nullable|boolean',
+                // 'is_current' => 'nullable|boolean',
+                // 'is_one_document' => 'nullable|boolean',
+            ]);
+
+            // Create new settings
+            $settings = new OfferZakupkiSettings($data);
+            $settings->save();
+
+            return APIController::getSuccess([
+                'message' => 'Settings created successfully',
+                'settings' => $settings
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages = [
+                'message' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Failed to create zakupki settings', [
+                'error' => $errorMessages,
+                'data' => $request->all()
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $data = $request->all();
+
+            // Find the settings
+            $settings = OfferZakupkiSettings::findOrFail($id);
+
+            // Validate fields
+            $request->validate([
+                'domain' => 'sometimes|required|string',
+                'bxUserId' => 'sometimes|required|integer',
+                'name' => 'sometimes|required|string',
+                'portal_id' => 'sometimes|required|exists:portals,id',
+
+                // Provider 1 fields
+                'provider1_id' => 'nullable|integer',
+                'provider1_name' => 'nullable|string|max:255',
+                'provider1_shortname' => 'nullable|string|max:255',
+                'provider1_address' => 'nullable|string',
+                'provider1_phone' => 'nullable|string|max:20',
+                'provider1_email' => 'nullable|email|max:255',
+                'provider1_letter_text' => 'nullable|string',
+                'provider1_inn' => 'nullable|string|max:12',
+                'provider1_director' => 'nullable|string|max:255',
+                'provider1_position' => 'nullable|string|max:255',
+                // 'provider1_logo' => 'nullable|string|max:255',
+                // 'provider1_stamp' => 'nullable|string|max:255',
+                // 'provider1_signature' => 'nullable|string|max:255',
+                'provider1_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider1_price_settings' => 'nullable|string',
+
+                // Provider 2 fields
+                'provider2_id' => 'nullable|integer',
+                'provider2_name' => 'nullable|string|max:255',
+                'provider2_shortname' => 'nullable|string|max:255',
+                'provider2_address' => 'nullable|string',
+                'provider2_phone' => 'nullable|string|max:20',
+                'provider2_email' => 'nullable|email|max:255',
+                'provider2_letter_text' => 'nullable|string',
+                'provider2_inn' => 'nullable|string|max:12',
+                'provider2_director' => 'nullable|string|max:255',
+                'provider2_position' => 'nullable|string|max:255',
+                // 'provider2_logo' => 'nullable|string|max:255',
+                // 'provider2_stamp' => 'nullable|string|max:255',
+                // 'provider2_signature' => 'nullable|string|max:255',
+                'provider2_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider2_price_settings' => 'nullable|string',
+
+                // Settings flags
+                'is_default' => 'nullable|boolean',
+                // 'is_current' => 'nullable|boolean',
+                // 'is_one_document' => 'nullable|boolean',
+            ]);
+
+            // Update settings
+            $settings->update($data);
+
+            return APIController::getSuccess([
+                'message' => 'Settings updated successfully',
+                'settings' => $settings
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages = [
+                'message' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Failed to update zakupki settings', [
+                'error' => $errorMessages,
+                'id' => $id,
+                'data' => $request->all()
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            // Find the settings
+            $settings = OfferZakupkiSettings::findOrFail($id);
+
+            // Check if it's a default setting
+            if ($settings->is_default) {
+                return APIController::getError('Cannot delete default settings', [
+                    'id' => $id
+                ]);
+            }
+
+            // Delete the settings
+            $settings->delete();
+
+            return APIController::getSuccess([
+                'message' => 'Settings deleted successfully',
+                'id' => $id
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages = [
+                'message' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Failed to delete zakupki settings', [
+                'error' => $errorMessages,
+                'id' => $id
+            ]);
+        }
     }
 }
