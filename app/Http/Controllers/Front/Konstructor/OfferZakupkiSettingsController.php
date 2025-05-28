@@ -26,8 +26,15 @@ class OfferZakupkiSettingsController extends Controller
                 ->first();
 
             if (!$settings) {
+
                 $settings = OfferZakupkiSettings::where('domain', $domain)
+                    ->where('is_default', true)
                     ->first();
+
+                if (!$settings) {
+                    $settings = OfferZakupkiSettings::where('domain', $domain)
+                        ->first();
+                }
                 $status = [
                     'isFromUser' => false,
                     'isDefault' => true,
