@@ -291,7 +291,7 @@ class OfferZakupkiSettingsController extends Controller
                 'provider1_inn' => 'nullable|string|max:12',
                 'provider1_director' => 'nullable|string|max:255',
                 'provider1_position' => 'nullable|string|max:255',
-           
+
                 // 'provider1_logo' => 'nullable|string|max:255',
                 // 'provider1_stamp' => 'nullable|string|max:255',
                 // 'provider1_signature' => 'nullable|string|max:255',
@@ -321,9 +321,16 @@ class OfferZakupkiSettingsController extends Controller
                 // 'is_one_document' => 'nullable|boolean',
             ]);
 
-            // Create new settings
-            $settings = new OfferZakupkiSettings($data);
-            $settings->save();
+            $isDefault = $data['is_default'] ?? false;
+            if ($isDefault) {
+                $settings =  OfferZakupkiSettings::where('domain', $data['domain'])
+                    ->where('is_default', $data['is_default'])
+                    ->update(['is_default' => false]);
+            }
+            if (!$settings) {
+                $settings = new OfferZakupkiSettings($data);
+                $settings->save();
+            }
 
             return APIController::getSuccess([
                 'message' => 'Settings created successfully',
