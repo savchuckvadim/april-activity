@@ -328,16 +328,16 @@ class OfferZakupkiSettingsController extends Controller
                 // 'is_one_document' => 'nullable|boolean',
             ]);
 
-            $isDefault = $data['is_default'] ?? false;
-            if ($isDefault) {
-                $settings =  OfferZakupkiSettings::where('domain', $data['domain'])
-                    ->where('is_default', $data['is_default'])
-                    ->update(['is_default' => false]);
-            }
-            if (!$settings) {
+            // $isDefault = $data['is_default'] ?? false;
+            // if ($isDefault) {
+            //     $settings =  OfferZakupkiSettings::where('domain', $data['domain'])
+            //         ->where('is_default', $data['is_default'])
+            //         ->update(['is_default' => false]);
+            // }
+            // if (!$settings) {
                 $settings = new OfferZakupkiSettings($data);
                 $settings->save();
-            }
+            // }
 
             return APIController::getSuccess([
                 'message' => 'Settings created successfully',
@@ -435,7 +435,88 @@ class OfferZakupkiSettingsController extends Controller
             ]);
         }
     }
+    public function updateDefault(Request $request)
+    {
+        try {
+            $data = $request->all();
 
+            // Find the settings
+
+
+            // Validate fields
+            $request->validate([
+                'domain' => 'sometimes|required|string',
+                'bxUserId' => 'sometimes|required|integer',
+                'name' => 'sometimes|required|string',
+                'portal_id' => 'sometimes|required|exists:portals,id',
+
+                // Provider 1 fields
+                'provider1_id' => 'nullable|integer',
+                'provider1_name' => 'nullable|string|max:255',
+                'provider1_shortname' => 'nullable|string|max:255',
+                'provider1_address' => 'nullable|string',
+                'provider1_phone' => 'nullable|string|max:20',
+                'provider1_email' => 'nullable|string|max:255',
+                'provider1_letter_text' => 'nullable|string',
+                'provider1_inn' => 'nullable|string|max:12',
+                'provider1_director' => 'nullable|string|max:255',
+                'provider1_position' => 'nullable|string|max:255',
+                // 'provider1_logo' => 'nullable|string|max:255',
+                // 'provider1_stamp' => 'nullable|string|max:255',
+                // 'provider1_signature' => 'nullable|string|max:255',
+                'provider1_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider1_price_settings' => 'nullable|string',
+
+                // Provider 2 fields
+                'provider2_id' => 'nullable|integer',
+                'provider2_name' => 'nullable|string|max:255',
+                'provider2_shortname' => 'nullable|string|max:255',
+                'provider2_address' => 'nullable|string',
+                'provider2_phone' => 'nullable|string|max:20',
+                'provider2_email' => 'nullable|string|max:255',
+                'provider2_letter_text' => 'nullable|string',
+                'provider2_inn' => 'nullable|string|max:12',
+                'provider2_director' => 'nullable|string|max:255',
+                'provider2_position' => 'nullable|string|max:255',
+                // 'provider2_logo' => 'nullable|string|max:255',
+                // 'provider2_stamp' => 'nullable|string|max:255',
+                // 'provider2_signature' => 'nullable|string|max:255',
+                'provider2_price_coefficient' => 'nullable|numeric|min:0',
+                // 'provider2_price_settings' => 'nullable|string',
+
+                // Settings flags
+                // 'is_default' => 'nullable|boolean',
+                // 'is_current' => 'nullable|boolean',
+                // 'is_one_document' => 'nullable|boolean',
+            ]);
+            $domain = $data['domain'];
+            $data['is_default'] = true;
+            $settings = OfferZakupkiSettings::where('domain', $domain)
+                ->where('is_default', true)
+                ->first();
+
+            // Update settings
+            $settings->update($data);
+
+            return APIController::getSuccess([
+                'message' => 'Settings updated successfully',
+                'settings' => $settings
+            ]);
+        } catch (\Throwable $th) {
+            $errorMessages = [
+                'message' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ];
+
+            return APIController::getError('Failed to update default zakupki settings', [
+                'error' => $errorMessages,
+
+                'data' => $request->all()
+            ]);
+        }
+    }
     public function delete($id)
     {
         try {
