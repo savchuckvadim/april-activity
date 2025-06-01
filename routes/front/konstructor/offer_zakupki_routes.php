@@ -16,13 +16,14 @@ Route::prefix('konstructor/front')->group(function () {
         [OfferZakupkiSettingsController::class, 'store']
     );
     Route::put(
-        '/zakupki/update/{id}',
-        [OfferZakupkiSettingsController::class, 'update']
-    );
-    Route::put(
         '/zakupki/update/default',
         [OfferZakupkiSettingsController::class, 'updateDefault']
     );
+    Route::put(
+        '/zakupki/update/{id}',
+        [OfferZakupkiSettingsController::class, 'update']
+    );
+   
     Route::delete(
         '/zakupki/delete/{id}',
         [OfferZakupkiSettingsController::class, 'delete']
