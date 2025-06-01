@@ -446,7 +446,7 @@ class OfferZakupkiSettingsController extends Controller
             // Validate fields
             $request->validate([
                 'domain' => 'sometimes|required|string',
-                'bxUserId' => 'sometimes|required|integer',
+                // 'bxUserId' => 'sometimes|required|integer',
                 'name' => 'sometimes|required|string',
                 'portal_id' => 'sometimes|required|exists:portals,id',
 
@@ -493,7 +493,7 @@ class OfferZakupkiSettingsController extends Controller
             $data['is_default'] = true;
             $settings = OfferZakupkiSettings::where('domain', $domain)
                 ->where('is_default', true)
-                ->first();
+                ->firstOrFail();
 
             // Update settings
             $settings->update($data);
