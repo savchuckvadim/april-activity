@@ -235,6 +235,9 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
     Route::post('/getdeals', function (Request $request) {
         return DealController::getDeals($request->parameter, $request->value);
     });
+    Route::post('/deals/bydealid', function (Request $request) {
+        return DealController::getDealsByDealId($request->dealId);
+    });
 
 
     Route::get('/infoblocks', function () {

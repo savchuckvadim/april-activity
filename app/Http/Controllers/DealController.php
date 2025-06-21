@@ -230,4 +230,37 @@ class DealController extends Controller
             'message' => $message
         ]);
     }
+
+    public static function getDealsByDealId($dealId)
+    {
+
+        // $request -> dealId  domain
+
+        $resultDeal = null;
+        $resultCode = 0;
+        $message = '';
+
+        $searchingDeals = BxDocumentDeal::where('dealId', $dealId)
+            ->where('domain', $domain)
+            ->get();
+
+        if (empty($searchingDeals)) {
+            $searchingDeals = Deal::where('dealId', $request->dealId)
+                ->where('domain', $request->domain)
+                ->get();
+        }
+
+
+        if (!$searchingDeals) {
+            $resultCode = 1;
+            $message = 'deals was not found';
+        } else {
+            $resultDeals = $searchingDeals;
+        }
+        return response([
+            'resultCode' =>  $resultCode,
+            'deals' => $resultDeals,
+            'message' => $message
+        ]);
+    }
 }
