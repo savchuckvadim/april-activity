@@ -306,9 +306,9 @@ class BitrixDealDocumentService
             //     ]
             // ]);
             //smart
-            if ($this->domain !== 'gsirk.bitrix24.ru') {
-                $this->smartProccess();
-            }
+            // if ($this->domain !== 'gsirk.bitrix24.ru') {
+            //     $this->smartProccess();
+            // }
 
 
 

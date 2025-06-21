@@ -190,6 +190,15 @@ Route::middleware(['ajax.only'])->group(function () {
 
         return PortalController::setPortal($number, $domain, $key, $key, $key, $key);
     });
+    Route::post('update/portal', function (Request $request) {
+        $number  = $request->input('number');
+        $domain  = $request->input('domain');
+        $key = $request->input('key'); //placement key
+        $clientId = $request->input('clientId'); //from bitrix server api app
+        $secret = $request->input('clientSecret'); //from bitrix server api app
+        $hook = $request->input('hook'); //placement url
+        return PortalController::setPortal($number, $domain, $key, $clientId, $secret, $hook);
+    });
 
     Route::post('portal/{portalId}', function (Request $request) {
         $number  = $request->input('number');
