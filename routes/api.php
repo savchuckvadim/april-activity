@@ -236,7 +236,7 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
         return DealController::getDeals($request->parameter, $request->value);
     });
     Route::post('/deals/bydealid', function (Request $request) {
-        return DealController::getDealsByDealId($request->dealId);
+        return DealController::getDealsByDealId($request->domain, $request->dealId);
     });
 
 

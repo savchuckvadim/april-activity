@@ -231,7 +231,7 @@ class DealController extends Controller
         ]);
     }
 
-    public static function getDealsByDealId($dealId)
+    public static function getDealsByDealId($domain, $dealId)
     {
 
         // $request -> dealId  domain
@@ -245,8 +245,8 @@ class DealController extends Controller
             ->get();
 
         if (empty($searchingDeals)) {
-            $searchingDeals = Deal::where('dealId', $request->dealId)
-                ->where('domain', $request->domain)
+            $searchingDeals = Deal::where('dealId', $dealId)
+                ->where('domain', $domain)
                 ->get();
         }
 
