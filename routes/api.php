@@ -222,6 +222,10 @@ Route::middleware(['ajax.only', 'api.key'])->group(function () {
 
         return DealController::addDeal($request);
     });
+    Route::post('/deal/serviceSmart', function (Request $request) {
+
+        return DealController::addServiceSmartOfferDeal($request);
+    });
 
     Route::post('/bx_deal/copy', function (Request $request) {
 
