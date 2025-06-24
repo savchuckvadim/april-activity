@@ -13,6 +13,8 @@ class BxDocumentDeal extends Model
         'contract',
         'currentComplect',
         'dealId',
+        'serviceSmartId',
+        'smartId',
         'dealName',
         'domain',
         'global',
