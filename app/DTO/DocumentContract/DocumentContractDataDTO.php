@@ -8,6 +8,7 @@ class DocumentContractDataDTO
 {
     public function __construct(
         public string $domain,
+        public ?string $contractNumber,
         public int $companyId,
         public int $dealId,
         public string $contractType,
@@ -40,6 +41,7 @@ class DocumentContractDataDTO
     {
         return new self(
             domain: $request->input('domain'),
+            contractNumber: $request->input('contractNumber'),
             contractSpecificationState: $request->input('contractSpecificationState'),
             total: $request->input('total'),
             companyId: (int)$request->input('companyId'),
