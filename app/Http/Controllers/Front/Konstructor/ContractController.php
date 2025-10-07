@@ -401,7 +401,7 @@ class ContractController extends Controller
         //templatecontent
 
 
-        $documentNumber = $data->contractNumber ?? ' ___________________________________ ';
+        $documentNumber = $data->contractNumber ?? ' ________ ';
         //  CounterController::getCount($providerRq['id'], 'contract');
 
 
