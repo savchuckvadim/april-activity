@@ -29,13 +29,12 @@ class RqController extends Controller
             $result = [];
             $agent = Agent::find($agentId);
             $rq = $agent->rq;
-            
+
 
 
             return APIController::getSuccess(
                 ['rqs' => [$rq]]
             );
-
         } catch (\Throwable $th) {
             return APIController::getResponse(
                 1,
@@ -50,7 +49,7 @@ class RqController extends Controller
         try {
             $rqs = Rq::with('counters')->get();
 
- 
+
             $rqsCollection = new RqCollection($rqs);
             return APIController::getSuccess(
                 $rqsCollection
@@ -107,7 +106,7 @@ class RqController extends Controller
             }
         }
 
-        
+
         $validatedData = $request->validate([
             'id' => 'sometimes|integer|exists:rqs,id',
             'name' => 'required|string',
@@ -160,17 +159,22 @@ class RqController extends Controller
             $rq->bankOther = $request['bankOther'];
 
 
-            if(!empty($agentId)){
+            if (!empty($agentId)) {
                 $rq->agentId = $agentId;
             }
-   
+
 
 
             $rq->save(); // Сохранение Counter в базе данных
-        
-            return APIController::getSuccess(
-                ['rq' => $rq, 'portal' => $portal, '$agentId' => $agentId]
-            );
+            if (!empty($agentId)) {
+                return APIController::getSuccess(
+                    ['rq' => $rq, 'portal' => $portal, '$agentId' => $agentId]
+                );
+            } else {
+                return APIController::getSuccess(
+                    ['rq' => $rq, 'portal' => $portal, '$agentId' => null]
+                );
+            }
         }
 
         return APIController::getError(
