@@ -53,7 +53,7 @@ class PortalHookResource extends JsonResource
             'contracts' =>  $this->contracts,
             'measures' =>  $this->measures,
             'bx_rq' => $this->bxRq,
-            'bitrixCallingTasksGroups' => $this->callingGroups,
+            'callingGroups' => $this->callingGroups,
 
 
         ];
