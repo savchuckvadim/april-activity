@@ -1221,7 +1221,7 @@ class PDFDocumentController extends Controller
         } else    if ($withTax && $domain === 'alfacentr.bitrix24.ru') {
 
 
-            $text = ' (' . $firstChar . $restOfText . ') , '
+            $text = ' (' . $firstChar . $restOfText . '), '
                 . 'в том числе НДС 5% ' . $taxSum
                 . ' (' . $taxFirstChar . $taxRestOfText . '), '
                 . 'на основании подпункта 1 пункта 8 статьи 164 НК РФ.';
