@@ -211,7 +211,7 @@ class PDFDocumentController extends Controller
                     $infoblocksData  = $this->getInfoblocksData($infoblocksOptions, $complect, $complectName, $productsCount, $region, $salePhrase, $withStamps, $priceFirst, $regions);
                     //testing       // $bigDescriptionData  = $this->getBigDescriptionData($complect, $complectName);
                     $bigDescriptionData = [];
-                    $pricesData  =   $this->getPricesData($price,  $salePhrase, $infoblocksData['withPrice'], false, $withTax);
+                    $pricesData  =   $this->getPricesData($domain, $price,  $salePhrase, $infoblocksData['withPrice'], false, $withTax);
                     $stampsData  =   $this->getStampsData($providerRq, false);
                     // $invoiceData  =   $this->getInvoiceData($invoiceBaseNumber, $providerRq, $recipient, $price);
                     //testing
@@ -1122,13 +1122,14 @@ class PDFDocumentController extends Controller
     }
 
 
-    protected function getPricesData($price,  $salePhrase, $withPrice = false,  $isInvoice = null, $withTax = false)
+    protected function getPricesData($domain, $price,  $salePhrase, $withPrice = false,  $isInvoice = null, $withTax = false)
     {
         $isTable = $price['isTable'];
         $comePrices = $price['cells'];
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
+        $taxSum = 0;
         $sortActivePrices = $this->getSortActivePrices($comePrices, $isInvoice);
         $allPrices =  $sortActivePrices;
 
@@ -1197,7 +1198,9 @@ class PDFDocumentController extends Controller
 
         if ($foundCell) {
             $totalSum = $foundCell['value'];
+            $taxSum = $totalSum * 5 / 105;
             $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+            $taxSum = MoneySpeller::spell($taxSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
             $total = '<color>' . $totalSum . '</color> ';
         }
 
@@ -1205,14 +1208,23 @@ class PDFDocumentController extends Controller
         $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
         $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
 
-
+        $taxResult = MoneySpeller::spell($foundCell['value'] * 5 / 105, MoneySpeller::RUBLE);
+        $taxFirstChar = mb_strtoupper(mb_substr($taxResult, 0, 1, "UTF-8"), "UTF-8");
+        $taxRestOfText = mb_substr($taxResult, 1, mb_strlen($taxResult, "UTF-8"), "UTF-8");
 
 
 
 
         $text = ' (' . $firstChar . $restOfText . ') без НДС';
-        if($withTax){
-            $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';  
+        if ($withTax && $domain !== 'alfacentr.bitrix24.ru') {
+            $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';
+        } else    if ($withTax && $domain === 'alfacentr.bitrix24.ru') {
+
+
+            $text = ' (' . $firstChar . $restOfText . ') , '
+                . 'в том числе НДС 5% ' . $taxSum
+                . ' (' . $taxFirstChar . $taxRestOfText . '), '
+                . 'на основании подпункта 1 пункта 8 статьи 164 НК РФ.';
         }
         $textTotalSum = $text;
 
