@@ -893,7 +893,9 @@ class PDFDocumentController extends Controller
                         array_push($currentPage['items'], $infoblockData);
                     }
                 }
-                if ($group['groupsName'] == 'Нормативно-правовые акты' && !$isBaseRegionEmpty && $allRegionsCount > 0) {
+                if ($group['groupsName'] == 'Нормативно-правовые акты' && $isBaseRegionEmpty && $allRegionsCount > 0) {
+                    //если основной регион отсутсвует в инфоблоках
+                    // но в регионах регионы есть
                     $infoblockData = [
                         'name' => 'Региональное Законодательство',
                         'descriptionForSale' => '',
