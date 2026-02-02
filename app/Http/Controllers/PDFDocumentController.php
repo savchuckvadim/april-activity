@@ -918,20 +918,14 @@ class PDFDocumentController extends Controller
                         $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
 
 
-                     
+
 
                         if ($descriptionMode == 0) {
 
 
-                            // Log::channel('console')->info('tst infoblock', ['rgn' => $rgn]);
-                            // Log::channel('console')->info('tst infoblock', ['infoblock' => $infoblock['title']]);
-
-                            if ($rgn['infoblock'] !== $infoblock['title']) {
-                                // $infoblockDataRegion = Infoblock::where('code', $rgn['code'])->first();
-                                $rgn['name'] = $rgn['infoblock'];
-                                $groupItems[] = $rgn;
-                                array_push($currentPage['items'], $rgn);
-                            }
+                            $rgn['name'] = $rgn['infoblock'];
+                            $groupItems[] = $rgn;
+                            array_push($currentPage['items'], $rgn);
                         }
                     }
                     $groupItems[] = $infoblockData;
