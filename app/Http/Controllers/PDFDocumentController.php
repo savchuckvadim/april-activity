@@ -814,11 +814,15 @@ class PDFDocumentController extends Controller
 
             if (stripos($group['groupsName'], $erSubstring) === false) {
                 $groupItems = [];
-                foreach ($group['value'] as $infoblock) {
+                if (!empty($group) && !empty($group['value'])) {
 
-                    if ($infoblock['code'] == 'reg') {
-                        if ($infoblock['value']) {
-                            $isBaseRegionEmpty = false;
+
+                    foreach ($group['value'] as $infoblock) {
+
+                        if ($infoblock['code'] == 'reg') {
+                            if (!empty($infoblock)) {
+                                $isBaseRegionEmpty = false;
+                            }
                         }
                     }
                 }
