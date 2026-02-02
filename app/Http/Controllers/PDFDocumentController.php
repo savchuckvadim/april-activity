@@ -918,7 +918,7 @@ class PDFDocumentController extends Controller
                         $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
 
 
-                        $regFirstCount += 1;
+                     
 
                         if ($descriptionMode == 0) {
 
