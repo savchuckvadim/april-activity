@@ -3545,7 +3545,7 @@ class ContractController extends Controller
 
 
 
-                    if ($iblock['weight'] == 0.5) {
+                    if ($iblock['weight'] == 0.5 || $iblock['weight'] == 0) {
                         $allIBlocks .=  '' . $value . "\n";
                         $smallIBlocks .=  '' . $value . "\n";
                     } else if ($iblock['weight'] >= 1) {

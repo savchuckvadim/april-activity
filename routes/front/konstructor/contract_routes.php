@@ -11,14 +11,10 @@ Route::prefix('konstruct')->group(function () {
         Route::post('init', [ContractController::class, 'frontInit']);
         Route::post('/', [ContractController::class, 'getDocument']);
 
-
-        
     });
 
     Route::prefix('contracts')->group(function () {
-   
-        Route::post('/', [ContractController::class, 'getByPortal']);
-    
+        Route::post('/', [ContractController::class, 'getByPortal']);    
     });
 
 
