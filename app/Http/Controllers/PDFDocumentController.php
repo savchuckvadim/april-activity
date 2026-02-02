@@ -920,17 +920,19 @@ class PDFDocumentController extends Controller
 
 
 
-                        // if ($descriptionMode == 0) {
+                        if ($descriptionMode == 0) {
 
 
-                        //     $rgn['name'] = $rgn['infoblock'];
-                        //     $rgn['title'] = $rgn['infoblock'];
-                        //     $groupItems[] = $rgn;
-                        //     array_push($currentPage['items'], $rgn);
-                        // }
+                            $rgn['name'] = $rgn['infoblock'];
+                            $rgn['title'] = $rgn['infoblock'];
+                            $groupItems[] = $rgn;
+                            array_push($currentPage['items'], $rgn);
+                        }
                     }
-                    $groupItems[] = $infoblockData;
-                    array_push($currentPage['items'], $infoblockData);
+                    if ($descriptionMode !== 0) {
+                        $groupItems[] = $infoblockData;
+                        array_push($currentPage['items'], $infoblockData);
+                    }
                 }
                 // Распределение элементов группы по страницам
                 while (!empty($groupItems)) {
