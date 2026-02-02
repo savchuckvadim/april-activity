@@ -929,8 +929,12 @@ class PDFDocumentController extends Controller
 
                             $rgn['name'] = $rgn['infoblock'];
                             $rgn['title'] = $rgn['infoblock'];
+                            if ($index > $regFirstCount) {
+                                $infoblockData['name'] = ', ' . $title;
+                            } else {
+                                $infoblockData['name'] = $title;
+                            }
 
-                            $infoblockData['name'] = $title;
 
                             // $groupItems[] = $rgn;
                             // array_push($currentPage['items'], $rgn);
