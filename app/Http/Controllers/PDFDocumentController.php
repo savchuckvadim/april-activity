@@ -809,7 +809,21 @@ class PDFDocumentController extends Controller
             }
             $allRegionsCount = count($allRegions);
         }
+        $isBaseRegionEmpty = true;
+        foreach ($complect as $group) {
 
+            if (stripos($group['groupsName'], $erSubstring) === false) {
+                $groupItems = [];
+                foreach ($group['value'] as $infoblock) {
+
+                    if ($infoblock['code'] == 'reg') {
+                        if ($infoblock['value']) {
+                            $isBaseRegionEmpty = false;
+                        }
+                    }
+                }
+            }
+        }
         // Проверка наличия подстроки в строке без учета регистра
 
         foreach ($complect as $group) {
@@ -879,7 +893,48 @@ class PDFDocumentController extends Controller
                         array_push($currentPage['items'], $infoblockData);
                     }
                 }
+                if ($group['groupsName'] == 'Нормативно-правовые акты' && !$isBaseRegionEmpty && $allRegionsCount > 0) {
+                    $infoblockData = [
+                        'name' => 'Региональное Законодательство',
+                        'descriptionForSale' => '',
+                        'shortDescription' => '',
+                    ];
+                    $regFirstCount = 0;
+                    foreach ($allRegions as $index => $rgn) {
 
+
+
+                        $title = $rgn['infoblock'];
+
+
+                        if ($index > $regFirstCount) {
+                            $title = ', ' . $rgn['infoblock'];
+                        }
+
+
+                        $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . $title;
+                        $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
+
+
+                        $regFirstCount += 1;
+
+                        if ($descriptionMode == 0) {
+
+
+                            // Log::channel('console')->info('tst infoblock', ['rgn' => $rgn]);
+                            // Log::channel('console')->info('tst infoblock', ['infoblock' => $infoblock['title']]);
+
+                            if ($rgn['infoblock'] !== $infoblock['title']) {
+                                // $infoblockDataRegion = Infoblock::where('code', $rgn['code'])->first();
+                                $rgn['name'] = $rgn['infoblock'];
+                                $groupItems[] = $rgn;
+                                array_push($currentPage['items'], $rgn);
+                            }
+                        }
+                    }
+                    $groupItems[] = $infoblockData;
+                    array_push($currentPage['items'], $infoblockData);
+                }
                 // Распределение элементов группы по страницам
                 while (!empty($groupItems)) {
                     $spaceLeft = $itemsPerPage - $currentPageItemsCount; // Сколько элементов помещается на страницу
