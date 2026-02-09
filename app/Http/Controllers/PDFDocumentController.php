@@ -821,9 +821,11 @@ class PDFDocumentController extends Controller
 
                     foreach ($group['value'] as $infoblock) {
 
-                        if ($infoblock['code'] == 'reg') {
-                            if (!empty($infoblock)) {
-                                $isBaseRegionEmpty = false;
+                        if (isset($infoblock['code'])) {
+                            if ($infoblock['code'] == 'reg') {
+                                if (!empty($infoblock)) {
+                                    $isBaseRegionEmpty = false;
+                                }
                             }
                         }
                     }
@@ -841,62 +843,65 @@ class PDFDocumentController extends Controller
                         continue;
                     }
 
-                    $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
-                    if ($infoblock['code'] == 'reg') {
-                        $infoblockData['name'] = $region['infoblock'];
+                    if (!empty($infoblock['code'])) {
 
-                        // Извлечение названия региона из заголовка
-                        $regionName = trim(str_replace("Законодательство", "", $region['infoblock']));
+                        $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
+                        if ($infoblock['code'] == 'reg') {
+                            $infoblockData['name'] = $region['infoblock'];
 
-                        // Замена в тексте
-                        $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
-                        $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
+                            // Извлечение названия региона из заголовка
+                            $regionName = trim(str_replace("Законодательство", "", $region['infoblock']));
 
-                        if ($allRegionsCount > 1) {
-                            $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . '\\n А также законодательство регионов: \\n';
-                            $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . '\\n А также законодательство регионов: \\n';
-                            $regFirstCount = 0;
-                            foreach ($allRegions as $index => $rgn) {
+                            // Замена в тексте
+                            $infoblockData['descriptionForSale'] = preg_replace("/органов власти регионов/u", "органов $regionName", $infoblockData['descriptionForSale']);
+                            $infoblockData['shortDescription'] = preg_replace("/местного законодательства/u", "$regionName", $infoblockData['shortDescription']);
 
-
-                                if ($rgn['infoblock'] === $infoblock['title']) {
-                                    $regFirstCount += 1;
-                                }
-                                if ($rgn['infoblock'] !== $infoblock['title']) {
-                                    $title = $rgn['title'];
+                            if ($allRegionsCount > 1) {
+                                $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . '\\n А также законодательство регионов: \\n';
+                                $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . '\\n А также законодательство регионов: \\n';
+                                $regFirstCount = 0;
+                                foreach ($allRegions as $index => $rgn) {
 
 
-                                    if ($index > $regFirstCount) {
-                                        $title = ', ' . $rgn['title'];
+                                    if ($rgn['infoblock'] === $infoblock['title']) {
+                                        $regFirstCount += 1;
+                                    }
+                                    if ($rgn['infoblock'] !== $infoblock['title']) {
+                                        $title = $rgn['title'];
+
+
+                                        if ($index > $regFirstCount) {
+                                            $title = ', ' . $rgn['title'];
+                                        }
+
+
+                                        $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . $title;
+                                        $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
                                     }
 
 
-                                    $infoblockData['descriptionForSale'] = $infoblockData['descriptionForSale'] . $title;
-                                    $infoblockData['shortDescription'] = $infoblockData['shortDescription'] . $title;
-                                }
 
 
+                                    if ($descriptionMode == 0) {
 
 
-                                if ($descriptionMode == 0) {
+                                        // Log::channel('console')->info('tst infoblock', ['rgn' => $rgn]);
+                                        // Log::channel('console')->info('tst infoblock', ['infoblock' => $infoblock['title']]);
 
-
-                                    // Log::channel('console')->info('tst infoblock', ['rgn' => $rgn]);
-                                    // Log::channel('console')->info('tst infoblock', ['infoblock' => $infoblock['title']]);
-
-                                    if ($rgn['infoblock'] !== $infoblock['title']) {
-                                        // $infoblockDataRegion = Infoblock::where('code', $rgn['code'])->first();
-                                        $rgn['name'] = $rgn['infoblock'];
-                                        $groupItems[] = $rgn;
-                                        array_push($currentPage['items'], $rgn);
+                                        if ($rgn['infoblock'] !== $infoblock['title']) {
+                                            // $infoblockDataRegion = Infoblock::where('code', $rgn['code'])->first();
+                                            $rgn['name'] = $rgn['infoblock'];
+                                            $groupItems[] = $rgn;
+                                            array_push($currentPage['items'], $rgn);
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if ($infoblockData) {
-                        $groupItems[] = $infoblockData;
-                        array_push($currentPage['items'], $infoblockData);
+                        if ($infoblockData) {
+                            $groupItems[] = $infoblockData;
+                            array_push($currentPage['items'], $infoblockData);
+                        }
                     }
                 }
                 if ($group['groupsName'] == 'Нормативно-правовые акты' && $isBaseRegionEmpty && $allRegionsCount > 0) {
