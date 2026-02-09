@@ -132,8 +132,10 @@ class PDFDocumentController extends Controller
 
                     foreach ($data['price']['cells']['general'][0]['cells'] as $cell) {
 
-                        if ($cell['code'] === 'name') {
-                            $complectName = $cell['value'];
+                        if (isset($cell['code'])) {
+                            if ($cell['code'] === 'name') {
+                                $complectName = $cell['value'];
+                            }
                         }
                     }
 
