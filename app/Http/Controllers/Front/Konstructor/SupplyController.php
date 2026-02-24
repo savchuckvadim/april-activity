@@ -2838,6 +2838,9 @@ class SupplyController extends Controller
 
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
+            if (in_array(16, $currentComplect['lt'], true)) {
+                $packWeight += 1;
+            }
             if (!empty($lt['packages'])) {
                 if (!empty($lt['packages'][$packWeight])) {
                     $pack = $lt['packages'][$packWeight];
@@ -2864,6 +2867,9 @@ class SupplyController extends Controller
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
+            if (in_array(16, $currentComplect['ltInPacket'], true)) {
+                $packWeight += 1;
+            }
             if (!empty($lt['packages'])) {
                 if (!empty($lt['packages'][$packWeight])) {
                     $pack = $lt['packages'][$packWeight];
