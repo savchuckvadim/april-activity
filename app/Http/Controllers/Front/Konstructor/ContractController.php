@@ -4282,8 +4282,8 @@ class ContractController extends Controller
                 'productName' => $contractFullName . '(' . $row->name . ')',
                 'productQuantity' => $productQuantity,
                 'productMeasure' => $row->price->measure->name,
-                'productPrice' => round($row->price->current, 2),
-                'productSum' => round($row->price->sum, 2),
+                'productPrice' => number_format($row->price->sum, 2, '.', ''),
+                'productSum' => number_format($row->price->sum, 2, '.', ''),
             ];
             array_push($products, $product);
         }
