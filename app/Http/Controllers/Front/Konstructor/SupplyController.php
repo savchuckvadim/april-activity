@@ -438,18 +438,29 @@ class SupplyController extends Controller
             $documentNumber = 780;
 
             $filePath = 'app/public/konstructor/templates/supply';
+            $template = 'sales_report.docx';
+
+            $domainTemplate = storage_path("$filePath/$domain/$template");
+            $defaultTemplate = storage_path("$filePath/$template");
+
+            $fullPath = is_file($domainTemplate) ? $domainTemplate : $defaultTemplate;
 
             $isNewTemplate = true;
             //  $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru' || $domain == 'gsirk.bitrix24.ru';
             $isWhiteTemplate = false;
 
-            $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
-            if ($isNewTemplate) {
+            // $fullPath = storage_path($filePath . '/supply_report_gsr.docx');
+            // if ($isNewTemplate) {
 
-                $fullPath = storage_path($filePath . '/sales_report.docx');
-            }
-            $withRq =  $domain == 'april-dev.bitrix24.ru' || $domain == 'april-garant.bitrix24.ru';
-         
+            //     $fullPath = storage_path($filePath . '/sales_report.docx');
+            // }
+            $withRqDomains = [
+                'april-dev.bitrix24.ru',
+                'april-garant.bitrix24.ru'
+            ];
+
+            $withRq = in_array($domain, $withRqDomains);
+
 
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
@@ -547,7 +558,7 @@ class SupplyController extends Controller
             );
             $totalData = $contractController->getSupplyTotal($contractFullTotal, $currentClientType);
             if ($withRq) {
-                
+
                 $clientRqData = $contractController->getClientRQ($currentClientType, $data['bxrq']); //['client_rq' => $client_rq, 'client_adress' => $client_adress]
                 if (!empty($clientRqData) && !empty($clientRqData['client_rq'])) {
                     $resultRq = str_replace("\n", '</w:t><w:br/><w:t>', $clientRqData['client_rq']);
