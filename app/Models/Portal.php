@@ -6,6 +6,7 @@ use App\Http\Resources\BtxCompanyResource;
 use App\Http\Resources\BtxContactResource;
 use App\Http\Resources\BtxDealResource;
 use App\Http\Resources\BtxLeadResource;
+use App\Http\Resources\BtxUserResource;
 use App\Http\Resources\SmartResource;
 use App\Models\Bitrix\BitrixApp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -89,6 +90,10 @@ class Portal extends Model
     public function rpas()
     {
         return $this->hasMany(BtxRpa::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(BtxUser::class);
     }
 
 
@@ -197,7 +202,16 @@ class Portal extends Model
         return  $company;
     }
 
-
+    public function user()
+    {
+        $user = $this->users()->first();
+        if ($user) {
+            $user = new BtxUserResource($user);
+        } else {
+            $user = null;
+        }
+        return  $user;
+    }
     public function contact()
     {
         $contact = $this->contacts()->first();

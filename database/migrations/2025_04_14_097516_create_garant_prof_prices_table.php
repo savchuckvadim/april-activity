@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('garant_prof_prices', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('complect_id')->nullable()->nullable();
+            $table->unsignedBigInteger('complect_id')->nullable();
             $table->foreign('complect_id')->references('id')->on('complects')->onDelete('cascade');
-            $table->unsignedBigInteger('garant_package_id')->nullable()->nullable();
+            $table->unsignedBigInteger('garant_package_id')->nullable();
             $table->foreign('garant_package_id')->references('id')->on('garant_packages')->onDelete('cascade');
             $table->unsignedBigInteger('supply_id')->nullable();
             $table->foreign('supply_id')->references('id')->on('supplies')->onDelete('cascade');

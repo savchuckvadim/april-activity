@@ -54,6 +54,8 @@ class PortalHookResource extends JsonResource
             'measures' =>  $this->measures,
             'bx_rq' => $this->bxRq,
             'callingGroups' => $this->callingGroups,
+            'user' => $this->user(),
+
 
 
         ];
