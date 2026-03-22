@@ -813,9 +813,11 @@ class BitrixDealDocumentService
 
         if ($foundCell) {
             $totalSum = $foundCell['value'];
+            $taxSum = $totalSum * 5 / 105;
+            
             $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
            
-            $taxSum = $totalSum * 5 / 105;
+         
             $taxSum = MoneySpeller::spell($taxSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
 
            
