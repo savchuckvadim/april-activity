@@ -23,9 +23,10 @@ class TelegramLogger extends AbstractProcessingHandler
                 return;
             }
 
-            $app = env('APP_NAME', 'laravel');
-            $domain = parse_url(env('APP_URL', ''), PHP_URL_HOST) ?: 'unknown';
-            $userId = $record->context['userId'] ?? null;
+           
+            $app = 'april-online';
+            $domain = 'april-online-doamin';
+            $userId = 'userId';
 
             $text = sprintf(
                 "💥 App: %s\n🌍 Domain: %s\n🧭 Env: %s\n⚠️ Level: %s\n👤 UserId: %s\n\nText: %s",
