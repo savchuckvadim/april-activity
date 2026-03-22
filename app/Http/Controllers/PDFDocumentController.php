@@ -846,6 +846,15 @@ class PDFDocumentController extends Controller
                     if (!empty($infoblock['code'])) {
 
                         $infoblockData = Infoblock::where('code', $infoblock['code'])->first();
+
+                        if ($infoblock['code'] == 'academy') {
+                            if (!empty($infoblock['name'])) {
+
+                                $infoblockData['name'] = $infoblock['name'];
+                            }
+                        }
+
+
                         if ($infoblock['code'] == 'reg') {
                             $infoblockData['name'] = $region['infoblock'];
 
