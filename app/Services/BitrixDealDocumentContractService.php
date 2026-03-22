@@ -17,6 +17,7 @@ use Ramsey\Uuid\Uuid;
 class BitrixDealDocumentContractService
 {
     protected $domain;
+    protected $withTax = false;
     protected $placement;
     protected $placementType;
     protected $currentEntityId;
@@ -65,6 +66,7 @@ class BitrixDealDocumentContractService
 
     public function __construct(
         $domain,
+        $withTax,
         $placement,
         $userId,
         $providerRq,
@@ -91,6 +93,7 @@ class BitrixDealDocumentContractService
 
     ) {
         $this->domain =  $domain;
+        $this->withTax = $withTax;
         $this->placement =  $placement;
         $this->userId =  $userId;
         $this->providerRq =  $providerRq;
@@ -263,7 +266,7 @@ class BitrixDealDocumentContractService
             $isNeedPdfOffer = false;
             if (isset($data['isWord'])) {
                 if ($data['isWord'] == true) {
-                    $documentDocsController = new DocumentController();
+                    $documentDocsController = new DocumentController($this->domain, $this->withTax);
 
 
                     $offerLink = $documentDocsController->getDocument($this->data, $this->isPriceFirst, $this->withPrice);
@@ -693,6 +696,7 @@ class BitrixDealDocumentContractService
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
+        $taxSum = 0;
         $sortActivePrices = $this->getSortActivePrices($comePrices, true);
         $allPrices =  $sortActivePrices['general'];
 

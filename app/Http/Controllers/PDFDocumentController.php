@@ -24,6 +24,8 @@ use function morphos\Russian\pluralize;
 
 class PDFDocumentController extends Controller
 {
+    private $domain;
+    private $withTax = false;
     public function getDocument($data)
     {
         $pdfData = [];
@@ -35,6 +37,7 @@ class PDFDocumentController extends Controller
                     $withHook = false;
                     $templateId = $template['id'];
                     $domain = $data['template']['portal'];
+                    $this->domain = $domain;
                     $dealId = $data['dealId'];
                     $providerRq = $data['provider']['rq'];
                     $isTwoLogo = false;
@@ -204,7 +207,7 @@ class PDFDocumentController extends Controller
                     if (!empty($data['provider']['withTax'])) {
                         $withTax = true;
                     }
-
+                    $this->withTax = $withTax;
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);
                     $doubleHeaderData  = $this->getDoubleHeaderData($providerRq);
@@ -1338,6 +1341,7 @@ class PDFDocumentController extends Controller
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
+        $taxSum = 0;
         $sortActivePrices = $this->getSortActivePrices($comePrices, true);
         $allPrices =  $sortActivePrices['general'];
 
@@ -1444,6 +1448,10 @@ class PDFDocumentController extends Controller
         if ($foundCell) {
             $totalSum = $foundCell['value'];
             $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+
+            $taxSum = $totalSum * 5 / 105;
+            $taxSum = MoneySpeller::spell($taxSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+
             $total = '<color>' . $totalSum . '</color> ';
         }
 
@@ -1454,6 +1462,27 @@ class PDFDocumentController extends Controller
 
 
 
+
+        $taxResult = MoneySpeller::spell($foundCell['value'] * 5 / 105, MoneySpeller::RUBLE);
+        $taxFirstChar = mb_strtoupper(mb_substr($taxResult, 0, 1, "UTF-8"), "UTF-8");
+        $taxRestOfText = mb_substr($taxResult, 1, mb_strlen($taxResult, "UTF-8"), "UTF-8");
+
+
+
+
+        $text = ' (' . $firstChar . $restOfText . ') без НДС';
+        if ($this->withTax) {
+            $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';
+
+            if ($this->domain === 'alfacentr.bitrix24.ru') {
+
+
+                $text = ' (' . $firstChar . $restOfText . '), '
+                    . 'в том числе НДС 5% ' . $taxSum
+                    . ' (' . $taxFirstChar . $taxRestOfText . '), '
+                    . 'на основании подпункта 1 пункта 8 статьи 164 НК РФ.';
+            }
+        }
 
 
         $text = ' (' . $firstChar . $restOfText . ') без НДС';

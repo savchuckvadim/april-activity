@@ -1061,6 +1061,14 @@ class SupplyController extends Controller
         $providerState = $data['contractProviderState'];
 
         $providerRq = $providerState['current']['rq'];
+        $withTax = false;
+        if(!empty($providerState['current'])){
+            if(!empty($providerState['current']['withTax'])){
+                $withTax = true;
+            }
+        }
+
+
 
         $supply = $data['supplyReport'];
 
@@ -1068,7 +1076,7 @@ class SupplyController extends Controller
 
         $documentNumber = 780;
 
-        $documentController = new DocumentController();
+        $documentController = new DocumentController($domain, $withTax);
         $pdfDocumentController = new PDFDocumentController();
 
         $price = $pdfDocumentController->getInvoicePricesData($documentPrice, true, 0);

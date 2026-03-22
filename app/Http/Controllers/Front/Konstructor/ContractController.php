@@ -538,6 +538,7 @@ class ContractController extends Controller
         $contractLink = '';
         $data = $request->all();
         $domain = $data['domain'];
+        $withTax = false;
         $companyId = $data['companyId'];
         $dealId = null;
         if (!empty($data['dealId'])) {
@@ -591,13 +592,21 @@ class ContractController extends Controller
 
         $providerRq = $providerState['current']['rq'];
 
+
+        if(!empty($providerState['current'])){
+            if(!empty($providerState['current']['withTax'])){
+                $withTax = true;
+            }
+        }
+
+
         $supply = $data['supplyReport'];
 
         $documentPrice = $data['documentPrice'];
 
         $documentNumber = 780;
 
-        $documentController = new DocumentController();
+        $documentController = new DocumentController($domain, $withTax);
         $pdfDocumentController = new PDFDocumentController();
 
         $price = $pdfDocumentController->getInvoicePricesData($documentPrice, true, 0);

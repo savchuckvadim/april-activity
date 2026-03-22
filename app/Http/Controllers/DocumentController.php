@@ -1927,6 +1927,7 @@ class DocumentController extends Controller
 
         $text = $firstChar . $restOfText . ' без НДС ';
         if($this->withTax){
+            
             $text = ' ' . $firstChar . $restOfText . ' с учетом 5 % НДС ';
             if($this->domain === 'alfacentr.bitrix24.ru'){
                 $text ='' . $firstChar . $restOfText . ', '

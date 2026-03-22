@@ -695,6 +695,9 @@ class BitrixDealDocumentService
         $total = '';
         $fullTotalstring = '';
         $totalSum = 0;        //SORT CELLS
+        $taxSum = 0;
+
+
         $sortActivePrices = $this->getSortActivePrices($comePrices, true);
         $allPrices =  $sortActivePrices['general'];
 
@@ -811,12 +814,22 @@ class BitrixDealDocumentService
         if ($foundCell) {
             $totalSum = $foundCell['value'];
             $totalSum = MoneySpeller::spell($totalSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+           
+            $taxSum = $totalSum * 5 / 105;
+            $taxSum = MoneySpeller::spell($taxSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
+
+           
             $total = '<color>' . $totalSum . '</color> ';
         }
 
         $result = MoneySpeller::spell($foundCell['value'], MoneySpeller::RUBLE);
         $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
         $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
+
+
+        $taxResult = MoneySpeller::spell($foundCell['value'] * 5 / 105, MoneySpeller::RUBLE);
+        $taxFirstChar = mb_strtoupper(mb_substr($taxResult, 0, 1, "UTF-8"), "UTF-8");
+        $taxRestOfText = mb_substr($taxResult, 1, mb_strlen($taxResult, "UTF-8"), "UTF-8");
 
 
 
@@ -826,6 +839,15 @@ class BitrixDealDocumentService
         $text = ' (' . $firstChar . $restOfText . ') без НДС';
         if($withTax){
             $text = ' (' . $firstChar . $restOfText . ') с учетом 5 % НДС';  
+
+            if ( $this->domain === 'alfacentr.bitrix24.ru') {
+
+
+                $text = ' (' . $firstChar . $restOfText . '), '
+                    . 'в том числе НДС 5% ' . $taxSum
+                    . ' (' . $taxFirstChar . $taxRestOfText . '), '
+                    . 'на основании подпункта 1 пункта 8 статьи 164 НК РФ.';
+            }
         }
         
         $textTotalSum = $text;
