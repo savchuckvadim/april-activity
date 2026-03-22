@@ -11,14 +11,32 @@ services:
     restart: "no"
     tty: true
     working_dir: /var/www/html
-    command: php artisan serve --host=0.0.0.0 --port=8081
-    ports:
-      - "8081:8081"
+    volumes:
+      - .:/var/www/html
     networks:
       - app-network
     depends_on:
       - redis
     # command: /bin/sh -c "php-fpm & php artisan websockets:serve"
+
+    # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: "no"
+    tty: true
+    ports:
+      - "8081:80"
+    volumes:
+      # - ./:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - app-network
+    depends_on:
+      - app
+    environment:
+      - HOME=/tmp  # Фиксим баг с LibreOffice
       
   # Redis Service
   redis:
@@ -35,6 +53,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: php /var/www/html/artisan queue:work redis --sleep=3 --tries=1
+    volumes:
+      - .:/var/www/html
     user: 'www-data'
     networks:
       - app-network

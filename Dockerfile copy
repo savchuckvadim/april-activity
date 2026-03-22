@@ -66,7 +66,7 @@ RUN chmod -R 775 /var/www/html/storage /var/www/.config/libreoffice
 
 ENV HOME=/tmp
 
-# Expose HTTP port used by `php artisan serve` in docker-compose
-EXPOSE 8081
+# Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
+EXPOSE 9000
 CMD ["php-fpm"]
 
