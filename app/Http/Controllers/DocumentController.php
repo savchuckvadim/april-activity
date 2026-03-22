@@ -19,10 +19,16 @@ use function morphos\Russian\detectGender;
 class DocumentController extends Controller
 {
     protected $documentStyle;
+    protected $domain;
+    protected $withTax;
 
-    public function __construct()
+    public function __construct(
+        $domain,
+        $withTax,
+    )
     {
-
+        $this->domain = $domain;
+        $this->withTax = $withTax;
         $colors = [
             'general' => '120D21',
             'corporate' =>  '005fa8',
@@ -1909,12 +1915,26 @@ class DocumentController extends Controller
         $firstChar = mb_strtoupper(mb_substr($result, 0, 1, "UTF-8"), "UTF-8");
         $restOfText = mb_substr($result, 1, mb_strlen($result, "UTF-8"), "UTF-8");
 
+        $taxResult = MoneySpeller::spell($sum * 5 / 105, MoneySpeller::RUBLE);
+        $taxFirstChar = mb_strtoupper(mb_substr($taxResult, 0, 1, "UTF-8"), "UTF-8");
+        $taxRestOfText = mb_substr($taxResult, 1, mb_strlen($taxResult, "UTF-8"), "UTF-8");
+
+        $taxSum = $sum * 5 / 105;
+        $taxSum = MoneySpeller::spell($taxSum, MoneySpeller::RUBLE, MoneySpeller::SHORT_FORMAT);
 
 
 
 
-
-        $text = $firstChar . $restOfText . ' без НДС';
+        $text = $firstChar . $restOfText . ' без НДС ';
+        if($this->withTax){
+            $text = ' ' . $firstChar . $restOfText . ' с учетом 5 % НДС ';
+            if($this->domain === 'alfacentr.bitrix24.ru'){
+                $text ='' . $firstChar . $restOfText . ', '
+                . 'в том числе НДС 5% ' . $taxSum
+                . ' (' . $taxFirstChar . $taxRestOfText . '), '
+                . 'на основании подпункта 1 пункта 8 статьи 164 НК РФ.';
+            }
+        }
         $textTotalSum = $text;
         // }
 

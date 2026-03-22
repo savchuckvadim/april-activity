@@ -258,6 +258,7 @@ class PDFDocumentController extends Controller
 
                     dispatch(new BitrixDealDocumentJob(
                         $domain,
+                        $withTax,
                         $placement,
                         $userId,
                         $providerRq,
