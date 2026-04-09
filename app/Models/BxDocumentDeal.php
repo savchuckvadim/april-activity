@@ -26,7 +26,8 @@ class BxDocumentDeal extends Model
         'regions',
         'title',
         'isFavorite',
-        'clientType'
+        'clientType',
+        'templateId',
         // 'product',
 
 
