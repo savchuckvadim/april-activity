@@ -3516,6 +3516,9 @@ class ContractController extends Controller
         $ersInPacket = '';
         $ers = '';
         $allIBlocks = '';
+        $seenAllIBlockNames = [];
+        $seenSmallIBlockNames = [];
+        $seenBigIBlockNames = [];
 
         foreach ($infoblocks as $group) {
             $isFree = false;
@@ -3561,11 +3564,23 @@ class ContractController extends Controller
 
 
                     if ($iblock['weight'] == 0.5 || $iblock['weight'] == 0) {
-                        $allIBlocks .=  '' . $value . "\n";
-                        $smallIBlocks .=  '' . $value . "\n";
-                    } else if ($iblock['weight'] >= 1) {
-                        $allIBlocks .=  '' . $value . "\n";
-                        $bigIBlocks .=  '' . $value . "\n";
+                        if (! isset($seenAllIBlockNames[$value])) {
+                            $seenAllIBlockNames[$value] = true;
+                            $allIBlocks .= $value . "\n";
+                        }
+                        if (! isset($seenSmallIBlockNames[$value])) {
+                            $seenSmallIBlockNames[$value] = true;
+                            $smallIBlocks .= $value . "\n";
+                        }
+                    } elseif ($iblock['weight'] >= 1) {
+                        if (! isset($seenAllIBlockNames[$value])) {
+                            $seenAllIBlockNames[$value] = true;
+                            $allIBlocks .= $value . "\n";
+                        }
+                        if (! isset($seenBigIBlockNames[$value])) {
+                            $seenBigIBlockNames[$value] = true;
+                            $bigIBlocks .= $value . "\n";
+                        }
                     }
                 } else if ($isFree) {
                     $freeIBlocks .=  '' . $value . "\n";

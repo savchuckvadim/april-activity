@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CounterResource;
 use App\Models\Counter;
 use App\Models\Rq;
-use App\Models\Template;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 class CounterController extends Controller
 {
