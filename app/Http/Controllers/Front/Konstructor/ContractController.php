@@ -3826,6 +3826,7 @@ class ContractController extends Controller
             . "ИНН: " . $providerRq['inn'] . "\n"
             . "Р/с: " . $providerRq['rs'] . "\n"
             . "К/с: " . $providerRq['ks'] . "\n"
+            . "БИК: " . $providerRq['bik'] . "\n"
             . $providerRq['bank'] . "\n"
             . 'Телефон.: ' . $providerRq['phone'] . "\n"
             . 'E-mail: ' . $providerRq['email'] . "\n";
@@ -3960,7 +3961,7 @@ class ContractController extends Controller
         $bank = '________________________________'; // ||
         $rs = '_________________________________'; // ||
         $ks = '______________________________________'; // ||
-        $bik = ''; // ||
+        $bik = '_________________________________'; // ||
 
         $bankOther = ''; // ||
 
@@ -4108,6 +4109,7 @@ class ContractController extends Controller
                                     $ks = $rqBank['value'];
                                 }
                             }
+                          
                             if ($rqBank['code'] == 'bik' || $rqBank['code'] == 'bank_bik') {
                                 if (!empty($rqBank['value'])) {
                                     $bik = $rqBank['value'];
