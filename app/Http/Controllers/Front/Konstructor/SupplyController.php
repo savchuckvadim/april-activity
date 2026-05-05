@@ -2859,7 +2859,7 @@ class SupplyController extends Controller
             $packWeight = count($currentComplect['lt']);
             if (
                 in_array(16, $currentComplect['lt'], true) ||
-                in_array(17, $currentComplect['lt'], true)
+                in_array(1000, $currentComplect['lt'], true)
             ) {
                 $packWeight += 1;
             }
