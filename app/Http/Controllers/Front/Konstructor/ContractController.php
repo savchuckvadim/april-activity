@@ -593,8 +593,8 @@ class ContractController extends Controller
         $providerRq = $providerState['current']['rq'];
 
 
-        if(!empty($providerState['current'])){
-            if(!empty($providerState['current']['withTax'])){
+        if (!empty($providerState['current'])) {
+            if (!empty($providerState['current']['withTax'])) {
                 $withTax = true;
             }
         }
@@ -2294,7 +2294,10 @@ class ContractController extends Controller
 
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
-            if (in_array(16, $currentComplect['lt'], true)) {
+            if (
+                in_array(16, $currentComplect['lt'], true) ||
+                in_array(1000, $currentComplect['lt'], true)
+            ) {
                 $packWeight += 1;
             }
             if (!empty($lt['packages'])) {
@@ -3819,14 +3822,17 @@ class ContractController extends Controller
 
 
 
-
+        $bik = '';
+        if (!empty($providerRq['bik'])) {
+            $bik = "БИК: " . $providerRq['bik'] . "\n";
+        }
 
         $we_rq = $providerRq['shortname'] . "\n" . "\n"
             . 'Адрес: ' . $providerRq['registredAdress'] . "\n"
             . "ИНН: " . $providerRq['inn'] . "\n"
             . "Р/с: " . $providerRq['rs'] . "\n"
             . "К/с: " . $providerRq['ks'] . "\n"
-            . "БИК: " . $providerRq['bik'] . "\n"
+            . $bik
             . $providerRq['bank'] . "\n"
             . 'Телефон.: ' . $providerRq['phone'] . "\n"
             . 'E-mail: ' . $providerRq['email'] . "\n";
@@ -4109,7 +4115,7 @@ class ContractController extends Controller
                                     $ks = $rqBank['value'];
                                 }
                             }
-                          
+
                             if ($rqBank['code'] == 'bik' || $rqBank['code'] == 'bank_bik') {
                                 if (!empty($rqBank['value'])) {
                                     $bik = $rqBank['value'];
