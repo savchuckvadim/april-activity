@@ -13,6 +13,19 @@ class DealController extends Controller
     public static function addDeal($request)
     {
         try {
+
+            $offerSmartId = null;
+            if (isset($request->offerSmartId)) {
+                $offerSmartId = $request->offerSmartId;
+            }
+            $ltOther = null;
+            if (isset($request->ltOther)) {
+                $ltOther = $request->ltOther;
+            }
+            $iskraConfig = null;
+            if (isset($request->iskraConfig)) {
+                $iskraConfig = $request->iskraConfig;
+            }
             $deal = [
                 'app' => $request->app,
                 // 'consalting' => $request->consalting,
@@ -32,7 +45,9 @@ class DealController extends Controller
                 'rows' => $request->rows,
 
                 'userId' => $request->userId,
-
+                'offerSmartId' => $offerSmartId,
+                'ltOther' => $ltOther,
+                'iskraConfig' => $iskraConfig,
                 // 'product' => $request->product,
 
             ];
@@ -121,6 +136,19 @@ class DealController extends Controller
     public static function addServiceSmartOfferDeal($request)
     {
         try {
+            $offerSmartId = null;
+            if (isset($request->offerSmartId)) {
+                $offerSmartId = $request->offerSmartId;
+            }
+            $ltOther = null;
+            if (isset($request->ltOther)) {
+                $ltOther = $request->ltOther;
+            }
+            $iskraConfig = null;
+            if (isset($request->iskraConfig)) {
+                $iskraConfig = $request->iskraConfig;
+            }
+
             $deal = [
                 'app' => $request->app,
                 'serviceSmartId' => $request->serviceSmartId,
@@ -141,7 +169,9 @@ class DealController extends Controller
                 'rows' => $request->rows,
 
                 'userId' => $request->userId,
-
+                'offerSmartId' => $offerSmartId,
+                'ltOther' => $ltOther,
+                'iskraConfig' => $iskraConfig,
                 // 'product' => $request->product,
 
             ];
@@ -159,7 +189,7 @@ class DealController extends Controller
             $searchingDeal = BxDocumentDeal::where('dealId', $request->dealId)
                 ->where('domain', $request->domain)
                 ->whereNotNull('serviceSmartId')  // проверяем что поле не null
-                ->whereNot('serviceSmartId', '') 
+                ->whereNot('serviceSmartId', '')
                 ->first();
 
             // if (empty($searchingDeal)) {
@@ -261,7 +291,7 @@ class DealController extends Controller
             $newDeal->save();
 
 
-    
+
 
             return APIController::getSuccess([
                 'deal' => $newDeal,
@@ -275,7 +305,7 @@ class DealController extends Controller
                 'line'      => $th->getLine(),
                 'trace'     => $th->getTraceAsString(),
             ];
-       
+
             return APIController::getError($message, [
                 'info' => $errorMessages,
                 'searchingDeal' => $existingDeal

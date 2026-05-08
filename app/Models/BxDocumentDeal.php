@@ -28,6 +28,9 @@ class BxDocumentDeal extends Model
         'isFavorite',
         'clientType',
         'templateId',
+        'offerSmartId',
+        'ltOther',
+        'iskraConfig',
         // 'product',
 
 
