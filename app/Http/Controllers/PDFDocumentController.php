@@ -857,6 +857,11 @@ class PDFDocumentController extends Controller
                                 $infoblockData['name'] = $infoblock['name'];
                             }
                         }
+                        if (isset($infoblock['subtitle'])) {
+                            if (!empty($infoblock['subtitle'])) {
+                                $infoblockData['name'] = $infoblock['subtitle'];
+                            }
+                        }
 
 
                         if ($infoblock['code'] == 'reg') {
