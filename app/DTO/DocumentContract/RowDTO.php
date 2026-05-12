@@ -22,14 +22,13 @@ class RowDTO
 
     public function __construct(array $data)
     {
-        $this->number = $data['number'];
-        $this->name = $data['name'];
-        $this->shortName = $data['shortName'];
-        $this->type = $data['type'];
-        $this->productType = $data['productType'];
-        $this->id = $data['id'];
-        $this->setId = $data['setId'];
-        $this->isUpdating = $data['isUpdating'];
+        $this->name = $data['name'] ?? '';
+        $this->shortName = $data['shortName'] ?? '';
+        $this->type = $data['type'] ?? '';
+        $this->productType = $data['productType'] ?? '';
+        $this->id = $data['id'] ?? 0;
+        $this->setId = $data['setId'] ?? 0;
+        $this->isUpdating = $data['isUpdating'] ?? false;
 
         $this->complect = new RowComplectDTO($data['complect']);
         $this->contract = new RowContractDTO($data['contract']);
@@ -39,7 +38,7 @@ class RowDTO
         $this->currentSupply = new SupplyDTO($data['currentSupply']);
     }
 
-       /**
+    /**
      * Create an instance of RowDTO from an array.
      *
      * @param array $data
@@ -154,5 +153,3 @@ class RowDiscountDTO
         $this->current = $data['current'];
     }
 }
-
-
