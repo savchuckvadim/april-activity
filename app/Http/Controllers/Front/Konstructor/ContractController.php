@@ -37,7 +37,12 @@ class ContractController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         $contractType = $data['contractType']; //service | product
-
+        $paymentLtPacketString = '';
+        if (isset($data['paymentLtPacketString'])) {
+            if (!empty($data['paymentLtPacketString'])) {
+                $paymentLtPacketString = $data['paymentLtPacketString'];
+            }
+        }
         $contract = $data['contract'];
 
         $contract =   $data['contract'];
@@ -102,7 +107,8 @@ class ContractController extends Controller
                     $arows,
                     $contractQuantity,
                     $documentInfoblocks,
-                    $total
+                    $total,
+                    $paymentLtPacketString
                 ),
                 'clientType' =>  [
                     'type' => 'select',
@@ -2157,7 +2163,8 @@ class ContractController extends Controller
         $arows,
         $contractQuantity,
         $documentInfoblocks,
-        $total
+        $total,
+        $paymentLtPacketString
     ) {
 
         $productType = [
@@ -2295,8 +2302,17 @@ class ContractController extends Controller
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
             if (
-                in_array(16, $currentComplect['lt'], true) ||
-                in_array(1000, $currentComplect['lt'], true)
+                in_array(16, $currentComplect['lt'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+                in_array(1001, $currentComplect['lt'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+                in_array(1001, $currentComplect['lt'], true)
             ) {
                 $packWeight += 1;
             }
@@ -2326,7 +2342,21 @@ class ContractController extends Controller
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
-            if (in_array(16, $currentComplect['ltInPacket'], true)) {
+            if (
+                in_array(16, $currentComplect['ltInPacket'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+               
+                in_array(1000, $currentComplect['ltInPacket'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+             
+                in_array(1001, $currentComplect['ltInPacket'], true)
+            ) {
                 $packWeight += 1;
             }
             if (!empty($lt['packages'])) {
@@ -2378,7 +2408,10 @@ class ContractController extends Controller
                 }
             }
 
-
+            if($paymentLtPacketString){
+                $ltPack = 'Legal Tech';
+                $ltBlocks = $paymentLtPacketString;
+            }
             return [
                 // [
                 //     'type' => 'string',

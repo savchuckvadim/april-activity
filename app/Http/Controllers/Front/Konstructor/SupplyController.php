@@ -29,7 +29,12 @@ class SupplyController extends Controller
         $domain = $data['domain'];
         $companyId = $data['companyId'];
         $contractType = $data['contractType']; //service | product
-
+        $paymentLtPacketString = '';
+        if (isset($data['paymentLtPacketString'])) {
+            if (!empty($data['paymentLtPacketString'])) {
+                $paymentLtPacketString = $data['paymentLtPacketString'];
+            }
+        }
         $contract = [];
         if (!empty($data['contract'])) {
             $contract =   $data['contract'];
@@ -96,7 +101,8 @@ class SupplyController extends Controller
                         $contractQuantity,
                         $documentInfoblocks,
                         $contractProductName,
-                        $total
+                        $total,
+                        $paymentLtPacketString 
                     ),
                     'clientType' =>  [
                         'type' => 'select',
@@ -1062,8 +1068,8 @@ class SupplyController extends Controller
 
         $providerRq = $providerState['current']['rq'];
         $withTax = false;
-        if(!empty($providerState['current'])){
-            if(!empty($providerState['current']['withTax'])){
+        if (!empty($providerState['current'])) {
+            if (!empty($providerState['current']['withTax'])) {
                 $withTax = true;
             }
         }
@@ -2724,7 +2730,8 @@ class SupplyController extends Controller
         $contractQuantity,
         $documentInfoblocks,
         $contractProductName,
-        $total
+        $total,
+        $paymentLtPacketString 
     ) {
 
         $productType = [
@@ -2858,8 +2865,17 @@ class SupplyController extends Controller
         if (!empty($currentComplect['lt'])) {
             $packWeight = count($currentComplect['lt']);
             if (
-                in_array(16, $currentComplect['lt'], true) ||
+                in_array(16, $currentComplect['lt'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
                 in_array(1000, $currentComplect['lt'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+                in_array(1001, $currentComplect['lt'], true)
             ) {
                 $packWeight += 1;
             }
@@ -2889,7 +2905,19 @@ class SupplyController extends Controller
         }
         if (!empty($currentComplect['ltInPacket'])) {
             $packWeight = count($currentComplect['ltInPacket']);
-            if (in_array(16, $currentComplect['ltInPacket'], true)) {
+            if (
+                in_array(16, $currentComplect['ltInPacket'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+                in_array(1000, $currentComplect['ltInPacket'], true)
+            ) {
+                $packWeight += 1;
+            }
+            if (
+                in_array(1001, $currentComplect['ltInPacket'], true)
+            ) {
                 $packWeight += 1;
             }
             if (!empty($lt['packages'])) {
@@ -2940,7 +2968,11 @@ class SupplyController extends Controller
                 } else   if ($contractType === 'key') {
                 }
             }
-
+            if($paymentLtPacketString){
+                $ltPack = 'Legal Tech';
+                $ltBlocks = $paymentLtPacketString;
+            }
+       
             return [
                 // [
                 //     'type' => 'string',
