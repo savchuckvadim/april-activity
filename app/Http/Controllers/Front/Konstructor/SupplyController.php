@@ -13,6 +13,7 @@ use App\Jobs\ConvertPDFLibre;
 use App\Models\Portal;
 use App\Models\PortalContract;
 use App\Http\Controllers\Front\Konstructor\ContractController;
+use App\Support\TaxHelper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -1067,12 +1068,7 @@ class SupplyController extends Controller
         $providerState = $data['contractProviderState'];
 
         $providerRq = $providerState['current']['rq'];
-        $withTax = false;
-        if (!empty($providerState['current'])) {
-            if (!empty($providerState['current']['withTax'])) {
-                $withTax = true;
-            }
-        }
+        $withTax = TaxHelper::getWithTax($providerState['current'] ?? null, $contractType);
 
 
 

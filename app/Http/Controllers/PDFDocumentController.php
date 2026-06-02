@@ -6,6 +6,7 @@ use App\Jobs\BitrixDealDocumentJob;
 use App\Models\Counter;
 use App\Models\Garant\Infoblock;
 use App\Services\BitrixDealDocumentService;
+use App\Support\TaxHelper;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -202,11 +203,7 @@ class PDFDocumentController extends Controller
                     if (isset($data['regions'])) {
                         $regions = $data['regions'];
                     }
-                    $withTax = false;
-
-                    if (!empty($data['provider']['withTax'])) {
-                        $withTax = true;
-                    }
+                    $withTax = TaxHelper::getWithTax($data['provider'] ?? null, $data['contractType'] ?? null);
                     $this->withTax = $withTax;
                     //document data
                     $headerData  = $this->getHeaderData($providerRq, $isTwoLogo);

@@ -7,6 +7,7 @@ use App\Http\Controllers\BitrixController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PortalController;
+use App\Support\TaxHelper;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -461,11 +462,7 @@ class BitrixDealDocumentService
                     $domain = $data['template']['portal'];
                     $dealId = $data['dealId'];
                     $providerRq = $data['provider']['rq'];
-                    $withTax = false;
-
-                    if (!empty($data['provider']['withTax'])) {
-                        $withTax = true;
-                    }
+                    $withTax = TaxHelper::getWithTax($data['provider'] ?? null, $data['contractType'] ?? null);
 
 
 

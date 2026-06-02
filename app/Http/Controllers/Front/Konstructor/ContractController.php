@@ -16,6 +16,7 @@ use App\Http\Requests\GetContractDocumentRequest;
 use App\Http\Resources\PortalContractResource;
 use App\Models\Portal;
 use App\Models\PortalContract;
+use App\Support\TaxHelper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -544,7 +545,6 @@ class ContractController extends Controller
         $contractLink = '';
         $data = $request->all();
         $domain = $data['domain'];
-        $withTax = false;
         $companyId = $data['companyId'];
         $dealId = null;
         if (!empty($data['dealId'])) {
@@ -598,12 +598,7 @@ class ContractController extends Controller
 
         $providerRq = $providerState['current']['rq'];
 
-
-        if (!empty($providerState['current'])) {
-            if (!empty($providerState['current']['withTax'])) {
-                $withTax = true;
-            }
-        }
+        $withTax = TaxHelper::getWithTax($providerState['current'] ?? null, $contractType);
 
 
         $supply = $data['supplyReport'];
