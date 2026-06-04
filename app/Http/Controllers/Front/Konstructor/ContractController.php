@@ -2302,7 +2302,7 @@ class ContractController extends Controller
                 $packWeight += 1;
             }
             if (
-                in_array(1001, $currentComplect['lt'], true)
+                in_array(1000, $currentComplect['lt'], true)
             ) {
                 $packWeight += 1;
             }
