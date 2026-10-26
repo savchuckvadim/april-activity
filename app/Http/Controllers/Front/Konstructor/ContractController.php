@@ -370,6 +370,13 @@ class ContractController extends Controller
         $filePath = 'app/public/konstructor/templates/contract/etalon/' . $contractType . '/' . $supplyType . '/' . $clientType;
 
         $fullPath = storage_path($filePath . '/template.docx');
+
+        // свой шаблон портала: contract/{domain}/{contractType}/{supplyType}/template.docx
+        // (сейчас только alfacentr.bitrix24.ru — lic/internet); файла нет — берём эталон
+        $portalTemplatePath = storage_path('app/public/konstructor/templates/contract/' . $domain . '/' . $contractType . '/' . $supplyType . '/template.docx');
+        if (file_exists($portalTemplatePath)) {
+            $fullPath = $portalTemplatePath;
+        }
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($fullPath);
 
 
@@ -2343,13 +2350,13 @@ class ContractController extends Controller
                 $packWeight += 1;
             }
             if (
-               
+
                 in_array(1000, $currentComplect['ltInPacket'], true)
             ) {
                 $packWeight += 1;
             }
             if (
-             
+
                 in_array(1001, $currentComplect['ltInPacket'], true)
             ) {
                 $packWeight += 1;
@@ -3919,7 +3926,21 @@ class ContractController extends Controller
             'client_role' =>  $roles['client'],
             'client_direct_position' =>   $client_direct_position,
             'client_direct_fio' => $client_direct_fio,
-            'client_adress' => $client_rq['client_adress']
+            'client_adress' => $client_rq['client_adress'],
+
+            // построчные реквизиты клиента — для шаблонов с таблицей реквизитов (alfacentr)
+            'client_name' => $client_rq['client_name'],
+            'client_legal_address' => $client_rq['client_legal_address'],
+            'client_inn' => $client_rq['client_inn'],
+            'client_kpp' => $client_rq['client_kpp'],
+            'client_ogrn' => $client_rq['client_ogrn'],
+            'client_okpo' => $client_rq['client_okpo'],
+            'client_bank' => $client_rq['client_bank'],
+            'client_rs' => $client_rq['client_rs'],
+            'client_ks' => $client_rq['client_ks'],
+            'client_bik' => $client_rq['client_bik'],
+            'client_phone' => $client_rq['client_phone'],
+            'client_email' => $client_rq['client_email'],
         ];
 
 
@@ -3990,6 +4011,9 @@ class ContractController extends Controller
         $companyName = '____________________________________________________';  // || fio
 
         $inn = '___________________________'; // ||
+        $kpp = '_______________'; // ||
+        $ogrn = '_______________'; // || огрнип
+        $okpo = '_______________'; // ||
         $fizDocument = '________________________________'; // ||
         $address = '_____________________________________________'; //
         $bank = '________________________________'; // ||
@@ -4010,6 +4034,21 @@ class ContractController extends Controller
             if ($rqItem['code'] == 'inn') {
                 if (!empty($rqItem['value'])) {
                     $inn = $rqItem['value'];
+                }
+            }
+            if ($rqItem['code'] == 'kpp') {
+                if (!empty($rqItem['value'])) {
+                    $kpp = $rqItem['value'];
+                }
+            }
+            if ($rqItem['code'] == 'ogrn' || $rqItem['code'] == 'ogrnip') {
+                if (!empty($rqItem['value'])) {
+                    $ogrn = $rqItem['value'];
+                }
+            }
+            if ($rqItem['code'] == 'okpo') {
+                if (!empty($rqItem['value'])) {
+                    $okpo = $rqItem['value'];
                 }
             }
             if ($rqItem['code'] == 'phone') {
@@ -4184,7 +4223,23 @@ class ContractController extends Controller
                 . (!empty($bankOther) ? $bankOther . "\n" : '');
             // . 'E-mail: ' . $email . "\n";
         }
-        return ['client_rq' => $client_rq, 'client_adress' => $client_adress];
+        return [
+            'client_rq' => $client_rq,
+            'client_adress' => $client_adress,
+
+            'client_name' => $companyName,
+            'client_legal_address' => $address,
+            'client_inn' => $inn,
+            'client_kpp' => $kpp,
+            'client_ogrn' => $ogrn,
+            'client_okpo' => $okpo,
+            'client_bank' => $bank,
+            'client_rs' => $rs,
+            'client_ks' => $ks,
+            'client_bik' => $bik,
+            'client_phone' => $phone,
+            'client_email' => $email,
+        ];
     }
 
     protected function getContractHeaderText(
@@ -4208,7 +4263,7 @@ class ContractController extends Controller
             case 'abon':
             case 'key':
                 $clientRole = 'Покупатель';
-                $providerRole = 'Постващик';
+                $providerRole = 'Поставщик';
                 break;
             case 'lic':
                 $clientRole = 'Лицензиат';
