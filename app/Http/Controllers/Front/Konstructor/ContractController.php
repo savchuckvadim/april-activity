@@ -4318,8 +4318,8 @@ class ContractController extends Controller
             }
         }
 
-        $headerText = $providerCompanyFullName . ' , официальный партнер компании "Гарант",
-        именуемый в дальнейшем "' . $providerRole;
+        $headerText = $providerCompanyFullName . ', официальный партнер компании "Гарант", '
+            . 'именуемый в дальнейшем "' . $providerRole . '"';
 
         if ($providerType == 'org' ||  $providerType == 'org_state') {
             $headerText .=  ', в лице ' . $providerCompanyDirectorPositionCase . ' ' . $providerCompanyDirectorNameCase .
@@ -4327,8 +4327,8 @@ class ContractController extends Controller
         }
 
 
-        $headerText .= ' с одной стороны и ' . $clientCompanyFullName . ',
-        именуемое(-ый) в дальнейшем "' . $clientRole;
+        $headerText .= ' с одной стороны и ' . $clientCompanyFullName . ', '
+            . 'именуемое(-ый) в дальнейшем "' . $clientRole . '"';
         if ($clientType == 'org' || $clientType == 'org_state') {
             $headerText .=   ', в лице ' . $clientCompanyDirectorPositionCase . ' ' . $clientCompanyDirectorNameCase . ', действующего(-ей) на основании '
                 . $clientCompanyBased;
